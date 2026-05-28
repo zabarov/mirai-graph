@@ -1,0 +1,20 @@
+[
+  {
+    "id": "source.invalid_profile",
+    "kind": "evidence",
+    "title": "Invalid Profile Evidence",
+    "summary": "Synthetic evidence for an invalid software-specification object kind fixture.",
+    "readiness": "accepted",
+    "evidence": [],
+    "profile": "software_specification"
+  },
+  {
+    "id": "stakeholder.product_owner",
+    "kind": "stakeholder",
+    "title": "Product Owner",
+    "summary": "This object kind belongs to the project-management profile, not software-specification.",
+    "readiness": "draft",
+    "evidence": ["source.invalid_profile"],
+    "profile": "software_specification"
+  }
+]

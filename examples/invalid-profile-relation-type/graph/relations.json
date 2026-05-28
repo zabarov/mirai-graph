@@ -1,0 +1,11 @@
+[
+  {
+    "id": "relation.task.prepare_plan.implements.goal.project_ready",
+    "type": "implements",
+    "source": "task.prepare_plan",
+    "target": "goal.project_ready",
+    "readiness": "draft",
+    "evidence": ["source.invalid_profile"],
+    "profile": "project_management"
+  }
+]

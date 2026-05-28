@@ -116,6 +116,26 @@ function canonicalRelationId(relation) {
   return `relation.${relation.source}.${relation.type}.${relation.target}`;
 }
 
+function profileSlug(profileName) {
+  return profileName.replace(/_/g, "-");
+}
+
+function loadProfile(profileName) {
+  if (profileName === "core") {
+    return {
+      allowed_object_kinds: Array.from(coreObjectKinds),
+      allowed_relation_types: Array.from(coreRelationTypes)
+    };
+  }
+
+  const profilePath = path.resolve(__dirname, "..", "..", "profiles", profileSlug(profileName), "profile.json");
+  if (!fs.existsSync(profilePath)) {
+    return null;
+  }
+
+  return readJson(profilePath);
+}
+
 function validatePackage(packageDir) {
   const manifestPath = path.join(packageDir, "growgraph-package.json");
   const manifest = fs.existsSync(manifestPath) ? readJson(manifestPath) : null;
@@ -166,6 +186,14 @@ function validatePackage(packageDir) {
 
   const objects = asArray(readJson(objectsPath), "graph/objects.json", errors);
   const relations = asArray(readJson(relationsPath), "graph/relations.json", errors);
+  const packageProfile = manifest && typeof manifest.profile === "string" ? loadProfile(manifest.profile) : null;
+  const allowedObjectKinds = packageProfile ? new Set(packageProfile.allowed_object_kinds || []) : null;
+  const allowedRelationTypes = packageProfile ? new Set(packageProfile.allowed_relation_types || []) : null;
+
+  if (manifest && typeof manifest.profile === "string" && !packageProfile) {
+    warnings.push(`No local profile definition found for manifest.profile ${manifest.profile}`);
+  }
+
   const objectIds = new Set();
 
   for (const [index, object] of objects.entries()) {
@@ -191,6 +219,10 @@ function validatePackage(packageDir) {
 
     if (typeof object.kind === "string" && object.profile === "core" && !coreObjectKinds.has(object.kind)) {
       warnings.push(`${label}.kind ${object.kind} is not a core object kind`);
+    }
+
+    if (typeof object.kind === "string" && allowedObjectKinds && !allowedObjectKinds.has(object.kind)) {
+      errors.push(`${label}.kind ${object.kind} is not allowed by manifest.profile ${manifest.profile}`);
     }
   }
 
@@ -237,6 +269,10 @@ function validatePackage(packageDir) {
 
     if (typeof relation.type === "string" && relation.profile === "core" && !coreRelationTypes.has(relation.type)) {
       warnings.push(`${label}.type ${relation.type} is not a core relation type`);
+    }
+
+    if (typeof relation.type === "string" && allowedRelationTypes && !allowedRelationTypes.has(relation.type)) {
+      errors.push(`${label}.type ${relation.type} is not allowed by manifest.profile ${manifest.profile}`);
     }
 
     if (Array.isArray(relation.evidence)) {

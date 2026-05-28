@@ -1,0 +1,29 @@
+[
+  {
+    "id": "source.invalid_profile",
+    "kind": "evidence",
+    "title": "Invalid Profile Evidence",
+    "summary": "Synthetic evidence for an invalid project-management relation type fixture.",
+    "readiness": "accepted",
+    "evidence": [],
+    "profile": "project_management"
+  },
+  {
+    "id": "task.prepare_plan",
+    "kind": "task",
+    "title": "Prepare Plan",
+    "summary": "A project-management task.",
+    "readiness": "draft",
+    "evidence": ["source.invalid_profile"],
+    "profile": "project_management"
+  },
+  {
+    "id": "goal.project_ready",
+    "kind": "goal",
+    "title": "Project Ready",
+    "summary": "A project-management goal.",
+    "readiness": "draft",
+    "evidence": ["source.invalid_profile"],
+    "profile": "project_management"
+  }
+]

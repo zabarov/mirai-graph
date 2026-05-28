@@ -1,0 +1,11 @@
+{
+  "id": "package.invalid_profile_object_kind",
+  "name": "Invalid Profile Object Kind",
+  "version": "0.1.0",
+  "profile": "software_specification",
+  "conformance_level": "level_1",
+  "graph": {
+    "objects": "graph/objects.json",
+    "relations": "graph/relations.json"
+  }
+}

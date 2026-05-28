@@ -1,0 +1,11 @@
+{
+  "id": "package.invalid_profile_relation_type",
+  "name": "Invalid Profile Relation Type",
+  "version": "0.1.0",
+  "profile": "project_management",
+  "conformance_level": "level_1",
+  "graph": {
+    "objects": "graph/objects.json",
+    "relations": "graph/relations.json"
+  }
+}

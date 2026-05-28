@@ -16,7 +16,7 @@
     "readiness:benchmark": "node packages/cli/readiness-score.js benchmarks/synthetic-context-reduction-v0 --target-mode pilot",
     "benchmark:synthetic": "node benchmarks/synthetic-context-reduction-v0/scripts/calculate-context-reduction.js",
     "benchmark:write": "node benchmarks/synthetic-context-reduction-v0/scripts/calculate-context-reduction.js --write benchmarks/synthetic-context-reduction-v0/results/context-reduction-result.json",
-    "test:negative": "node packages/cli/validate-growgraph.js examples/invalid-missing-relation-target >/tmp/growgraph-negative.out 2>&1 && exit 1 || test $? -eq 1 && node packages/cli/validate-growgraph.js examples/invalid-relation-id-mismatch >/tmp/growgraph-negative-relation-id.out 2>&1 && exit 1 || test $? -eq 1",
+    "test:negative": "node packages/cli/validate-growgraph.js examples/invalid-missing-relation-target >/tmp/growgraph-negative.out 2>&1 && exit 1 || test $? -eq 1 && node packages/cli/validate-growgraph.js examples/invalid-relation-id-mismatch >/tmp/growgraph-negative-relation-id.out 2>&1 && exit 1 || test $? -eq 1 && node packages/cli/validate-growgraph.js examples/invalid-profile-object-kind >/tmp/growgraph-negative-profile-object.out 2>&1 && exit 1 || test $? -eq 1 && node packages/cli/validate-growgraph.js examples/invalid-profile-relation-type >/tmp/growgraph-negative-profile-relation.out 2>&1 && exit 1 || test $? -eq 1",
     "test": "npm run validate:minimal && npm run validate:benchmark && npm run validate:seed && npm run validate:profiles && npm run validate:pilots && npm run seed:preview && npm run context:generate && npm run readiness:benchmark && npm run benchmark:synthetic && npm run test:negative",
     "release:check": "npm test && git diff --check"
   },

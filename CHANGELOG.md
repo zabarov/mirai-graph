@@ -12,13 +12,16 @@ All notable changes to GrowGraph will be documented in this file.
 - Initial software-specification profile documentation.
 - Validator now rejects relation ids that disagree with their source, type and
   target fields.
+- Validator now enforces allowed object kinds and relation types for local
+  package profiles.
 
 ### Research Notes
 
 - Pilot 002 shows that direct task-to-requirement traceability improves the
   usefulness of generated task context.
 - Pilot 002 exposed relation-id consistency as a necessary conformance check.
-- Profile conformance fixtures are needed before stronger adoption claims.
+- Profile conformance fixtures now cover invalid object kinds and relation
+  types.
 
 ## [0.1.0-alpha.2] - 2026-05-28
 
