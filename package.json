@@ -1,6 +1,6 @@
 {
   "name": "growgraph",
-  "version": "0.1.0-alpha.0",
+  "version": "0.1.0-alpha.1",
   "private": false,
   "description": "An evolutionary graph operating model for managing the growth of complex systems.",
   "license": "MIT",
@@ -42,6 +42,8 @@
     "schemas",
     "benchmarks",
     "examples",
-    "packages"
+    "packages",
+    "profiles",
+    "pilots"
   ]
 }

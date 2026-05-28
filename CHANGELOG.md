@@ -2,6 +2,47 @@
 
 All notable changes to GrowGraph will be documented in this file.
 
+## [0.1.0-alpha.1] - 2026-05-28
+
+### Added
+
+- Practice-and-science program note.
+- Initial `$graph` skill to GrowGraph transfer map.
+- Initial standard gap report comparing practical `$graph` methodology with
+  public GrowGraph.
+- Public graph DNA, graph seed and graph embryo standard sections.
+- Graph seed and graph embryo schemas.
+- Minimal graph seed example.
+- Seed preview command that emits a deterministic graph embryo.
+- Alpha readiness score command.
+- Benchmark script `--write` output mode.
+- Measure-convert-optimize public benchmark protocol.
+- Initial profile manifests.
+- Context-pack and profile schemas.
+- Negative validation fixtures.
+- Context-pack generator alpha command.
+- Profile validation command.
+- Independent implementation pilot plan.
+- Semantic completeness review protocol.
+- Release check script.
+- Independent implementation pilot 001 for a synthetic conference planning
+  workflow.
+- Worked tutorial from graph seed to validated package.
+- GitHub Actions CI running `npm run release:check`.
+
+### Validation
+
+- `npm run release:check` validates examples, benchmark, seed, profiles,
+  generated context, readiness score, synthetic benchmark and negative fixture.
+- Independent pilot 001 validates as a public-safe Level 1 package.
+
+### Limitations
+
+- Context-pack generation is alpha and still includes the full package graph.
+- Readiness scoring is an alpha navigation signal, not approval.
+- The first independent pilot is synthetic and does not prove real-world
+  productivity or external validity.
+
 ## [0.1.0-alpha.0] - 2026-05-28
 
 ### Added
@@ -31,28 +72,6 @@ All notable changes to GrowGraph will be documented in this file.
 - Synthetic context-reduction benchmark.
 - Initial adoption guide.
 - Contribution guide.
-- Practice-and-science program note.
-- Initial `$graph` skill to GrowGraph transfer map.
-- Initial standard gap report comparing practical `$graph` methodology with
-  public GrowGraph.
-- Public graph DNA, graph seed and graph embryo standard sections.
-- Graph seed and graph embryo schemas.
-- Minimal graph seed example.
-- Seed preview command that emits a deterministic graph embryo.
-- Alpha readiness score command.
-- Benchmark script `--write` output mode.
-- Measure-convert-optimize public benchmark protocol.
-- Initial profile manifests.
-- Context-pack and profile schemas.
-- Negative validation fixtures.
-- Context-pack generator alpha command.
-- Profile validation command.
-- Independent implementation pilot plan.
-- Semantic completeness review protocol.
-- Release check script.
-- Independent implementation pilot 001 for a synthetic conference planning
-  workflow.
-- Worked tutorial from graph seed to validated package.
 
 ### Validation
 

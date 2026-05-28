@@ -111,6 +111,6 @@ Planned artifacts:
 1. Map practical `$graph` capabilities to public GrowGraph standard sections.
 2. Add richer context-pack selection.
 3. Add project-management profile documentation.
-4. Prepare v0.1.0-alpha.1 release notes.
-5. Add GitHub Actions CI.
-6. Run a second independent pilot on software specification.
+4. Prepare v0.1.0-alpha.2 scope.
+5. Run a second independent pilot on software specification.
+6. Add profile conformance fixtures.
