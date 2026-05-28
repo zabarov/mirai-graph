@@ -26,7 +26,7 @@
     {
       "name": "required_relation_coverage",
       "score": 2,
-      "note": "The included relations preserve dependency, blocking and generation paths needed for the task."
+      "note": "The included relations preserve dependency, evidence, blocking and generation paths needed for the task."
     },
     {
       "name": "evidence_preservation",
@@ -76,7 +76,8 @@
   "limitations": [
     "The review is performed on a synthetic package.",
     "The review does not measure downstream implementation quality.",
-    "The package does not yet model governance gates as graph objects."
+    "The package does not yet model governance gates as graph objects.",
+    "The context-pack generator does not yet include per-object selection explanations or relevance scores."
   ],
   "claim_supported": "The generated context pack preserved task-relevant meaning under this review protocol."
 }

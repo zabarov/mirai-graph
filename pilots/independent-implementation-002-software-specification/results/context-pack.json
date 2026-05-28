@@ -2,21 +2,26 @@
   "id": "context_pack.task_implement_retry_policy",
   "task_id": "task.implement_retry_policy",
   "source_graph": "package.notification_api_spec_pilot_002",
-  "generated_at": "2026-05-28T18:22:20.211Z",
+  "generated_at": "2026-05-28T18:49:52.543Z",
   "included_objects": [
     "source.notification_api_brief",
     "requirement.notify_after_event",
     "feature.webhook_delivery",
     "feature.retry_policy",
     "component.delivery_worker",
+    "constraint.no_secret_logging",
     "risk.duplicate_delivery",
+    "risk.credential_leak",
     "decision.idempotency_key_required",
     "task.implement_retry_policy"
   ],
   "included_relations": [
+    "relation.feature.webhook_delivery.implements.requirement.notify_after_event",
     "relation.feature.retry_policy.depends_on.feature.webhook_delivery",
     "relation.component.delivery_worker.implements.feature.retry_policy",
+    "relation.constraint.no_secret_logging.blocks.risk.credential_leak",
     "relation.feature.retry_policy.related_to.risk.duplicate_delivery",
+    "relation.decision.idempotency_key_required.blocks.risk.duplicate_delivery",
     "relation.task.implement_retry_policy.implements.feature.retry_policy",
     "relation.task.implement_retry_policy.depends_on.requirement.notify_after_event",
     "relation.task.implement_retry_policy.depends_on.decision.idempotency_key_required"
@@ -25,12 +30,11 @@
     "source.notification_api_brief"
   ],
   "assumptions": [
-    "Alpha generator uses token matching plus one-hop relation expansion."
+    "Alpha generator uses token matching plus one-hop relation expansion.",
+    "Safety-sensitive constraints and risks with shared evidence are included."
   ],
   "omissions": [
-    "package.team_notification_api",
-    "constraint.no_secret_logging",
-    "risk.credential_leak"
+    "package.team_notification_api"
   ],
   "limitations": [
     "Generated context pack is not canonical state.",

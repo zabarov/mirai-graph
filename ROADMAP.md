@@ -110,7 +110,6 @@ Planned artifacts:
 
 1. Map practical `$graph` capabilities to public GrowGraph standard sections.
 2. Add context-pack relevance scoring and selection explanations.
-3. Add safety-context inclusion policy for context-pack generation.
-4. Add positive profile conformance fixture documentation.
-5. Add GitHub release notes publication process.
-6. Prepare v0.1.0-alpha.3 scope.
+3. Add positive profile conformance fixture documentation.
+4. Add GitHub release notes publication process.
+5. Prepare v0.1.0-alpha.3 scope.

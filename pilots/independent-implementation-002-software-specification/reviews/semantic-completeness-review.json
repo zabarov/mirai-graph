@@ -10,7 +10,7 @@
     "task_id": "task.implement_retry_policy"
   },
   "verdict": "pass_with_notes",
-  "score_total": 13,
+  "score_total": 15,
   "score_max": 16,
   "dimensions": [
     {
@@ -35,8 +35,8 @@
     },
     {
       "name": "risk_and_blocker_visibility",
-      "score": 1,
-      "note": "Duplicate delivery risk is visible, but credential leakage risk is omitted from the generated context."
+      "score": 2,
+      "note": "Duplicate delivery risk, credential leakage risk and no-secret-logging constraint are visible."
     },
     {
       "name": "governance_gate_visibility",
@@ -50,8 +50,8 @@
     },
     {
       "name": "no_private_or_unsafe_leakage",
-      "score": 1,
-      "note": "The package is synthetic and public-safe, but the omitted security constraint should be reviewed before implementation use."
+      "score": 2,
+      "note": "The package is synthetic and public-safe; safety-sensitive credential context is included."
     }
   ],
   "required_context_preserved": [
@@ -61,19 +61,11 @@
     "requirement.notify_after_event",
     "component.delivery_worker",
     "risk.duplicate_delivery",
+    "constraint.no_secret_logging",
+    "risk.credential_leak",
     "decision.idempotency_key_required"
   ],
   "important_omissions": [
-    {
-      "object_id": "constraint.no_secret_logging",
-      "impact": "medium",
-      "note": "The retry task may touch delivery logging behavior; reviewers should decide whether this safety constraint is required context."
-    },
-    {
-      "object_id": "risk.credential_leak",
-      "impact": "medium",
-      "note": "Credential leakage is not central to retry semantics, but it is relevant to delivery-worker implementation safety."
-    },
     {
       "object_id": "package.team_notification_api",
       "impact": "low",
@@ -83,7 +75,7 @@
   "limitations": [
     "The review is performed on a synthetic pilot package.",
     "The review does not measure downstream implementation quality.",
-    "The context-pack generator does not yet include selection explanations or relevance scores."
+    "The context-pack generator does not yet include per-object selection explanations or relevance scores."
   ],
-  "claim_supported": "The generated context pack preserved task-relevant meaning with recorded safety-context limitations."
+  "claim_supported": "The generated context pack preserved task-relevant meaning with safety-sensitive context included."
 }

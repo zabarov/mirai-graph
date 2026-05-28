@@ -58,7 +58,7 @@ Package summary:
 - readiness score: `69`;
 - readiness band: `G3_pilot_ready`.
 - semantic completeness verdict: `pass_with_notes`;
-- semantic completeness score: `13/16`.
+- semantic completeness score: `15/16`.
 
 ## What Worked
 

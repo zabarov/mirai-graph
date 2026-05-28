@@ -50,6 +50,30 @@ function objectText(object) {
   ].join(" ");
 }
 
+function hasSharedEvidence(object, evidenceIds) {
+  return Array.isArray(object.evidence) && object.evidence.some((id) => evidenceIds.has(id));
+}
+
+function isSafetyContextObject(object) {
+  if (!["constraint", "risk", "governance_gate"].includes(object.kind) && !object.id.startsWith("gate.")) {
+    return false;
+  }
+  const text = tokenize(objectText(object));
+  const safetyTokens = new Set([
+    "credential",
+    "leak",
+    "log",
+    "permission",
+    "privacy",
+    "public",
+    "safety",
+    "secret",
+    "security",
+    "token"
+  ]);
+  return text.some((token) => safetyTokens.has(token));
+}
+
 function scoreObject(object, taskTokens) {
   const text = tokenize(objectText(object));
   const textSet = new Set(text);
@@ -98,6 +122,22 @@ function buildContextPack(packageDir, taskId) {
     selectedIds.add(relation.target);
   }
 
+  const selectedEvidenceIds = new Set(
+    objects
+      .filter((object) => selectedIds.has(object.id))
+      .flatMap((object) => object.evidence || [])
+  );
+
+  for (const object of objects) {
+    if (isSafetyContextObject(object) && hasSharedEvidence(object, selectedEvidenceIds)) {
+      selectedIds.add(object.id);
+    }
+  }
+
+  const expandedRelations = relations.filter((relation) => (
+    selectedIds.has(relation.source) && selectedIds.has(relation.target)
+  ));
+
   const selectedObjects = objects.filter((object) => (
     selectedIds.has(object.id) ||
     (object.kind === "evidence" && objects.some((selected) => (
@@ -105,10 +145,10 @@ function buildContextPack(packageDir, taskId) {
     )))
   ));
   const selectedObjectIds = selectedObjects.map((object) => object.id);
-  const relationIds = relevantRelations.map((relation) => relation.id);
+  const relationIds = expandedRelations.map((relation) => relation.id);
   const evidence = Array.from(new Set([
     ...selectedObjects.flatMap((object) => object.evidence || []),
-    ...relevantRelations.flatMap((relation) => relation.evidence || [])
+    ...expandedRelations.flatMap((relation) => relation.evidence || [])
   ]));
   const omittedObjects = objects
     .filter((object) => !selectedObjectIds.includes(object.id))
@@ -123,7 +163,8 @@ function buildContextPack(packageDir, taskId) {
     included_relations: relationIds,
     evidence,
     assumptions: [
-      "Alpha generator uses token matching plus one-hop relation expansion."
+      "Alpha generator uses token matching plus one-hop relation expansion.",
+      "Safety-sensitive constraints and risks with shared evidence are included."
     ],
     omissions: omittedObjects,
     limitations: [

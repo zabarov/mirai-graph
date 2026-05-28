@@ -58,6 +58,8 @@ A context pack should include:
 - evidence supporting included claims;
 - governance gates relevant to the task;
 - known risks or limitations.
+- safety, security, privacy or public-release constraints that share evidence
+  with the selected task context, even when they are not lexical task matches.
 
 A context pack should exclude:
 
@@ -95,4 +97,5 @@ state.
 - Removing evidence references during summarization.
 - Using one task pack for a different task without review.
 - Omitting governance gates to make a task easier.
+- Omitting safety constraints because they do not share task keywords.
 - Generating public context from private material without a release gate.

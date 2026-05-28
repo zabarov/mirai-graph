@@ -16,6 +16,7 @@ All notable changes to GrowGraph will be documented in this file.
   package profiles.
 - Initial semantic-completeness review artifacts for the synthetic benchmark
   and software-specification pilot context packs.
+- Safety-context inclusion policy for context-pack generation.
 
 ### Research Notes
 
@@ -24,8 +25,8 @@ All notable changes to GrowGraph will be documented in this file.
 - Pilot 002 exposed relation-id consistency as a necessary conformance check.
 - Profile conformance fixtures now cover invalid object kinds and relation
   types.
-- Semantic review of pilot 002 exposed safety-context inclusion as the next
-  policy gap for context-pack generation.
+- Semantic review of pilot 002 led to the first safety-context inclusion rule
+  for context-pack generation.
 
 ## [0.1.0-alpha.2] - 2026-05-28
 
