@@ -1,0 +1,29 @@
+[
+  {
+    "id": "system.invalid_example",
+    "kind": "system",
+    "title": "Invalid Example",
+    "summary": "This package intentionally has a relation id that disagrees with its target.",
+    "readiness": "draft",
+    "evidence": [],
+    "profile": "core"
+  },
+  {
+    "id": "goal.correct_target",
+    "kind": "goal",
+    "title": "Correct Target",
+    "summary": "A valid target object for the mismatched relation.",
+    "readiness": "draft",
+    "evidence": [],
+    "profile": "core"
+  },
+  {
+    "id": "goal.wrong_target",
+    "kind": "goal",
+    "title": "Wrong Target",
+    "summary": "An object mentioned only by the relation id.",
+    "readiness": "draft",
+    "evidence": [],
+    "profile": "core"
+  }
+]

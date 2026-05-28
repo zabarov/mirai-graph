@@ -111,7 +111,6 @@ Planned artifacts:
 1. Map practical `$graph` capabilities to public GrowGraph standard sections.
 2. Add context-pack relevance scoring and selection explanations.
 3. Add profile conformance fixtures for project-management and software-specification profiles.
-4. Add relation-id consistency checks to the validator.
-5. Add semantic completeness review fixture/result for the benchmark and pilot context packs.
-6. Add GitHub release notes publication process.
-7. Prepare v0.1.0-alpha.3 scope.
+4. Add semantic completeness review fixture/result for the benchmark and pilot context packs.
+5. Add GitHub release notes publication process.
+6. Prepare v0.1.0-alpha.3 scope.

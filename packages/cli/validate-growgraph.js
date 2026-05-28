@@ -105,6 +105,17 @@ function requireArray(item, field, label, errors) {
   }
 }
 
+function canonicalRelationId(relation) {
+  if (
+    typeof relation.source !== "string" ||
+    typeof relation.type !== "string" ||
+    typeof relation.target !== "string"
+  ) {
+    return null;
+  }
+  return `relation.${relation.source}.${relation.type}.${relation.target}`;
+}
+
 function validatePackage(packageDir) {
   const manifestPath = path.join(packageDir, "growgraph-package.json");
   const manifest = fs.existsSync(manifestPath) ? readJson(manifestPath) : null;
@@ -205,6 +216,11 @@ function validatePackage(packageDir) {
         errors.push(`${label}.id duplicates ${relation.id}`);
       }
       relationIds.add(relation.id);
+
+      const expectedRelationId = canonicalRelationId(relation);
+      if (expectedRelationId && relation.id !== expectedRelationId) {
+        errors.push(`${label}.id must be ${expectedRelationId} for its source/type/target`);
+      }
     }
 
     if (typeof relation.source === "string" && !objectIds.has(relation.source)) {
