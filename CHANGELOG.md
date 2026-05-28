@@ -9,13 +9,13 @@ All notable changes to GrowGraph will be documented in this file.
 - Independent implementation pilot 002 for a synthetic software specification
   workflow.
 - Pilot validation script now covers both public independent pilots.
+- Initial software-specification profile documentation.
 
 ### Research Notes
 
 - Pilot 002 shows that direct task-to-requirement traceability improves the
   usefulness of generated task context.
-- Software-specification profile documentation and conformance fixtures are
-  needed before stronger adoption claims.
+- Profile conformance fixtures are needed before stronger adoption claims.
 
 ## [0.1.0-alpha.2] - 2026-05-28
 
