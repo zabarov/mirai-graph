@@ -33,11 +33,17 @@ It should include:
 {
   "id": "context_pack.notify_after_approval",
   "task_id": "task.notify_after_approval",
-  "source_graph": "growgraph-package.json",
+  "source_graph": "package.synthetic_context_reduction_v0",
   "generated_at": "2026-05-28",
   "included_objects": [],
   "included_relations": [],
   "evidence": [],
+  "selection": {
+    "method": "token_matching_one_hop_relation_expansion_safety_shared_evidence",
+    "task_tokens": ["task", "notify", "after", "approval"],
+    "object_explanations": [],
+    "relation_explanations": []
+  },
   "limitations": []
 }
 ```
@@ -82,6 +88,18 @@ Relation explanations should include:
 
 Scores are implementation signals. They help review the generated context, but
 they do not prove semantic completeness.
+
+## Validation
+
+Context-pack validation should check both shape and graph references:
+
+- required metadata fields are present;
+- `source_graph` matches the package manifest id;
+- included object ids exist in the source graph;
+- included relation ids exist and connect included objects;
+- evidence ids exist in the source graph;
+- selection explanations cover every included object and relation;
+- relation explanations identify source and target ids.
 
 A context pack should exclude:
 

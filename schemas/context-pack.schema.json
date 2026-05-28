@@ -12,6 +12,7 @@
     "included_objects",
     "included_relations",
     "evidence",
+    "selection",
     "limitations"
   ],
   "properties": {
@@ -51,6 +52,12 @@
     },
     "selection": {
       "type": "object",
+      "required": [
+        "method",
+        "task_tokens",
+        "object_explanations",
+        "relation_explanations"
+      ],
       "additionalProperties": true,
       "properties": {
         "method": {
@@ -88,13 +95,19 @@
           "type": "array",
           "items": {
             "type": "object",
-            "required": ["id", "reason"],
+            "required": ["id", "reason", "source", "target"],
             "additionalProperties": true,
             "properties": {
               "id": {
                 "type": "string"
               },
               "reason": {
+                "type": "string"
+              },
+              "source": {
+                "type": "string"
+              },
+              "target": {
                 "type": "string"
               }
             }

@@ -1,0 +1,25 @@
+{
+  "id": "context_pack.invalid_missing_explanation",
+  "task_id": "task.notify_after_approval",
+  "source_graph": "package.synthetic_context_reduction_v0",
+  "generated_at": "2026-05-28T00:00:00.000Z",
+  "included_objects": [
+    "pkg.notification_delivery"
+  ],
+  "included_relations": [],
+  "evidence": [
+    "source.notification_delivery"
+  ],
+  "selection": {
+    "method": "test_fixture",
+    "task_tokens": [
+      "task",
+      "notify"
+    ],
+    "object_explanations": [],
+    "relation_explanations": []
+  },
+  "limitations": [
+    "Invalid fixture: included object lacks a selection explanation."
+  ]
+}

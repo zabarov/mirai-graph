@@ -91,6 +91,7 @@ node packages/cli/validate-growgraph.js examples/minimal-graph
 node packages/cli/validate-growgraph.js benchmarks/synthetic-context-reduction-v0
 node packages/cli/validate-growgraph.js seed examples/graph-seed-minimal/graph-seed.json
 node packages/cli/validate-growgraph.js profile profiles/software-specification/profile.json
+node packages/cli/validate-growgraph.js context-pack benchmarks/synthetic-context-reduction-v0 benchmarks/synthetic-context-reduction-v0/results/context-pack.json
 node packages/cli/seed-preview.js examples/graph-seed-minimal/graph-seed.json
 node packages/cli/context-pack.js benchmarks/synthetic-context-reduction-v0 --task-id task.notify_after_approval
 node packages/cli/readiness-score.js benchmarks/synthetic-context-reduction-v0 --target-mode pilot

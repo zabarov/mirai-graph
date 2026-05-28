@@ -63,6 +63,7 @@ function usage() {
   console.error("  node packages/cli/validate-growgraph.js <package-dir>");
   console.error("  node packages/cli/validate-growgraph.js seed <seed-file>");
   console.error("  node packages/cli/validate-growgraph.js profile <profile-file>");
+  console.error("  node packages/cli/validate-growgraph.js context-pack <package-dir> <context-pack-file>");
 }
 
 function readJson(filePath) {
@@ -103,6 +104,23 @@ function requireArray(item, field, label, errors) {
     }
     seen.add(value);
   }
+}
+
+function requireJsonArray(item, field, label, errors) {
+  if (!Array.isArray(item[field])) {
+    errors.push(`${label}.${field} must be an array`);
+  }
+}
+
+function requireOptionalArray(item, field, label, errors) {
+  if (item[field] === undefined) {
+    return;
+  }
+  requireArray(item, field, label, errors);
+}
+
+function isValidDateTime(value) {
+  return typeof value === "string" && value.trim() !== "" && !Number.isNaN(Date.parse(value));
 }
 
 function canonicalRelationId(relation) {
@@ -428,6 +446,206 @@ function validateProfile(profilePath) {
   return { errors, warnings };
 }
 
+function loadPackageGraph(packageDir, errors) {
+  const manifestPath = path.join(packageDir, "growgraph-package.json");
+  const manifest = fs.existsSync(manifestPath) ? readJson(manifestPath) : null;
+  const graphDir = path.join(packageDir, "graph");
+  const objectsPath = manifest
+    ? path.join(packageDir, manifest.graph && manifest.graph.objects ? manifest.graph.objects : "")
+    : path.join(graphDir, "objects.json");
+  const relationsPath = manifest
+    ? path.join(packageDir, manifest.graph && manifest.graph.relations ? manifest.graph.relations : "")
+    : path.join(graphDir, "relations.json");
+
+  if (!fs.existsSync(objectsPath)) {
+    errors.push(`Missing ${objectsPath}`);
+  }
+  if (!fs.existsSync(relationsPath)) {
+    errors.push(`Missing ${relationsPath}`);
+  }
+  if (errors.length > 0) {
+    return { manifest, objects: [], relations: [] };
+  }
+
+  return {
+    manifest,
+    objects: asArray(readJson(objectsPath), "graph/objects.json", errors),
+    relations: asArray(readJson(relationsPath), "graph/relations.json", errors)
+  };
+}
+
+function validateStringSet(values, knownIds, label, errors) {
+  const seen = new Set();
+  for (const value of values) {
+    if (seen.has(value)) {
+      errors.push(`${label} contains duplicate value ${value}`);
+    }
+    seen.add(value);
+    if (!knownIds.has(value)) {
+      errors.push(`${label} references unknown id ${value}`);
+    }
+  }
+}
+
+function validateContextPack(packageDir, contextPackPath) {
+  const errors = [];
+  const warnings = [];
+  const { manifest, objects, relations } = loadPackageGraph(packageDir, errors);
+  if (errors.length > 0) {
+    return { errors, warnings };
+  }
+
+  const contextPack = readJson(contextPackPath);
+  const label = "context_pack";
+  requireString(contextPack, "id", label, errors);
+  requireString(contextPack, "task_id", label, errors);
+  requireString(contextPack, "source_graph", label, errors);
+  requireString(contextPack, "generated_at", label, errors);
+  requireArray(contextPack, "included_objects", label, errors);
+  requireArray(contextPack, "included_relations", label, errors);
+  requireArray(contextPack, "evidence", label, errors);
+  requireArray(contextPack, "limitations", label, errors);
+  requireOptionalArray(contextPack, "assumptions", label, errors);
+  requireOptionalArray(contextPack, "omissions", label, errors);
+
+  if (typeof contextPack.id === "string" && !contextPack.id.startsWith("context_pack.")) {
+    warnings.push("context_pack.id should start with context_pack.");
+  }
+
+  if (contextPack.generated_at !== undefined && !isValidDateTime(contextPack.generated_at)) {
+    errors.push("context_pack.generated_at must be a parseable date-time string");
+  }
+
+  if (manifest && contextPack.source_graph !== manifest.id) {
+    errors.push(`context_pack.source_graph must match manifest.id ${manifest.id}`);
+  }
+
+  if (Array.isArray(contextPack.limitations) && contextPack.limitations.length === 0) {
+    warnings.push("context_pack.limitations is empty");
+  }
+
+  const objectIds = new Set(objects.map((object) => object.id));
+  const relationIds = new Set(relations.map((relation) => relation.id));
+  const evidenceObjectIds = new Set(
+    objects
+      .filter((object) => object.kind === "evidence")
+      .map((object) => object.id)
+  );
+
+  if (Array.isArray(contextPack.included_objects)) {
+    validateStringSet(contextPack.included_objects, objectIds, "context_pack.included_objects", errors);
+  }
+  if (Array.isArray(contextPack.included_relations)) {
+    validateStringSet(contextPack.included_relations, relationIds, "context_pack.included_relations", errors);
+  }
+  if (Array.isArray(contextPack.evidence)) {
+    validateStringSet(contextPack.evidence, objectIds, "context_pack.evidence", errors);
+    for (const evidenceId of contextPack.evidence) {
+      if (objectIds.has(evidenceId) && !evidenceObjectIds.has(evidenceId)) {
+        warnings.push(`context_pack.evidence includes non-evidence object ${evidenceId}`);
+      }
+    }
+  }
+
+  const selectedObjectIds = new Set(Array.isArray(contextPack.included_objects) ? contextPack.included_objects : []);
+  for (const relation of relations) {
+    if (!Array.isArray(contextPack.included_relations) || !contextPack.included_relations.includes(relation.id)) {
+      continue;
+    }
+    if (!selectedObjectIds.has(relation.source)) {
+      errors.push(`included relation ${relation.id} has source outside included_objects: ${relation.source}`);
+    }
+    if (!selectedObjectIds.has(relation.target)) {
+      errors.push(`included relation ${relation.id} has target outside included_objects: ${relation.target}`);
+    }
+  }
+
+  if (!contextPack.selection) {
+    warnings.push("context_pack.selection is missing; generated packs should explain selection metadata");
+    return { errors, warnings };
+  }
+
+  if (typeof contextPack.selection !== "object" || Array.isArray(contextPack.selection)) {
+    errors.push("context_pack.selection must be an object");
+    return { errors, warnings };
+  }
+
+  requireString(contextPack.selection, "method", "context_pack.selection", errors);
+  requireArray(contextPack.selection, "task_tokens", "context_pack.selection", errors);
+  requireJsonArray(contextPack.selection, "object_explanations", "context_pack.selection", errors);
+  requireJsonArray(contextPack.selection, "relation_explanations", "context_pack.selection", errors);
+
+  if (Array.isArray(contextPack.selection.task_tokens) && contextPack.selection.task_tokens.length === 0) {
+    warnings.push("context_pack.selection.task_tokens is empty");
+  }
+
+  const explainedObjectIds = new Set();
+  if (Array.isArray(contextPack.selection.object_explanations)) {
+    for (const [index, explanation] of contextPack.selection.object_explanations.entries()) {
+      const explanationLabel = `context_pack.selection.object_explanations[${index}]`;
+      requireString(explanation, "id", explanationLabel, errors);
+      requireArray(explanation, "reasons", explanationLabel, errors);
+
+      if (typeof explanation.relevance_score !== "number" || !Number.isFinite(explanation.relevance_score)) {
+        errors.push(`${explanationLabel}.relevance_score must be a finite number`);
+      }
+      if (typeof explanation.id === "string") {
+        if (explainedObjectIds.has(explanation.id)) {
+          errors.push(`${explanationLabel}.id duplicates ${explanation.id}`);
+        }
+        explainedObjectIds.add(explanation.id);
+        if (!selectedObjectIds.has(explanation.id)) {
+          errors.push(`${explanationLabel}.id must reference included object ${explanation.id}`);
+        }
+      }
+      if (Array.isArray(explanation.reasons) && explanation.reasons.length === 0) {
+        warnings.push(`${explanationLabel}.reasons is empty`);
+      }
+    }
+  }
+
+  for (const objectId of selectedObjectIds) {
+    if (!explainedObjectIds.has(objectId)) {
+      errors.push(`included object ${objectId} is missing selection.object_explanations entry`);
+    }
+  }
+
+  const selectedRelationIds = new Set(Array.isArray(contextPack.included_relations) ? contextPack.included_relations : []);
+  const explainedRelationIds = new Set();
+  if (Array.isArray(contextPack.selection.relation_explanations)) {
+    for (const [index, explanation] of contextPack.selection.relation_explanations.entries()) {
+      const explanationLabel = `context_pack.selection.relation_explanations[${index}]`;
+      requireString(explanation, "id", explanationLabel, errors);
+      requireString(explanation, "reason", explanationLabel, errors);
+      requireString(explanation, "source", explanationLabel, errors);
+      requireString(explanation, "target", explanationLabel, errors);
+      if (typeof explanation.id === "string") {
+        if (explainedRelationIds.has(explanation.id)) {
+          errors.push(`${explanationLabel}.id duplicates ${explanation.id}`);
+        }
+        explainedRelationIds.add(explanation.id);
+        if (!selectedRelationIds.has(explanation.id)) {
+          errors.push(`${explanationLabel}.id must reference included relation ${explanation.id}`);
+        }
+      }
+      if (typeof explanation.source === "string" && !selectedObjectIds.has(explanation.source)) {
+        errors.push(`${explanationLabel}.source must reference an included object`);
+      }
+      if (typeof explanation.target === "string" && !selectedObjectIds.has(explanation.target)) {
+        errors.push(`${explanationLabel}.target must reference an included object`);
+      }
+    }
+  }
+
+  for (const relationId of selectedRelationIds) {
+    if (!explainedRelationIds.has(relationId)) {
+      errors.push(`included relation ${relationId} is missing selection.relation_explanations entry`);
+    }
+  }
+
+  return { errors, warnings };
+}
+
 const modeOrPackageDir = process.argv[2];
 if (!modeOrPackageDir) {
   usage();
@@ -437,8 +655,14 @@ if (!modeOrPackageDir) {
 try {
   const isSeedMode = modeOrPackageDir === "seed";
   const isProfileMode = modeOrPackageDir === "profile";
-  const targetPath = isSeedMode || isProfileMode ? process.argv[3] : modeOrPackageDir;
+  const isContextPackMode = modeOrPackageDir === "context-pack";
+  const targetPath = isSeedMode || isProfileMode || isContextPackMode ? process.argv[3] : modeOrPackageDir;
+  const contextPackPath = isContextPackMode ? process.argv[4] : null;
   if (!targetPath) {
+    usage();
+    process.exit(2);
+  }
+  if (isContextPackMode && !contextPackPath) {
     usage();
     process.exit(2);
   }
@@ -446,10 +670,13 @@ try {
     ? validateSeed(path.resolve(targetPath))
     : isProfileMode
       ? validateProfile(path.resolve(targetPath))
-    : validatePackage(path.resolve(targetPath));
+      : isContextPackMode
+        ? validateContextPack(path.resolve(targetPath), path.resolve(contextPackPath))
+        : validatePackage(path.resolve(targetPath));
   const output = {
-    mode: isSeedMode ? "seed" : isProfileMode ? "profile" : "package",
-    target: path.resolve(targetPath),
+    mode: isSeedMode ? "seed" : isProfileMode ? "profile" : isContextPackMode ? "context_pack" : "package",
+    target: isContextPackMode ? path.resolve(contextPackPath) : path.resolve(targetPath),
+    package: isContextPackMode ? path.resolve(targetPath) : undefined,
     valid: result.errors.length === 0,
     errors: result.errors,
     warnings: result.warnings
