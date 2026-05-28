@@ -9,8 +9,15 @@
     "validate:minimal": "node packages/cli/validate-growgraph.js examples/minimal-graph",
     "validate:benchmark": "node packages/cli/validate-growgraph.js benchmarks/synthetic-context-reduction-v0",
     "validate:seed": "node packages/cli/validate-growgraph.js seed examples/graph-seed-minimal/graph-seed.json",
+    "validate:profiles": "node packages/cli/validate-growgraph.js profile profiles/software-specification/profile.json && node packages/cli/validate-growgraph.js profile profiles/project-management/profile.json",
+    "seed:preview": "node packages/cli/seed-preview.js examples/graph-seed-minimal/graph-seed.json",
+    "context:generate": "node packages/cli/context-pack.js benchmarks/synthetic-context-reduction-v0 --task-id task.notify_after_approval",
+    "readiness:benchmark": "node packages/cli/readiness-score.js benchmarks/synthetic-context-reduction-v0 --target-mode pilot",
     "benchmark:synthetic": "node benchmarks/synthetic-context-reduction-v0/scripts/calculate-context-reduction.js",
-    "test": "npm run validate:minimal && npm run validate:benchmark && npm run validate:seed && npm run benchmark:synthetic"
+    "benchmark:write": "node benchmarks/synthetic-context-reduction-v0/scripts/calculate-context-reduction.js --write benchmarks/synthetic-context-reduction-v0/results/context-reduction-result.json",
+    "test:negative": "node packages/cli/validate-growgraph.js examples/invalid-missing-relation-target >/tmp/growgraph-negative.out 2>&1 && exit 1 || test $? -eq 1",
+    "test": "npm run validate:minimal && npm run validate:benchmark && npm run validate:seed && npm run validate:profiles && npm run seed:preview && npm run context:generate && npm run readiness:benchmark && npm run benchmark:synthetic && npm run test:negative",
+    "release:check": "npm test && git diff --check"
   },
   "repository": {
     "type": "git",

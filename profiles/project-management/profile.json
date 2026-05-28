@@ -1,0 +1,31 @@
+{
+  "id": "profile.project_management",
+  "name": "Project Management",
+  "version": "0.1.0",
+  "description": "Profile for modeling goals, tasks, decisions, risks, milestones and evidence in a project.",
+  "allowed_object_kinds": [
+    "system",
+    "goal",
+    "task",
+    "decision",
+    "risk",
+    "milestone",
+    "stakeholder",
+    "evidence",
+    "governance_gate"
+  ],
+  "allowed_relation_types": [
+    "depends_on",
+    "blocks",
+    "supports",
+    "evidences",
+    "belongs_to",
+    "governs",
+    "related_to"
+  ],
+  "default_readiness": "draft",
+  "governance_gates": [
+    "human_review_before_canonical_write",
+    "owner_approval_before_action"
+  ]
+}

@@ -109,8 +109,8 @@ Planned artifacts:
 ## Near-Term Work
 
 1. Map practical `$graph` capabilities to public GrowGraph standard sections.
-2. Add CLI seed preview and graph embryo generation.
-3. Add readiness scoring.
-4. Add measure-convert-optimize benchmark protocol.
-5. Add profile manifests and negative fixtures.
-6. Add independent implementation pilot plan.
+2. Add richer context-pack selection.
+3. Add profile conformance fixtures.
+4. Run the first independent implementation pilot.
+5. Prepare v0.1.0-alpha.1 release notes.
+6. Add GitHub Actions CI.

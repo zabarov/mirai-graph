@@ -1,0 +1,27 @@
+{
+  "schema_version": "0.1.0",
+  "seed_id": "seed.invalid_unsafe_write",
+  "target_graph_id": "graph.invalid_unsafe_write",
+  "purpose": "Show warning when canonical write is allowed without human review gate.",
+  "target_profile": "profile.project_management",
+  "target_mode": "discovery",
+  "graph_dna": {
+    "purpose": "Demonstrate seed warning behavior.",
+    "evolution_vector": "Remain an invalid warning fixture.",
+    "non_negotiable_principles": []
+  },
+  "source_boundaries": {
+    "allowed_sources": ["synthetic.md"],
+    "excluded_sources": [],
+    "canonical_write_allowed": true
+  },
+  "growth_rules": {
+    "allowed_object_families": ["goal"],
+    "allowed_relation_families": ["supports"],
+    "max_initial_objects": 1,
+    "depth_mode": "light"
+  },
+  "review_gates": [],
+  "generated_views": ["seed_summary"],
+  "stop_conditions": []
+}

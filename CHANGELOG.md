@@ -38,6 +38,18 @@ All notable changes to GrowGraph will be documented in this file.
 - Public graph DNA, graph seed and graph embryo standard sections.
 - Graph seed and graph embryo schemas.
 - Minimal graph seed example.
+- Seed preview command that emits a deterministic graph embryo.
+- Alpha readiness score command.
+- Benchmark script `--write` output mode.
+- Measure-convert-optimize public benchmark protocol.
+- Initial profile manifests.
+- Context-pack and profile schemas.
+- Negative validation fixtures.
+- Context-pack generator alpha command.
+- Profile validation command.
+- Independent implementation pilot plan.
+- Semantic completeness review protocol.
+- Release check script.
 
 ### Validation
 

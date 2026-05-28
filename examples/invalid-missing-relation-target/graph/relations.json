@@ -1,0 +1,11 @@
+[
+  {
+    "id": "relation.system.invalid_example.depends_on.goal.missing",
+    "type": "depends_on",
+    "source": "system.invalid_example",
+    "target": "goal.missing",
+    "readiness": "draft",
+    "evidence": [],
+    "profile": "core"
+  }
+]

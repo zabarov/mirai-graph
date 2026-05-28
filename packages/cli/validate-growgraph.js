@@ -62,6 +62,7 @@ function usage() {
   console.error("Usage:");
   console.error("  node packages/cli/validate-growgraph.js <package-dir>");
   console.error("  node packages/cli/validate-growgraph.js seed <seed-file>");
+  console.error("  node packages/cli/validate-growgraph.js profile <profile-file>");
 }
 
 function readJson(filePath) {
@@ -345,6 +346,36 @@ function validateSeed(seedPath) {
   return { errors, warnings };
 }
 
+function validateProfile(profilePath) {
+  const errors = [];
+  const warnings = [];
+  const profile = readJson(profilePath);
+  const label = "profile";
+
+  requireString(profile, "id", label, errors);
+  requireString(profile, "name", label, errors);
+  requireString(profile, "version", label, errors);
+  requireString(profile, "description", label, errors);
+  requireArray(profile, "allowed_object_kinds", label, errors);
+  requireArray(profile, "allowed_relation_types", label, errors);
+  requireString(profile, "default_readiness", label, errors);
+  requireArray(profile, "governance_gates", label, errors);
+
+  if (typeof profile.default_readiness === "string" && !readinessValues.has(profile.default_readiness)) {
+    errors.push(`${label}.default_readiness has unsupported value ${profile.default_readiness}`);
+  }
+
+  if (Array.isArray(profile.allowed_object_kinds) && profile.allowed_object_kinds.length === 0) {
+    warnings.push("profile.allowed_object_kinds is empty");
+  }
+
+  if (Array.isArray(profile.allowed_relation_types) && profile.allowed_relation_types.length === 0) {
+    warnings.push("profile.allowed_relation_types is empty");
+  }
+
+  return { errors, warnings };
+}
+
 const modeOrPackageDir = process.argv[2];
 if (!modeOrPackageDir) {
   usage();
@@ -353,16 +384,19 @@ if (!modeOrPackageDir) {
 
 try {
   const isSeedMode = modeOrPackageDir === "seed";
-  const targetPath = isSeedMode ? process.argv[3] : modeOrPackageDir;
+  const isProfileMode = modeOrPackageDir === "profile";
+  const targetPath = isSeedMode || isProfileMode ? process.argv[3] : modeOrPackageDir;
   if (!targetPath) {
     usage();
     process.exit(2);
   }
   const result = isSeedMode
     ? validateSeed(path.resolve(targetPath))
+    : isProfileMode
+      ? validateProfile(path.resolve(targetPath))
     : validatePackage(path.resolve(targetPath));
   const output = {
-    mode: isSeedMode ? "seed" : "package",
+    mode: isSeedMode ? "seed" : isProfileMode ? "profile" : "package",
     target: path.resolve(targetPath),
     valid: result.errors.length === 0,
     errors: result.errors,

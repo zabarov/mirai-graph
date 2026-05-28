@@ -1,0 +1,44 @@
+{
+  "id": "context_pack.task_notify_after_approval",
+  "task_id": "task.notify_after_approval",
+  "source_graph": "package.synthetic_context_reduction_v0",
+  "generated_at": "2026-05-28T16:36:43.432Z",
+  "included_objects": [
+    "source.identity_access",
+    "source.content_workflow",
+    "source.audit_events",
+    "source.notification_delivery",
+    "pkg.identity_access",
+    "pkg.content_workflow",
+    "pkg.audit_events",
+    "pkg.notification_delivery",
+    "feature.workflow_transition",
+    "feature.scoped_api_token",
+    "constraint.audit_before_notify",
+    "risk.duplicate_notifications"
+  ],
+  "included_relations": [
+    "relation.pkg.content_workflow.implements.feature.workflow_transition",
+    "relation.pkg.identity_access.implements.feature.scoped_api_token",
+    "relation.pkg.notification_delivery.depends_on.feature.scoped_api_token",
+    "relation.pkg.audit_events.evidences.feature.workflow_transition",
+    "relation.pkg.notification_delivery.blocks.constraint.audit_before_notify",
+    "relation.constraint.audit_before_notify.depends_on.pkg.audit_events",
+    "relation.feature.workflow_transition.generates.pkg.notification_delivery",
+    "relation.pkg.notification_delivery.related_to.risk.duplicate_notifications"
+  ],
+  "evidence": [
+    "source.identity_access",
+    "source.content_workflow",
+    "source.audit_events",
+    "source.notification_delivery"
+  ],
+  "assumptions": [
+    "Alpha generator includes the full package graph; task-specific selection is not implemented yet."
+  ],
+  "omissions": [],
+  "limitations": [
+    "Generated context pack is not canonical state.",
+    "This alpha generator does not score relevance or semantic completeness."
+  ]
+}

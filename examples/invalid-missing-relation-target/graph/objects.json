@@ -1,0 +1,11 @@
+[
+  {
+    "id": "system.invalid_example",
+    "kind": "system",
+    "title": "Invalid Example",
+    "summary": "This package intentionally has a broken relation target.",
+    "readiness": "draft",
+    "evidence": [],
+    "profile": "core"
+  }
+]

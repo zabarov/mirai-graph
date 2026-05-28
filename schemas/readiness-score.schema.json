@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://growgraph.dev/schemas/readiness-score.schema.json",
+  "title": "GrowGraph Readiness Score",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["schema_version", "target_mode", "score", "band", "evidence", "blockers", "caps", "note"],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "target_mode": {
+      "type": "string",
+      "enum": ["discovery", "canonical", "pilot", "controlled_runtime", "production_runtime"]
+    },
+    "score": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "band": {
+      "type": "string"
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "blockers": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "caps": {
+      "type": "array"
+    },
+    "note": {
+      "type": "string"
+    }
+  }
+}

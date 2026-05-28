@@ -1,0 +1,31 @@
+{
+  "id": "profile.software_specification",
+  "name": "Software Specification",
+  "version": "0.1.0",
+  "description": "Profile for modeling software packages, features, constraints, risks and evidence.",
+  "allowed_object_kinds": [
+    "package",
+    "feature",
+    "requirement",
+    "constraint",
+    "risk",
+    "component",
+    "task",
+    "decision",
+    "evidence"
+  ],
+  "allowed_relation_types": [
+    "implements",
+    "depends_on",
+    "blocks",
+    "evidences",
+    "generates",
+    "related_to",
+    "supersedes"
+  ],
+  "default_readiness": "draft",
+  "governance_gates": [
+    "human_review_before_canonical_write",
+    "public_safety_before_release"
+  ]
+}

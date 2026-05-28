@@ -4,6 +4,8 @@ const fs = require("fs");
 const path = require("path");
 
 const packageRoot = path.resolve(__dirname, "..");
+const writeFlagIndex = process.argv.indexOf("--write");
+const outputPath = writeFlagIndex >= 0 ? process.argv[writeFlagIndex + 1] : null;
 const metricsPath = path.join(packageRoot, "metrics", "example-metrics.json");
 const metrics = JSON.parse(fs.readFileSync(metricsPath, "utf8"));
 
@@ -21,6 +23,7 @@ if (!Number.isFinite(graphContext) || graphContext < 0) {
 const reductionPercent = ((baseline - graphContext) / baseline) * 100;
 
 const result = {
+  schema_version: "0.1.0",
   task_id: metrics.task_id,
   baseline_context_units: baseline,
   graph_context_units: graphContext,
@@ -28,4 +31,12 @@ const result = {
   note: "Synthetic demonstration only; do not merge with internal empirical metrics."
 };
 
-console.log(JSON.stringify(result, null, 2));
+const output = JSON.stringify(result, null, 2);
+
+if (outputPath) {
+  const resolvedOutputPath = path.resolve(outputPath);
+  fs.mkdirSync(path.dirname(resolvedOutputPath), { recursive: true });
+  fs.writeFileSync(resolvedOutputPath, `${output}\n`);
+}
+
+console.log(output);

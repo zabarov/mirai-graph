@@ -1,0 +1,24 @@
+{
+  "schema_version": "0.1.0",
+  "target_mode": "pilot",
+  "score": 69,
+  "band": "G3_pilot_ready",
+  "evidence": [
+    "package manifest exists",
+    "objects exist: 12",
+    "relations exist: 8",
+    "evidence objects exist: 4",
+    "accepted objects exist: 4",
+    "gate results exist: 1",
+    "context pack example exists",
+    "benchmark metric example exists"
+  ],
+  "blockers": [],
+  "caps": [
+    {
+      "reason": "synthetic-only evidence cannot exceed pilot-ready navigation score",
+      "max_score": 69
+    }
+  ],
+  "note": "Alpha readiness score; use as navigation, not approval."
+}

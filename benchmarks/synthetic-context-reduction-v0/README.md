@@ -57,6 +57,7 @@ Expected result:
 
 ```json
 {
+  "schema_version": "0.1.0",
   "task_id": "task.notify_after_approval",
   "baseline_context_units": 620,
   "graph_context_units": 270,

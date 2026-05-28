@@ -1,0 +1,63 @@
+{
+  "schema_version": "0.1.0",
+  "embryo_id": "embryo.demo_project",
+  "seed_id": "seed.demo_project",
+  "generated_at": "2026-05-28T16:33:40.453Z",
+  "candidate_objects": [
+    {
+      "id": "goal.candidate_1",
+      "kind": "goal",
+      "title": "Candidate Goal",
+      "summary": "Candidate goal object proposed from seed seed.demo_project.",
+      "readiness": "draft",
+      "evidence": [],
+      "profile": "project_management"
+    },
+    {
+      "id": "task.candidate_2",
+      "kind": "task",
+      "title": "Candidate Task",
+      "summary": "Candidate task object proposed from seed seed.demo_project.",
+      "readiness": "draft",
+      "evidence": [],
+      "profile": "project_management"
+    },
+    {
+      "id": "decision.candidate_3",
+      "kind": "decision",
+      "title": "Candidate Decision",
+      "summary": "Candidate decision object proposed from seed seed.demo_project.",
+      "readiness": "draft",
+      "evidence": [],
+      "profile": "project_management"
+    },
+    {
+      "id": "risk.candidate_4",
+      "kind": "risk",
+      "title": "Candidate Risk",
+      "summary": "Candidate risk object proposed from seed seed.demo_project.",
+      "readiness": "draft",
+      "evidence": [],
+      "profile": "project_management"
+    },
+    {
+      "id": "evidence.candidate_5",
+      "kind": "evidence",
+      "title": "Candidate Evidence",
+      "summary": "Candidate evidence object proposed from seed seed.demo_project.",
+      "readiness": "draft",
+      "evidence": [],
+      "profile": "project_management"
+    }
+  ],
+  "candidate_relations": [],
+  "uncertain_items": [
+    "This is a deterministic seed preview, not extracted canonical graph state."
+  ],
+  "review_questions": [
+    "Do the candidate object families match the graph purpose?",
+    "Are source boundaries sufficient for the first extraction pass?",
+    "Should canonical write remain blocked until human review?"
+  ],
+  "stop_conditions_triggered": []
+}

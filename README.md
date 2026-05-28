@@ -74,6 +74,7 @@ publications/ Publication links, citation notes and reproducibility records.
 - [Synthetic Context-Reduction Benchmark](benchmarks/synthetic-context-reduction-v0/README.md)
 - [Benchmark Result](benchmarks/synthetic-context-reduction-v0/RESULT.md)
 - [Minimal Graph Example](examples/minimal-graph/README.md)
+- [Profiles](profiles/README.md)
 
 ## Validate A Graph Package
 
@@ -83,6 +84,10 @@ Run the initial validator:
 node packages/cli/validate-growgraph.js examples/minimal-graph
 node packages/cli/validate-growgraph.js benchmarks/synthetic-context-reduction-v0
 node packages/cli/validate-growgraph.js seed examples/graph-seed-minimal/graph-seed.json
+node packages/cli/validate-growgraph.js profile profiles/software-specification/profile.json
+node packages/cli/seed-preview.js examples/graph-seed-minimal/graph-seed.json
+node packages/cli/context-pack.js benchmarks/synthetic-context-reduction-v0 --task-id task.notify_after_approval
+node packages/cli/readiness-score.js benchmarks/synthetic-context-reduction-v0 --target-mode pilot
 ```
 
 Or run the current smoke checks:
