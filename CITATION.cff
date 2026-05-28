@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+title: "GrowGraph"
+message: "If you use GrowGraph in research or software, please cite this repository."
+type: software
+authors:
+  - family-names: "Zabarov"
+    given-names: "Rim"
+    orcid: "https://orcid.org/0009-0004-8605-5594"
+abstract: "GrowGraph is an evolutionary graph operating model for managing the growth of complex systems."
+repository-code: "https://github.com/zabarov/growgraph"
+license: "MIT"
+keywords:
+  - graph operating model
+  - knowledge graph
+  - AI-assisted work
+  - governance
+  - complex systems
+  - context engineering
+  - systems engineering
+date-released: "2026-05-28"

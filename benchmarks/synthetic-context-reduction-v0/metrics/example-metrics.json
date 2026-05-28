@@ -1,0 +1,22 @@
+{
+  "task_id": "task.notify_after_approval",
+  "metric_status": "illustrative_synthetic_example",
+  "baseline": {
+    "source_files": 4,
+    "estimated_context_units": 620
+  },
+  "graph_context": {
+    "objects": 7,
+    "relations": 8,
+    "estimated_context_units": 270
+  },
+  "calculation": {
+    "formula": "(baseline - graph_context) / baseline * 100",
+    "total_reduction_percent": 56.4516
+  },
+  "limitations": [
+    "Synthetic unit counts are illustrative.",
+    "This file demonstrates calculation format only.",
+    "Do not merge this synthetic metric with internal empirical metrics."
+  ]
+}

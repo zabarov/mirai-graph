@@ -1,0 +1,11 @@
+[
+  {
+    "id": "relation.goal.demo_growth.belongs_to.system.demo_project",
+    "type": "belongs_to",
+    "source": "goal.demo_growth",
+    "target": "system.demo_project",
+    "readiness": "draft",
+    "evidence": [],
+    "profile": "core"
+  }
+]

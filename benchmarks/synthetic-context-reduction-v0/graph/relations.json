@@ -1,0 +1,74 @@
+[
+  {
+    "id": "relation.pkg.content_workflow.implements.feature.workflow_transition",
+    "source": "pkg.content_workflow",
+    "type": "implements",
+    "target": "feature.workflow_transition",
+    "readiness": "draft",
+    "evidence": ["source.content_workflow"],
+    "profile": "software_specification"
+  },
+  {
+    "id": "relation.pkg.identity_access.implements.feature.scoped_api_token",
+    "source": "pkg.identity_access",
+    "type": "implements",
+    "target": "feature.scoped_api_token",
+    "readiness": "draft",
+    "evidence": ["source.identity_access"],
+    "profile": "software_specification"
+  },
+  {
+    "id": "relation.pkg.notification_delivery.depends_on.feature.scoped_api_token",
+    "source": "pkg.notification_delivery",
+    "type": "depends_on",
+    "target": "feature.scoped_api_token",
+    "readiness": "draft",
+    "evidence": ["source.notification_delivery"],
+    "profile": "software_specification"
+  },
+  {
+    "id": "relation.pkg.audit_events.evidences.feature.workflow_transition",
+    "source": "pkg.audit_events",
+    "type": "evidences",
+    "target": "feature.workflow_transition",
+    "readiness": "draft",
+    "evidence": ["source.audit_events", "source.content_workflow"],
+    "profile": "software_specification"
+  },
+  {
+    "id": "relation.pkg.notification_delivery.blocks.constraint.audit_before_notify",
+    "source": "pkg.notification_delivery",
+    "type": "blocks",
+    "target": "constraint.audit_before_notify",
+    "readiness": "draft",
+    "evidence": ["source.notification_delivery"],
+    "profile": "software_specification"
+  },
+  {
+    "id": "relation.constraint.audit_before_notify.depends_on.pkg.audit_events",
+    "source": "constraint.audit_before_notify",
+    "type": "depends_on",
+    "target": "pkg.audit_events",
+    "readiness": "draft",
+    "evidence": ["source.content_workflow", "source.notification_delivery"],
+    "profile": "software_specification"
+  },
+  {
+    "id": "relation.feature.workflow_transition.generates.pkg.notification_delivery",
+    "source": "feature.workflow_transition",
+    "type": "generates",
+    "target": "pkg.notification_delivery",
+    "readiness": "draft",
+    "evidence": ["source.content_workflow"],
+    "profile": "software_specification"
+  },
+  {
+    "id": "relation.pkg.notification_delivery.related_to.risk.duplicate_notifications",
+    "source": "pkg.notification_delivery",
+    "type": "related_to",
+    "target": "risk.duplicate_notifications",
+    "readiness": "draft",
+    "evidence": ["source.notification_delivery"],
+    "profile": "software_specification"
+  }
+]

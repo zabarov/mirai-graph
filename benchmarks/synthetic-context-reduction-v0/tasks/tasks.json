@@ -1,0 +1,31 @@
+[
+  {
+    "id": "task.notify_after_approval",
+    "prompt": "Prepare the implementation context for sending notifications after content approval.",
+    "baseline_sources": [
+      "source-corpus/identity-access.md",
+      "source-corpus/content-workflow.md",
+      "source-corpus/audit-events.md",
+      "source-corpus/notification-delivery.md"
+    ],
+    "graph_seed_objects": [
+      "feature.workflow_transition",
+      "constraint.audit_before_notify",
+      "pkg.notification_delivery"
+    ],
+    "expected_context_objects": [
+      "pkg.content_workflow",
+      "feature.workflow_transition",
+      "pkg.audit_events",
+      "constraint.audit_before_notify",
+      "pkg.notification_delivery",
+      "feature.scoped_api_token",
+      "risk.duplicate_notifications"
+    ],
+    "acceptance_notes": [
+      "Context must include the audit-before-notify constraint.",
+      "Context must include scoped-token dependency.",
+      "Context must flag duplicate notification risk."
+    ]
+  }
+]

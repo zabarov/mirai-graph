@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://growgraph.dev/schemas/relation.schema.json",
+  "title": "GrowGraph Relation",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["id", "type", "source", "target", "readiness", "evidence", "profile"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^relation\\.[a-z0-9_.]+$"
+    },
+    "type": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source": {
+      "type": "string",
+      "minLength": 1
+    },
+    "target": {
+      "type": "string",
+      "minLength": 1
+    },
+    "readiness": {
+      "type": "string",
+      "enum": ["draft", "review_ready", "accepted", "blocked", "deprecated"]
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "profile": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

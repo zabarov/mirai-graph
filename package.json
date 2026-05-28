@@ -1,0 +1,39 @@
+{
+  "name": "growgraph",
+  "version": "0.1.0-alpha.0",
+  "private": false,
+  "description": "An evolutionary graph operating model for managing the growth of complex systems.",
+  "license": "MIT",
+  "type": "commonjs",
+  "scripts": {
+    "validate:minimal": "node packages/cli/validate-growgraph.js examples/minimal-graph",
+    "validate:benchmark": "node packages/cli/validate-growgraph.js benchmarks/synthetic-context-reduction-v0",
+    "benchmark:synthetic": "node benchmarks/synthetic-context-reduction-v0/scripts/calculate-context-reduction.js",
+    "test": "npm run validate:minimal && npm run validate:benchmark && npm run benchmark:synthetic"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zabarov/growgraph.git"
+  },
+  "keywords": [
+    "graph",
+    "knowledge-graph",
+    "governance",
+    "complex-systems",
+    "context-engineering",
+    "ai-assisted-work"
+  ],
+  "author": "Rim Zabarov",
+  "files": [
+    "README.md",
+    "LICENSE",
+    "LICENSE-DOCS",
+    "CITATION.cff",
+    "docs",
+    "standard",
+    "schemas",
+    "benchmarks",
+    "examples",
+    "packages"
+  ]
+}

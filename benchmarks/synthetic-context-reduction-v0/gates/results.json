@@ -1,0 +1,12 @@
+[
+  {
+    "id": "gate_result.synthetic_context_reduction_v0.public_safety",
+    "gate_id": "gate.public_safety",
+    "target_id": "package.synthetic_context_reduction_v0",
+    "verdict": "pass_with_notes",
+    "summary": "The benchmark is synthetic and public-safe, but it supports method inspection only.",
+    "evidence": ["source.identity_access", "source.content_workflow", "source.audit_events", "source.notification_delivery"],
+    "reviewed_at": "2026-05-28",
+    "reviewer": "GrowGraph maintainers"
+  }
+]

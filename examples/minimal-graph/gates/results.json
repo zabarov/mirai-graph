@@ -1,0 +1,12 @@
+[
+  {
+    "id": "gate_result.minimal_graph.public_safety",
+    "gate_id": "gate.public_safety",
+    "target_id": "package.minimal_graph",
+    "verdict": "pass",
+    "summary": "The minimal example contains only synthetic public-safe material.",
+    "evidence": [],
+    "reviewed_at": "2026-05-28",
+    "reviewer": "GrowGraph maintainers"
+  }
+]

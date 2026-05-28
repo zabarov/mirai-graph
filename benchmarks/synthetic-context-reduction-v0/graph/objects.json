@@ -1,0 +1,114 @@
+[
+  {
+    "id": "source.identity_access",
+    "kind": "evidence",
+    "title": "Identity access source note",
+    "summary": "Synthetic source note describing account registration, role assignment and scoped API tokens.",
+    "readiness": "accepted",
+    "evidence": [],
+    "profile": "software_specification",
+    "source_path": "source-corpus/identity-access.md"
+  },
+  {
+    "id": "source.content_workflow",
+    "kind": "evidence",
+    "title": "Content workflow source note",
+    "summary": "Synthetic source note describing content review and approval workflow behavior.",
+    "readiness": "accepted",
+    "evidence": [],
+    "profile": "software_specification",
+    "source_path": "source-corpus/content-workflow.md"
+  },
+  {
+    "id": "source.audit_events",
+    "kind": "evidence",
+    "title": "Audit events source note",
+    "summary": "Synthetic source note describing audit recording expectations.",
+    "readiness": "accepted",
+    "evidence": [],
+    "profile": "software_specification",
+    "source_path": "source-corpus/audit-events.md"
+  },
+  {
+    "id": "source.notification_delivery",
+    "kind": "evidence",
+    "title": "Notification delivery source note",
+    "summary": "Synthetic source note describing notification workers, scoped tokens and delivery risks.",
+    "readiness": "accepted",
+    "evidence": [],
+    "profile": "software_specification",
+    "source_path": "source-corpus/notification-delivery.md"
+  },
+  {
+    "id": "pkg.identity_access",
+    "kind": "package",
+    "title": "Identity And Access",
+    "summary": "Synthetic package responsible for identities, roles and scoped API tokens.",
+    "readiness": "draft",
+    "evidence": ["source.identity_access"],
+    "profile": "software_specification"
+  },
+  {
+    "id": "pkg.content_workflow",
+    "kind": "package",
+    "title": "Content Workflow",
+    "summary": "Synthetic package responsible for review and approval workflow transitions.",
+    "readiness": "draft",
+    "evidence": ["source.content_workflow"],
+    "profile": "software_specification"
+  },
+  {
+    "id": "pkg.audit_events",
+    "kind": "package",
+    "title": "Audit Events",
+    "summary": "Synthetic package responsible for recording audit events.",
+    "readiness": "draft",
+    "evidence": ["source.audit_events"],
+    "profile": "software_specification"
+  },
+  {
+    "id": "pkg.notification_delivery",
+    "kind": "package",
+    "title": "Notification Delivery",
+    "summary": "Synthetic package responsible for sending notifications after workflow events.",
+    "readiness": "draft",
+    "evidence": ["source.notification_delivery"],
+    "profile": "software_specification"
+  },
+  {
+    "id": "feature.workflow_transition",
+    "kind": "feature",
+    "title": "Workflow Transition",
+    "summary": "A content workflow transition that can trigger downstream behavior.",
+    "readiness": "review_ready",
+    "evidence": ["source.content_workflow"],
+    "profile": "software_specification"
+  },
+  {
+    "id": "feature.scoped_api_token",
+    "kind": "feature",
+    "title": "Scoped API Token",
+    "summary": "A scoped token used by delivery workers when acting on workflow events.",
+    "readiness": "review_ready",
+    "evidence": ["source.identity_access", "source.notification_delivery"],
+    "profile": "software_specification"
+  },
+  {
+    "id": "constraint.audit_before_notify",
+    "kind": "constraint",
+    "title": "Audit Before Notify",
+    "summary": "A notification should not be sent before the approval transition is recorded in the audit log.",
+    "readiness": "blocked",
+    "evidence": ["source.content_workflow", "source.notification_delivery"],
+    "profile": "software_specification"
+  },
+  {
+    "id": "risk.duplicate_notifications",
+    "kind": "risk",
+    "title": "Duplicate Notifications",
+    "summary": "Retry behavior may create duplicate notifications if idempotency is not defined.",
+    "readiness": "draft",
+    "evidence": ["source.notification_delivery"],
+    "profile": "software_specification"
+  }
+]

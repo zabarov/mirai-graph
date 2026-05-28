@@ -1,0 +1,24 @@
+[
+  {
+    "id": "system.demo_project",
+    "kind": "system",
+    "title": "Demo Project",
+    "summary": "A small project used to demonstrate the GrowGraph package shape.",
+    "readiness": "draft",
+    "evidence": [],
+    "profile": "core",
+    "created_at": "2026-05-28",
+    "updated_at": "2026-05-28"
+  },
+  {
+    "id": "goal.demo_growth",
+    "kind": "goal",
+    "title": "Manage project growth",
+    "summary": "Keep project knowledge, decisions and next actions connected as the project grows.",
+    "readiness": "draft",
+    "evidence": [],
+    "profile": "core",
+    "created_at": "2026-05-28",
+    "updated_at": "2026-05-28"
+  }
+]
