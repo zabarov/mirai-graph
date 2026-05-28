@@ -42,8 +42,11 @@ relation shape.
 ## Limits
 
 This package supports reproducibility of the method structure only. It does not
-validate semantic completeness, external generalization, agent safety or task
-success.
+validate external generalization, agent safety or task success.
+
+An initial semantic-completeness review is available at:
+
+`reviews/semantic-completeness-review.json`
 
 ## Example Calculation
 

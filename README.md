@@ -74,6 +74,7 @@ publications/ Publication links, citation notes and reproducibility records.
 - [Test Suite](standard/test-suite.md)
 - [Synthetic Context-Reduction Benchmark](benchmarks/synthetic-context-reduction-v0/README.md)
 - [Benchmark Result](benchmarks/synthetic-context-reduction-v0/RESULT.md)
+- [Benchmark Semantic Review](benchmarks/synthetic-context-reduction-v0/reviews/semantic-completeness-review.json)
 - [Minimal Graph Example](examples/minimal-graph/README.md)
 - [Independent Implementation Pilot 001](pilots/independent-implementation-001-conference-planning/reports/pilot-report.md)
 - [Independent Implementation Pilot 002](pilots/independent-implementation-002-software-specification/reports/pilot-report.md)

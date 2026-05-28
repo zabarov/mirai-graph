@@ -1,0 +1,89 @@
+{
+  "schema_version": "0.1.0",
+  "review_id": "semantic_review.notification_api_spec_pilot_002.task_implement_retry_policy",
+  "reviewed_at": "2026-05-28",
+  "reviewer": "GrowGraph maintainers",
+  "protocol": "docs/research/semantic-completeness-review-protocol.md",
+  "target": {
+    "package_id": "package.notification_api_spec_pilot_002",
+    "context_pack": "pilots/independent-implementation-002-software-specification/results/context-pack.json",
+    "task_id": "task.implement_retry_policy"
+  },
+  "verdict": "pass_with_notes",
+  "score_total": 13,
+  "score_max": 16,
+  "dimensions": [
+    {
+      "name": "task_relevance",
+      "score": 2,
+      "note": "The context pack is centered on implementing the retry policy."
+    },
+    {
+      "name": "required_object_coverage",
+      "score": 2,
+      "note": "The task, retry feature, webhook feature, delivery worker, requirement, duplicate-delivery risk and idempotency decision are included."
+    },
+    {
+      "name": "required_relation_coverage",
+      "score": 2,
+      "note": "The task keeps direct traceability to the feature, requirement and idempotency decision."
+    },
+    {
+      "name": "evidence_preservation",
+      "score": 2,
+      "note": "The synthetic source brief is preserved."
+    },
+    {
+      "name": "risk_and_blocker_visibility",
+      "score": 1,
+      "note": "Duplicate delivery risk is visible, but credential leakage risk is omitted from the generated context."
+    },
+    {
+      "name": "governance_gate_visibility",
+      "score": 1,
+      "note": "Requirement traceability is represented by relations, but gate results are not included in the context pack."
+    },
+    {
+      "name": "omission_transparency",
+      "score": 2,
+      "note": "Omitted package, security constraint and credential-leak risk objects are listed."
+    },
+    {
+      "name": "no_private_or_unsafe_leakage",
+      "score": 1,
+      "note": "The package is synthetic and public-safe, but the omitted security constraint should be reviewed before implementation use."
+    }
+  ],
+  "required_context_preserved": [
+    "task.implement_retry_policy",
+    "feature.retry_policy",
+    "feature.webhook_delivery",
+    "requirement.notify_after_event",
+    "component.delivery_worker",
+    "risk.duplicate_delivery",
+    "decision.idempotency_key_required"
+  ],
+  "important_omissions": [
+    {
+      "object_id": "constraint.no_secret_logging",
+      "impact": "medium",
+      "note": "The retry task may touch delivery logging behavior; reviewers should decide whether this safety constraint is required context."
+    },
+    {
+      "object_id": "risk.credential_leak",
+      "impact": "medium",
+      "note": "Credential leakage is not central to retry semantics, but it is relevant to delivery-worker implementation safety."
+    },
+    {
+      "object_id": "package.team_notification_api",
+      "impact": "low",
+      "note": "The package wrapper is omitted but lower-level implementation context is preserved."
+    }
+  ],
+  "limitations": [
+    "The review is performed on a synthetic pilot package.",
+    "The review does not measure downstream implementation quality.",
+    "The context-pack generator does not yet include selection explanations or relevance scores."
+  ],
+  "claim_supported": "The generated context pack preserved task-relevant meaning with recorded safety-context limitations."
+}

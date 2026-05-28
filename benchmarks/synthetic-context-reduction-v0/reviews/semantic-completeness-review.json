@@ -1,0 +1,82 @@
+{
+  "schema_version": "0.1.0",
+  "review_id": "semantic_review.synthetic_context_reduction_v0.task_notify_after_approval",
+  "reviewed_at": "2026-05-28",
+  "reviewer": "GrowGraph maintainers",
+  "protocol": "docs/research/semantic-completeness-review-protocol.md",
+  "target": {
+    "package_id": "package.synthetic_context_reduction_v0",
+    "context_pack": "benchmarks/synthetic-context-reduction-v0/results/context-pack.json",
+    "task_id": "task.notify_after_approval"
+  },
+  "verdict": "pass_with_notes",
+  "score_total": 15,
+  "score_max": 16,
+  "dimensions": [
+    {
+      "name": "task_relevance",
+      "score": 2,
+      "note": "The context pack is centered on notification after approval."
+    },
+    {
+      "name": "required_object_coverage",
+      "score": 2,
+      "note": "Notification delivery, workflow transition, scoped token, audit constraint and duplicate-notification risk are included."
+    },
+    {
+      "name": "required_relation_coverage",
+      "score": 2,
+      "note": "The included relations preserve dependency, blocking and generation paths needed for the task."
+    },
+    {
+      "name": "evidence_preservation",
+      "score": 2,
+      "note": "All source evidence referenced by included objects and relations is preserved."
+    },
+    {
+      "name": "risk_and_blocker_visibility",
+      "score": 2,
+      "note": "The audit-before-notify constraint and duplicate notification risk remain visible."
+    },
+    {
+      "name": "governance_gate_visibility",
+      "score": 1,
+      "note": "The package has no explicit governance gate object; the safety constraint is visible but not modeled as a gate."
+    },
+    {
+      "name": "omission_transparency",
+      "score": 2,
+      "note": "Omitted package-level objects are listed."
+    },
+    {
+      "name": "no_private_or_unsafe_leakage",
+      "score": 2,
+      "note": "The package is synthetic and contains no private material."
+    }
+  ],
+  "required_context_preserved": [
+    "pkg.notification_delivery",
+    "feature.workflow_transition",
+    "feature.scoped_api_token",
+    "constraint.audit_before_notify",
+    "risk.duplicate_notifications"
+  ],
+  "important_omissions": [
+    {
+      "object_id": "pkg.identity_access",
+      "impact": "low",
+      "note": "The scoped API token feature and source evidence are included, so the omitted package wrapper does not block this task."
+    },
+    {
+      "object_id": "pkg.content_workflow",
+      "impact": "low",
+      "note": "The workflow transition feature and source evidence are included, so the omitted package wrapper does not block this task."
+    }
+  ],
+  "limitations": [
+    "The review is performed on a synthetic package.",
+    "The review does not measure downstream implementation quality.",
+    "The package does not yet model governance gates as graph objects."
+  ],
+  "claim_supported": "The generated context pack preserved task-relevant meaning under this review protocol."
+}

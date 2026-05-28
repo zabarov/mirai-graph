@@ -45,6 +45,7 @@ Validation artifacts:
 - `results/graph-embryo.json`
 - `results/context-pack.json`
 - `results/readiness-score.json`
+- `reviews/semantic-completeness-review.json`
 
 Package summary:
 
@@ -56,6 +57,8 @@ Package summary:
 - target mode: `pilot`;
 - readiness score: `69`;
 - readiness band: `G3_pilot_ready`.
+- semantic completeness verdict: `pass_with_notes`;
+- semantic completeness score: `13/16`.
 
 ## What Worked
 
@@ -66,6 +69,7 @@ Package summary:
   `task.implement_retry_policy`.
 - A direct task-to-requirement relation improved traceability and made the
   generated task context more useful.
+- Semantic review made safety-context omissions explicit.
 - Readiness scoring correctly capped the result because evidence is synthetic
   and benchmark evidence is missing for this pilot.
 
@@ -133,4 +137,4 @@ It does not support claims about:
 2. Add profile conformance fixtures for required traceability patterns.
 3. Add context-pack selection explanations and relevance scores.
 4. Add acceptance-criteria and verification-result modeling examples.
-5. Run semantic completeness review on the generated context pack.
+5. Add a policy for when safety constraints must be included in task context.
