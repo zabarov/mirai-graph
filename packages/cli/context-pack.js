@@ -11,6 +11,65 @@ function readJson(filePath) {
   return JSON.parse(fs.readFileSync(filePath, "utf8"));
 }
 
+function normalizeToken(token) {
+  const normalized = token.toLowerCase();
+  const replacements = new Map([
+    ["notification", "notify"],
+    ["notifications", "notify"],
+    ["notifying", "notify"],
+    ["approval", "approve"],
+    ["approved", "approve"],
+    ["approving", "approve"],
+    ["schedule", "schedule"],
+    ["speaker", "speaker"],
+    ["session", "session"],
+    ["sessions", "session"]
+  ]);
+  if (replacements.has(normalized)) {
+    return replacements.get(normalized);
+  }
+  return normalized
+    .replace(/[^a-z0-9_]+/g, "")
+    .replace(/(ing|ed|ions|ion|s)$/u, "");
+}
+
+function tokenize(text) {
+  return String(text)
+    .split(/[^a-zA-Z0-9_]+/u)
+    .map(normalizeToken)
+    .filter((token) => token.length >= 3);
+}
+
+function objectText(object) {
+  return [
+    object.id,
+    object.kind,
+    object.title,
+    object.summary,
+    object.profile
+  ].join(" ");
+}
+
+function scoreObject(object, taskTokens) {
+  const text = tokenize(objectText(object));
+  const textSet = new Set(text);
+  let score = 0;
+  for (const token of taskTokens) {
+    if (textSet.has(token)) {
+      score += 3;
+    } else if (text.some((candidate) => candidate.includes(token) || token.includes(candidate))) {
+      score += 1;
+    }
+  }
+  if (object.kind === "evidence") {
+    score -= 1;
+  }
+  if (object.kind === "governance_gate" || object.id.startsWith("gate.")) {
+    score += 1;
+  }
+  return score;
+}
+
 function buildContextPack(packageDir, taskId) {
   const manifestPath = path.join(packageDir, "growgraph-package.json");
   const manifest = fs.existsSync(manifestPath) ? readJson(manifestPath) : null;
@@ -22,28 +81,54 @@ function buildContextPack(packageDir, taskId) {
     : path.join(packageDir, "graph", "relations.json");
   const objects = readJson(objectsPath);
   const relations = readJson(relationsPath);
-  const objectIds = objects.map((object) => object.id);
-  const relationIds = relations.map((relation) => relation.id);
+  const taskTokens = tokenize(taskId);
+  const directMatches = objects
+    .map((object) => ({ object, score: scoreObject(object, taskTokens) }))
+    .filter((entry) => entry.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .map((entry) => entry.object);
+
+  const selectedIds = new Set(directMatches.map((object) => object.id));
+  const relevantRelations = relations.filter((relation) => (
+    selectedIds.has(relation.source) || selectedIds.has(relation.target)
+  ));
+
+  for (const relation of relevantRelations) {
+    selectedIds.add(relation.source);
+    selectedIds.add(relation.target);
+  }
+
+  const selectedObjects = objects.filter((object) => (
+    selectedIds.has(object.id) ||
+    (object.kind === "evidence" && objects.some((selected) => (
+      selectedIds.has(selected.id) && Array.isArray(selected.evidence) && selected.evidence.includes(object.id)
+    )))
+  ));
+  const selectedObjectIds = selectedObjects.map((object) => object.id);
+  const relationIds = relevantRelations.map((relation) => relation.id);
   const evidence = Array.from(new Set([
-    ...objects.flatMap((object) => object.evidence || []),
-    ...relations.flatMap((relation) => relation.evidence || [])
+    ...selectedObjects.flatMap((object) => object.evidence || []),
+    ...relevantRelations.flatMap((relation) => relation.evidence || [])
   ]));
+  const omittedObjects = objects
+    .filter((object) => !selectedObjectIds.includes(object.id))
+    .map((object) => object.id);
 
   return {
     id: `context_pack.${taskId.replace(/[^a-zA-Z0-9_]+/g, "_")}`,
     task_id: taskId,
     source_graph: manifest ? manifest.id : packageDir,
     generated_at: new Date().toISOString(),
-    included_objects: objectIds,
+    included_objects: selectedObjectIds,
     included_relations: relationIds,
     evidence,
     assumptions: [
-      "Alpha generator includes the full package graph; task-specific selection is not implemented yet."
+      "Alpha generator uses token matching plus one-hop relation expansion."
     ],
-    omissions: [],
+    omissions: omittedObjects,
     limitations: [
       "Generated context pack is not canonical state.",
-      "This alpha generator does not score relevance or semantic completeness."
+      "This alpha generator does not prove semantic completeness."
     ]
   };
 }

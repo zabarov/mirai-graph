@@ -80,8 +80,9 @@ does not yet explain:
 
 ### Tooling Gap
 
-The context-pack generator includes the full graph. It does not yet select
-task-relevant objects and relations.
+The context-pack generator now uses token matching and one-hop relation
+expansion, but it does not yet score semantic completeness or explain why each
+selected object is necessary.
 
 ### Research Gap
 
@@ -113,7 +114,7 @@ It does not support claims about:
 ## Recommended Next Actions
 
 1. Add a worked tutorial from graph seed to validated package.
-2. Improve task-specific context selection.
+2. Improve context-pack relevance scoring and selection explanations.
 3. Add project-management profile documentation.
 4. Add action/gate result examples.
 5. Run a second pilot on a software-specification workflow.

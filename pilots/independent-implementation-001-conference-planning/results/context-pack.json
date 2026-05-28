@@ -2,7 +2,7 @@
   "id": "context_pack.task_prepare_speaker_schedule",
   "task_id": "task.prepare_speaker_schedule",
   "source_graph": "package.conference_planning_pilot_001",
-  "generated_at": "2026-05-28T17:54:11.386Z",
+  "generated_at": "2026-05-28T18:13:04.949Z",
   "included_objects": [
     "source.conference_brief",
     "system.community_conference",
@@ -25,11 +25,11 @@
     "source.conference_brief"
   ],
   "assumptions": [
-    "Alpha generator includes the full package graph; task-specific selection is not implemented yet."
+    "Alpha generator uses token matching plus one-hop relation expansion."
   ],
   "omissions": [],
   "limitations": [
     "Generated context pack is not canonical state.",
-    "This alpha generator does not score relevance or semantic completeness."
+    "This alpha generator does not prove semantic completeness."
   ]
 }

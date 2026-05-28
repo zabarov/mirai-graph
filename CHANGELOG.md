@@ -2,6 +2,25 @@
 
 All notable changes to GrowGraph will be documented in this file.
 
+## [0.1.0-alpha.2] - 2026-05-28
+
+### Added
+
+- Context-pack generator now uses token matching and one-hop relation
+  expansion instead of always including the full graph.
+- Initial project-management profile documentation.
+
+### Validation
+
+- `npm run release:check` validates the updated context-pack generator and
+  existing alpha fixtures.
+
+### Limitations
+
+- Context-pack relevance is still heuristic.
+- The generator does not yet explain why each selected object is necessary.
+- Semantic completeness still requires reviewer protocol execution.
+
 ## [0.1.0-alpha.1] - 2026-05-28
 
 ### Added

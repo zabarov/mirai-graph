@@ -77,10 +77,10 @@ Expected:
 node packages/cli/context-pack.js pilots/independent-implementation-001-conference-planning --task-id task.prepare_speaker_schedule
 ```
 
-Current alpha limitation:
+Current alpha behavior:
 
-The generator includes the full package graph. It does not yet perform
-task-specific relevance selection.
+The generator uses token matching and one-hop relation expansion. It remains an
+alpha generator and does not prove semantic completeness.
 
 ## 6. Score Readiness
 

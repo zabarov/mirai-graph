@@ -109,8 +109,9 @@ Planned artifacts:
 ## Near-Term Work
 
 1. Map practical `$graph` capabilities to public GrowGraph standard sections.
-2. Add richer context-pack selection.
-3. Add project-management profile documentation.
-4. Prepare v0.1.0-alpha.2 scope.
-5. Run a second independent pilot on software specification.
-6. Add profile conformance fixtures.
+2. Add context-pack relevance scoring and selection explanations.
+3. Run a second independent pilot on software specification.
+4. Add profile conformance fixtures.
+5. Add semantic completeness review fixture/result for the benchmark context pack.
+6. Add GitHub release notes publication process.
+7. Prepare v0.1.0-alpha.3 scope.
