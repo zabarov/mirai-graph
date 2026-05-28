@@ -110,8 +110,12 @@ Examples:
 
 ## Next Transfer Batch
 
-1. Create context-pack schema.
-2. Create profile manifest schema.
-3. Draft graph seed and graph embryo public method.
+1. Draft graph DNA, graph seed and graph embryo public standard sections.
+2. Create graph seed and graph embryo schemas.
+3. Extend the CLI with seed validation.
 4. Draft measure-convert-optimize experiment protocol.
-5. Add a standard gap report comparing public GrowGraph to practical `$graph`.
+5. Add profile manifests for the first public profiles.
+
+Current gap report:
+
+`docs/transfer/standard-gap-report-2026-05-28.md`

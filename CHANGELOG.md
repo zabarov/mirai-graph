@@ -33,6 +33,8 @@ All notable changes to GrowGraph will be documented in this file.
 - Contribution guide.
 - Practice-and-science program note.
 - Initial `$graph` skill to GrowGraph transfer map.
+- Initial standard gap report comparing practical `$graph` methodology with
+  public GrowGraph.
 
 ### Validation
 
