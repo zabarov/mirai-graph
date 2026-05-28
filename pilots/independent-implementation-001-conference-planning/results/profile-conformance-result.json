@@ -1,0 +1,28 @@
+{
+  "schema_version": "0.1.0",
+  "result_id": "profile_conformance.package.conference_planning_pilot_001",
+  "checked_at": "2026-05-29",
+  "fixture": "pilots/independent-implementation-001-conference-planning/",
+  "package_id": "package.conference_planning_pilot_001",
+  "profile": "project_management",
+  "conformance_level": "level_1",
+  "validator": "packages/cli/validate-growgraph.js",
+  "command": "node packages/cli/validate-growgraph.js pilots/independent-implementation-001-conference-planning",
+  "valid": true,
+  "errors": [],
+  "warnings": [],
+  "checks": [
+    "required package, object, relation and gate-result fields",
+    "unique object and relation ids",
+    "relation source and target existence",
+    "relation id consistency",
+    "readiness and gate verdict values",
+    "project_management object-kind conformance",
+    "project_management relation-type conformance"
+  ],
+  "claim_supported": "The package follows the declared GrowGraph profile shape checked by the current validator.",
+  "limitations": [
+    "This result does not prove semantic completeness, usefulness or downstream task performance.",
+    "The pilot package is synthetic public-safe evidence."
+  ]
+}

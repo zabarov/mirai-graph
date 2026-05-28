@@ -1,0 +1,26 @@
+{
+  "schema_version": "0.1.0",
+  "result_id": "profile_conformance.package.minimal_graph",
+  "checked_at": "2026-05-29",
+  "fixture": "examples/minimal-graph/",
+  "package_id": "package.minimal_graph",
+  "profile": "core",
+  "conformance_level": "level_1",
+  "validator": "packages/cli/validate-growgraph.js",
+  "command": "node packages/cli/validate-growgraph.js examples/minimal-graph",
+  "valid": true,
+  "errors": [],
+  "warnings": [],
+  "checks": [
+    "required package, object, relation and gate-result fields",
+    "unique object and relation ids",
+    "relation source and target existence",
+    "relation id consistency",
+    "readiness and gate verdict values",
+    "core object-kind and relation-type conformance"
+  ],
+  "claim_supported": "The package follows the declared GrowGraph profile shape checked by the current validator.",
+  "limitations": [
+    "This result does not prove semantic completeness, usefulness or downstream task performance."
+  ]
+}

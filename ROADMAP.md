@@ -109,5 +109,4 @@ Planned artifacts:
 ## Near-Term Work
 
 1. Map practical `$graph` capabilities to public GrowGraph standard sections.
-2. Add positive profile conformance fixture result artifacts.
-3. Prepare v0.1.0-alpha.4 scope.
+2. Prepare v0.1.0-alpha.4 scope.

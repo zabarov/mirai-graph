@@ -21,6 +21,13 @@ Positive fixtures are packages expected to pass validation.
 | `benchmarks/synthetic-context-reduction-v0/` | `software_specification` | Synthetic benchmark package for context-pack generation and semantic review. |
 | `examples/minimal-graph/` | `core` | Minimal core package shape. |
 
+Stored positive result artifacts:
+
+- `examples/minimal-graph/results/profile-conformance-result.json`;
+- `benchmarks/synthetic-context-reduction-v0/results/profile-conformance-result.json`;
+- `pilots/independent-implementation-001-conference-planning/results/profile-conformance-result.json`;
+- `pilots/independent-implementation-002-software-specification/results/profile-conformance-result.json`.
+
 ## Negative Fixtures
 
 Negative fixtures are packages expected to fail validation.
@@ -44,6 +51,12 @@ Run only public pilot validation:
 
 ```bash
 npm run validate:pilots
+```
+
+Run positive fixture result checks:
+
+```bash
+npm run validate:profile-results
 ```
 
 Run negative fixture checks:

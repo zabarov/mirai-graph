@@ -11,11 +11,14 @@ All notable changes to GrowGraph will be documented in this file.
 - Context-pack validation mode for checking generated pack metadata,
   graph references and selection explanation coverage.
 - Negative fixture for missing context-pack selection explanations.
+- Positive profile conformance result artifacts for core, project-management
+  and software-specification fixtures.
 
 ### Changed
 
 - Context-pack schema and standard now describe selection explanation metadata.
 - `npm test` now validates public benchmark and pilot context-pack artifacts.
+- `npm test` now checks stored positive profile conformance result artifacts.
 
 ## [0.1.0-alpha.3] - 2026-05-28
 

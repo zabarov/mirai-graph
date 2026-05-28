@@ -1,0 +1,28 @@
+{
+  "schema_version": "0.1.0",
+  "result_id": "profile_conformance.package.notification_api_spec_pilot_002",
+  "checked_at": "2026-05-29",
+  "fixture": "pilots/independent-implementation-002-software-specification/",
+  "package_id": "package.notification_api_spec_pilot_002",
+  "profile": "software_specification",
+  "conformance_level": "level_1",
+  "validator": "packages/cli/validate-growgraph.js",
+  "command": "node packages/cli/validate-growgraph.js pilots/independent-implementation-002-software-specification",
+  "valid": true,
+  "errors": [],
+  "warnings": [],
+  "checks": [
+    "required package, object, relation and gate-result fields",
+    "unique object and relation ids",
+    "relation source and target existence",
+    "relation id consistency",
+    "readiness and gate verdict values",
+    "software_specification object-kind conformance",
+    "software_specification relation-type conformance"
+  ],
+  "claim_supported": "The package follows the declared GrowGraph profile shape checked by the current validator.",
+  "limitations": [
+    "This result does not prove semantic completeness, usefulness or downstream task performance.",
+    "The pilot package is synthetic public-safe evidence."
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "schema_version": "0.1.0",
+  "result_id": "profile_conformance.package.synthetic_context_reduction_v0",
+  "checked_at": "2026-05-29",
+  "fixture": "benchmarks/synthetic-context-reduction-v0/",
+  "package_id": "package.synthetic_context_reduction_v0",
+  "profile": "software_specification",
+  "conformance_level": "level_1",
+  "validator": "packages/cli/validate-growgraph.js",
+  "command": "node packages/cli/validate-growgraph.js benchmarks/synthetic-context-reduction-v0",
+  "valid": true,
+  "errors": [],
+  "warnings": [],
+  "checks": [
+    "required package, object, relation and gate-result fields",
+    "unique object and relation ids",
+    "relation source and target existence",
+    "relation id consistency",
+    "readiness and gate verdict values",
+    "software_specification object-kind conformance",
+    "software_specification relation-type conformance"
+  ],
+  "claim_supported": "The package follows the declared GrowGraph profile shape checked by the current validator.",
+  "limitations": [
+    "This result does not prove semantic completeness, usefulness or downstream task performance.",
+    "The benchmark package is synthetic public-safe evidence."
+  ]
+}
