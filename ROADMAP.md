@@ -110,5 +110,4 @@ Planned artifacts:
 
 1. Map practical `$graph` capabilities to public GrowGraph standard sections.
 2. Add context-pack relevance scoring and selection explanations.
-3. Add GitHub release notes publication process.
-4. Prepare v0.1.0-alpha.3 scope.
+3. Prepare v0.1.0-alpha.3 scope.

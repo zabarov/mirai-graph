@@ -48,14 +48,24 @@ When changing standard text:
 Run before submitting:
 
 ```bash
-npm test
+npm run release:check
 ```
 
 The current test suite validates:
 
-- the minimal graph example;
-- the synthetic benchmark graph package;
-- the synthetic context-reduction calculation.
+- package, seed, profile and pilot validation;
+- context-pack generation;
+- readiness scoring;
+- synthetic context-reduction calculation;
+- negative fixtures;
+- whitespace checks.
+
+## Release Contributions
+
+Release preparation must follow [Release Process](releases/README.md).
+
+Do not publish release notes that imply stronger evidence than the repository
+contains.
 
 ## Documentation Style
 

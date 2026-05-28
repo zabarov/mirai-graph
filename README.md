@@ -62,6 +62,7 @@ publications/ Publication links, citation notes and reproducibility records.
 - [Roadmap](ROADMAP.md)
 - [Changelog](CHANGELOG.md)
 - [Contributing](CONTRIBUTING.md)
+- [Release Process](releases/README.md)
 - [Concept](docs/concept.md)
 - [Terminology](docs/terminology.md)
 - [Getting Started](docs/adoption/getting-started.md)

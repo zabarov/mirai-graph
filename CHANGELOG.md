@@ -18,6 +18,7 @@ All notable changes to GrowGraph will be documented in this file.
   and software-specification pilot context packs.
 - Safety-context inclusion policy for context-pack generation.
 - Profile conformance fixture guide.
+- Public release process and GitHub Release notes policy.
 
 ### Research Notes
 
