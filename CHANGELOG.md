@@ -4,6 +4,8 @@ All notable changes to GrowGraph will be documented in this file.
 
 ## [Unreleased]
 
+## [0.1.0-alpha.4] - 2026-05-29
+
 ### Added
 
 - Context-pack selection explanations with object relevance scores and relation
