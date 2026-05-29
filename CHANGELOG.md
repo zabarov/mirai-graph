@@ -15,6 +15,12 @@ All notable changes to GrowGraph will be documented in this file.
   and software-specification fixtures.
 - Public capability map from practical `$graph` areas to GrowGraph standard,
   schema, tooling, profile and research artifacts.
+- Alpha `ai_employee` profile for modeling AI employees, roles, skills,
+  knowledge, memory, tools, policies, workflows, actions, feedback, lessons
+  and federation endpoints.
+- Graph-as-AI-brain, action/runtime boundary and feedback learning gate
+  standard drafts.
+- Minimal synthetic AI employee fixture and adoption guide.
 
 ### Changed
 
@@ -23,6 +29,7 @@ All notable changes to GrowGraph will be documented in this file.
 - `npm test` now checks stored positive profile conformance result artifacts.
 - Transfer documentation now distinguishes the historical gap report from the
   current public capability map.
+- `npm test` now validates the AI employee profile and minimal fixture.
 
 ## [0.1.0-alpha.3] - 2026-05-28
 

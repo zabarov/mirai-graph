@@ -50,6 +50,9 @@ Do not transfer:
 | Safety-sensitive context inclusion | context-pack generation policy and semantic review artifacts | partial | Turn safety inclusion into an explicit standard subsection. |
 | Governance gates | `standard/governance.md`, gate result schema and examples | partial | Add proposal/approval flow with dry-run and apply boundaries. |
 | Profiles | `standard/profiles.md`, `profiles/`, profile validation and profile conformance fixtures | covered with notes | Add organization-governance, research-program and human-AI profiles later. |
+| AI employee graph-as-brain | `profiles/ai-employee/`, `standard/graph-as-ai-brain.md`, `examples/ai-employee-minimal/` | alpha | Validate through Larena/AI pilot before making stronger runtime claims. |
+| Action/runtime boundary | `standard/action-runtime-boundary.md`, AI employee fixture approval gate | alpha | Add proposal/action/result schemas after runtime patterns stabilize. |
+| Feedback learning gate | `standard/feedback-learning-gate.md`, AI employee fixture feedback and lesson proposal | alpha | Add replay/evaluation result artifact schema. |
 | Profile conformance evidence | positive and negative fixtures, `validate-profile-results.js` | covered | Keep stored results regenerated before releases. |
 | Test suite and conformance levels | `standard/test-suite.md`, `standard/conformance-levels.md`, `npm run release:check` | covered with notes | Split release checks into named conformance levels. |
 | Context reduction benchmark | `benchmarks/synthetic-context-reduction-v0/` and result artifacts | covered with limits | Add more benchmark tasks and ablation protocols. |

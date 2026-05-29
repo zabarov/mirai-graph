@@ -6,6 +6,7 @@ Current public profiles:
 
 - [software-specification](software-specification/README.md)
 - [project-management](project-management/README.md)
+- [ai-employee](ai-employee/README.md)
 
 Each profile declares allowed object kinds, relation types, default readiness
 and governance gates.

@@ -1,0 +1,167 @@
+[
+  {
+    "id": "relation.employee.support_assistant.belongs_to_department.department.support",
+    "type": "belongs_to_department",
+    "source": "employee.support_assistant",
+    "target": "department.support",
+    "readiness": "accepted",
+    "evidence": [
+      "evidence.ai_employee_brief"
+    ],
+    "profile": "ai_employee"
+  },
+  {
+    "id": "relation.employee.support_assistant.has_role.role.support_triage",
+    "type": "has_role",
+    "source": "employee.support_assistant",
+    "target": "role.support_triage",
+    "readiness": "accepted",
+    "evidence": [
+      "evidence.ai_employee_brief"
+    ],
+    "profile": "ai_employee"
+  },
+  {
+    "id": "relation.role.support_triage.has_skill.skill.ticket_classification",
+    "type": "has_skill",
+    "source": "role.support_triage",
+    "target": "skill.ticket_classification",
+    "readiness": "accepted",
+    "evidence": [
+      "evidence.ai_employee_brief"
+    ],
+    "profile": "ai_employee"
+  },
+  {
+    "id": "relation.skill.ticket_classification.uses_knowledge.knowledge.support_policy",
+    "type": "uses_knowledge",
+    "source": "skill.ticket_classification",
+    "target": "knowledge.support_policy",
+    "readiness": "review_ready",
+    "evidence": [
+      "evidence.ai_employee_brief"
+    ],
+    "profile": "ai_employee"
+  },
+  {
+    "id": "relation.skill.ticket_classification.uses_knowledge.memory.recent_ticket_patterns",
+    "type": "uses_knowledge",
+    "source": "skill.ticket_classification",
+    "target": "memory.recent_ticket_patterns",
+    "readiness": "draft",
+    "evidence": [
+      "evidence.ai_employee_brief"
+    ],
+    "profile": "ai_employee"
+  },
+  {
+    "id": "relation.action.propose_status_update.requires_capability.capability.update_ticket_status",
+    "type": "requires_capability",
+    "source": "action.propose_status_update",
+    "target": "capability.update_ticket_status",
+    "readiness": "review_ready",
+    "evidence": [
+      "evidence.ai_employee_brief"
+    ],
+    "profile": "ai_employee"
+  },
+  {
+    "id": "relation.tool.ticket_api.can_execute.action.propose_status_update",
+    "type": "can_execute",
+    "source": "tool.ticket_api",
+    "target": "action.propose_status_update",
+    "readiness": "review_ready",
+    "evidence": [
+      "evidence.ai_employee_brief"
+    ],
+    "profile": "ai_employee"
+  },
+  {
+    "id": "relation.action.propose_status_update.requires_approval.gate.external_action_approval",
+    "type": "requires_approval",
+    "source": "action.propose_status_update",
+    "target": "gate.external_action_approval",
+    "readiness": "accepted",
+    "evidence": [
+      "evidence.ai_employee_brief"
+    ],
+    "profile": "ai_employee"
+  },
+  {
+    "id": "relation.policy.approval_before_external_action.governs.gate.external_action_approval",
+    "type": "governs",
+    "source": "policy.approval_before_external_action",
+    "target": "gate.external_action_approval",
+    "readiness": "accepted",
+    "evidence": [
+      "evidence.ai_employee_brief"
+    ],
+    "profile": "ai_employee"
+  },
+  {
+    "id": "relation.workflow.ticket_triage.triggered_by.employee.support_assistant",
+    "type": "triggered_by",
+    "source": "workflow.ticket_triage",
+    "target": "employee.support_assistant",
+    "readiness": "review_ready",
+    "evidence": [
+      "evidence.ai_employee_brief"
+    ],
+    "profile": "ai_employee"
+  },
+  {
+    "id": "relation.action.propose_status_update.produces.result.status_update_audited",
+    "type": "produces",
+    "source": "action.propose_status_update",
+    "target": "result.status_update_audited",
+    "readiness": "draft",
+    "evidence": [
+      "evidence.ai_employee_brief"
+    ],
+    "profile": "ai_employee"
+  },
+  {
+    "id": "relation.feedback.status_update_review.responds_to.result.status_update_audited",
+    "type": "responds_to",
+    "source": "feedback.status_update_review",
+    "target": "result.status_update_audited",
+    "readiness": "draft",
+    "evidence": [
+      "evidence.ai_employee_brief"
+    ],
+    "profile": "ai_employee"
+  },
+  {
+    "id": "relation.lesson.require_clear_status_reason.learns_from.feedback.status_update_review",
+    "type": "learns_from",
+    "source": "lesson.require_clear_status_reason",
+    "target": "feedback.status_update_review",
+    "readiness": "review_ready",
+    "evidence": [
+      "evidence.ai_employee_brief"
+    ],
+    "profile": "ai_employee"
+  },
+  {
+    "id": "relation.lesson.require_clear_status_reason.updates_behavior.workflow.ticket_triage",
+    "type": "updates_behavior",
+    "source": "lesson.require_clear_status_reason",
+    "target": "workflow.ticket_triage",
+    "readiness": "review_ready",
+    "evidence": [
+      "evidence.ai_employee_brief"
+    ],
+    "profile": "ai_employee"
+  },
+  {
+    "id": "relation.employee.support_assistant.federates_with.endpoint.ai_service_federation",
+    "type": "federates_with",
+    "source": "employee.support_assistant",
+    "target": "endpoint.ai_service_federation",
+    "readiness": "draft",
+    "evidence": [
+      "evidence.ai_employee_brief"
+    ],
+    "profile": "ai_employee"
+  }
+]

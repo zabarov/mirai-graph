@@ -74,6 +74,9 @@ The public standard is expected to contain:
 - [Evidence And Provenance](evidence-provenance.md)
 - `context-pack-generation.md`
 - [Governance](governance.md)
+- [Graph As AI Brain](graph-as-ai-brain.md)
+- [Action Runtime Boundary](action-runtime-boundary.md)
+- [Feedback Learning Gate](feedback-learning-gate.md)
 - [Profiles](profiles.md)
 - [Conformance Levels](conformance-levels.md)
 - [Test Suite](test-suite.md)

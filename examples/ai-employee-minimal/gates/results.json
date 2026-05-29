@@ -1,0 +1,35 @@
+[
+  {
+    "id": "gate_result.ai_employee_minimal.public_safety",
+    "gate_id": "public_safety_before_release",
+    "target_id": "package.ai_employee_minimal",
+    "verdict": "pass_with_notes",
+    "summary": "The fixture is synthetic and contains no private runtime, customer, employee or secret material.",
+    "reviewed_at": "2026-05-29",
+    "evidence": [
+      "evidence.ai_employee_brief"
+    ]
+  },
+  {
+    "id": "gate_result.ai_employee_minimal.action_boundary",
+    "gate_id": "approval_before_external_action",
+    "target_id": "action.propose_status_update",
+    "verdict": "pass_with_notes",
+    "summary": "The proposed action is modeled as requiring an approval gate before execution.",
+    "reviewed_at": "2026-05-29",
+    "evidence": [
+      "evidence.ai_employee_brief"
+    ]
+  },
+  {
+    "id": "gate_result.ai_employee_minimal.feedback_learning",
+    "gate_id": "feedback_learning_before_behavior_update",
+    "target_id": "lesson.require_clear_status_reason",
+    "verdict": "needs_more_evidence",
+    "summary": "The lesson is represented as a review-ready proposal, not an automatically accepted behavior update.",
+    "reviewed_at": "2026-05-29",
+    "evidence": [
+      "evidence.ai_employee_brief"
+    ]
+  }
+]

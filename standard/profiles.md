@@ -22,6 +22,7 @@ Example profiles:
 - `organization_governance`;
 - `research_program`;
 - `human_ai_system`;
+- `ai_employee`;
 - `public_sector_governance`.
 
 ## Profile Rules
@@ -78,6 +79,45 @@ Possible relation types:
 - evidences;
 - generates;
 - related_to.
+
+## AI Employee Profile
+
+Initial alpha profile for modeling AI employees as governed runtimes over an
+evolutionary graph.
+
+Possible object kinds:
+
+- ai_employee;
+- ai_department;
+- role;
+- skill;
+- knowledge;
+- memory;
+- tool;
+- capability;
+- policy;
+- workflow;
+- action;
+- result;
+- feedback;
+- lesson;
+- governance_gate;
+- federation_endpoint.
+
+Possible relation types:
+
+- has_role;
+- has_skill;
+- uses_knowledge;
+- requires_capability;
+- can_execute;
+- requires_approval;
+- triggered_by;
+- responds_to;
+- learns_from;
+- updates_behavior;
+- belongs_to_department;
+- federates_with.
 
 ## Profile Conformance
 

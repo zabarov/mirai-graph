@@ -108,4 +108,6 @@ Planned artifacts:
 
 ## Near-Term Work
 
-1. Prepare v0.1.0-alpha.4 scope.
+1. Prepare v0.1.0-alpha.4 release notes and tag.
+2. Validate AI employee profile through a Larena/AI pilot.
+3. Draft proposal/action/result schemas for action-capable profiles.

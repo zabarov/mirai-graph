@@ -1,0 +1,187 @@
+[
+  {
+    "id": "evidence.ai_employee_brief",
+    "kind": "evidence",
+    "title": "Synthetic AI Employee Brief",
+    "summary": "Public-safe synthetic brief for the minimal AI employee profile fixture.",
+    "readiness": "accepted",
+    "evidence": [],
+    "profile": "ai_employee"
+  },
+  {
+    "id": "department.support",
+    "kind": "ai_department",
+    "title": "Support Department",
+    "summary": "Synthetic department that owns the AI support employee.",
+    "readiness": "accepted",
+    "evidence": [
+      "evidence.ai_employee_brief"
+    ],
+    "profile": "ai_employee"
+  },
+  {
+    "id": "employee.support_assistant",
+    "kind": "ai_employee",
+    "title": "Support Assistant",
+    "summary": "Synthetic AI employee that helps triage support requests through governed actions.",
+    "readiness": "accepted",
+    "evidence": [
+      "evidence.ai_employee_brief"
+    ],
+    "profile": "ai_employee"
+  },
+  {
+    "id": "role.support_triage",
+    "kind": "role",
+    "title": "Support Triage Role",
+    "summary": "Role responsible for classifying requests, preparing answers and escalating risky cases.",
+    "readiness": "accepted",
+    "evidence": [
+      "evidence.ai_employee_brief"
+    ],
+    "profile": "ai_employee"
+  },
+  {
+    "id": "skill.ticket_classification",
+    "kind": "skill",
+    "title": "Ticket Classification",
+    "summary": "Skill for classifying support requests by topic, urgency and required owner.",
+    "readiness": "accepted",
+    "evidence": [
+      "evidence.ai_employee_brief"
+    ],
+    "profile": "ai_employee"
+  },
+  {
+    "id": "knowledge.support_policy",
+    "kind": "knowledge",
+    "title": "Support Policy Knowledge",
+    "summary": "Knowledge object that references the public-safe support policy used by the AI employee.",
+    "readiness": "review_ready",
+    "evidence": [
+      "evidence.ai_employee_brief"
+    ],
+    "profile": "ai_employee"
+  },
+  {
+    "id": "memory.recent_ticket_patterns",
+    "kind": "memory",
+    "title": "Recent Ticket Patterns",
+    "summary": "Memory object for reviewed patterns from recent support work.",
+    "readiness": "draft",
+    "evidence": [
+      "evidence.ai_employee_brief"
+    ],
+    "profile": "ai_employee"
+  },
+  {
+    "id": "tool.ticket_api",
+    "kind": "tool",
+    "title": "Ticket API",
+    "summary": "Tool adapter used by runtime to read and update support tickets.",
+    "readiness": "review_ready",
+    "evidence": [
+      "evidence.ai_employee_brief"
+    ],
+    "profile": "ai_employee"
+  },
+  {
+    "id": "capability.update_ticket_status",
+    "kind": "capability",
+    "title": "Update Ticket Status",
+    "summary": "Capability required before the runtime may update a ticket status through the Ticket API.",
+    "readiness": "review_ready",
+    "evidence": [
+      "evidence.ai_employee_brief"
+    ],
+    "profile": "ai_employee"
+  },
+  {
+    "id": "policy.approval_before_external_action",
+    "kind": "policy",
+    "title": "Approval Before External Action",
+    "summary": "Policy requiring approval before the AI employee performs external or user-visible actions.",
+    "readiness": "accepted",
+    "evidence": [
+      "evidence.ai_employee_brief"
+    ],
+    "profile": "ai_employee"
+  },
+  {
+    "id": "gate.external_action_approval",
+    "kind": "governance_gate",
+    "title": "External Action Approval Gate",
+    "summary": "Governance gate that separates proposed actions from executed actions.",
+    "readiness": "accepted",
+    "evidence": [
+      "evidence.ai_employee_brief"
+    ],
+    "profile": "ai_employee"
+  },
+  {
+    "id": "workflow.ticket_triage",
+    "kind": "workflow",
+    "title": "Ticket Triage Workflow",
+    "summary": "Workflow for classifying a support ticket, preparing a proposed action and recording the result.",
+    "readiness": "review_ready",
+    "evidence": [
+      "evidence.ai_employee_brief"
+    ],
+    "profile": "ai_employee"
+  },
+  {
+    "id": "action.propose_status_update",
+    "kind": "action",
+    "title": "Propose Status Update",
+    "summary": "Proposed runtime action to update a support ticket status after policy and approval checks.",
+    "readiness": "review_ready",
+    "evidence": [
+      "evidence.ai_employee_brief"
+    ],
+    "profile": "ai_employee"
+  },
+  {
+    "id": "result.status_update_audited",
+    "kind": "result",
+    "title": "Status Update Audited Result",
+    "summary": "Audited result recording whether the approved status update matched the expected outcome.",
+    "readiness": "draft",
+    "evidence": [
+      "evidence.ai_employee_brief"
+    ],
+    "profile": "ai_employee"
+  },
+  {
+    "id": "feedback.status_update_review",
+    "kind": "feedback",
+    "title": "Status Update Review Feedback",
+    "summary": "Feedback from reviewing the audited result of the ticket status update.",
+    "readiness": "draft",
+    "evidence": [
+      "evidence.ai_employee_brief"
+    ],
+    "profile": "ai_employee"
+  },
+  {
+    "id": "lesson.require_clear_status_reason",
+    "kind": "lesson",
+    "title": "Require Clear Status Reason",
+    "summary": "Proposed lesson that future ticket status updates should include a clear user-visible reason.",
+    "readiness": "review_ready",
+    "evidence": [
+      "evidence.ai_employee_brief"
+    ],
+    "profile": "ai_employee"
+  },
+  {
+    "id": "endpoint.ai_service_federation",
+    "kind": "federation_endpoint",
+    "title": "AI Service Federation Endpoint",
+    "summary": "Placeholder endpoint showing how this AI employee could federate with another AI service.",
+    "readiness": "draft",
+    "evidence": [
+      "evidence.ai_employee_brief"
+    ],
+    "profile": "ai_employee"
+  }
+]

@@ -19,11 +19,13 @@ Positive fixtures are packages expected to pass validation.
 | `pilots/independent-implementation-001-conference-planning/` | `project_management` | Small workflow package using goals, tasks, decisions, risks and governance gates. |
 | `pilots/independent-implementation-002-software-specification/` | `software_specification` | Small software package using requirements, features, components, tasks, risks, constraints and decisions. |
 | `benchmarks/synthetic-context-reduction-v0/` | `software_specification` | Synthetic benchmark package for context-pack generation and semantic review. |
+| `examples/ai-employee-minimal/` | `ai_employee` | Synthetic AI employee package using role, skill, knowledge, tool, policy, action boundary, feedback and learning gate. |
 | `examples/minimal-graph/` | `core` | Minimal core package shape. |
 
 Stored positive result artifacts:
 
 - `examples/minimal-graph/results/profile-conformance-result.json`;
+- `examples/ai-employee-minimal/results/profile-conformance-result.json`;
 - `benchmarks/synthetic-context-reduction-v0/results/profile-conformance-result.json`;
 - `pilots/independent-implementation-001-conference-planning/results/profile-conformance-result.json`;
 - `pilots/independent-implementation-002-software-specification/results/profile-conformance-result.json`.
