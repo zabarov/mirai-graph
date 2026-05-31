@@ -72,6 +72,10 @@ publications/ Publication links, citation notes and reproducibility records.
 - [Standard Gap Report](docs/transfer/standard-gap-report-2026-05-28.md)
 - [Standard v0.1 Draft](standard/standard-v0.1.md)
 - [Graph Seed](standard/graph-seed.md)
+- [Hybrid Source Of Truth](standard/hybrid-source-of-truth.md)
+- [Adoption Levels](standard/adoption-levels.md)
+- [Projection Views](standard/projection-views.md)
+- [Runtime Enablement](standard/runtime-enablement.md)
 - [Conformance Levels](standard/conformance-levels.md)
 - [Test Suite](standard/test-suite.md)
 - [Synthetic Context-Reduction Benchmark](benchmarks/synthetic-context-reduction-v0/README.md)
@@ -82,6 +86,7 @@ publications/ Publication links, citation notes and reproducibility records.
 - [Independent Implementation Pilot 002](pilots/independent-implementation-002-software-specification/reports/pilot-report.md)
 - [Profiles](profiles/README.md)
 - [AI Employee Graph Adoption](docs/adoption/ai-employee-graph.md)
+- [Skill Graph Standard Harvest](docs/transfer/skill-graph-standard-harvest-2026-05-31.md)
 
 ## Validate A Graph Package
 
@@ -91,8 +96,10 @@ Run the initial validator:
 node packages/cli/validate-growgraph.js examples/minimal-graph
 node packages/cli/validate-growgraph.js benchmarks/synthetic-context-reduction-v0
 node packages/cli/validate-growgraph.js examples/ai-employee-minimal
+node packages/cli/validate-growgraph.js examples/skill-runtime-minimal
 node packages/cli/validate-growgraph.js seed examples/graph-seed-minimal/graph-seed.json
 node packages/cli/validate-growgraph.js profile profiles/software-specification/profile.json
+node packages/cli/validate-growgraph.js profile profiles/skill-runtime/profile.json
 node packages/cli/validate-growgraph.js context-pack benchmarks/synthetic-context-reduction-v0 benchmarks/synthetic-context-reduction-v0/results/context-pack.json
 node packages/cli/seed-preview.js examples/graph-seed-minimal/graph-seed.json
 node packages/cli/context-pack.js benchmarks/synthetic-context-reduction-v0 --task-id task.notify_after_approval

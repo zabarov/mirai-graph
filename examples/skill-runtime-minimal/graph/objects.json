@@ -1,0 +1,209 @@
+[
+  {
+    "id": "evidence.skill_runtime_brief",
+    "kind": "evidence",
+    "title": "Synthetic Skill Runtime Brief",
+    "summary": "Public-safe synthetic brief for the minimal skill runtime fixture.",
+    "readiness": "accepted",
+    "evidence": [],
+    "profile": "skill_runtime"
+  },
+  {
+    "id": "domain.support_operations",
+    "kind": "owner_domain",
+    "title": "Support Operations Domain",
+    "summary": "Synthetic owner domain responsible for the skill boundary and operational judgement.",
+    "readiness": "accepted",
+    "evidence": [
+      "evidence.skill_runtime_brief"
+    ],
+    "profile": "skill_runtime"
+  },
+  {
+    "id": "skill.support_triage",
+    "kind": "skill",
+    "title": "Support Triage Skill",
+    "summary": "Synthetic skill that classifies requests and prepares governed next actions.",
+    "readiness": "accepted",
+    "evidence": [
+      "evidence.skill_runtime_brief"
+    ],
+    "profile": "skill_runtime"
+  },
+  {
+    "id": "capability.request_classification",
+    "kind": "capability",
+    "title": "Request Classification",
+    "summary": "Capability for classifying requests by topic, urgency and required owner.",
+    "readiness": "accepted",
+    "evidence": [
+      "evidence.skill_runtime_brief"
+    ],
+    "profile": "skill_runtime"
+  },
+  {
+    "id": "activity.triage_request",
+    "kind": "activity",
+    "title": "Triage Request",
+    "summary": "Activity that uses the classification capability to prepare a next-action recommendation.",
+    "readiness": "review_ready",
+    "evidence": [
+      "evidence.skill_runtime_brief"
+    ],
+    "profile": "skill_runtime"
+  },
+  {
+    "id": "rule.no_external_write_without_approval",
+    "kind": "rule",
+    "title": "No External Write Without Approval",
+    "summary": "Rule requiring approval before generated context leads to a user-visible or external write.",
+    "readiness": "accepted",
+    "evidence": [
+      "evidence.skill_runtime_brief"
+    ],
+    "profile": "skill_runtime"
+  },
+  {
+    "id": "source_boundary.hybrid_sot",
+    "kind": "source_boundary",
+    "title": "Hybrid Source Boundary",
+    "summary": "Boundary that keeps raw source material authoritative for domain meaning and sensitive rules.",
+    "readiness": "accepted",
+    "evidence": [
+      "evidence.skill_runtime_brief"
+    ],
+    "profile": "skill_runtime"
+  },
+  {
+    "id": "raw_source.skill_manual",
+    "kind": "raw_source",
+    "title": "Synthetic Skill Manual",
+    "summary": "Placeholder raw source that remains authoritative for detailed procedure and judgement.",
+    "readiness": "accepted",
+    "evidence": [
+      "evidence.skill_runtime_brief"
+    ],
+    "profile": "skill_runtime"
+  },
+  {
+    "id": "projection_view.gate_summary",
+    "kind": "projection_view",
+    "title": "Gate Summary Projection",
+    "summary": "Projection view exposing readiness, required gates, fallback and next action for the skill.",
+    "readiness": "review_ready",
+    "evidence": [
+      "evidence.skill_runtime_brief"
+    ],
+    "profile": "skill_runtime"
+  },
+  {
+    "id": "runtime_context.support_triage_compact",
+    "kind": "runtime_context",
+    "title": "Support Triage Compact Runtime Context",
+    "summary": "Generated compact context for routing and capability orientation in the declared task scope.",
+    "readiness": "review_ready",
+    "evidence": [
+      "evidence.skill_runtime_brief"
+    ],
+    "profile": "skill_runtime"
+  },
+  {
+    "id": "gate.semantic_preservation",
+    "kind": "quality_gate",
+    "title": "Semantic Preservation Gate",
+    "summary": "Gate checking that generated graph context preserves the meaning and safety boundary of the raw source.",
+    "readiness": "review_ready",
+    "evidence": [
+      "evidence.skill_runtime_brief"
+    ],
+    "profile": "skill_runtime"
+  },
+  {
+    "id": "semantic_review.support_triage",
+    "kind": "semantic_review",
+    "title": "Support Triage Semantic Review",
+    "summary": "Synthetic semantic review artifact for the fixture scope.",
+    "readiness": "draft",
+    "evidence": [
+      "evidence.skill_runtime_brief"
+    ],
+    "profile": "skill_runtime"
+  },
+  {
+    "id": "effectiveness_report.support_triage",
+    "kind": "effectiveness_report",
+    "title": "Support Triage Effectiveness Report",
+    "summary": "Synthetic effectiveness report comparing baseline and graph-assisted operation.",
+    "readiness": "draft",
+    "evidence": [
+      "evidence.skill_runtime_brief"
+    ],
+    "profile": "skill_runtime"
+  },
+  {
+    "id": "runtime_policy.compact_context_allowed",
+    "kind": "runtime_policy",
+    "title": "Compact Context Runtime Policy",
+    "summary": "Policy allowing compact graph context only for measured non-sensitive routing tasks.",
+    "readiness": "review_ready",
+    "evidence": [
+      "evidence.skill_runtime_brief"
+    ],
+    "profile": "skill_runtime"
+  },
+  {
+    "id": "fallback.raw_source_required",
+    "kind": "fallback",
+    "title": "Raw Source Required Fallback",
+    "summary": "Fallback requiring raw source review before sensitive, destructive or external actions.",
+    "readiness": "accepted",
+    "evidence": [
+      "evidence.skill_runtime_brief"
+    ],
+    "profile": "skill_runtime"
+  },
+  {
+    "id": "handoff.next_owner",
+    "kind": "handoff",
+    "title": "Next Owner Handoff",
+    "summary": "Handoff object that records the next owner and acceptance expectation after graph-assisted triage.",
+    "readiness": "review_ready",
+    "evidence": [
+      "evidence.skill_runtime_brief"
+    ],
+    "profile": "skill_runtime"
+  },
+  {
+    "id": "adoption_report.gga7_candidate",
+    "kind": "adoption_report",
+    "title": "GGA7 Candidate Adoption Report",
+    "summary": "Synthetic adoption report showing staged evidence before federation integration.",
+    "readiness": "draft",
+    "evidence": [
+      "evidence.skill_runtime_brief"
+    ],
+    "profile": "skill_runtime"
+  },
+  {
+    "id": "federation_contract.support_triage",
+    "kind": "federation_contract",
+    "title": "Support Triage Federation Contract",
+    "summary": "Placeholder federation contract exposing bounded skill capability and fallback requirements.",
+    "readiness": "draft",
+    "evidence": [
+      "evidence.skill_runtime_brief"
+    ],
+    "profile": "skill_runtime"
+  },
+  {
+    "id": "learning_proposal.update_gate_summary",
+    "kind": "learning_proposal",
+    "title": "Update Gate Summary Learning Proposal",
+    "summary": "Proposal to improve the projection view after reviewed feedback, without automatic canonical update.",
+    "readiness": "draft",
+    "evidence": [
+      "evidence.skill_runtime_brief"
+    ],
+    "profile": "skill_runtime"
+  }
+]

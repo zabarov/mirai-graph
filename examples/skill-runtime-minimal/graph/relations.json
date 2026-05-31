@@ -1,0 +1,178 @@
+[
+  {
+    "id": "relation.domain.support_operations.owns_domain.skill.support_triage",
+    "type": "owns_domain",
+    "source": "domain.support_operations",
+    "target": "skill.support_triage",
+    "readiness": "accepted",
+    "evidence": [
+      "evidence.skill_runtime_brief"
+    ],
+    "profile": "skill_runtime"
+  },
+  {
+    "id": "relation.skill.support_triage.has_capability.capability.request_classification",
+    "type": "has_capability",
+    "source": "skill.support_triage",
+    "target": "capability.request_classification",
+    "readiness": "accepted",
+    "evidence": [
+      "evidence.skill_runtime_brief"
+    ],
+    "profile": "skill_runtime"
+  },
+  {
+    "id": "relation.capability.request_classification.supports_activity.activity.triage_request",
+    "type": "supports_activity",
+    "source": "capability.request_classification",
+    "target": "activity.triage_request",
+    "readiness": "accepted",
+    "evidence": [
+      "evidence.skill_runtime_brief"
+    ],
+    "profile": "skill_runtime"
+  },
+  {
+    "id": "relation.activity.triage_request.uses_rule.rule.no_external_write_without_approval",
+    "type": "uses_rule",
+    "source": "activity.triage_request",
+    "target": "rule.no_external_write_without_approval",
+    "readiness": "accepted",
+    "evidence": [
+      "evidence.skill_runtime_brief"
+    ],
+    "profile": "skill_runtime"
+  },
+  {
+    "id": "relation.skill.support_triage.reads_source.raw_source.skill_manual",
+    "type": "reads_source",
+    "source": "skill.support_triage",
+    "target": "raw_source.skill_manual",
+    "readiness": "accepted",
+    "evidence": [
+      "evidence.skill_runtime_brief"
+    ],
+    "profile": "skill_runtime"
+  },
+  {
+    "id": "relation.source_boundary.hybrid_sot.governs.raw_source.skill_manual",
+    "type": "governs",
+    "source": "source_boundary.hybrid_sot",
+    "target": "raw_source.skill_manual",
+    "readiness": "accepted",
+    "evidence": [
+      "evidence.skill_runtime_brief"
+    ],
+    "profile": "skill_runtime"
+  },
+  {
+    "id": "relation.skill.support_triage.projects_view.projection_view.gate_summary",
+    "type": "projects_view",
+    "source": "skill.support_triage",
+    "target": "projection_view.gate_summary",
+    "readiness": "review_ready",
+    "evidence": [
+      "evidence.skill_runtime_brief"
+    ],
+    "profile": "skill_runtime"
+  },
+  {
+    "id": "relation.projection_view.gate_summary.generates_context.runtime_context.support_triage_compact",
+    "type": "generates_context",
+    "source": "projection_view.gate_summary",
+    "target": "runtime_context.support_triage_compact",
+    "readiness": "review_ready",
+    "evidence": [
+      "evidence.skill_runtime_brief"
+    ],
+    "profile": "skill_runtime"
+  },
+  {
+    "id": "relation.runtime_context.support_triage_compact.requires_gate.gate.semantic_preservation",
+    "type": "requires_gate",
+    "source": "runtime_context.support_triage_compact",
+    "target": "gate.semantic_preservation",
+    "readiness": "review_ready",
+    "evidence": [
+      "evidence.skill_runtime_brief"
+    ],
+    "profile": "skill_runtime"
+  },
+  {
+    "id": "relation.semantic_review.support_triage.preserves_semantics.runtime_context.support_triage_compact",
+    "type": "preserves_semantics",
+    "source": "semantic_review.support_triage",
+    "target": "runtime_context.support_triage_compact",
+    "readiness": "draft",
+    "evidence": [
+      "evidence.skill_runtime_brief"
+    ],
+    "profile": "skill_runtime"
+  },
+  {
+    "id": "relation.effectiveness_report.support_triage.measures_effectiveness.skill.support_triage",
+    "type": "measures_effectiveness",
+    "source": "effectiveness_report.support_triage",
+    "target": "skill.support_triage",
+    "readiness": "draft",
+    "evidence": [
+      "evidence.skill_runtime_brief"
+    ],
+    "profile": "skill_runtime"
+  },
+  {
+    "id": "relation.runtime_policy.compact_context_allowed.requires_fallback.fallback.raw_source_required",
+    "type": "requires_fallback",
+    "source": "runtime_policy.compact_context_allowed",
+    "target": "fallback.raw_source_required",
+    "readiness": "accepted",
+    "evidence": [
+      "evidence.skill_runtime_brief"
+    ],
+    "profile": "skill_runtime"
+  },
+  {
+    "id": "relation.fallback.raw_source_required.hands_off_to.handoff.next_owner",
+    "type": "hands_off_to",
+    "source": "fallback.raw_source_required",
+    "target": "handoff.next_owner",
+    "readiness": "review_ready",
+    "evidence": [
+      "evidence.skill_runtime_brief"
+    ],
+    "profile": "skill_runtime"
+  },
+  {
+    "id": "relation.skill.support_triage.exports_contract.federation_contract.support_triage",
+    "type": "exports_contract",
+    "source": "skill.support_triage",
+    "target": "federation_contract.support_triage",
+    "readiness": "draft",
+    "evidence": [
+      "evidence.skill_runtime_brief"
+    ],
+    "profile": "skill_runtime"
+  },
+  {
+    "id": "relation.learning_proposal.update_gate_summary.proposes_learning.projection_view.gate_summary",
+    "type": "proposes_learning",
+    "source": "learning_proposal.update_gate_summary",
+    "target": "projection_view.gate_summary",
+    "readiness": "draft",
+    "evidence": [
+      "evidence.skill_runtime_brief"
+    ],
+    "profile": "skill_runtime"
+  },
+  {
+    "id": "relation.adoption_report.gga7_candidate.evidences.skill.support_triage",
+    "type": "evidences",
+    "source": "adoption_report.gga7_candidate",
+    "target": "skill.support_triage",
+    "readiness": "draft",
+    "evidence": [
+      "evidence.skill_runtime_brief"
+    ],
+    "profile": "skill_runtime"
+  }
+]

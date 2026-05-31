@@ -1,0 +1,27 @@
+{
+  "schema_version": "0.1.0",
+  "result_id": "profile_conformance.package.skill_runtime_minimal",
+  "checked_at": "2026-05-31",
+  "fixture": "examples/skill-runtime-minimal/",
+  "package_id": "package.skill_runtime_minimal",
+  "profile": "skill_runtime",
+  "conformance_level": "level_1",
+  "validator": "packages/cli/validate-growgraph.js",
+  "command": "node packages/cli/validate-growgraph.js examples/skill-runtime-minimal",
+  "valid": true,
+  "errors": [],
+  "warnings": [],
+  "checks": [
+    "required package, object, relation and gate-result fields",
+    "unique object and relation ids",
+    "relation source and target existence",
+    "relation id consistency",
+    "readiness and gate verdict values",
+    "skill_runtime object-kind and relation-type conformance"
+  ],
+  "claim_supported": "The package follows the declared GrowGraph profile shape checked by the current validator.",
+  "limitations": [
+    "This result does not prove semantic completeness, operational effectiveness or runtime safety.",
+    "This result does not grant canonical write permission or graph-only runtime permission."
+  ]
+}

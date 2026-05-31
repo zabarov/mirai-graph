@@ -1,0 +1,14 @@
+{
+  "id": "package.skill_runtime_minimal",
+  "name": "Minimal Skill Runtime Example",
+  "version": "0.1.0",
+  "profile": "skill_runtime",
+  "conformance_level": "level_1",
+  "description": "A synthetic GrowGraph package showing a governed skill runtime context with Hybrid Source Of Truth boundaries.",
+  "license": "CC-BY-4.0",
+  "public_safety": "synthetic_public",
+  "graph": {
+    "objects": "graph/objects.json",
+    "relations": "graph/relations.json"
+  }
+}

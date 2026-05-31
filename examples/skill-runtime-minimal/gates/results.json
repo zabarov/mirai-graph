@@ -1,0 +1,35 @@
+[
+  {
+    "id": "gate_result.skill_runtime_minimal.public_safety",
+    "gate_id": "public_safety_before_release",
+    "target_id": "package.skill_runtime_minimal",
+    "verdict": "pass_with_notes",
+    "summary": "The fixture is synthetic and contains no private runtime, customer, employee or secret material.",
+    "reviewed_at": "2026-05-31",
+    "evidence": [
+      "evidence.skill_runtime_brief"
+    ]
+  },
+  {
+    "id": "gate_result.skill_runtime_minimal.semantic_preservation",
+    "gate_id": "semantic_preservation_before_runtime",
+    "target_id": "runtime_context.support_triage_compact",
+    "verdict": "needs_more_evidence",
+    "summary": "The fixture records the required semantic gate but does not claim an independent domain review.",
+    "reviewed_at": "2026-05-31",
+    "evidence": [
+      "evidence.skill_runtime_brief"
+    ]
+  },
+  {
+    "id": "gate_result.skill_runtime_minimal.runtime_enablement",
+    "gate_id": "runtime_enablement_before_primary_context",
+    "target_id": "runtime_policy.compact_context_allowed",
+    "verdict": "pass_with_notes",
+    "summary": "The runtime policy allows compact graph context only for measured non-sensitive routing tasks and requires fallback for sensitive work.",
+    "reviewed_at": "2026-05-31",
+    "evidence": [
+      "evidence.skill_runtime_brief"
+    ]
+  }
+]

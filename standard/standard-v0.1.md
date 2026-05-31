@@ -74,6 +74,10 @@ The public standard is expected to contain:
 - [Evidence And Provenance](evidence-provenance.md)
 - `context-pack-generation.md`
 - [Governance](governance.md)
+- [Hybrid Source Of Truth](hybrid-source-of-truth.md)
+- [Adoption Levels](adoption-levels.md)
+- [Projection Views](projection-views.md)
+- [Runtime Enablement](runtime-enablement.md)
 - [Graph As AI Brain](graph-as-ai-brain.md)
 - [Action Runtime Boundary](action-runtime-boundary.md)
 - [Feedback Learning Gate](feedback-learning-gate.md)
@@ -115,8 +119,9 @@ Reason:
 The repository now contains the public foundation, terminology, initial object
 model, initial relation model, lifecycle/readiness, evidence/provenance,
 graph DNA, graph seed, graph embryo, context-pack generation, profiles,
-governance, conformance levels, test-suite direction, initial schemas, a
-validator, a minimal example and a synthetic benchmark.
+governance, Hybrid Source Of Truth, adoption levels, projection views,
+runtime enablement, conformance levels, test-suite direction, initial schemas,
+a validator, a minimal example and a synthetic benchmark.
 
 Next required sections:
 

@@ -119,6 +119,50 @@ Possible relation types:
 - belongs_to_department;
 - federates_with.
 
+## Skill Runtime Profile
+
+Initial alpha profile for modeling a governed skill, capability module or
+service as a Hybrid Source Of Truth runtime context.
+
+Possible object kinds:
+
+- skill;
+- capability;
+- activity;
+- rule;
+- owner_domain;
+- source_boundary;
+- raw_source;
+- runtime_context;
+- projection_view;
+- quality_gate;
+- adoption_report;
+- effectiveness_report;
+- semantic_review;
+- runtime_policy;
+- fallback;
+- handoff;
+- learning_proposal;
+- federation_contract.
+
+Possible relation types:
+
+- owns_domain;
+- has_capability;
+- supports_activity;
+- uses_rule;
+- requires_gate;
+- requires_fallback;
+- reads_source;
+- generates_context;
+- projects_view;
+- preserves_semantics;
+- measures_effectiveness;
+- routes_to;
+- hands_off_to;
+- exports_contract;
+- proposes_learning.
+
 ## Profile Conformance
 
 Profile conformance should be declared separately from core conformance.

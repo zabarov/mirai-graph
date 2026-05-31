@@ -4,6 +4,37 @@ All notable changes to GrowGraph will be documented in this file.
 
 ## [Unreleased]
 
+## [0.1.0-alpha.5] - 2026-05-31
+
+### Added
+
+- Hybrid Source Of Truth standard draft for graph/raw-source authority
+  boundaries.
+- GrowGraph Adoption Levels standard draft with `GGA0..GGA10` staged adoption
+  semantics.
+- Runtime Enablement standard draft for task-scoped graph-mode preflight,
+  fallback and runtime boundary decisions.
+- Projection Views standard draft for readiness, risk, owner routing, evidence,
+  gates, adoption and runtime control surfaces.
+- Alpha `skill_runtime` profile for governed skills, capability modules and
+  services.
+- Minimal synthetic skill-runtime fixture with profile conformance result.
+- Public-safe transfer note recording which graph-managed skill patterns were
+  generalized into the public standard.
+
+### Changed
+
+- `npm test` now validates the `skill_runtime` profile and minimal fixture.
+- Profile conformance fixture documentation now includes `skill_runtime`.
+- README start links now include the new governance and runtime standard
+  sections.
+
+### Claim Boundary
+
+- This release supports public standard and profile shape claims only.
+- It does not claim graph-only runtime readiness, semantic completeness,
+  operational effectiveness, runtime safety or universal validity.
+
 ## [0.1.0-alpha.4] - 2026-05-29
 
 ### Added

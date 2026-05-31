@@ -1,6 +1,6 @@
 {
   "name": "growgraph",
-  "version": "0.1.0-alpha.4",
+  "version": "0.1.0-alpha.5",
   "private": false,
   "description": "An evolutionary graph operating model for managing the growth of complex systems.",
   "license": "MIT",
@@ -9,7 +9,7 @@
     "validate:minimal": "node packages/cli/validate-growgraph.js examples/minimal-graph",
     "validate:benchmark": "node packages/cli/validate-growgraph.js benchmarks/synthetic-context-reduction-v0",
     "validate:seed": "node packages/cli/validate-growgraph.js seed examples/graph-seed-minimal/graph-seed.json",
-    "validate:profiles": "node packages/cli/validate-growgraph.js profile profiles/software-specification/profile.json && node packages/cli/validate-growgraph.js profile profiles/project-management/profile.json && node packages/cli/validate-growgraph.js profile profiles/ai-employee/profile.json",
+    "validate:profiles": "node packages/cli/validate-growgraph.js profile profiles/software-specification/profile.json && node packages/cli/validate-growgraph.js profile profiles/project-management/profile.json && node packages/cli/validate-growgraph.js profile profiles/ai-employee/profile.json && node packages/cli/validate-growgraph.js profile profiles/skill-runtime/profile.json",
     "validate:pilots": "node packages/cli/validate-growgraph.js seed pilots/independent-implementation-001-conference-planning/graph-seed.json && node packages/cli/validate-growgraph.js pilots/independent-implementation-001-conference-planning && node packages/cli/validate-growgraph.js seed pilots/independent-implementation-002-software-specification/graph-seed.json && node packages/cli/validate-growgraph.js pilots/independent-implementation-002-software-specification",
     "validate:context-packs": "node packages/cli/validate-growgraph.js context-pack benchmarks/synthetic-context-reduction-v0 benchmarks/synthetic-context-reduction-v0/results/context-pack.json && node packages/cli/validate-growgraph.js context-pack pilots/independent-implementation-002-software-specification pilots/independent-implementation-002-software-specification/results/context-pack.json",
     "validate:profile-results": "node packages/cli/validate-profile-results.js",
@@ -20,7 +20,8 @@
     "benchmark:write": "node benchmarks/synthetic-context-reduction-v0/scripts/calculate-context-reduction.js --write benchmarks/synthetic-context-reduction-v0/results/context-reduction-result.json",
     "test:negative": "node packages/cli/validate-growgraph.js examples/invalid-missing-relation-target >/tmp/growgraph-negative.out 2>&1 && exit 1 || test $? -eq 1 && node packages/cli/validate-growgraph.js examples/invalid-relation-id-mismatch >/tmp/growgraph-negative-relation-id.out 2>&1 && exit 1 || test $? -eq 1 && node packages/cli/validate-growgraph.js examples/invalid-profile-object-kind >/tmp/growgraph-negative-profile-object.out 2>&1 && exit 1 || test $? -eq 1 && node packages/cli/validate-growgraph.js examples/invalid-profile-relation-type >/tmp/growgraph-negative-profile-relation.out 2>&1 && exit 1 || test $? -eq 1 && node packages/cli/validate-growgraph.js context-pack benchmarks/synthetic-context-reduction-v0 examples/invalid-context-pack-missing-explanation/context-pack.json >/tmp/growgraph-negative-context-pack.out 2>&1 && exit 1 || test $? -eq 1",
     "validate:ai-employee": "node packages/cli/validate-growgraph.js examples/ai-employee-minimal",
-    "test": "npm run validate:minimal && npm run validate:benchmark && npm run validate:seed && npm run validate:profiles && npm run validate:ai-employee && npm run validate:pilots && npm run validate:context-packs && npm run validate:profile-results && npm run seed:preview && npm run context:generate && npm run readiness:benchmark && npm run benchmark:synthetic && npm run test:negative",
+    "validate:skill-runtime": "node packages/cli/validate-growgraph.js examples/skill-runtime-minimal",
+    "test": "npm run validate:minimal && npm run validate:benchmark && npm run validate:seed && npm run validate:profiles && npm run validate:ai-employee && npm run validate:skill-runtime && npm run validate:pilots && npm run validate:context-packs && npm run validate:profile-results && npm run seed:preview && npm run context:generate && npm run readiness:benchmark && npm run benchmark:synthetic && npm run test:negative",
     "release:check": "npm test && git diff --check"
   },
   "repository": {
