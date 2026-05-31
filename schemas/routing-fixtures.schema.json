@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://growgraph.dev/schemas/routing-fixtures.schema.json",
+  "title": "GrowGraph Routing Fixtures",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["schema_version", "fixture_set_id", "fixtures", "canonical_write_allowed"],
+  "properties": {
+    "schema_version": { "type": "string" },
+    "fixture_set_id": { "type": "string", "minLength": 1 },
+    "fixtures": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "fixture_id",
+          "user_request",
+          "expected_primary_owner",
+          "expected_companion_owners",
+          "forbidden_route_shapes",
+          "required_gates",
+          "expected_fallback_required"
+        ],
+        "properties": {
+          "fixture_id": { "type": "string", "minLength": 1 },
+          "user_request": { "type": "string", "minLength": 1 },
+          "expected_primary_owner": { "type": "string", "minLength": 1 },
+          "expected_companion_owners": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "forbidden_route_shapes": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": true,
+              "required": ["primary_owner", "without_companions"],
+              "properties": {
+                "primary_owner": { "type": "string", "minLength": 1 },
+                "without_companions": {
+                  "type": "array",
+                  "items": { "type": "string", "minLength": 1 }
+                }
+              }
+            }
+          },
+          "required_gates": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "expected_fallback_required": { "type": "boolean" },
+          "high_risk_route": { "type": "boolean" }
+        }
+      }
+    },
+    "canonical_write_allowed": { "const": false }
+  }
+}

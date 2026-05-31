@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0.0",
+  "dashboard_id": "synthetic-routing-smoke-health",
+  "created_at": "2026-05-31T00:00:00Z",
+  "capability_count": 6,
+  "runtime_ready_count": 6,
+  "stale_graph_count": 0,
+  "watch_conflict_count": 2,
+  "unresolved_conflict_count": 0,
+  "failed_fixture_count": 0,
+  "high_risk_without_explanation_count": 0,
+  "fallback_required_route_count": 2,
+  "blocked_route_count": 0,
+  "regression_status": "unchanged",
+  "pending_learning_proposals": 0,
+  "conflict_details": [
+    {
+      "conflict_family_id": "implementation-vs-deployment-safety",
+      "affected_capabilities": ["implementation", "deployment_safety", "quality_assurance"],
+      "failed_fixtures": [],
+      "latest_route_explanation_refs": ["examples/federation-routing-smoke/route-explanation.json"],
+      "required_owner_review": "none",
+      "next_action": "Keep covered by routing fixtures and regression checks.",
+      "severity": "watch"
+    },
+    {
+      "conflict_family_id": "content-vs-search-visibility",
+      "affected_capabilities": ["content", "search_visibility", "quality_assurance"],
+      "failed_fixtures": [],
+      "latest_route_explanation_refs": [],
+      "required_owner_review": "none",
+      "next_action": "Keep public search work separated from generic content editing.",
+      "severity": "watch"
+    }
+  ],
+  "next_actions": [
+    "Use failed fixtures as evidence for governed learning proposals.",
+    "Require route explanations for high-risk routes.",
+    "Do not treat health dashboards as runtime authorization."
+  ],
+  "canonical_write_allowed": false
+}

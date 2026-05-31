@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0.0",
+  "operation_id": "growgraph.synthetic.route-execution-evidence",
+  "fixture_id": "synthetic.search-page.search-visibility-not-content-only",
+  "router_command": "synthetic-router",
+  "cwd": "examples/federation-routing-smoke",
+  "started_at": "2026-05-31T00:00:00Z",
+  "finished_at": "2026-05-31T00:00:00Z",
+  "duration_ms": 0,
+  "exit_code": 0,
+  "stdout_sha256": "synthetic",
+  "stderr_sha256": "synthetic-empty",
+  "stdout_ref": "examples/federation-routing-smoke/routes/search-page-stdout.txt",
+  "stderr_ref": "examples/federation-routing-smoke/routes/search-page-stderr.txt",
+  "parsed_route_ref": "examples/federation-routing-smoke/routes/search-page-route-result.json",
+  "canonical_write_allowed": false
+}

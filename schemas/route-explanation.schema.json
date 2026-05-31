@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://growgraph.dev/schemas/route-explanation.schema.json",
+  "title": "GrowGraph Route Explanation",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "route_id",
+    "request",
+    "primary_owner",
+    "companion_owners",
+    "routing_reasons",
+    "required_gates",
+    "fallback_required",
+    "canonical_write_allowed"
+  ],
+  "properties": {
+    "schema_version": { "type": "string" },
+    "route_id": { "type": "string", "minLength": 1 },
+    "request": { "type": "string", "minLength": 1 },
+    "primary_owner": { "type": "string", "minLength": 1 },
+    "companion_owners": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "rejected_candidates": {
+      "type": "array",
+      "items": { "type": "object", "additionalProperties": true }
+    },
+    "routing_reasons": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "why_primary": { "type": "string", "minLength": 1 },
+    "why_not_other_candidates": {
+      "type": "array",
+      "items": { "type": "object", "additionalProperties": true }
+    },
+    "required_gates": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "fallback_required": { "type": "boolean" },
+    "risk_class": { "type": "string", "minLength": 1 },
+    "runtime_preflight_ref": { "type": ["string", "null"] },
+    "route_evidence_ref": { "type": "string", "minLength": 1 },
+    "explanation_source": { "type": "string", "minLength": 1 },
+    "canonical_write_allowed": { "const": false }
+  }
+}

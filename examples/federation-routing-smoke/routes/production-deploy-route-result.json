@@ -1,0 +1,12 @@
+{
+  "schema_version": "1.0.0",
+  "operation_id": "growgraph.synthetic.route",
+  "task": "Deploy the release to production and verify the service is healthy.",
+  "primary_owner": "deployment_safety",
+  "companion_owners": ["implementation", "quality_assurance"],
+  "required_gates": ["runtime_inventory", "backup", "rollback", "safe_write"],
+  "fallback_required": true,
+  "confidence": "high",
+  "blockers": [],
+  "graph_only_runtime": false
+}

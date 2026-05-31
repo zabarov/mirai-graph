@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://growgraph.dev/schemas/routing-fixture-run.schema.json",
+  "title": "GrowGraph Routing Fixture Run",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["schema_version", "run_id", "fixture_set_ref", "summary", "results", "canonical_write_allowed"],
+  "properties": {
+    "schema_version": { "type": "string" },
+    "run_id": { "type": "string", "minLength": 1 },
+    "fixture_set_ref": { "type": "string", "minLength": 1 },
+    "summary": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["fixture_count", "passed", "failed", "blocked"],
+      "properties": {
+        "fixture_count": { "type": "integer", "minimum": 0 },
+        "passed": { "type": "integer", "minimum": 0 },
+        "failed": { "type": "integer", "minimum": 0 },
+        "blocked": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": ["fixture_id", "status", "checks"],
+        "properties": {
+          "fixture_id": { "type": "string", "minLength": 1 },
+          "status": { "type": "string", "enum": ["passed", "failed", "blocked"] },
+          "route_result_ref": { "type": "string", "minLength": 1 },
+          "execution_evidence_ref": { "type": "string", "minLength": 1 },
+          "route_explanation_ref": { "type": ["string", "null"] },
+          "high_risk_route": { "type": "boolean" },
+          "checks": {
+            "type": "array",
+            "items": { "type": "object", "additionalProperties": true }
+          }
+        }
+      }
+    },
+    "canonical_write_allowed": { "const": false }
+  }
+}

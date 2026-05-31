@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://growgraph.dev/schemas/federation-health-dashboard.schema.json",
+  "title": "GrowGraph Federation Health Dashboard",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "dashboard_id",
+    "unresolved_conflict_count",
+    "blocked_route_count",
+    "conflict_details",
+    "next_actions",
+    "canonical_write_allowed"
+  ],
+  "properties": {
+    "schema_version": { "type": "string" },
+    "dashboard_id": { "type": "string", "minLength": 1 },
+    "watch_conflict_count": { "type": "integer", "minimum": 0 },
+    "unresolved_conflict_count": { "type": "integer", "minimum": 0 },
+    "failed_fixture_count": { "type": "integer", "minimum": 0 },
+    "high_risk_without_explanation_count": { "type": "integer", "minimum": 0 },
+    "blocked_route_count": { "type": "integer", "minimum": 0 },
+    "regression_status": {
+      "type": "string",
+      "enum": ["improved", "unchanged", "regressed", "blocked", "insufficient_evidence", "unknown"]
+    },
+    "conflict_details": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": ["conflict_family_id", "severity", "next_action"],
+        "properties": {
+          "conflict_family_id": { "type": "string", "minLength": 1 },
+          "severity": { "type": "string", "minLength": 1 },
+          "next_action": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "next_actions": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "canonical_write_allowed": { "const": false }
+  }
+}

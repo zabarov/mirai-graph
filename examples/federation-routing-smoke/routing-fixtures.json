@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0.0",
+  "fixture_set_id": "synthetic.federation-routing-smoke",
+  "created_at": "2026-05-31T00:00:00Z",
+  "fixtures": [
+    {
+      "fixture_id": "synthetic.production-deploy.deployment-safety-required",
+      "scenario_class": "production deploy",
+      "user_request": "Deploy the release to production and verify the service is healthy.",
+      "expected_primary_owner": "deployment_safety",
+      "expected_companion_owners": ["implementation", "quality_assurance"],
+      "forbidden_route_shapes": [
+        {
+          "primary_owner": "implementation",
+          "without_companions": ["deployment_safety", "quality_assurance"],
+          "reason": "Production deployment requires runtime safety and acceptance evidence."
+        }
+      ],
+      "high_risk_route": true,
+      "required_gates": ["runtime_inventory", "backup", "rollback", "safe_write"],
+      "expected_fallback_required": true,
+      "reason": "Deployment is a governed runtime task before it is an implementation task."
+    },
+    {
+      "fixture_id": "synthetic.search-page.search-visibility-not-content-only",
+      "scenario_class": "public search visibility",
+      "user_request": "Review a public page for search visibility and improve the article text.",
+      "expected_primary_owner": "search_visibility",
+      "expected_companion_owners": ["content", "quality_assurance"],
+      "forbidden_route_shapes": [
+        {
+          "primary_owner": "content",
+          "without_companions": ["search_visibility", "quality_assurance"],
+          "reason": "Search visibility cannot be reduced to editorial writing."
+        }
+      ],
+      "high_risk_route": false,
+      "required_gates": ["indexability_check", "metadata_check"],
+      "expected_fallback_required": true,
+      "reason": "Public search work needs visibility gates as well as content changes."
+    }
+  ],
+  "canonical_write_allowed": false
+}

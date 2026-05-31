@@ -69,6 +69,19 @@ Graph-mode can become the primary context only for a declared task and scope
 after runtime preflight. Sensitive work requires fallback to raw sources and
 the relevant approval gates.
 
+## Federation Routing Control Loop
+
+When a skill runtime participates in a larger federation, routing should be
+auditable through:
+
+- [Route Explanation](../../standard/route-explanation.md);
+- [Routing Fixtures](../../standard/routing-fixtures.md);
+- [Federation Health](../../standard/federation-health.md);
+- [Route Regression](../../standard/route-regression.md).
+
+These artifacts explain and test routing behavior. They do not authorize
+execution or source rewrites.
+
 ## Minimal Fixture
 
 The executable fixture is:

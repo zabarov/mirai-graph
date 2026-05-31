@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0.0",
+  "run_id": "synthetic-routing-smoke-run",
+  "created_at": "2026-05-31T00:00:00Z",
+  "fixture_set_ref": "examples/federation-routing-smoke/routing-fixtures.json",
+  "router_command": "synthetic-router",
+  "summary": {
+    "fixture_count": 2,
+    "passed": 2,
+    "failed": 0,
+    "blocked": 0
+  },
+  "results": [
+    {
+      "fixture_id": "synthetic.production-deploy.deployment-safety-required",
+      "status": "passed",
+      "high_risk_route": true,
+      "checks": [
+        {
+          "name": "primary_owner",
+          "status": "passed",
+          "expected": "deployment_safety",
+          "actual": "deployment_safety"
+        },
+        {
+          "name": "forbidden_route_shape",
+          "status": "passed",
+          "expected": "implementation without deployment_safety and quality_assurance",
+          "actual": "deployment_safety with implementation and quality_assurance"
+        },
+        {
+          "name": "route_explanation_required",
+          "status": "passed",
+          "expected": "examples/federation-routing-smoke/route-explanation.json",
+          "actual": "examples/federation-routing-smoke/route-explanation.json"
+        }
+      ],
+      "route_result_ref": "examples/federation-routing-smoke/routes/production-deploy-route-result.json",
+      "execution_evidence_ref": "examples/federation-routing-smoke/routes/production-deploy-execution-evidence.json",
+      "route_explanation_ref": "examples/federation-routing-smoke/route-explanation.json"
+    },
+    {
+      "fixture_id": "synthetic.search-page.search-visibility-not-content-only",
+      "status": "passed",
+      "high_risk_route": false,
+      "checks": [
+        {
+          "name": "primary_owner",
+          "status": "passed",
+          "expected": "search_visibility",
+          "actual": "search_visibility"
+        },
+        {
+          "name": "forbidden_route_shape",
+          "status": "passed",
+          "expected": "content without search_visibility and quality_assurance",
+          "actual": "search_visibility with content and quality_assurance"
+        }
+      ],
+      "route_result_ref": "examples/federation-routing-smoke/routes/search-page-route-result.json",
+      "execution_evidence_ref": "examples/federation-routing-smoke/routes/search-page-execution-evidence.json",
+      "route_explanation_ref": null
+    }
+  ],
+  "canonical_write_allowed": false
+}

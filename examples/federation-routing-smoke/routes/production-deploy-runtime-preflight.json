@@ -1,0 +1,8 @@
+{
+  "schema_version": "1.0.0",
+  "operation_id": "growgraph.synthetic.runtime-preflight",
+  "fixture_id": "synthetic.production-deploy.deployment-safety-required",
+  "verdict": "pass",
+  "required_gates": ["runtime_inventory", "backup", "rollback", "safe_write"],
+  "canonical_write_allowed": false
+}

@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0.0",
+  "route_id": "synthetic.production-deploy.deployment-safety-required",
+  "created_at": "2026-05-31T00:00:00Z",
+  "request": "Deploy the release to production and verify the service is healthy.",
+  "primary_owner": "deployment_safety",
+  "companion_owners": ["implementation", "quality_assurance"],
+  "rejected_candidates": [
+    {
+      "owner": "implementation",
+      "reason": "Implementation can change code, but production deployment requires runtime safety gates."
+    }
+  ],
+  "routing_reasons": [
+    "Production deployment is a governed runtime action.",
+    "The route requires implementation context and quality acceptance evidence."
+  ],
+  "why_primary": "deployment_safety owns the runtime gates for production deployment.",
+  "why_not_other_candidates": [
+    {
+      "owner": "implementation",
+      "reason": "Implementation alone would miss backup, rollback and runtime inventory gates."
+    }
+  ],
+  "required_gates": ["runtime_inventory", "backup", "rollback", "safe_write"],
+  "fallback_required": true,
+  "risk_class": "high",
+  "runtime_preflight_ref": "examples/federation-routing-smoke/routes/production-deploy-runtime-preflight.json",
+  "route_evidence_ref": "examples/federation-routing-smoke/routes/production-deploy-execution-evidence.json",
+  "explanation_source": "synthetic_example",
+  "canonical_write_allowed": false
+}

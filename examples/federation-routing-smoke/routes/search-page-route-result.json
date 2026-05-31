@@ -1,0 +1,12 @@
+{
+  "schema_version": "1.0.0",
+  "operation_id": "growgraph.synthetic.route",
+  "task": "Review a public page for search visibility and improve the article text.",
+  "primary_owner": "search_visibility",
+  "companion_owners": ["content", "quality_assurance"],
+  "required_gates": ["indexability_check", "metadata_check"],
+  "fallback_required": true,
+  "confidence": "high",
+  "blockers": [],
+  "graph_only_runtime": false
+}

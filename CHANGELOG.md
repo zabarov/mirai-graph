@@ -4,6 +4,31 @@ All notable changes to GrowGraph will be documented in this file.
 
 ## [Unreleased]
 
+## [0.1.0-alpha.6] - 2026-05-31
+
+### Added
+
+- Route Explanation standard draft for auditable owner/companion skill routing.
+- Routing Fixtures standard draft for negative route tests and forbidden route
+  shapes.
+- Federation Health standard draft for conflict details, fixture failures and
+  next-action dashboards.
+- Route Regression standard draft for comparing route behavior before and
+  after learning or router changes.
+- Public schemas for route explanations, routing fixtures, fixture runs,
+  federation health dashboards and route regression results.
+- Synthetic federation routing smoke example with per-fixture evidence,
+  high-risk route explanation, regression and health dashboard artifacts.
+- `validate:routing-control` release check for the synthetic routing-control
+  example.
+- Public-safe transfer note for federation routing control-loop patterns.
+
+### Claim Boundary
+
+- This release supports public standard/schema shape claims only.
+- It does not claim private federation behavior, graph-only runtime safety,
+  owner-source rewrite permission or scientific proof of effectiveness.
+
 ## [0.1.0-alpha.5] - 2026-05-31
 
 ### Added

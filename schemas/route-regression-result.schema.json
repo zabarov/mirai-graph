@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://growgraph.dev/schemas/route-regression-result.schema.json",
+  "title": "GrowGraph Route Regression Result",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "run_id",
+    "after_route_result_ref",
+    "diff",
+    "regression_status",
+    "canonical_write_allowed"
+  ],
+  "properties": {
+    "schema_version": { "type": "string" },
+    "run_id": { "type": "string", "minLength": 1 },
+    "before_route_result_ref": { "type": ["string", "null"] },
+    "baseline_route_result_ref": { "type": ["string", "null"] },
+    "after_route_result_ref": { "type": "string", "minLength": 1 },
+    "current_route_result_ref": { "type": "string", "minLength": 1 },
+    "diff": { "type": "object", "additionalProperties": true },
+    "route_diffs": {
+      "type": "array",
+      "items": { "type": "object", "additionalProperties": true }
+    },
+    "regression_status": {
+      "type": "string",
+      "enum": ["improved", "unchanged", "regressed", "blocked", "insufficient_evidence"]
+    },
+    "canonical_write_allowed": { "const": false }
+  }
+}
