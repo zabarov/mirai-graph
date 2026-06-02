@@ -1,0 +1,18 @@
+{
+  "schema_version": "0.1.0",
+  "id": "implementation_control_loop.minimal",
+  "profile": "implementation_control",
+  "source_graph": "package.implementation_control_minimal",
+  "baseline": "baseline.document_service_v1",
+  "projection_view": "projection.document_service_human_view",
+  "semantic_review": "review.document_service_semantic",
+  "evidence_pack": "evidence_pack.contract_skeleton",
+  "sync_proposal": "proposal.graph_sync_contract_skeleton",
+  "approval_gate": "gate.coordinator_approval",
+  "controlled_update": "update.contract_skeleton_accepted",
+  "limitations": [
+    "Synthetic example validates shape, not operational effectiveness.",
+    "A controlled update object is not proof that a real system has changed.",
+    "Generated context remains separate from authorization."
+  ]
+}

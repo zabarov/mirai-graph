@@ -1,0 +1,110 @@
+[
+  {
+    "id": "evidence.synthetic_control_brief",
+    "kind": "evidence",
+    "title": "Synthetic Control Brief",
+    "summary": "Public-safe brief for a fictional implementation-control loop.",
+    "readiness": "accepted",
+    "evidence": [],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "baseline.document_service_v1",
+    "kind": "implementation_baseline",
+    "title": "Document Service Baseline",
+    "summary": "Synthetic accepted baseline for a document service implementation scope.",
+    "readiness": "accepted",
+    "evidence": ["evidence.synthetic_control_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "projection.document_service_human_view",
+    "kind": "projection_view",
+    "title": "Document Service Human Projection",
+    "summary": "Generated human-readable projection used for review, not canonical truth.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_control_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "review.document_service_semantic",
+    "kind": "semantic_review",
+    "title": "Document Service Semantic Review",
+    "summary": "Review that identifies whether the projection preserves canonical baseline meaning.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_control_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "batch.contract_skeleton",
+    "kind": "workflow_batch",
+    "title": "Contract Skeleton Batch",
+    "summary": "Synthetic implementation batch that prepares contract skeletons without executing production changes.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_control_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "evidence_pack.contract_skeleton",
+    "kind": "evidence_pack",
+    "title": "Contract Skeleton Evidence Pack",
+    "summary": "Evidence pack containing implementation summary, tests, smoke notes and deviation notes.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_control_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "proposal.graph_sync_contract_skeleton",
+    "kind": "sync_proposal",
+    "title": "Contract Skeleton Graph Sync Proposal",
+    "summary": "Proposal to update canonical graph state after evidence and review.",
+    "readiness": "review_ready",
+    "evidence": ["evidence_pack.contract_skeleton"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "gate.coordinator_approval",
+    "kind": "approval_gate",
+    "title": "Coordinator Approval Gate",
+    "summary": "Approval gate required before the sync proposal becomes a controlled canonical update.",
+    "readiness": "accepted",
+    "evidence": ["evidence_pack.contract_skeleton"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "update.contract_skeleton_accepted",
+    "kind": "controlled_update",
+    "title": "Accepted Contract Skeleton Update",
+    "summary": "Controlled update representing an approved canonical graph change.",
+    "readiness": "review_ready",
+    "evidence": ["evidence_pack.contract_skeleton"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "state.contract_skeleton_ready",
+    "kind": "implementation_state",
+    "title": "Contract Skeleton Ready",
+    "summary": "Implementation state recorded after approval, not before evidence review.",
+    "readiness": "review_ready",
+    "evidence": ["evidence_pack.contract_skeleton"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "risk.generated_context_as_authorization",
+    "kind": "risk",
+    "title": "Generated Context As Authorization",
+    "summary": "Risk that generated context is mistaken for permission to change canonical or runtime state.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_control_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "kaizen.separate_proposal_from_update",
+    "kind": "kaizen_item",
+    "title": "Separate Proposal From Update",
+    "summary": "Process improvement: keep sync proposals separate from approved updates in all implementation workflows.",
+    "readiness": "draft",
+    "evidence": ["evidence_pack.contract_skeleton"],
+    "profile": "implementation_control"
+  }
+]

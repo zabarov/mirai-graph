@@ -1,0 +1,49 @@
+{
+  "id": "profile.implementation_control",
+  "name": "Implementation Control",
+  "version": "0.1.0",
+  "description": "Profile for governed implementation workflows that separate baselines, projections, reviews, evidence, proposals, approval gates and controlled updates.",
+  "allowed_object_kinds": [
+    "implementation_baseline",
+    "projection_view",
+    "semantic_review",
+    "workflow_batch",
+    "evidence_pack",
+    "sync_proposal",
+    "approval_gate",
+    "controlled_update",
+    "implementation_state",
+    "risk",
+    "blocker",
+    "review",
+    "release_gate",
+    "kaizen_item",
+    "evidence"
+  ],
+  "allowed_relation_types": [
+    "derives_projection",
+    "reviews_projection",
+    "produces_evidence",
+    "proposes_update",
+    "requires_gate",
+    "approves_update",
+    "updates_baseline",
+    "blocks",
+    "mitigates",
+    "records_state",
+    "requires_review",
+    "requires_release_gate",
+    "improves_process",
+    "evidences",
+    "related_to"
+  ],
+  "default_readiness": "draft",
+  "governance_gates": [
+    "semantic_review_before_sync_proposal",
+    "evidence_pack_before_approval",
+    "approval_before_canonical_update",
+    "public_safety_before_public_transfer",
+    "no_generated_context_as_authorization",
+    "no_feedback_as_automatic_update"
+  ]
+}

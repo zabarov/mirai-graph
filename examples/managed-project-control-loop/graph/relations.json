@@ -1,0 +1,110 @@
+[
+  {
+    "id": "relation.system.document_automation_project.supports.goal.approved_graph_baseline",
+    "type": "supports",
+    "source": "system.document_automation_project",
+    "target": "goal.approved_graph_baseline",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_project_brief"],
+    "profile": "project_management"
+  },
+  {
+    "id": "relation.task.generate_human_projection.depends_on.goal.approved_graph_baseline",
+    "type": "depends_on",
+    "source": "task.generate_human_projection",
+    "target": "goal.approved_graph_baseline",
+    "readiness": "accepted",
+    "evidence": ["evidence.synthetic_project_brief"],
+    "profile": "project_management"
+  },
+  {
+    "id": "relation.evidence.human_projection.evidences.task.generate_human_projection",
+    "type": "evidences",
+    "source": "evidence.human_projection",
+    "target": "task.generate_human_projection",
+    "readiness": "accepted",
+    "evidence": ["evidence.human_projection"],
+    "profile": "project_management"
+  },
+  {
+    "id": "relation.task.semantic_review.depends_on.evidence.human_projection",
+    "type": "depends_on",
+    "source": "task.semantic_review",
+    "target": "evidence.human_projection",
+    "readiness": "accepted",
+    "evidence": ["evidence.human_projection"],
+    "profile": "project_management"
+  },
+  {
+    "id": "relation.evidence.semantic_review_notes.evidences.task.semantic_review",
+    "type": "evidences",
+    "source": "evidence.semantic_review_notes",
+    "target": "task.semantic_review",
+    "readiness": "accepted",
+    "evidence": ["evidence.semantic_review_notes"],
+    "profile": "project_management"
+  },
+  {
+    "id": "relation.decision.graph_sync_proposal.depends_on.evidence.semantic_review_notes",
+    "type": "depends_on",
+    "source": "decision.graph_sync_proposal",
+    "target": "evidence.semantic_review_notes",
+    "readiness": "review_ready",
+    "evidence": ["evidence.semantic_review_notes"],
+    "profile": "project_management"
+  },
+  {
+    "id": "relation.task.collect_evidence_pack.depends_on.decision.graph_sync_proposal",
+    "type": "depends_on",
+    "source": "task.collect_evidence_pack",
+    "target": "decision.graph_sync_proposal",
+    "readiness": "review_ready",
+    "evidence": ["evidence.semantic_review_notes"],
+    "profile": "project_management"
+  },
+  {
+    "id": "relation.evidence.graph_sync_pack.evidences.task.collect_evidence_pack",
+    "type": "evidences",
+    "source": "evidence.graph_sync_pack",
+    "target": "task.collect_evidence_pack",
+    "readiness": "review_ready",
+    "evidence": ["evidence.graph_sync_pack"],
+    "profile": "project_management"
+  },
+  {
+    "id": "relation.gate.coordinator_approval.governs.decision.graph_sync_proposal",
+    "type": "governs",
+    "source": "gate.coordinator_approval",
+    "target": "decision.graph_sync_proposal",
+    "readiness": "accepted",
+    "evidence": ["evidence.graph_sync_pack"],
+    "profile": "project_management"
+  },
+  {
+    "id": "relation.milestone.approved_canonical_update.depends_on.gate.coordinator_approval",
+    "type": "depends_on",
+    "source": "milestone.approved_canonical_update",
+    "target": "gate.coordinator_approval",
+    "readiness": "review_ready",
+    "evidence": ["evidence.graph_sync_pack"],
+    "profile": "project_management"
+  },
+  {
+    "id": "relation.risk.unapproved_canonical_drift.blocks.goal.approved_graph_baseline",
+    "type": "blocks",
+    "source": "risk.unapproved_canonical_drift",
+    "target": "goal.approved_graph_baseline",
+    "readiness": "review_ready",
+    "evidence": ["evidence.semantic_review_notes"],
+    "profile": "project_management"
+  },
+  {
+    "id": "relation.gate.coordinator_approval.blocks.risk.unapproved_canonical_drift",
+    "type": "blocks",
+    "source": "gate.coordinator_approval",
+    "target": "risk.unapproved_canonical_drift",
+    "readiness": "accepted",
+    "evidence": ["evidence.graph_sync_pack"],
+    "profile": "project_management"
+  }
+]

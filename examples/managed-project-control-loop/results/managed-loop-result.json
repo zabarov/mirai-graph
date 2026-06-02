@@ -1,0 +1,21 @@
+{
+  "schema_version": "0.1.0",
+  "id": "result.managed_project_control_loop",
+  "example_id": "package.managed_project_control_loop",
+  "generated_at": "2026-06-02T00:00:00.000Z",
+  "pattern": [
+    "canonical_graph_baseline",
+    "generated_human_projection",
+    "semantic_review",
+    "graph_sync_proposal",
+    "evidence_pack",
+    "coordinator_gate",
+    "approved_canonical_update"
+  ],
+  "public_safety": "synthetic_public",
+  "limitations": [
+    "This result validates example shape, not operational effectiveness.",
+    "The current project_management profile represents workflow batches and sync proposals through existing object kinds.",
+    "Future profile extensions may introduce dedicated object kinds for lifecycle stages, workflow batches, sync proposals and Kaizen items."
+  ]
+}

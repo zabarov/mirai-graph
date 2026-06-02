@@ -1,0 +1,22 @@
+[
+  {
+    "id": "gate_result.implementation_control.public_safety",
+    "gate_id": "gate.public_safety",
+    "target_id": "package.implementation_control_minimal",
+    "verdict": "pass",
+    "summary": "The example uses synthetic public-safe implementation-control material only.",
+    "evidence": ["evidence.synthetic_control_brief"],
+    "reviewed_at": "2026-06-02",
+    "reviewer": "GrowGraph maintainers"
+  },
+  {
+    "id": "gate_result.implementation_control.coordinator_approval",
+    "gate_id": "gate.coordinator_approval",
+    "target_id": "proposal.graph_sync_contract_skeleton",
+    "verdict": "pass_with_notes",
+    "summary": "The proposal is review-ready and must remain separate from the controlled update until approval.",
+    "evidence": ["evidence_pack.contract_skeleton"],
+    "reviewed_at": "2026-06-02",
+    "reviewer": "Synthetic coordinator"
+  }
+]

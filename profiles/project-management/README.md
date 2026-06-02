@@ -88,3 +88,28 @@ Pilot finding:
 
 The profile is sufficient for a small Level 1 package, but needs richer
 modeling for milestones, owners, task status vs readiness and action records.
+
+## Next Extension Candidates
+
+Larger managed projects need a richer project-control model than the initial
+Level 1 profile. Public-safe harvest work identified the following extension
+candidates:
+
+- lifecycle stages;
+- implementation clusters;
+- workflow batches;
+- human projection feedback loops;
+- review records;
+- release gates;
+- graph sync proposals;
+- candidate closure decisions;
+- continuous-improvement items.
+
+These candidates are not yet part of `profile.json`. They should be introduced
+through a future profile extension or a separate implementation-control profile
+after synthetic examples and validation rules are added.
+
+See:
+
+- `docs/transfer/project-management-standard-harvest-2026-06-02.md`
+- `examples/managed-project-control-loop/README.md`

@@ -1,0 +1,22 @@
+[
+  {
+    "id": "gate_result.managed_project_control_loop.public_safety",
+    "gate_id": "gate.public_safety",
+    "target_id": "package.managed_project_control_loop",
+    "verdict": "pass",
+    "summary": "The example uses synthetic public-safe project-management material only.",
+    "evidence": ["evidence.synthetic_project_brief"],
+    "reviewed_at": "2026-06-02",
+    "reviewer": "GrowGraph maintainers"
+  },
+  {
+    "id": "gate_result.managed_project_control_loop.coordinator_approval",
+    "gate_id": "gate.coordinator_approval",
+    "target_id": "decision.graph_sync_proposal",
+    "verdict": "pass_with_notes",
+    "summary": "The proposal is represented as review-ready and requires evidence before becoming canonical state.",
+    "evidence": ["evidence.graph_sync_pack", "evidence.semantic_review_notes"],
+    "reviewed_at": "2026-06-02",
+    "reviewer": "Synthetic coordinator"
+  }
+]

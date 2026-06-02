@@ -1,0 +1,101 @@
+[
+  {
+    "id": "relation.baseline.document_service_v1.derives_projection.projection.document_service_human_view",
+    "type": "derives_projection",
+    "source": "baseline.document_service_v1",
+    "target": "projection.document_service_human_view",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_control_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "relation.review.document_service_semantic.reviews_projection.projection.document_service_human_view",
+    "type": "reviews_projection",
+    "source": "review.document_service_semantic",
+    "target": "projection.document_service_human_view",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_control_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "relation.batch.contract_skeleton.produces_evidence.evidence_pack.contract_skeleton",
+    "type": "produces_evidence",
+    "source": "batch.contract_skeleton",
+    "target": "evidence_pack.contract_skeleton",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_control_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "relation.proposal.graph_sync_contract_skeleton.proposes_update.update.contract_skeleton_accepted",
+    "type": "proposes_update",
+    "source": "proposal.graph_sync_contract_skeleton",
+    "target": "update.contract_skeleton_accepted",
+    "readiness": "review_ready",
+    "evidence": ["evidence_pack.contract_skeleton"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "relation.proposal.graph_sync_contract_skeleton.requires_gate.gate.coordinator_approval",
+    "type": "requires_gate",
+    "source": "proposal.graph_sync_contract_skeleton",
+    "target": "gate.coordinator_approval",
+    "readiness": "accepted",
+    "evidence": ["evidence_pack.contract_skeleton"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "relation.gate.coordinator_approval.approves_update.update.contract_skeleton_accepted",
+    "type": "approves_update",
+    "source": "gate.coordinator_approval",
+    "target": "update.contract_skeleton_accepted",
+    "readiness": "review_ready",
+    "evidence": ["evidence_pack.contract_skeleton"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "relation.update.contract_skeleton_accepted.updates_baseline.baseline.document_service_v1",
+    "type": "updates_baseline",
+    "source": "update.contract_skeleton_accepted",
+    "target": "baseline.document_service_v1",
+    "readiness": "review_ready",
+    "evidence": ["evidence_pack.contract_skeleton"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "relation.state.contract_skeleton_ready.records_state.update.contract_skeleton_accepted",
+    "type": "records_state",
+    "source": "state.contract_skeleton_ready",
+    "target": "update.contract_skeleton_accepted",
+    "readiness": "review_ready",
+    "evidence": ["evidence_pack.contract_skeleton"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "relation.risk.generated_context_as_authorization.blocks.update.contract_skeleton_accepted",
+    "type": "blocks",
+    "source": "risk.generated_context_as_authorization",
+    "target": "update.contract_skeleton_accepted",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_control_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "relation.gate.coordinator_approval.mitigates.risk.generated_context_as_authorization",
+    "type": "mitigates",
+    "source": "gate.coordinator_approval",
+    "target": "risk.generated_context_as_authorization",
+    "readiness": "accepted",
+    "evidence": ["evidence_pack.contract_skeleton"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "relation.kaizen.separate_proposal_from_update.improves_process.batch.contract_skeleton",
+    "type": "improves_process",
+    "source": "kaizen.separate_proposal_from_update",
+    "target": "batch.contract_skeleton",
+    "readiness": "draft",
+    "evidence": ["evidence_pack.contract_skeleton"],
+    "profile": "implementation_control"
+  }
+]

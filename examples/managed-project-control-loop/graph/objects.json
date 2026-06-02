@@ -1,0 +1,119 @@
+[
+  {
+    "id": "evidence.synthetic_project_brief",
+    "kind": "evidence",
+    "title": "Synthetic project brief",
+    "summary": "A public-safe brief for a fictional document automation project.",
+    "readiness": "accepted",
+    "evidence": [],
+    "profile": "project_management"
+  },
+  {
+    "id": "system.document_automation_project",
+    "kind": "system",
+    "title": "Document Automation Project",
+    "summary": "A synthetic managed project used to demonstrate GrowGraph project-control loops.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_project_brief"],
+    "profile": "project_management"
+  },
+  {
+    "id": "goal.approved_graph_baseline",
+    "kind": "goal",
+    "title": "Maintain approved graph baseline",
+    "summary": "Keep project state canonical, reviewable and protected from unapproved updates.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_project_brief"],
+    "profile": "project_management"
+  },
+  {
+    "id": "task.generate_human_projection",
+    "kind": "task",
+    "title": "Generate human projection",
+    "summary": "Generate a readable project projection from canonical graph state for human review.",
+    "readiness": "accepted",
+    "evidence": ["evidence.synthetic_project_brief"],
+    "profile": "project_management"
+  },
+  {
+    "id": "evidence.human_projection",
+    "kind": "evidence",
+    "title": "Generated human projection",
+    "summary": "A generated readable view of the synthetic project graph; it is review input, not canonical truth.",
+    "readiness": "accepted",
+    "evidence": ["evidence.synthetic_project_brief"],
+    "profile": "project_management"
+  },
+  {
+    "id": "task.semantic_review",
+    "kind": "task",
+    "title": "Run semantic review",
+    "summary": "Compare the human projection with the canonical graph and identify meaningful gaps.",
+    "readiness": "accepted",
+    "evidence": ["evidence.human_projection"],
+    "profile": "project_management"
+  },
+  {
+    "id": "evidence.semantic_review_notes",
+    "kind": "evidence",
+    "title": "Semantic review notes",
+    "summary": "Synthetic notes identifying one meaningful gap: an approval gate must be explicit before baseline update.",
+    "readiness": "accepted",
+    "evidence": ["evidence.human_projection"],
+    "profile": "project_management"
+  },
+  {
+    "id": "decision.graph_sync_proposal",
+    "kind": "decision",
+    "title": "Graph sync proposal",
+    "summary": "Propose a canonical graph update based on reviewed evidence instead of mutating the graph directly.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.semantic_review_notes"],
+    "profile": "project_management"
+  },
+  {
+    "id": "task.collect_evidence_pack",
+    "kind": "task",
+    "title": "Collect evidence pack",
+    "summary": "Collect projection, review notes, proposed update and expected validation before approval.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.semantic_review_notes"],
+    "profile": "project_management"
+  },
+  {
+    "id": "evidence.graph_sync_pack",
+    "kind": "evidence",
+    "title": "Graph sync evidence pack",
+    "summary": "Synthetic evidence pack linking the generated projection, semantic review and proposed graph update.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.semantic_review_notes"],
+    "profile": "project_management"
+  },
+  {
+    "id": "gate.coordinator_approval",
+    "kind": "governance_gate",
+    "title": "Coordinator approval gate",
+    "summary": "A coordinator must approve the graph sync proposal before canonical state changes.",
+    "readiness": "accepted",
+    "evidence": ["evidence.graph_sync_pack"],
+    "profile": "project_management"
+  },
+  {
+    "id": "milestone.approved_canonical_update",
+    "kind": "milestone",
+    "title": "Approved canonical update",
+    "summary": "The proposed graph update is accepted only after evidence and gate review are complete.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.graph_sync_pack"],
+    "profile": "project_management"
+  },
+  {
+    "id": "risk.unapproved_canonical_drift",
+    "kind": "risk",
+    "title": "Unapproved canonical drift",
+    "summary": "Generated documents or implementation work may introduce unapproved facts if the approval gate is skipped.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.semantic_review_notes"],
+    "profile": "project_management"
+  }
+]
