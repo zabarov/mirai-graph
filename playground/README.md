@@ -30,6 +30,7 @@ Generate the end-to-end playground report:
 
 ```bash
 npm run playground:demo
+npm run playground:report
 ```
 
 Validate implementation-control and process-control examples:
@@ -70,5 +71,6 @@ npm test
 ## Future Work
 
 A hosted or interactive playground can be added later. Until then, this index
-keeps the public README honest: GrowGraph has runnable demos, but not yet a
-separate interactive application.
+keeps the public README honest: GrowGraph has a deterministic local report with
+transition explanation and baseline comparison, but not yet a separate
+interactive application.
