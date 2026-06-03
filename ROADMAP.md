@@ -103,8 +103,9 @@ Goal: make adoption practical for developers.
 
 Alpha status: partially implemented. The CLI validates packages, profiles,
 context packs, graph seeds, implementation-control cycles, launch records,
-process transitions, process-control contracts, DNA alignment, work state,
-recovery, risk, coordination, source boundaries and routing-control examples.
+process transitions, process-transition decision reports, process-control
+contracts, DNA alignment, work state, recovery, risk, coordination, source
+boundaries, routing-control examples and baseline-comparison artifacts.
 
 Planned artifacts:
 
@@ -119,8 +120,8 @@ Next gaps:
 
 - package the CLI as a cleaner public developer interface;
 - add import/export helpers;
-- improve generated validation reports for humans;
-- add transition explanation output for process-control checks.
+- extend human-readable reports beyond process-transition checks;
+- add process-control explanation output and richer report formatting.
 
 The standard must remain implementation-independent. Tooling validates and
 demonstrates the standard; it does not replace the standard.
@@ -129,9 +130,10 @@ demonstrates the standard; it does not replace the standard.
 
 Goal: provide reproducible public-safe demonstrations.
 
-Alpha status: partially implemented. Synthetic benchmark, pilot packages,
-profile conformance results and runnable CLI examples exist. The playground is
-currently an index of runnable examples rather than a hosted interactive app.
+Alpha status: partially implemented. Synthetic benchmark, baseline-comparison
+artifact, pilot packages, profile conformance results and runnable CLI examples
+exist. The playground is a deterministic local report package rather than a
+hosted interactive app.
 
 Planned artifacts:
 
@@ -143,10 +145,10 @@ Planned artifacts:
 
 Next gaps:
 
-- add a richer playground experience;
 - separate synthetic evidence, pilot evidence and scientific claims more
   visibly;
-- add more independent implementation pilots.
+- add more independent implementation pilots;
+- explore an interactive playground after CLI-first reports stabilize.
 
 Synthetic materials must remain clearly separated from real-world validation.
 
@@ -169,11 +171,12 @@ Planned artifacts:
 
 ## Near-Term Work
 
-1. Stabilize `v0.1.0-alpha.6` release packaging and documentation.
-2. Prepare `v0.1.0-alpha.7` around human-readable validation reports,
-   process-transition explanations and a richer playground.
-3. Validate AI employee and implementation-control profiles through additional
-   public-safe pilots.
-4. Add import/export helpers and cleaner CLI packaging.
+1. Prepare the next alpha around process-control explanations, import/export
+   helpers and cleaner CLI packaging.
+2. Add one or two external public-safe pilots maintained outside the original
+   GrowGraph authoring contour.
+3. Expand organization-governance validation reports and adoption recipes.
+4. Explore a local interactive playground only after deterministic report
+   fixtures remain stable.
 5. Expand scientific evidence packages with independent validation and
    limitations.

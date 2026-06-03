@@ -33,6 +33,7 @@ Synthetic evidence uses public-safe examples and benchmarks.
 Current materials:
 
 - `benchmarks/synthetic-context-reduction-v0/`
+- `benchmarks/synthetic-context-reduction-v0/results/baseline-comparison-result.json`
 - `examples/federation-routing-smoke/`
 - `examples/process-transition-minimal/`
 - `examples/implementation-control-cycles/`
@@ -49,6 +50,7 @@ Current materials:
 - `pilots/independent-implementation-001-conference-planning/`
 - `pilots/independent-implementation-002-software-specification/`
 - `pilots/independent-implementation-003-ai-employee-workflow/`
+- `pilots/independent-implementation-004-research-program/`
 
 Use pilot evidence to inspect whether the model can be applied outside the
 minimal examples. Pilot evidence still needs replication and independent
@@ -95,7 +97,9 @@ npm run benchmark:synthetic
 npm run validate:context-packs
 npm run validate:profile-results
 npm run validate:process-transition
+npm run validate:process-transition-report
 npm run test:process-transition-negative
+npm run validate:baseline-comparison
 ```
 
 Then inspect:
@@ -113,6 +117,7 @@ GrowGraph public alpha may claim:
 - a public standard draft exists;
 - schemas, validators and examples are runnable;
 - synthetic and pilot evidence are separated;
+- baseline comparisons are public-safe and bounded by explicit limitations;
 - governance controls can be represented and tested in public-safe fixtures.
 
 GrowGraph public alpha must not claim:
@@ -126,7 +131,7 @@ GrowGraph public alpha must not claim:
 ## Next Evidence Work
 
 - Add more independent public pilots.
-- Add baseline-vs-graph comparison reports.
+- Replicate baseline-vs-graph comparison reports across different domains.
 - Publish limitation tables per pilot.
 - Prepare publication-ready reproducibility bundles.
 - Record reviewer objections and response notes when publications exist.

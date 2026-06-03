@@ -4,6 +4,40 @@ All notable changes to GrowGraph will be documented in this file.
 
 ## [Unreleased]
 
+## [0.1.0-alpha.7] - 2026-06-03
+
+### Added
+
+- Process-transition explanations in JSON validator output.
+- Human-readable process-transition decision report output.
+- Passing and failing process-transition explanation fixtures.
+- `validate:process-transition-report` check for explanation-critical fields.
+- Public baseline-comparison result schema, synthetic result artifact and
+  `validate:baseline-comparison` check.
+- Richer deterministic playground report with transition explanation and
+  baseline comparison sections.
+- `playground:report` and `validate:playground-report` commands.
+- Public-safe research-program pilot package as independent implementation
+  pilot 004.
+- Alpha.7 release notes and updated roadmap/evidence navigation.
+
+### Changed
+
+- `npm test` now includes process-transition explanation report checks,
+  deterministic playground report validation and baseline-comparison
+  validation.
+- Research evidence docs now distinguish synthetic comparison artifacts,
+  public pilot evidence and scientific proof boundaries more explicitly.
+
+### Claim Boundary
+
+- This release supports public alpha readiness claims for executable process
+  explanations, deterministic local demos and bounded synthetic comparison
+  evidence.
+- It does not claim peer-reviewed proof, runtime autonomy, production safety or
+  automatic canonical updates from evidence, feedback, runtime results or
+  proposals.
+
 ## [0.1.0-alpha.6] - 2026-05-31
 
 ### Added

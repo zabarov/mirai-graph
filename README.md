@@ -90,7 +90,7 @@ Core references:
 - [Standard v0.1 Draft](standard/standard-v0.1.md)
 - [Profiles](profiles/README.md)
 
-Current alpha.6 standard areas:
+Current alpha.7 standard areas:
 
 - [Object Model](standard/object-model.md)
 - [Relation Model](standard/relation-model.md)
@@ -132,6 +132,7 @@ Runnable materials:
 - [Independent Implementation Pilot 001](pilots/independent-implementation-001-conference-planning/reports/pilot-report.md)
 - [Independent Implementation Pilot 002](pilots/independent-implementation-002-software-specification/reports/pilot-report.md)
 - [Independent Implementation Pilot 003](pilots/independent-implementation-003-ai-employee-workflow/reports/pilot-report.md)
+- [Independent Implementation Pilot 004](pilots/independent-implementation-004-research-program/reports/pilot-report.md)
 
 ## Validate A Graph Package
 
@@ -158,12 +159,18 @@ node packages/cli/validate-growgraph.js examples/organization-governance-minimal
 node packages/cli/seed-preview.js examples/graph-seed-minimal/graph-seed.json
 node packages/cli/context-pack.js benchmarks/synthetic-context-reduction-v0 --task-id task.notify_after_approval
 node packages/cli/readiness-score.js benchmarks/synthetic-context-reduction-v0 --target-mode pilot
+node packages/cli/validate-process-transition-report.js
+node packages/cli/validate-baseline-comparison.js benchmarks/synthetic-context-reduction-v0/results/baseline-comparison-result.json
+node packages/cli/playground-demo.js
 ```
 
 Or run the current smoke checks:
 
 ```bash
 npm test
+npm run playground:report
+npm run validate:playground-report
+npm run validate:baseline-comparison
 ```
 
 ## What This Repository Is Not

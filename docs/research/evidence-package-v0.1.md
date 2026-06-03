@@ -26,12 +26,14 @@ It does not claim peer-reviewed proof of effectiveness.
 |---|---|---|
 | Synthetic benchmark | `benchmarks/synthetic-context-reduction-v0/` | Reproducible context-reduction demonstration |
 | Context-pack validation | `benchmarks/synthetic-context-reduction-v0/results/context-pack.json` | Expected generated context example |
+| Baseline comparison result | `benchmarks/synthetic-context-reduction-v0/results/baseline-comparison-result.json` | Synthetic baseline-vs-GrowGraph metric comparison |
 | Routing-control fixture | `examples/federation-routing-smoke/` | Explainable routing and regression shape |
 | Process-transition fixture | `examples/process-transition-minimal/` | False-transition guard demonstration |
 | Implementation-control cycle | `examples/implementation-control-cycles/` | Cycle and Kaizen transition model |
 | Public pilot 001 | `pilots/independent-implementation-001-conference-planning/` | Independent implementation package |
 | Public pilot 002 | `pilots/independent-implementation-002-software-specification/` | Software-specification package |
 | Public pilot 003 | `pilots/independent-implementation-003-ai-employee-workflow/` | AI employee workflow package |
+| Public pilot 004 | `pilots/independent-implementation-004-research-program/` | Research-program governance package |
 
 ## Metrics
 
@@ -60,8 +62,11 @@ npm run benchmark:synthetic
 npm run validate:context-packs
 npm run validate:profile-results
 npm run validate:process-transition
+npm run validate:process-transition-report
 npm run test:process-transition-negative
+npm run validate:baseline-comparison
 npm run playground:demo
+npm run playground:report
 ```
 
 ## Evidence Boundaries
