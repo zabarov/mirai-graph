@@ -1,0 +1,47 @@
+[
+  {
+    "id": "relation.package.starter_app.implements.feature.user_notification",
+    "type": "implements",
+    "source": "package.starter_app",
+    "target": "feature.user_notification",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_brief"],
+    "profile": "software_specification"
+  },
+  {
+    "id": "relation.feature.user_notification.depends_on.requirement.audit_before_notify",
+    "type": "depends_on",
+    "source": "feature.user_notification",
+    "target": "requirement.audit_before_notify",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_brief"],
+    "profile": "software_specification"
+  },
+  {
+    "id": "relation.component.notification_service.implements.feature.user_notification",
+    "type": "implements",
+    "source": "component.notification_service",
+    "target": "feature.user_notification",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_brief"],
+    "profile": "software_specification"
+  },
+  {
+    "id": "relation.task.implement_notifier.depends_on.component.notification_service",
+    "type": "depends_on",
+    "source": "task.implement_notifier",
+    "target": "component.notification_service",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_brief"],
+    "profile": "software_specification"
+  },
+  {
+    "id": "relation.risk.duplicate_notification.blocks.feature.user_notification",
+    "type": "blocks",
+    "source": "risk.duplicate_notification",
+    "target": "feature.user_notification",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_brief"],
+    "profile": "software_specification"
+  }
+]

@@ -1,0 +1,12 @@
+[
+  {
+    "id": "gate_result.template_organization_governance.public_safety",
+    "gate_id": "gate.public_safety",
+    "target_id": "package.template_organization_governance",
+    "verdict": "pass",
+    "summary": "Template uses only synthetic organization-governance content.",
+    "evidence": ["evidence.synthetic_governance_brief"],
+    "reviewed_at": "2026-06-03",
+    "reviewer": "GrowGraph template validator"
+  }
+]

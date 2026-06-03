@@ -1,0 +1,79 @@
+[
+  {
+    "id": "package.starter_app",
+    "kind": "package",
+    "title": "Starter App",
+    "summary": "A synthetic software package used to start a GrowGraph integration.",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_brief"],
+    "profile": "software_specification",
+    "created_at": "2026-06-03",
+    "updated_at": "2026-06-03"
+  },
+  {
+    "id": "feature.user_notification",
+    "kind": "feature",
+    "title": "User Notification",
+    "summary": "Notify a user after an approved workflow event.",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_brief"],
+    "profile": "software_specification",
+    "created_at": "2026-06-03",
+    "updated_at": "2026-06-03"
+  },
+  {
+    "id": "requirement.audit_before_notify",
+    "kind": "requirement",
+    "title": "Audit Before Notify",
+    "summary": "The event must be recorded before notification is sent.",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_brief"],
+    "profile": "software_specification",
+    "created_at": "2026-06-03",
+    "updated_at": "2026-06-03"
+  },
+  {
+    "id": "component.notification_service",
+    "kind": "component",
+    "title": "Notification Service",
+    "summary": "Component responsible for dispatching user notifications.",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_brief"],
+    "profile": "software_specification",
+    "created_at": "2026-06-03",
+    "updated_at": "2026-06-03"
+  },
+  {
+    "id": "task.implement_notifier",
+    "kind": "task",
+    "title": "Implement Notifier",
+    "summary": "Implement notification dispatch after audit evidence is recorded.",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_brief"],
+    "profile": "software_specification",
+    "created_at": "2026-06-03",
+    "updated_at": "2026-06-03"
+  },
+  {
+    "id": "risk.duplicate_notification",
+    "kind": "risk",
+    "title": "Duplicate Notification",
+    "summary": "A user may receive duplicate messages if idempotency is missing.",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_brief"],
+    "profile": "software_specification",
+    "created_at": "2026-06-03",
+    "updated_at": "2026-06-03"
+  },
+  {
+    "id": "evidence.synthetic_brief",
+    "kind": "evidence",
+    "title": "Synthetic Feature Brief",
+    "summary": "Public-safe placeholder evidence for the starter template.",
+    "readiness": "accepted",
+    "evidence": [],
+    "profile": "software_specification",
+    "created_at": "2026-06-03",
+    "updated_at": "2026-06-03"
+  }
+]

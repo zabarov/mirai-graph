@@ -1,0 +1,47 @@
+[
+  {
+    "id": "relation.ai_employee.research_assistant.has_role.role.research_support",
+    "type": "has_role",
+    "source": "ai_employee.research_assistant",
+    "target": "role.research_support",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_role_brief"],
+    "profile": "ai_employee"
+  },
+  {
+    "id": "relation.ai_employee.research_assistant.has_skill.skill.evidence_summary",
+    "type": "has_skill",
+    "source": "ai_employee.research_assistant",
+    "target": "skill.evidence_summary",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_role_brief"],
+    "profile": "ai_employee"
+  },
+  {
+    "id": "relation.skill.evidence_summary.requires_capability.tool.search_index",
+    "type": "requires_capability",
+    "source": "skill.evidence_summary",
+    "target": "tool.search_index",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_role_brief"],
+    "profile": "ai_employee"
+  },
+  {
+    "id": "relation.action.prepare_summary.requires_approval.policy.human_approval",
+    "type": "requires_approval",
+    "source": "action.prepare_summary",
+    "target": "policy.human_approval",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_role_brief"],
+    "profile": "ai_employee"
+  },
+  {
+    "id": "relation.feedback.review_note.updates_behavior.policy.human_approval",
+    "type": "updates_behavior",
+    "source": "feedback.review_note",
+    "target": "policy.human_approval",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_role_brief"],
+    "profile": "ai_employee"
+  }
+]

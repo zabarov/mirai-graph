@@ -1,0 +1,47 @@
+[
+  {
+    "id": "relation.goal.test_hypothesis.belongs_to.system.research_program",
+    "type": "belongs_to",
+    "source": "goal.test_hypothesis",
+    "target": "system.research_program",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_protocol"],
+    "profile": "project_management"
+  },
+  {
+    "id": "relation.milestone.reproducible_result.supports.goal.test_hypothesis",
+    "type": "supports",
+    "source": "milestone.reproducible_result",
+    "target": "goal.test_hypothesis",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_protocol"],
+    "profile": "project_management"
+  },
+  {
+    "id": "relation.task.run_protocol.depends_on.milestone.reproducible_result",
+    "type": "depends_on",
+    "source": "task.run_protocol",
+    "target": "milestone.reproducible_result",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_protocol"],
+    "profile": "project_management"
+  },
+  {
+    "id": "relation.risk.overclaiming.blocks.goal.test_hypothesis",
+    "type": "blocks",
+    "source": "risk.overclaiming",
+    "target": "goal.test_hypothesis",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_protocol"],
+    "profile": "project_management"
+  },
+  {
+    "id": "relation.governance_gate.claim_review.governs.goal.test_hypothesis",
+    "type": "governs",
+    "source": "governance_gate.claim_review",
+    "target": "goal.test_hypothesis",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_protocol"],
+    "profile": "project_management"
+  }
+]

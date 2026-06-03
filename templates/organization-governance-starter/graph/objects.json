@@ -1,0 +1,112 @@
+[
+  {
+    "id": "organization.example_org",
+    "kind": "organization",
+    "title": "Example Organization",
+    "summary": "Synthetic organization used to start governance modeling.",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_governance_brief"],
+    "profile": "organization_governance",
+    "created_at": "2026-06-03",
+    "updated_at": "2026-06-03"
+  },
+  {
+    "id": "mission.public_value",
+    "kind": "mission",
+    "title": "Public Value Mission",
+    "summary": "Deliver measurable value while keeping decision rights explicit.",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_governance_brief"],
+    "profile": "organization_governance",
+    "created_at": "2026-06-03",
+    "updated_at": "2026-06-03"
+  },
+  {
+    "id": "strategy.evidence_led_growth",
+    "kind": "strategy",
+    "title": "Evidence-Led Growth",
+    "summary": "Use evidence and gates to decide what work is promoted.",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_governance_brief"],
+    "profile": "organization_governance",
+    "created_at": "2026-06-03",
+    "updated_at": "2026-06-03"
+  },
+  {
+    "id": "department.delivery",
+    "kind": "department",
+    "title": "Delivery Department",
+    "summary": "Department responsible for bounded work execution and evidence.",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_governance_brief"],
+    "profile": "organization_governance",
+    "created_at": "2026-06-03",
+    "updated_at": "2026-06-03"
+  },
+  {
+    "id": "program.adoption_program",
+    "kind": "program",
+    "title": "Adoption Program",
+    "summary": "Program that introduces a governed operating model.",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_governance_brief"],
+    "profile": "organization_governance",
+    "created_at": "2026-06-03",
+    "updated_at": "2026-06-03"
+  },
+  {
+    "id": "policy.approval_gate",
+    "kind": "policy",
+    "title": "Approval Gate Policy",
+    "summary": "Generated evidence and feedback require review before promotion.",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_governance_brief"],
+    "profile": "organization_governance",
+    "created_at": "2026-06-03",
+    "updated_at": "2026-06-03"
+  },
+  {
+    "id": "control.release_review",
+    "kind": "control",
+    "title": "Release Review",
+    "summary": "Control that checks evidence, risk and decision rights before release.",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_governance_brief"],
+    "profile": "organization_governance",
+    "created_at": "2026-06-03",
+    "updated_at": "2026-06-03"
+  },
+  {
+    "id": "metric.evidence_coverage",
+    "kind": "metric",
+    "title": "Evidence Coverage",
+    "summary": "Metric tracking the share of claims linked to evidence.",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_governance_brief"],
+    "profile": "organization_governance",
+    "created_at": "2026-06-03",
+    "updated_at": "2026-06-03"
+  },
+  {
+    "id": "risk.ungoverned_promotion",
+    "kind": "risk",
+    "title": "Ungoverned Promotion",
+    "summary": "A proposal may be treated as approved without a decision right.",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_governance_brief"],
+    "profile": "organization_governance",
+    "created_at": "2026-06-03",
+    "updated_at": "2026-06-03"
+  },
+  {
+    "id": "evidence.synthetic_governance_brief",
+    "kind": "evidence",
+    "title": "Synthetic Governance Brief",
+    "summary": "Public-safe placeholder evidence for the starter template.",
+    "readiness": "accepted",
+    "evidence": [],
+    "profile": "organization_governance",
+    "created_at": "2026-06-03",
+    "updated_at": "2026-06-03"
+  }
+]

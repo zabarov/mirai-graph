@@ -1,0 +1,90 @@
+[
+  {
+    "id": "ai_employee.research_assistant",
+    "kind": "ai_employee",
+    "title": "Research Assistant",
+    "summary": "Synthetic AI employee used to demonstrate governed capability and feedback boundaries.",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_role_brief"],
+    "profile": "ai_employee",
+    "created_at": "2026-06-03",
+    "updated_at": "2026-06-03"
+  },
+  {
+    "id": "role.research_support",
+    "kind": "role",
+    "title": "Research Support",
+    "summary": "Role responsible for summarizing evidence and preparing review queues.",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_role_brief"],
+    "profile": "ai_employee",
+    "created_at": "2026-06-03",
+    "updated_at": "2026-06-03"
+  },
+  {
+    "id": "skill.evidence_summary",
+    "kind": "skill",
+    "title": "Evidence Summary",
+    "summary": "Summarize source evidence without turning suggestions into canonical updates.",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_role_brief"],
+    "profile": "ai_employee",
+    "created_at": "2026-06-03",
+    "updated_at": "2026-06-03"
+  },
+  {
+    "id": "tool.search_index",
+    "kind": "tool",
+    "title": "Search Index",
+    "summary": "Synthetic tool placeholder for finding reviewed public sources.",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_role_brief"],
+    "profile": "ai_employee",
+    "created_at": "2026-06-03",
+    "updated_at": "2026-06-03"
+  },
+  {
+    "id": "policy.human_approval",
+    "kind": "policy",
+    "title": "Human Approval",
+    "summary": "External action and behavior updates require human approval.",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_role_brief"],
+    "profile": "ai_employee",
+    "created_at": "2026-06-03",
+    "updated_at": "2026-06-03"
+  },
+  {
+    "id": "action.prepare_summary",
+    "kind": "action",
+    "title": "Prepare Summary",
+    "summary": "Prepare a reviewable summary, not a canonical update.",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_role_brief"],
+    "profile": "ai_employee",
+    "created_at": "2026-06-03",
+    "updated_at": "2026-06-03"
+  },
+  {
+    "id": "feedback.review_note",
+    "kind": "feedback",
+    "title": "Review Note",
+    "summary": "Feedback may create a proposal but cannot directly update behavior.",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_role_brief"],
+    "profile": "ai_employee",
+    "created_at": "2026-06-03",
+    "updated_at": "2026-06-03"
+  },
+  {
+    "id": "evidence.synthetic_role_brief",
+    "kind": "evidence",
+    "title": "Synthetic Role Brief",
+    "summary": "Public-safe placeholder evidence for the starter template.",
+    "readiness": "accepted",
+    "evidence": [],
+    "profile": "ai_employee",
+    "created_at": "2026-06-03",
+    "updated_at": "2026-06-03"
+  }
+]

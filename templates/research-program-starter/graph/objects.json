@@ -1,0 +1,79 @@
+[
+  {
+    "id": "system.research_program",
+    "kind": "system",
+    "title": "Research Program",
+    "summary": "Synthetic research program used to start evidence-managed scientific work.",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_protocol"],
+    "profile": "project_management",
+    "created_at": "2026-06-03",
+    "updated_at": "2026-06-03"
+  },
+  {
+    "id": "goal.test_hypothesis",
+    "kind": "goal",
+    "title": "Test Hypothesis",
+    "summary": "Evaluate a bounded hypothesis with reproducible evidence and limitations.",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_protocol"],
+    "profile": "project_management",
+    "created_at": "2026-06-03",
+    "updated_at": "2026-06-03"
+  },
+  {
+    "id": "milestone.reproducible_result",
+    "kind": "milestone",
+    "title": "Reproducible Result",
+    "summary": "Produce a result artifact that can be rerun and reviewed.",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_protocol"],
+    "profile": "project_management",
+    "created_at": "2026-06-03",
+    "updated_at": "2026-06-03"
+  },
+  {
+    "id": "task.run_protocol",
+    "kind": "task",
+    "title": "Run Protocol",
+    "summary": "Run the agreed protocol and record evidence before claims are promoted.",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_protocol"],
+    "profile": "project_management",
+    "created_at": "2026-06-03",
+    "updated_at": "2026-06-03"
+  },
+  {
+    "id": "risk.overclaiming",
+    "kind": "risk",
+    "title": "Overclaiming",
+    "summary": "Synthetic evidence may be interpreted as broad scientific proof.",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_protocol"],
+    "profile": "project_management",
+    "created_at": "2026-06-03",
+    "updated_at": "2026-06-03"
+  },
+  {
+    "id": "governance_gate.claim_review",
+    "kind": "governance_gate",
+    "title": "Claim Review",
+    "summary": "Claims must be checked against evidence level and limitations.",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_protocol"],
+    "profile": "project_management",
+    "created_at": "2026-06-03",
+    "updated_at": "2026-06-03"
+  },
+  {
+    "id": "evidence.synthetic_protocol",
+    "kind": "evidence",
+    "title": "Synthetic Protocol",
+    "summary": "Public-safe placeholder protocol for the starter template.",
+    "readiness": "accepted",
+    "evidence": [],
+    "profile": "project_management",
+    "created_at": "2026-06-03",
+    "updated_at": "2026-06-03"
+  }
+]

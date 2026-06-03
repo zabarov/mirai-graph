@@ -1,0 +1,12 @@
+[
+  {
+    "id": "gate_result.template_ai_employee.public_safety",
+    "gate_id": "gate.public_safety",
+    "target_id": "package.template_ai_employee",
+    "verdict": "pass",
+    "summary": "Template uses only synthetic AI employee content and no private runtime traces.",
+    "evidence": ["evidence.synthetic_role_brief"],
+    "reviewed_at": "2026-06-03",
+    "reviewer": "GrowGraph template validator"
+  }
+]

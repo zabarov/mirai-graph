@@ -1,0 +1,12 @@
+[
+  {
+    "id": "gate_result.template_software_project.public_safety",
+    "gate_id": "gate.public_safety",
+    "target_id": "package.template_software_project",
+    "verdict": "pass",
+    "summary": "Template uses only synthetic public-safe material.",
+    "evidence": ["evidence.synthetic_brief"],
+    "reviewed_at": "2026-06-03",
+    "reviewer": "GrowGraph template validator"
+  }
+]

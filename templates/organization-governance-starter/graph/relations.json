@@ -1,0 +1,65 @@
+[
+  {
+    "id": "relation.organization.example_org.aligns_with.mission.public_value",
+    "type": "aligns_with",
+    "source": "organization.example_org",
+    "target": "mission.public_value",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_governance_brief"],
+    "profile": "organization_governance"
+  },
+  {
+    "id": "relation.strategy.evidence_led_growth.aligns_with.mission.public_value",
+    "type": "aligns_with",
+    "source": "strategy.evidence_led_growth",
+    "target": "mission.public_value",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_governance_brief"],
+    "profile": "organization_governance"
+  },
+  {
+    "id": "relation.department.delivery.belongs_to.organization.example_org",
+    "type": "belongs_to",
+    "source": "department.delivery",
+    "target": "organization.example_org",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_governance_brief"],
+    "profile": "organization_governance"
+  },
+  {
+    "id": "relation.program.adoption_program.belongs_to.department.delivery",
+    "type": "belongs_to",
+    "source": "program.adoption_program",
+    "target": "department.delivery",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_governance_brief"],
+    "profile": "organization_governance"
+  },
+  {
+    "id": "relation.policy.approval_gate.governs.program.adoption_program",
+    "type": "governs",
+    "source": "policy.approval_gate",
+    "target": "program.adoption_program",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_governance_brief"],
+    "profile": "organization_governance"
+  },
+  {
+    "id": "relation.control.release_review.controls.risk.ungoverned_promotion",
+    "type": "controls",
+    "source": "control.release_review",
+    "target": "risk.ungoverned_promotion",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_governance_brief"],
+    "profile": "organization_governance"
+  },
+  {
+    "id": "relation.metric.evidence_coverage.measures.control.release_review",
+    "type": "measures",
+    "source": "metric.evidence_coverage",
+    "target": "control.release_review",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_governance_brief"],
+    "profile": "organization_governance"
+  }
+]
