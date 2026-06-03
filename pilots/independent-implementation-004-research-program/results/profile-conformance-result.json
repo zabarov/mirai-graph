@@ -1,0 +1,30 @@
+{
+  "schema_version": "0.1.0",
+  "result_id": "profile_conformance.package.research_program_pilot_004",
+  "checked_at": "2026-06-03",
+  "fixture": "pilots/independent-implementation-004-research-program/",
+  "package_id": "package.research_program_pilot_004",
+  "profile": "project_management",
+  "conformance_level": "level_1",
+  "validator": "packages/cli/validate-growgraph.js",
+  "command": "node packages/cli/validate-growgraph.js pilots/independent-implementation-004-research-program",
+  "valid": true,
+  "errors": [],
+  "warnings": [],
+  "checks": [
+    "required package, object, relation and gate-result fields",
+    "unique object and relation ids",
+    "relation source and target existence",
+    "relation id consistency",
+    "readiness and gate verdict values",
+    "project_management object-kind conformance",
+    "project_management relation-type conformance",
+    "publication claim boundary represented through risk, decision and gate"
+  ],
+  "claim_supported": "The package follows the declared GrowGraph profile shape checked by the current validator.",
+  "limitations": [
+    "The pilot is synthetic and does not prove scientific effectiveness.",
+    "The project_management profile models the research workflow structure, not domain-specific research methodology."
+  ]
+}
+

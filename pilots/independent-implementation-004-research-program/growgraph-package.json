@@ -1,0 +1,15 @@
+{
+  "id": "package.research_program_pilot_004",
+  "name": "Research Program Pilot 004",
+  "version": "0.1.0",
+  "profile": "project_management",
+  "conformance_level": "level_1",
+  "description": "A synthetic independent implementation pilot for a governed research-program workflow.",
+  "license": "CC-BY-4.0",
+  "public_safety": "synthetic_public",
+  "graph": {
+    "objects": "graph/objects.json",
+    "relations": "graph/relations.json"
+  }
+}
+

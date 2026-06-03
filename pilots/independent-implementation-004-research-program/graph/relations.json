@@ -1,0 +1,84 @@
+[
+  {
+    "id": "relation.system.graph_assisted_work_research.supports.goal.measure_context_quality",
+    "type": "supports",
+    "source": "system.graph_assisted_work_research",
+    "target": "goal.measure_context_quality",
+    "readiness": "review_ready",
+    "evidence": ["evidence.research_program_brief"],
+    "profile": "project_management"
+  },
+  {
+    "id": "relation.task.define_baseline_protocol.depends_on.goal.measure_context_quality",
+    "type": "depends_on",
+    "source": "task.define_baseline_protocol",
+    "target": "goal.measure_context_quality",
+    "readiness": "accepted",
+    "evidence": ["evidence.research_program_brief"],
+    "profile": "project_management"
+  },
+  {
+    "id": "relation.task.collect_synthetic_result.depends_on.task.define_baseline_protocol",
+    "type": "depends_on",
+    "source": "task.collect_synthetic_result",
+    "target": "task.define_baseline_protocol",
+    "readiness": "review_ready",
+    "evidence": ["evidence.research_program_brief"],
+    "profile": "project_management"
+  },
+  {
+    "id": "relation.evidence.synthetic_result_table.evidences.task.collect_synthetic_result",
+    "type": "evidences",
+    "source": "evidence.synthetic_result_table",
+    "target": "task.collect_synthetic_result",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_result_table"],
+    "profile": "project_management"
+  },
+  {
+    "id": "relation.risk.overclaiming_synthetic_result.blocks.milestone.preprint_outline_ready",
+    "type": "blocks",
+    "source": "risk.overclaiming_synthetic_result",
+    "target": "milestone.preprint_outline_ready",
+    "readiness": "review_ready",
+    "evidence": ["evidence.research_program_brief"],
+    "profile": "project_management"
+  },
+  {
+    "id": "relation.decision.limit_claim_to_alpha_evidence.blocks.risk.overclaiming_synthetic_result",
+    "type": "blocks",
+    "source": "decision.limit_claim_to_alpha_evidence",
+    "target": "risk.overclaiming_synthetic_result",
+    "readiness": "accepted",
+    "evidence": ["evidence.research_program_brief"],
+    "profile": "project_management"
+  },
+  {
+    "id": "relation.gate.publication_claim_review.governs.decision.limit_claim_to_alpha_evidence",
+    "type": "governs",
+    "source": "gate.publication_claim_review",
+    "target": "decision.limit_claim_to_alpha_evidence",
+    "readiness": "accepted",
+    "evidence": ["evidence.research_program_brief"],
+    "profile": "project_management"
+  },
+  {
+    "id": "relation.milestone.preprint_outline_ready.depends_on.gate.publication_claim_review",
+    "type": "depends_on",
+    "source": "milestone.preprint_outline_ready",
+    "target": "gate.publication_claim_review",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_result_table"],
+    "profile": "project_management"
+  },
+  {
+    "id": "relation.stakeholder.research_reviewer.related_to.gate.publication_claim_review",
+    "type": "related_to",
+    "source": "stakeholder.research_reviewer",
+    "target": "gate.publication_claim_review",
+    "readiness": "draft",
+    "evidence": ["evidence.research_program_brief"],
+    "profile": "project_management"
+  }
+]
+

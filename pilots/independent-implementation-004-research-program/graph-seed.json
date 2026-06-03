@@ -1,0 +1,76 @@
+{
+  "schema_version": "0.1.0",
+  "seed_id": "seed.research_program_pilot",
+  "target_graph_id": "graph.research_program_pilot",
+  "purpose": "Create a public-safe GrowGraph package for a small research-program workflow.",
+  "target_profile": "profile.project_management",
+  "target_mode": "pilot",
+  "graph_dna": {
+    "purpose": "Keep research questions, evidence, milestones, risks and publication gates connected.",
+    "evolution_vector": "Grow from a small synthetic research workflow into a reproducible evidence package.",
+    "non_negotiable_principles": [
+      "The pilot must remain synthetic and public-safe.",
+      "Evidence must stay separate from scientific proof claims.",
+      "Publication readiness requires explicit review gates."
+    ]
+  },
+  "source_boundaries": {
+    "allowed_sources": [
+      "synthetic research program brief",
+      "public GrowGraph research docs",
+      "public GrowGraph project-management profile"
+    ],
+    "excluded_sources": [
+      "private research repository files",
+      "unpublished reviewer notes",
+      "internal handoff text",
+      "customer or employee data",
+      "secrets or credentials"
+    ],
+    "canonical_write_allowed": false
+  },
+  "growth_rules": {
+    "allowed_object_families": [
+      "system",
+      "goal",
+      "task",
+      "decision",
+      "risk",
+      "milestone",
+      "stakeholder",
+      "evidence",
+      "governance_gate"
+    ],
+    "allowed_relation_families": [
+      "depends_on",
+      "blocks",
+      "supports",
+      "evidences",
+      "belongs_to",
+      "governs",
+      "related_to"
+    ],
+    "max_initial_objects": 14,
+    "depth_mode": "standard"
+  },
+  "review_gates": [
+    "human_review_before_canonical_write",
+    "public_safety_before_release",
+    "evidence_review_before_publication_claim",
+    "limitations_review_before_preprint"
+  ],
+  "generated_views": [
+    "research_question_view",
+    "evidence_map",
+    "risk_and_limitations_view",
+    "publication_gate_view",
+    "next_action_view"
+  ],
+  "stop_conditions": [
+    "private_research_data_requested",
+    "scientific_claim_without_evidence_boundary",
+    "publication_ready_without_review_gate",
+    "secret_or_credential_detected"
+  ]
+}
+

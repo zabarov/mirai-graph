@@ -1,0 +1,102 @@
+[
+  {
+    "id": "evidence.research_program_brief",
+    "kind": "evidence",
+    "title": "Synthetic Research Program Brief",
+    "summary": "Public-safe brief for a synthetic research program about graph-assisted work.",
+    "readiness": "accepted",
+    "evidence": [],
+    "profile": "project_management"
+  },
+  {
+    "id": "system.graph_assisted_work_research",
+    "kind": "system",
+    "title": "Graph-Assisted Work Research",
+    "summary": "Synthetic research program used to evaluate GrowGraph-style project control.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.research_program_brief"],
+    "profile": "project_management"
+  },
+  {
+    "id": "goal.measure_context_quality",
+    "kind": "goal",
+    "title": "Measure Context Quality",
+    "summary": "Evaluate whether graph-generated context improves dependency and evidence coverage.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.research_program_brief"],
+    "profile": "project_management"
+  },
+  {
+    "id": "task.define_baseline_protocol",
+    "kind": "task",
+    "title": "Define Baseline Protocol",
+    "summary": "Define a baseline-vs-GrowGraph comparison protocol for one synthetic task.",
+    "readiness": "accepted",
+    "evidence": ["evidence.research_program_brief"],
+    "profile": "project_management"
+  },
+  {
+    "id": "task.collect_synthetic_result",
+    "kind": "task",
+    "title": "Collect Synthetic Result",
+    "summary": "Record context size, missed dependencies, unsupported assumptions and evidence coverage.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.research_program_brief"],
+    "profile": "project_management"
+  },
+  {
+    "id": "evidence.synthetic_result_table",
+    "kind": "evidence",
+    "title": "Synthetic Result Table",
+    "summary": "Synthetic metric table used for reproducibility and limitation review.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.research_program_brief"],
+    "profile": "project_management"
+  },
+  {
+    "id": "risk.overclaiming_synthetic_result",
+    "kind": "risk",
+    "title": "Overclaiming Synthetic Result",
+    "summary": "Synthetic evidence may be mistaken for broad scientific proof.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.research_program_brief"],
+    "profile": "project_management"
+  },
+  {
+    "id": "decision.limit_claim_to_alpha_evidence",
+    "kind": "decision",
+    "title": "Limit Claim To Alpha Evidence",
+    "summary": "Publication wording must separate synthetic evidence, pilot evidence and scientific proof.",
+    "readiness": "accepted",
+    "evidence": ["evidence.research_program_brief"],
+    "profile": "project_management"
+  },
+  {
+    "id": "gate.publication_claim_review",
+    "kind": "governance_gate",
+    "title": "Publication Claim Review Gate",
+    "summary": "Review gate before treating synthetic or pilot evidence as a publication claim.",
+    "readiness": "accepted",
+    "evidence": ["evidence.research_program_brief"],
+    "profile": "project_management"
+  },
+  {
+    "id": "milestone.preprint_outline_ready",
+    "kind": "milestone",
+    "title": "Preprint Outline Ready",
+    "summary": "Milestone reached when protocol, limitations and evidence boundaries are documented.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_result_table"],
+    "profile": "project_management"
+  },
+  {
+    "id": "stakeholder.research_reviewer",
+    "kind": "stakeholder",
+    "title": "Research Reviewer",
+    "summary": "Reviewer role responsible for checking limitations and claim boundaries.",
+    "readiness": "draft",
+    "evidence": ["evidence.research_program_brief"],
+    "profile": "project_management"
+  }
+]
+

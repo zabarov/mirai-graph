@@ -1,0 +1,21 @@
+[
+  {
+    "id": "gate_result.research_program.public_safety",
+    "gate_id": "public_safety_before_release",
+    "target_id": "package.research_program_pilot_004",
+    "verdict": "pass",
+    "summary": "The pilot uses synthetic public-safe research-program material only.",
+    "reviewed_at": "2026-06-03",
+    "evidence": ["evidence.research_program_brief"]
+  },
+  {
+    "id": "gate_result.research_program.claim_boundary",
+    "gate_id": "evidence_review_before_publication_claim",
+    "target_id": "decision.limit_claim_to_alpha_evidence",
+    "verdict": "pass_with_notes",
+    "summary": "The graph explicitly blocks overclaiming synthetic evidence as broad scientific proof.",
+    "reviewed_at": "2026-06-03",
+    "evidence": ["evidence.research_program_brief"]
+  }
+]
+
