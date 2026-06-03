@@ -1,9 +1,9 @@
 # GrowGraph Playground
 
-Status: alpha.7 deterministic runnable demo
+Status: alpha.8 deterministic runnable demo
 
 This directory is a playground package for public-safe GrowGraph demos. The
-current alpha.7 playground is CLI-based and deterministic: runnable examples
+current alpha.8 playground is CLI-based and deterministic: runnable examples
 live in `examples/`, `benchmarks/` and `pilots/`, and the generated report is
 stored as `playground/demo-report.md`.
 

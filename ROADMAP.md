@@ -96,6 +96,7 @@ Next gaps:
 - clearer role-based adoption journeys;
 - organization-governance validation reports and richer adoption recipes;
 - concise recipes for choosing the right profile and conformance level.
+- a packaged adopter workflow that can be run outside this repository.
 
 ## Phase 3: Reusable Tooling
 
@@ -156,9 +157,10 @@ Synthetic materials must remain clearly separated from real-world validation.
 
 Goal: connect the repository to research publications and external adoption.
 
-Alpha status: early. Citation metadata and publication notes exist, but the
-project still needs public publication records, stronger reproducibility
-packages and external adoption evidence before making broad scientific claims.
+Alpha status: early. Citation metadata, publication notes and evidence package
+v0.2 exist, but the project still needs public publication records, stronger
+reviewer protocols and external adoption evidence before making broad
+scientific claims.
 
 Planned artifacts:
 
@@ -172,11 +174,10 @@ Planned artifacts:
 ## Near-Term Work
 
 1. Prepare the next alpha around process-control explanations, import/export
-   helpers and cleaner CLI packaging.
+   helpers and packaged adopter workflow commands.
 2. Add one or two external public-safe pilots maintained outside the original
    GrowGraph authoring contour.
 3. Expand organization-governance validation reports and adoption recipes.
 4. Explore a local interactive playground only after deterministic report
    fixtures remain stable.
-5. Expand scientific evidence packages with independent validation and
-   limitations.
+5. Turn evidence package v0.2 into a publication-ready reproducibility bundle.

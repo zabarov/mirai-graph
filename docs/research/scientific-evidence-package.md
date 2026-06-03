@@ -63,6 +63,7 @@ comparison baselines.
 
 Current supporting materials:
 
+- `docs/research/evidence-package-v0.2.md`
 - `docs/research/evidence-package-v0.1.md`
 - `docs/research/baseline-comparison-protocol.md`
 - `docs/research/limitations-and-threats.md`
@@ -72,6 +73,9 @@ Current supporting materials:
 - `publications/README.md`
 - `publications/preprint-note.md`
 - `publications/preprint-outline.md`
+
+Use `docs/research/evidence-package-v0.2.md` as the current public evidence
+entrypoint. The v0.1 package remains a historical alpha evidence snapshot.
 
 ## Metrics Under Development
 
@@ -100,6 +104,9 @@ npm run validate:process-transition
 npm run validate:process-transition-report
 npm run test:process-transition-negative
 npm run validate:baseline-comparison
+npm run validate:pilots
+npm run validate:templates
+npm run validate:cli-unified
 ```
 
 Then inspect:

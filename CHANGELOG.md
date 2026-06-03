@@ -4,6 +4,20 @@ All notable changes to GrowGraph will be documented in this file.
 
 ## [Unreleased]
 
+### Added
+
+- Alpha.8 starter templates for software project, research program,
+  AI employee and organization governance adoption.
+- Unified `growgraph` CLI wrapper for common validation, report and
+  process-transition explanation commands.
+- Independent implementation pilot 005 for organization governance.
+- Evidence Package v0.2 as the current public research evidence entrypoint.
+
+### Changed
+
+- Working package version is now `0.1.0-alpha.8`.
+- `npm test` includes starter template validation and unified CLI smoke checks.
+
 ## [0.1.0-alpha.7] - 2026-06-03
 
 ### Added

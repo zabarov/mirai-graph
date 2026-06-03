@@ -64,6 +64,7 @@ Start by role:
 
 - Researchers: [Practice And Science Program](docs/research/practice-science-program.md),
   [Scientific Evidence Package](docs/research/scientific-evidence-package.md),
+  [Evidence Package v0.2](docs/research/evidence-package-v0.2.md),
   [Evidence Package v0.1](docs/research/evidence-package-v0.1.md),
   [Publications](publications/README.md).
 - Developers: [Getting Started](docs/adoption/getting-started.md),
@@ -90,8 +91,9 @@ Core references:
 - [Terminology](docs/terminology.md)
 - [Standard v0.1 Draft](standard/standard-v0.1.md)
 - [Profiles](profiles/README.md)
+- [Templates](templates/README.md)
 
-Current alpha.7 standard areas:
+Current alpha.8 standard areas:
 
 - [Object Model](standard/object-model.md)
 - [Relation Model](standard/relation-model.md)

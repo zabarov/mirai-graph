@@ -24,7 +24,7 @@ const baselineComparison = readJson(`${packageDir}/results/baseline-comparison-r
 const lines = [
   "# GrowGraph Playground Demo Report",
   "",
-  "Status: deterministic alpha.7 demo",
+  "Status: deterministic alpha.8 demo",
   "",
   "## Control Loop",
   "",
