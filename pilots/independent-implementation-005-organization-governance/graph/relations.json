@@ -1,0 +1,110 @@
+[
+  {
+    "id": "relation.organization.civic_platform.aligns_with.mission.trustworthy_service",
+    "type": "aligns_with",
+    "source": "organization.civic_platform",
+    "target": "mission.trustworthy_service",
+    "readiness": "review_ready",
+    "evidence": ["evidence.governance_brief"],
+    "profile": "organization_governance"
+  },
+  {
+    "id": "relation.strategy.evidence_led_operations.aligns_with.mission.trustworthy_service",
+    "type": "aligns_with",
+    "source": "strategy.evidence_led_operations",
+    "target": "mission.trustworthy_service",
+    "readiness": "review_ready",
+    "evidence": ["evidence.governance_brief"],
+    "profile": "organization_governance"
+  },
+  {
+    "id": "relation.department.delivery.belongs_to.organization.civic_platform",
+    "type": "belongs_to",
+    "source": "department.delivery",
+    "target": "organization.civic_platform",
+    "readiness": "review_ready",
+    "evidence": ["evidence.governance_brief"],
+    "profile": "organization_governance"
+  },
+  {
+    "id": "relation.program.service_quality_program.belongs_to.department.delivery",
+    "type": "belongs_to",
+    "source": "program.service_quality_program",
+    "target": "department.delivery",
+    "readiness": "review_ready",
+    "evidence": ["evidence.governance_brief"],
+    "profile": "organization_governance"
+  },
+  {
+    "id": "relation.objective.reduce_false_progress.supports.strategy.evidence_led_operations",
+    "type": "supports",
+    "source": "objective.reduce_false_progress",
+    "target": "strategy.evidence_led_operations",
+    "readiness": "review_ready",
+    "evidence": ["evidence.governance_brief"],
+    "profile": "organization_governance"
+  },
+  {
+    "id": "relation.policy.evidence_before_promotion.governs.program.service_quality_program",
+    "type": "governs",
+    "source": "policy.evidence_before_promotion",
+    "target": "program.service_quality_program",
+    "readiness": "accepted",
+    "evidence": ["evidence.governance_brief"],
+    "profile": "organization_governance"
+  },
+  {
+    "id": "relation.program.service_quality_program.requires_approval.decision_right.portfolio_owner",
+    "type": "requires_approval",
+    "source": "program.service_quality_program",
+    "target": "decision_right.portfolio_owner",
+    "readiness": "accepted",
+    "evidence": ["evidence.governance_brief"],
+    "profile": "organization_governance"
+  },
+  {
+    "id": "relation.control.governance_review.controls.risk.policy_bypass",
+    "type": "controls",
+    "source": "control.governance_review",
+    "target": "risk.policy_bypass",
+    "readiness": "accepted",
+    "evidence": ["evidence.governance_brief"],
+    "profile": "organization_governance"
+  },
+  {
+    "id": "relation.metric.evidence_coverage.measures.control.governance_review",
+    "type": "measures",
+    "source": "metric.evidence_coverage",
+    "target": "control.governance_review",
+    "readiness": "review_ready",
+    "evidence": ["evidence.governance_brief"],
+    "profile": "organization_governance"
+  },
+  {
+    "id": "relation.feedback.review_feedback.produces_feedback.program.service_quality_program",
+    "type": "produces_feedback",
+    "source": "feedback.review_feedback",
+    "target": "program.service_quality_program",
+    "readiness": "draft",
+    "evidence": ["evidence.governance_brief"],
+    "profile": "organization_governance"
+  },
+  {
+    "id": "relation.kaizen_item.tighten_promotion_gate.improves.control.governance_review",
+    "type": "improves",
+    "source": "kaizen_item.tighten_promotion_gate",
+    "target": "control.governance_review",
+    "readiness": "draft",
+    "evidence": ["evidence.governance_brief"],
+    "profile": "organization_governance"
+  },
+  {
+    "id": "relation.governance_gate.promotion_review.governs.policy.evidence_before_promotion",
+    "type": "governs",
+    "source": "governance_gate.promotion_review",
+    "target": "policy.evidence_before_promotion",
+    "readiness": "accepted",
+    "evidence": ["evidence.governance_brief"],
+    "profile": "organization_governance"
+  }
+]

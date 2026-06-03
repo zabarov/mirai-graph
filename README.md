@@ -134,6 +134,7 @@ Runnable materials:
 - [Independent Implementation Pilot 002](pilots/independent-implementation-002-software-specification/reports/pilot-report.md)
 - [Independent Implementation Pilot 003](pilots/independent-implementation-003-ai-employee-workflow/reports/pilot-report.md)
 - [Independent Implementation Pilot 004](pilots/independent-implementation-004-research-program/reports/pilot-report.md)
+- [Independent Implementation Pilot 005](pilots/independent-implementation-005-organization-governance/reports/pilot-report.md)
 
 ## Validate A Graph Package
 

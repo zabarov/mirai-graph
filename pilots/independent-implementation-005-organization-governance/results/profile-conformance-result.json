@@ -1,0 +1,29 @@
+{
+  "schema_version": "0.1.0",
+  "result_id": "profile_conformance.package.organization_governance_pilot_005",
+  "checked_at": "2026-06-03",
+  "fixture": "pilots/independent-implementation-005-organization-governance/",
+  "package_id": "package.organization_governance_pilot_005",
+  "profile": "organization_governance",
+  "conformance_level": "level_1",
+  "validator": "packages/cli/validate-growgraph.js",
+  "command": "node packages/cli/validate-growgraph.js pilots/independent-implementation-005-organization-governance",
+  "valid": true,
+  "errors": [],
+  "warnings": [],
+  "checks": [
+    "required package, object, relation and gate-result fields",
+    "unique object and relation ids",
+    "relation source and target existence",
+    "relation id consistency",
+    "readiness and gate verdict values",
+    "organization_governance object-kind conformance",
+    "organization_governance relation-type conformance",
+    "decision-right and feedback boundary represented"
+  ],
+  "claim_supported": "The package follows the declared GrowGraph profile shape checked by the current validator.",
+  "limitations": [
+    "The pilot is synthetic and does not prove organization performance.",
+    "The profile models governance structure, not local legal, HR or operational policy."
+  ]
+}

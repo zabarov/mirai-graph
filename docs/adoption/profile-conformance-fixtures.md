@@ -20,6 +20,7 @@ Positive fixtures are packages expected to pass validation.
 | `pilots/independent-implementation-002-software-specification/` | `software_specification` | Small software package using requirements, features, components, tasks, risks, constraints and decisions. |
 | `pilots/independent-implementation-003-ai-employee-workflow/` | `ai_employee` | Small governed AI employee workflow package using roles, tools, policies, actions, feedback and learning gates. |
 | `pilots/independent-implementation-004-research-program/` | `project_management` | Small research-program governance package using evidence, milestones, publication gates, risks and decisions. |
+| `pilots/independent-implementation-005-organization-governance/` | `organization_governance` | Small organization governance package using mission, strategy, decision rights, controls, metrics, feedback and Kaizen. |
 | `benchmarks/synthetic-context-reduction-v0/` | `software_specification` | Synthetic benchmark package for context-pack generation and semantic review. |
 | `examples/ai-employee-minimal/` | `ai_employee` | Synthetic AI employee package using role, skill, knowledge, tool, policy, action boundary, feedback and learning gate. |
 | `examples/skill-runtime-minimal/` | `skill_runtime` | Synthetic governed skill package using Hybrid SOT, runtime policy, fallback, projection view and federation contract boundaries. |
@@ -35,6 +36,7 @@ Stored positive result artifacts:
 - `pilots/independent-implementation-002-software-specification/results/profile-conformance-result.json`;
 - `pilots/independent-implementation-003-ai-employee-workflow/results/profile-conformance-result.json`;
 - `pilots/independent-implementation-004-research-program/results/profile-conformance-result.json`.
+- `pilots/independent-implementation-005-organization-governance/results/profile-conformance-result.json`.
 
 ## Negative Fixtures
 

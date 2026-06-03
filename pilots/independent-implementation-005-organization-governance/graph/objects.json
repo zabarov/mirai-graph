@@ -1,0 +1,137 @@
+[
+  {
+    "id": "evidence.governance_brief",
+    "kind": "evidence",
+    "title": "Synthetic Governance Brief",
+    "summary": "Public-safe brief for a synthetic organization governance program.",
+    "readiness": "accepted",
+    "evidence": [],
+    "profile": "organization_governance"
+  },
+  {
+    "id": "organization.civic_platform",
+    "kind": "organization",
+    "title": "Civic Platform Organization",
+    "summary": "Synthetic organization used to test organization-scale GrowGraph governance.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.governance_brief"],
+    "profile": "organization_governance"
+  },
+  {
+    "id": "mission.trustworthy_service",
+    "kind": "mission",
+    "title": "Trustworthy Service",
+    "summary": "Provide dependable services while keeping decisions auditable.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.governance_brief"],
+    "profile": "organization_governance"
+  },
+  {
+    "id": "strategy.evidence_led_operations",
+    "kind": "strategy",
+    "title": "Evidence-Led Operations",
+    "summary": "Promote operational changes only when evidence, decision rights and controls are recorded.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.governance_brief"],
+    "profile": "organization_governance"
+  },
+  {
+    "id": "department.delivery",
+    "kind": "department",
+    "title": "Delivery Department",
+    "summary": "Department responsible for bounded implementation batches.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.governance_brief"],
+    "profile": "organization_governance"
+  },
+  {
+    "id": "program.service_quality_program",
+    "kind": "program",
+    "title": "Service Quality Program",
+    "summary": "Cross-department program to improve service reliability and evidence coverage.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.governance_brief"],
+    "profile": "organization_governance"
+  },
+  {
+    "id": "objective.reduce_false_progress",
+    "kind": "objective",
+    "title": "Reduce False Progress",
+    "summary": "Reduce claims that planned or ready work has already been executed.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.governance_brief"],
+    "profile": "organization_governance"
+  },
+  {
+    "id": "policy.evidence_before_promotion",
+    "kind": "policy",
+    "title": "Evidence Before Promotion",
+    "summary": "A proposal cannot be promoted without evidence and decision-right review.",
+    "readiness": "accepted",
+    "evidence": ["evidence.governance_brief"],
+    "profile": "organization_governance"
+  },
+  {
+    "id": "decision_right.portfolio_owner",
+    "kind": "decision_right",
+    "title": "Portfolio Owner Decision Right",
+    "summary": "Portfolio owner approves changes that affect cross-department priorities.",
+    "readiness": "accepted",
+    "evidence": ["evidence.governance_brief"],
+    "profile": "organization_governance"
+  },
+  {
+    "id": "risk.policy_bypass",
+    "kind": "risk",
+    "title": "Policy Bypass",
+    "summary": "A team may treat generated context or feedback as authorization.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.governance_brief"],
+    "profile": "organization_governance"
+  },
+  {
+    "id": "control.governance_review",
+    "kind": "control",
+    "title": "Governance Review",
+    "summary": "Review control checks decision rights, evidence and risk before promotion.",
+    "readiness": "accepted",
+    "evidence": ["evidence.governance_brief"],
+    "profile": "organization_governance"
+  },
+  {
+    "id": "metric.evidence_coverage",
+    "kind": "metric",
+    "title": "Evidence Coverage",
+    "summary": "Share of promoted decisions with linked evidence.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.governance_brief"],
+    "profile": "organization_governance"
+  },
+  {
+    "id": "feedback.review_feedback",
+    "kind": "feedback",
+    "title": "Review Feedback",
+    "summary": "Review feedback can create a proposal but cannot update canonical graph state.",
+    "readiness": "draft",
+    "evidence": ["evidence.governance_brief"],
+    "profile": "organization_governance"
+  },
+  {
+    "id": "kaizen_item.tighten_promotion_gate",
+    "kind": "kaizen_item",
+    "title": "Tighten Promotion Gate",
+    "summary": "Improve the promotion gate when review finds missing evidence or decision rights.",
+    "readiness": "draft",
+    "evidence": ["evidence.governance_brief"],
+    "profile": "organization_governance"
+  },
+  {
+    "id": "governance_gate.promotion_review",
+    "kind": "governance_gate",
+    "title": "Promotion Review Gate",
+    "summary": "Gate before a proposal becomes an approved organizational change.",
+    "readiness": "accepted",
+    "evidence": ["evidence.governance_brief"],
+    "profile": "organization_governance"
+  }
+]

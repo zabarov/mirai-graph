@@ -1,0 +1,20 @@
+[
+  {
+    "id": "gate_result.organization_governance.public_safety",
+    "gate_id": "public_safety_before_release",
+    "target_id": "package.organization_governance_pilot_005",
+    "verdict": "pass",
+    "summary": "The pilot uses synthetic public-safe organization-governance material only.",
+    "reviewed_at": "2026-06-03",
+    "evidence": ["evidence.governance_brief"]
+  },
+  {
+    "id": "gate_result.organization_governance.decision_rights",
+    "gate_id": "decision_right_before_policy_change",
+    "target_id": "policy.evidence_before_promotion",
+    "verdict": "pass_with_notes",
+    "summary": "The graph represents portfolio owner decision rights before cross-department promotion.",
+    "reviewed_at": "2026-06-03",
+    "evidence": ["evidence.governance_brief"]
+  }
+]
