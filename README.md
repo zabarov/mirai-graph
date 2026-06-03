@@ -67,6 +67,7 @@ Start by role:
   [Publications](publications/README.md).
 - Developers: [Getting Started](docs/adoption/getting-started.md),
   [End-To-End Tutorial](docs/adoption/end-to-end-control-loop.md),
+  [Developer Integration Guide](docs/adoption/developer-integration-guide.md),
   [Test Suite](standard/test-suite.md).
 - Product teams: [Managed Project Control Loop Example](examples/managed-project-control-loop/README.md),
   [Implementation Control](standard/implementation-control.md),

@@ -74,6 +74,52 @@ function usage() {
   console.error("  node packages/cli/validate-growgraph.js risk-control-matrix <result-file>");
   console.error("  node packages/cli/validate-growgraph.js multi-agent-coordination <result-file>");
   console.error("  node packages/cli/validate-growgraph.js source-boundary-contract <result-file>");
+  console.error("");
+  console.error("Output options:");
+  console.error("  --json       Print JSON output (default)");
+  console.error("  --markdown   Print a human-readable Markdown report");
+}
+
+function markdownList(items, emptyText) {
+  if (!items || items.length === 0) {
+    return `- ${emptyText}`;
+  }
+  return items.map((item) => `- ${item}`).join("\n");
+}
+
+function formatMarkdownReport(output) {
+  const lines = [
+    "# GrowGraph Validation Report",
+    "",
+    `- Mode: \`${output.mode}\``,
+    `- Valid: \`${output.valid ? "true" : "false"}\``,
+    `- Target: \`${output.target}\``
+  ];
+
+  if (output.package) {
+    lines.push(`- Package: \`${output.package}\``);
+  }
+  if (output.state_machine) {
+    lines.push(`- State machine: \`${output.state_machine}\``);
+  }
+
+  lines.push(
+    "",
+    "## Errors",
+    "",
+    markdownList(output.errors, "No errors."),
+    "",
+    "## Warnings",
+    "",
+    markdownList(output.warnings, "No warnings."),
+    "",
+    "## Boundary",
+    "",
+    "- A passing validation report is evidence for this check only.",
+    "- Generated context, evidence and proposals do not authorize canonical updates."
+  );
+
+  return lines.join("\n");
 }
 
 function readJson(filePath) {
@@ -1217,7 +1263,10 @@ function validateProcessTransition(stateMachinePath, transitionRequestPath) {
   return { errors, warnings };
 }
 
-const modeOrPackageDir = process.argv[2];
+const rawArgs = process.argv.slice(2);
+const outputFormat = rawArgs.includes("--markdown") ? "markdown" : "json";
+const positionalArgs = rawArgs.filter((arg) => arg !== "--markdown" && arg !== "--json");
+const modeOrPackageDir = positionalArgs[0];
 if (!modeOrPackageDir) {
   usage();
   process.exit(2);
@@ -1240,9 +1289,9 @@ try {
     "source-boundary-contract"
   ]);
   const isPublicResultMode = publicResultModes.has(modeOrPackageDir);
-  const targetPath = isSeedMode || isProfileMode || isContextPackMode || isImplementationControlCycleMode || isProcessTransitionMode || isPublicResultMode ? process.argv[3] : modeOrPackageDir;
-  const contextPackPath = isContextPackMode ? process.argv[4] : null;
-  const transitionRequestPath = isProcessTransitionMode ? process.argv[4] : null;
+  const targetPath = isSeedMode || isProfileMode || isContextPackMode || isImplementationControlCycleMode || isProcessTransitionMode || isPublicResultMode ? positionalArgs[1] : modeOrPackageDir;
+  const contextPackPath = isContextPackMode ? positionalArgs[2] : null;
+  const transitionRequestPath = isProcessTransitionMode ? positionalArgs[2] : null;
   if (!targetPath) {
     usage();
     process.exit(2);
@@ -1277,7 +1326,11 @@ try {
     errors: result.errors,
     warnings: result.warnings
   };
-  console.log(JSON.stringify(output, null, 2));
+  if (outputFormat === "markdown") {
+    console.log(formatMarkdownReport(output));
+  } else {
+    console.log(JSON.stringify(output, null, 2));
+  }
   process.exit(output.valid ? 0 : 1);
 } catch (error) {
   console.error(error.message);
