@@ -20,6 +20,7 @@ It is useful when a project needs to coordinate:
 - semantic reviews;
 - workflow batches;
 - implementation cycles;
+- technology contracts and technology quality feedback;
 - graph DNA alignment;
 - source boundary contracts;
 - work state machines;
@@ -43,6 +44,7 @@ baseline
 -> launch gate
 -> workflow batch
 -> evidence pack
+-> technology quality feedback
 -> sync proposal
 -> approval gate
 -> controlled update
@@ -62,6 +64,9 @@ Initial allowed object kinds:
 - `semantic_review`;
 - `workflow_batch`;
 - `implementation_cycle`;
+- `technology_contract`;
+- `technology_quality_feedback`;
+- `quality_finding`;
 - `graph_dna`;
 - `component_dna`;
 - `dna_alignment`;
@@ -98,6 +103,13 @@ Initial allowed relation types:
 - `proposes_update`;
 - `requires_gate`;
 - `launches_batch`;
+- `requires_launch_record`;
+- `checks_transition`;
+- `checks_conformance_to`;
+- `classifies`;
+- `routes_to`;
+- `requires_technology_feedback`;
+- `requires_kaizen_closure`;
 - `approves_update`;
 - `updates_baseline`;
 - `checks_drift`;
@@ -131,6 +143,7 @@ Initial gates:
 - `launch_gate_before_work_batch`;
 - `approval_before_canonical_update`;
 - `drift_check_before_state_promotion`;
+- `technology_quality_feedback_before_acceptance`;
 - `public_safety_before_public_transfer`;
 - `no_generated_context_as_authorization`;
 - `no_feedback_as_automatic_update`.

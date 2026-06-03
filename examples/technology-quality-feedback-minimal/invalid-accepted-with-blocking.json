@@ -1,0 +1,33 @@
+{
+  "schema_version": "0.1.0",
+  "id": "feedback.invalid_blocking",
+  "profile": "implementation_control",
+  "public_safety": "synthetic_public",
+  "technology_ref": "technology.synthetic_control_loop",
+  "process_id": "process.synthetic_quality_feedback",
+  "launch_record_ref": "launch_record.synthetic_quality_batch",
+  "work_evidence_refs": ["evidence.synthetic_tests"],
+  "required_steps": ["launch_record_reviewed"],
+  "completed_steps": ["launch_record_reviewed"],
+  "missing_steps": [],
+  "review_dimensions": ["security"],
+  "findings": [
+    {
+      "id": "finding.blocking_security",
+      "dimension": "security",
+      "classification": "security_blocker",
+      "severity": "critical",
+      "summary": "Blocking security issue remains unresolved.",
+      "evidence_refs": ["evidence.synthetic_tests"],
+      "next_route": "blocked",
+      "blocking": true
+    }
+  ],
+  "feedback_classification": ["security_blocker"],
+  "blocking_findings": ["finding.blocking_security"],
+  "verdict": "accepted",
+  "next_transition": "review_ready->approved_candidate",
+  "kaizen_refs": [],
+  "evidence_refs": ["evidence.synthetic_quality_feedback_brief"],
+  "limitations": ["Passing tests are not acceptance."]
+}

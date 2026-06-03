@@ -1,0 +1,33 @@
+{
+  "schema_version": "0.1.0",
+  "id": "feedback.invalid_spec_gap",
+  "profile": "implementation_control",
+  "public_safety": "synthetic_public",
+  "technology_ref": "technology.synthetic_control_loop",
+  "process_id": "process.synthetic_quality_feedback",
+  "launch_record_ref": "launch_record.synthetic_quality_batch",
+  "work_evidence_refs": ["evidence.synthetic_semantic_review"],
+  "required_steps": ["launch_record_reviewed"],
+  "completed_steps": ["launch_record_reviewed"],
+  "missing_steps": [],
+  "review_dimensions": ["graph_drift"],
+  "findings": [
+    {
+      "id": "finding.spec_gap",
+      "dimension": "graph_drift",
+      "classification": "spec_gap",
+      "severity": "medium",
+      "summary": "A specification gap is recorded, but it is not routed back to planning or graph sync.",
+      "evidence_refs": ["evidence.synthetic_semantic_review"],
+      "next_route": "continue_transition_review",
+      "blocking": false
+    }
+  ],
+  "feedback_classification": ["spec_gap"],
+  "blocking_findings": [],
+  "verdict": "accepted_with_deferred_items",
+  "next_transition": "review_ready->approved_candidate",
+  "kaizen_refs": [],
+  "evidence_refs": ["evidence.synthetic_quality_feedback_brief"],
+  "limitations": ["Generated context and proposals do not mutate canonical state."]
+}

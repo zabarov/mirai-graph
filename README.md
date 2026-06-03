@@ -109,6 +109,7 @@ Current alpha.8 standard areas:
 - [Launch Record](standard/launch-record.md)
 - [Work State Machine](standard/work-state-machine.md)
 - [Process Control Contract](standard/process-control-contract.md)
+- [Technology Quality Feedback](standard/technology-quality-feedback.md)
 - [Organization Governance](standard/organization-governance.md)
 - [Recovery Resume](standard/recovery-resume.md)
 - [Risk Control Matrix](standard/risk-control-matrix.md)
@@ -129,6 +130,7 @@ Runnable materials:
 - [Launch Record Example](examples/launch-record-minimal/README.md)
 - [Process Transition Example](examples/process-transition-minimal/README.md)
 - [Process Control Contract Example](examples/process-control-contract-minimal/README.md)
+- [Technology Quality Feedback Example](examples/technology-quality-feedback-minimal/README.md)
 - [Organization Governance Example](examples/organization-governance-minimal/README.md)
 - [Federation Routing Smoke Example](examples/federation-routing-smoke/README.md)
 - [Synthetic Context-Reduction Benchmark](benchmarks/synthetic-context-reduction-v0/README.md)
@@ -154,6 +156,7 @@ node packages/cli/validate-growgraph.js context-pack benchmarks/synthetic-contex
 node packages/cli/validate-growgraph.js launch-record examples/launch-record-minimal/results/launch-record.json
 node packages/cli/validate-growgraph.js process-transition examples/process-transition-minimal/state-machine.json examples/process-transition-minimal/transition-request.json
 node packages/cli/validate-growgraph.js process-control-contract examples/process-control-contract-minimal/results/process-control-contract.json
+node packages/cli/validate-growgraph.js technology-quality-feedback examples/technology-quality-feedback-minimal/results/technology-quality-feedback.json
 node packages/cli/validate-growgraph.js graph-dna-alignment examples/graph-dna-alignment-minimal/results/graph-dna-alignment.json
 node packages/cli/validate-growgraph.js work-state-machine examples/work-recovery-minimal/results/work-state-machine.json
 node packages/cli/validate-growgraph.js recovery-resume-record examples/work-recovery-minimal/results/recovery-resume-record.json
@@ -169,6 +172,7 @@ node packages/cli/playground-demo.js
 node packages/cli/growgraph.js validate examples/minimal-graph
 node packages/cli/growgraph.js report validation examples/minimal-graph
 node packages/cli/growgraph.js explain process-transition examples/process-transition-minimal/state-machine.json examples/process-transition-minimal/transition-request.json
+node packages/cli/growgraph.js report technology-quality-feedback examples/technology-quality-feedback-minimal/results/technology-quality-feedback.json
 ```
 
 Or run the current smoke checks:
@@ -178,6 +182,7 @@ npm test
 npm run playground:report
 npm run validate:playground-report
 npm run validate:baseline-comparison
+npm run validate:technology-quality-feedback
 ```
 
 ## What This Repository Is Not

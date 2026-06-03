@@ -61,6 +61,7 @@ Additional alpha artifacts now present:
 - launch record;
 - work state machine;
 - process-control contract;
+- technology quality feedback;
 - recovery/resume;
 - risk-control matrix;
 - multi-agent coordination;
@@ -105,8 +106,9 @@ Goal: make adoption practical for developers.
 Alpha status: partially implemented. The CLI validates packages, profiles,
 context packs, graph seeds, implementation-control cycles, launch records,
 process transitions, process-transition decision reports, process-control
-contracts, DNA alignment, work state, recovery, risk, coordination, source
-boundaries, routing-control examples and baseline-comparison artifacts.
+contracts, technology quality feedback reports, DNA alignment, work state,
+recovery, risk, coordination, source boundaries, routing-control examples and
+baseline-comparison artifacts.
 
 Planned artifacts:
 
@@ -123,6 +125,8 @@ Next gaps:
 - add import/export helpers;
 - extend human-readable reports beyond process-transition checks;
 - add process-control explanation output and richer report formatting.
+- add adoption recipes for technology quality feedback in non-software
+  workflows.
 
 The standard must remain implementation-independent. Tooling validates and
 demonstrates the standard; it does not replace the standard.

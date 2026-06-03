@@ -1,0 +1,56 @@
+[
+  {
+    "id": "evidence.synthetic_quality_feedback_brief",
+    "kind": "evidence",
+    "title": "Synthetic Quality Feedback Brief",
+    "summary": "Public-safe evidence describing a synthetic technology quality feedback gate.",
+    "readiness": "accepted",
+    "evidence": [],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "technology.synthetic_control_loop",
+    "kind": "technology_contract",
+    "title": "Synthetic Control Loop Technology",
+    "summary": "Technology contract requiring launch review, bounded work, evidence, semantic review and classified feedback before acceptance.",
+    "readiness": "accepted",
+    "evidence": ["evidence.synthetic_quality_feedback_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "launch_record.synthetic_quality_batch",
+    "kind": "launch_record",
+    "title": "Synthetic Quality Batch Launch Record",
+    "summary": "Launch record bounding a synthetic work batch and its evidence requirements.",
+    "readiness": "accepted",
+    "evidence": ["evidence.synthetic_quality_feedback_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "feedback.synthetic_work_batch",
+    "kind": "technology_quality_feedback",
+    "title": "Synthetic Work Batch Technology Feedback",
+    "summary": "Feedback report checking conformance to the declared technology and routing a non-blocking process improvement to Kaizen.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_quality_feedback_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "finding.synthetic_process_improvement",
+    "kind": "quality_finding",
+    "title": "Synthetic Process Improvement Finding",
+    "summary": "Non-blocking finding that improves future validator wording and routes to Kaizen.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_quality_feedback_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "kaizen.synthetic_validator_recipe",
+    "kind": "kaizen_item",
+    "title": "Synthetic Validator Recipe Improvement",
+    "summary": "Kaizen item for improving the reusable validator recipe after the completed cycle.",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_quality_feedback_brief"],
+    "profile": "implementation_control"
+  }
+]

@@ -75,6 +75,11 @@ proposal readiness before approval.
 Promotion path: accepted evidence may support approval, but evidence is not
 approval by itself.
 
+Significant work should also include technology quality feedback: a separate
+check that the declared method, process or technology was actually followed.
+Passing tests and complete evidence are not enough when the workflow itself
+drifted from the accepted technology.
+
 ### `release_or_publish`
 
 Purpose: decide whether an artifact, package or public output is ready for
@@ -170,6 +175,9 @@ Recommended Kaizen finding taxonomy:
 - `ready_to_code` is not `implemented`.
 - Generated projection is not source of truth.
 - Evidence is not approval.
+- Passing tests are not acceptance.
+- Technology quality feedback supports acceptance; it is not acceptance by
+  itself.
 - Feedback is not canonical update.
 - Proposal is not controlled update.
 - Runtime decision is not executed action.

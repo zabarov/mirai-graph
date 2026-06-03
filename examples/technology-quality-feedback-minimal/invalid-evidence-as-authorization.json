@@ -1,0 +1,22 @@
+{
+  "schema_version": "0.1.0",
+  "id": "feedback.invalid_authorization",
+  "profile": "implementation_control",
+  "public_safety": "synthetic_public",
+  "technology_ref": "technology.synthetic_control_loop",
+  "process_id": "process.synthetic_quality_feedback",
+  "launch_record_ref": "launch_record.synthetic_quality_batch",
+  "work_evidence_refs": ["evidence.synthetic_tests"],
+  "required_steps": ["launch_record_reviewed"],
+  "completed_steps": ["launch_record_reviewed"],
+  "missing_steps": [],
+  "review_dimensions": ["evidence"],
+  "findings": [],
+  "feedback_classification": ["accepted"],
+  "blocking_findings": [],
+  "verdict": "accepted",
+  "next_transition": "canonical_update",
+  "kaizen_refs": [],
+  "evidence_refs": ["evidence.synthetic_quality_feedback_brief"],
+  "limitations": ["Evidence is approval."]
+}

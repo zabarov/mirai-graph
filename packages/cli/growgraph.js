@@ -11,6 +11,7 @@ function usage() {
   console.error("  growgraph validate <package-dir>");
   console.error("  growgraph report validation <package-dir>");
   console.error("  growgraph report process-transition <state-machine-file> <transition-request-file>");
+  console.error("  growgraph report technology-quality-feedback <feedback-file>");
   console.error("  growgraph explain process-transition <state-machine-file> <transition-request-file>");
   console.error("  growgraph report playground");
   console.error("");
@@ -57,6 +58,14 @@ if ((command === "report" || command === "explain") && subcommand === "process-t
     process.exit(1);
   }
   run("packages/cli/validate-growgraph.js", ["--markdown", "process-transition", rest[0], rest[1]]);
+}
+
+if (command === "report" && subcommand === "technology-quality-feedback") {
+  if (rest.length !== 1) {
+    usage();
+    process.exit(1);
+  }
+  run("packages/cli/validate-growgraph.js", ["--markdown", "technology-quality-feedback", rest[0]]);
 }
 
 if (command === "report" && subcommand === "playground") {

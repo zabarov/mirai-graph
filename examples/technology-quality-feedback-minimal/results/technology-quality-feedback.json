@@ -1,0 +1,80 @@
+{
+  "schema_version": "0.1.0",
+  "id": "feedback.synthetic_work_batch",
+  "profile": "implementation_control",
+  "public_safety": "synthetic_public",
+  "technology_ref": "technology.synthetic_control_loop",
+  "process_id": "process.synthetic_quality_feedback",
+  "launch_record_ref": "launch_record.synthetic_quality_batch",
+  "work_evidence_refs": [
+    "evidence.synthetic_scope_check",
+    "evidence.synthetic_tests",
+    "evidence.synthetic_semantic_review"
+  ],
+  "required_steps": [
+    "launch_record_reviewed",
+    "scope_boundary_checked",
+    "tests_recorded",
+    "semantic_acceptance_reviewed",
+    "technology_feedback_recorded"
+  ],
+  "completed_steps": [
+    "launch_record_reviewed",
+    "scope_boundary_checked",
+    "tests_recorded",
+    "semantic_acceptance_reviewed",
+    "technology_feedback_recorded"
+  ],
+  "missing_steps": [],
+  "review_dimensions": [
+    "scope",
+    "architecture",
+    "ownership",
+    "tests",
+    "evidence",
+    "graph_drift",
+    "release",
+    "process_adherence"
+  ],
+  "findings": [
+    {
+      "id": "finding.synthetic_tests_not_acceptance",
+      "dimension": "tests",
+      "classification": "accepted",
+      "severity": "low",
+      "summary": "Tests are present and useful evidence, but the report keeps them separate from acceptance.",
+      "evidence_refs": ["evidence.synthetic_tests"],
+      "next_route": "continue_transition_review",
+      "blocking": false
+    },
+    {
+      "id": "finding.synthetic_process_improvement",
+      "dimension": "process_adherence",
+      "classification": "process_improvement",
+      "severity": "low",
+      "summary": "Future batches should include a shorter reusable checklist for technology-feedback preparation.",
+      "evidence_refs": ["evidence.synthetic_semantic_review"],
+      "next_route": "kaizen_improvement",
+      "blocking": false
+    }
+  ],
+  "feedback_classification": [
+    "accepted",
+    "process_improvement"
+  ],
+  "blocking_findings": [],
+  "verdict": "accepted_with_deferred_items",
+  "next_transition": "review_ready->approved_candidate",
+  "kaizen_refs": [
+    "kaizen.synthetic_validator_recipe"
+  ],
+  "evidence_refs": [
+    "evidence.synthetic_quality_feedback_brief"
+  ],
+  "limitations": [
+    "Synthetic feedback demonstrates process conformance shape, not real-world safety.",
+    "Passing tests are not acceptance.",
+    "Evidence does not authorize canonical update.",
+    "Technology quality feedback supports acceptance but is not acceptance by itself."
+  ]
+}

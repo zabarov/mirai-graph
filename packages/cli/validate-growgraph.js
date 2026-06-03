@@ -68,6 +68,7 @@ function usage() {
   console.error("  node packages/cli/validate-growgraph.js launch-record <launch-record-file>");
   console.error("  node packages/cli/validate-growgraph.js process-transition <state-machine-file> <transition-request-file>");
   console.error("  node packages/cli/validate-growgraph.js process-control-contract <contract-file>");
+  console.error("  node packages/cli/validate-growgraph.js technology-quality-feedback <feedback-file>");
   console.error("  node packages/cli/validate-growgraph.js graph-dna-alignment <result-file>");
   console.error("  node packages/cli/validate-growgraph.js work-state-machine <result-file>");
   console.error("  node packages/cli/validate-growgraph.js recovery-resume-record <result-file>");
@@ -1121,10 +1122,186 @@ function validatePublicImplementationControlResult(resultPath, mode) {
       requireString(result.kaizen_policy, "accepted_skip_field", `${label}.kaizen_policy`, errors);
     }
 
+    if (result.technology_quality_feedback_policy !== undefined) {
+      requireObject(result, "technology_quality_feedback_policy", label, errors);
+      if (result.technology_quality_feedback_policy && typeof result.technology_quality_feedback_policy === "object") {
+        requireArray(result.technology_quality_feedback_policy, "required_for_transitions", `${label}.technology_quality_feedback_policy`, errors);
+        requireArray(result.technology_quality_feedback_policy, "accepted_verdicts", `${label}.technology_quality_feedback_policy`, errors);
+        if (result.technology_quality_feedback_policy.blocking_findings_stop_transition !== true) {
+          errors.push(`${label}.technology_quality_feedback_policy.blocking_findings_stop_transition must be true`);
+        }
+      }
+    }
+
     const validatorText = Array.isArray(result.validators) ? result.validators.join("\n") : "";
     for (const requiredValidator of ["launch-record", "process-transition"]) {
       if (!validatorText.includes(requiredValidator)) {
         errors.push(`${label}.validators must include ${requiredValidator}`);
+      }
+    }
+    if (
+      result.technology_quality_feedback_policy !== undefined &&
+      !validatorText.includes("technology-quality-feedback")
+    ) {
+      errors.push(`${label}.validators must include technology-quality-feedback when technology_quality_feedback_policy is present`);
+    }
+  }
+
+  if (mode === "technology-quality-feedback") {
+    const classifications = new Set([
+      "accepted",
+      "work_fix_required",
+      "test_gap",
+      "spec_gap",
+      "graph_update_proposal",
+      "process_improvement",
+      "release_blocker",
+      "security_blocker",
+      "defer_with_reason"
+    ]);
+    const verdicts = new Set([
+      "accepted",
+      "accepted_with_deferred_items",
+      "changes_requested",
+      "blocked_by_spec_gap",
+      "blocked_by_security",
+      "blocked_by_missing_evidence",
+      "release_not_ready"
+    ]);
+    const severities = new Set(["critical", "high", "medium", "low"]);
+    const acceptedVerdicts = new Set(["accepted", "accepted_with_deferred_items"]);
+
+    for (const field of ["technology_ref", "process_id", "launch_record_ref", "verdict", "next_transition"]) {
+      requireString(result, field, label, errors);
+    }
+    for (const field of [
+      "work_evidence_refs",
+      "required_steps",
+      "completed_steps",
+      "missing_steps",
+      "review_dimensions",
+      "feedback_classification",
+      "blocking_findings",
+      "kaizen_refs"
+    ]) {
+      requireArray(result, field, label, errors);
+    }
+    requireJsonArray(result, "findings", label, errors);
+
+    if (typeof result.verdict === "string" && !verdicts.has(result.verdict)) {
+      errors.push(`${label}.verdict has unsupported value ${result.verdict}`);
+    }
+
+    const completedSteps = new Set(Array.isArray(result.completed_steps) ? result.completed_steps : []);
+    if (Array.isArray(result.required_steps)) {
+      for (const requiredStep of result.required_steps) {
+        if (!completedSteps.has(requiredStep)) {
+          errors.push(`${label}.completed_steps is missing required step ${requiredStep}`);
+        }
+      }
+    }
+    if (Array.isArray(result.missing_steps) && result.missing_steps.length > 0) {
+      errors.push(`${label}.missing_steps must be empty for a passing feedback report`);
+    }
+
+    const feedbackClassifications = new Set(Array.isArray(result.feedback_classification) ? result.feedback_classification : []);
+    if (Array.isArray(result.feedback_classification)) {
+      for (const classification of result.feedback_classification) {
+        if (!classifications.has(classification)) {
+          errors.push(`${label}.feedback_classification has unsupported value ${classification}`);
+        }
+      }
+    }
+
+    const blockingFindingRefs = new Set(Array.isArray(result.blocking_findings) ? result.blocking_findings : []);
+    let hasBlockingFinding = false;
+    let hasProcessImprovement = false;
+    let hasSpecGap = false;
+
+    if (Array.isArray(result.findings)) {
+      for (const [index, finding] of result.findings.entries()) {
+        const findingLabel = `${label}.findings[${index}]`;
+        for (const field of ["id", "dimension", "classification", "severity", "summary", "next_route"]) {
+          requireString(finding, field, findingLabel, errors);
+        }
+        requireArray(finding, "evidence_refs", findingLabel, errors);
+        if (typeof finding.blocking !== "boolean") {
+          errors.push(`${findingLabel}.blocking must be a boolean`);
+        }
+
+        if (typeof finding.classification === "string") {
+          if (!classifications.has(finding.classification)) {
+            errors.push(`${findingLabel}.classification has unsupported value ${finding.classification}`);
+          }
+          if (!feedbackClassifications.has(finding.classification)) {
+            errors.push(`${label}.feedback_classification must include finding classification ${finding.classification}`);
+          }
+          if (finding.classification === "process_improvement") {
+            hasProcessImprovement = true;
+            if (typeof finding.next_route !== "string" || !finding.next_route.toLowerCase().includes("kaizen")) {
+              errors.push(`${findingLabel}.next_route must route process_improvement to Kaizen`);
+            }
+          }
+          if (finding.classification === "spec_gap") {
+            hasSpecGap = true;
+            const route = typeof finding.next_route === "string" ? finding.next_route.toLowerCase() : "";
+            if (!route.includes("planning") && !route.includes("human_projection") && !route.includes("graph_sync")) {
+              errors.push(`${findingLabel}.next_route must route spec_gap to planning, human_projection or graph_sync`);
+            }
+          }
+          if (["release_blocker", "security_blocker"].includes(finding.classification) && finding.blocking !== true) {
+            errors.push(`${findingLabel}.blocking must be true for ${finding.classification}`);
+          }
+        }
+
+        if (finding.blocking === true) {
+          hasBlockingFinding = true;
+          if (typeof finding.id === "string" && !blockingFindingRefs.has(finding.id)) {
+            errors.push(`${label}.blocking_findings must include blocking finding ${finding.id}`);
+          }
+        }
+
+        if (typeof finding.severity === "string" && !severities.has(finding.severity)) {
+          errors.push(`${findingLabel}.severity has unsupported value ${finding.severity}`);
+        }
+      }
+    }
+
+    if (hasProcessImprovement && (!Array.isArray(result.kaizen_refs) || result.kaizen_refs.length === 0)) {
+      errors.push(`${label}.kaizen_refs must not be empty when process_improvement is present`);
+    }
+
+    if (hasSpecGap && typeof result.next_transition === "string") {
+      const transition = result.next_transition.toLowerCase();
+      if (!transition.includes("planning") && !transition.includes("human_projection") && !transition.includes("graph_sync")) {
+        errors.push(`${label}.next_transition must route spec_gap to planning, human_projection or graph_sync`);
+      }
+    }
+
+    if (acceptedVerdicts.has(result.verdict) && (hasBlockingFinding || blockingFindingRefs.size > 0)) {
+      errors.push(`${label}.verdict cannot be accepted while blocking findings are present`);
+    }
+
+    const feedbackText = JSON.stringify(result).toLowerCase();
+    const forbiddenBoundaryTerms = [
+      "evidence is approval",
+      "tests are acceptance",
+      "feedback directly updates",
+      "automatic canonical update",
+      "automatically updates canonical",
+      "proposal is controlled update",
+      "canonical_update"
+    ];
+    for (const forbiddenTerm of forbiddenBoundaryTerms) {
+      if (feedbackText.includes(forbiddenTerm)) {
+        errors.push(`${label} contains forbidden authorization boundary term: ${forbiddenTerm}`);
+      }
+    }
+
+    const limitationText = Array.isArray(result.limitations) ? result.limitations.join("\n").toLowerCase() : "";
+    for (const expectedBoundary of ["tests", "evidence", "canonical", "acceptance"]) {
+      if (!limitationText.includes(expectedBoundary)) {
+        warnings.push(`${label}.limitations should mention ${expectedBoundary}`);
       }
     }
   }
@@ -1360,6 +1537,7 @@ try {
   const publicResultModes = new Set([
     "launch-record",
     "process-control-contract",
+    "technology-quality-feedback",
     "graph-dna-alignment",
     "work-state-machine",
     "recovery-resume-record",

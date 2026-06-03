@@ -1,0 +1,47 @@
+[
+  {
+    "id": "relation.evidence.synthetic_quality_feedback_brief.evidences.feedback.synthetic_work_batch",
+    "type": "evidences",
+    "source": "evidence.synthetic_quality_feedback_brief",
+    "target": "feedback.synthetic_work_batch",
+    "readiness": "accepted",
+    "evidence": ["evidence.synthetic_quality_feedback_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "relation.feedback.synthetic_work_batch.checks_conformance_to.technology.synthetic_control_loop",
+    "type": "checks_conformance_to",
+    "source": "feedback.synthetic_work_batch",
+    "target": "technology.synthetic_control_loop",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_quality_feedback_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "relation.feedback.synthetic_work_batch.requires_launch_record.launch_record.synthetic_quality_batch",
+    "type": "requires_launch_record",
+    "source": "feedback.synthetic_work_batch",
+    "target": "launch_record.synthetic_quality_batch",
+    "readiness": "accepted",
+    "evidence": ["evidence.synthetic_quality_feedback_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "relation.feedback.synthetic_work_batch.classifies.finding.synthetic_process_improvement",
+    "type": "classifies",
+    "source": "feedback.synthetic_work_batch",
+    "target": "finding.synthetic_process_improvement",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_quality_feedback_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "relation.finding.synthetic_process_improvement.routes_to.kaizen.synthetic_validator_recipe",
+    "type": "routes_to",
+    "source": "finding.synthetic_process_improvement",
+    "target": "kaizen.synthetic_validator_recipe",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_quality_feedback_brief"],
+    "profile": "implementation_control"
+  }
+]

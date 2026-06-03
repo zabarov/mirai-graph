@@ -15,6 +15,7 @@
     "launch_record",
     "scope_check",
     "test_result",
+    "technology_quality_feedback",
     "semantic_acceptance",
     "release_evidence"
   ],
@@ -22,13 +23,27 @@
   "risk_controls": [
     "terminal_without_kaizen",
     "sync_proposal_as_update",
-    "tests_without_acceptance"
+    "tests_without_acceptance",
+    "technology_drift_without_feedback"
   ],
   "validators": [
     "launch-record",
     "process-transition",
+    "technology-quality-feedback",
     "work-state-machine"
   ],
+  "technology_quality_feedback_policy": {
+    "required_for_transitions": [
+      "tests_recorded->review_ready",
+      "review_ready->approved",
+      "approved->release_ready"
+    ],
+    "accepted_verdicts": [
+      "accepted",
+      "accepted_with_deferred_items"
+    ],
+    "blocking_findings_stop_transition": true
+  },
   "kaizen_policy": {
     "terminal_state_requires_review_or_skip": true,
     "accepted_skip_field": "no_reusable_lessons_reason"

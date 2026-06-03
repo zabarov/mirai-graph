@@ -12,11 +12,16 @@ All notable changes to GrowGraph will be documented in this file.
   process-transition explanation commands.
 - Independent implementation pilot 005 for organization governance.
 - Evidence Package v0.2 as the current public research evidence entrypoint.
+- Technology Quality Feedback standard, schema, synthetic example, validator
+  and negative fixtures for checking whether work followed the declared
+  technology before acceptance or release.
 
 ### Changed
 
 - Working package version is now `0.1.0-alpha.8`.
 - `npm test` includes starter template validation and unified CLI smoke checks.
+- Process-control docs and examples now model technology quality feedback as a
+  companion gate for significant acceptance and release transitions.
 
 ## [0.1.0-alpha.7] - 2026-06-03
 
