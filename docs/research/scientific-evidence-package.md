@@ -60,11 +60,15 @@ comparison baselines.
 
 Current supporting materials:
 
+- `docs/research/evidence-package-v0.1.md`
+- `docs/research/baseline-comparison-protocol.md`
+- `docs/research/limitations-and-threats.md`
 - `docs/research/practice-science-program.md`
 - `docs/research/independent-implementation-pilot-plan.md`
 - `docs/research/semantic-completeness-review-protocol.md`
 - `publications/README.md`
 - `publications/preprint-note.md`
+- `publications/preprint-outline.md`
 
 ## Metrics Under Development
 

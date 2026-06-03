@@ -18,6 +18,7 @@ For the current public evidence framing, see
 ## Planned Records
 
 - initial preprint record;
+- preprint outline;
 - public citation note;
 - reproducibility package note;
 - future journal manuscript records.

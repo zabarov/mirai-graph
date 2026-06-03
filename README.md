@@ -64,6 +64,7 @@ Start by role:
 
 - Researchers: [Practice And Science Program](docs/research/practice-science-program.md),
   [Scientific Evidence Package](docs/research/scientific-evidence-package.md),
+  [Evidence Package v0.1](docs/research/evidence-package-v0.1.md),
   [Publications](publications/README.md).
 - Developers: [Getting Started](docs/adoption/getting-started.md),
   [End-To-End Tutorial](docs/adoption/end-to-end-control-loop.md),
