@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://growgraph.dev/schemas/baseline-comparison-result.schema.json",
+  "title": "GrowGraph Baseline Comparison Result",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "id",
+    "public_safety",
+    "comparison_type",
+    "task_id",
+    "baseline",
+    "growgraph",
+    "outcome",
+    "limitations",
+    "claim_boundary"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "minLength": 1 },
+    "id": { "type": "string", "minLength": 1 },
+    "public_safety": { "const": "synthetic_public" },
+    "comparison_type": { "const": "baseline_vs_growgraph" },
+    "task_id": { "type": "string", "minLength": 1 },
+    "baseline": {
+      "type": "object",
+      "required": [
+        "context_units",
+        "missed_dependencies",
+        "unsupported_assumptions",
+        "evidence_coverage_percent",
+        "false_progress_claims"
+      ],
+      "properties": {
+        "context_units": { "type": "number", "minimum": 0 },
+        "missed_dependencies": { "type": "number", "minimum": 0 },
+        "unsupported_assumptions": { "type": "number", "minimum": 0 },
+        "evidence_coverage_percent": { "type": "number", "minimum": 0, "maximum": 100 },
+        "false_progress_claims": { "type": "number", "minimum": 0 }
+      }
+    },
+    "growgraph": {
+      "type": "object",
+      "required": [
+        "context_units",
+        "missed_dependencies",
+        "unsupported_assumptions",
+        "evidence_coverage_percent",
+        "false_progress_claims"
+      ],
+      "properties": {
+        "context_units": { "type": "number", "minimum": 0 },
+        "missed_dependencies": { "type": "number", "minimum": 0 },
+        "unsupported_assumptions": { "type": "number", "minimum": 0 },
+        "evidence_coverage_percent": { "type": "number", "minimum": 0, "maximum": 100 },
+        "false_progress_claims": { "type": "number", "minimum": 0 }
+      }
+    },
+    "outcome": {
+      "type": "object",
+      "required": [
+        "context_reduction_percent",
+        "improved_metrics",
+        "regressed_metrics",
+        "verdict"
+      ],
+      "properties": {
+        "context_reduction_percent": { "type": "number" },
+        "improved_metrics": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "regressed_metrics": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "verdict": { "type": "string", "minLength": 1 }
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "claim_boundary": { "type": "string", "minLength": 1 }
+  }
+}
+

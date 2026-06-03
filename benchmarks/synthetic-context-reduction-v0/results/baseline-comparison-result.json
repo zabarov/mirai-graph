@@ -1,0 +1,42 @@
+{
+  "schema_version": "0.1.0",
+  "id": "baseline_comparison.synthetic_notify_after_approval",
+  "public_safety": "synthetic_public",
+  "comparison_type": "baseline_vs_growgraph",
+  "task_id": "task.notify_after_approval",
+  "baseline": {
+    "mode": "baseline_documents_and_notes",
+    "context_units": 620,
+    "missed_dependencies": 2,
+    "unsupported_assumptions": 2,
+    "evidence_coverage_percent": 58,
+    "false_progress_claims": 1
+  },
+  "growgraph": {
+    "mode": "growgraph_context_pack_and_process_control",
+    "context_units": 270,
+    "missed_dependencies": 0,
+    "unsupported_assumptions": 0,
+    "evidence_coverage_percent": 92,
+    "false_progress_claims": 0
+  },
+  "outcome": {
+    "context_reduction_percent": 56.4516,
+    "improved_metrics": [
+      "context_units",
+      "missed_dependencies",
+      "unsupported_assumptions",
+      "evidence_coverage_percent",
+      "false_progress_claims"
+    ],
+    "regressed_metrics": [],
+    "verdict": "synthetic_growgraph_result_stronger_with_limits"
+  },
+  "limitations": [
+    "Synthetic comparison demonstrates measurement shape, not broad scientific proof.",
+    "Metrics are fixed fixture values and require independent replication.",
+    "Passing validators do not prove semantic completeness."
+  ],
+  "claim_boundary": "This result supports only a public-safe synthetic comparison claim for the alpha fixture."
+}
+
