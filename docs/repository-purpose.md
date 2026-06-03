@@ -8,6 +8,11 @@ Mirai Graph is an open research, standardization and developer-adoption
 repository for an evolutionary graph operating model that helps manage the
 growth of complex systems.
 
+The broader purpose is to make Mirai Graph the graph foundation of the Mirai
+direction: governed AI systems that can coordinate people, projects,
+organizations and AI employees through explicit state, evidence, approvals,
+feedback and controlled evolution.
+
 The repository should become the public source of truth for:
 
 - the Mirai Graph / EOG model;
@@ -21,6 +26,34 @@ The repository should become the public source of truth for:
 For the current public alpha, "source of truth" means public standardization
 and reproducible examples. It does not mean that private project graphs,
 internal workflows or generated context packs are published here.
+
+## Strategic Goal
+
+Mirai Graph should become an open, verifiable and practical standard for
+governed AI work across projects, products, organizations, research programs
+and AI-employee systems.
+
+The standard should make this operating loop explicit:
+
+```text
+intent -> graph state -> generated context -> launch gate -> governed work
+-> evidence -> technology quality feedback -> approval boundary
+-> controlled graph update -> Kaizen learning
+```
+
+The intended end state is not a passive knowledge graph. It is a controlled
+operating substrate where humans and AI systems can:
+
+- understand the current state of a system;
+- decide what is ready, blocked, risky or uncertain;
+- generate task-specific context without replacing canonical truth;
+- execute bounded work only through declared gates;
+- capture results as evidence;
+- route feedback into review, proposal and Kaizen loops;
+- evolve the graph without silent self-modification.
+
+This goal keeps Mirai Graph useful for developers and product teams while also
+leaving a clear research path for EOG-style scientific evaluation.
 
 ## Core Positioning
 

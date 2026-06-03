@@ -19,6 +19,10 @@ Mirai Graph addresses this by separating:
 - governance gates;
 - implementation tooling.
 
+Mirai Graph is also the graph foundation for the broader Mirai direction:
+governed AI systems that do useful work without losing traceability, approval
+boundaries or process discipline.
+
 ## Core Idea
 
 A complex system can be represented as an evolving graph where objects,
@@ -33,6 +37,11 @@ This graph is not only a knowledge map. It is an operating model:
 - it generates context for specific tasks;
 - it defines where human approval or governance is required;
 - it supports controlled growth over time.
+
+For AI systems, this means an agent should not be modeled as only a prompt,
+persona or chat history. A governed AI agent should be modeled as graph-backed
+state plus runtime boundaries: roles, skills, knowledge, memory, tools,
+policies, workflows, actions, results, feedback and lessons.
 
 ## Key Distinction
 
@@ -51,6 +60,13 @@ readiness and governance rules.
 source material -> graph seed -> graph embryo -> canonical graph state
 canonical graph state -> generated context pack -> task execution
 task result -> evidence / event / decision -> graph update gate
+```
+
+For governed work, the fuller loop is:
+
+```text
+intent -> graph state -> context -> launch -> transition -> evidence
+-> technology quality feedback -> approval -> controlled update -> Kaizen
 ```
 
 ## What Mirai Graph Can Model

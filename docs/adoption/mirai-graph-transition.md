@@ -12,6 +12,12 @@ The current naming model is:
 - `GrowGraph` is a historical name and temporary compatibility alias.
 - `EOG` remains a scientific continuity term for earlier research framing.
 
+The strategic goal of the rename is not cosmetic. It separates the future-facing
+Mirai direction from the former GrowGraph working name and positions Mirai Graph
+as the public graph standard for governed AI work: AI employees, projects,
+organizations and research systems coordinated through state, evidence, gates,
+feedback and controlled evolution.
+
 ## What Changed
 
 - Package name: `mirai-graph`.

@@ -177,11 +177,14 @@ Planned artifacts:
 
 ## Near-Term Work
 
-1. Prepare the next alpha around process-control explanations, import/export
+1. Complete the external Mirai Graph rename: GitHub repository rename, remote
+   URL update, release publication and package publication only after the local
+   alpha.9 preparation remains green.
+2. Prepare the next alpha around process-control explanations, import/export
    helpers and packaged adopter workflow commands.
-2. Add one or two external public-safe pilots maintained outside the original
+3. Add one or two external public-safe pilots maintained outside the original
    Mirai Graph authoring contour.
-3. Expand organization-governance validation reports and adoption recipes.
-4. Explore a local interactive playground only after deterministic report
+4. Expand organization-governance validation reports and adoption recipes.
+5. Explore a local interactive playground only after deterministic report
    fixtures remain stable.
-5. Turn evidence package v0.2 into a publication-ready reproducibility bundle.
+6. Turn evidence package v0.2 into a publication-ready reproducibility bundle.

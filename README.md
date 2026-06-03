@@ -7,6 +7,10 @@ It defines how projects, products, organizations and human-AI systems can use
 canonical graph state, generated context packs, evidence, readiness and
 governance gates to coordinate knowledge, decisions and action.
 
+Mirai Graph is the graph foundation of the broader Mirai direction: governed AI
+systems that can work with people, projects and organizations through explicit
+state, evidence, approval gates, feedback loops and controlled evolution.
+
 ## Why Mirai Graph
 
 Many teams use documents, chats, task trackers and isolated knowledge bases as
@@ -23,6 +27,18 @@ Mirai Graph treats the working system as an evolving graph:
 - generated context packs provide task-specific AI context;
 - governance gates separate suggestions, decisions and actions;
 - profiles adapt the model to domains without changing the core standard.
+
+## Strategic Goal
+
+The long-term goal is to make Mirai Graph an open, verifiable and practical
+standard for governed AI work. A Mirai Graph system should make it possible to
+move from idea to action without losing context, ownership, evidence, process
+discipline or human control.
+
+In this framing, an AI agent is not just a prompt or chat session. It is a
+governed graph-backed operating process: context, tools, policies, actions,
+results, feedback and learning are connected through explicit state and
+approval boundaries.
 
 ## Current Status
 
