@@ -1,0 +1,20 @@
+[
+  {
+    "id": "relation.state.ready_to_execute.transitions_to.state.evidence_recorded",
+    "type": "transitions_to",
+    "source": "state.ready_to_execute",
+    "target": "state.evidence_recorded",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_work_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "relation.recovery.review_work_resume.resumes_from.state.evidence_recorded",
+    "type": "resumes_from",
+    "source": "recovery.review_work_resume",
+    "target": "state.evidence_recorded",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_work_brief"],
+    "profile": "implementation_control"
+  }
+]

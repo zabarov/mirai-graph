@@ -1,0 +1,14 @@
+{
+  "id": "package.risk_and_coordination_minimal",
+  "name": "Risk And Coordination Minimal",
+  "version": "0.1.0",
+  "profile": "implementation_control",
+  "conformance_level": "level_1",
+  "description": "Synthetic package showing risk controls and multi-agent coordination.",
+  "license": "CC-BY-4.0",
+  "public_safety": "synthetic_public",
+  "graph": {
+    "objects": "graph/objects.json",
+    "relations": "graph/relations.json"
+  }
+}

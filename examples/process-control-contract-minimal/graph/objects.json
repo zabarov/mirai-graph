@@ -1,0 +1,38 @@
+[
+  {
+    "id": "evidence.synthetic_process_contract_brief",
+    "kind": "evidence",
+    "title": "Synthetic Process Contract Brief",
+    "summary": "Public-safe evidence for a minimal process-control contract.",
+    "readiness": "accepted",
+    "evidence": [],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "contract.synthetic_executable_process",
+    "kind": "process_control_contract",
+    "title": "Synthetic Executable Process Contract",
+    "summary": "Contract binding cycle, state machine, launch policy, validators and Kaizen closure.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_process_contract_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "state_machine.synthetic_executable_process",
+    "kind": "work_state_machine",
+    "title": "Synthetic Executable State Machine",
+    "summary": "State machine referenced by the process-control contract.",
+    "readiness": "accepted",
+    "evidence": ["evidence.synthetic_process_contract_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "risk.terminal_without_kaizen",
+    "kind": "risk_control",
+    "title": "Terminal State Without Kaizen",
+    "summary": "Risk control requiring Kaizen review or explicit skip reason before terminal states.",
+    "readiness": "accepted",
+    "evidence": ["evidence.synthetic_process_contract_brief"],
+    "profile": "implementation_control"
+  }
+]

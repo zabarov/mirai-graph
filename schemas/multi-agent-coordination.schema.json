@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://growgraph.dev/schemas/multi-agent-coordination.schema.json",
+  "title": "GrowGraph Multi-Agent Coordination",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["schema_version", "id", "profile", "public_safety", "roles", "reservations", "locking_rules", "conflict_resolution", "evidence_refs", "limitations"],
+  "properties": {
+    "schema_version": { "type": "string", "minLength": 1 },
+    "id": { "type": "string", "minLength": 1 },
+    "profile": { "const": "implementation_control" },
+    "public_safety": { "const": "synthetic_public" },
+    "roles": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+    "reservations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "owner_role", "scope", "allowed_actions", "evidence_path", "proposal_path"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "owner_role": { "type": "string", "minLength": 1 },
+          "scope": { "type": "string", "minLength": 1 },
+          "allowed_actions": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+          "evidence_path": { "type": "string", "minLength": 1 },
+          "proposal_path": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "locking_rules": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+    "conflict_resolution": { "type": "string", "minLength": 1 },
+    "evidence_refs": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+    "limitations": { "type": "array", "items": { "type": "string" } }
+  }
+}

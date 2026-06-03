@@ -1,0 +1,47 @@
+[
+  {
+    "id": "evidence.synthetic_risk_brief",
+    "kind": "evidence",
+    "title": "Synthetic Risk Brief",
+    "summary": "Public-safe brief for risk control and coordination.",
+    "readiness": "accepted",
+    "evidence": [],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "risk.false_readiness",
+    "kind": "risk_control",
+    "title": "False Readiness",
+    "summary": "Risk that a ready state is treated as completed work.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_risk_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "risk.write_collision",
+    "kind": "risk_control",
+    "title": "Write Collision",
+    "summary": "Risk that two workers update the same scope without coordination.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_risk_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "coordination.synthetic_review_team",
+    "kind": "coordination_contract",
+    "title": "Synthetic Review Team Coordination",
+    "summary": "Contract for coordinating several workers on bounded synthetic scopes.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_risk_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "reservation.review_scope",
+    "kind": "agent_reservation",
+    "title": "Review Scope Reservation",
+    "summary": "Reservation assigning one worker to a bounded review scope.",
+    "readiness": "accepted",
+    "evidence": ["evidence.synthetic_risk_brief"],
+    "profile": "implementation_control"
+  }
+]

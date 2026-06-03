@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://growgraph.dev/schemas/graph-dna-alignment.schema.json",
+  "title": "GrowGraph DNA Alignment",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["schema_version", "id", "profile", "public_safety", "parent_dna", "component_dna", "alignment", "evidence_refs", "limitations"],
+  "properties": {
+    "schema_version": { "type": "string", "minLength": 1 },
+    "id": { "type": "string", "minLength": 1 },
+    "profile": { "const": "implementation_control" },
+    "public_safety": { "const": "synthetic_public" },
+    "parent_dna": {
+      "type": "object",
+      "required": ["id", "mission", "evolution_vector", "non_negotiable_principles"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "mission": { "type": "string", "minLength": 1 },
+        "evolution_vector": { "type": "string", "minLength": 1 },
+        "non_negotiable_principles": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } }
+      }
+    },
+    "component_dna": {
+      "type": "object",
+      "required": ["id", "mission", "owns", "must_not_own", "invariants", "success_criteria", "anti_patterns"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "mission": { "type": "string", "minLength": 1 },
+        "owns": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+        "must_not_own": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+        "invariants": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+        "success_criteria": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+        "anti_patterns": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } }
+      }
+    },
+    "alignment": {
+      "type": "object",
+      "required": ["verdict", "aligned_principles", "gaps", "proposal_required"],
+      "properties": {
+        "verdict": { "type": "string", "minLength": 1 },
+        "aligned_principles": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+        "gaps": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+        "proposal_required": { "type": "boolean" }
+      }
+    },
+    "evidence_refs": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+    "limitations": { "type": "array", "items": { "type": "string" } }
+  }
+}

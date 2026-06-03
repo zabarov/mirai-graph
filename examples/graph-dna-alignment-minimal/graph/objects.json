@@ -1,0 +1,38 @@
+[
+  {
+    "id": "evidence.synthetic_dna_brief",
+    "kind": "evidence",
+    "title": "Synthetic DNA Brief",
+    "summary": "Public-safe brief for a parent/component DNA alignment example.",
+    "readiness": "accepted",
+    "evidence": [],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "dna.parent_document_system",
+    "kind": "graph_dna",
+    "title": "Document System DNA",
+    "summary": "Synthetic parent DNA for a governed document system.",
+    "readiness": "accepted",
+    "evidence": ["evidence.synthetic_dna_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "dna.component_review_queue",
+    "kind": "component_dna",
+    "title": "Review Queue Component DNA",
+    "summary": "Synthetic component DNA for review queue responsibility.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_dna_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "alignment.review_queue",
+    "kind": "dna_alignment",
+    "title": "Review Queue DNA Alignment",
+    "summary": "Alignment record showing component scope, exclusions, invariants and success criteria.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_dna_brief"],
+    "profile": "implementation_control"
+  }
+]

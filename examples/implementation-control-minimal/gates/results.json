@@ -10,6 +10,16 @@
     "reviewer": "GrowGraph maintainers"
   },
   {
+    "id": "gate_result.implementation_control.launch_contract_skeleton",
+    "gate_id": "gate.launch_contract_skeleton",
+    "target_id": "batch.contract_skeleton",
+    "verdict": "pass_with_notes",
+    "summary": "The synthetic batch is ready to execute inside bounded scope; this does not mark it implemented.",
+    "evidence": ["evidence.synthetic_control_brief"],
+    "reviewed_at": "2026-06-02",
+    "reviewer": "Synthetic coordinator"
+  },
+  {
     "id": "gate_result.implementation_control.coordinator_approval",
     "gate_id": "gate.coordinator_approval",
     "target_id": "proposal.graph_sync_contract_skeleton",
@@ -18,5 +28,15 @@
     "evidence": ["evidence_pack.contract_skeleton"],
     "reviewed_at": "2026-06-02",
     "reviewer": "Synthetic coordinator"
+  },
+  {
+    "id": "gate_result.implementation_control.drift_check",
+    "gate_id": "drift.contract_skeleton_state",
+    "target_id": "state.contract_skeleton_ready",
+    "verdict": "pass_with_notes",
+    "summary": "The recorded state is consistent with reviewed evidence in this synthetic example.",
+    "evidence": ["evidence_pack.contract_skeleton"],
+    "reviewed_at": "2026-06-02",
+    "reviewer": "Synthetic reviewer"
   }
 ]

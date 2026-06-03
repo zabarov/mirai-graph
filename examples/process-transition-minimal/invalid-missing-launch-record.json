@@ -1,0 +1,14 @@
+{
+  "schema_version": "0.1.0",
+  "id": "transition_request.invalid_missing_launch_record",
+  "profile": "implementation_control",
+  "public_safety": "synthetic_public",
+  "process_id": "process.synthetic_executable_standard",
+  "current_state": "planned",
+  "target_state": "ready_to_execute",
+  "evidence_refs": ["launch_record"],
+  "launch_record_ref": "",
+  "kaizen_review_ref": "",
+  "no_reusable_lessons_reason": "",
+  "limitations": ["Invalid fixture: launch-record transition must reference a launch record."]
+}

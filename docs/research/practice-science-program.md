@@ -107,6 +107,9 @@ Output examples:
 - journal manuscripts;
 - response-to-review tables.
 
+The current public evidence framing is maintained in
+`docs/research/scientific-evidence-package.md`.
+
 ## Core Development Loop
 
 GrowGraph development should follow this loop:

@@ -1,0 +1,32 @@
+{
+  "schema_version": "0.1.0",
+  "id": "graph_dna_alignment.synthetic_review_queue",
+  "profile": "implementation_control",
+  "public_safety": "synthetic_public",
+  "parent_dna": {
+    "id": "dna.parent_document_system",
+    "mission": "Coordinate document work with traceable review and approval.",
+    "evolution_vector": "Grow from simple review queues to governed document operations.",
+    "non_negotiable_principles": [
+      "review before publication",
+      "evidence before approval"
+    ]
+  },
+  "component_dna": {
+    "id": "dna.component_review_queue",
+    "mission": "Own review queue state and reviewer assignment.",
+    "owns": ["review queue state", "reviewer assignment"],
+    "must_not_own": ["publication approval", "canonical policy changes"],
+    "invariants": ["every queued item has a source evidence ref"],
+    "success_criteria": ["review items move only through approved states"],
+    "anti_patterns": ["component approves its own publication output"]
+  },
+  "alignment": {
+    "verdict": "aligned_with_notes",
+    "aligned_principles": ["review before publication", "evidence before approval"],
+    "gaps": [],
+    "proposal_required": false
+  },
+  "evidence_refs": ["evidence.synthetic_dna_brief"],
+  "limitations": ["Synthetic alignment validates shape, not real product fitness."]
+}

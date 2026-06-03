@@ -1,0 +1,456 @@
+{
+  "schema_version": "0.1.0",
+  "id": "implementation_control_cycles.synthetic",
+  "profile": "implementation_control",
+  "public_safety": "synthetic_public",
+  "cycles": [
+    {
+      "id": "human_projection_feedback",
+      "purpose": "Generate a human-readable projection from canonical graph state and classify reviewed gaps.",
+      "stages": [
+        "extract_baseline_context",
+        "generate_projection",
+        "semantic_review",
+        "classify_findings",
+        "create_sync_proposal",
+        "approval_gate",
+        "regenerate_projection"
+      ],
+      "projection_stages": ["extract_baseline_context", "generate_projection", "semantic_review", "classify_findings"],
+      "human_stages": ["semantic_review", "approval_gate"],
+      "executable_states": ["planned", "evidence_recorded", "sync_proposed"],
+      "state_mapping": {
+        "extract_baseline_context": "planned",
+        "semantic_review": "evidence_recorded",
+        "create_sync_proposal": "sync_proposed"
+      },
+      "state_machine_id": "work_state_machine.synthetic_implementation_control",
+      "inputs": ["graph_baseline", "projection_rules", "review_scope"],
+      "outputs": ["human_projection", "semantic_review_notes", "sync_proposal"],
+      "gates": ["semantic_review_before_sync_proposal"],
+      "validators": ["projection_traceability", "review_classification_present"],
+      "recovery_behavior": "Resume from the last durable projection, review notes and proposal state.",
+      "repeat_condition": "Repeat until review finds no important baseline gaps for the selected scope.",
+      "promotion_path": "Accepted findings become sync proposals for approval.",
+      "evidence_refs": ["evidence.synthetic_cycle_brief"],
+      "limitations": ["Projection quality is not proof of canonical completeness."]
+    },
+    {
+      "id": "implementation_planning",
+      "purpose": "Convert reviewed scope into a bounded plan with gates, evidence requirements and stop conditions.",
+      "stages": [
+        "read_baseline",
+        "scope_batch",
+        "define_allowed_work",
+        "define_evidence",
+        "prepare_launch_record"
+      ],
+      "projection_stages": ["read_baseline", "scope_batch", "define_allowed_work", "prepare_launch_record"],
+      "human_stages": ["planning_review_before_launch_gate"],
+      "executable_states": ["planned", "ready_to_execute"],
+      "state_mapping": {
+        "read_baseline": "planned",
+        "prepare_launch_record": "ready_to_execute"
+      },
+      "state_machine_id": "work_state_machine.synthetic_implementation_control",
+      "inputs": ["accepted_scope", "risk_notes", "owner_boundaries"],
+      "outputs": ["implementation_plan", "launch_record", "evidence_contract"],
+      "gates": ["planning_review_before_launch_gate"],
+      "validators": ["allowed_scope_present", "evidence_contract_present"],
+      "recovery_behavior": "Resume from the durable plan and launch record rather than chat memory.",
+      "repeat_condition": "Repeat when scope, risk or owner boundary changes.",
+      "promotion_path": "Accepted plans become launch-ready batches.",
+      "evidence_refs": ["evidence.synthetic_cycle_brief"],
+      "limitations": ["Planning readiness is not execution."]
+    },
+    {
+      "id": "bounded_work_batch",
+      "purpose": "Execute only the work approved by a launch gate and record evidence.",
+      "stages": [
+        "verify_launch_gate",
+        "execute_allowed_scope",
+        "record_file_map",
+        "record_tests",
+        "record_deviations"
+      ],
+      "projection_stages": ["verify_launch_gate", "execute_allowed_scope", "record_tests", "record_deviations"],
+      "human_stages": ["verify_launch_gate"],
+      "executable_states": ["ready_to_execute", "started", "written", "tests_recorded"],
+      "state_mapping": {
+        "verify_launch_gate": "ready_to_execute",
+        "execute_allowed_scope": "started",
+        "record_file_map": "written",
+        "record_tests": "tests_recorded"
+      },
+      "state_machine_id": "work_state_machine.synthetic_implementation_control",
+      "inputs": ["launch_record", "allowed_scope", "evidence_contract"],
+      "outputs": ["work_output", "evidence_pack", "deviation_notes"],
+      "gates": ["launch_gate_before_work_batch"],
+      "validators": ["scope_boundary_check", "evidence_written_check"],
+      "recovery_behavior": "Stop and resume from launch record, repository state and evidence pack.",
+      "repeat_condition": "Repeat for each approved batch.",
+      "promotion_path": "Work output becomes evidence and may create a sync proposal.",
+      "evidence_refs": ["evidence.synthetic_cycle_brief"],
+      "limitations": ["A completed batch is not an approved canonical update."]
+    },
+    {
+      "id": "review_and_evidence",
+      "purpose": "Verify evidence, semantic acceptance, drift and proposal readiness before approval.",
+      "stages": [
+        "collect_evidence",
+        "run_validators",
+        "check_drift",
+        "review_deviations",
+        "prepare_approval"
+      ],
+      "projection_stages": ["collect_evidence", "run_validators", "check_drift", "prepare_approval"],
+      "human_stages": ["review_deviations", "prepare_approval"],
+      "executable_states": ["tests_recorded", "evidence_recorded", "review_ready", "approved"],
+      "state_mapping": {
+        "collect_evidence": "evidence_recorded",
+        "prepare_approval": "review_ready"
+      },
+      "state_machine_id": "work_state_machine.synthetic_implementation_control",
+      "inputs": ["evidence_pack", "deviation_notes", "sync_proposal"],
+      "outputs": ["review_result", "drift_check", "approval_candidate"],
+      "gates": ["evidence_pack_before_approval", "drift_check_before_state_promotion"],
+      "validators": ["evidence_refs_present", "drift_result_present"],
+      "recovery_behavior": "Resume from evidence pack and review result.",
+      "repeat_condition": "Repeat when new evidence, deviations or blockers appear.",
+      "promotion_path": "Accepted review may support approval.",
+      "evidence_refs": ["evidence.synthetic_cycle_brief"],
+      "limitations": ["Evidence supports review but does not grant approval."]
+    },
+    {
+      "id": "release_or_publish",
+      "purpose": "Evaluate whether an artifact is ready for release or publication.",
+      "stages": [
+        "collect_release_evidence",
+        "run_release_checks",
+        "run_public_safety_review",
+        "record_release_gate",
+        "publish_or_hold"
+      ],
+      "projection_stages": ["collect_release_evidence", "run_release_checks", "record_release_gate", "publish_or_hold"],
+      "human_stages": ["run_public_safety_review", "record_release_gate"],
+      "executable_states": ["approved", "release_ready", "released"],
+      "state_mapping": {
+        "record_release_gate": "release_ready",
+        "publish_or_hold": "released"
+      },
+      "state_machine_id": "work_state_machine.synthetic_implementation_control",
+      "inputs": ["approved_update", "release_evidence", "public_safety_scope"],
+      "outputs": ["release_gate_result", "publication_decision"],
+      "gates": ["release_gate_before_publish", "public_safety_before_public_transfer"],
+      "validators": ["release_checks_present", "public_safety_scan_present"],
+      "recovery_behavior": "Resume from release gate result and publication decision.",
+      "repeat_condition": "Repeat for each release candidate.",
+      "promotion_path": "Passing gates may permit release or publication.",
+      "evidence_refs": ["evidence.synthetic_cycle_brief"],
+      "limitations": ["Release readiness is scoped to declared checks."]
+    },
+    {
+      "id": "runtime_feedback",
+      "purpose": "Turn runtime, user or operational feedback into reviewable improvements or proposals.",
+      "stages": [
+        "capture_feedback",
+        "classify_feedback",
+        "link_evidence",
+        "create_kaizen_item",
+        "create_proposal_if_needed"
+      ],
+      "projection_stages": ["capture_feedback", "classify_feedback", "link_evidence", "create_kaizen_item"],
+      "human_stages": ["classify_feedback"],
+      "executable_states": ["released", "runtime_feedback", "sync_proposed"],
+      "state_mapping": {
+        "capture_feedback": "runtime_feedback",
+        "create_proposal_if_needed": "sync_proposed"
+      },
+      "state_machine_id": "work_state_machine.synthetic_implementation_control",
+      "inputs": ["feedback_signal", "runtime_evidence", "current_baseline"],
+      "outputs": ["kaizen_item", "sync_proposal_candidate"],
+      "gates": ["feedback_review_before_proposal"],
+      "validators": ["feedback_evidence_present", "proposal_boundary_present"],
+      "recovery_behavior": "Resume from captured feedback and classification record.",
+      "repeat_condition": "Repeat when meaningful feedback or operational evidence appears.",
+      "promotion_path": "Reviewed feedback becomes a Kaizen item or proposal.",
+      "evidence_refs": ["evidence.synthetic_cycle_brief"],
+      "limitations": ["Feedback must remain reviewable before it affects canonical state."]
+    },
+    {
+      "id": "kaizen_improvement",
+      "purpose": "Evaluate completed cycle results and route lessons, regressions and improvement opportunities through controlled next steps.",
+      "stages": [
+        "evaluate_result",
+        "classify_improvement",
+        "check_impact_and_risk",
+        "decide_accept_or_defer",
+        "validate_improvement_path",
+        "choose_next_transition"
+      ],
+      "projection_stages": ["evaluate_result", "classify_improvement", "decide_accept_or_defer", "choose_next_transition"],
+      "human_stages": ["classify_improvement", "decide_accept_or_defer"],
+      "executable_states": ["runtime_feedback", "kaizen_reviewed", "review_ready"],
+      "state_mapping": {
+        "evaluate_result": "runtime_feedback",
+        "validate_improvement_path": "kaizen_reviewed",
+        "choose_next_transition": "review_ready"
+      },
+      "state_machine_id": "work_state_machine.synthetic_implementation_control",
+      "inputs": ["completed_cycle_output", "validation_evidence", "review_feedback", "lessons_or_no_lessons"],
+      "outputs": ["kaizen_review_report", "classified_improvement_items", "next_transition_decision"],
+      "gates": [
+        "improvement_findings_classified",
+        "blocking_regressions_checked",
+        "accepted_or_deferred_path_recorded"
+      ],
+      "validators": ["kaizen_taxonomy_check", "transition_decision_check"],
+      "recovery_behavior": "Resume from the completed cycle output and durable Kaizen review report.",
+      "repeat_condition": "Repeat when a classified improvement requires rework in a source cycle.",
+      "promotion_path": "Classified findings become accepted local improvements, deferred proposals or governed next-cycle handoffs.",
+      "evidence_refs": ["evidence.synthetic_cycle_brief"],
+      "limitations": ["Kaizen does not approve canonical state changes by itself."]
+    }
+  ],
+  "cycle_transitions": [
+    {
+      "from": "human_projection_feedback",
+      "to": "implementation_planning",
+      "trigger": "equilibrium_reached",
+      "required_outputs": ["human_projection", "semantic_review_notes", "sync_proposal"],
+      "required_gates": ["semantic_review_complete", "validation_clean", "no_open_baseline_gaps"],
+      "handoff_artifact": "implementation_planning_intake",
+      "owner": "planning_coordinator",
+      "failure_behavior": "repeat_source_cycle_or_record_blocker",
+      "recovery_behavior": "resume_from_projection_review_and_handoff"
+    },
+    {
+      "from": "human_projection_feedback",
+      "to": "kaizen_improvement",
+      "trigger": "cycle_completed",
+      "required_outputs": ["human_projection", "semantic_review_notes", "validation_evidence"],
+      "required_gates": ["cycle_completed", "validation_clean", "lessons_or_no_lessons_recorded"],
+      "handoff_artifact": "kaizen_review_intake",
+      "owner": "process_coordinator",
+      "failure_behavior": "record_missing_kaizen_intake",
+      "recovery_behavior": "resume_from_source_cycle_evidence"
+    },
+    {
+      "from": "implementation_planning",
+      "to": "bounded_work_batch",
+      "trigger": "launch_record_ready",
+      "required_outputs": ["implementation_plan", "launch_record", "evidence_contract"],
+      "required_gates": ["launch_record_ready", "owner_boundaries_clear", "risk_review_done"],
+      "handoff_artifact": "bounded_work_launch_record",
+      "owner": "work_batch_owner",
+      "failure_behavior": "return_to_planning_or_record_blocker",
+      "recovery_behavior": "resume_from_plan_and_launch_record"
+    },
+    {
+      "from": "implementation_planning",
+      "to": "kaizen_improvement",
+      "trigger": "cycle_completed",
+      "required_outputs": ["implementation_plan", "launch_or_blocker_decision"],
+      "required_gates": ["cycle_completed", "planning_result_recorded", "lessons_or_no_lessons_recorded"],
+      "handoff_artifact": "kaizen_review_intake",
+      "owner": "process_coordinator",
+      "failure_behavior": "record_missing_kaizen_intake",
+      "recovery_behavior": "resume_from_planning_record"
+    },
+    {
+      "from": "bounded_work_batch",
+      "to": "review_and_evidence",
+      "trigger": "evidence_ready",
+      "required_outputs": ["work_output", "evidence_pack", "deviation_notes"],
+      "required_gates": ["evidence_ready", "allowed_scope_only", "tests_recorded"],
+      "handoff_artifact": "review_evidence_package",
+      "owner": "review_gatekeeper",
+      "failure_behavior": "return_to_work_batch_or_record_blocker",
+      "recovery_behavior": "resume_from_launch_record_and_evidence_pack"
+    },
+    {
+      "from": "bounded_work_batch",
+      "to": "kaizen_improvement",
+      "trigger": "cycle_completed",
+      "required_outputs": ["work_output", "evidence_pack", "deviation_notes"],
+      "required_gates": ["cycle_completed", "evidence_ready", "lessons_or_no_lessons_recorded"],
+      "handoff_artifact": "kaizen_review_intake",
+      "owner": "process_coordinator",
+      "failure_behavior": "record_missing_kaizen_intake",
+      "recovery_behavior": "resume_from_work_batch_evidence"
+    },
+    {
+      "from": "review_and_evidence",
+      "to": "release_or_publish",
+      "trigger": "review_approved",
+      "required_outputs": ["review_result", "drift_check", "approval_candidate"],
+      "required_gates": ["review_approved", "evidence_approved", "no_unresolved_high_risk_findings"],
+      "handoff_artifact": "release_readiness_intake",
+      "owner": "release_coordinator",
+      "failure_behavior": "return_to_review_or_record_blocker",
+      "recovery_behavior": "resume_from_review_result_and_release_intake"
+    },
+    {
+      "from": "review_and_evidence",
+      "to": "human_projection_feedback",
+      "trigger": "baseline_gap_found",
+      "required_outputs": ["review_result", "baseline_gap_report", "sync_proposal"],
+      "required_gates": ["baseline_gap_found", "sync_review_required"],
+      "handoff_artifact": "baseline_gap_feedback_intake",
+      "owner": "graph_coordinator",
+      "failure_behavior": "record_unresolved_baseline_gap_blocker",
+      "recovery_behavior": "resume_from_review_result_and_last_valid_baseline"
+    },
+    {
+      "from": "review_and_evidence",
+      "to": "kaizen_improvement",
+      "trigger": "cycle_completed",
+      "required_outputs": ["review_result", "approval_or_followup_decision"],
+      "required_gates": ["cycle_completed", "review_completed", "lessons_or_no_lessons_recorded"],
+      "handoff_artifact": "kaizen_review_intake",
+      "owner": "process_coordinator",
+      "failure_behavior": "record_missing_kaizen_intake",
+      "recovery_behavior": "resume_from_review_result"
+    },
+    {
+      "from": "release_or_publish",
+      "to": "runtime_feedback",
+      "trigger": "released_or_published",
+      "required_outputs": ["release_gate_result", "publication_decision", "monitoring_plan"],
+      "required_gates": ["release_gate_passed", "rollback_or_retraction_path_present", "feedback_capture_ready"],
+      "handoff_artifact": "runtime_feedback_intake",
+      "owner": "operations_owner",
+      "failure_behavior": "record_release_followup_blocker",
+      "recovery_behavior": "resume_from_release_gate_result"
+    },
+    {
+      "from": "release_or_publish",
+      "to": "kaizen_improvement",
+      "trigger": "cycle_completed",
+      "required_outputs": ["release_gate_result", "publication_decision"],
+      "required_gates": ["cycle_completed", "release_result_recorded", "lessons_or_no_lessons_recorded"],
+      "handoff_artifact": "kaizen_review_intake",
+      "owner": "process_coordinator",
+      "failure_behavior": "record_missing_kaizen_intake",
+      "recovery_behavior": "resume_from_release_record"
+    },
+    {
+      "from": "runtime_feedback",
+      "to": "human_projection_feedback",
+      "trigger": "graph_or_projection_improvement_required",
+      "required_outputs": ["kaizen_item", "feedback_classification", "sync_proposal_candidate"],
+      "required_gates": ["evidence_backed_feedback", "impact_review_done", "sync_review_required"],
+      "handoff_artifact": "projection_feedback_intake",
+      "owner": "graph_coordinator",
+      "failure_behavior": "record_runtime_feedback_blocker",
+      "recovery_behavior": "resume_from_feedback_record_and_current_baseline"
+    },
+    {
+      "from": "runtime_feedback",
+      "to": "implementation_planning",
+      "trigger": "implementation_change_required",
+      "required_outputs": ["kaizen_item", "feedback_classification", "implementation_change_request"],
+      "required_gates": ["evidence_backed_feedback", "impact_review_done", "planning_review_required"],
+      "handoff_artifact": "implementation_change_planning_intake",
+      "owner": "planning_coordinator",
+      "failure_behavior": "record_runtime_feedback_blocker",
+      "recovery_behavior": "resume_from_feedback_record_and_change_request"
+    },
+    {
+      "from": "runtime_feedback",
+      "to": "kaizen_improvement",
+      "trigger": "cycle_completed",
+      "required_outputs": ["kaizen_item", "feedback_classification", "next_action_decision"],
+      "required_gates": ["cycle_completed", "feedback_classified", "lessons_or_no_lessons_recorded"],
+      "handoff_artifact": "kaizen_review_intake",
+      "owner": "process_coordinator",
+      "failure_behavior": "record_missing_kaizen_intake",
+      "recovery_behavior": "resume_from_feedback_record"
+    },
+    {
+      "from": "kaizen_improvement",
+      "to": "human_projection_feedback",
+      "trigger": "graph_or_projection_improvement_required",
+      "required_outputs": ["kaizen_review_report", "classified_improvement_items", "next_transition_decision"],
+      "required_gates": ["improvement_findings_classified", "blocking_regressions_checked", "graph_or_projection_improvement_required"],
+      "handoff_artifact": "graph_or_projection_improvement_intake",
+      "owner": "graph_coordinator",
+      "failure_behavior": "record_kaizen_transition_blocker",
+      "recovery_behavior": "resume_from_kaizen_review_report"
+    },
+    {
+      "from": "kaizen_improvement",
+      "to": "implementation_planning",
+      "trigger": "planning_improvement_required",
+      "required_outputs": ["kaizen_review_report", "classified_improvement_items", "next_transition_decision"],
+      "required_gates": ["improvement_findings_classified", "blocking_regressions_checked", "planning_improvement_required"],
+      "handoff_artifact": "planning_improvement_intake",
+      "owner": "planning_coordinator",
+      "failure_behavior": "record_kaizen_transition_blocker",
+      "recovery_behavior": "resume_from_kaizen_review_report"
+    },
+    {
+      "from": "kaizen_improvement",
+      "to": "bounded_work_batch",
+      "trigger": "implementation_rework_required",
+      "required_outputs": ["kaizen_review_report", "classified_improvement_items", "next_transition_decision"],
+      "required_gates": ["improvement_findings_classified", "launch_record_still_valid", "implementation_rework_required"],
+      "handoff_artifact": "implementation_rework_intake",
+      "owner": "work_batch_owner",
+      "failure_behavior": "record_kaizen_transition_blocker",
+      "recovery_behavior": "resume_from_kaizen_review_report_and_launch_record"
+    },
+    {
+      "from": "kaizen_improvement",
+      "to": "runtime_feedback",
+      "trigger": "runtime_evidence_required",
+      "required_outputs": ["kaizen_review_report", "classified_improvement_items", "next_transition_decision"],
+      "required_gates": ["improvement_findings_classified", "blocking_regressions_checked", "runtime_evidence_required"],
+      "handoff_artifact": "runtime_evidence_intake",
+      "owner": "operations_owner",
+      "failure_behavior": "record_kaizen_transition_blocker",
+      "recovery_behavior": "resume_from_kaizen_review_report"
+    },
+    {
+      "from": "kaizen_improvement",
+      "to": "implementation_planning",
+      "trigger": "no_blocking_improvement",
+      "required_outputs": ["kaizen_review_report", "classified_improvement_items", "next_transition_decision"],
+      "required_gates": ["improvement_findings_classified", "no_blocking_improvement", "deferred_or_accepted_path_recorded"],
+      "handoff_artifact": "next_planned_cycle_intake",
+      "owner": "planning_coordinator",
+      "failure_behavior": "record_kaizen_transition_blocker",
+      "recovery_behavior": "resume_from_kaizen_review_report"
+    }
+  ],
+  "kaizen_finding_taxonomy": [
+    "artifact_improvement",
+    "graph_spec_improvement",
+    "process_improvement",
+    "validator_improvement",
+    "tooling_improvement",
+    "dna_alignment_issue",
+    "quality_regression",
+    "safety_regression",
+    "critical_drift",
+    "user_value_gap"
+  ],
+  "kaizen_blocking_findings": [
+    "safety_regression",
+    "quality_regression",
+    "dna_alignment_issue",
+    "critical_drift"
+  ],
+  "kaizen_default_rule": "Kaizen blocks the next transition only for safety, quality, DNA alignment or critical drift findings; other improvements are accepted locally or deferred as follow-up proposals.",
+  "boundaries": [
+    "Generated projections are review surfaces, not source of truth.",
+    "Ready states describe permission candidates, not completed execution.",
+    "Evidence supports review but does not approve work by itself.",
+    "Feedback creates reviewable improvements or proposals, not direct state change.",
+    "A proposal is separate from a controlled update."
+  ],
+  "limitations": [
+    "Synthetic cycle validation checks shape and governance language, not operational effectiveness.",
+    "Real projects must define their own owners, gates, evidence sources and approval process."
+  ]
+}

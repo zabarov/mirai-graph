@@ -1,0 +1,11 @@
+{
+  "id": "package.process_control_contract_minimal",
+  "name": "Process Control Contract Minimal",
+  "version": "0.1.0",
+  "profile": "implementation_control",
+  "conformance_level": "level_1",
+  "graph": {
+    "objects": "graph/objects.json",
+    "relations": "graph/relations.json"
+  }
+}

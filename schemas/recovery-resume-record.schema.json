@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://growgraph.dev/schemas/recovery-resume-record.schema.json",
+  "title": "GrowGraph Recovery Resume Record",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["schema_version", "id", "profile", "public_safety", "current_state", "last_good_checkpoint", "target_scope", "last_validation_result", "evidence_status", "blockers", "next_safe_command", "rollback_option", "human_confirmation_required", "evidence_refs", "limitations"],
+  "properties": {
+    "schema_version": { "type": "string", "minLength": 1 },
+    "id": { "type": "string", "minLength": 1 },
+    "profile": { "const": "implementation_control" },
+    "public_safety": { "const": "synthetic_public" },
+    "current_state": { "type": "string", "minLength": 1 },
+    "last_good_checkpoint": { "type": "string", "minLength": 1 },
+    "target_scope": { "type": "string", "minLength": 1 },
+    "last_validation_result": { "type": "string", "minLength": 1 },
+    "evidence_status": { "type": "string", "minLength": 1 },
+    "blockers": { "type": "array", "items": { "type": "string" } },
+    "next_safe_command": { "type": "string", "minLength": 1 },
+    "rollback_option": { "type": "string", "minLength": 1 },
+    "human_confirmation_required": { "type": "boolean" },
+    "evidence_refs": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+    "limitations": { "type": "array", "items": { "type": "string" } }
+  }
+}

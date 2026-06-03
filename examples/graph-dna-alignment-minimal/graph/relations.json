@@ -1,0 +1,20 @@
+[
+  {
+    "id": "relation.dna.component_review_queue.aligns_with.dna.parent_document_system",
+    "type": "aligns_with",
+    "source": "dna.component_review_queue",
+    "target": "dna.parent_document_system",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_dna_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "relation.alignment.review_queue.evidences.dna.component_review_queue",
+    "type": "evidences",
+    "source": "alignment.review_queue",
+    "target": "dna.component_review_queue",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_dna_brief"],
+    "profile": "implementation_control"
+  }
+]

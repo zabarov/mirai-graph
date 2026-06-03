@@ -1,0 +1,34 @@
+{
+  "schema_version": "0.1.0",
+  "id": "risk_control_matrix.synthetic_review",
+  "profile": "implementation_control",
+  "public_safety": "synthetic_public",
+  "risks": [
+    {
+      "id": "risk.false_readiness",
+      "severity": "high",
+      "description": "Ready state is mistaken for completed work.",
+      "detection_signal": "state moves from ready_to_execute to approved without evidence.",
+      "prevention": "require launch and evidence gates before promotion.",
+      "gate_or_validator": "work_state_transition_validator",
+      "evidence_requirement": "state transition evidence and review note.",
+      "recovery_action": "return to last evidenced state.",
+      "escalation_rule": "escalate to coordinator when evidence is missing.",
+      "owner_role": "coordinator"
+    },
+    {
+      "id": "risk.write_collision",
+      "severity": "medium",
+      "description": "Two workers reserve the same bounded scope.",
+      "detection_signal": "duplicate active reservation for one scope.",
+      "prevention": "reservation registry and coordinator review.",
+      "gate_or_validator": "reservation_conflict_validator",
+      "evidence_requirement": "active reservation record.",
+      "recovery_action": "pause one reservation and merge proposals by coordinator decision.",
+      "escalation_rule": "escalate if scope ownership is unclear.",
+      "owner_role": "coordination owner"
+    }
+  ],
+  "evidence_refs": ["evidence.synthetic_risk_brief"],
+  "limitations": ["Synthetic matrix validates shape, not real operational coverage."]
+}

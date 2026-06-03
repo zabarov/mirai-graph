@@ -1,0 +1,37 @@
+{
+  "schema_version": "0.1.0",
+  "id": "source_boundary_contract.synthetic",
+  "profile": "implementation_control",
+  "public_safety": "synthetic_public",
+  "source_roles": [
+    {
+      "role": "canonical",
+      "description": "Reviewed source-of-truth data or rules.",
+      "canonical_write_allowed": true
+    },
+    {
+      "role": "generated",
+      "description": "Reproducible output that may reveal gaps but cannot silently update canonical state.",
+      "canonical_write_allowed": false
+    },
+    {
+      "role": "curated_human",
+      "description": "Reviewed human-readable projection used as a review surface.",
+      "canonical_write_allowed": false
+    },
+    {
+      "role": "workflow",
+      "description": "Process, launch, recovery or coordination record.",
+      "canonical_write_allowed": false
+    },
+    {
+      "role": "local_scratch",
+      "description": "Ignored local intake or temporary workspace.",
+      "canonical_write_allowed": false
+    }
+  ],
+  "promotion_rule": "New facts from generated, human, workflow or evidence layers require an explicit proposal before becoming canonical.",
+  "rejected_promotion_targets": ["direct generated output edit", "hidden legacy note", "unreviewed implementation repository change"],
+  "evidence_refs": ["evidence.synthetic_source_brief"],
+  "limitations": ["Synthetic boundary contract does not define a real repository layout."]
+}

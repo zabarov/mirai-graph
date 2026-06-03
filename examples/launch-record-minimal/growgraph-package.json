@@ -1,0 +1,11 @@
+{
+  "id": "package.launch_record_minimal",
+  "name": "Launch Record Minimal",
+  "version": "0.1.0",
+  "profile": "implementation_control",
+  "conformance_level": "level_1",
+  "graph": {
+    "objects": "graph/objects.json",
+    "relations": "graph/relations.json"
+  }
+}

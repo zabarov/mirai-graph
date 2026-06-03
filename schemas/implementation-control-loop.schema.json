@@ -54,11 +54,23 @@
       "type": "string",
       "minLength": 1
     },
+    "launch_gate": {
+      "type": "string",
+      "minLength": 1
+    },
     "approval_gate": {
       "type": "string",
       "minLength": 1
     },
     "controlled_update": {
+      "type": "string",
+      "minLength": 1
+    },
+    "drift_check": {
+      "type": "string",
+      "minLength": 1
+    },
+    "kaizen_item": {
       "type": "string",
       "minLength": 1
     },

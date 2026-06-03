@@ -1,0 +1,47 @@
+[
+  {
+    "id": "evidence.synthetic_launch_record_brief",
+    "kind": "evidence",
+    "title": "Synthetic Launch Record Brief",
+    "summary": "Public-safe evidence describing a bounded launch record example.",
+    "readiness": "accepted",
+    "evidence": [],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "cycle.implementation_planning",
+    "kind": "implementation_cycle",
+    "title": "Implementation Planning",
+    "summary": "Cycle that produces a launch-ready bounded work plan.",
+    "readiness": "accepted",
+    "evidence": ["evidence.synthetic_launch_record_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "launch_record.synthetic_batch",
+    "kind": "launch_record",
+    "title": "Synthetic Batch Launch Record",
+    "summary": "Launch record that bounds one synthetic work batch by scope, actions, gates and evidence.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_launch_record_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "batch.synthetic_work",
+    "kind": "workflow_batch",
+    "title": "Synthetic Work Batch",
+    "summary": "Bounded batch that can only run within the launch record scope.",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_launch_record_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "gate.launch",
+    "kind": "launch_gate",
+    "title": "Launch Gate",
+    "summary": "Gate requiring explicit launch record review before bounded work.",
+    "readiness": "accepted",
+    "evidence": ["evidence.synthetic_launch_record_brief"],
+    "profile": "implementation_control"
+  }
+]

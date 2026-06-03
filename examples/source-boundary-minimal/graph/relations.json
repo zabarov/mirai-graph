@@ -1,0 +1,20 @@
+[
+  {
+    "id": "relation.contract.source_boundary.defines_boundary.boundary.canonical",
+    "type": "defines_boundary",
+    "source": "contract.source_boundary",
+    "target": "boundary.canonical",
+    "readiness": "accepted",
+    "evidence": ["evidence.synthetic_source_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "relation.contract.source_boundary.defines_boundary.boundary.generated",
+    "type": "defines_boundary",
+    "source": "contract.source_boundary",
+    "target": "boundary.generated",
+    "readiness": "accepted",
+    "evidence": ["evidence.synthetic_source_brief"],
+    "profile": "implementation_control"
+  }
+]

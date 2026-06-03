@@ -1,0 +1,119 @@
+[
+  {
+    "id": "evidence.synthetic_cycle_brief",
+    "kind": "evidence",
+    "title": "Synthetic Cycle Brief",
+    "summary": "Public-safe brief for reusable implementation-control cycles.",
+    "readiness": "accepted",
+    "evidence": [],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "cycle.human_projection_feedback",
+    "kind": "implementation_cycle",
+    "title": "Human Projection Feedback",
+    "summary": "Cycle for generating a human-readable projection and turning reviewed gaps into proposals.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_cycle_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "cycle.implementation_planning",
+    "kind": "implementation_cycle",
+    "title": "Implementation Planning",
+    "summary": "Cycle for converting reviewed scope into bounded implementation planning.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_cycle_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "cycle.bounded_work_batch",
+    "kind": "implementation_cycle",
+    "title": "Bounded Work Batch",
+    "summary": "Cycle for executing only work approved by a launch gate.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_cycle_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "cycle.review_and_evidence",
+    "kind": "implementation_cycle",
+    "title": "Review And Evidence",
+    "summary": "Cycle for verifying evidence, drift and proposal readiness before approval.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_cycle_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "cycle.release_or_publish",
+    "kind": "implementation_cycle",
+    "title": "Release Or Publish",
+    "summary": "Cycle for evaluating release or publication readiness with explicit gates.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_cycle_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "cycle.runtime_feedback",
+    "kind": "implementation_cycle",
+    "title": "Runtime Feedback",
+    "summary": "Cycle for converting operational feedback into reviewable improvements or proposals.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_cycle_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "cycle.kaizen_improvement",
+    "kind": "implementation_cycle",
+    "title": "Kaizen Improvement",
+    "summary": "Meta-cycle for classifying completed-cycle lessons, regressions and improvement opportunities before the next governed transition.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_cycle_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "gate.public_safety",
+    "kind": "approval_gate",
+    "title": "Public Safety Gate",
+    "summary": "Gate confirming the cycle example is synthetic and public-safe.",
+    "readiness": "accepted",
+    "evidence": ["evidence.synthetic_cycle_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "gate.cycle_validation",
+    "kind": "approval_gate",
+    "title": "Cycle Validation Gate",
+    "summary": "Gate confirming cycles declare stages, gates, validators, evidence and promotion paths.",
+    "readiness": "accepted",
+    "evidence": ["evidence.synthetic_cycle_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "validator.cycle_shape",
+    "kind": "validator",
+    "title": "Cycle Shape Validator",
+    "summary": "Validator that checks required public cycle structure and boundary language.",
+    "readiness": "accepted",
+    "evidence": ["evidence.synthetic_cycle_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "risk.implicit_authorization",
+    "kind": "risk",
+    "title": "Implicit Authorization",
+    "summary": "Risk that readiness, evidence or feedback is mistaken for permission to update state.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_cycle_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "kaizen.cycle_boundaries",
+    "kind": "kaizen_item",
+    "title": "Cycle Boundary Language",
+    "summary": "Improvement item to keep cycle docs explicit about proposal, approval and controlled update boundaries.",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_cycle_brief"],
+    "profile": "implementation_control"
+  }
+]

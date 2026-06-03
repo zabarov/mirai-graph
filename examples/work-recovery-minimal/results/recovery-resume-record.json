@@ -1,0 +1,17 @@
+{
+  "schema_version": "0.1.0",
+  "id": "recovery_resume.synthetic_review",
+  "profile": "implementation_control",
+  "public_safety": "synthetic_public",
+  "current_state": "evidence_recorded",
+  "last_good_checkpoint": "checkpoint.synthetic_review.evidence_recorded",
+  "target_scope": "synthetic review batch",
+  "last_validation_result": "passed_with_notes",
+  "evidence_status": "recorded",
+  "blockers": [],
+  "next_safe_command": "rerun synthetic validation",
+  "rollback_option": "return to launch_ready state",
+  "human_confirmation_required": false,
+  "evidence_refs": ["evidence.synthetic_work_brief"],
+  "limitations": ["Resume record is synthetic and does not reference a real repository."]
+}

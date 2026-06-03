@@ -18,6 +18,7 @@ Example profiles:
 - `core`;
 - `software_specification`;
 - `project_management`;
+- `implementation_control`;
 - `product_development`;
 - `organization_governance`;
 - `research_program`;
@@ -162,6 +163,56 @@ Possible relation types:
 - hands_off_to;
 - exports_contract;
 - proposes_learning.
+
+## Implementation Control Profile
+
+Initial public profile for governing movement from graph baselines, generated
+human projections and implementation plans into bounded work, evidence, sync
+proposals, approval gates, controlled updates and process learning.
+
+Possible object kinds:
+
+- implementation_baseline;
+- projection_view;
+- semantic_review;
+- implementation_cycle;
+- graph_dna;
+- component_dna;
+- dna_alignment;
+- source_boundary_contract;
+- work_state_machine;
+- recovery_record;
+- risk_control;
+- coordination_contract;
+- workflow_batch;
+- launch_gate;
+- evidence_pack;
+- sync_proposal;
+- approval_gate;
+- controlled_update;
+- implementation_state;
+- drift_check;
+- kaizen_item.
+
+Possible relation types:
+
+- derives_projection;
+- reviews_projection;
+- aligns_with;
+- defines_boundary;
+- transitions_to;
+- resumes_from;
+- controls_risk;
+- reserves_scope;
+- requires_gate;
+- launches_batch;
+- produces_evidence;
+- proposes_update;
+- approves_update;
+- updates_baseline;
+- checks_drift;
+- progresses_to;
+- improves_process.
 
 ## Profile Conformance
 

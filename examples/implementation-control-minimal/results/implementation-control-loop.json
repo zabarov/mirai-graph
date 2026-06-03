@@ -6,10 +6,13 @@
   "baseline": "baseline.document_service_v1",
   "projection_view": "projection.document_service_human_view",
   "semantic_review": "review.document_service_semantic",
+  "launch_gate": "gate.launch_contract_skeleton",
   "evidence_pack": "evidence_pack.contract_skeleton",
   "sync_proposal": "proposal.graph_sync_contract_skeleton",
   "approval_gate": "gate.coordinator_approval",
   "controlled_update": "update.contract_skeleton_accepted",
+  "drift_check": "drift.contract_skeleton_state",
+  "kaizen_item": "kaizen.separate_proposal_from_update",
   "limitations": [
     "Synthetic example validates shape, not operational effectiveness.",
     "A controlled update object is not proof that a real system has changed.",

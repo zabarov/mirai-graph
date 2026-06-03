@@ -1,0 +1,79 @@
+{
+  "schema_version": "0.1.0",
+  "id": "work_state_machine.synthetic_executable_process",
+  "profile": "implementation_control",
+  "public_safety": "synthetic_public",
+  "states": [
+    "planned",
+    "ready_to_execute",
+    "started",
+    "written",
+    "tests_recorded",
+    "evidence_recorded",
+    "sync_proposed",
+    "approved",
+    "release_ready",
+    "released",
+    "kaizen_reviewed"
+  ],
+  "terminal_states": ["released", "kaizen_reviewed"],
+  "transitions": [
+    {
+      "from": "planned",
+      "to": "ready_to_execute",
+      "requires_evidence": ["launch_record"],
+      "requires_launch_record": true
+    },
+    {
+      "from": "ready_to_execute",
+      "to": "started",
+      "requires_evidence": ["scope_check"],
+      "requires_launch_record": true
+    },
+    {
+      "from": "started",
+      "to": "written",
+      "requires_evidence": ["file_map"]
+    },
+    {
+      "from": "written",
+      "to": "tests_recorded",
+      "requires_evidence": ["test_result"]
+    },
+    {
+      "from": "tests_recorded",
+      "to": "evidence_recorded",
+      "requires_evidence": ["semantic_acceptance", "evidence_pack"]
+    },
+    {
+      "from": "evidence_recorded",
+      "to": "sync_proposed",
+      "requires_evidence": ["sync_proposal"]
+    },
+    {
+      "from": "sync_proposed",
+      "to": "approved",
+      "requires_evidence": ["approval_gate"]
+    },
+    {
+      "from": "approved",
+      "to": "release_ready",
+      "requires_evidence": ["release_gate"]
+    },
+    {
+      "from": "release_ready",
+      "to": "released",
+      "requires_evidence": ["release_evidence"],
+      "terminal_requires_kaizen": true
+    }
+  ],
+  "false_transition_guards": [
+    "ready_to_execute_is_not_written",
+    "tests_recorded_without_semantic_acceptance_is_not_approved",
+    "sync_proposed_is_not_controlled_update",
+    "released_requires_release_evidence",
+    "terminal_requires_kaizen_or_no_reusable_lessons"
+  ],
+  "evidence_refs": ["evidence.synthetic_transition_brief"],
+  "limitations": ["Synthetic state machine validates transition rules, not real execution."]
+}

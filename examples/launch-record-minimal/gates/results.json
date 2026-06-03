@@ -1,0 +1,12 @@
+[
+  {
+    "id": "gate_result.launch_record_minimal.launch",
+    "gate_id": "gate.launch",
+    "target_id": "launch_record.synthetic_batch",
+    "verdict": "pass",
+    "summary": "Synthetic launch record contains bounded scope, gates, evidence and stop conditions.",
+    "evidence": ["evidence.synthetic_launch_record_brief"],
+    "reviewed_at": "2026-06-03",
+    "reviewer": "Synthetic coordinator"
+  }
+]

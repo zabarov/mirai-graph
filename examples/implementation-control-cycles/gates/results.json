@@ -1,0 +1,22 @@
+[
+  {
+    "id": "gate_result.implementation_control_cycles.public_safety",
+    "gate_id": "gate.public_safety",
+    "target_id": "package.implementation_control_cycles",
+    "verdict": "pass",
+    "summary": "The cycle example uses synthetic public-safe material only.",
+    "evidence": ["evidence.synthetic_cycle_brief"],
+    "reviewed_at": "2026-06-02",
+    "reviewer": "GrowGraph maintainers"
+  },
+  {
+    "id": "gate_result.implementation_control_cycles.cycle_validation",
+    "gate_id": "gate.cycle_validation",
+    "target_id": "cycle.bounded_work_batch",
+    "verdict": "pass_with_notes",
+    "summary": "The cycle declares stages, gates, validators, evidence and promotion boundaries.",
+    "evidence": ["evidence.synthetic_cycle_brief"],
+    "reviewed_at": "2026-06-02",
+    "reviewer": "Synthetic coordinator"
+  }
+]

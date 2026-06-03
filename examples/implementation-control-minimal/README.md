@@ -13,16 +13,22 @@ It shows:
 baseline
 -> projection view
 -> semantic review
+-> launch gate
 -> workflow batch
 -> evidence pack
 -> sync proposal
 -> approval gate
 -> controlled update
+-> drift check
 -> kaizen item
 ```
 
+`ready_to_execute` in this example means the batch passed its launch gate. It
+does not mean that runtime work has already happened or that canonical state has
+already changed.
+
 The example is synthetic. It does not contain private project data, internal
-paths, private runtime traces or organization-specific policies.
+paths, private execution logs or organization-specific policies.
 
 ## Validation
 

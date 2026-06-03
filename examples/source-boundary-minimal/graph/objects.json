@@ -1,0 +1,38 @@
+[
+  {
+    "id": "evidence.synthetic_source_brief",
+    "kind": "evidence",
+    "title": "Synthetic Source Brief",
+    "summary": "Public-safe brief for source boundary roles.",
+    "readiness": "accepted",
+    "evidence": [],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "contract.source_boundary",
+    "kind": "source_boundary_contract",
+    "title": "Synthetic Source Boundary Contract",
+    "summary": "Contract describing canonical, generated, human, evidence and local scratch roles.",
+    "readiness": "accepted",
+    "evidence": ["evidence.synthetic_source_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "boundary.canonical",
+    "kind": "source_boundary",
+    "title": "Canonical Boundary",
+    "summary": "Reviewed source-of-truth area.",
+    "readiness": "accepted",
+    "evidence": ["evidence.synthetic_source_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "boundary.generated",
+    "kind": "source_boundary",
+    "title": "Generated Boundary",
+    "summary": "Reproducible output that cannot silently override canonical state.",
+    "readiness": "accepted",
+    "evidence": ["evidence.synthetic_source_brief"],
+    "profile": "implementation_control"
+  }
+]

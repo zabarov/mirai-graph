@@ -1,0 +1,200 @@
+[
+  {
+    "id": "relation.evidence.synthetic_cycle_brief.evidences.cycle.human_projection_feedback",
+    "type": "evidences",
+    "source": "evidence.synthetic_cycle_brief",
+    "target": "cycle.human_projection_feedback",
+    "readiness": "accepted",
+    "evidence": ["evidence.synthetic_cycle_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "relation.cycle.human_projection_feedback.progresses_to.cycle.implementation_planning",
+    "type": "progresses_to",
+    "source": "cycle.human_projection_feedback",
+    "target": "cycle.implementation_planning",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_cycle_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "relation.cycle.implementation_planning.progresses_to.cycle.bounded_work_batch",
+    "type": "progresses_to",
+    "source": "cycle.implementation_planning",
+    "target": "cycle.bounded_work_batch",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_cycle_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "relation.cycle.bounded_work_batch.progresses_to.cycle.review_and_evidence",
+    "type": "progresses_to",
+    "source": "cycle.bounded_work_batch",
+    "target": "cycle.review_and_evidence",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_cycle_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "relation.cycle.review_and_evidence.progresses_to.cycle.release_or_publish",
+    "type": "progresses_to",
+    "source": "cycle.review_and_evidence",
+    "target": "cycle.release_or_publish",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_cycle_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "relation.cycle.release_or_publish.progresses_to.cycle.runtime_feedback",
+    "type": "progresses_to",
+    "source": "cycle.release_or_publish",
+    "target": "cycle.runtime_feedback",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_cycle_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "relation.cycle.human_projection_feedback.transitions_to.cycle.kaizen_improvement",
+    "type": "transitions_to",
+    "source": "cycle.human_projection_feedback",
+    "target": "cycle.kaizen_improvement",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_cycle_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "relation.cycle.implementation_planning.transitions_to.cycle.kaizen_improvement",
+    "type": "transitions_to",
+    "source": "cycle.implementation_planning",
+    "target": "cycle.kaizen_improvement",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_cycle_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "relation.cycle.bounded_work_batch.transitions_to.cycle.kaizen_improvement",
+    "type": "transitions_to",
+    "source": "cycle.bounded_work_batch",
+    "target": "cycle.kaizen_improvement",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_cycle_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "relation.cycle.review_and_evidence.transitions_to.cycle.kaizen_improvement",
+    "type": "transitions_to",
+    "source": "cycle.review_and_evidence",
+    "target": "cycle.kaizen_improvement",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_cycle_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "relation.cycle.release_or_publish.transitions_to.cycle.kaizen_improvement",
+    "type": "transitions_to",
+    "source": "cycle.release_or_publish",
+    "target": "cycle.kaizen_improvement",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_cycle_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "relation.cycle.runtime_feedback.transitions_to.cycle.kaizen_improvement",
+    "type": "transitions_to",
+    "source": "cycle.runtime_feedback",
+    "target": "cycle.kaizen_improvement",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_cycle_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "relation.cycle.kaizen_improvement.transitions_to.cycle.human_projection_feedback",
+    "type": "transitions_to",
+    "source": "cycle.kaizen_improvement",
+    "target": "cycle.human_projection_feedback",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_cycle_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "relation.cycle.kaizen_improvement.transitions_to.cycle.implementation_planning",
+    "type": "transitions_to",
+    "source": "cycle.kaizen_improvement",
+    "target": "cycle.implementation_planning",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_cycle_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "relation.cycle.kaizen_improvement.transitions_to.cycle.bounded_work_batch",
+    "type": "transitions_to",
+    "source": "cycle.kaizen_improvement",
+    "target": "cycle.bounded_work_batch",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_cycle_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "relation.cycle.kaizen_improvement.transitions_to.cycle.runtime_feedback",
+    "type": "transitions_to",
+    "source": "cycle.kaizen_improvement",
+    "target": "cycle.runtime_feedback",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_cycle_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "relation.cycle.bounded_work_batch.requires_gate.gate.cycle_validation",
+    "type": "requires_gate",
+    "source": "cycle.bounded_work_batch",
+    "target": "gate.cycle_validation",
+    "readiness": "accepted",
+    "evidence": ["evidence.synthetic_cycle_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "relation.gate.cycle_validation.validates_cycle.cycle.bounded_work_batch",
+    "type": "validates_cycle",
+    "source": "gate.cycle_validation",
+    "target": "cycle.bounded_work_batch",
+    "readiness": "accepted",
+    "evidence": ["evidence.synthetic_cycle_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "relation.validator.cycle_shape.validates_cycle.cycle.human_projection_feedback",
+    "type": "validates_cycle",
+    "source": "validator.cycle_shape",
+    "target": "cycle.human_projection_feedback",
+    "readiness": "accepted",
+    "evidence": ["evidence.synthetic_cycle_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "relation.gate.public_safety.requires_review.evidence.synthetic_cycle_brief",
+    "type": "requires_review",
+    "source": "gate.public_safety",
+    "target": "evidence.synthetic_cycle_brief",
+    "readiness": "accepted",
+    "evidence": ["evidence.synthetic_cycle_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "relation.risk.implicit_authorization.blocks.cycle.runtime_feedback",
+    "type": "blocks",
+    "source": "risk.implicit_authorization",
+    "target": "cycle.runtime_feedback",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_cycle_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "relation.kaizen.cycle_boundaries.improves_process.cycle.review_and_evidence",
+    "type": "improves_process",
+    "source": "kaizen.cycle_boundaries",
+    "target": "cycle.review_and_evidence",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_cycle_brief"],
+    "profile": "implementation_control"
+  }
+]

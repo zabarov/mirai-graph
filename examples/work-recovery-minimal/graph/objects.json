@@ -1,0 +1,47 @@
+[
+  {
+    "id": "evidence.synthetic_work_brief",
+    "kind": "evidence",
+    "title": "Synthetic Work Brief",
+    "summary": "Public-safe brief for work state and recovery.",
+    "readiness": "accepted",
+    "evidence": [],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "machine.review_work_state",
+    "kind": "work_state_machine",
+    "title": "Review Work State Machine",
+    "summary": "Synthetic state machine for governed review work.",
+    "readiness": "accepted",
+    "evidence": ["evidence.synthetic_work_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "state.ready_to_execute",
+    "kind": "work_state",
+    "title": "Ready To Execute",
+    "summary": "Launch-ready state that is not execution itself.",
+    "readiness": "accepted",
+    "evidence": ["evidence.synthetic_work_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "state.evidence_recorded",
+    "kind": "work_state",
+    "title": "Evidence Recorded",
+    "summary": "Evidence has been recorded for review, but approval is still separate.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_work_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "recovery.review_work_resume",
+    "kind": "recovery_record",
+    "title": "Review Work Resume Record",
+    "summary": "Durable resume record for interrupted synthetic review work.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_work_brief"],
+    "profile": "implementation_control"
+  }
+]

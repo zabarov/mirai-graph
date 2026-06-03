@@ -64,6 +64,16 @@ function usage() {
   console.error("  node packages/cli/validate-growgraph.js seed <seed-file>");
   console.error("  node packages/cli/validate-growgraph.js profile <profile-file>");
   console.error("  node packages/cli/validate-growgraph.js context-pack <package-dir> <context-pack-file>");
+  console.error("  node packages/cli/validate-growgraph.js implementation-control-cycle <cycle-result-file>");
+  console.error("  node packages/cli/validate-growgraph.js launch-record <launch-record-file>");
+  console.error("  node packages/cli/validate-growgraph.js process-transition <state-machine-file> <transition-request-file>");
+  console.error("  node packages/cli/validate-growgraph.js process-control-contract <contract-file>");
+  console.error("  node packages/cli/validate-growgraph.js graph-dna-alignment <result-file>");
+  console.error("  node packages/cli/validate-growgraph.js work-state-machine <result-file>");
+  console.error("  node packages/cli/validate-growgraph.js recovery-resume-record <result-file>");
+  console.error("  node packages/cli/validate-growgraph.js risk-control-matrix <result-file>");
+  console.error("  node packages/cli/validate-growgraph.js multi-agent-coordination <result-file>");
+  console.error("  node packages/cli/validate-growgraph.js source-boundary-contract <result-file>");
 }
 
 function readJson(filePath) {
@@ -646,6 +656,567 @@ function validateContextPack(packageDir, contextPackPath) {
   return { errors, warnings };
 }
 
+function validateImplementationControlCycle(cyclePath) {
+  const errors = [];
+  const warnings = [];
+  const result = readJson(cyclePath);
+  const label = "implementation_control_cycle";
+
+  requireString(result, "schema_version", label, errors);
+  requireString(result, "id", label, errors);
+  requireString(result, "profile", label, errors);
+  requireString(result, "public_safety", label, errors);
+  requireJsonArray(result, "cycles", label, errors);
+  requireJsonArray(result, "cycle_transitions", label, errors);
+  requireArray(result, "kaizen_finding_taxonomy", label, errors);
+  requireArray(result, "kaizen_blocking_findings", label, errors);
+  requireString(result, "kaizen_default_rule", label, errors);
+  requireArray(result, "boundaries", label, errors);
+  requireArray(result, "limitations", label, errors);
+
+  if (result.profile !== undefined && result.profile !== "implementation_control") {
+    errors.push(`${label}.profile must be implementation_control`);
+  }
+  if (result.public_safety !== undefined && result.public_safety !== "synthetic_public") {
+    errors.push(`${label}.public_safety must be synthetic_public`);
+  }
+
+  const requiredCycleIds = new Set([
+    "human_projection_feedback",
+    "implementation_planning",
+    "bounded_work_batch",
+    "review_and_evidence",
+    "release_or_publish",
+    "runtime_feedback",
+    "kaizen_improvement"
+  ]);
+  const requiredTransitionFields = [
+    "from",
+    "to",
+    "trigger",
+    "required_outputs",
+    "required_gates",
+    "handoff_artifact",
+    "owner",
+    "failure_behavior",
+    "recovery_behavior"
+  ];
+  const requiredTransitions = [
+    ["human_projection_feedback", "implementation_planning", "equilibrium_reached"],
+    ["human_projection_feedback", "kaizen_improvement", "cycle_completed"],
+    ["implementation_planning", "bounded_work_batch", "launch_record_ready"],
+    ["implementation_planning", "kaizen_improvement", "cycle_completed"],
+    ["bounded_work_batch", "review_and_evidence", "evidence_ready"],
+    ["bounded_work_batch", "kaizen_improvement", "cycle_completed"],
+    ["review_and_evidence", "release_or_publish", "review_approved"],
+    ["review_and_evidence", "human_projection_feedback", "baseline_gap_found"],
+    ["review_and_evidence", "kaizen_improvement", "cycle_completed"],
+    ["release_or_publish", "runtime_feedback", "released_or_published"],
+    ["release_or_publish", "kaizen_improvement", "cycle_completed"],
+    ["runtime_feedback", "human_projection_feedback", "graph_or_projection_improvement_required"],
+    ["runtime_feedback", "implementation_planning", "implementation_change_required"],
+    ["runtime_feedback", "kaizen_improvement", "cycle_completed"],
+    ["kaizen_improvement", "human_projection_feedback", "graph_or_projection_improvement_required"],
+    ["kaizen_improvement", "implementation_planning", "planning_improvement_required"],
+    ["kaizen_improvement", "bounded_work_batch", "implementation_rework_required"],
+    ["kaizen_improvement", "runtime_feedback", "runtime_evidence_required"]
+  ];
+  const requiredKaizenFindings = [
+    "artifact_improvement",
+    "graph_spec_improvement",
+    "process_improvement",
+    "validator_improvement",
+    "tooling_improvement",
+    "dna_alignment_issue",
+    "quality_regression",
+    "safety_regression",
+    "critical_drift",
+    "user_value_gap"
+  ];
+  const requiredBlockingFindings = [
+    "safety_regression",
+    "quality_regression",
+    "dna_alignment_issue",
+    "critical_drift"
+  ];
+  const cycleIds = new Set();
+  const forbiddenAutoUpdateTerms = [
+    "automatic canonical update",
+    "automatically updates canonical",
+    "auto canonical update",
+    "feedback directly updates",
+    "evidence is approval"
+  ];
+
+  if (Array.isArray(result.cycles)) {
+    for (const [index, cycle] of result.cycles.entries()) {
+      const cycleLabel = `${label}.cycles[${index}]`;
+      requireString(cycle, "id", cycleLabel, errors);
+      requireString(cycle, "purpose", cycleLabel, errors);
+      requireArray(cycle, "stages", cycleLabel, errors);
+      requireArray(cycle, "inputs", cycleLabel, errors);
+      requireArray(cycle, "outputs", cycleLabel, errors);
+      requireArray(cycle, "gates", cycleLabel, errors);
+      requireArray(cycle, "validators", cycleLabel, errors);
+      requireString(cycle, "recovery_behavior", cycleLabel, errors);
+      requireString(cycle, "repeat_condition", cycleLabel, errors);
+      requireString(cycle, "promotion_path", cycleLabel, errors);
+      requireArray(cycle, "evidence_refs", cycleLabel, errors);
+      requireArray(cycle, "limitations", cycleLabel, errors);
+
+      if (typeof cycle.id === "string") {
+        if (cycleIds.has(cycle.id)) {
+          errors.push(`${cycleLabel}.id duplicates ${cycle.id}`);
+        }
+        cycleIds.add(cycle.id);
+      }
+
+      if (Array.isArray(cycle.stages) && cycle.stages.length < 2) {
+        errors.push(`${cycleLabel}.stages must contain at least two stages`);
+      }
+      if (Array.isArray(cycle.gates) && cycle.gates.length === 0) {
+        errors.push(`${cycleLabel}.gates must not be empty`);
+      }
+      if (Array.isArray(cycle.validators) && cycle.validators.length === 0) {
+        errors.push(`${cycleLabel}.validators must not be empty`);
+      }
+      if (Array.isArray(cycle.evidence_refs) && cycle.evidence_refs.length === 0) {
+        errors.push(`${cycleLabel}.evidence_refs must not be empty`);
+      }
+
+      const cycleText = JSON.stringify(cycle).toLowerCase();
+      for (const forbiddenTerm of forbiddenAutoUpdateTerms) {
+        if (cycleText.includes(forbiddenTerm)) {
+          errors.push(`${cycleLabel} contains forbidden auto-update semantics: ${forbiddenTerm}`);
+        }
+      }
+    }
+  }
+
+  for (const requiredCycleId of requiredCycleIds) {
+    if (!cycleIds.has(requiredCycleId)) {
+      errors.push(`${label}.cycles is missing required cycle ${requiredCycleId}`);
+    }
+  }
+
+  if (Array.isArray(result.cycle_transitions)) {
+    const transitionKeys = new Set();
+    for (const [index, transition] of result.cycle_transitions.entries()) {
+      const transitionLabel = `${label}.cycle_transitions[${index}]`;
+
+      for (const field of requiredTransitionFields) {
+        if (["required_outputs", "required_gates"].includes(field)) {
+          requireArray(transition, field, transitionLabel, errors);
+          if (Array.isArray(transition[field]) && transition[field].length === 0) {
+            errors.push(`${transitionLabel}.${field} must not be empty`);
+          }
+        } else {
+          requireString(transition, field, transitionLabel, errors);
+        }
+      }
+
+      if (typeof transition.from === "string" && !cycleIds.has(transition.from)) {
+        errors.push(`${transitionLabel}.from references unknown cycle ${transition.from}`);
+      }
+      if (typeof transition.to === "string" && !cycleIds.has(transition.to)) {
+        errors.push(`${transitionLabel}.to references unknown cycle ${transition.to}`);
+      }
+
+      const transitionKey = `${transition.from ?? "?"}->${transition.to ?? "?"}:${transition.trigger ?? "?"}`;
+      if (transitionKeys.has(transitionKey)) {
+        errors.push(`${transitionLabel} duplicates transition ${transitionKey}`);
+      }
+      transitionKeys.add(transitionKey);
+
+      const transitionText = JSON.stringify(transition).toLowerCase();
+      for (const forbiddenTerm of forbiddenAutoUpdateTerms) {
+        if (transitionText.includes(forbiddenTerm)) {
+          errors.push(`${transitionLabel} contains forbidden auto-update semantics: ${forbiddenTerm}`);
+        }
+      }
+    }
+
+    for (const [from, to, trigger] of requiredTransitions) {
+      const transitionKey = `${from}->${to}:${trigger}`;
+      if (!transitionKeys.has(transitionKey)) {
+        errors.push(`${label}.cycle_transitions is missing required transition ${transitionKey}`);
+      }
+    }
+
+    for (const cycleId of requiredCycleIds) {
+      if (cycleId === "kaizen_improvement") {
+        continue;
+      }
+      const transitionKey = `${cycleId}->kaizen_improvement:cycle_completed`;
+      if (!transitionKeys.has(transitionKey)) {
+        errors.push(`${label}.cycle_transitions must route ${cycleId} to kaizen_improvement on cycle_completed`);
+      }
+    }
+  }
+
+  if (Array.isArray(result.kaizen_finding_taxonomy)) {
+    for (const finding of requiredKaizenFindings) {
+      if (!result.kaizen_finding_taxonomy.includes(finding)) {
+        errors.push(`${label}.kaizen_finding_taxonomy is missing ${finding}`);
+      }
+    }
+  }
+
+  if (Array.isArray(result.kaizen_blocking_findings)) {
+    for (const finding of requiredBlockingFindings) {
+      if (!result.kaizen_blocking_findings.includes(finding)) {
+        errors.push(`${label}.kaizen_blocking_findings is missing ${finding}`);
+      }
+    }
+  }
+
+  const kaizenRule = typeof result.kaizen_default_rule === "string" ? result.kaizen_default_rule.toLowerCase() : "";
+  for (const expectedTerm of ["safety", "quality", "dna", "critical drift"]) {
+    if (kaizenRule && !kaizenRule.includes(expectedTerm)) {
+      warnings.push(`${label}.kaizen_default_rule should mention ${expectedTerm}`);
+    }
+  }
+
+  if (Array.isArray(result.boundaries)) {
+    const boundaryText = result.boundaries.join("\n").toLowerCase();
+    const requiredBoundaries = [
+      "generated",
+      "evidence",
+      "feedback",
+      "proposal",
+      "ready"
+    ];
+    for (const requiredBoundary of requiredBoundaries) {
+      if (!boundaryText.includes(requiredBoundary)) {
+        warnings.push(`${label}.boundaries should mention ${requiredBoundary}`);
+      }
+    }
+  }
+
+  return { errors, warnings };
+}
+
+function validatePublicImplementationControlResult(resultPath, mode) {
+  const errors = [];
+  const warnings = [];
+  const result = readJson(resultPath);
+  const label = mode.replace(/-/g, "_");
+
+  requireString(result, "schema_version", label, errors);
+  requireString(result, "id", label, errors);
+  requireString(result, "profile", label, errors);
+  requireString(result, "public_safety", label, errors);
+  requireArray(result, "evidence_refs", label, errors);
+  requireArray(result, "limitations", label, errors);
+
+  if (result.profile !== undefined && result.profile !== "implementation_control") {
+    errors.push(`${label}.profile must be implementation_control`);
+  }
+  if (result.public_safety !== undefined && result.public_safety !== "synthetic_public") {
+    errors.push(`${label}.public_safety must be synthetic_public`);
+  }
+
+  const resultText = JSON.stringify(result).toLowerCase();
+  const forbiddenTerms = [
+    "/users/rim/documents/" + "github/",
+    "lar" + "ena",
+    "simai private",
+    "source/" + "workflow",
+    "private runtime " + "trace",
+    "automatic canonical update",
+    "feedback directly updates",
+    "evidence is approval"
+  ];
+  for (const forbiddenTerm of forbiddenTerms) {
+    if (resultText.includes(forbiddenTerm)) {
+      errors.push(`${label} contains forbidden public-transfer term: ${forbiddenTerm}`);
+    }
+  }
+
+  if (mode === "graph-dna-alignment") {
+    requireObject(result, "parent_dna", label, errors);
+    requireObject(result, "component_dna", label, errors);
+    requireObject(result, "alignment", label, errors);
+    if (result.parent_dna && typeof result.parent_dna === "object") {
+      requireString(result.parent_dna, "mission", `${label}.parent_dna`, errors);
+      requireString(result.parent_dna, "evolution_vector", `${label}.parent_dna`, errors);
+      requireArray(result.parent_dna, "non_negotiable_principles", `${label}.parent_dna`, errors);
+    }
+    if (result.component_dna && typeof result.component_dna === "object") {
+      requireArray(result.component_dna, "owns", `${label}.component_dna`, errors);
+      requireArray(result.component_dna, "must_not_own", `${label}.component_dna`, errors);
+      requireArray(result.component_dna, "invariants", `${label}.component_dna`, errors);
+      requireArray(result.component_dna, "success_criteria", `${label}.component_dna`, errors);
+      requireArray(result.component_dna, "anti_patterns", `${label}.component_dna`, errors);
+    }
+    if (result.alignment && typeof result.alignment === "object" && typeof result.alignment.proposal_required !== "boolean") {
+      errors.push(`${label}.alignment.proposal_required must be a boolean`);
+    }
+  }
+
+  if (mode === "work-state-machine") {
+    requireArray(result, "states", label, errors);
+    requireJsonArray(result, "transitions", label, errors);
+    requireArray(result, "false_transition_guards", label, errors);
+    const stateText = Array.isArray(result.states) ? result.states.join("\n") : "";
+    for (const requiredState of ["planned", "ready_to_execute", "evidence_recorded", "sync_proposed", "approved"]) {
+      if (!stateText.includes(requiredState)) {
+        errors.push(`${label}.states must include ${requiredState}`);
+      }
+    }
+    const guardText = Array.isArray(result.false_transition_guards) ? result.false_transition_guards.join("\n").toLowerCase() : "";
+    for (const requiredGuard of ["ready", "written", "sync"]) {
+      if (!guardText.includes(requiredGuard)) {
+        warnings.push(`${label}.false_transition_guards should mention ${requiredGuard}`);
+      }
+    }
+  }
+
+  if (mode === "launch-record") {
+    for (const field of [
+      "workflow_id",
+      "process_model_id",
+      "cycle_id",
+      "current_state",
+      "target_state",
+      "owner_role"
+    ]) {
+      requireString(result, field, label, errors);
+    }
+    for (const field of [
+      "allowed_files",
+      "forbidden_files",
+      "allowed_actions",
+      "required_gates",
+      "required_evidence",
+      "stop_conditions"
+    ]) {
+      requireArray(result, field, label, errors);
+    }
+    if (typeof result.approved_by_user !== "boolean") {
+      errors.push(`${label}.approved_by_user must be a boolean`);
+    }
+    const launchText = JSON.stringify(result).toLowerCase();
+    for (const requiredBoundary of ["not execution", "not implementation", "not approval", "not release"]) {
+      if (!launchText.includes(requiredBoundary)) {
+        warnings.push(`${label}.limitations should mention ${requiredBoundary}`);
+      }
+    }
+  }
+
+  if (mode === "process-control-contract") {
+    for (const field of ["process_id", "cycle_id", "state_machine_id", "recovery_behavior"]) {
+      requireString(result, field, label, errors);
+    }
+    requireObject(result, "launch_record_policy", label, errors);
+    requireObject(result, "kaizen_policy", label, errors);
+    requireArray(result, "evidence_requirements", label, errors);
+    requireArray(result, "risk_controls", label, errors);
+    requireArray(result, "validators", label, errors);
+
+    if (result.launch_record_policy && typeof result.launch_record_policy === "object") {
+      requireArray(result.launch_record_policy, "required_for_states", `${label}.launch_record_policy`, errors);
+      requireArray(result.launch_record_policy, "required_for_transitions", `${label}.launch_record_policy`, errors);
+      if (typeof result.launch_record_policy.approval_required !== "boolean") {
+        errors.push(`${label}.launch_record_policy.approval_required must be a boolean`);
+      }
+    }
+
+    if (result.kaizen_policy && typeof result.kaizen_policy === "object") {
+      if (result.kaizen_policy.terminal_state_requires_review_or_skip !== true) {
+        errors.push(`${label}.kaizen_policy.terminal_state_requires_review_or_skip must be true`);
+      }
+      requireString(result.kaizen_policy, "accepted_skip_field", `${label}.kaizen_policy`, errors);
+    }
+
+    const validatorText = Array.isArray(result.validators) ? result.validators.join("\n") : "";
+    for (const requiredValidator of ["launch-record", "process-transition"]) {
+      if (!validatorText.includes(requiredValidator)) {
+        errors.push(`${label}.validators must include ${requiredValidator}`);
+      }
+    }
+  }
+
+  if (mode === "recovery-resume-record") {
+    for (const field of [
+      "current_state",
+      "last_good_checkpoint",
+      "target_scope",
+      "last_validation_result",
+      "evidence_status",
+      "next_safe_command",
+      "rollback_option"
+    ]) {
+      requireString(result, field, label, errors);
+    }
+    requireArray(result, "blockers", label, errors);
+    if (typeof result.human_confirmation_required !== "boolean") {
+      errors.push(`${label}.human_confirmation_required must be a boolean`);
+    }
+  }
+
+  if (mode === "risk-control-matrix") {
+    requireJsonArray(result, "risks", label, errors);
+    const severities = new Set(["critical", "high", "medium", "low"]);
+    if (Array.isArray(result.risks)) {
+      for (const [index, risk] of result.risks.entries()) {
+        const riskLabel = `${label}.risks[${index}]`;
+        for (const field of [
+          "id",
+          "severity",
+          "description",
+          "detection_signal",
+          "prevention",
+          "gate_or_validator",
+          "evidence_requirement",
+          "recovery_action",
+          "escalation_rule",
+          "owner_role"
+        ]) {
+          requireString(risk, field, riskLabel, errors);
+        }
+        if (typeof risk.severity === "string" && !severities.has(risk.severity)) {
+          errors.push(`${riskLabel}.severity has unsupported value ${risk.severity}`);
+        }
+      }
+    }
+  }
+
+  if (mode === "multi-agent-coordination") {
+    requireArray(result, "roles", label, errors);
+    requireJsonArray(result, "reservations", label, errors);
+    requireArray(result, "locking_rules", label, errors);
+    requireString(result, "conflict_resolution", label, errors);
+    if (Array.isArray(result.reservations)) {
+      for (const [index, reservation] of result.reservations.entries()) {
+        const reservationLabel = `${label}.reservations[${index}]`;
+        for (const field of ["id", "owner_role", "scope", "evidence_path", "proposal_path"]) {
+          requireString(reservation, field, reservationLabel, errors);
+        }
+        requireArray(reservation, "allowed_actions", reservationLabel, errors);
+      }
+    }
+  }
+
+  if (mode === "source-boundary-contract") {
+    requireJsonArray(result, "source_roles", label, errors);
+    requireString(result, "promotion_rule", label, errors);
+    requireArray(result, "rejected_promotion_targets", label, errors);
+    const roles = new Set();
+    if (Array.isArray(result.source_roles)) {
+      for (const [index, role] of result.source_roles.entries()) {
+        const roleLabel = `${label}.source_roles[${index}]`;
+        requireString(role, "role", roleLabel, errors);
+        requireString(role, "description", roleLabel, errors);
+        if (typeof role.canonical_write_allowed !== "boolean") {
+          errors.push(`${roleLabel}.canonical_write_allowed must be a boolean`);
+        }
+        if (typeof role.role === "string") {
+          roles.add(role.role);
+        }
+      }
+    }
+    for (const requiredRole of ["canonical", "generated", "curated_human", "workflow", "local_scratch"]) {
+      if (!roles.has(requiredRole)) {
+        errors.push(`${label}.source_roles must include ${requiredRole}`);
+      }
+    }
+    if (typeof result.promotion_rule === "string" && !result.promotion_rule.toLowerCase().includes("proposal")) {
+      errors.push(`${label}.promotion_rule must require proposal-based promotion`);
+    }
+  }
+
+  return { errors, warnings };
+}
+
+function validateProcessTransition(stateMachinePath, transitionRequestPath) {
+  const errors = [];
+  const warnings = [];
+  const stateMachine = readJson(stateMachinePath);
+  const request = readJson(transitionRequestPath);
+  const label = "process_transition";
+
+  requireString(stateMachine, "schema_version", "state_machine", errors);
+  requireString(stateMachine, "id", "state_machine", errors);
+  requireString(stateMachine, "profile", "state_machine", errors);
+  requireString(stateMachine, "public_safety", "state_machine", errors);
+  requireArray(stateMachine, "states", "state_machine", errors);
+  requireJsonArray(stateMachine, "transitions", "state_machine", errors);
+  requireArray(stateMachine, "false_transition_guards", "state_machine", errors);
+
+  requireString(request, "schema_version", label, errors);
+  requireString(request, "id", label, errors);
+  requireString(request, "profile", label, errors);
+  requireString(request, "public_safety", label, errors);
+  requireString(request, "process_id", label, errors);
+  requireString(request, "current_state", label, errors);
+  requireString(request, "target_state", label, errors);
+  requireArray(request, "evidence_refs", label, errors);
+  for (const optionalStringField of ["launch_record_ref", "kaizen_review_ref", "no_reusable_lessons_reason"]) {
+    if (typeof request[optionalStringField] !== "string") {
+      errors.push(`${label}.${optionalStringField} must be a string`);
+    }
+  }
+  requireArray(request, "limitations", label, errors);
+
+  if (stateMachine.profile !== undefined && stateMachine.profile !== "implementation_control") {
+    errors.push("state_machine.profile must be implementation_control");
+  }
+  if (stateMachine.public_safety !== undefined && stateMachine.public_safety !== "synthetic_public") {
+    errors.push("state_machine.public_safety must be synthetic_public");
+  }
+  if (request.profile !== undefined && request.profile !== "implementation_control") {
+    errors.push(`${label}.profile must be implementation_control`);
+  }
+  if (request.public_safety !== undefined && request.public_safety !== "synthetic_public") {
+    errors.push(`${label}.public_safety must be synthetic_public`);
+  }
+
+  const states = new Set(Array.isArray(stateMachine.states) ? stateMachine.states : []);
+  if (request.current_state && !states.has(request.current_state)) {
+    errors.push(`${label}.current_state references unknown state ${request.current_state}`);
+  }
+  if (request.target_state && !states.has(request.target_state)) {
+    errors.push(`${label}.target_state references unknown state ${request.target_state}`);
+  }
+
+  const transitions = Array.isArray(stateMachine.transitions) ? stateMachine.transitions : [];
+  const transition = transitions.find((item) => (
+    item.from === request.current_state && item.to === request.target_state
+  ));
+  if (!transition) {
+    errors.push(`${label} transition ${request.current_state}->${request.target_state} is not allowed`);
+  }
+
+  const evidence = new Set(Array.isArray(request.evidence_refs) ? request.evidence_refs : []);
+  if (transition && Array.isArray(transition.requires_evidence)) {
+    for (const requiredEvidence of transition.requires_evidence) {
+      if (!evidence.has(requiredEvidence)) {
+        errors.push(`${label} missing required evidence ${requiredEvidence}`);
+      }
+    }
+  }
+
+  if (transition && transition.requires_launch_record === true && !request.launch_record_ref) {
+    errors.push(`${label} requires launch_record_ref for ${request.current_state}->${request.target_state}`);
+  }
+
+  const terminalStates = new Set(Array.isArray(stateMachine.terminal_states) ? stateMachine.terminal_states : []);
+  const terminalRequiresKaizen = transition && transition.terminal_requires_kaizen === true;
+  if ((terminalStates.has(request.target_state) || terminalRequiresKaizen) && !request.kaizen_review_ref && !request.no_reusable_lessons_reason) {
+    errors.push(`${label} terminal transition requires kaizen_review_ref or no_reusable_lessons_reason`);
+  }
+
+  const guardText = Array.isArray(stateMachine.false_transition_guards) ? stateMachine.false_transition_guards.join("\n").toLowerCase() : "";
+  for (const requiredGuard of ["ready", "tests", "sync", "released", "terminal"]) {
+    if (!guardText.includes(requiredGuard)) {
+      warnings.push(`state_machine.false_transition_guards should mention ${requiredGuard}`);
+    }
+  }
+
+  return { errors, warnings };
+}
+
 const modeOrPackageDir = process.argv[2];
 if (!modeOrPackageDir) {
   usage();
@@ -656,13 +1227,31 @@ try {
   const isSeedMode = modeOrPackageDir === "seed";
   const isProfileMode = modeOrPackageDir === "profile";
   const isContextPackMode = modeOrPackageDir === "context-pack";
-  const targetPath = isSeedMode || isProfileMode || isContextPackMode ? process.argv[3] : modeOrPackageDir;
+  const isImplementationControlCycleMode = modeOrPackageDir === "implementation-control-cycle";
+  const isProcessTransitionMode = modeOrPackageDir === "process-transition";
+  const publicResultModes = new Set([
+    "launch-record",
+    "process-control-contract",
+    "graph-dna-alignment",
+    "work-state-machine",
+    "recovery-resume-record",
+    "risk-control-matrix",
+    "multi-agent-coordination",
+    "source-boundary-contract"
+  ]);
+  const isPublicResultMode = publicResultModes.has(modeOrPackageDir);
+  const targetPath = isSeedMode || isProfileMode || isContextPackMode || isImplementationControlCycleMode || isProcessTransitionMode || isPublicResultMode ? process.argv[3] : modeOrPackageDir;
   const contextPackPath = isContextPackMode ? process.argv[4] : null;
+  const transitionRequestPath = isProcessTransitionMode ? process.argv[4] : null;
   if (!targetPath) {
     usage();
     process.exit(2);
   }
   if (isContextPackMode && !contextPackPath) {
+    usage();
+    process.exit(2);
+  }
+  if (isProcessTransitionMode && !transitionRequestPath) {
     usage();
     process.exit(2);
   }
@@ -672,11 +1261,18 @@ try {
       ? validateProfile(path.resolve(targetPath))
       : isContextPackMode
         ? validateContextPack(path.resolve(targetPath), path.resolve(contextPackPath))
-        : validatePackage(path.resolve(targetPath));
+        : isImplementationControlCycleMode
+          ? validateImplementationControlCycle(path.resolve(targetPath))
+          : isProcessTransitionMode
+            ? validateProcessTransition(path.resolve(targetPath), path.resolve(transitionRequestPath))
+            : isPublicResultMode
+              ? validatePublicImplementationControlResult(path.resolve(targetPath), modeOrPackageDir)
+              : validatePackage(path.resolve(targetPath));
   const output = {
-    mode: isSeedMode ? "seed" : isProfileMode ? "profile" : isContextPackMode ? "context_pack" : "package",
-    target: isContextPackMode ? path.resolve(contextPackPath) : path.resolve(targetPath),
+    mode: isSeedMode ? "seed" : isProfileMode ? "profile" : isContextPackMode ? "context_pack" : isImplementationControlCycleMode ? "implementation_control_cycle" : isProcessTransitionMode ? "process_transition" : isPublicResultMode ? modeOrPackageDir.replace(/-/g, "_") : "package",
+    target: isContextPackMode ? path.resolve(contextPackPath) : isProcessTransitionMode ? path.resolve(transitionRequestPath) : path.resolve(targetPath),
     package: isContextPackMode ? path.resolve(targetPath) : undefined,
+    state_machine: isProcessTransitionMode ? path.resolve(targetPath) : undefined,
     valid: result.errors.length === 0,
     errors: result.errors,
     warnings: result.warnings

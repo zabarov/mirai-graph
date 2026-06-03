@@ -1,0 +1,43 @@
+{
+  "schema_version": "0.1.0",
+  "id": "process_control_contract.synthetic_executable_process",
+  "profile": "implementation_control",
+  "public_safety": "synthetic_public",
+  "process_id": "process.synthetic_executable_standard",
+  "cycle_id": "bounded_work_batch",
+  "state_machine_id": "work_state_machine.synthetic_executable_process",
+  "launch_record_policy": {
+    "required_for_states": ["ready_to_execute", "started"],
+    "required_for_transitions": ["planned->ready_to_execute", "ready_to_execute->started"],
+    "approval_required": true
+  },
+  "evidence_requirements": [
+    "launch_record",
+    "scope_check",
+    "test_result",
+    "semantic_acceptance",
+    "release_evidence"
+  ],
+  "recovery_behavior": "Resume from durable workflow state, last valid launch record and evidence pack.",
+  "risk_controls": [
+    "terminal_without_kaizen",
+    "sync_proposal_as_update",
+    "tests_without_acceptance"
+  ],
+  "validators": [
+    "launch-record",
+    "process-transition",
+    "work-state-machine"
+  ],
+  "kaizen_policy": {
+    "terminal_state_requires_review_or_skip": true,
+    "accepted_skip_field": "no_reusable_lessons_reason"
+  },
+  "evidence_refs": [
+    "evidence.synthetic_process_contract_brief"
+  ],
+  "limitations": [
+    "Synthetic contract validates executable process shape, not real-world safety.",
+    "The contract does not execute actions or approve canonical updates."
+  ]
+}

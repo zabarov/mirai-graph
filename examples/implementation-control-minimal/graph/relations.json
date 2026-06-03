@@ -18,6 +18,24 @@
     "profile": "implementation_control"
   },
   {
+    "id": "relation.batch.contract_skeleton.requires_gate.gate.launch_contract_skeleton",
+    "type": "requires_gate",
+    "source": "batch.contract_skeleton",
+    "target": "gate.launch_contract_skeleton",
+    "readiness": "accepted",
+    "evidence": ["evidence.synthetic_control_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "relation.gate.launch_contract_skeleton.launches_batch.batch.contract_skeleton",
+    "type": "launches_batch",
+    "source": "gate.launch_contract_skeleton",
+    "target": "batch.contract_skeleton",
+    "readiness": "accepted",
+    "evidence": ["evidence.synthetic_control_brief"],
+    "profile": "implementation_control"
+  },
+  {
     "id": "relation.batch.contract_skeleton.produces_evidence.evidence_pack.contract_skeleton",
     "type": "produces_evidence",
     "source": "batch.contract_skeleton",
@@ -67,6 +85,15 @@
     "type": "records_state",
     "source": "state.contract_skeleton_ready",
     "target": "update.contract_skeleton_accepted",
+    "readiness": "review_ready",
+    "evidence": ["evidence_pack.contract_skeleton"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "relation.drift.contract_skeleton_state.checks_drift.state.contract_skeleton_ready",
+    "type": "checks_drift",
+    "source": "drift.contract_skeleton_state",
+    "target": "state.contract_skeleton_ready",
     "readiness": "review_ready",
     "evidence": ["evidence_pack.contract_skeleton"],
     "profile": "implementation_control"

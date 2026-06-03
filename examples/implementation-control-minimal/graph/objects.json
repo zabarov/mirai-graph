@@ -36,10 +36,19 @@
     "profile": "implementation_control"
   },
   {
+    "id": "gate.launch_contract_skeleton",
+    "kind": "launch_gate",
+    "title": "Launch Contract Skeleton Gate",
+    "summary": "Gate confirming the batch has bounded scope, evidence path and stop conditions before execution starts.",
+    "readiness": "accepted",
+    "evidence": ["evidence.synthetic_control_brief"],
+    "profile": "implementation_control"
+  },
+  {
     "id": "batch.contract_skeleton",
     "kind": "workflow_batch",
     "title": "Contract Skeleton Batch",
-    "summary": "Synthetic implementation batch that prepares contract skeletons without executing production changes.",
+    "summary": "Synthetic implementation batch that is ready to execute after launch review without executing production changes.",
     "readiness": "review_ready",
     "evidence": ["evidence.synthetic_control_brief"],
     "profile": "implementation_control"
@@ -85,6 +94,15 @@
     "kind": "implementation_state",
     "title": "Contract Skeleton Ready",
     "summary": "Implementation state recorded after approval, not before evidence review.",
+    "readiness": "review_ready",
+    "evidence": ["evidence_pack.contract_skeleton"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "drift.contract_skeleton_state",
+    "kind": "drift_check",
+    "title": "Contract Skeleton State Drift Check",
+    "summary": "Check confirming the recorded implementation state does not drift from reviewed evidence and approved update scope.",
     "readiness": "review_ready",
     "evidence": ["evidence_pack.contract_skeleton"],
     "profile": "implementation_control"

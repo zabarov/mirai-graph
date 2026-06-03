@@ -1,0 +1,38 @@
+[
+  {
+    "id": "relation.evidence.synthetic_launch_record_brief.evidences.launch_record.synthetic_batch",
+    "type": "evidences",
+    "source": "evidence.synthetic_launch_record_brief",
+    "target": "launch_record.synthetic_batch",
+    "readiness": "accepted",
+    "evidence": ["evidence.synthetic_launch_record_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "relation.cycle.implementation_planning.produces_evidence.launch_record.synthetic_batch",
+    "type": "produces_evidence",
+    "source": "cycle.implementation_planning",
+    "target": "launch_record.synthetic_batch",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_launch_record_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "relation.launch_record.synthetic_batch.launches_batch.batch.synthetic_work",
+    "type": "launches_batch",
+    "source": "launch_record.synthetic_batch",
+    "target": "batch.synthetic_work",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_launch_record_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "relation.batch.synthetic_work.requires_gate.gate.launch",
+    "type": "requires_gate",
+    "source": "batch.synthetic_work",
+    "target": "gate.launch",
+    "readiness": "accepted",
+    "evidence": ["evidence.synthetic_launch_record_brief"],
+    "profile": "implementation_control"
+  }
+]

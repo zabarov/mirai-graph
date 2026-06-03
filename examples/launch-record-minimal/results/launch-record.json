@@ -1,0 +1,51 @@
+{
+  "schema_version": "0.1.0",
+  "id": "launch_record.synthetic_batch",
+  "profile": "implementation_control",
+  "public_safety": "synthetic_public",
+  "workflow_id": "workflow.synthetic_executable_standard",
+  "process_model_id": "process_model.implementation_control",
+  "cycle_id": "implementation_planning",
+  "current_state": "planned",
+  "target_state": "ready_to_execute",
+  "allowed_files": [
+    "standard/launch-record.md",
+    "schemas/launch-record.schema.json",
+    "examples/launch-record-minimal/**"
+  ],
+  "forbidden_files": [
+    ".env",
+    "source/**",
+    "private-runtime-traces/**"
+  ],
+  "allowed_actions": [
+    "add_public_schema",
+    "add_synthetic_example",
+    "run_validation"
+  ],
+  "required_gates": [
+    "launch_gate_before_work_batch",
+    "public_safety_before_public_transfer"
+  ],
+  "required_evidence": [
+    "validation_result",
+    "public_safety_scan"
+  ],
+  "stop_conditions": [
+    "private_path_detected",
+    "scope_change_detected",
+    "validation_failure"
+  ],
+  "owner_role": "process_coordinator",
+  "approved_by_user": true,
+  "evidence_refs": [
+    "evidence.synthetic_launch_record_brief"
+  ],
+  "limitations": [
+    "Synthetic launch record demonstrates process control shape, not real-world authorization.",
+    "Launch readiness is not execution.",
+    "Launch readiness is not implementation.",
+    "Launch readiness is not approval.",
+    "Launch readiness is not release."
+  ]
+}

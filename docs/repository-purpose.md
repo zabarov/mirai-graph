@@ -18,6 +18,10 @@ The repository should become the public source of truth for:
 - synthetic benchmarks and playground materials;
 - publications, citations and research evidence.
 
+For the current public alpha, "source of truth" means public standardization
+and reproducible examples. It does not mean that private project graphs,
+internal workflows or generated context packs are published here.
+
 ## Core Positioning
 
 Working public name:
@@ -48,6 +52,16 @@ The model is not just a knowledge graph. It combines:
 - feedback loops;
 - implementation and adoption methods.
 
+The current alpha also makes the operating model executable enough to test:
+
+- launch records define bounded work permission;
+- process transitions validate movement through a state machine;
+- negative fixtures prove false transitions fail closed;
+- recovery/resume records prevent chat-only continuation;
+- risk, coordination and source-boundary contracts make governance explicit;
+- Kaizen closure records reusable process learning without automatic canonical
+  update.
+
 ## Primary Goals
 
 ### 1. Describe The Standard And Model
@@ -62,6 +76,9 @@ The repository must define the standard and all required model elements:
 - generated context-pack rules;
 - profiles and extension points;
 - governance gates;
+- executable process-control contracts;
+- launch records and transition rules;
+- source-boundary and recovery rules;
 - conformance levels;
 - examples and anti-examples.
 
@@ -95,6 +112,10 @@ adopt:
 The first code should be small and testable. The standard must not depend on
 one implementation.
 
+Current alpha tooling is a reference implementation, not the standard itself.
+It validates public-safe packages and examples so readers can inspect the model
+through executable checks.
+
 ### 4. Provide Use Cases, Profiles And Adoption Guides
 
 The repository should include practical profiles and step-by-step guides for:
@@ -125,6 +146,9 @@ test the model:
 
 Synthetic evidence must be clearly separated from real-world validation.
 
+In the current alpha, `playground/` is an index of runnable CLI examples. A
+hosted or interactive playground is future work.
+
 ### 6. Link Publications And Research Evidence
 
 The repository should maintain a research trail:
@@ -138,6 +162,9 @@ The repository should maintain a research trail:
 - response-to-review notes if public.
 
 It may include publication texts only when licensing and venue policy allow it.
+
+The current scientific layer should be read as a research evidence package and
+program plan, not as peer-reviewed proof of broad effectiveness.
 
 ## Intended Audiences
 

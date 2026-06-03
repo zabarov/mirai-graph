@@ -12,6 +12,9 @@ is confirmed.
 Do not describe a preprint as peer reviewed unless the venue record explicitly
 states peer-reviewed publication status.
 
+For the current public evidence framing, see
+`docs/research/scientific-evidence-package.md`.
+
 ## Planned Records
 
 - initial preprint record;

@@ -1,0 +1,14 @@
+{
+  "schema_version": "0.1.0",
+  "id": "transition_request.release_ready_to_released",
+  "profile": "implementation_control",
+  "public_safety": "synthetic_public",
+  "process_id": "process.synthetic_executable_standard",
+  "current_state": "release_ready",
+  "target_state": "released",
+  "evidence_refs": ["release_evidence"],
+  "launch_record_ref": "launch_record.synthetic_batch",
+  "kaizen_review_ref": "kaizen_review.synthetic_release",
+  "no_reusable_lessons_reason": "",
+  "limitations": ["Synthetic request proves validator behavior, not production safety."]
+}

@@ -1,0 +1,21 @@
+{
+  "schema_version": "0.1.0",
+  "id": "work_state_machine.synthetic_review",
+  "profile": "implementation_control",
+  "public_safety": "synthetic_public",
+  "states": ["planned", "launch_ready", "ready_to_execute", "started", "written", "tests_recorded", "evidence_recorded", "sync_proposed", "review_ready", "approved", "released", "feedback_recorded", "evolution_proposed", "blocked", "paused", "superseded", "recovered"],
+  "transitions": [
+    { "from": "planned", "to": "launch_ready", "requires_evidence": ["plan"] },
+    { "from": "launch_ready", "to": "ready_to_execute", "requires_evidence": ["launch_gate"] },
+    { "from": "ready_to_execute", "to": "started", "requires_evidence": ["scope_check"] },
+    { "from": "evidence_recorded", "to": "sync_proposed", "requires_evidence": ["evidence_pack"] },
+    { "from": "sync_proposed", "to": "approved", "requires_evidence": ["approval_gate"] }
+  ],
+  "false_transition_guards": [
+    "ready_to_execute_is_not_started",
+    "written_is_not_implemented",
+    "sync_proposed_is_not_canonical_update"
+  ],
+  "evidence_refs": ["evidence.synthetic_work_brief"],
+  "limitations": ["Synthetic state machine validates shape, not execution quality."]
+}

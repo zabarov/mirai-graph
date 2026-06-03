@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://growgraph.dev/schemas/process-control-contract.schema.json",
+  "title": "GrowGraph Process Control Contract",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "id",
+    "profile",
+    "public_safety",
+    "process_id",
+    "cycle_id",
+    "state_machine_id",
+    "launch_record_policy",
+    "evidence_requirements",
+    "recovery_behavior",
+    "risk_controls",
+    "validators",
+    "kaizen_policy",
+    "evidence_refs",
+    "limitations"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "minLength": 1 },
+    "id": { "type": "string", "minLength": 1 },
+    "profile": { "const": "implementation_control" },
+    "public_safety": { "const": "synthetic_public" },
+    "process_id": { "type": "string", "minLength": 1 },
+    "cycle_id": { "type": "string", "minLength": 1 },
+    "state_machine_id": { "type": "string", "minLength": 1 },
+    "launch_record_policy": {
+      "type": "object",
+      "required": ["required_for_states", "required_for_transitions", "approval_required"],
+      "properties": {
+        "required_for_states": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "required_for_transitions": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "approval_required": { "type": "boolean" }
+      }
+    },
+    "evidence_requirements": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "recovery_behavior": { "type": "string", "minLength": 1 },
+    "risk_controls": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "validators": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "kaizen_policy": {
+      "type": "object",
+      "required": ["terminal_state_requires_review_or_skip", "accepted_skip_field"],
+      "properties": {
+        "terminal_state_requires_review_or_skip": { "type": "boolean" },
+        "accepted_skip_field": { "type": "string", "minLength": 1 }
+      }
+    },
+    "evidence_refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "limitations": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  }
+}

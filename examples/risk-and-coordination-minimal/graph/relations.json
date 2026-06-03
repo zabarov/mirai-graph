@@ -1,0 +1,29 @@
+[
+  {
+    "id": "relation.coordination.synthetic_review_team.controls_risk.risk.write_collision",
+    "type": "controls_risk",
+    "source": "coordination.synthetic_review_team",
+    "target": "risk.write_collision",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_risk_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "relation.reservation.review_scope.reserves_scope.coordination.synthetic_review_team",
+    "type": "reserves_scope",
+    "source": "reservation.review_scope",
+    "target": "coordination.synthetic_review_team",
+    "readiness": "accepted",
+    "evidence": ["evidence.synthetic_risk_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "relation.risk.false_readiness.blocks.coordination.synthetic_review_team",
+    "type": "blocks",
+    "source": "risk.false_readiness",
+    "target": "coordination.synthetic_review_team",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_risk_brief"],
+    "profile": "implementation_control"
+  }
+]

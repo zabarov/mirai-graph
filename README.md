@@ -46,17 +46,36 @@ term for earlier preprint materials.
 ## Repository Map
 
 ```text
-docs/         Concept, terminology, methodology and adoption guides.
-standard/     Implementation-independent standard sections.
-schemas/      Machine-readable schemas and validation rules.
-benchmarks/   Synthetic benchmarks and reproducibility packages.
-examples/     Public-safe examples and anti-examples.
-packages/     Reference tooling, libraries and CLI packages.
-playground/   Interactive or runnable demonstrations.
-publications/ Publication links, citation notes and reproducibility records.
+docs/          Concept, terminology, methodology, adoption and research guides.
+standard/      Implementation-independent standard sections.
+schemas/       Machine-readable schemas and validation rules.
+benchmarks/    Synthetic benchmarks and reproducibility packages.
+examples/      Public-safe examples and anti-examples.
+packages/      Reference tooling, libraries and CLI packages.
+playground/    Runnable demo index backed by examples and CLI commands.
+profiles/      Domain profiles for project, software, AI and process use cases.
+pilots/        Public-safe pilot packages and reports.
+publications/  Publication links, citation notes and reproducibility records.
 ```
 
 ## Start Here
+
+Start by role:
+
+- Researchers: [Practice And Science Program](docs/research/practice-science-program.md),
+  [Scientific Evidence Package](docs/research/scientific-evidence-package.md),
+  [Publications](publications/README.md).
+- Developers: [Getting Started](docs/adoption/getting-started.md),
+  [End-To-End Tutorial](docs/adoption/end-to-end-control-loop.md),
+  [Test Suite](standard/test-suite.md).
+- Product teams: [Managed Project Control Loop Example](examples/managed-project-control-loop/README.md),
+  [Implementation Control](standard/implementation-control.md),
+  [Implementation Control Cycles](standard/implementation-control-cycles.md).
+- Organizations and AI systems: [Graph As AI Brain](standard/graph-as-ai-brain.md),
+  [AI Employee Graph Adoption](docs/adoption/ai-employee-graph.md),
+  [Process Control Contract](standard/process-control-contract.md).
+
+Core references:
 
 - [Repository Purpose](docs/repository-purpose.md)
 - [Roadmap](ROADMAP.md)
@@ -65,36 +84,48 @@ publications/ Publication links, citation notes and reproducibility records.
 - [Release Process](releases/README.md)
 - [Concept](docs/concept.md)
 - [Terminology](docs/terminology.md)
-- [Getting Started](docs/adoption/getting-started.md)
-- [Seed To Validated Package Tutorial](docs/adoption/seed-to-validated-package.md)
-- [Profile Conformance Fixtures](docs/adoption/profile-conformance-fixtures.md)
-- [Practice And Science Program](docs/research/practice-science-program.md)
-- [Standard Gap Report](docs/transfer/standard-gap-report-2026-05-28.md)
 - [Standard v0.1 Draft](standard/standard-v0.1.md)
+- [Profiles](profiles/README.md)
+
+Current alpha.6 standard areas:
+
+- [Object Model](standard/object-model.md)
+- [Relation Model](standard/relation-model.md)
+- [Lifecycle Readiness](standard/lifecycle-readiness.md)
+- [Evidence Provenance](standard/evidence-provenance.md)
+- [Context Pack Generation](standard/context-pack-generation.md)
+- [Governance](standard/governance.md)
 - [Graph Seed](standard/graph-seed.md)
+- [Graph Embryo](standard/graph-embryo.md)
 - [Hybrid Source Of Truth](standard/hybrid-source-of-truth.md)
-- [Adoption Levels](standard/adoption-levels.md)
-- [Projection Views](standard/projection-views.md)
-- [Runtime Enablement](standard/runtime-enablement.md)
+- [Graph DNA Alignment](standard/graph-dna-alignment.md)
 - [Implementation Control](standard/implementation-control.md)
+- [Launch Record](standard/launch-record.md)
+- [Work State Machine](standard/work-state-machine.md)
+- [Process Control Contract](standard/process-control-contract.md)
+- [Recovery Resume](standard/recovery-resume.md)
+- [Risk Control Matrix](standard/risk-control-matrix.md)
+- [Multi-Agent Coordination](standard/multi-agent-coordination.md)
+- [Source Boundary Contract](standard/source-boundary-contract.md)
 - [Route Explanation](standard/route-explanation.md)
 - [Routing Fixtures](standard/routing-fixtures.md)
 - [Federation Health](standard/federation-health.md)
 - [Route Regression](standard/route-regression.md)
 - [Conformance Levels](standard/conformance-levels.md)
-- [Test Suite](standard/test-suite.md)
-- [Synthetic Context-Reduction Benchmark](benchmarks/synthetic-context-reduction-v0/README.md)
-- [Benchmark Result](benchmarks/synthetic-context-reduction-v0/RESULT.md)
-- [Benchmark Semantic Review](benchmarks/synthetic-context-reduction-v0/reviews/semantic-completeness-review.json)
+
+Runnable materials:
+
+- [Playground](playground/README.md)
 - [Minimal Graph Example](examples/minimal-graph/README.md)
-- [Managed Project Control Loop Example](examples/managed-project-control-loop/README.md)
 - [Minimal Implementation Control Example](examples/implementation-control-minimal/README.md)
+- [Implementation Control Cycles Example](examples/implementation-control-cycles/README.md)
+- [Launch Record Example](examples/launch-record-minimal/README.md)
+- [Process Transition Example](examples/process-transition-minimal/README.md)
+- [Process Control Contract Example](examples/process-control-contract-minimal/README.md)
 - [Federation Routing Smoke Example](examples/federation-routing-smoke/README.md)
+- [Synthetic Context-Reduction Benchmark](benchmarks/synthetic-context-reduction-v0/README.md)
 - [Independent Implementation Pilot 001](pilots/independent-implementation-001-conference-planning/reports/pilot-report.md)
 - [Independent Implementation Pilot 002](pilots/independent-implementation-002-software-specification/reports/pilot-report.md)
-- [Profiles](profiles/README.md)
-- [AI Employee Graph Adoption](docs/adoption/ai-employee-graph.md)
-- [Skill Graph Standard Harvest](docs/transfer/skill-graph-standard-harvest-2026-05-31.md)
 
 ## Validate A Graph Package
 
@@ -109,6 +140,14 @@ node packages/cli/validate-growgraph.js seed examples/graph-seed-minimal/graph-s
 node packages/cli/validate-growgraph.js profile profiles/software-specification/profile.json
 node packages/cli/validate-growgraph.js profile profiles/skill-runtime/profile.json
 node packages/cli/validate-growgraph.js context-pack benchmarks/synthetic-context-reduction-v0 benchmarks/synthetic-context-reduction-v0/results/context-pack.json
+node packages/cli/validate-growgraph.js launch-record examples/launch-record-minimal/results/launch-record.json
+node packages/cli/validate-growgraph.js process-transition examples/process-transition-minimal/state-machine.json examples/process-transition-minimal/transition-request.json
+node packages/cli/validate-growgraph.js process-control-contract examples/process-control-contract-minimal/results/process-control-contract.json
+node packages/cli/validate-growgraph.js graph-dna-alignment examples/graph-dna-alignment-minimal/results/graph-dna-alignment.json
+node packages/cli/validate-growgraph.js work-state-machine examples/work-recovery-minimal/results/work-state-machine.json
+node packages/cli/validate-growgraph.js recovery-resume-record examples/work-recovery-minimal/results/recovery-resume-record.json
+node packages/cli/validate-growgraph.js risk-control-matrix examples/risk-and-coordination-minimal/results/risk-control-matrix.json
+node packages/cli/validate-growgraph.js source-boundary-contract examples/source-boundary-minimal/results/source-boundary-contract.json
 node packages/cli/seed-preview.js examples/graph-seed-minimal/graph-seed.json
 node packages/cli/context-pack.js benchmarks/synthetic-context-reduction-v0 --task-id task.notify_after_approval
 node packages/cli/readiness-score.js benchmarks/synthetic-context-reduction-v0 --target-mode pilot

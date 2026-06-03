@@ -1,0 +1,14 @@
+{
+  "id": "package.work_recovery_minimal",
+  "name": "Work Recovery Minimal",
+  "version": "0.1.0",
+  "profile": "implementation_control",
+  "conformance_level": "level_1",
+  "description": "Synthetic package showing work state and recovery records.",
+  "license": "CC-BY-4.0",
+  "public_safety": "synthetic_public",
+  "graph": {
+    "objects": "graph/objects.json",
+    "relations": "graph/relations.json"
+  }
+}

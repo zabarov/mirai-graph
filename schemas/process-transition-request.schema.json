@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://growgraph.dev/schemas/process-transition-request.schema.json",
+  "title": "GrowGraph Process Transition Request",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "id",
+    "profile",
+    "public_safety",
+    "process_id",
+    "current_state",
+    "target_state",
+    "evidence_refs",
+    "launch_record_ref",
+    "kaizen_review_ref",
+    "no_reusable_lessons_reason",
+    "limitations"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "minLength": 1 },
+    "id": { "type": "string", "minLength": 1 },
+    "profile": { "const": "implementation_control" },
+    "public_safety": { "const": "synthetic_public" },
+    "process_id": { "type": "string", "minLength": 1 },
+    "current_state": { "type": "string", "minLength": 1 },
+    "target_state": { "type": "string", "minLength": 1 },
+    "evidence_refs": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "launch_record_ref": { "type": "string" },
+    "kaizen_review_ref": { "type": "string" },
+    "no_reusable_lessons_reason": { "type": "string" },
+    "limitations": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  }
+}

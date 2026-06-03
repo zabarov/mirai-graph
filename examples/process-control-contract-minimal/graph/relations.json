@@ -1,0 +1,29 @@
+[
+  {
+    "id": "relation.evidence.synthetic_process_contract_brief.evidences.contract.synthetic_executable_process",
+    "type": "evidences",
+    "source": "evidence.synthetic_process_contract_brief",
+    "target": "contract.synthetic_executable_process",
+    "readiness": "accepted",
+    "evidence": ["evidence.synthetic_process_contract_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "relation.contract.synthetic_executable_process.defines_boundary.state_machine.synthetic_executable_process",
+    "type": "defines_boundary",
+    "source": "contract.synthetic_executable_process",
+    "target": "state_machine.synthetic_executable_process",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_process_contract_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "relation.contract.synthetic_executable_process.controls_risk.risk.terminal_without_kaizen",
+    "type": "controls_risk",
+    "source": "contract.synthetic_executable_process",
+    "target": "risk.terminal_without_kaizen",
+    "readiness": "accepted",
+    "evidence": ["evidence.synthetic_process_contract_brief"],
+    "profile": "implementation_control"
+  }
+]

@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://growgraph.dev/schemas/source-boundary-contract.schema.json",
+  "title": "GrowGraph Source Boundary Contract",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["schema_version", "id", "profile", "public_safety", "source_roles", "promotion_rule", "rejected_promotion_targets", "evidence_refs", "limitations"],
+  "properties": {
+    "schema_version": { "type": "string", "minLength": 1 },
+    "id": { "type": "string", "minLength": 1 },
+    "profile": { "const": "implementation_control" },
+    "public_safety": { "const": "synthetic_public" },
+    "source_roles": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["role", "description", "canonical_write_allowed"],
+        "properties": {
+          "role": { "type": "string", "minLength": 1 },
+          "description": { "type": "string", "minLength": 1 },
+          "canonical_write_allowed": { "type": "boolean" }
+        }
+      }
+    },
+    "promotion_rule": { "type": "string", "minLength": 1 },
+    "rejected_promotion_targets": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+    "evidence_refs": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+    "limitations": { "type": "array", "items": { "type": "string" } }
+  }
+}

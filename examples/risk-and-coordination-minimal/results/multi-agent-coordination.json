@@ -1,0 +1,25 @@
+{
+  "schema_version": "0.1.0",
+  "id": "multi_agent_coordination.synthetic_review",
+  "profile": "implementation_control",
+  "public_safety": "synthetic_public",
+  "roles": ["coordinator", "worker", "reviewer", "gatekeeper"],
+  "reservations": [
+    {
+      "id": "reservation.review_scope",
+      "owner_role": "worker",
+      "scope": "synthetic review scope",
+      "allowed_actions": ["prepare review notes", "record evidence"],
+      "evidence_path": "synthetic/evidence/review-scope",
+      "proposal_path": "synthetic/proposals/review-scope"
+    }
+  ],
+  "locking_rules": [
+    "one active owner per bounded scope",
+    "canonical updates require coordinator review",
+    "conflicting proposals are resolved by coordinator decision"
+  ],
+  "conflict_resolution": "Pause conflicting reservations, compare evidence and accept only the coordinator-approved proposal.",
+  "evidence_refs": ["evidence.synthetic_risk_brief"],
+  "limitations": ["Synthetic coordination contract does not assign real people or systems."]
+}
