@@ -88,6 +88,52 @@ function markdownList(items, emptyText) {
 }
 
 function formatMarkdownReport(output) {
+  if (output.mode === "process_transition" && output.explanation) {
+    const explanation = output.explanation;
+    const gate = explanation.kaizen_decision || {};
+    return [
+      "# Process Transition Decision Report",
+      "",
+      `- Valid: \`${output.valid ? "true" : "false"}\``,
+      `- Process: \`${explanation.process_id || "unknown"}\``,
+      `- Transition: \`${explanation.current_state || "unknown"} -> ${explanation.target_state || "unknown"}\``,
+      `- Matched transition: \`${explanation.matched_transition ? "true" : "false"}\``,
+      `- Requires launch record: \`${explanation.requires_launch_record ? "true" : "false"}\``,
+      `- Launch record satisfied: \`${explanation.launch_record_satisfied ? "true" : "false"}\``,
+      `- Terminal transition: \`${explanation.terminal_transition ? "true" : "false"}\``,
+      `- Kaizen decision: \`${gate.status || "not_required"}\``,
+      "",
+      "## Required Evidence",
+      "",
+      markdownList(explanation.required_evidence, "No evidence required by matched transition."),
+      "",
+      "## Provided Evidence",
+      "",
+      markdownList(explanation.provided_evidence, "No evidence provided."),
+      "",
+      "## Missing Evidence",
+      "",
+      markdownList(explanation.missing_evidence, "No missing evidence."),
+      "",
+      "## False-Transition Guards",
+      "",
+      markdownList(explanation.false_transition_guard_summary, "No false-transition guards declared."),
+      "",
+      "## Errors",
+      "",
+      markdownList(output.errors, "No errors."),
+      "",
+      "## Warnings",
+      "",
+      markdownList(output.warnings, "No warnings."),
+      "",
+      "## Boundary",
+      "",
+      "- A passing transition report validates this requested transition only.",
+      "- Readiness, evidence and proposals do not authorize canonical updates."
+    ].join("\n");
+  }
+
   const lines = [
     "# GrowGraph Validation Report",
     "",
@@ -1230,15 +1276,50 @@ function validateProcessTransition(stateMachinePath, transitionRequestPath) {
   const transition = transitions.find((item) => (
     item.from === request.current_state && item.to === request.target_state
   ));
+  const requiredEvidence = transition && Array.isArray(transition.requires_evidence)
+    ? transition.requires_evidence
+    : [];
+  const providedEvidence = Array.isArray(request.evidence_refs) ? request.evidence_refs : [];
+  const missingEvidence = requiredEvidence.filter((requiredEvidenceRef) => (
+    !providedEvidence.includes(requiredEvidenceRef)
+  ));
+  const terminalStates = new Set(Array.isArray(stateMachine.terminal_states) ? stateMachine.terminal_states : []);
+  const terminalRequiresKaizen = transition && transition.terminal_requires_kaizen === true;
+  const terminalTransition = terminalStates.has(request.target_state) || terminalRequiresKaizen === true;
+  const launchRecordSatisfied = !(transition && transition.requires_launch_record === true) || Boolean(request.launch_record_ref);
+  const kaizenSatisfied = !terminalTransition || Boolean(request.kaizen_review_ref) || Boolean(request.no_reusable_lessons_reason);
+  const explanation = {
+    process_id: typeof request.process_id === "string" ? request.process_id : "",
+    current_state: typeof request.current_state === "string" ? request.current_state : "",
+    target_state: typeof request.target_state === "string" ? request.target_state : "",
+    matched_transition: Boolean(transition),
+    matched_transition_ref: transition ? `${transition.from}->${transition.to}` : "",
+    required_evidence: requiredEvidence,
+    provided_evidence: providedEvidence,
+    missing_evidence: missingEvidence,
+    requires_launch_record: Boolean(transition && transition.requires_launch_record === true),
+    launch_record_ref: typeof request.launch_record_ref === "string" ? request.launch_record_ref : "",
+    launch_record_satisfied: launchRecordSatisfied,
+    terminal_transition: terminalTransition,
+    terminal_requires_kaizen: Boolean(terminalRequiresKaizen),
+    kaizen_decision: {
+      status: kaizenSatisfied ? (terminalTransition ? "satisfied" : "not_required") : "missing",
+      kaizen_review_ref: typeof request.kaizen_review_ref === "string" ? request.kaizen_review_ref : "",
+      no_reusable_lessons_reason: typeof request.no_reusable_lessons_reason === "string" ? request.no_reusable_lessons_reason : ""
+    },
+    false_transition_guard_summary: Array.isArray(stateMachine.false_transition_guards)
+      ? stateMachine.false_transition_guards
+      : []
+  };
   if (!transition) {
     errors.push(`${label} transition ${request.current_state}->${request.target_state} is not allowed`);
   }
 
   const evidence = new Set(Array.isArray(request.evidence_refs) ? request.evidence_refs : []);
-  if (transition && Array.isArray(transition.requires_evidence)) {
-    for (const requiredEvidence of transition.requires_evidence) {
-      if (!evidence.has(requiredEvidence)) {
-        errors.push(`${label} missing required evidence ${requiredEvidence}`);
+  if (transition) {
+    for (const requiredEvidenceRef of requiredEvidence) {
+      if (!evidence.has(requiredEvidenceRef)) {
+        errors.push(`${label} missing required evidence ${requiredEvidenceRef}`);
       }
     }
   }
@@ -1247,8 +1328,6 @@ function validateProcessTransition(stateMachinePath, transitionRequestPath) {
     errors.push(`${label} requires launch_record_ref for ${request.current_state}->${request.target_state}`);
   }
 
-  const terminalStates = new Set(Array.isArray(stateMachine.terminal_states) ? stateMachine.terminal_states : []);
-  const terminalRequiresKaizen = transition && transition.terminal_requires_kaizen === true;
   if ((terminalStates.has(request.target_state) || terminalRequiresKaizen) && !request.kaizen_review_ref && !request.no_reusable_lessons_reason) {
     errors.push(`${label} terminal transition requires kaizen_review_ref or no_reusable_lessons_reason`);
   }
@@ -1260,7 +1339,7 @@ function validateProcessTransition(stateMachinePath, transitionRequestPath) {
     }
   }
 
-  return { errors, warnings };
+  return { errors, warnings, explanation };
 }
 
 const rawArgs = process.argv.slice(2);
@@ -1324,7 +1403,8 @@ try {
     state_machine: isProcessTransitionMode ? path.resolve(targetPath) : undefined,
     valid: result.errors.length === 0,
     errors: result.errors,
-    warnings: result.warnings
+    warnings: result.warnings,
+    explanation: result.explanation
   };
   if (outputFormat === "markdown") {
     console.log(formatMarkdownReport(output));
