@@ -26,6 +26,12 @@ Generate a synthetic context pack:
 npm run context:generate
 ```
 
+Generate the end-to-end playground report:
+
+```bash
+npm run playground:demo
+```
+
 Validate implementation-control and process-control examples:
 
 ```bash
@@ -59,6 +65,7 @@ npm test
 - `examples/process-transition-minimal/`
 - `examples/process-control-contract-minimal/`
 - `benchmarks/synthetic-context-reduction-v0/`
+- `playground/demo-report.md`
 
 ## Future Work
 

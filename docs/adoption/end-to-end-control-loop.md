@@ -147,6 +147,12 @@ Run the current alpha test suite:
 npm test
 ```
 
+Generate the playground report for this loop:
+
+```bash
+npm run playground:demo
+```
+
 For release readiness:
 
 ```bash
