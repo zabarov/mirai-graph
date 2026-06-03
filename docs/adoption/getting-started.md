@@ -1,10 +1,10 @@
-# Getting Started With GrowGraph
+# Getting Started With Mirai Graph
 
 Status: initial adoption guide
 
 ## Goal
 
-This guide helps a team create a first GrowGraph package for a project,
+This guide helps a team create a first Mirai Graph package for a project,
 product, organization or human-AI workflow.
 
 ## Step 1: Choose The System Boundary
@@ -38,7 +38,7 @@ Do not try to model everything at once.
 Recommended minimal structure:
 
 ```text
-growgraph-package.json
+mirai-graph-package.json
 graph/
   objects.json
   relations.json
@@ -93,13 +93,13 @@ Common relation types:
 Run:
 
 ```bash
-node packages/cli/validate-growgraph.js <package-dir>
+node packages/cli/validate-mirai-graph.js <package-dir>
 ```
 
 Example:
 
 ```bash
-node packages/cli/validate-growgraph.js examples/minimal-graph
+node packages/cli/validate-mirai-graph.js examples/minimal-graph
 ```
 
 ## Step 7: Generate A Context Pack
@@ -129,7 +129,7 @@ Before using the graph for decisions or action, check:
 
 ## Step 9: Grow Iteratively
 
-GrowGraph works best as an iterative model:
+Mirai Graph works best as an iterative model:
 
 ```text
 seed -> embryo -> reviewed graph -> context packs -> task results -> graph updates

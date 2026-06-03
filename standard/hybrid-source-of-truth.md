@@ -4,11 +4,11 @@ Status: alpha standard section
 
 ## Purpose
 
-GrowGraph can act as the first machine-readable layer for routing, context,
+Mirai Graph can act as the first machine-readable layer for routing, context,
 capability discovery, readiness, gates and evidence. That does not mean the
 graph replaces every original source.
 
-Hybrid Source Of Truth defines how a GrowGraph implementation can use graph
+Hybrid Source Of Truth defines how a Mirai Graph implementation can use graph
 state for operational control while keeping domain source material authoritative
 for meaning, judgement and sensitive procedures.
 
@@ -24,7 +24,7 @@ erase the authority of the source that created the meaning.
 
 ## Source Classes
 
-A GrowGraph implementation should classify sources before using them:
+A Mirai Graph implementation should classify sources before using them:
 
 - `canonical`: approved source material or canonical graph state;
 - `raw`: original source material that contains authoritative domain meaning;
@@ -83,7 +83,7 @@ Graph-only runtime should be treated as unsafe by default.
 Passing a Hybrid Source Of Truth gate supports this limited claim:
 
 ```text
-The GrowGraph implementation preserves the authority boundary between graph
+The Mirai Graph implementation preserves the authority boundary between graph
 state, generated context and raw domain sources for the declared scope.
 ```
 

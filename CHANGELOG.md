@@ -1,14 +1,18 @@
 # Changelog
 
-All notable changes to GrowGraph will be documented in this file.
+All notable changes to Mirai Graph will be documented in this file.
 
 ## [Unreleased]
 
 ### Added
 
+- Alpha.9 Mirai Graph rename transition from the former GrowGraph working name.
+- Primary `mirai-graph` CLI entrypoint and package manifest name.
+- Legacy `growgraph` CLI and `growgraph-package.json` compatibility wrappers.
+- Transition guide for adopters migrating from GrowGraph naming.
 - Alpha.8 starter templates for software project, research program,
   AI employee and organization governance adoption.
-- Unified `growgraph` CLI wrapper for common validation, report and
+- Unified `mirai-graph` CLI wrapper for common validation, report and
   process-transition explanation commands.
 - Independent implementation pilot 005 for organization governance.
 - Evidence Package v0.2 as the current public research evidence entrypoint.
@@ -18,7 +22,9 @@ All notable changes to GrowGraph will be documented in this file.
 
 ### Changed
 
-- Working package version is now `0.1.0-alpha.8`.
+- Working package version is now `0.1.0-alpha.9`.
+- Public-facing standard, package and CLI naming now use Mirai Graph and
+  `mirai-graph`; GrowGraph is retained as a historical/legacy alias.
 - `npm test` includes starter template validation and unified CLI smoke checks.
 - Process-control docs and examples now model technology quality feedback as a
   companion gate for significant acceptance and release transitions.
@@ -88,7 +94,7 @@ All notable changes to GrowGraph will be documented in this file.
 
 - Hybrid Source Of Truth standard draft for graph/raw-source authority
   boundaries.
-- GrowGraph Adoption Levels standard draft with `GGA0..GGA10` staged adoption
+- Mirai Graph Adoption Levels standard draft with `GGA0..GGA10` staged adoption
   semantics.
 - Runtime Enablement standard draft for task-scoped graph-mode preflight,
   fallback and runtime boundary decisions.
@@ -124,7 +130,7 @@ All notable changes to GrowGraph will be documented in this file.
 - Negative fixture for missing context-pack selection explanations.
 - Positive profile conformance result artifacts for core, project-management
   and software-specification fixtures.
-- Public capability map from practical `$graph` areas to GrowGraph standard,
+- Public capability map from practical `$graph` areas to Mirai Graph standard,
   schema, tooling, profile and research artifacts.
 - Alpha `ai_employee` profile for modeling AI employees, roles, skills,
   knowledge, memory, tools, policies, workflows, actions, feedback, lessons
@@ -209,9 +215,9 @@ All notable changes to GrowGraph will be documented in this file.
 ### Added
 
 - Practice-and-science program note.
-- Initial `$graph` skill to GrowGraph transfer map.
+- Initial `$graph` skill to Mirai Graph transfer map.
 - Initial standard gap report comparing practical `$graph` methodology with
-  public GrowGraph.
+  public Mirai Graph.
 - Public graph DNA, graph seed and graph embryo standard sections.
 - Graph seed and graph embryo schemas.
 - Minimal graph seed example.

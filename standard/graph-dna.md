@@ -1,10 +1,10 @@
-# GrowGraph DNA
+# Mirai Graph DNA
 
 Status: initial public draft
 
 ## Purpose
 
-GrowGraph DNA defines why a graph exists, what it should become and which
+Mirai Graph DNA defines why a graph exists, what it should become and which
 principles must guide its growth.
 
 Without DNA, a graph can collect objects and relations but still drift into an

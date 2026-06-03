@@ -8,7 +8,7 @@ A process-control contract binds implementation-control cycles to executable
 state machines, launch-record policy, evidence requirements, recovery behavior,
 risk controls, validators and Kaizen policy.
 
-It is the public GrowGraph bridge between standards and fail-closed process
+It is the public Mirai Graph bridge between standards and fail-closed process
 validation.
 
 ## Required Contract

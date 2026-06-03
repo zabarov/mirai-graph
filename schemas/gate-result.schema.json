@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://growgraph.dev/schemas/gate-result.schema.json",
-  "title": "GrowGraph Governance Gate Result",
+  "title": "Mirai Graph Governance Gate Result",
   "type": "object",
   "additionalProperties": true,
   "required": ["id", "gate_id", "target_id", "verdict", "summary", "evidence", "reviewed_at"],

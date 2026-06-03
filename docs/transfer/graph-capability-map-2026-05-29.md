@@ -1,4 +1,4 @@
-# GrowGraph Public Capability Map
+# Mirai Graph Public Capability Map
 
 Date: 2026-05-29
 
@@ -6,7 +6,7 @@ Status: public-safe transfer map
 
 ## Purpose
 
-This map connects practical `$graph` capability areas to public GrowGraph
+This map connects practical `$graph` capability areas to public Mirai Graph
 standard sections, schemas, tooling, examples and evidence artifacts.
 
 It is not a publication of internal skill implementation details. It records
@@ -34,7 +34,7 @@ Do not transfer:
 
 ## Capability Coverage
 
-| Practical capability area | Public GrowGraph coverage | Status | Next public step |
+| Practical capability area | Public Mirai Graph coverage | Status | Next public step |
 | --- | --- | --- | --- |
 | Repository as graph source of truth | `docs/repository-purpose.md`, `README.md`, `ROADMAP.md` | covered | Keep purpose, roadmap and release notes aligned. |
 | Core object model | `standard/object-model.md`, `schemas/object.schema.json`, package fixtures | covered with notes | Add richer object-family examples for more profiles. |
@@ -118,7 +118,7 @@ The repository is not yet:
 This capability map supports only this claim:
 
 ```text
-GrowGraph has a public alpha mapping from practical graph-method capabilities
+Mirai Graph has a public alpha mapping from practical graph-method capabilities
 to open standard sections, schemas, tooling and public-safe evidence artifacts.
 ```
 

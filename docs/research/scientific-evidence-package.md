@@ -1,16 +1,16 @@
-# GrowGraph Scientific Evidence Package
+# Mirai Graph Scientific Evidence Package
 
 Status: alpha evidence framing
 
 ## Purpose
 
-This document defines how public GrowGraph evidence should be read. It connects
+This document defines how public Mirai Graph evidence should be read. It connects
 synthetic benchmarks, public pilots, reproducibility materials and publication
 notes without overclaiming scientific proof.
 
 ## Current Research Hypotheses
 
-GrowGraph is currently evaluated around these hypotheses:
+Mirai Graph is currently evaluated around these hypotheses:
 
 - Graph-structured project state can reduce task-context size while preserving
   relevant dependencies.
@@ -119,7 +119,7 @@ Then inspect:
 
 ## Claim Boundaries
 
-GrowGraph public alpha may claim:
+Mirai Graph public alpha may claim:
 
 - a public standard draft exists;
 - schemas, validators and examples are runnable;
@@ -127,7 +127,7 @@ GrowGraph public alpha may claim:
 - baseline comparisons are public-safe and bounded by explicit limitations;
 - governance controls can be represented and tested in public-safe fixtures.
 
-GrowGraph public alpha must not claim:
+Mirai Graph public alpha must not claim:
 
 - peer-reviewed proof of effectiveness;
 - production safety for autonomous execution;

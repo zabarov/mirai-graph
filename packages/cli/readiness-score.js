@@ -11,12 +11,24 @@ function readJson(filePath) {
   return JSON.parse(fs.readFileSync(filePath, "utf8"));
 }
 
+function findManifestPath(packageDir) {
+  const preferredPath = path.join(packageDir, "mirai-graph-package.json");
+  const legacyPath = path.join(packageDir, "mirai-graph-package.json");
+  if (fs.existsSync(preferredPath)) {
+    return preferredPath;
+  }
+  if (fs.existsSync(legacyPath)) {
+    return legacyPath;
+  }
+  return preferredPath;
+}
+
 function exists(filePath) {
   return fs.existsSync(filePath);
 }
 
 function scorePackage(packageDir, targetMode) {
-  const manifestPath = path.join(packageDir, "growgraph-package.json");
+  const manifestPath = findManifestPath(packageDir);
   const graphObjectsPath = path.join(packageDir, "graph", "objects.json");
   const graphRelationsPath = path.join(packageDir, "graph", "relations.json");
   const gateResultsPath = path.join(packageDir, "gates", "results.json");

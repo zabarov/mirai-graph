@@ -1,17 +1,17 @@
-# GrowGraph Profiles
+# Mirai Graph Profiles
 
 Status: initial public draft
 
 ## Purpose
 
-Profiles adapt GrowGraph to domains without changing the core standard.
+Profiles adapt Mirai Graph to domains without changing the core standard.
 
 A profile may define additional object kinds, relation types, readiness rules,
 governance gates, examples and adoption guidance.
 
 ## Profile
 
-A profile is a named specialization of GrowGraph.
+A profile is a named specialization of Mirai Graph.
 
 Example profiles:
 

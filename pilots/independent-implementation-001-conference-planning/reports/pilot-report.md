@@ -6,7 +6,7 @@ Status: `pass_with_notes`
 
 ## Purpose
 
-Test whether a valid GrowGraph Level 1 package can be created using only the
+Test whether a valid Mirai Graph Level 1 package can be created using only the
 public repository materials.
 
 ## Domain
@@ -17,8 +17,8 @@ No private company, customer, employee or internal project material was used.
 
 ## Research Question
 
-Can a developer create a valid Level 1 GrowGraph package for a small workflow
-using only public GrowGraph docs, schemas and examples?
+Can a developer create a valid Level 1 Mirai Graph package for a small workflow
+using only public Mirai Graph docs, schemas and examples?
 
 ## Result
 
@@ -27,7 +27,7 @@ Verdict: `pass_with_notes`
 The pilot produced:
 
 - valid graph seed;
-- valid GrowGraph package;
+- valid Mirai Graph package;
 - valid object and relation files;
 - public-safety gate result;
 - generated graph embryo preview;
@@ -99,7 +99,7 @@ worked example from seed to validated package.
 This pilot supports a limited claim:
 
 ```text
-A valid GrowGraph Level 1 package can be created from public repository
+A valid Mirai Graph Level 1 package can be created from public repository
 materials for a small synthetic workflow.
 ```
 

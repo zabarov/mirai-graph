@@ -1,13 +1,13 @@
-# GrowGraph Evidence And Provenance
+# Mirai Graph Evidence And Provenance
 
 Status: initial public draft
 
 ## Purpose
 
-Evidence and provenance rules explain how GrowGraph links graph state to the
+Evidence and provenance rules explain how Mirai Graph links graph state to the
 materials, observations, decisions and reviews that justify it.
 
-GrowGraph does not require every early idea to be fully proven. It does require
+Mirai Graph does not require every early idea to be fully proven. It does require
 important claims, accepted objects, accepted relations and public validation
 statements to make their evidence boundary explicit.
 
@@ -39,7 +39,7 @@ Objects and relations reference evidence by stable id:
 }
 ```
 
-For mature GrowGraph packages, evidence references should resolve to evidence
+For mature Mirai Graph packages, evidence references should resolve to evidence
 objects or declared external sources.
 
 ## Evidence Levels
@@ -68,7 +68,7 @@ For important graph state, a reviewer should be able to answer:
 
 ## Public-Safe Evidence Rules
 
-Public GrowGraph repositories should not include:
+Public Mirai Graph repositories should not include:
 
 - private source chats;
 - raw internal company materials;

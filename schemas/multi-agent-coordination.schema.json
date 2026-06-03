@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://growgraph.dev/schemas/multi-agent-coordination.schema.json",
-  "title": "GrowGraph Multi-Agent Coordination",
+  "title": "Mirai Graph Multi-Agent Coordination",
   "type": "object",
   "additionalProperties": true,
   "required": ["schema_version", "id", "profile", "public_safety", "roles", "reservations", "locking_rules", "conflict_resolution", "evidence_refs", "limitations"],

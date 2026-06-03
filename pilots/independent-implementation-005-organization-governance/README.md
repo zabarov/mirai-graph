@@ -4,7 +4,7 @@ Status: pilot fixture
 
 ## Purpose
 
-This pilot tests whether GrowGraph can model organization-level governance as a
+This pilot tests whether Mirai Graph can model organization-level governance as a
 public-safe graph: mission, strategy, departments, programs, policies, decision
 rights, risks, controls, metrics, feedback and Kaizen.
 
@@ -24,7 +24,7 @@ promoted?
 ## Files
 
 - `graph-seed.json`
-- `growgraph-package.json`
+- `mirai-graph-package.json`
 - `graph/objects.json`
 - `graph/relations.json`
 - `gates/results.json`
@@ -36,7 +36,7 @@ promoted?
 Run from repository root:
 
 ```bash
-node packages/cli/validate-growgraph.js seed pilots/independent-implementation-005-organization-governance/graph-seed.json
-node packages/cli/validate-growgraph.js pilots/independent-implementation-005-organization-governance
-node packages/cli/validate-growgraph.js --markdown pilots/independent-implementation-005-organization-governance
+node packages/cli/validate-mirai-graph.js seed pilots/independent-implementation-005-organization-governance/graph-seed.json
+node packages/cli/validate-mirai-graph.js pilots/independent-implementation-005-organization-governance
+node packages/cli/validate-mirai-graph.js --markdown pilots/independent-implementation-005-organization-governance
 ```

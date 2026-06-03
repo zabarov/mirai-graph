@@ -4,9 +4,9 @@ Status: initial public protocol
 
 ## Purpose
 
-GrowGraph adoption must be measured, not assumed to be better.
+Mirai Graph adoption must be measured, not assumed to be better.
 
-This protocol defines how to compare a current workflow with a GrowGraph-assisted
+This protocol defines how to compare a current workflow with a Mirai Graph-assisted
 workflow.
 
 ## Cycle
@@ -14,7 +14,7 @@ workflow.
 ```text
 freeze benchmark
 -> measure current mode
--> convert selected scope to GrowGraph
+-> convert selected scope to Mirai Graph
 -> measure graph mode
 -> compare
 -> optimize

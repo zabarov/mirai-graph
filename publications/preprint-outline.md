@@ -1,14 +1,14 @@
-# GrowGraph Preprint Outline
+# Mirai Graph Preprint Outline
 
 Status: draft outline
 
 ## Working Title
 
-GrowGraph: An Executable Evolutionary Graph Standard For Governed Human-AI Work
+Mirai Graph: An Executable Evolutionary Graph Standard For Governed Human-AI Work
 
 ## Abstract Shape
 
-This preprint introduces GrowGraph, an evolutionary graph operating model for
+This preprint introduces Mirai Graph, an evolutionary graph operating model for
 managing complex systems through typed objects, relations, evidence, generated
 context, readiness states and governance gates. It presents the public alpha
 standard, schemas, validators, synthetic benchmarks and public-safe pilots. The
@@ -19,7 +19,7 @@ claims of effectiveness.
 
 1. Introduction and motivation.
 2. Related work and positioning.
-3. GrowGraph model.
+3. Mirai Graph model.
 4. Evidence, readiness and governance.
 5. Executable process control.
 6. Context-pack generation.

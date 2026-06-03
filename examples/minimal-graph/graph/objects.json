@@ -3,7 +3,7 @@
     "id": "system.demo_project",
     "kind": "system",
     "title": "Demo Project",
-    "summary": "A small project used to demonstrate the GrowGraph package shape.",
+    "summary": "A small project used to demonstrate the Mirai Graph package shape.",
     "readiness": "draft",
     "evidence": [],
     "profile": "core",

@@ -1,10 +1,10 @@
-# GrowGraph Seed
+# Mirai Graph Seed
 
 Status: initial public draft
 
 ## Purpose
 
-A Graph Seed is the controlled starting package for growing a GrowGraph model.
+A Graph Seed is the controlled starting package for growing a Mirai Graph model.
 
 Complex systems should not start as large hand-authored graphs. They should
 start from a small seed that defines purpose, source boundaries, growth rules,

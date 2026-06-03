@@ -1,4 +1,4 @@
-# GrowGraph Limitations And Threats To Validity
+# Mirai Graph Limitations And Threats To Validity
 
 Status: alpha limitation table
 
@@ -27,14 +27,14 @@ Status: alpha limitation table
 
 Allowed:
 
-- "GrowGraph alpha provides runnable schemas, validators and public-safe
+- "Mirai Graph alpha provides runnable schemas, validators and public-safe
   examples."
 - "Synthetic benchmark results demonstrate the method on a controlled fixture."
 - "Public pilots provide early applicability evidence."
 
 Not allowed:
 
-- "GrowGraph is scientifically proven."
-- "GrowGraph is production-safe for autonomous execution."
-- "GrowGraph replaces human governance."
+- "Mirai Graph is scientifically proven."
+- "Mirai Graph is production-safe for autonomous execution."
+- "Mirai Graph replaces human governance."
 - "Generated context is canonical truth."

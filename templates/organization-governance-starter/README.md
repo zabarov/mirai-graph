@@ -5,5 +5,5 @@ Use this template for organization, department or portfolio governance.
 Validate:
 
 ```bash
-node packages/cli/validate-growgraph.js templates/organization-governance-starter
+node packages/cli/validate-mirai-graph.js templates/organization-governance-starter
 ```

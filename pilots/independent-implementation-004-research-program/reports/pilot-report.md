@@ -4,7 +4,7 @@ Status: public-safe alpha pilot
 
 ## Question
 
-Can GrowGraph model a research-program workflow with evidence, limitations,
+Can Mirai Graph model a research-program workflow with evidence, limitations,
 publication gates and anti-overclaiming controls?
 
 ## Setup
@@ -36,9 +36,9 @@ acceptance or peer-reviewed proof.
 ## Reproducibility
 
 ```bash
-node packages/cli/validate-growgraph.js seed pilots/independent-implementation-004-research-program/graph-seed.json
-node packages/cli/validate-growgraph.js pilots/independent-implementation-004-research-program
-node packages/cli/validate-growgraph.js --markdown pilots/independent-implementation-004-research-program
+node packages/cli/validate-mirai-graph.js seed pilots/independent-implementation-004-research-program/graph-seed.json
+node packages/cli/validate-mirai-graph.js pilots/independent-implementation-004-research-program
+node packages/cli/validate-mirai-graph.js --markdown pilots/independent-implementation-004-research-program
 ```
 
 ## Limitations

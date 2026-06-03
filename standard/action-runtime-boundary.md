@@ -4,11 +4,11 @@ Status: alpha standard draft
 
 ## Purpose
 
-This section defines the boundary between GrowGraph canonical state and
+This section defines the boundary between Mirai Graph canonical state and
 action-capable runtime behavior.
 
 The boundary is required for AI employees, automation systems and any
-GrowGraph implementation that can affect external systems.
+Mirai Graph implementation that can affect external systems.
 
 ## State Sequence
 
@@ -94,6 +94,6 @@ feedback != canonical update
 
 ## Implementation Note
 
-GrowGraph can model this boundary. The runtime implementation remains
+Mirai Graph can model this boundary. The runtime implementation remains
 responsible for authentication, authorization, tool sandboxing, retries,
 timeouts, logging, rollback and operational security.

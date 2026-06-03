@@ -7,7 +7,7 @@ mission, strategy, departments, portfolios, projects, policies, decision rights,
 risks, evidence, feedback and improvement.
 
 It is broader than `project-management`, but it does not replace operational,
-legal, financial or domain-specific governance systems. GrowGraph provides the
+legal, financial or domain-specific governance systems. Mirai Graph provides the
 graph contract and validation surface for connecting them.
 
 ## Typical Objects

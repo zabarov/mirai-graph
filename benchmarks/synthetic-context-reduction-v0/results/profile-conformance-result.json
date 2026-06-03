@@ -6,8 +6,8 @@
   "package_id": "package.synthetic_context_reduction_v0",
   "profile": "software_specification",
   "conformance_level": "level_1",
-  "validator": "packages/cli/validate-growgraph.js",
-  "command": "node packages/cli/validate-growgraph.js benchmarks/synthetic-context-reduction-v0",
+  "validator": "packages/cli/validate-mirai-graph.js",
+  "command": "node packages/cli/validate-mirai-graph.js benchmarks/synthetic-context-reduction-v0",
   "valid": true,
   "errors": [],
   "warnings": [],
@@ -20,7 +20,7 @@
     "software_specification object-kind conformance",
     "software_specification relation-type conformance"
   ],
-  "claim_supported": "The package follows the declared GrowGraph profile shape checked by the current validator.",
+  "claim_supported": "The package follows the declared Mirai Graph profile shape checked by the current validator.",
   "limitations": [
     "This result does not prove semantic completeness, usefulness or downstream task performance.",
     "The benchmark package is synthetic public-safe evidence."

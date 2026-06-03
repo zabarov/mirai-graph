@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://growgraph.dev/schemas/route-explanation.schema.json",
-  "title": "GrowGraph Route Explanation",
+  "title": "Mirai Graph Route Explanation",
   "type": "object",
   "additionalProperties": true,
   "required": [

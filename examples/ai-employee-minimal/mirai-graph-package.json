@@ -1,0 +1,14 @@
+{
+  "id": "package.ai_employee_minimal",
+  "name": "Minimal AI Employee Example",
+  "version": "0.1.0",
+  "profile": "ai_employee",
+  "conformance_level": "level_1",
+  "description": "A synthetic Mirai Graph package showing an AI employee with role, skill, tool, policy, action boundary, feedback and learning gate.",
+  "license": "CC-BY-4.0",
+  "public_safety": "synthetic_public",
+  "graph": {
+    "objects": "graph/objects.json",
+    "relations": "graph/relations.json"
+  }
+}

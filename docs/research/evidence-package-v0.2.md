@@ -1,10 +1,10 @@
-# GrowGraph Evidence Package v0.2
+# Mirai Graph Evidence Package v0.2
 
 Status: alpha research package
 
 ## Purpose
 
-This package is the current public evidence entrypoint for GrowGraph alpha. It
+This package is the current public evidence entrypoint for Mirai Graph alpha. It
 connects executable validation, synthetic baseline comparison, public-safe
 pilots and scientific claim boundaries.
 
@@ -24,7 +24,7 @@ false progress claims, especially treating readiness as execution.
 H4. Recovery, source-boundary and Kaizen records can improve continuation across
 long-running human-AI workflows.
 
-H5. Domain profiles can make GrowGraph usable beyond software projects,
+H5. Domain profiles can make Mirai Graph usable beyond software projects,
 including AI employees, research programs and organization governance.
 
 ## Evidence Inventory
@@ -33,7 +33,7 @@ including AI employees, research programs and organization governance.
 | --- | --- | --- | --- |
 | Synthetic benchmark | `benchmarks/synthetic-context-reduction-v0/` | Context-reduction demonstration | Synthetic |
 | Context-pack result | `benchmarks/synthetic-context-reduction-v0/results/context-pack.json` | Expected context-pack shape | Synthetic |
-| Baseline comparison | `benchmarks/synthetic-context-reduction-v0/results/baseline-comparison-result.json` | Baseline-vs-GrowGraph metrics | Synthetic |
+| Baseline comparison | `benchmarks/synthetic-context-reduction-v0/results/baseline-comparison-result.json` | Baseline-vs-Mirai Graph metrics | Synthetic |
 | Process-transition fixtures | `examples/process-transition-minimal/` | False-transition guard checks | Synthetic |
 | Playground report | `playground/demo-report.md` | End-to-end local demo | Synthetic |
 | Pilot 001 | `pilots/independent-implementation-001-conference-planning/` | Project-management applicability | Public-safe pilot |
@@ -91,9 +91,9 @@ npm run playground:report
 Run unified CLI report commands:
 
 ```bash
-node packages/cli/growgraph.js report validation examples/minimal-graph
-node packages/cli/growgraph.js explain process-transition examples/process-transition-minimal/state-machine.json examples/process-transition-minimal/transition-request.json
-node packages/cli/growgraph.js report playground
+node packages/cli/mirai-graph.js report validation examples/minimal-graph
+node packages/cli/mirai-graph.js explain process-transition examples/process-transition-minimal/state-machine.json examples/process-transition-minimal/transition-request.json
+node packages/cli/mirai-graph.js report playground
 ```
 
 ## Interpretation Rules
@@ -110,7 +110,7 @@ node packages/cli/growgraph.js report playground
 
 ## Current Evidence Verdict
 
-GrowGraph alpha currently supports these claims:
+Mirai Graph alpha currently supports these claims:
 
 - a public executable standard draft exists;
 - schemas, validators, starter templates and examples are runnable;
@@ -121,7 +121,7 @@ GrowGraph alpha currently supports these claims:
 - public-safe pilots cover software, AI employee, research-program and
   organization-governance scenarios.
 
-GrowGraph alpha does not yet support these claims:
+Mirai Graph alpha does not yet support these claims:
 
 - peer-reviewed effectiveness;
 - production autonomous execution safety;
@@ -133,7 +133,7 @@ GrowGraph alpha does not yet support these claims:
 ## Next Evidence Work
 
 - Add at least one public-safe external adopter pilot outside the original
-  GrowGraph authoring contour.
+  Mirai Graph authoring contour.
 - Add reviewer packets and inter-reviewer agreement records.
 - Replicate baseline comparison across research, organization governance and
   product-roadmap scenarios.

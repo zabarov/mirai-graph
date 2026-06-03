@@ -4,7 +4,7 @@ Status: initial public guide
 
 ## Purpose
 
-Profile conformance fixtures show how GrowGraph validates that a package follows
+Profile conformance fixtures show how Mirai Graph validates that a package follows
 the object kinds and relation types declared by its profile.
 
 They are not scientific proof of real-world usefulness. They are executable
@@ -105,7 +105,7 @@ Semantic completeness is reviewed separately through
 Passing profile conformance supports this limited claim:
 
 ```text
-The package follows the declared GrowGraph profile shape checked by the current validator.
+The package follows the declared Mirai Graph profile shape checked by the current validator.
 ```
 
 It does not support claims about correctness, usefulness or completeness of the

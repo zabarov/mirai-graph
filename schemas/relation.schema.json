@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://growgraph.dev/schemas/relation.schema.json",
-  "title": "GrowGraph Relation",
+  "title": "Mirai Graph Relation",
   "type": "object",
   "additionalProperties": true,
   "required": ["id", "type", "source", "target", "readiness", "evidence", "profile"],

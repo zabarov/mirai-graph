@@ -3,7 +3,7 @@
 Status: alpha profile
 
 The `skill_runtime` profile models a governed skill, capability module or
-service as a GrowGraph-managed runtime context.
+service as a Mirai Graph-managed runtime context.
 
 It is designed for systems where the graph helps with routing, capability
 selection, policy reminders, readiness, evidence and generated context, while

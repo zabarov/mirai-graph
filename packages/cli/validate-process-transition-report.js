@@ -14,7 +14,7 @@ function readJson(filePath) {
 }
 
 function runValidator(args) {
-  return spawnSync(process.execPath, ["packages/cli/validate-growgraph.js", ...args], {
+  return spawnSync(process.execPath, ["packages/cli/validate-mirai-graph.js", ...args], {
     encoding: "utf8"
   });
 }

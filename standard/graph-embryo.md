@@ -1,4 +1,4 @@
-# GrowGraph Embryo
+# Mirai Graph Embryo
 
 Status: initial public draft
 

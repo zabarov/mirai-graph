@@ -1,4 +1,4 @@
-# GrowGraph Roadmap
+# Mirai Graph Roadmap
 
 Status: draft
 
@@ -31,7 +31,7 @@ Initial artifacts:
 
 ## Phase 1: Standard Draft
 
-Goal: define the implementation-independent GrowGraph standard.
+Goal: define the implementation-independent Mirai Graph standard.
 
 Alpha status: partially implemented. The repository now contains the core
 object/relation/readiness/evidence/governance standard plus alpha drafts for
@@ -74,7 +74,7 @@ Readiness target:
 
 ## Phase 2: Method And Adoption Kit
 
-Goal: help teams use GrowGraph in real work.
+Goal: help teams use Mirai Graph in real work.
 
 Alpha status: partially implemented. The current repository includes getting
 started material, profile conformance fixtures, AI employee adoption, seed to
@@ -180,7 +180,7 @@ Planned artifacts:
 1. Prepare the next alpha around process-control explanations, import/export
    helpers and packaged adopter workflow commands.
 2. Add one or two external public-safe pilots maintained outside the original
-   GrowGraph authoring contour.
+   Mirai Graph authoring contour.
 3. Expand organization-governance validation reports and adoption recipes.
 4. Explore a local interactive playground only after deterministic report
    fixtures remain stable.

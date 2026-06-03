@@ -1,18 +1,18 @@
-# GrowGraph Terminology
+# Mirai Graph Terminology
 
 Status: initial draft
 
-## GrowGraph
+## Mirai Graph
 
 An evolutionary graph operating model for managing the growth of complex
 systems.
 
-GrowGraph combines canonical graph state, generated context packs, evidence,
+Mirai Graph combines canonical graph state, generated context packs, evidence,
 readiness, profiles and governance gates.
 
 ## Evolutionary Object Graph
 
-The scientific continuity term used in earlier research materials. GrowGraph is
+The scientific continuity term used in earlier research materials. Mirai Graph is
 the public working name for the same model direction.
 
 ## Complex System
@@ -68,7 +68,7 @@ the canonical source of truth.
 
 ## Graph Seed
 
-The smallest useful starting structure for a GrowGraph model. A seed captures
+The smallest useful starting structure for a Mirai Graph model. A seed captures
 the initial objects, relations, evidence boundaries and intended growth path.
 
 ## Graph Embryo
@@ -92,7 +92,7 @@ or otherwise constrained.
 
 ## Profile
 
-A domain-specific adaptation of the core GrowGraph model.
+A domain-specific adaptation of the core Mirai Graph model.
 
 Profiles may define additional object kinds, relation types, readiness rules,
 governance gates and examples without changing the core standard.
@@ -112,7 +112,7 @@ Governance gates separate:
 
 ## Conformance Level
 
-A declared level showing how completely an implementation follows the GrowGraph
+A declared level showing how completely an implementation follows the Mirai Graph
 standard.
 
 Conformance levels should be testable with schemas, examples, fixtures and

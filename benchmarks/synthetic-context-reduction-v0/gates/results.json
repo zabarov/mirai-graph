@@ -7,6 +7,6 @@
     "summary": "The benchmark is synthetic and public-safe, but it supports method inspection only.",
     "evidence": ["source.identity_access", "source.content_workflow", "source.audit_events", "source.notification_delivery"],
     "reviewed_at": "2026-05-28",
-    "reviewer": "GrowGraph maintainers"
+    "reviewer": "Mirai Graph maintainers"
   }
 ]

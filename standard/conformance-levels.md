@@ -1,18 +1,18 @@
-# GrowGraph Conformance Levels
+# Mirai Graph Conformance Levels
 
 Status: initial public draft
 
 ## Purpose
 
 Conformance levels describe how completely an implementation follows the
-GrowGraph standard.
+Mirai Graph standard.
 
 Conformance must be testable. A project should not claim a level without
 evidence, fixtures or validation output.
 
 ## Level 0: Terminology Alignment
 
-The implementation uses GrowGraph terminology consistently but does not yet
+The implementation uses Mirai Graph terminology consistently but does not yet
 provide a complete canonical graph package.
 
 Expected evidence:
@@ -44,7 +44,7 @@ Minimum requirements:
 Current validator:
 
 ```bash
-node packages/cli/validate-growgraph.js <package-dir>
+node packages/cli/validate-mirai-graph.js <package-dir>
 ```
 
 Useful for:

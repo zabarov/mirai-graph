@@ -1,4 +1,4 @@
-# Minimal GrowGraph Example
+# Minimal Mirai Graph Example
 
 This example shows the smallest useful public graph package shape:
 
@@ -11,5 +11,5 @@ graph/
 Validate it from the repository root:
 
 ```bash
-node packages/cli/validate-growgraph.js examples/minimal-graph
+node packages/cli/validate-mirai-graph.js examples/minimal-graph
 ```

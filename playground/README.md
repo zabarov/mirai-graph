@@ -1,8 +1,8 @@
-# GrowGraph Playground
+# Mirai Graph Playground
 
 Status: alpha.8 deterministic runnable demo
 
-This directory is a playground package for public-safe GrowGraph demos. The
+This directory is a playground package for public-safe Mirai Graph demos. The
 current alpha.8 playground is CLI-based and deterministic: runnable examples
 live in `examples/`, `benchmarks/` and `pilots/`, and the generated report is
 stored as `playground/demo-report.md`.
@@ -73,6 +73,6 @@ npm test
 ## Future Work
 
 A hosted or interactive playground can be added later. Until then, this index
-keeps the public README honest: GrowGraph has a deterministic local report with
+keeps the public README honest: Mirai Graph has a deterministic local report with
 transition explanation and baseline comparison, but not yet a separate
 interactive application.

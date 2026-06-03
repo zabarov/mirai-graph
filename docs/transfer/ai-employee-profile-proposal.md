@@ -4,10 +4,10 @@ Status: alpha proposal
 
 ## Purpose
 
-This proposal defines the public GrowGraph direction for modeling an
+This proposal defines the public Mirai Graph direction for modeling an
 AI employee as a governed runtime over an evolutionary graph.
 
-The goal is to support systems such as Larena/AI without turning GrowGraph
+The goal is to support systems such as Larena/AI without turning Mirai Graph
 into a single AI-agent framework or publishing private implementation details.
 
 ## Core Thesis
@@ -34,7 +34,7 @@ AI-employee system needs additional first-class concepts:
 - federation endpoints for multi-employee or multi-service systems.
 
 These concepts should not bloat the core standard. They belong in a profile
-that specializes GrowGraph for agentic work while preserving the core
+that specializes Mirai Graph for agentic work while preserving the core
 governance model.
 
 ## Public Scope
@@ -60,11 +60,11 @@ The public standard must not define:
 
 ## Larena/AI Boundary
 
-GrowGraph should define the portable model. Larena/AI may implement runtime
+Mirai Graph should define the portable model. Larena/AI may implement runtime
 execution, UI, storage, queues, tools, permissions, audit logs and package
 integration.
 
-Portable GrowGraph layer:
+Portable Mirai Graph layer:
 
 - AI employee graph model;
 - object and relation semantics;
@@ -111,7 +111,7 @@ The first public alpha should include:
 This proposal supports only this claim:
 
 ```text
-GrowGraph can model the public structure of an AI employee as a governed graph
+Mirai Graph can model the public structure of an AI employee as a governed graph
 profile with explicit runtime, action and learning boundaries.
 ```
 

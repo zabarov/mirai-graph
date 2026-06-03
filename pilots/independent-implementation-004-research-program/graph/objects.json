@@ -12,7 +12,7 @@
     "id": "system.graph_assisted_work_research",
     "kind": "system",
     "title": "Graph-Assisted Work Research",
-    "summary": "Synthetic research program used to evaluate GrowGraph-style project control.",
+    "summary": "Synthetic research program used to evaluate Mirai Graph-style project control.",
     "readiness": "review_ready",
     "evidence": ["evidence.research_program_brief"],
     "profile": "project_management"
@@ -30,7 +30,7 @@
     "id": "task.define_baseline_protocol",
     "kind": "task",
     "title": "Define Baseline Protocol",
-    "summary": "Define a baseline-vs-GrowGraph comparison protocol for one synthetic task.",
+    "summary": "Define a baseline-vs-Mirai Graph comparison protocol for one synthetic task.",
     "readiness": "accepted",
     "evidence": ["evidence.research_program_brief"],
     "profile": "project_management"

@@ -4,7 +4,7 @@ Status: pilot fixture
 
 ## Purpose
 
-This pilot tests whether GrowGraph can model a small research-program workflow
+This pilot tests whether Mirai Graph can model a small research-program workflow
 with explicit evidence, milestones, risks and publication gates.
 
 ## Domain
@@ -16,13 +16,13 @@ data, internal handoff or runtime trace is used.
 
 ## Research Question
 
-Can a developer model a public-safe research program as a governed GrowGraph
+Can a developer model a public-safe research program as a governed Mirai Graph
 package using only public profiles, examples and validators?
 
 ## Files
 
 - `graph-seed.json`
-- `growgraph-package.json`
+- `mirai-graph-package.json`
 - `graph/objects.json`
 - `graph/relations.json`
 - `gates/results.json`
@@ -34,8 +34,8 @@ package using only public profiles, examples and validators?
 Run from repository root:
 
 ```bash
-node packages/cli/validate-growgraph.js seed pilots/independent-implementation-004-research-program/graph-seed.json
-node packages/cli/validate-growgraph.js pilots/independent-implementation-004-research-program
-node packages/cli/validate-growgraph.js --markdown pilots/independent-implementation-004-research-program
+node packages/cli/validate-mirai-graph.js seed pilots/independent-implementation-004-research-program/graph-seed.json
+node packages/cli/validate-mirai-graph.js pilots/independent-implementation-004-research-program
+node packages/cli/validate-mirai-graph.js --markdown pilots/independent-implementation-004-research-program
 ```
 

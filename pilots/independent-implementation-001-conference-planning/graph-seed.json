@@ -2,7 +2,7 @@
   "schema_version": "0.1.0",
   "seed_id": "seed.conference_planning",
   "target_graph_id": "graph.conference_planning",
-  "purpose": "Create a GrowGraph package for managing a small public conference planning workflow.",
+  "purpose": "Create a Mirai Graph package for managing a small public conference planning workflow.",
   "target_profile": "profile.project_management",
   "target_mode": "pilot",
   "graph_dna": {

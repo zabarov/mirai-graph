@@ -12,7 +12,7 @@
     "id": "organization.civic_platform",
     "kind": "organization",
     "title": "Civic Platform Organization",
-    "summary": "Synthetic organization used to test organization-scale GrowGraph governance.",
+    "summary": "Synthetic organization used to test organization-scale Mirai Graph governance.",
     "readiness": "review_ready",
     "evidence": ["evidence.governance_brief"],
     "profile": "organization_governance"

@@ -2,7 +2,7 @@
   "schema_version": "0.1.0",
   "review_id": "semantic_review.synthetic_context_reduction_v0.task_notify_after_approval",
   "reviewed_at": "2026-05-28",
-  "reviewer": "GrowGraph maintainers",
+  "reviewer": "Mirai Graph maintainers",
   "protocol": "docs/research/semantic-completeness-review-protocol.md",
   "target": {
     "package_id": "package.synthetic_context_reduction_v0",

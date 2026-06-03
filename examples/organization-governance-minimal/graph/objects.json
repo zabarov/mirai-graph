@@ -12,7 +12,7 @@
     "id": "organization.example_coop",
     "kind": "organization",
     "title": "Example Cooperative",
-    "summary": "Synthetic organization used to demonstrate GrowGraph governance structure.",
+    "summary": "Synthetic organization used to demonstrate Mirai Graph governance structure.",
     "readiness": "review_ready",
     "evidence": ["evidence.organization_governance_brief"],
     "profile": "organization_governance"

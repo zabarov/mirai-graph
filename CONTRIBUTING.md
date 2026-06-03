@@ -1,6 +1,6 @@
-# Contributing To GrowGraph
+# Contributing To Mirai Graph
 
-GrowGraph is an open research, standardization and developer-adoption project.
+Mirai Graph is an open research, standardization and developer-adoption project.
 
 Contributions should improve one of these areas:
 

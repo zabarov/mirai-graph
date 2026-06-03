@@ -1,17 +1,17 @@
-# GrowGraph Practice And Science Program
+# Mirai Graph Practice And Science Program
 
 Status: working program model
 
 ## Purpose
 
-GrowGraph should develop as both:
+Mirai Graph should develop as both:
 
 - a practical graph methodology used in real AI-assisted work;
 - a scientific research program that produces publishable evidence, standards
   and reproducible artifacts.
 
 The practical `$graph` skill is the implementation and methodology laboratory.
-The public GrowGraph repository is the standardization, adoption and research
+The public Mirai Graph repository is the standardization, adoption and research
 artifact layer.
 
 ## Operating Role
@@ -112,7 +112,7 @@ The current public evidence framing is maintained in
 
 ## Core Development Loop
 
-GrowGraph development should follow this loop:
+Mirai Graph development should follow this loop:
 
 ```text
 practical use
@@ -129,7 +129,7 @@ practical use
 Every significant finding should be classified as:
 
 - `local_gap`: specific to one project or example;
-- `profile_gap`: belongs to a GrowGraph profile;
+- `profile_gap`: belongs to a Mirai Graph profile;
 - `standard_gap`: should change the public standard;
 - `tooling_gap`: needs validator, generator, migration or CLI work;
 - `research_gap`: needs protocol, evidence or independent validation;
@@ -201,7 +201,7 @@ Keep private:
 
 ## Immediate Program Priorities
 
-1. Map existing `$graph` capabilities to GrowGraph public standard sections.
+1. Map existing `$graph` capabilities to Mirai Graph public standard sections.
 2. Identify which `$graph` features are standard concepts, profile concepts or
    implementation details.
 3. Create a public-safe standard gap report.
@@ -220,12 +220,12 @@ Keep private:
 
 ## Working Verdict
 
-GrowGraph should be developed as a research-engineering program:
+Mirai Graph should be developed as a research-engineering program:
 
 ```text
 practice-led, evidence-bounded, standard-oriented and publication-aware
 ```
 
 The practical `$graph` skill is a source of real operational pressure and
-method gaps. The public GrowGraph repository turns reusable lessons into a
+method gaps. The public Mirai Graph repository turns reusable lessons into a
 standard, tooling and scientific evidence.

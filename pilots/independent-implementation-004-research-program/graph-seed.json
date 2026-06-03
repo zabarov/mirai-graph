@@ -2,7 +2,7 @@
   "schema_version": "0.1.0",
   "seed_id": "seed.research_program_pilot",
   "target_graph_id": "graph.research_program_pilot",
-  "purpose": "Create a public-safe GrowGraph package for a small research-program workflow.",
+  "purpose": "Create a public-safe Mirai Graph package for a small research-program workflow.",
   "target_profile": "profile.project_management",
   "target_mode": "pilot",
   "graph_dna": {
@@ -17,8 +17,8 @@
   "source_boundaries": {
     "allowed_sources": [
       "synthetic research program brief",
-      "public GrowGraph research docs",
-      "public GrowGraph project-management profile"
+      "public Mirai Graph research docs",
+      "public Mirai Graph project-management profile"
     ],
     "excluded_sources": [
       "private research repository files",

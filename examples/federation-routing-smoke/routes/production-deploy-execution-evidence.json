@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "operation_id": "growgraph.synthetic.route-execution-evidence",
+  "operation_id": "mirai_graph.synthetic.route-execution-evidence",
   "fixture_id": "synthetic.production-deploy.deployment-safety-required",
   "router_command": "synthetic-router",
   "cwd": "examples/federation-routing-smoke",

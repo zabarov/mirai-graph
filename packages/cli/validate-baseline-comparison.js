@@ -29,11 +29,11 @@ requireString(result.task_id, "task_id", errors);
 if (result.public_safety !== "synthetic_public") {
   errors.push("public_safety must be synthetic_public");
 }
-if (result.comparison_type !== "baseline_vs_growgraph") {
-  errors.push("comparison_type must be baseline_vs_growgraph");
+if (result.comparison_type !== "baseline_vs_mirai_graph") {
+  errors.push("comparison_type must be baseline_vs_mirai_graph");
 }
 
-for (const side of ["baseline", "growgraph"]) {
+for (const side of ["baseline", "mirai_graph"]) {
   const metrics = result[side];
   if (!metrics || typeof metrics !== "object" || Array.isArray(metrics)) {
     errors.push(`${side} must be an object`);
@@ -65,22 +65,22 @@ if (!result.outcome || typeof result.outcome !== "object" || Array.isArray(resul
 
 if (
   result.baseline &&
-  result.growgraph &&
+  result.mirai_graph &&
   typeof result.baseline.context_units === "number" &&
-  typeof result.growgraph.context_units === "number" &&
-  result.growgraph.context_units > result.baseline.context_units
+  typeof result.mirai_graph.context_units === "number" &&
+  result.mirai_graph.context_units > result.baseline.context_units
 ) {
-  errors.push("growgraph.context_units must not exceed baseline.context_units for this fixture");
+  errors.push("mirai_graph.context_units must not exceed baseline.context_units for this fixture");
 }
 
 if (
   result.baseline &&
-  result.growgraph &&
-  typeof result.growgraph.evidence_coverage_percent === "number" &&
+  result.mirai_graph &&
+  typeof result.mirai_graph.evidence_coverage_percent === "number" &&
   typeof result.baseline.evidence_coverage_percent === "number" &&
-  result.growgraph.evidence_coverage_percent < result.baseline.evidence_coverage_percent
+  result.mirai_graph.evidence_coverage_percent < result.baseline.evidence_coverage_percent
 ) {
-  errors.push("growgraph.evidence_coverage_percent must not be lower than baseline for this fixture");
+  errors.push("mirai_graph.evidence_coverage_percent must not be lower than baseline for this fixture");
 }
 
 if (!Array.isArray(result.limitations) || result.limitations.length === 0) {
@@ -103,4 +103,3 @@ const output = {
 
 console.log(JSON.stringify(output, null, 2));
 process.exit(output.valid ? 0 : 1);
-

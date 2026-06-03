@@ -1,15 +1,15 @@
-# From `$graph` Skill To GrowGraph
+# From `$graph` Skill To Mirai Graph
 
 Status: initial transfer map
 
 ## Purpose
 
 This note defines how reusable knowledge from the practical `$graph` skill
-should move into the public GrowGraph repository.
+should move into the public Mirai Graph repository.
 
 ## Transfer Rule
 
-`$graph` is the practical methodology owner. GrowGraph is the public standard
+`$graph` is the practical methodology owner. Mirai Graph is the public standard
 and adoption layer.
 
 Transfer a concept only when it is:
@@ -83,7 +83,7 @@ Examples:
 
 ### Private Or Local Material
 
-Does not belong in public GrowGraph.
+Does not belong in public Mirai Graph.
 
 Examples:
 
@@ -96,7 +96,7 @@ Examples:
 
 ## Initial Mapping
 
-| `$graph` Area | GrowGraph Destination | Notes |
+| `$graph` Area | Mirai Graph Destination | Notes |
 | --- | --- | --- |
 | Graph Seed | `standard/`, `docs/adoption/` | Should become a public seed method. |
 | Graph Embryo | `standard/`, `docs/adoption/` | Useful for staged graph growth. |

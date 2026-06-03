@@ -4,7 +4,7 @@ Status: public-safe alpha pilot
 
 ## Question
 
-Can GrowGraph model organization-level governance with explicit strategy
+Can Mirai Graph model organization-level governance with explicit strategy
 alignment, decision rights, controls, metrics, feedback and Kaizen?
 
 ## Setup
@@ -34,9 +34,9 @@ production governance safety or external validity.
 ## Reproducibility
 
 ```bash
-node packages/cli/validate-growgraph.js seed pilots/independent-implementation-005-organization-governance/graph-seed.json
-node packages/cli/validate-growgraph.js pilots/independent-implementation-005-organization-governance
-node packages/cli/validate-growgraph.js --markdown pilots/independent-implementation-005-organization-governance
+node packages/cli/validate-mirai-graph.js seed pilots/independent-implementation-005-organization-governance/graph-seed.json
+node packages/cli/validate-mirai-graph.js pilots/independent-implementation-005-organization-governance
+node packages/cli/validate-mirai-graph.js --markdown pilots/independent-implementation-005-organization-governance
 ```
 
 ## Limitations

@@ -2,7 +2,7 @@
   "schema_version": "0.1.0",
   "review_id": "semantic_review.notification_api_spec_pilot_002.task_implement_retry_policy",
   "reviewed_at": "2026-05-28",
-  "reviewer": "GrowGraph maintainers",
+  "reviewer": "Mirai Graph maintainers",
   "protocol": "docs/research/semantic-completeness-review-protocol.md",
   "target": {
     "package_id": "package.notification_api_spec_pilot_002",

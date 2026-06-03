@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://growgraph.dev/schemas/implementation-control-cycle.schema.json",
-  "title": "GrowGraph Implementation Control Cycles",
+  "title": "Mirai Graph Implementation Control Cycles",
   "type": "object",
   "additionalProperties": true,
   "required": [

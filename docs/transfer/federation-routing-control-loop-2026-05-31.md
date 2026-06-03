@@ -7,7 +7,7 @@ Status: public-safe transfer note
 ## Transferred Concepts
 
 This transfer generalizes internal federation routing work into public-safe
-GrowGraph standard drafts:
+Mirai Graph standard drafts:
 
 - route explanation;
 - routing fixtures;

@@ -4,7 +4,7 @@ Status: alpha standard section
 
 ## Purpose
 
-Organization governance extends GrowGraph from project-level coordination to
+Organization governance extends Mirai Graph from project-level coordination to
 organization-level control. It describes how mission, strategy, portfolios,
 departments, policies, decision rights, risks, metrics, feedback and Kaizen can
 be connected without turning the graph into an unapproved command system.
@@ -75,7 +75,7 @@ This alpha section is not:
 
 - a legal governance framework;
 - a replacement for corporate bylaws, public law or audit requirements;
-- proof that GrowGraph can govern a country-scale system;
+- proof that Mirai Graph can govern a country-scale system;
 - an autonomous management system.
 
 ## Example

@@ -3,7 +3,7 @@
     "id": "package.starter_app",
     "kind": "package",
     "title": "Starter App",
-    "summary": "A synthetic software package used to start a GrowGraph integration.",
+    "summary": "A synthetic software package used to start a Mirai Graph integration.",
     "readiness": "draft",
     "evidence": ["evidence.synthetic_brief"],
     "profile": "software_specification",

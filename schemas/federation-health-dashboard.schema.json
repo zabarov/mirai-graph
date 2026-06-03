@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://growgraph.dev/schemas/federation-health-dashboard.schema.json",
-  "title": "GrowGraph Federation Health Dashboard",
+  "title": "Mirai Graph Federation Health Dashboard",
   "type": "object",
   "additionalProperties": true,
   "required": [

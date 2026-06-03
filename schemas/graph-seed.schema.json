@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://growgraph.dev/schemas/graph-seed.schema.json",
-  "title": "GrowGraph Seed",
+  "title": "Mirai Graph Seed",
   "type": "object",
   "additionalProperties": true,
   "required": [

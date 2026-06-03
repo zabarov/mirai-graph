@@ -1,10 +1,10 @@
-# GrowGraph Release Process
+# Mirai Graph Release Process
 
 Status: initial public process
 
 ## Purpose
 
-This directory records public release notes for GrowGraph tags.
+This directory records public release notes for Mirai Graph tags.
 
 Release notes must separate:
 
@@ -33,7 +33,7 @@ npm run release:check
 8. Create an annotated tag:
 
 ```bash
-git tag -a v<version> -m "GrowGraph <version>"
+git tag -a v<version> -m "Mirai Graph <version>"
 ```
 
 9. Push `main` and the tag.

@@ -7,7 +7,7 @@
     "summary": "The cycle example uses synthetic public-safe material only.",
     "evidence": ["evidence.synthetic_cycle_brief"],
     "reviewed_at": "2026-06-02",
-    "reviewer": "GrowGraph maintainers"
+    "reviewer": "Mirai Graph maintainers"
   },
   {
     "id": "gate_result.implementation_control_cycles.cycle_validation",

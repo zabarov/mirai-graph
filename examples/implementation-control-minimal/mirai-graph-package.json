@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "profile": "implementation_control",
   "conformance_level": "level_1",
-  "description": "A synthetic GrowGraph package showing a governed implementation-control loop.",
+  "description": "A synthetic Mirai Graph package showing a governed implementation-control loop.",
   "license": "CC-BY-4.0",
   "public_safety": "synthetic_public",
   "graph": {

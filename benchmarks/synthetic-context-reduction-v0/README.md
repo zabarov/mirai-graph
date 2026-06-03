@@ -1,4 +1,4 @@
-# Synthetic GrowGraph Benchmark v0
+# Synthetic Mirai Graph Benchmark v0
 
 Status: draft synthetic package for public-method inspection
 
@@ -6,7 +6,7 @@ This package is artificial. It does not contain private project, customer, emplo
 
 ## Purpose
 
-The package demonstrates the structure of the GrowGraph context-selection
+The package demonstrates the structure of the Mirai Graph context-selection
 method on a small synthetic software-specification scenario.
 It is intended for public inspection of the method, not for empirical claims
 about external performance.
@@ -36,7 +36,7 @@ workspace.
 - `scripts/calculate-context-reduction.js`: repeatable calculation for the
   illustrative synthetic metric.
 
-The graph files are normalized to the initial GrowGraph v0.1 draft object and
+The graph files are normalized to the initial Mirai Graph v0.1 draft object and
 relation shape.
 
 ## Limits

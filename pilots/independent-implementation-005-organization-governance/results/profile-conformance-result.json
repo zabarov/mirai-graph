@@ -6,8 +6,8 @@
   "package_id": "package.organization_governance_pilot_005",
   "profile": "organization_governance",
   "conformance_level": "level_1",
-  "validator": "packages/cli/validate-growgraph.js",
-  "command": "node packages/cli/validate-growgraph.js pilots/independent-implementation-005-organization-governance",
+  "validator": "packages/cli/validate-mirai-graph.js",
+  "command": "node packages/cli/validate-mirai-graph.js pilots/independent-implementation-005-organization-governance",
   "valid": true,
   "errors": [],
   "warnings": [],
@@ -21,7 +21,7 @@
     "organization_governance relation-type conformance",
     "decision-right and feedback boundary represented"
   ],
-  "claim_supported": "The package follows the declared GrowGraph profile shape checked by the current validator.",
+  "claim_supported": "The package follows the declared Mirai Graph profile shape checked by the current validator.",
   "limitations": [
     "The pilot is synthetic and does not prove organization performance.",
     "The profile models governance structure, not local legal, HR or operational policy."

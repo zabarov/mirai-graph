@@ -35,5 +35,5 @@ paths, private execution logs or organization-specific policies.
 Run:
 
 ```bash
-node packages/cli/validate-growgraph.js examples/implementation-control-minimal
+node packages/cli/validate-mirai-graph.js examples/implementation-control-minimal
 ```

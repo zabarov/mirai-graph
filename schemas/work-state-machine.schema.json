@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://growgraph.dev/schemas/work-state-machine.schema.json",
-  "title": "GrowGraph Work State Machine",
+  "title": "Mirai Graph Work State Machine",
   "type": "object",
   "additionalProperties": true,
   "required": ["schema_version", "id", "profile", "public_safety", "states", "transitions", "false_transition_guards", "evidence_refs", "limitations"],

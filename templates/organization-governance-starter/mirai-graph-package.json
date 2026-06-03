@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "profile": "organization_governance",
   "conformance_level": "level_1",
-  "description": "Synthetic starter package for an organization-governance GrowGraph.",
+  "description": "Synthetic starter package for an organization-governance Mirai Graph.",
   "license": "CC-BY-4.0",
   "public_safety": "synthetic_public",
   "graph": {

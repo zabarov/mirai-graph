@@ -1,10 +1,10 @@
-# GrowGraph Test Suite
+# Mirai Graph Test Suite
 
 Status: initial public draft
 
 ## Purpose
 
-The GrowGraph test suite verifies that examples, packages and implementations
+The Mirai Graph test suite verifies that examples, packages and implementations
 follow the standard.
 
 The test suite should cover structure, conformance, context-pack generation,
@@ -61,7 +61,7 @@ docs/adoption/profile-conformance-fixtures.md
 Current validator:
 
 ```bash
-node packages/cli/validate-growgraph.js <package-dir>
+node packages/cli/validate-mirai-graph.js <package-dir>
 ```
 
 ## Benchmark Reproducibility

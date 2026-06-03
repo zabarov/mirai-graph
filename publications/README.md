@@ -1,7 +1,7 @@
 # Publications
 
 This directory tracks public publications, preprints, citation metadata and
-reproducibility notes related to GrowGraph.
+reproducibility notes related to Mirai Graph.
 
 ## Current Status
 

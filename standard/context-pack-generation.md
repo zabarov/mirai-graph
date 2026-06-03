@@ -1,10 +1,10 @@
-# GrowGraph Context-Pack Generation
+# Mirai Graph Context-Pack Generation
 
 Status: initial public draft
 
 ## Purpose
 
-Context-pack generation defines how a GrowGraph implementation produces
+Context-pack generation defines how a Mirai Graph implementation produces
 task-specific working context from canonical graph state.
 
 A generated context pack helps a human or AI assistant perform a task. It does

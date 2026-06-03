@@ -1,6 +1,6 @@
 {
   "mode": "seed",
-  "target": "/Users/rim/Documents/GitHub/growgraph/pilots/independent-implementation-002-software-specification/graph-seed.json",
+  "target": "pilots/independent-implementation-002-software-specification/graph-seed.json",
   "valid": true,
   "errors": [],
   "warnings": []

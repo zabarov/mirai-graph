@@ -4,7 +4,7 @@ Status: alpha profile
 
 ## Purpose
 
-The `ai_employee` profile adapts GrowGraph to AI employees, AI departments and
+The `ai_employee` profile adapts Mirai Graph to AI employees, AI departments and
 federated AI-service systems.
 
 It treats an AI employee as a governed runtime over an evolutionary graph:

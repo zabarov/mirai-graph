@@ -1,11 +1,11 @@
-# GrowGraph Baseline Comparison Protocol
+# Mirai Graph Baseline Comparison Protocol
 
 Status: alpha protocol
 
 ## Purpose
 
 This protocol describes how to compare a document/chat/task-tracker workflow
-against a GrowGraph-assisted workflow without overclaiming.
+against a Mirai Graph-assisted workflow without overclaiming.
 
 ## Comparison Setup
 
@@ -20,7 +20,7 @@ baseline documents/chats/task notes
 Mode B:
 
 ```text
-GrowGraph package -> context pack -> governed process control
+Mirai Graph package -> context pack -> governed process control
 ```
 
 ## Required Inputs
@@ -54,13 +54,13 @@ Record:
 ```text
 task_id:
 baseline_context_units:
-growgraph_context_units:
+mirai_graph_context_units:
 missed_dependencies_baseline:
-missed_dependencies_growgraph:
+missed_dependencies_mirai_graph:
 unsupported_assumptions_baseline:
-unsupported_assumptions_growgraph:
+unsupported_assumptions_mirai_graph:
 evidence_coverage_baseline:
-evidence_coverage_growgraph:
+evidence_coverage_mirai_graph:
 reviewer_notes:
 limitations:
 verdict:
@@ -68,7 +68,7 @@ verdict:
 
 ## Acceptance Rule
 
-A GrowGraph result is stronger only when it improves at least one target metric
+A Mirai Graph result is stronger only when it improves at least one target metric
 without making critical safety, evidence or semantic-completeness metrics worse.
 
 ## Boundaries

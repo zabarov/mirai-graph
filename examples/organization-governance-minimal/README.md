@@ -19,7 +19,7 @@ mission -> strategy -> portfolio -> department/project
 Run from repository root:
 
 ```bash
-node packages/cli/validate-growgraph.js examples/organization-governance-minimal
+node packages/cli/validate-mirai-graph.js examples/organization-governance-minimal
 ```
 
 ## Boundary

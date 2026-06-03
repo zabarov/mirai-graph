@@ -1,4 +1,4 @@
-# GrowGraph Standard Gap Report
+# Mirai Graph Standard Gap Report
 
 Date: 2026-05-28
 
@@ -12,7 +12,7 @@ capability map is `docs/transfer/graph-capability-map-2026-05-29.md`.
 ## Purpose
 
 This report compares the practical `$graph` skill methodology with the public
-GrowGraph repository.
+Mirai Graph repository.
 
 The goal is not to copy private implementation details. The goal is to identify
 which reusable concepts should become public standard sections, schemas,
@@ -26,11 +26,11 @@ Practical source:
 
 Public target:
 
-`growgraph` repository after `0.1.0-alpha.0` plus the practice/science bridge.
+Mirai Graph public repository after `0.1.0-alpha.0` plus the practice/science bridge.
 
 ## Summary Verdict
 
-GrowGraph public repository status:
+Mirai Graph public repository status:
 
 `foundation_ready_with_major_method_gaps`
 
@@ -42,7 +42,7 @@ program framing. However, the practical `$graph` skill contains more mature
 methodology for graph seed growth, human control surfaces, readiness scoring,
 rollout, runtime gating, migration, federation and measured conversion.
 
-The next phase should transfer the reusable parts into public-safe GrowGraph
+The next phase should transfer the reusable parts into public-safe Mirai Graph
 standard sections and tooling.
 
 ## Gap Classes
@@ -51,7 +51,7 @@ standard sections and tooling.
 
 These are reusable model concepts that should become public standard sections.
 
-| Gap | Practical `$graph` capability | Current GrowGraph status | Recommended public artifact |
+| Gap | Practical `$graph` capability | Current Mirai Graph status | Recommended public artifact |
 | --- | --- | --- | --- |
 | Graph DNA | Defines why the graph exists, its evolution vector and non-negotiable principles. | Mentioned indirectly only. | `standard/graph-dna.md` |
 | Graph Seed | Controlled growth contract for starting complex graphs safely. | Mentioned in docs, not standardized. | `standard/graph-seed.md`, `schemas/graph-seed.schema.json` |
@@ -70,12 +70,12 @@ These should become validators, generators, schemas or CLI commands.
 
 | Gap | Current Public State | Recommended Tooling |
 | --- | --- | --- |
-| Context-pack generation | Documented, not generated. | `growgraph context generate` |
-| Graph seed validation | Not present. | `growgraph seed validate` |
-| Embryo preview | Not present. | `growgraph seed preview` |
-| Readiness scoring | Not present. | `growgraph readiness --target-mode` |
-| Proposal bundle | Not present. | `growgraph proposal bundle/review/apply` |
-| Migration dry-run | Not present. | `growgraph migrate --dry-run` |
+| Context-pack generation | Documented, not generated. | `mirai-graph context generate` |
+| Graph seed validation | Not present. | `mirai-graph seed validate` |
+| Embryo preview | Not present. | `mirai-graph seed preview` |
+| Readiness scoring | Not present. | `mirai-graph readiness --target-mode` |
+| Proposal bundle | Not present. | `mirai-graph proposal bundle/review/apply` |
+| Migration dry-run | Not present. | `mirai-graph migrate --dry-run` |
 | Benchmark runner output | Only simple synthetic metric script. | Machine-readable benchmark result writer |
 | Negative fixtures | Not present. | `examples/invalid-*` fixtures |
 | Profile validation | Profiles are descriptive only. | `profile.schema.json` and strict profile fixtures |
@@ -117,12 +117,12 @@ These should not be copied directly into the public standard.
 - private runtime paths;
 - organization-specific policies that are not generalized.
 
-Public GrowGraph can define the abstract standard and public-safe tooling
+Public Mirai Graph can define the abstract standard and public-safe tooling
 without publishing private operational material.
 
 ## Priority Transfer Plan
 
-### P0: Make Public GrowGraph A Better Standard
+### P0: Make Public Mirai Graph A Better Standard
 
 1. `standard/graph-dna.md`
 2. `standard/graph-seed.md`
@@ -133,10 +133,10 @@ without publishing private operational material.
 Why first:
 
 These explain how a graph grows and how humans control it. Without them,
-GrowGraph looks like a static knowledge-graph format rather than an operating
+Mirai Graph looks like a static knowledge-graph format rather than an operating
 model for managed growth.
 
-### P1: Make Public GrowGraph More Usable
+### P1: Make Public Mirai Graph More Usable
 
 1. `schemas/graph-seed.schema.json`
 2. `schemas/graph-embryo.schema.json`
@@ -149,7 +149,7 @@ Why second:
 The repository should not only describe the method. Developers should be able
 to test and use it.
 
-### P2: Make Public GrowGraph Research-Ready
+### P2: Make Public Mirai Graph Research-Ready
 
 1. Measure-convert-optimize public protocol.
 2. Semantic completeness review rubric.

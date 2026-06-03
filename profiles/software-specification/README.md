@@ -4,7 +4,7 @@ Status: initial public profile
 
 ## Purpose
 
-The software-specification profile adapts GrowGraph to software packages,
+The software-specification profile adapts Mirai Graph to software packages,
 features, requirements, constraints, risks, implementation tasks and evidence.
 
 It helps connect:

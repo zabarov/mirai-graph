@@ -43,7 +43,7 @@ paths or provider-specific implementation details.
 ## Validate
 
 ```bash
-node packages/cli/validate-growgraph.js examples/ai-employee-minimal
+node packages/cli/validate-mirai-graph.js examples/ai-employee-minimal
 ```
 
 Or run the full suite:

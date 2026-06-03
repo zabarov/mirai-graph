@@ -6,8 +6,8 @@
   "package_id": "package.organization_governance_minimal",
   "profile": "organization_governance",
   "conformance_level": "level_1",
-  "validator": "packages/cli/validate-growgraph.js",
-  "command": "node packages/cli/validate-growgraph.js examples/organization-governance-minimal",
+  "validator": "packages/cli/validate-mirai-graph.js",
+  "command": "node packages/cli/validate-mirai-graph.js examples/organization-governance-minimal",
   "valid": true,
   "errors": [],
   "warnings": [],
@@ -22,7 +22,7 @@
     "decision-right and approval boundary represented for policy improvement",
     "feedback and Kaizen do not imply automatic canonical update"
   ],
-  "claim_supported": "The package follows the declared GrowGraph profile shape checked by the current validator.",
+  "claim_supported": "The package follows the declared Mirai Graph profile shape checked by the current validator.",
   "limitations": [
     "This result does not prove organization governance effectiveness.",
     "The example is synthetic and does not cover legal, financial or public-sector governance requirements."

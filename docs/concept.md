@@ -1,6 +1,6 @@
-# GrowGraph Concept
+# Mirai Graph Concept
 
-GrowGraph is an evolutionary graph operating model for managing the growth of
+Mirai Graph is an evolutionary graph operating model for managing the growth of
 complex systems.
 
 It starts from a practical problem: complex work is usually distributed across
@@ -9,7 +9,7 @@ memory. As the system grows, context becomes fragmented. AI assistants can help,
 but only when they receive the right working context and can distinguish facts,
 decisions, evidence, uncertainty and permitted actions.
 
-GrowGraph addresses this by separating:
+Mirai Graph addresses this by separating:
 
 - canonical graph state;
 - generated context packs;
@@ -36,7 +36,7 @@ This graph is not only a knowledge map. It is an operating model:
 
 ## Key Distinction
 
-GrowGraph does not treat generated AI context as the source of truth.
+Mirai Graph does not treat generated AI context as the source of truth.
 
 The source of truth is the canonical graph state. A generated context pack is a
 task-specific view derived from that state.
@@ -53,7 +53,7 @@ canonical graph state -> generated context pack -> task execution
 task result -> evidence / event / decision -> graph update gate
 ```
 
-## What GrowGraph Can Model
+## What Mirai Graph Can Model
 
 - requirements;
 - features;
@@ -71,7 +71,7 @@ task result -> evidence / event / decision -> graph update gate
 
 ## Why Growth
 
-The model is called GrowGraph because the main concern is controlled growth:
+The model is called Mirai Graph because the main concern is controlled growth:
 
 - growth of a project from idea to system;
 - growth of product knowledge;
@@ -89,5 +89,5 @@ conceptual modeling and synthetic public-safe examples. Broader external
 validity requires reproducible benchmarks, independent review and cross-domain
 replication.
 
-Do not treat GrowGraph as universally validated until those validation steps
+Do not treat Mirai Graph as universally validated until those validation steps
 exist.

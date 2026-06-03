@@ -1,6 +1,6 @@
-# GrowGraph Playground Demo Report
+# Mirai Graph Playground Demo Report
 
-Status: deterministic alpha.8 demo
+Status: deterministic alpha.9 demo
 
 ## Control Loop
 
@@ -45,16 +45,16 @@ npm run validate:baseline-comparison
 ## Baseline Comparison
 
 - Baseline context units: `620`
-- GrowGraph context units: `270`
+- Mirai Graph context units: `270`
 - Context reduction: `56.4516%`
 - Baseline missed dependencies: `2`
-- GrowGraph missed dependencies: `0`
-- Verdict: `synthetic_growgraph_result_stronger_with_limits`
+- Mirai Graph missed dependencies: `0`
+- Verdict: `synthetic_mirai_graph_result_stronger_with_limits`
 
 ## What This Demonstrates
 
-- GrowGraph can validate a graph package.
-- GrowGraph can generate task-specific context from graph state.
+- Mirai Graph can validate a graph package.
+- Mirai Graph can generate task-specific context from graph state.
 - Launch records describe bounded work permission.
 - Process transitions are checked and explained against an executable state machine.
 - Process-control contracts bind launch, evidence, recovery and Kaizen policy.

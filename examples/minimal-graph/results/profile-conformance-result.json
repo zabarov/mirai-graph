@@ -6,8 +6,8 @@
   "package_id": "package.minimal_graph",
   "profile": "core",
   "conformance_level": "level_1",
-  "validator": "packages/cli/validate-growgraph.js",
-  "command": "node packages/cli/validate-growgraph.js examples/minimal-graph",
+  "validator": "packages/cli/validate-mirai-graph.js",
+  "command": "node packages/cli/validate-mirai-graph.js examples/minimal-graph",
   "valid": true,
   "errors": [],
   "warnings": [],
@@ -19,7 +19,7 @@
     "readiness and gate verdict values",
     "core object-kind and relation-type conformance"
   ],
-  "claim_supported": "The package follows the declared GrowGraph profile shape checked by the current validator.",
+  "claim_supported": "The package follows the declared Mirai Graph profile shape checked by the current validator.",
   "limitations": [
     "This result does not prove semantic completeness, usefulness or downstream task performance."
   ]

@@ -6,8 +6,8 @@
   "package_id": "package.ai_employee_minimal",
   "profile": "ai_employee",
   "conformance_level": "level_1",
-  "validator": "packages/cli/validate-growgraph.js",
-  "command": "node packages/cli/validate-growgraph.js examples/ai-employee-minimal",
+  "validator": "packages/cli/validate-mirai-graph.js",
+  "command": "node packages/cli/validate-mirai-graph.js examples/ai-employee-minimal",
   "valid": true,
   "errors": [],
   "warnings": [],
@@ -20,7 +20,7 @@
     "ai_employee object-kind conformance",
     "ai_employee relation-type conformance"
   ],
-  "claim_supported": "The package follows the declared GrowGraph profile shape checked by the current validator.",
+  "claim_supported": "The package follows the declared Mirai Graph profile shape checked by the current validator.",
   "limitations": [
     "This result does not prove runtime safety, agent effectiveness or downstream task performance.",
     "The example package is synthetic public-safe evidence."

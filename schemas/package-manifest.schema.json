@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://growgraph.dev/schemas/package-manifest.schema.json",
-  "title": "GrowGraph Package Manifest",
+  "title": "Mirai Graph Package Manifest",
   "type": "object",
   "additionalProperties": true,
   "required": ["id", "name", "version", "profile", "conformance_level", "graph"],

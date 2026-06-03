@@ -1,6 +1,6 @@
-# GrowGraph Profiles
+# Mirai Graph Profiles
 
-Profiles adapt GrowGraph to a domain without changing the core standard.
+Profiles adapt Mirai Graph to a domain without changing the core standard.
 
 Current public profiles:
 

@@ -1,10 +1,10 @@
-# GrowGraph Standard v0.1 Draft
+# Mirai Graph Standard v0.1 Draft
 
 Status: initial public draft
 
 ## Purpose
 
-This document defines the first public draft of the GrowGraph standard: an
+This document defines the first public draft of the Mirai Graph standard: an
 implementation-independent graph operating model for managing the growth of
 complex systems.
 
@@ -19,7 +19,7 @@ are stable.
 
 ## Standard Scope
 
-GrowGraph standardizes:
+Mirai Graph standardizes:
 
 - canonical graph state;
 - object identity and object kinds;
@@ -34,7 +34,7 @@ GrowGraph standardizes:
 
 ## Non-Scope
 
-GrowGraph does not standardize:
+Mirai Graph does not standardize:
 
 - one database engine;
 - one programming language;
@@ -46,7 +46,7 @@ GrowGraph does not standardize:
 
 ## Core Model
 
-A GrowGraph implementation maintains a canonical graph state and can generate
+A Mirai Graph implementation maintains a canonical graph state and can generate
 task-specific context packs from that state.
 
 The canonical graph state contains:
@@ -89,7 +89,7 @@ Only the first sections are drafted in this initial public batch.
 
 ## Minimum Implementation Idea
 
-A minimal GrowGraph package should be able to represent:
+A minimal Mirai Graph package should be able to represent:
 
 1. A set of stable objects.
 2. Typed relations between those objects.

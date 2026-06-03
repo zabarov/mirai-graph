@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://growgraph.dev/schemas/object.schema.json",
-  "title": "GrowGraph Object",
+  "title": "Mirai Graph Object",
   "type": "object",
   "additionalProperties": true,
   "required": ["id", "kind", "title", "summary", "readiness", "evidence", "profile"],

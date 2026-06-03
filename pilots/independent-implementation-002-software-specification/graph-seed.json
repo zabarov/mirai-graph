@@ -2,7 +2,7 @@
   "schema_version": "0.1.0",
   "seed_id": "seed.notification_api_spec",
   "target_graph_id": "graph.notification_api_spec",
-  "purpose": "Create a GrowGraph package for a small software specification workflow.",
+  "purpose": "Create a Mirai Graph package for a small software specification workflow.",
   "target_profile": "profile.software_specification",
   "target_mode": "pilot",
   "graph_dna": {

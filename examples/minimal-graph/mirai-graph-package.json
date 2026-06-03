@@ -1,10 +1,10 @@
 {
-  "id": "package.template_ai_employee",
-  "name": "AI Employee Starter",
+  "id": "package.minimal_graph",
+  "name": "Minimal Mirai Graph Example",
   "version": "0.1.0",
-  "profile": "ai_employee",
+  "profile": "core",
   "conformance_level": "level_1",
-  "description": "Synthetic starter package for a governed AI employee GrowGraph.",
+  "description": "A minimal Mirai Graph package used to demonstrate package structure.",
   "license": "CC-BY-4.0",
   "public_safety": "synthetic_public",
   "graph": {

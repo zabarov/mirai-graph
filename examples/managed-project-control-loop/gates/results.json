@@ -7,7 +7,7 @@
     "summary": "The example uses synthetic public-safe project-management material only.",
     "evidence": ["evidence.synthetic_project_brief"],
     "reviewed_at": "2026-06-02",
-    "reviewer": "GrowGraph maintainers"
+    "reviewer": "Mirai Graph maintainers"
   },
   {
     "id": "gate_result.managed_project_control_loop.coordinator_approval",

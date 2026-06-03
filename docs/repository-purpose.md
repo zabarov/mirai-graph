@@ -1,16 +1,16 @@
-# GrowGraph Repository Purpose
+# Mirai Graph Repository Purpose
 
 Status: draft alignment brief
 
 ## Mission
 
-GrowGraph is an open research, standardization and developer-adoption
+Mirai Graph is an open research, standardization and developer-adoption
 repository for an evolutionary graph operating model that helps manage the
 growth of complex systems.
 
 The repository should become the public source of truth for:
 
-- the GrowGraph / EOG model;
+- the Mirai Graph / EOG model;
 - the implementation-independent standard;
 - methodological materials;
 - reusable developer methods and libraries;
@@ -26,7 +26,7 @@ internal workflows or generated context packs are published here.
 
 Working public name:
 
-`GrowGraph`
+`Mirai Graph`
 
 Scientific continuity:
 
@@ -35,7 +35,7 @@ Scientific continuity:
 Recommended description:
 
 ```text
-GrowGraph is an evolutionary graph operating model for managing the growth of
+Mirai Graph is an evolutionary graph operating model for managing the growth of
 complex systems, from projects and products to organizations and human-AI
 systems.
 ```
@@ -231,7 +231,7 @@ Need:
 
 The private `science` repository remains the internal research workspace.
 
-Materials may be copied into `growgraph` only when they are:
+Materials may be copied into the Mirai Graph public repository only when they are:
 
 - public-safe;
 - generalized or synthetic;
@@ -326,7 +326,7 @@ Done when:
 
 - schemas exist;
 - validator exists;
-- CLI can check a GrowGraph package;
+- CLI can check a Mirai Graph package;
 - context-pack generation example exists;
 - tests are included.
 
@@ -351,7 +351,7 @@ Done when:
 
 ## Open Decisions
 
-- Final public name: `GrowGraph` is accepted as the working name, but a naming
+- Final public name: `Mirai Graph` is accepted as the working name, but a naming
   and trademark/domain screen is still needed before strong branding.
 - License split: likely `MIT` for code and `CC BY 4.0` for documentation and
   standard text, but this needs final confirmation.
@@ -376,12 +376,12 @@ Done when:
 
 The repository is successful when a new researcher or developer can:
 
-1. Understand what GrowGraph is.
+1. Understand what Mirai Graph is.
 2. Understand how it differs from a normal knowledge graph.
 3. Read the standard elements.
 4. Follow an adoption guide.
 5. Run a synthetic benchmark or playground.
-6. Validate a simple GrowGraph package.
+6. Validate a simple Mirai Graph package.
 7. Cite the model and find related publications.
 8. Integrate the model into a real project without access to private SIMAI
    materials.

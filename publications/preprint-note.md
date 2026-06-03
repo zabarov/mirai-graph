@@ -2,7 +2,7 @@
 
 Status: placeholder
 
-GrowGraph is related to the Evolutionary Object Graph research program.
+Mirai Graph is related to the Evolutionary Object Graph research program.
 
 Public preprint records, DOI links and citation notes should be added here only
 after the public venue page and metadata are confirmed.

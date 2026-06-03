@@ -7,7 +7,7 @@
     "summary": "The pilot uses synthetic public-safe software specification material only.",
     "evidence": ["source.notification_api_brief"],
     "reviewed_at": "2026-05-28",
-    "reviewer": "GrowGraph maintainers"
+    "reviewer": "Mirai Graph maintainers"
   },
   {
     "id": "gate_result.notification_api.requirement_traceability",
@@ -17,6 +17,6 @@
     "summary": "The implementation task traces to a feature and requirement, but acceptance criteria are not modeled yet.",
     "evidence": ["source.notification_api_brief"],
     "reviewed_at": "2026-05-28",
-    "reviewer": "GrowGraph maintainers"
+    "reviewer": "Mirai Graph maintainers"
   }
 ]

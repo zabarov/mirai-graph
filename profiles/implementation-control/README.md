@@ -4,7 +4,7 @@ Status: initial public profile
 
 ## Purpose
 
-The implementation-control profile adapts GrowGraph to governed implementation
+The implementation-control profile adapts Mirai Graph to governed implementation
 workflows where generated context, human review, evidence, proposals and gates
 must be separated from canonical updates and executed actions.
 

@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://growgraph.dev/schemas/graph-dna-alignment.schema.json",
-  "title": "GrowGraph DNA Alignment",
+  "title": "Mirai Graph DNA Alignment",
   "type": "object",
   "additionalProperties": true,
   "required": ["schema_version", "id", "profile", "public_safety", "parent_dna", "component_dna", "alignment", "evidence_refs", "limitations"],

@@ -2,7 +2,7 @@
   "schema_version": "0.1.0",
   "seed_id": "seed.ai_employee_workflow_pilot",
   "target_graph_id": "graph.ai_employee_workflow_pilot",
-  "purpose": "Create a public-safe GrowGraph package for a governed AI employee workflow.",
+  "purpose": "Create a public-safe Mirai Graph package for a governed AI employee workflow.",
   "target_profile": "profile.ai_employee",
   "target_mode": "pilot",
   "graph_dna": {
@@ -17,8 +17,8 @@
   "source_boundaries": {
     "allowed_sources": [
       "synthetic support triage scenario",
-      "public GrowGraph AI employee profile",
-      "public GrowGraph implementation-control boundaries"
+      "public Mirai Graph AI employee profile",
+      "public Mirai Graph implementation-control boundaries"
     ],
     "excluded_sources": [
       "real customer tickets",

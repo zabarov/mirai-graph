@@ -4,7 +4,7 @@ Status: alpha adoption guide
 
 ## Purpose
 
-This guide explains how to start modeling an AI employee with GrowGraph.
+This guide explains how to start modeling an AI employee with Mirai Graph.
 
 It is intended for teams that want an AI employee to have explicit roles,
 skills, knowledge, tools, policies, workflows, feedback and learning gates.
@@ -128,7 +128,7 @@ feedback -> proposal -> replay/evaluation -> approval -> canonical graph update
 Use the minimal example:
 
 ```bash
-node packages/cli/validate-growgraph.js examples/ai-employee-minimal
+node packages/cli/validate-mirai-graph.js examples/ai-employee-minimal
 ```
 
 Use the full release gate:

@@ -1,4 +1,4 @@
-# GrowGraph Evidence Package v0.1
+# Mirai Graph Evidence Package v0.1
 
 Status: alpha research package
 
@@ -7,7 +7,7 @@ public evidence entrypoint. This document remains a historical v0.1 snapshot.
 
 ## Purpose
 
-This package defines the current public evidence base for GrowGraph v0.1 alpha.
+This package defines the current public evidence base for Mirai Graph v0.1 alpha.
 It is designed for research review, publication preparation and reproducibility
 checks.
 
@@ -29,7 +29,7 @@ It does not claim peer-reviewed proof of effectiveness.
 |---|---|---|
 | Synthetic benchmark | `benchmarks/synthetic-context-reduction-v0/` | Reproducible context-reduction demonstration |
 | Context-pack validation | `benchmarks/synthetic-context-reduction-v0/results/context-pack.json` | Expected generated context example |
-| Baseline comparison result | `benchmarks/synthetic-context-reduction-v0/results/baseline-comparison-result.json` | Synthetic baseline-vs-GrowGraph metric comparison |
+| Baseline comparison result | `benchmarks/synthetic-context-reduction-v0/results/baseline-comparison-result.json` | Synthetic baseline-vs-Mirai Graph metric comparison |
 | Routing-control fixture | `examples/federation-routing-smoke/` | Explainable routing and regression shape |
 | Process-transition fixture | `examples/process-transition-minimal/` | False-transition guard demonstration |
 | Implementation-control cycle | `examples/implementation-control-cycles/` | Cycle and Kaizen transition model |
@@ -83,7 +83,7 @@ npm run playground:report
 
 ## Current Maturity Verdict
 
-GrowGraph is ready for:
+Mirai Graph is ready for:
 
 - public alpha adoption;
 - internal and public-safe pilots;
@@ -91,7 +91,7 @@ GrowGraph is ready for:
 - research protocol refinement;
 - preprint preparation.
 
-GrowGraph is not yet ready for:
+Mirai Graph is not yet ready for:
 
 - v1.0 stability claims;
 - production autonomous execution claims;

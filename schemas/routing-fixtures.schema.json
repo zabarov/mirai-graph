@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://growgraph.dev/schemas/routing-fixtures.schema.json",
-  "title": "GrowGraph Routing Fixtures",
+  "title": "Mirai Graph Routing Fixtures",
   "type": "object",
   "additionalProperties": true,
   "required": ["schema_version", "fixture_set_id", "fixtures", "canonical_write_allowed"],

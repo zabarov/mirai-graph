@@ -4,7 +4,7 @@ Status: alpha standard section
 
 ## Purpose
 
-GrowGraph can generate context for humans, agents and software runtimes. Runtime
+Mirai Graph can generate context for humans, agents and software runtimes. Runtime
 enablement defines when graph-mode may be used as the primary context layer for
 a specific task.
 

@@ -4,7 +4,7 @@ Status: alpha standard draft
 
 ## Purpose
 
-This section defines how GrowGraph can model the stable brain of an AI
+This section defines how Mirai Graph can model the stable brain of an AI
 employee without turning the standard into one specific AI-agent runtime.
 
 ## Core Principle
@@ -46,7 +46,7 @@ An implementation may run an AI employee using:
 - audit logging;
 - feedback evaluation.
 
-These runtime choices are outside the core standard. GrowGraph standardizes
+These runtime choices are outside the core standard. Mirai Graph standardizes
 the graph shape and safety boundaries that make implementations inspectable.
 
 ## Required Distinctions

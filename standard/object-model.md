@@ -1,10 +1,10 @@
-# GrowGraph Object Model
+# Mirai Graph Object Model
 
 Status: initial public draft
 
 ## Purpose
 
-The object model defines the stable entities that a GrowGraph implementation
+The object model defines the stable entities that a Mirai Graph implementation
 tracks inside canonical graph state.
 
 Objects are not free-form notes. They are addressable units of system state
@@ -31,7 +31,7 @@ Examples:
 
 ## Minimum Fields
 
-A GrowGraph object should include:
+A Mirai Graph object should include:
 
 ```json
 {

@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://growgraph.dev/schemas/source-boundary-contract.schema.json",
-  "title": "GrowGraph Source Boundary Contract",
+  "title": "Mirai Graph Source Boundary Contract",
   "type": "object",
   "additionalProperties": true,
   "required": ["schema_version", "id", "profile", "public_safety", "source_roles", "promotion_rule", "rejected_promotion_targets", "evidence_refs", "limitations"],

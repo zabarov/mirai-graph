@@ -11,6 +11,18 @@ function readJson(filePath) {
   return JSON.parse(fs.readFileSync(filePath, "utf8"));
 }
 
+function findManifestPath(packageDir) {
+  const preferredPath = path.join(packageDir, "mirai-graph-package.json");
+  const legacyPath = path.join(packageDir, "mirai-graph-package.json");
+  if (fs.existsSync(preferredPath)) {
+    return preferredPath;
+  }
+  if (fs.existsSync(legacyPath)) {
+    return legacyPath;
+  }
+  return preferredPath;
+}
+
 function normalizeToken(token) {
   const normalized = token.toLowerCase();
   const replacements = new Map([
@@ -107,7 +119,7 @@ function scoreObject(object, taskTokens) {
 }
 
 function buildContextPack(packageDir, taskId) {
-  const manifestPath = path.join(packageDir, "growgraph-package.json");
+  const manifestPath = findManifestPath(packageDir);
   const manifest = fs.existsSync(manifestPath) ? readJson(manifestPath) : null;
   const objectsPath = manifest
     ? path.join(packageDir, manifest.graph.objects)

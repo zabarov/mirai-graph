@@ -1,10 +1,10 @@
-# GrowGraph Lifecycle And Readiness
+# Mirai Graph Lifecycle And Readiness
 
 Status: initial public draft
 
 ## Purpose
 
-Lifecycle and readiness rules describe how GrowGraph objects, relations,
+Lifecycle and readiness rules describe how Mirai Graph objects, relations,
 context packs and standard sections move from early ideas to accepted canonical
 state.
 

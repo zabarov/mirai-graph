@@ -4,7 +4,7 @@ Status: initial public standard note
 
 ## Purpose
 
-Implementation control defines how GrowGraph represents governed movement from
+Implementation control defines how Mirai Graph represents governed movement from
 project knowledge to implementation action without confusing generated context,
 feedback, proposals, approvals and canonical state.
 

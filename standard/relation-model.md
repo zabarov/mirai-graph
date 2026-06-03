@@ -1,10 +1,10 @@
-# GrowGraph Relation Model
+# Mirai Graph Relation Model
 
 Status: initial public draft
 
 ## Purpose
 
-The relation model defines typed links between GrowGraph objects.
+The relation model defines typed links between Mirai Graph objects.
 
 Relations make system dependencies, evidence links, governance boundaries and
 growth paths explicit.
@@ -29,7 +29,7 @@ Example:
 
 ## Minimum Fields
 
-A GrowGraph relation should include:
+A Mirai Graph relation should include:
 
 ```json
 {

@@ -1,10 +1,10 @@
-# GrowGraph Adoption Levels
+# Mirai Graph Adoption Levels
 
 Status: alpha standard section
 
 ## Purpose
 
-GrowGraph adoption is not binary. A repository, project, product, AI employee
+Mirai Graph adoption is not binary. A repository, project, product, AI employee
 or skill can contain valid graph artifacts without being ready for runtime use
 or source-of-truth migration.
 
@@ -15,7 +15,7 @@ graph-first source candidate.
 
 | Level | Name | Meaning |
 | --- | --- | --- |
-| GGA0 | `not_started` | No GrowGraph artifacts are present. |
+| GGA0 | `not_started` | No Mirai Graph artifacts are present. |
 | GGA1 | `inventoried` | Sources, owner boundaries and target scope are identified. |
 | GGA2 | `seeded` | A Graph Seed exists and validates. |
 | GGA3 | `embryo_reviewable` | Graph Embryo and initial projection views exist. |

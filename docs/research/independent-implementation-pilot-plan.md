@@ -4,18 +4,18 @@ Status: initial research plan
 
 ## Purpose
 
-This plan defines the first public-safe path for testing whether GrowGraph can
+This plan defines the first public-safe path for testing whether Mirai Graph can
 be implemented outside its original practical `$graph` environment.
 
 ## Research Question
 
-Can an independent implementer follow the public GrowGraph standard and create
+Can an independent implementer follow the public Mirai Graph standard and create
 a valid Level 1 package without access to private internal materials?
 
 ## Hypothesis
 
 Given the public standard, schemas, examples and validator, an implementer can
-create a valid GrowGraph package for a small project or workflow.
+create a valid Mirai Graph package for a small project or workflow.
 
 ## Pilot Scope
 
@@ -27,7 +27,7 @@ Recommended first scope:
 
 Each pilot should produce:
 
-- `growgraph-package.json`;
+- `mirai-graph-package.json`;
 - `graph/objects.json`;
 - `graph/relations.json`;
 - optional `gates/results.json`;
@@ -36,7 +36,7 @@ Each pilot should produce:
 
 ## Procedure
 
-1. Provide only public GrowGraph materials.
+1. Provide only public Mirai Graph materials.
 2. Ask implementer to choose a small public-safe domain.
 3. Create a graph seed.
 4. Generate or manually draft a graph embryo.

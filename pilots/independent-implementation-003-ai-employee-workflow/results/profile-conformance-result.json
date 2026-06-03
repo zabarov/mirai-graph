@@ -6,8 +6,8 @@
   "package_id": "package.ai_employee_workflow_pilot_003",
   "profile": "ai_employee",
   "conformance_level": "level_1",
-  "validator": "packages/cli/validate-growgraph.js",
-  "command": "node packages/cli/validate-growgraph.js pilots/independent-implementation-003-ai-employee-workflow",
+  "validator": "packages/cli/validate-mirai-graph.js",
+  "command": "node packages/cli/validate-mirai-graph.js pilots/independent-implementation-003-ai-employee-workflow",
   "valid": true,
   "errors": [],
   "warnings": [],
@@ -22,7 +22,7 @@
     "approval boundary represented for user-visible action",
     "feedback links to lesson proposal without automatic behavior update"
   ],
-  "claim_supported": "The package follows the declared GrowGraph profile shape checked by the current validator.",
+  "claim_supported": "The package follows the declared Mirai Graph profile shape checked by the current validator.",
   "limitations": [
     "The pilot is synthetic and does not prove production AI employee effectiveness.",
     "The validator checks graph conformance, not runtime safety or model quality."

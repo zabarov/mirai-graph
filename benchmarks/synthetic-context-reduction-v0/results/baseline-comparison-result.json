@@ -2,7 +2,7 @@
   "schema_version": "0.1.0",
   "id": "baseline_comparison.synthetic_notify_after_approval",
   "public_safety": "synthetic_public",
-  "comparison_type": "baseline_vs_growgraph",
+  "comparison_type": "baseline_vs_mirai_graph",
   "task_id": "task.notify_after_approval",
   "baseline": {
     "mode": "baseline_documents_and_notes",
@@ -12,8 +12,8 @@
     "evidence_coverage_percent": 58,
     "false_progress_claims": 1
   },
-  "growgraph": {
-    "mode": "growgraph_context_pack_and_process_control",
+  "mirai_graph": {
+    "mode": "mirai_graph_context_pack_and_process_control",
     "context_units": 270,
     "missed_dependencies": 0,
     "unsupported_assumptions": 0,
@@ -30,7 +30,7 @@
       "false_progress_claims"
     ],
     "regressed_metrics": [],
-    "verdict": "synthetic_growgraph_result_stronger_with_limits"
+    "verdict": "synthetic_mirai_graph_result_stronger_with_limits"
   },
   "limitations": [
     "Synthetic comparison demonstrates measurement shape, not broad scientific proof.",

@@ -2,7 +2,7 @@
   "schema_version": "0.1.0",
   "seed_id": "seed.organization_governance_pilot",
   "target_graph_id": "graph.organization_governance_pilot",
-  "purpose": "Create a public-safe GrowGraph package for organization governance.",
+  "purpose": "Create a public-safe Mirai Graph package for organization governance.",
   "target_profile": "profile.organization_governance",
   "target_mode": "pilot",
   "graph_dna": {
@@ -17,8 +17,8 @@
   "source_boundaries": {
     "allowed_sources": [
       "synthetic organization governance brief",
-      "public GrowGraph organization-governance profile",
-      "public GrowGraph governance standard docs"
+      "public Mirai Graph organization-governance profile",
+      "public Mirai Graph governance standard docs"
     ],
     "excluded_sources": [
       "private company data",

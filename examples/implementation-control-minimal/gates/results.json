@@ -7,7 +7,7 @@
     "summary": "The example uses synthetic public-safe implementation-control material only.",
     "evidence": ["evidence.synthetic_control_brief"],
     "reviewed_at": "2026-06-02",
-    "reviewer": "GrowGraph maintainers"
+    "reviewer": "Mirai Graph maintainers"
   },
   {
     "id": "gate_result.implementation_control.launch_contract_skeleton",

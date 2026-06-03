@@ -4,7 +4,7 @@ Status: pilot fixture
 
 ## Purpose
 
-This pilot tests whether GrowGraph can represent an AI employee workflow as a
+This pilot tests whether Mirai Graph can represent an AI employee workflow as a
 governed graph rather than a prompt-only agent description.
 
 ## Domain
@@ -17,13 +17,13 @@ project material is used.
 ## Research Question
 
 Can a developer model an AI employee workflow with role, capability, policy,
-approval, result, feedback and learning boundaries using only public GrowGraph
+approval, result, feedback and learning boundaries using only public Mirai Graph
 materials?
 
 ## Files
 
 - `graph-seed.json`
-- `growgraph-package.json`
+- `mirai-graph-package.json`
 - `graph/objects.json`
 - `graph/relations.json`
 - `gates/results.json`
@@ -35,8 +35,8 @@ materials?
 Run from repository root:
 
 ```bash
-node packages/cli/validate-growgraph.js seed pilots/independent-implementation-003-ai-employee-workflow/graph-seed.json
-node packages/cli/validate-growgraph.js pilots/independent-implementation-003-ai-employee-workflow
-node packages/cli/validate-growgraph.js --markdown pilots/independent-implementation-003-ai-employee-workflow
+node packages/cli/validate-mirai-graph.js seed pilots/independent-implementation-003-ai-employee-workflow/graph-seed.json
+node packages/cli/validate-mirai-graph.js pilots/independent-implementation-003-ai-employee-workflow
+node packages/cli/validate-mirai-graph.js --markdown pilots/independent-implementation-003-ai-employee-workflow
 ```
 

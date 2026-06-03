@@ -6,7 +6,7 @@ Status: public-safe transfer note
 ## Purpose
 
 This note captures public-safe project-management patterns observed in a private
-GrowGraph pilot. It does not publish private project data, internal paths,
+Mirai Graph pilot. It does not publish private project data, internal paths,
 internal runtime traces, private handoffs or non-synthetic evidence.
 
 The goal is to identify how the current public project-management profile can
@@ -15,7 +15,7 @@ managed projects, products and human-AI implementation workflows.
 
 ## Existing Public Baseline
 
-GrowGraph already includes an initial project-management profile:
+Mirai Graph already includes an initial project-management profile:
 
 - `profiles/project-management/profile.json`
 - `profiles/project-management/README.md`
@@ -36,7 +36,7 @@ need stronger lifecycle, review, evidence and improvement structures.
 
 ## Reusable Management Loop
 
-The private pilot exposed a reusable GrowGraph project-control loop:
+The private pilot exposed a reusable Mirai Graph project-control loop:
 
 ```text
 canonical graph
@@ -123,7 +123,7 @@ Candidate public artifacts:
 
 ### Candidate Closure
 
-Extraction and review workflows produce uncertain candidates. GrowGraph needs a
+Extraction and review workflows produce uncertain candidates. Mirai Graph needs a
 standard way to close candidates as accepted, already covered, false positive,
 boundary decision or future backlog.
 
@@ -251,7 +251,7 @@ npm run validate:implementation-control-cycles
 npm run release:check
 ```
 
-Boundary: public GrowGraph receives the generalized model, schemas and
+Boundary: public Mirai Graph receives the generalized model, schemas and
 synthetic examples. Private project details, internal paths, runtime traces,
 private transfer notes and organization-specific policies remain outside the
 public repository.
@@ -281,13 +281,13 @@ Added public concepts:
 - fail-closed validation for unknown cycle refs, duplicate transitions and
   missing transition fields.
 
-Boundary: private pilot evidence remains private. Public GrowGraph receives
+Boundary: private pilot evidence remains private. Public Mirai Graph receives
 only the generalized pattern, synthetic example and schema/validator behavior.
 
 ## Governance Standards Transfer
 
 The next public-safe transfer generalized the remaining governance patterns
-into universal GrowGraph standards:
+into universal Mirai Graph standards:
 
 - graph DNA alignment;
 - source boundary contracts;

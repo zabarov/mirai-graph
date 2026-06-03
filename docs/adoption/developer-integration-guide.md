@@ -1,13 +1,13 @@
-# GrowGraph Developer Integration Guide
+# Mirai Graph Developer Integration Guide
 
 Status: alpha developer guide
 
 ## Purpose
 
-This guide shows how to use GrowGraph validation in a developer workflow or CI
+This guide shows how to use Mirai Graph validation in a developer workflow or CI
 pipeline.
 
-GrowGraph tooling is a reference implementation. The standard remains the
+Mirai Graph tooling is a reference implementation. The standard remains the
 source of the model; the CLI helps teams check public-safe graph packages,
 profiles, context packs and process-control artifacts.
 
@@ -24,13 +24,13 @@ npm install
 JSON output is the default:
 
 ```bash
-node packages/cli/validate-growgraph.js examples/minimal-graph
+node packages/cli/validate-mirai-graph.js examples/minimal-graph
 ```
 
 Human-readable Markdown output:
 
 ```bash
-node packages/cli/validate-growgraph.js --markdown examples/minimal-graph
+node packages/cli/validate-mirai-graph.js --markdown examples/minimal-graph
 ```
 
 ## Validate Process Control
@@ -39,7 +39,7 @@ Use process-transition validation when work moves through an executable state
 machine:
 
 ```bash
-node packages/cli/validate-growgraph.js process-transition \
+node packages/cli/validate-mirai-graph.js process-transition \
   examples/process-transition-minimal/state-machine.json \
   examples/process-transition-minimal/transition-request.json
 ```
@@ -48,7 +48,7 @@ Use process-control contract validation when a project binds cycles, state
 machine, launch policy, evidence, recovery and Kaizen policy:
 
 ```bash
-node packages/cli/validate-growgraph.js process-control-contract \
+node packages/cli/validate-mirai-graph.js process-control-contract \
   examples/process-control-contract-minimal/results/process-control-contract.json
 ```
 
@@ -57,7 +57,7 @@ node packages/cli/validate-growgraph.js process-control-contract \
 Minimal GitHub Actions step:
 
 ```yaml
-- name: Validate GrowGraph examples
+- name: Validate Mirai Graph examples
   run: |
     npm ci
     npm run release:check
@@ -66,17 +66,17 @@ Minimal GitHub Actions step:
 Targeted package check:
 
 ```yaml
-- name: Validate GrowGraph package
+- name: Validate Mirai Graph package
   run: |
-    node packages/cli/validate-growgraph.js path/to/package
+    node packages/cli/validate-mirai-graph.js path/to/package
 ```
 
 Markdown report artifact:
 
 ```yaml
-- name: Generate GrowGraph validation report
+- name: Generate Mirai Graph validation report
   run: |
-    node packages/cli/validate-growgraph.js --markdown path/to/package > growgraph-report.md
+    node packages/cli/validate-mirai-graph.js --markdown path/to/package > mirai-graph-report.md
 ```
 
 ## Exit Codes

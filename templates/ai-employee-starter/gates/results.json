@@ -7,6 +7,6 @@
     "summary": "Template uses only synthetic AI employee content and no private runtime traces.",
     "evidence": ["evidence.synthetic_role_brief"],
     "reviewed_at": "2026-06-03",
-    "reviewer": "GrowGraph template validator"
+    "reviewer": "Mirai Graph template validator"
   }
 ]

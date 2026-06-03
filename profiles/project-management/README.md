@@ -4,7 +4,7 @@ Status: initial public profile
 
 ## Purpose
 
-The project-management profile adapts GrowGraph to small project and workflow
+The project-management profile adapts Mirai Graph to small project and workflow
 management.
 
 It helps connect:

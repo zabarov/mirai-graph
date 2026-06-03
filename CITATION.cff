@@ -1,13 +1,13 @@
 cff-version: 1.2.0
-title: "GrowGraph"
-message: "If you use GrowGraph in research or software, please cite this repository."
+title: "Mirai Graph"
+message: "If you use Mirai Graph in research or software, please cite this repository."
 type: software
 authors:
   - family-names: "Zabarov"
     given-names: "Rim"
     orcid: "https://orcid.org/0009-0004-8605-5594"
-abstract: "GrowGraph is an evolutionary graph operating model for managing the growth of complex systems."
-repository-code: "https://github.com/zabarov/growgraph"
+abstract: "Mirai Graph is an evolutionary graph operating model for managing the growth of complex systems."
+repository-code: "https://github.com/zabarov/mirai-graph"
 license: "MIT"
 keywords:
   - graph operating model

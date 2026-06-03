@@ -1,6 +1,6 @@
 {
   "mode": "package",
-  "target": "/Users/rim/Documents/GitHub/growgraph/pilots/independent-implementation-001-conference-planning",
+  "target": "pilots/independent-implementation-001-conference-planning",
   "valid": true,
   "errors": [],
   "warnings": []

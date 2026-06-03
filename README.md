@@ -1,20 +1,20 @@
-# GrowGraph
+# Mirai Graph
 
-GrowGraph is an evolutionary graph operating model for managing the growth of
+Mirai Graph is an evolutionary graph operating model for managing the growth of
 complex systems.
 
 It defines how projects, products, organizations and human-AI systems can use
 canonical graph state, generated context packs, evidence, readiness and
 governance gates to coordinate knowledge, decisions and action.
 
-## Why GrowGraph
+## Why Mirai Graph
 
 Many teams use documents, chats, task trackers and isolated knowledge bases as
 their main working substrate. This becomes fragile when the system grows:
 requirements change, decisions depend on each other, evidence is scattered and
 AI assistants receive incomplete context.
 
-GrowGraph treats the working system as an evolving graph:
+Mirai Graph treats the working system as an evolving graph:
 
 - objects represent the system state;
 - relations make dependencies explicit;
@@ -29,11 +29,13 @@ GrowGraph treats the working system as an evolving graph:
 Status: early public foundation.
 
 This repository is being prepared as the public source of truth for the
-GrowGraph model, standard, methods, examples and reproducibility materials.
+Mirai Graph model, standard, methods, examples and reproducibility materials.
 
 The model is related to the `Evolutionary Object Graph (EOG)` research program.
-The current public name is `GrowGraph`; `EOG` remains the scientific continuity
-term for earlier preprint materials.
+The current public name is `Mirai Graph`; `EOG` remains the scientific continuity
+term for earlier preprint materials. Mirai Graph was formerly GrowGraph; the
+old name is retained only for historical references and temporary CLI/manifest
+compatibility.
 
 ## Intended Audiences
 
@@ -70,7 +72,7 @@ Start by role:
 - Developers: [Getting Started](docs/adoption/getting-started.md),
   [End-To-End Tutorial](docs/adoption/end-to-end-control-loop.md),
   [Developer Integration Guide](docs/adoption/developer-integration-guide.md),
-  [GrowGraph CLI](docs/adoption/cli.md),
+  [Mirai Graph CLI](docs/adoption/cli.md),
   [Test Suite](standard/test-suite.md).
 - Product teams: [Managed Project Control Loop Example](examples/managed-project-control-loop/README.md),
   [Implementation Control](standard/implementation-control.md),
@@ -92,8 +94,9 @@ Core references:
 - [Standard v0.1 Draft](standard/standard-v0.1.md)
 - [Profiles](profiles/README.md)
 - [Templates](templates/README.md)
+- [GrowGraph To Mirai Graph Transition](docs/adoption/mirai-graph-transition.md)
 
-Current alpha.8 standard areas:
+Current alpha.9 standard areas:
 
 - [Object Model](standard/object-model.md)
 - [Relation Model](standard/relation-model.md)
@@ -145,35 +148,40 @@ Runnable materials:
 Run the initial validator:
 
 ```bash
-node packages/cli/validate-growgraph.js examples/minimal-graph
-node packages/cli/validate-growgraph.js benchmarks/synthetic-context-reduction-v0
-node packages/cli/validate-growgraph.js examples/ai-employee-minimal
-node packages/cli/validate-growgraph.js examples/skill-runtime-minimal
-node packages/cli/validate-growgraph.js seed examples/graph-seed-minimal/graph-seed.json
-node packages/cli/validate-growgraph.js profile profiles/software-specification/profile.json
-node packages/cli/validate-growgraph.js profile profiles/skill-runtime/profile.json
-node packages/cli/validate-growgraph.js context-pack benchmarks/synthetic-context-reduction-v0 benchmarks/synthetic-context-reduction-v0/results/context-pack.json
-node packages/cli/validate-growgraph.js launch-record examples/launch-record-minimal/results/launch-record.json
-node packages/cli/validate-growgraph.js process-transition examples/process-transition-minimal/state-machine.json examples/process-transition-minimal/transition-request.json
-node packages/cli/validate-growgraph.js process-control-contract examples/process-control-contract-minimal/results/process-control-contract.json
-node packages/cli/validate-growgraph.js technology-quality-feedback examples/technology-quality-feedback-minimal/results/technology-quality-feedback.json
-node packages/cli/validate-growgraph.js graph-dna-alignment examples/graph-dna-alignment-minimal/results/graph-dna-alignment.json
-node packages/cli/validate-growgraph.js work-state-machine examples/work-recovery-minimal/results/work-state-machine.json
-node packages/cli/validate-growgraph.js recovery-resume-record examples/work-recovery-minimal/results/recovery-resume-record.json
-node packages/cli/validate-growgraph.js risk-control-matrix examples/risk-and-coordination-minimal/results/risk-control-matrix.json
-node packages/cli/validate-growgraph.js source-boundary-contract examples/source-boundary-minimal/results/source-boundary-contract.json
-node packages/cli/validate-growgraph.js examples/organization-governance-minimal
+node packages/cli/validate-mirai-graph.js examples/minimal-graph
+node packages/cli/validate-mirai-graph.js benchmarks/synthetic-context-reduction-v0
+node packages/cli/validate-mirai-graph.js examples/ai-employee-minimal
+node packages/cli/validate-mirai-graph.js examples/skill-runtime-minimal
+node packages/cli/validate-mirai-graph.js seed examples/graph-seed-minimal/graph-seed.json
+node packages/cli/validate-mirai-graph.js profile profiles/software-specification/profile.json
+node packages/cli/validate-mirai-graph.js profile profiles/skill-runtime/profile.json
+node packages/cli/validate-mirai-graph.js context-pack benchmarks/synthetic-context-reduction-v0 benchmarks/synthetic-context-reduction-v0/results/context-pack.json
+node packages/cli/validate-mirai-graph.js launch-record examples/launch-record-minimal/results/launch-record.json
+node packages/cli/validate-mirai-graph.js process-transition examples/process-transition-minimal/state-machine.json examples/process-transition-minimal/transition-request.json
+node packages/cli/validate-mirai-graph.js process-control-contract examples/process-control-contract-minimal/results/process-control-contract.json
+node packages/cli/validate-mirai-graph.js technology-quality-feedback examples/technology-quality-feedback-minimal/results/technology-quality-feedback.json
+node packages/cli/validate-mirai-graph.js graph-dna-alignment examples/graph-dna-alignment-minimal/results/graph-dna-alignment.json
+node packages/cli/validate-mirai-graph.js work-state-machine examples/work-recovery-minimal/results/work-state-machine.json
+node packages/cli/validate-mirai-graph.js recovery-resume-record examples/work-recovery-minimal/results/recovery-resume-record.json
+node packages/cli/validate-mirai-graph.js risk-control-matrix examples/risk-and-coordination-minimal/results/risk-control-matrix.json
+node packages/cli/validate-mirai-graph.js source-boundary-contract examples/source-boundary-minimal/results/source-boundary-contract.json
+node packages/cli/validate-mirai-graph.js examples/organization-governance-minimal
 node packages/cli/seed-preview.js examples/graph-seed-minimal/graph-seed.json
 node packages/cli/context-pack.js benchmarks/synthetic-context-reduction-v0 --task-id task.notify_after_approval
 node packages/cli/readiness-score.js benchmarks/synthetic-context-reduction-v0 --target-mode pilot
 node packages/cli/validate-process-transition-report.js
 node packages/cli/validate-baseline-comparison.js benchmarks/synthetic-context-reduction-v0/results/baseline-comparison-result.json
 node packages/cli/playground-demo.js
-node packages/cli/growgraph.js validate examples/minimal-graph
-node packages/cli/growgraph.js report validation examples/minimal-graph
-node packages/cli/growgraph.js explain process-transition examples/process-transition-minimal/state-machine.json examples/process-transition-minimal/transition-request.json
-node packages/cli/growgraph.js report technology-quality-feedback examples/technology-quality-feedback-minimal/results/technology-quality-feedback.json
+node packages/cli/mirai-graph.js validate examples/minimal-graph
+node packages/cli/mirai-graph.js report validation examples/minimal-graph
+node packages/cli/mirai-graph.js explain process-transition examples/process-transition-minimal/state-machine.json examples/process-transition-minimal/transition-request.json
+node packages/cli/mirai-graph.js report technology-quality-feedback examples/technology-quality-feedback-minimal/results/technology-quality-feedback.json
 ```
+
+Legacy alpha commands using `packages/cli/growgraph.js`,
+`packages/cli/validate-growgraph.js` or `growgraph-package.json` remain
+supported during the rename transition. New material should use
+`mirai-graph`, `validate-mirai-graph.js` and `mirai-graph-package.json`.
 
 Or run the current smoke checks:
 

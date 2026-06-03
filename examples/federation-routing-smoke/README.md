@@ -1,6 +1,6 @@
 # Federation Routing Smoke Example
 
-This synthetic example shows the public GrowGraph routing control pattern:
+This synthetic example shows the public Mirai Graph routing control pattern:
 
 ```text
 request -> route -> explanation -> evidence -> regression -> health dashboard -> governed learning proposal

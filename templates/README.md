@@ -1,4 +1,4 @@
-# GrowGraph Templates
+# Mirai Graph Templates
 
 Status: alpha starter kit
 
@@ -26,7 +26,7 @@ replace with real public or private sources.
 
 ```bash
 npm run validate:templates
-node packages/cli/validate-growgraph.js templates/<template-name>
+node packages/cli/validate-mirai-graph.js templates/<template-name>
 ```
 
 6. Add launch records, process transitions and evidence packs only after the

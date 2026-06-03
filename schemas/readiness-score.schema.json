@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://growgraph.dev/schemas/readiness-score.schema.json",
-  "title": "GrowGraph Readiness Score",
+  "title": "Mirai Graph Readiness Score",
   "type": "object",
   "additionalProperties": true,
   "required": ["schema_version", "target_mode", "score", "band", "evidence", "blockers", "caps", "note"],

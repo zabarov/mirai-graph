@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://growgraph.dev/schemas/recovery-resume-record.schema.json",
-  "title": "GrowGraph Recovery Resume Record",
+  "title": "Mirai Graph Recovery Resume Record",
   "type": "object",
   "additionalProperties": true,
   "required": ["schema_version", "id", "profile", "public_safety", "current_state", "last_good_checkpoint", "target_scope", "last_validation_result", "evidence_status", "blockers", "next_safe_command", "rollback_option", "human_confirmation_required", "evidence_refs", "limitations"],

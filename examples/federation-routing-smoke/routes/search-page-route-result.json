@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "operation_id": "growgraph.synthetic.route",
+  "operation_id": "mirai_graph.synthetic.route",
   "task": "Review a public page for search visibility and improve the article text.",
   "primary_owner": "search_visibility",
   "companion_owners": ["content", "quality_assurance"],

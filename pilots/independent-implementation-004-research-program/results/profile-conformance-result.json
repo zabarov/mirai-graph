@@ -6,8 +6,8 @@
   "package_id": "package.research_program_pilot_004",
   "profile": "project_management",
   "conformance_level": "level_1",
-  "validator": "packages/cli/validate-growgraph.js",
-  "command": "node packages/cli/validate-growgraph.js pilots/independent-implementation-004-research-program",
+  "validator": "packages/cli/validate-mirai-graph.js",
+  "command": "node packages/cli/validate-mirai-graph.js pilots/independent-implementation-004-research-program",
   "valid": true,
   "errors": [],
   "warnings": [],
@@ -21,7 +21,7 @@
     "project_management relation-type conformance",
     "publication claim boundary represented through risk, decision and gate"
   ],
-  "claim_supported": "The package follows the declared GrowGraph profile shape checked by the current validator.",
+  "claim_supported": "The package follows the declared Mirai Graph profile shape checked by the current validator.",
   "limitations": [
     "The pilot is synthetic and does not prove scientific effectiveness.",
     "The project_management profile models the research workflow structure, not domain-specific research methodology."

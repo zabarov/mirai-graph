@@ -4,7 +4,7 @@ Status: alpha standard section
 
 ## Purpose
 
-A full GrowGraph can become too dense for direct human review. Projection views
+A full Mirai Graph can become too dense for direct human review. Projection views
 are bounded generated views that expose the part of the graph needed for a
 specific decision, task or review.
 
@@ -19,7 +19,7 @@ as the source of truth.
 - `owner_routing_view`: owner domains, capabilities and routing paths;
 - `evidence_view`: evidence coverage and unsupported claims;
 - `gate_view`: governance gates, verdicts and missing approvals;
-- `adoption_view`: GrowGraph adoption level and next action;
+- `adoption_view`: Mirai Graph adoption level and next action;
 - `runtime_view`: runtime policy status, fallback and context refs;
 - `learning_view`: feedback, proposals, evaluations and approved updates.
 
@@ -47,7 +47,7 @@ Projection views may reveal gaps. They should not silently fill those gaps.
 
 ## User Value
 
-Projection views are important because they make GrowGraph usable for repeated
+Projection views are important because they make Mirai Graph usable for repeated
 management work:
 
 - what is ready;

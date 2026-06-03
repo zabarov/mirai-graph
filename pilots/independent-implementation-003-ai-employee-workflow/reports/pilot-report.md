@@ -4,7 +4,7 @@ Status: public-safe alpha pilot
 
 ## Question
 
-Can GrowGraph represent an AI employee workflow as an executable governance
+Can Mirai Graph represent an AI employee workflow as an executable governance
 surface rather than a prompt-only agent description?
 
 ## Setup
@@ -35,9 +35,9 @@ peer-reviewed effectiveness.
 ## Reproducibility
 
 ```bash
-node packages/cli/validate-growgraph.js seed pilots/independent-implementation-003-ai-employee-workflow/graph-seed.json
-node packages/cli/validate-growgraph.js pilots/independent-implementation-003-ai-employee-workflow
-node packages/cli/validate-growgraph.js --markdown pilots/independent-implementation-003-ai-employee-workflow
+node packages/cli/validate-mirai-graph.js seed pilots/independent-implementation-003-ai-employee-workflow/graph-seed.json
+node packages/cli/validate-mirai-graph.js pilots/independent-implementation-003-ai-employee-workflow
+node packages/cli/validate-mirai-graph.js --markdown pilots/independent-implementation-003-ai-employee-workflow
 ```
 
 ## Limitations

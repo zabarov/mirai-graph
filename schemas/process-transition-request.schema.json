@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://growgraph.dev/schemas/process-transition-request.schema.json",
-  "title": "GrowGraph Process Transition Request",
+  "title": "Mirai Graph Process Transition Request",
   "type": "object",
   "additionalProperties": true,
   "required": [

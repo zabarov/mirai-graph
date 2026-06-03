@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://growgraph.dev/schemas/baseline-comparison-result.schema.json",
-  "title": "GrowGraph Baseline Comparison Result",
+  "title": "Mirai Graph Baseline Comparison Result",
   "type": "object",
   "additionalProperties": true,
   "required": [
@@ -11,7 +11,7 @@
     "comparison_type",
     "task_id",
     "baseline",
-    "growgraph",
+    "mirai_graph",
     "outcome",
     "limitations",
     "claim_boundary"
@@ -20,7 +20,7 @@
     "schema_version": { "type": "string", "minLength": 1 },
     "id": { "type": "string", "minLength": 1 },
     "public_safety": { "const": "synthetic_public" },
-    "comparison_type": { "const": "baseline_vs_growgraph" },
+    "comparison_type": { "const": "baseline_vs_mirai_graph" },
     "task_id": { "type": "string", "minLength": 1 },
     "baseline": {
       "type": "object",
@@ -39,7 +39,7 @@
         "false_progress_claims": { "type": "number", "minimum": 0 }
       }
     },
-    "growgraph": {
+    "mirai_graph": {
       "type": "object",
       "required": [
         "context_units",
@@ -85,4 +85,3 @@
     "claim_boundary": { "type": "string", "minLength": 1 }
   }
 }
-

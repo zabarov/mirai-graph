@@ -4,7 +4,7 @@ Status: alpha standard draft
 
 ## Purpose
 
-This section defines how feedback can improve a GrowGraph-modeled AI employee
+This section defines how feedback can improve a Mirai Graph-modeled AI employee
 without allowing uncontrolled self-modification.
 
 ## Core Flow

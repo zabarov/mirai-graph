@@ -1,6 +1,6 @@
 {
   "mode": "package",
-  "target": "/Users/rim/Documents/GitHub/growgraph/pilots/independent-implementation-002-software-specification",
+  "target": "pilots/independent-implementation-002-software-specification",
   "valid": true,
   "errors": [],
   "warnings": []

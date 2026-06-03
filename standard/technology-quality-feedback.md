@@ -42,7 +42,7 @@ next transition, but it does not execute actions or update canonical state.
 
 ## Classifications
 
-Public GrowGraph uses universal classifications:
+Public Mirai Graph uses universal classifications:
 
 - `accepted`;
 - `work_fix_required`;

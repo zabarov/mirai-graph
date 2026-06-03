@@ -12,7 +12,7 @@
     "id": "system.document_automation_project",
     "kind": "system",
     "title": "Document Automation Project",
-    "summary": "A synthetic managed project used to demonstrate GrowGraph project-control loops.",
+    "summary": "A synthetic managed project used to demonstrate Mirai Graph project-control loops.",
     "readiness": "review_ready",
     "evidence": ["evidence.synthetic_project_brief"],
     "profile": "project_management"

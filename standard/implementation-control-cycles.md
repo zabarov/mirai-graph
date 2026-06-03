@@ -5,7 +5,7 @@ Status: initial public standard note
 ## Purpose
 
 Implementation-control cycles define repeatable, governed work scenarios inside
-GrowGraph. They make project movement explicit without treating generated
+Mirai Graph. They make project movement explicit without treating generated
 context, feedback, evidence or runtime output as automatic permission to change
 canonical state.
 

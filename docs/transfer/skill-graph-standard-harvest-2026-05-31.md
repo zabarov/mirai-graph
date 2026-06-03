@@ -6,7 +6,7 @@ Status: public-safe transfer note
 ## Purpose
 
 This note records which reusable patterns from graph-managed skill work were
-converted into public GrowGraph standard artifacts.
+converted into public Mirai Graph standard artifacts.
 
 It does not publish private skill internals, customer material, internal
 runtime paths, private metrics or implementation playbooks.
@@ -29,7 +29,7 @@ raw source = authoritative methodology, judgement and sensitive rules
 ### Adoption Levels
 
 Practical graph adoption is staged. Valid JSON, a seed or a context pack is not
-enough to claim migration. The public standard now records staged GrowGraph
+enough to claim migration. The public standard now records staged Mirai Graph
 Adoption Levels in [Adoption Levels](../../standard/adoption-levels.md).
 
 Reusable idea:

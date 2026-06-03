@@ -1,10 +1,10 @@
-# GrowGraph Governance
+# Mirai Graph Governance
 
 Status: initial public draft
 
 ## Purpose
 
-Governance rules define how GrowGraph controls updates, generated context,
+Governance rules define how Mirai Graph controls updates, generated context,
 public claims and action-capable workflows.
 
 The central distinction is:
@@ -66,7 +66,7 @@ state until accepted through the appropriate gate.
 
 ## Action Governance
 
-If a GrowGraph implementation supports actions, it must separate:
+If a Mirai Graph implementation supports actions, it must separate:
 
 - proposed action;
 - authorized action;
@@ -97,14 +97,14 @@ Example:
 
 - `The synthetic benchmark calculation is reproducible` may be claimed after a
   passing benchmark run.
-- `GrowGraph improves real-world productivity` requires real-world validation
+- `Mirai Graph improves real-world productivity` requires real-world validation
   evidence.
-- `GrowGraph is universally valid` should not be claimed without broad
+- `Mirai Graph is universally valid` should not be claimed without broad
   independent replication.
 
 ## Human Oversight
 
-GrowGraph can support AI-assisted work, but governance-sensitive operations
+Mirai Graph can support AI-assisted work, but governance-sensitive operations
 should have human oversight.
 
 Human oversight is especially important for:

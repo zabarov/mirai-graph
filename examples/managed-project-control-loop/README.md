@@ -4,7 +4,7 @@ Status: synthetic public example
 
 ## Purpose
 
-This example demonstrates how the current GrowGraph `project_management`
+This example demonstrates how the current Mirai Graph `project_management`
 profile can represent a managed project loop without introducing new profile
 kinds yet.
 
@@ -39,5 +39,5 @@ paths, private policies or runtime traces.
 Run:
 
 ```bash
-node packages/cli/validate-growgraph.js examples/managed-project-control-loop
+node packages/cli/validate-mirai-graph.js examples/managed-project-control-loop
 ```

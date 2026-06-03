@@ -4,7 +4,7 @@ Status: worked tutorial
 
 ## Goal
 
-This tutorial shows the basic GrowGraph adoption path:
+This tutorial shows the basic Mirai Graph adoption path:
 
 ```text
 graph seed -> graph embryo preview -> graph package -> validation -> context pack -> readiness score
@@ -15,7 +15,7 @@ It uses the synthetic conference planning pilot.
 ## 1. Validate The Seed
 
 ```bash
-node packages/cli/validate-growgraph.js seed pilots/independent-implementation-001-conference-planning/graph-seed.json
+node packages/cli/validate-mirai-graph.js seed pilots/independent-implementation-001-conference-planning/graph-seed.json
 ```
 
 Expected:
@@ -41,7 +41,7 @@ The embryo is a reviewable candidate state. It is not canonical graph state.
 Minimum package shape:
 
 ```text
-growgraph-package.json
+mirai-graph-package.json
 graph/
   objects.json
   relations.json
@@ -58,7 +58,7 @@ pilots/independent-implementation-001-conference-planning/
 ## 4. Validate The Package
 
 ```bash
-node packages/cli/validate-growgraph.js pilots/independent-implementation-001-conference-planning
+node packages/cli/validate-mirai-graph.js pilots/independent-implementation-001-conference-planning
 ```
 
 Expected:
