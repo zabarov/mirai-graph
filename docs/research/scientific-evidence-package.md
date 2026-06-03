@@ -48,6 +48,7 @@ Current materials:
 
 - `pilots/independent-implementation-001-conference-planning/`
 - `pilots/independent-implementation-002-software-specification/`
+- `pilots/independent-implementation-003-ai-employee-workflow/`
 
 Use pilot evidence to inspect whether the model can be applied outside the
 minimal examples. Pilot evidence still needs replication and independent

@@ -8,7 +8,8 @@ const resultFiles = [
   "examples/skill-runtime-minimal/results/profile-conformance-result.json",
   "benchmarks/synthetic-context-reduction-v0/results/profile-conformance-result.json",
   "pilots/independent-implementation-001-conference-planning/results/profile-conformance-result.json",
-  "pilots/independent-implementation-002-software-specification/results/profile-conformance-result.json"
+  "pilots/independent-implementation-002-software-specification/results/profile-conformance-result.json",
+  "pilots/independent-implementation-003-ai-employee-workflow/results/profile-conformance-result.json"
 ];
 
 const errors = [];

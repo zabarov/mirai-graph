@@ -1,0 +1,156 @@
+[
+  {
+    "id": "evidence.ai_employee_workflow_brief",
+    "kind": "evidence",
+    "title": "Synthetic AI Employee Workflow Brief",
+    "summary": "Public-safe brief for a governed support-triage AI employee workflow.",
+    "readiness": "accepted",
+    "evidence": [],
+    "profile": "ai_employee"
+  },
+  {
+    "id": "department.customer_support",
+    "kind": "ai_department",
+    "title": "Customer Support Department",
+    "summary": "Synthetic department that owns the support-triage AI employee.",
+    "readiness": "accepted",
+    "evidence": ["evidence.ai_employee_workflow_brief"],
+    "profile": "ai_employee"
+  },
+  {
+    "id": "employee.triage_assistant",
+    "kind": "ai_employee",
+    "title": "Triage Assistant",
+    "summary": "Synthetic AI employee that classifies support requests and prepares proposed responses.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.ai_employee_workflow_brief"],
+    "profile": "ai_employee"
+  },
+  {
+    "id": "role.support_triage_operator",
+    "kind": "role",
+    "title": "Support Triage Operator",
+    "summary": "Role responsible for classifying requests, selecting the next owner and preparing safe proposed actions.",
+    "readiness": "accepted",
+    "evidence": ["evidence.ai_employee_workflow_brief"],
+    "profile": "ai_employee"
+  },
+  {
+    "id": "skill.request_classification",
+    "kind": "skill",
+    "title": "Request Classification",
+    "summary": "Skill for classifying support requests by topic, urgency, sensitivity and owner.",
+    "readiness": "accepted",
+    "evidence": ["evidence.ai_employee_workflow_brief"],
+    "profile": "ai_employee"
+  },
+  {
+    "id": "knowledge.support_playbook",
+    "kind": "knowledge",
+    "title": "Support Playbook",
+    "summary": "Synthetic knowledge object for allowed response patterns and escalation rules.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.ai_employee_workflow_brief"],
+    "profile": "ai_employee"
+  },
+  {
+    "id": "memory.reviewed_request_patterns",
+    "kind": "memory",
+    "title": "Reviewed Request Patterns",
+    "summary": "Reviewed pattern memory that can inform future classification after learning approval.",
+    "readiness": "draft",
+    "evidence": ["evidence.ai_employee_workflow_brief"],
+    "profile": "ai_employee"
+  },
+  {
+    "id": "tool.ticket_workspace",
+    "kind": "tool",
+    "title": "Ticket Workspace",
+    "summary": "Synthetic tool boundary for reading ticket context and writing approved ticket updates.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.ai_employee_workflow_brief"],
+    "profile": "ai_employee"
+  },
+  {
+    "id": "capability.prepare_response",
+    "kind": "capability",
+    "title": "Prepare Response",
+    "summary": "Capability required to prepare a user-visible response proposal.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.ai_employee_workflow_brief"],
+    "profile": "ai_employee"
+  },
+  {
+    "id": "policy.external_response_approval",
+    "kind": "policy",
+    "title": "External Response Approval",
+    "summary": "Policy requiring human approval before sending user-visible support responses.",
+    "readiness": "accepted",
+    "evidence": ["evidence.ai_employee_workflow_brief"],
+    "profile": "ai_employee"
+  },
+  {
+    "id": "gate.external_response_approval",
+    "kind": "governance_gate",
+    "title": "External Response Approval Gate",
+    "summary": "Gate that separates proposed support responses from executed responses.",
+    "readiness": "accepted",
+    "evidence": ["evidence.ai_employee_workflow_brief"],
+    "profile": "ai_employee"
+  },
+  {
+    "id": "workflow.support_triage",
+    "kind": "workflow",
+    "title": "Support Triage Workflow",
+    "summary": "Workflow for request classification, response proposal, approval, audited result and learning proposal.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.ai_employee_workflow_brief"],
+    "profile": "ai_employee"
+  },
+  {
+    "id": "action.propose_customer_response",
+    "kind": "action",
+    "title": "Propose Customer Response",
+    "summary": "Proposed action that prepares a customer response but does not send it without approval.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.ai_employee_workflow_brief"],
+    "profile": "ai_employee"
+  },
+  {
+    "id": "result.response_reviewed",
+    "kind": "result",
+    "title": "Response Reviewed Result",
+    "summary": "Audited result recording reviewer outcome for the proposed support response.",
+    "readiness": "draft",
+    "evidence": ["evidence.ai_employee_workflow_brief"],
+    "profile": "ai_employee"
+  },
+  {
+    "id": "feedback.response_quality_feedback",
+    "kind": "feedback",
+    "title": "Response Quality Feedback",
+    "summary": "Feedback from reviewing response quality, policy fit and escalation correctness.",
+    "readiness": "draft",
+    "evidence": ["evidence.ai_employee_workflow_brief"],
+    "profile": "ai_employee"
+  },
+  {
+    "id": "lesson.escalate_sensitive_requests",
+    "kind": "lesson",
+    "title": "Escalate Sensitive Requests",
+    "summary": "Proposed lesson that sensitive support requests should be escalated before drafting a response.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.ai_employee_workflow_brief"],
+    "profile": "ai_employee"
+  },
+  {
+    "id": "endpoint.specialist_support_service",
+    "kind": "federation_endpoint",
+    "title": "Specialist Support Service",
+    "summary": "Synthetic federation endpoint for escalating specialized support requests.",
+    "readiness": "draft",
+    "evidence": ["evidence.ai_employee_workflow_brief"],
+    "profile": "ai_employee"
+  }
+]
+

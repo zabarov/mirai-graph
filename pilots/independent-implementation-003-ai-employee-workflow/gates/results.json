@@ -1,0 +1,30 @@
+[
+  {
+    "id": "gate_result.ai_employee_workflow.public_safety",
+    "gate_id": "public_safety_before_release",
+    "target_id": "package.ai_employee_workflow_pilot_003",
+    "verdict": "pass",
+    "summary": "The pilot uses synthetic public-safe AI employee workflow material only.",
+    "reviewed_at": "2026-06-03",
+    "evidence": ["evidence.ai_employee_workflow_brief"]
+  },
+  {
+    "id": "gate_result.ai_employee_workflow.action_boundary",
+    "gate_id": "approval_before_external_action",
+    "target_id": "action.propose_customer_response",
+    "verdict": "pass_with_notes",
+    "summary": "The user-visible action is modeled as a proposed action requiring approval before execution.",
+    "reviewed_at": "2026-06-03",
+    "evidence": ["evidence.ai_employee_workflow_brief"]
+  },
+  {
+    "id": "gate_result.ai_employee_workflow.learning_boundary",
+    "gate_id": "feedback_learning_before_behavior_update",
+    "target_id": "lesson.escalate_sensitive_requests",
+    "verdict": "pass_with_notes",
+    "summary": "Feedback produces a review-ready lesson proposal and does not authorize automatic behavior update.",
+    "reviewed_at": "2026-06-03",
+    "evidence": ["evidence.ai_employee_workflow_brief"]
+  }
+]
+

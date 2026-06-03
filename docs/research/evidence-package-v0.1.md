@@ -31,6 +31,7 @@ It does not claim peer-reviewed proof of effectiveness.
 | Implementation-control cycle | `examples/implementation-control-cycles/` | Cycle and Kaizen transition model |
 | Public pilot 001 | `pilots/independent-implementation-001-conference-planning/` | Independent implementation package |
 | Public pilot 002 | `pilots/independent-implementation-002-software-specification/` | Software-specification package |
+| Public pilot 003 | `pilots/independent-implementation-003-ai-employee-workflow/` | AI employee workflow package |
 
 ## Metrics
 

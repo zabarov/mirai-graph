@@ -1,0 +1,90 @@
+{
+  "schema_version": "0.1.0",
+  "seed_id": "seed.ai_employee_workflow_pilot",
+  "target_graph_id": "graph.ai_employee_workflow_pilot",
+  "purpose": "Create a public-safe GrowGraph package for a governed AI employee workflow.",
+  "target_profile": "profile.ai_employee",
+  "target_mode": "pilot",
+  "graph_dna": {
+    "purpose": "Keep AI employee role, capability, policy, action, result, feedback and learning boundaries connected.",
+    "evolution_vector": "Grow from a small support-triage assistant graph into a governed AI department or federated service model.",
+    "non_negotiable_principles": [
+      "The pilot must remain synthetic and public-safe.",
+      "External or user-visible actions must be modeled as proposed actions until approval is recorded.",
+      "Feedback and lessons must not update behavior automatically."
+    ]
+  },
+  "source_boundaries": {
+    "allowed_sources": [
+      "synthetic support triage scenario",
+      "public GrowGraph AI employee profile",
+      "public GrowGraph implementation-control boundaries"
+    ],
+    "excluded_sources": [
+      "real customer tickets",
+      "private employee records",
+      "production runtime traces",
+      "secrets or credentials"
+    ],
+    "canonical_write_allowed": false
+  },
+  "growth_rules": {
+    "allowed_object_families": [
+      "ai_employee",
+      "ai_department",
+      "role",
+      "skill",
+      "knowledge",
+      "memory",
+      "tool",
+      "capability",
+      "policy",
+      "governance_gate",
+      "workflow",
+      "action",
+      "result",
+      "feedback",
+      "lesson",
+      "federation_endpoint",
+      "evidence"
+    ],
+    "allowed_relation_families": [
+      "belongs_to_department",
+      "has_role",
+      "has_skill",
+      "uses_knowledge",
+      "requires_capability",
+      "can_execute",
+      "requires_approval",
+      "governs",
+      "triggered_by",
+      "produces",
+      "responds_to",
+      "learns_from",
+      "updates_behavior",
+      "federates_with"
+    ],
+    "max_initial_objects": 18,
+    "depth_mode": "standard"
+  },
+  "review_gates": [
+    "human_review_before_canonical_write",
+    "approval_before_external_action",
+    "feedback_learning_before_behavior_update",
+    "public_safety_before_release"
+  ],
+  "generated_views": [
+    "role_capability_view",
+    "approval_boundary_view",
+    "feedback_learning_view",
+    "federation_view",
+    "next_action_view"
+  ],
+  "stop_conditions": [
+    "real_customer_data_requested",
+    "action_modeled_as_executed_without_approval",
+    "feedback_directly_changes_behavior",
+    "secret_or_credential_detected"
+  ]
+}
+
