@@ -94,7 +94,7 @@ Planned artifacts:
 Next gaps:
 
 - clearer role-based adoption journeys;
-- more complete organization-governance profile;
+- organization-governance validation reports and richer adoption recipes;
 - concise recipes for choosing the right profile and conformance level.
 
 ## Phase 3: Reusable Tooling

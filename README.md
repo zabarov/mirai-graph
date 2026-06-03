@@ -75,6 +75,7 @@ Start by role:
   [Implementation Control Cycles](standard/implementation-control-cycles.md).
 - Organizations and AI systems: [Graph As AI Brain](standard/graph-as-ai-brain.md),
   [AI Employee Graph Adoption](docs/adoption/ai-employee-graph.md),
+  [Organization Governance](standard/organization-governance.md),
   [Process Control Contract](standard/process-control-contract.md).
 
 Core references:
@@ -105,6 +106,7 @@ Current alpha.6 standard areas:
 - [Launch Record](standard/launch-record.md)
 - [Work State Machine](standard/work-state-machine.md)
 - [Process Control Contract](standard/process-control-contract.md)
+- [Organization Governance](standard/organization-governance.md)
 - [Recovery Resume](standard/recovery-resume.md)
 - [Risk Control Matrix](standard/risk-control-matrix.md)
 - [Multi-Agent Coordination](standard/multi-agent-coordination.md)
@@ -124,6 +126,7 @@ Runnable materials:
 - [Launch Record Example](examples/launch-record-minimal/README.md)
 - [Process Transition Example](examples/process-transition-minimal/README.md)
 - [Process Control Contract Example](examples/process-control-contract-minimal/README.md)
+- [Organization Governance Example](examples/organization-governance-minimal/README.md)
 - [Federation Routing Smoke Example](examples/federation-routing-smoke/README.md)
 - [Synthetic Context-Reduction Benchmark](benchmarks/synthetic-context-reduction-v0/README.md)
 - [Independent Implementation Pilot 001](pilots/independent-implementation-001-conference-planning/reports/pilot-report.md)
@@ -151,6 +154,7 @@ node packages/cli/validate-growgraph.js work-state-machine examples/work-recover
 node packages/cli/validate-growgraph.js recovery-resume-record examples/work-recovery-minimal/results/recovery-resume-record.json
 node packages/cli/validate-growgraph.js risk-control-matrix examples/risk-and-coordination-minimal/results/risk-control-matrix.json
 node packages/cli/validate-growgraph.js source-boundary-contract examples/source-boundary-minimal/results/source-boundary-contract.json
+node packages/cli/validate-growgraph.js examples/organization-governance-minimal
 node packages/cli/seed-preview.js examples/graph-seed-minimal/graph-seed.json
 node packages/cli/context-pack.js benchmarks/synthetic-context-reduction-v0 --task-id task.notify_after_approval
 node packages/cli/readiness-score.js benchmarks/synthetic-context-reduction-v0 --target-mode pilot

@@ -51,6 +51,7 @@ The model is not just a knowledge graph. It combines:
 - governance gates;
 - feedback loops;
 - implementation and adoption methods.
+- organization-governance coordination patterns.
 
 The current alpha also makes the operating model executable enough to test:
 

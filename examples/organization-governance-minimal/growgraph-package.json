@@ -1,0 +1,15 @@
+{
+  "id": "package.organization_governance_minimal",
+  "name": "Organization Governance Minimal",
+  "version": "0.1.0",
+  "profile": "organization_governance",
+  "conformance_level": "level_1",
+  "description": "A synthetic example showing organization-level governance links across strategy, ownership, decision rights, risk controls, metrics, feedback and Kaizen.",
+  "license": "CC-BY-4.0",
+  "public_safety": "synthetic_public",
+  "graph": {
+    "objects": "graph/objects.json",
+    "relations": "graph/relations.json"
+  }
+}
+

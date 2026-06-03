@@ -1,0 +1,147 @@
+[
+  {
+    "id": "evidence.organization_governance_brief",
+    "kind": "evidence",
+    "title": "Synthetic Organization Governance Brief",
+    "summary": "Public-safe brief for a small organization governance fixture.",
+    "readiness": "accepted",
+    "evidence": [],
+    "profile": "organization_governance"
+  },
+  {
+    "id": "organization.example_coop",
+    "kind": "organization",
+    "title": "Example Cooperative",
+    "summary": "Synthetic organization used to demonstrate GrowGraph governance structure.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.organization_governance_brief"],
+    "profile": "organization_governance"
+  },
+  {
+    "id": "mission.reliable_service_growth",
+    "kind": "mission",
+    "title": "Reliable Service Growth",
+    "summary": "Mission to grow service quality while keeping decision ownership and risk controls explicit.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.organization_governance_brief"],
+    "profile": "organization_governance"
+  },
+  {
+    "id": "strategy.customer_operations_improvement",
+    "kind": "strategy",
+    "title": "Customer Operations Improvement",
+    "summary": "Strategy to improve customer operations through measured, governed process changes.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.organization_governance_brief"],
+    "profile": "organization_governance"
+  },
+  {
+    "id": "portfolio.operations_portfolio",
+    "kind": "portfolio",
+    "title": "Operations Portfolio",
+    "summary": "Portfolio grouping operational improvement programs and projects.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.organization_governance_brief"],
+    "profile": "organization_governance"
+  },
+  {
+    "id": "department.service_team",
+    "kind": "department",
+    "title": "Service Team",
+    "summary": "Department accountable for service workflow quality.",
+    "readiness": "accepted",
+    "evidence": ["evidence.organization_governance_brief"],
+    "profile": "organization_governance"
+  },
+  {
+    "id": "project.response_time_reduction",
+    "kind": "project",
+    "title": "Response Time Reduction",
+    "summary": "Synthetic project to reduce response time without bypassing policy controls.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.organization_governance_brief"],
+    "profile": "organization_governance"
+  },
+  {
+    "id": "objective.reduce_review_delay",
+    "kind": "objective",
+    "title": "Reduce Review Delay",
+    "summary": "Objective to reduce review delay while preserving approval and evidence boundaries.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.organization_governance_brief"],
+    "profile": "organization_governance"
+  },
+  {
+    "id": "policy.approval_for_workflow_change",
+    "kind": "policy",
+    "title": "Approval For Workflow Change",
+    "summary": "Policy requiring owner approval before workflow changes become canonical.",
+    "readiness": "accepted",
+    "evidence": ["evidence.organization_governance_brief"],
+    "profile": "organization_governance"
+  },
+  {
+    "id": "decision_right.service_process_owner",
+    "kind": "decision_right",
+    "title": "Service Process Owner",
+    "summary": "Decision right for approving service workflow changes.",
+    "readiness": "accepted",
+    "evidence": ["evidence.organization_governance_brief"],
+    "profile": "organization_governance"
+  },
+  {
+    "id": "gate.workflow_change_approval",
+    "kind": "governance_gate",
+    "title": "Workflow Change Approval Gate",
+    "summary": "Governance gate that must approve workflow changes before canonical update.",
+    "readiness": "accepted",
+    "evidence": ["evidence.organization_governance_brief"],
+    "profile": "organization_governance"
+  },
+  {
+    "id": "risk.unapproved_process_drift",
+    "kind": "risk",
+    "title": "Unapproved Process Drift",
+    "summary": "Risk that feedback or generated context changes the working process without owner review.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.organization_governance_brief"],
+    "profile": "organization_governance"
+  },
+  {
+    "id": "control.evidence_before_change",
+    "kind": "control",
+    "title": "Evidence Before Change",
+    "summary": "Control requiring evidence and decision-right review before changing a workflow.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.organization_governance_brief"],
+    "profile": "organization_governance"
+  },
+  {
+    "id": "metric.review_delay_days",
+    "kind": "metric",
+    "title": "Review Delay Days",
+    "summary": "Metric used to track whether the objective is improving.",
+    "readiness": "draft",
+    "evidence": ["evidence.organization_governance_brief"],
+    "profile": "organization_governance"
+  },
+  {
+    "id": "feedback.review_delay_feedback",
+    "kind": "feedback",
+    "title": "Review Delay Feedback",
+    "summary": "Feedback that review delay is improving but approval clarity remains uneven.",
+    "readiness": "draft",
+    "evidence": ["evidence.organization_governance_brief"],
+    "profile": "organization_governance"
+  },
+  {
+    "id": "kaizen_item.clarify_approval_path",
+    "kind": "kaizen_item",
+    "title": "Clarify Approval Path",
+    "summary": "Proposed process improvement to make workflow approval paths clearer.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.organization_governance_brief"],
+    "profile": "organization_governance"
+  }
+]
+

@@ -1,0 +1,147 @@
+[
+  {
+    "id": "relation.organization.example_coop.aligns_with.mission.reliable_service_growth",
+    "type": "aligns_with",
+    "source": "organization.example_coop",
+    "target": "mission.reliable_service_growth",
+    "readiness": "review_ready",
+    "evidence": ["evidence.organization_governance_brief"],
+    "profile": "organization_governance"
+  },
+  {
+    "id": "relation.strategy.customer_operations_improvement.aligns_with.mission.reliable_service_growth",
+    "type": "aligns_with",
+    "source": "strategy.customer_operations_improvement",
+    "target": "mission.reliable_service_growth",
+    "readiness": "review_ready",
+    "evidence": ["evidence.organization_governance_brief"],
+    "profile": "organization_governance"
+  },
+  {
+    "id": "relation.portfolio.operations_portfolio.aligns_with.strategy.customer_operations_improvement",
+    "type": "aligns_with",
+    "source": "portfolio.operations_portfolio",
+    "target": "strategy.customer_operations_improvement",
+    "readiness": "review_ready",
+    "evidence": ["evidence.organization_governance_brief"],
+    "profile": "organization_governance"
+  },
+  {
+    "id": "relation.department.service_team.owns.portfolio.operations_portfolio",
+    "type": "owns",
+    "source": "department.service_team",
+    "target": "portfolio.operations_portfolio",
+    "readiness": "accepted",
+    "evidence": ["evidence.organization_governance_brief"],
+    "profile": "organization_governance"
+  },
+  {
+    "id": "relation.project.response_time_reduction.belongs_to.portfolio.operations_portfolio",
+    "type": "belongs_to",
+    "source": "project.response_time_reduction",
+    "target": "portfolio.operations_portfolio",
+    "readiness": "review_ready",
+    "evidence": ["evidence.organization_governance_brief"],
+    "profile": "organization_governance"
+  },
+  {
+    "id": "relation.objective.reduce_review_delay.supports.project.response_time_reduction",
+    "type": "supports",
+    "source": "objective.reduce_review_delay",
+    "target": "project.response_time_reduction",
+    "readiness": "review_ready",
+    "evidence": ["evidence.organization_governance_brief"],
+    "profile": "organization_governance"
+  },
+  {
+    "id": "relation.policy.approval_for_workflow_change.governs.project.response_time_reduction",
+    "type": "governs",
+    "source": "policy.approval_for_workflow_change",
+    "target": "project.response_time_reduction",
+    "readiness": "accepted",
+    "evidence": ["evidence.organization_governance_brief"],
+    "profile": "organization_governance"
+  },
+  {
+    "id": "relation.policy.approval_for_workflow_change.requires_approval.gate.workflow_change_approval",
+    "type": "requires_approval",
+    "source": "policy.approval_for_workflow_change",
+    "target": "gate.workflow_change_approval",
+    "readiness": "accepted",
+    "evidence": ["evidence.organization_governance_brief"],
+    "profile": "organization_governance"
+  },
+  {
+    "id": "relation.decision_right.service_process_owner.governs.gate.workflow_change_approval",
+    "type": "governs",
+    "source": "decision_right.service_process_owner",
+    "target": "gate.workflow_change_approval",
+    "readiness": "accepted",
+    "evidence": ["evidence.organization_governance_brief"],
+    "profile": "organization_governance"
+  },
+  {
+    "id": "relation.control.evidence_before_change.controls.risk.unapproved_process_drift",
+    "type": "controls",
+    "source": "control.evidence_before_change",
+    "target": "risk.unapproved_process_drift",
+    "readiness": "review_ready",
+    "evidence": ["evidence.organization_governance_brief"],
+    "profile": "organization_governance"
+  },
+  {
+    "id": "relation.control.evidence_before_change.mitigates.risk.unapproved_process_drift",
+    "type": "mitigates",
+    "source": "control.evidence_before_change",
+    "target": "risk.unapproved_process_drift",
+    "readiness": "review_ready",
+    "evidence": ["evidence.organization_governance_brief"],
+    "profile": "organization_governance"
+  },
+  {
+    "id": "relation.risk.unapproved_process_drift.blocks.objective.reduce_review_delay",
+    "type": "blocks",
+    "source": "risk.unapproved_process_drift",
+    "target": "objective.reduce_review_delay",
+    "readiness": "review_ready",
+    "evidence": ["evidence.organization_governance_brief"],
+    "profile": "organization_governance"
+  },
+  {
+    "id": "relation.metric.review_delay_days.measures.objective.reduce_review_delay",
+    "type": "measures",
+    "source": "metric.review_delay_days",
+    "target": "objective.reduce_review_delay",
+    "readiness": "draft",
+    "evidence": ["evidence.organization_governance_brief"],
+    "profile": "organization_governance"
+  },
+  {
+    "id": "relation.feedback.review_delay_feedback.produces_feedback.metric.review_delay_days",
+    "type": "produces_feedback",
+    "source": "feedback.review_delay_feedback",
+    "target": "metric.review_delay_days",
+    "readiness": "draft",
+    "evidence": ["evidence.organization_governance_brief"],
+    "profile": "organization_governance"
+  },
+  {
+    "id": "relation.kaizen_item.clarify_approval_path.improves.policy.approval_for_workflow_change",
+    "type": "improves",
+    "source": "kaizen_item.clarify_approval_path",
+    "target": "policy.approval_for_workflow_change",
+    "readiness": "review_ready",
+    "evidence": ["evidence.organization_governance_brief"],
+    "profile": "organization_governance"
+  },
+  {
+    "id": "relation.kaizen_item.clarify_approval_path.depends_on.gate.workflow_change_approval",
+    "type": "depends_on",
+    "source": "kaizen_item.clarify_approval_path",
+    "target": "gate.workflow_change_approval",
+    "readiness": "review_ready",
+    "evidence": ["evidence.organization_governance_brief"],
+    "profile": "organization_governance"
+  }
+]
+

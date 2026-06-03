@@ -1,0 +1,21 @@
+[
+  {
+    "id": "gate_result.organization_governance.public_safety",
+    "gate_id": "public_safety_before_release",
+    "target_id": "package.organization_governance_minimal",
+    "verdict": "pass",
+    "summary": "The organization-governance fixture is synthetic and contains no private organization, customer or employee data.",
+    "reviewed_at": "2026-06-03",
+    "evidence": ["evidence.organization_governance_brief"]
+  },
+  {
+    "id": "gate_result.organization_governance.decision_right",
+    "gate_id": "decision_right_before_policy_change",
+    "target_id": "kaizen_item.clarify_approval_path",
+    "verdict": "pass_with_notes",
+    "summary": "The Kaizen item depends on the workflow change approval gate and does not update policy automatically.",
+    "reviewed_at": "2026-06-03",
+    "evidence": ["evidence.organization_governance_brief"]
+  }
+]
+

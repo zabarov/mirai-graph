@@ -1,0 +1,31 @@
+{
+  "schema_version": "0.1.0",
+  "result_id": "profile_conformance.package.organization_governance_minimal",
+  "checked_at": "2026-06-03",
+  "fixture": "examples/organization-governance-minimal/",
+  "package_id": "package.organization_governance_minimal",
+  "profile": "organization_governance",
+  "conformance_level": "level_1",
+  "validator": "packages/cli/validate-growgraph.js",
+  "command": "node packages/cli/validate-growgraph.js examples/organization-governance-minimal",
+  "valid": true,
+  "errors": [],
+  "warnings": [],
+  "checks": [
+    "required package, object, relation and gate-result fields",
+    "unique object and relation ids",
+    "relation source and target existence",
+    "relation id consistency",
+    "readiness and gate verdict values",
+    "organization_governance object-kind conformance",
+    "organization_governance relation-type conformance",
+    "decision-right and approval boundary represented for policy improvement",
+    "feedback and Kaizen do not imply automatic canonical update"
+  ],
+  "claim_supported": "The package follows the declared GrowGraph profile shape checked by the current validator.",
+  "limitations": [
+    "This result does not prove organization governance effectiveness.",
+    "The example is synthetic and does not cover legal, financial or public-sector governance requirements."
+  ]
+}
+

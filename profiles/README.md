@@ -9,6 +9,7 @@ Current public profiles:
 - [ai-employee](ai-employee/README.md)
 - [skill-runtime](skill-runtime/README.md)
 - [implementation-control](implementation-control/README.md)
+- [organization-governance](organization-governance/README.md)
 
 Each profile declares allowed object kinds, relation types, default readiness
 and governance gates.

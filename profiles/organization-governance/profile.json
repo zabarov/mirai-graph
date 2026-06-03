@@ -1,0 +1,56 @@
+{
+  "id": "profile.organization_governance",
+  "name": "Organization Governance",
+  "version": "0.1.0",
+  "description": "Profile for modeling organization-level governance across mission, strategy, departments, portfolios, policies, decision rights, risks, evidence, feedback and improvement gates.",
+  "allowed_object_kinds": [
+    "organization",
+    "mission",
+    "strategy",
+    "portfolio",
+    "department",
+    "program",
+    "project",
+    "objective",
+    "policy",
+    "decision_right",
+    "governance_gate",
+    "role",
+    "capability",
+    "risk",
+    "control",
+    "metric",
+    "feedback",
+    "kaizen_item",
+    "evidence"
+  ],
+  "allowed_relation_types": [
+    "aligns_with",
+    "owns",
+    "belongs_to",
+    "governs",
+    "requires_approval",
+    "controls",
+    "mitigates",
+    "measures",
+    "supports",
+    "depends_on",
+    "blocks",
+    "escalates_to",
+    "produces_feedback",
+    "improves",
+    "evidences",
+    "related_to"
+  ],
+  "default_readiness": "draft",
+  "governance_gates": [
+    "strategy_alignment_before_portfolio_change",
+    "decision_right_before_policy_change",
+    "risk_control_before_cross_department_action",
+    "evidence_before_governance_decision",
+    "kaizen_before_process_promotion",
+    "no_generated_context_as_authorization",
+    "no_feedback_as_automatic_update"
+  ]
+}
+
