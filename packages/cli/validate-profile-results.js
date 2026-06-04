@@ -40,17 +40,13 @@ for (const file of resultFiles) {
 
   if (
     typeof result.command !== "string" ||
-    (
-      !result.command.includes("validate-mirai-graph.js") &&
-      !result.command.includes("validate-mirai-graph.js")
-    )
+    !result.command.includes("validate-mirai-graph.js")
   ) {
-    errors.push(`${file}: command must reference validate-mirai-graph.js or legacy validate-mirai-graph.js`);
+    errors.push(`${file}: command must reference validate-mirai-graph.js`);
   }
 
   if (
     typeof result.claim_supported !== "string" ||
-    !result.claim_supported.includes("declared Mirai Graph profile shape") &&
     !result.claim_supported.includes("declared Mirai Graph profile shape")
   ) {
     errors.push(`${file}: claim_supported must stay limited to profile shape conformance`);

@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://growgraph.dev/schemas/baseline-comparison-result.schema.json",
+  "$id": "https://mirai-graph.dev/schemas/baseline-comparison-result.schema.json",
   "title": "Mirai Graph Baseline Comparison Result",
   "type": "object",
   "additionalProperties": true,

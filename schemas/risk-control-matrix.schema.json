@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://growgraph.dev/schemas/risk-control-matrix.schema.json",
+  "$id": "https://mirai-graph.dev/schemas/risk-control-matrix.schema.json",
   "title": "Mirai Graph Risk Control Matrix",
   "type": "object",
   "additionalProperties": true,

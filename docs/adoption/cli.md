@@ -2,7 +2,7 @@
 
 Status: alpha unified entrypoint
 
-Mirai Graph keeps the original reference scripts for compatibility. The
+Mirai Graph keeps the reference scripts for direct automation. The
 `mirai-graph` entrypoint is the primary command surface for common checks and
 reports.
 
@@ -40,11 +40,10 @@ node packages/cli/mirai-graph.js report playground
 - Generated context, evidence, feedback and proposals do not authorize
   canonical updates.
 
-## Compatibility
+## Command Aliases
 
-The `growgraph` entrypoint remains as a legacy wrapper for one alpha transition
-period. Existing commands such as
-`node packages/cli/validate-growgraph.js <package-dir>` still work, but new
-documentation and automation should use
+The `mirai_graph` entrypoint is an underscore alias for environments where a
+hyphenated command name is inconvenient. New documentation and automation
+should prefer
 `node packages/cli/validate-mirai-graph.js <package-dir>` or
 `node packages/cli/mirai-graph.js ...`.

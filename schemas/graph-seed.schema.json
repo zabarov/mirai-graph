@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://growgraph.dev/schemas/graph-seed.schema.json",
+  "$id": "https://mirai-graph.dev/schemas/graph-seed.schema.json",
   "title": "Mirai Graph Seed",
   "type": "object",
   "additionalProperties": true,

@@ -12,15 +12,7 @@ function readJson(filePath) {
 }
 
 function findManifestPath(packageDir) {
-  const preferredPath = path.join(packageDir, "mirai-graph-package.json");
-  const legacyPath = path.join(packageDir, "mirai-graph-package.json");
-  if (fs.existsSync(preferredPath)) {
-    return preferredPath;
-  }
-  if (fs.existsSync(legacyPath)) {
-    return legacyPath;
-  }
-  return preferredPath;
+  return path.join(packageDir, "mirai-graph-package.json");
 }
 
 function normalizeToken(token) {

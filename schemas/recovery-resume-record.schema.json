@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://growgraph.dev/schemas/recovery-resume-record.schema.json",
+  "$id": "https://mirai-graph.dev/schemas/recovery-resume-record.schema.json",
   "title": "Mirai Graph Recovery Resume Record",
   "type": "object",
   "additionalProperties": true,

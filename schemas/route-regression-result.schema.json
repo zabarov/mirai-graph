@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://growgraph.dev/schemas/route-regression-result.schema.json",
+  "$id": "https://mirai-graph.dev/schemas/route-regression-result.schema.json",
   "title": "Mirai Graph Route Regression Result",
   "type": "object",
   "additionalProperties": true,

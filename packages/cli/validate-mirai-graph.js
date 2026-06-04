@@ -178,15 +178,7 @@ function readJson(filePath) {
 }
 
 function findManifestPath(packageDir) {
-  const preferredPath = path.join(packageDir, "mirai-graph-package.json");
-  const legacyPath = path.join(packageDir, "growgraph-package.json");
-  if (fs.existsSync(preferredPath)) {
-    return { path: preferredPath, legacy: false };
-  }
-  if (fs.existsSync(legacyPath)) {
-    return { path: legacyPath, legacy: true };
-  }
-  return { path: preferredPath, legacy: false };
+  return path.join(packageDir, "mirai-graph-package.json");
 }
 
 function asArray(value, label, errors) {
@@ -271,7 +263,7 @@ function loadProfile(profileName) {
 
 function validatePackage(packageDir) {
   const manifestLookup = findManifestPath(packageDir);
-  const manifest = fs.existsSync(manifestLookup.path) ? readJson(manifestLookup.path) : null;
+  const manifest = fs.existsSync(manifestLookup) ? readJson(manifestLookup) : null;
   const graphDir = path.join(packageDir, "graph");
   const objectsPath = manifest
     ? path.join(packageDir, manifest.graph && manifest.graph.objects ? manifest.graph.objects : "")
@@ -284,10 +276,6 @@ function validatePackage(packageDir) {
   const warnings = [];
 
   if (manifest) {
-    if (manifestLookup.legacy) {
-      warnings.push("Using legacy growgraph-package.json manifest; prefer mirai-graph-package.json");
-    }
-
     requireString(manifest, "id", "manifest", errors);
     requireString(manifest, "name", "manifest", errors);
     requireString(manifest, "version", "manifest", errors);
@@ -567,7 +555,7 @@ function validateProfile(profilePath) {
 
 function loadPackageGraph(packageDir, errors) {
   const manifestLookup = findManifestPath(packageDir);
-  const manifest = fs.existsSync(manifestLookup.path) ? readJson(manifestLookup.path) : null;
+  const manifest = fs.existsSync(manifestLookup) ? readJson(manifestLookup) : null;
   const graphDir = path.join(packageDir, "graph");
   const objectsPath = manifest
     ? path.join(packageDir, manifest.graph && manifest.graph.objects ? manifest.graph.objects : "")

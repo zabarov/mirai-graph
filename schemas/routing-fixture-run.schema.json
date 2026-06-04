@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://growgraph.dev/schemas/routing-fixture-run.schema.json",
+  "$id": "https://mirai-graph.dev/schemas/routing-fixture-run.schema.json",
   "title": "Mirai Graph Routing Fixture Run",
   "type": "object",
   "additionalProperties": true,

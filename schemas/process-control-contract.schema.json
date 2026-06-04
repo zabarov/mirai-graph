@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://growgraph.dev/schemas/process-control-contract.schema.json",
+  "$id": "https://mirai-graph.dev/schemas/process-control-contract.schema.json",
   "title": "Mirai Graph Process Control Contract",
   "type": "object",
   "additionalProperties": true,

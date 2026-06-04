@@ -49,9 +49,7 @@ Mirai Graph model, standard, methods, examples and reproducibility materials.
 
 The model is related to the `Evolutionary Object Graph (EOG)` research program.
 The current public name is `Mirai Graph`; `EOG` remains the scientific continuity
-term for earlier preprint materials. Mirai Graph was formerly GrowGraph; the
-old name is retained only for historical references and temporary CLI/manifest
-compatibility.
+term for earlier preprint materials.
 
 ## Intended Audiences
 
@@ -110,7 +108,7 @@ Core references:
 - [Standard v0.1 Draft](standard/standard-v0.1.md)
 - [Profiles](profiles/README.md)
 - [Templates](templates/README.md)
-- [GrowGraph To Mirai Graph Transition](docs/adoption/mirai-graph-transition.md)
+- [Mirai Graph To Mirai Graph Transition](docs/adoption/mirai-graph-transition.md)
 
 Current alpha.9 standard areas:
 
@@ -194,10 +192,9 @@ node packages/cli/mirai-graph.js explain process-transition examples/process-tra
 node packages/cli/mirai-graph.js report technology-quality-feedback examples/technology-quality-feedback-minimal/results/technology-quality-feedback.json
 ```
 
-Legacy alpha commands using `packages/cli/growgraph.js`,
-`packages/cli/validate-growgraph.js` or `growgraph-package.json` remain
-supported during the rename transition. New material should use
-`mirai-graph`, `validate-mirai-graph.js` and `mirai-graph-package.json`.
+The supported alpha.9 command surfaces are `mirai-graph`,
+`packages/cli/mirai-graph.js`, `packages/cli/mirai_graph.js`,
+`packages/cli/validate-mirai-graph.js` and `mirai-graph-package.json`.
 
 Or run the current smoke checks:
 

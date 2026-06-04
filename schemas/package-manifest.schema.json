@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://growgraph.dev/schemas/package-manifest.schema.json",
+  "$id": "https://mirai-graph.dev/schemas/package-manifest.schema.json",
   "title": "Mirai Graph Package Manifest",
   "type": "object",
   "additionalProperties": true,

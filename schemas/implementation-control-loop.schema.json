@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://growgraph.dev/schemas/implementation-control-loop.schema.json",
+  "$id": "https://mirai-graph.dev/schemas/implementation-control-loop.schema.json",
   "title": "Mirai Graph Implementation Control Loop",
   "type": "object",
   "additionalProperties": true,

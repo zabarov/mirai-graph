@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://growgraph.dev/schemas/source-boundary-contract.schema.json",
+  "$id": "https://mirai-graph.dev/schemas/source-boundary-contract.schema.json",
   "title": "Mirai Graph Source Boundary Contract",
   "type": "object",
   "additionalProperties": true,

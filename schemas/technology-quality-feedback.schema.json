@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://growgraph.dev/schemas/technology-quality-feedback.schema.json",
+  "$id": "https://mirai-graph.dev/schemas/technology-quality-feedback.schema.json",
   "title": "Mirai Graph Technology Quality Feedback",
   "type": "object",
   "additionalProperties": true,

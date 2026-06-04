@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://growgraph.dev/schemas/graph-dna-alignment.schema.json",
+  "$id": "https://mirai-graph.dev/schemas/graph-dna-alignment.schema.json",
   "title": "Mirai Graph DNA Alignment",
   "type": "object",
   "additionalProperties": true,
