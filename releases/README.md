@@ -32,6 +32,7 @@ Before creating a tag:
 
 ```bash
 npm run release:check
+npm run validate:release-state
 ```
 
 5. Run a public-safety scan for private paths and obvious secrets.
@@ -45,6 +46,15 @@ git tag -a v<version> -m "Mirai Graph <version>"
 
 9. Push `main` and the tag.
 10. Publish GitHub Release notes using `releases/<version>.md`.
+11. After the GitHub Release exists, run:
+
+```bash
+node packages/cli/mirai-graph.js release state --markdown
+```
+
+The release-state report must distinguish GitHub Release state, npm registry
+state and npm authentication state. A missing npm login or pending npm package
+publication is a blocker for npm publish, not permission to expose credentials.
 
 ## GitHub Release Notes
 

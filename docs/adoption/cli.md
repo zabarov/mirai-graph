@@ -51,12 +51,21 @@ Generate the playground report:
 node packages/cli/mirai-graph.js report playground
 ```
 
+Check the external release state without publishing:
+
+```bash
+node packages/cli/mirai-graph.js release state --markdown
+npm run validate:release-state
+```
+
 ## Output Boundary
 
 - JSON output is intended for tools and CI.
 - Markdown output is intended for human review.
 - Adopter workflow output is a starting aid, not adoption proof.
 - A passing report is evidence for the checked artifact only.
+- A release-state report checks package, git tag, GitHub Release, npm registry
+  and npm auth state, but it does not publish or authorize a release.
 - Generated context, evidence, feedback and proposals do not authorize
   canonical updates.
 

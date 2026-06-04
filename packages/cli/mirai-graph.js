@@ -17,6 +17,7 @@ function usage() {
   console.error("  mirai-graph report technology-quality-feedback <feedback-file>");
   console.error("  mirai-graph explain process-transition <state-machine-file> <transition-request-file>");
   console.error("  mirai-graph report playground");
+  console.error("  mirai-graph release state [--markdown] [--require-npm-published]");
   console.error("");
   console.error("Boundary:");
   console.error("  Reports explain validation decisions. They do not authorize canonical updates.");
@@ -101,6 +102,10 @@ if (command === "report" && subcommand === "playground") {
     process.exit(1);
   }
   run("packages/cli/playground-demo.js", []);
+}
+
+if (command === "release" && subcommand === "state") {
+  run("packages/cli/release-state.js", rest);
 }
 
 usage();

@@ -197,6 +197,7 @@ node packages/cli/mirai-graph.js validate examples/minimal-graph
 node packages/cli/mirai-graph.js report validation examples/minimal-graph
 node packages/cli/mirai-graph.js explain process-transition examples/process-transition-minimal/state-machine.json examples/process-transition-minimal/transition-request.json
 node packages/cli/mirai-graph.js report technology-quality-feedback examples/technology-quality-feedback-minimal/results/technology-quality-feedback.json
+node packages/cli/mirai-graph.js release state --markdown
 ```
 
 The supported alpha.9 command surfaces are `mirai-graph`,
@@ -212,6 +213,7 @@ npm run validate:playground-report
 npm run validate:baseline-comparison
 npm run validate:technology-quality-feedback
 npm run validate:adopter-workflow
+npm run validate:release-state
 ```
 
 Adopter workflow commands:
