@@ -107,6 +107,14 @@ Alpha.10 focus:
 - packaged adopter command sequence;
 - organization-governance adoption report.
 
+Initial implementation:
+
+- `docs/adoption/choose-profile.md`;
+- `mirai-graph choose-profile`;
+- `mirai-graph adopter plan <role-or-profile>`;
+- `mirai-graph adopter report <template-dir>`;
+- `validate:adopter-workflow`.
+
 ## Phase 3: Reusable Tooling
 
 Goal: make adoption practical for developers.
@@ -192,8 +200,8 @@ Planned artifacts:
 ## Near-Term Work
 
 1. Publish the npm package once npm registry authentication is available.
-2. Prepare alpha.10 around adopter workflow: profile selection, starter
-   template happy path, readable reports and packaged command sequence.
+2. Continue alpha.10 around adopter workflow: richer readable reports,
+   organization-governance report depth and import/export helper skeletons.
 3. Add process-control explanations, import/export helper skeletons and richer
    report formatting when they directly support the adopter workflow.
 4. Add one or two external public-safe pilots maintained outside the original

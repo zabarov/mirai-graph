@@ -8,6 +8,25 @@ reports.
 
 ## Commands
 
+List profile choices:
+
+```bash
+node packages/cli/mirai-graph.js choose-profile
+```
+
+Print an adopter plan for a role or profile:
+
+```bash
+node packages/cli/mirai-graph.js adopter plan developer
+node packages/cli/mirai-graph.js adopter plan organization_governance
+```
+
+Generate a readable adopter report for a starter template:
+
+```bash
+node packages/cli/mirai-graph.js adopter report templates/software-project-starter
+```
+
 Validate a package:
 
 ```bash
@@ -36,6 +55,7 @@ node packages/cli/mirai-graph.js report playground
 
 - JSON output is intended for tools and CI.
 - Markdown output is intended for human review.
+- Adopter workflow output is a starting aid, not adoption proof.
 - A passing report is evidence for the checked artifact only.
 - Generated context, evidence, feedback and proposals do not authorize
   canonical updates.

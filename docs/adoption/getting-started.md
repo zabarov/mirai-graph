@@ -21,6 +21,16 @@ Examples:
 
 Avoid starting with the whole organization unless the immediate scope is clear.
 
+Then choose the closest profile:
+
+- software project or package -> `software_specification`;
+- research or cross-functional work -> `project_management`;
+- governed AI worker -> `ai_employee`;
+- organization, department or portfolio governance -> `organization_governance`.
+
+Use [Choose A Mirai Graph Profile](choose-profile.md) for the full profile and
+starter-template map.
+
 ## Step 2: Create A Graph Seed
 
 Start with a small seed:
@@ -46,7 +56,8 @@ gates/
   results.json
 ```
 
-Use `examples/minimal-graph/` as a starting point.
+Use `examples/minimal-graph/` as a minimal reference or start from one of the
+starter templates in `templates/`.
 
 ## Step 4: Define Objects
 
@@ -100,6 +111,14 @@ Example:
 
 ```bash
 node packages/cli/validate-mirai-graph.js examples/minimal-graph
+```
+
+For a role-oriented starter workflow, run:
+
+```bash
+node packages/cli/mirai-graph.js choose-profile
+node packages/cli/mirai-graph.js adopter plan developer
+node packages/cli/mirai-graph.js adopter report templates/software-project-starter
 ```
 
 ## Step 7: Generate A Context Pack

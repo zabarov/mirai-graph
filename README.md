@@ -89,6 +89,7 @@ Start by role:
   [Evidence Package v0.1](docs/research/evidence-package-v0.1.md),
   [Publications](publications/README.md).
 - Developers: [Getting Started](docs/adoption/getting-started.md),
+  [Choose A Profile](docs/adoption/choose-profile.md),
   [End-To-End Tutorial](docs/adoption/end-to-end-control-loop.md),
   [Developer Integration Guide](docs/adoption/developer-integration-guide.md),
   [Mirai Graph CLI](docs/adoption/cli.md),
@@ -210,6 +211,15 @@ npm run playground:report
 npm run validate:playground-report
 npm run validate:baseline-comparison
 npm run validate:technology-quality-feedback
+npm run validate:adopter-workflow
+```
+
+Adopter workflow commands:
+
+```bash
+node packages/cli/mirai-graph.js choose-profile
+node packages/cli/mirai-graph.js adopter plan developer
+node packages/cli/mirai-graph.js adopter report templates/software-project-starter
 ```
 
 ## What This Repository Is Not

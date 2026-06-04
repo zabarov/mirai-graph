@@ -7,6 +7,8 @@ All notable changes to Mirai Graph will be documented in this file.
 ### Added
 
 - Alpha.10 adopter workflow release skeleton.
+- Alpha.10 profile-selection guide and adopter workflow CLI commands.
+- `validate:adopter-workflow` regression check.
 - Alpha.9 Mirai Graph rename transition from the former GrowGraph working name.
 - Primary `mirai-graph` CLI entrypoint and package manifest name.
 - Legacy `mirai_graph` CLI and `mirai-graph-package.json` compatibility wrappers.

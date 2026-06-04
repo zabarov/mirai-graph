@@ -32,6 +32,27 @@ node packages/cli/validate-mirai-graph.js templates/<template-name>
 6. Add launch records, process transitions and evidence packs only after the
    graph package shape validates.
 
+## Adopter Workflow Commands
+
+List the role/profile/starter map:
+
+```bash
+node packages/cli/mirai-graph.js choose-profile
+```
+
+Print a plan for a role or profile:
+
+```bash
+node packages/cli/mirai-graph.js adopter plan organization
+node packages/cli/mirai-graph.js adopter plan ai_employee
+```
+
+Generate a readable report for a starter:
+
+```bash
+node packages/cli/mirai-graph.js adopter report templates/organization-governance-starter
+```
+
 ## Boundary
 
 Templates are starter packages, not adoption proof. Passing validation means

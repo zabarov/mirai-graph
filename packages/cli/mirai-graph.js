@@ -9,6 +9,9 @@ const node = process.execPath;
 function usage() {
   console.error("Usage:");
   console.error("  mirai-graph validate <package-dir>");
+  console.error("  mirai-graph choose-profile");
+  console.error("  mirai-graph adopter plan <role-or-profile>");
+  console.error("  mirai-graph adopter report <template-dir>");
   console.error("  mirai-graph report validation <package-dir>");
   console.error("  mirai-graph report process-transition <state-machine-file> <transition-request-file>");
   console.error("  mirai-graph report technology-quality-feedback <feedback-file>");
@@ -42,6 +45,30 @@ if (command === "validate") {
     process.exit(1);
   }
   run("packages/cli/validate-mirai-graph.js", [subcommand, ...rest]);
+}
+
+if (command === "choose-profile") {
+  if (subcommand || rest.length !== 0) {
+    usage();
+    process.exit(1);
+  }
+  run("packages/cli/adopter-workflow.js", ["choose-profile"]);
+}
+
+if (command === "adopter" && subcommand === "plan") {
+  if (rest.length !== 1) {
+    usage();
+    process.exit(1);
+  }
+  run("packages/cli/adopter-workflow.js", ["plan", rest[0]]);
+}
+
+if (command === "adopter" && subcommand === "report") {
+  if (rest.length !== 1) {
+    usage();
+    process.exit(1);
+  }
+  run("packages/cli/adopter-workflow.js", ["report", rest[0]]);
 }
 
 if (command === "report" && subcommand === "validation") {
