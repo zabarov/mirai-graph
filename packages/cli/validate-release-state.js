@@ -7,7 +7,17 @@ const root = path.resolve(__dirname, "..", "..");
 const node = process.execPath;
 const releaseState = path.join(root, "packages", "cli", "release-state.js");
 
-const result = spawnSync(node, [releaseState], {
+const args = process.argv.slice(2);
+const requireGitTag = args.includes("--require-git-tag");
+const requireGithubRelease = args.includes("--require-github-release");
+const requireNpmPublished = args.includes("--require-npm-published");
+const releaseStateArgs = [
+  ...(requireGitTag ? ["--require-git-tag"] : []),
+  ...(requireGithubRelease ? ["--require-github-release"] : []),
+  ...(requireNpmPublished ? ["--require-npm-published"] : [])
+];
+
+const result = spawnSync(node, [releaseState, ...releaseStateArgs], {
   cwd: root,
   encoding: "utf8"
 });
@@ -35,10 +45,10 @@ if (state) {
   if (!state.package || !state.package.version) {
     errors.push("package version is required");
   }
-  if (!state.git || !state.git.tag_exists) {
+  if (requireGitTag && (!state.git || !state.git.tag_exists)) {
     errors.push("current package version must have a local git tag");
   }
-  if (!state.github_release || !state.github_release.found) {
+  if (requireGithubRelease && (!state.github_release || !state.github_release.found)) {
     errors.push("matching GitHub Release must exist");
   }
   if (!state.npm || !state.npm.package || typeof state.npm.package.version_published !== "boolean") {
@@ -55,7 +65,7 @@ if (state) {
   }
 }
 
-const markdown = spawnSync(node, [releaseState, "--markdown"], {
+const markdown = spawnSync(node, [releaseState, "--markdown", ...releaseStateArgs], {
   cwd: root,
   encoding: "utf8"
 });
@@ -74,6 +84,9 @@ const validation = {
   mode: "release_state",
   valid: errors.length === 0,
   checked_version: state && state.package && state.package.version || null,
+  require_git_tag: requireGitTag,
+  require_github_release: requireGithubRelease,
+  require_npm_published: requireNpmPublished,
   npm_version_published: state && state.npm && state.npm.package && state.npm.package.version_published,
   npm_authenticated: state && state.npm && state.npm.authenticated,
   blockers: state && state.blockers || [],

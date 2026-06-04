@@ -51,10 +51,10 @@ The model is related to the `Evolutionary Object Graph (EOG)` research program.
 The current public name is `Mirai Graph`; `EOG` remains the scientific continuity
 term for earlier preprint materials.
 
-Current release: [v0.1.0-alpha.9](releases/0.1.0-alpha.9.md). The next planned
-release theme is [v0.1.0-alpha.10 Adopter Workflow](releases/0.1.0-alpha.10.md):
-make it easier to choose a profile, start from a template, validate a package,
-produce a readable report and run a governed launch/evidence/kaizen loop.
+Current release: [v0.1.0-alpha.10](releases/0.1.0-alpha.10.md). This release
+focuses on the Adopter Workflow: choose a profile, start from a template,
+validate a package, produce a readable report and run a governed
+launch/evidence/kaizen loop.
 
 ## Intended Audiences
 
@@ -115,9 +115,9 @@ Core references:
 - [Profiles](profiles/README.md)
 - [Templates](templates/README.md)
 - [Mirai Graph To Mirai Graph Transition](docs/adoption/mirai-graph-transition.md)
-- [Planned Alpha.10 Adopter Workflow](releases/0.1.0-alpha.10.md)
+- [Alpha.10 Adopter Workflow](releases/0.1.0-alpha.10.md)
 
-Current alpha.9 standard areas:
+Current alpha.10 standard areas:
 
 - [Object Model](standard/object-model.md)
 - [Relation Model](standard/relation-model.md)
@@ -200,7 +200,7 @@ node packages/cli/mirai-graph.js report technology-quality-feedback examples/tec
 node packages/cli/mirai-graph.js release state --markdown
 ```
 
-The supported alpha.9 command surfaces are `mirai-graph`,
+The supported alpha.10 command surfaces are `mirai-graph`,
 `packages/cli/mirai-graph.js`, `packages/cli/mirai_graph.js`,
 `packages/cli/validate-mirai-graph.js` and `mirai-graph-package.json`.
 

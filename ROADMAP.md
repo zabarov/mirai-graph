@@ -92,14 +92,14 @@ Planned artifacts:
 - implementation checklist;
 - examples and anti-examples.
 
-Next gaps:
+Next gaps after alpha.10:
 
-- clearer role-based adoption journeys;
-- organization-governance validation reports and richer adoption recipes;
-- concise recipes for choosing the right profile and conformance level.
-- a packaged adopter workflow that can be run outside this repository.
+- npm publication once registry authentication is available;
+- import/export helpers for starter packages;
+- stronger non-software adoption recipes;
+- external adopter feedback from independent pilots.
 
-Alpha.10 focus:
+Alpha.10 implemented focus:
 
 - profile-selection guide;
 - starter-template happy path;

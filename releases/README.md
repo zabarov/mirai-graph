@@ -17,8 +17,8 @@ Release notes must separate:
 
 - [v0.1.0-alpha.9](0.1.0-alpha.9.md) - Mirai Graph naming, repository,
   package and CLI identity consolidation.
-- [v0.1.0-alpha.10](0.1.0-alpha.10.md) - planned Adopter Workflow release
-  skeleton.
+- [v0.1.0-alpha.10](0.1.0-alpha.10.md) - Adopter Workflow, release-state
+  reporting and self-service starter path.
 
 ## Release Checklist
 
@@ -50,6 +50,7 @@ git tag -a v<version> -m "Mirai Graph <version>"
 
 ```bash
 node packages/cli/mirai-graph.js release state --markdown
+node packages/cli/mirai-graph.js release state --require-github-release --markdown
 ```
 
 The release-state report must distinguish GitHub Release state, npm registry

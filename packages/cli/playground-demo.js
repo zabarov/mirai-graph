@@ -24,7 +24,7 @@ const baselineComparison = readJson(`${packageDir}/results/baseline-comparison-r
 const lines = [
   "# Mirai Graph Playground Demo Report",
   "",
-  "Status: deterministic alpha.9 demo",
+  "Status: deterministic alpha.10 demo",
   "",
   "## Control Loop",
   "",

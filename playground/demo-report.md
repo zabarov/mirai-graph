@@ -1,6 +1,6 @@
 # Mirai Graph Playground Demo Report
 
-Status: deterministic alpha.9 demo
+Status: deterministic alpha.10 demo
 
 ## Control Loop
 

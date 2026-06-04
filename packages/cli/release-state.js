@@ -98,6 +98,8 @@ function parseGitHubRepo(repositoryUrl) {
 async function buildState(options = {}) {
   const pkg = loadPackage();
   const tag = `v${pkg.version}`;
+  const requireGitTag = Boolean(options.requireGitTag || options.requireGithubRelease || options.requireNpmPublished);
+  const requireGithubRelease = Boolean(options.requireGithubRelease || options.requireNpmPublished);
   const blockers = [];
   const warnings = [];
 
@@ -173,10 +175,18 @@ async function buildState(options = {}) {
     blockers.push({ id: "git_head_unavailable", severity: "release_blocker", message: "Cannot resolve git HEAD." });
   }
   if (tagCommit.status !== 0) {
-    blockers.push({ id: "git_tag_missing", severity: "release_blocker", message: `Local tag ${tag} is missing.` });
+    blockers.push({
+      id: "git_tag_missing",
+      severity: requireGitTag ? "release_blocker" : "release_pending",
+      message: `Local tag ${tag} is missing.`
+    });
   }
   if (!githubRelease.found) {
-    blockers.push({ id: "github_release_missing", severity: "release_blocker", message: `GitHub Release ${tag} is missing.` });
+    blockers.push({
+      id: "github_release_missing",
+      severity: requireGithubRelease ? "release_blocker" : "release_pending",
+      message: `GitHub Release ${tag} is missing.`
+    });
   }
   if (status.stdout.includes("\n")) {
     warnings.push({
@@ -206,6 +216,7 @@ async function buildState(options = {}) {
     warnings,
     boundary: [
       "This report does not publish npm packages, create tags or mutate GitHub releases.",
+      "Pre-tag release-state checks may report git tag and GitHub Release as release_pending.",
       "Missing npm authentication is a publish blocker, not a reason to expose tokens.",
       "A release-state report is evidence, not release authorization."
     ]
@@ -292,7 +303,9 @@ async function main() {
   const args = process.argv.slice(2);
   const markdown = args.includes("--markdown");
   const requireNpmPublished = args.includes("--require-npm-published");
-  const state = await buildState({ requireNpmPublished });
+  const requireGitTag = args.includes("--require-git-tag");
+  const requireGithubRelease = args.includes("--require-github-release");
+  const state = await buildState({ requireNpmPublished, requireGitTag, requireGithubRelease });
   if (markdown) {
     process.stdout.write(renderMarkdown(state));
   } else {

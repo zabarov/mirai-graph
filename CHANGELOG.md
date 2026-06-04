@@ -4,6 +4,8 @@ All notable changes to Mirai Graph will be documented in this file.
 
 ## [Unreleased]
 
+## [0.1.0-alpha.10] - 2026-06-04
+
 ### Added
 
 - Alpha.10 adopter workflow release skeleton.
@@ -11,6 +13,23 @@ All notable changes to Mirai Graph will be documented in this file.
 - `validate:adopter-workflow` regression check.
 - Release-state CLI report and `validate:release-state` check for package,
   git tag, GitHub Release, npm registry and npm auth boundaries.
+
+### Changed
+
+- Working package version is now `0.1.0-alpha.10`.
+- Release-state validation now supports pre-tag checks and strict
+  post-release checks through `--require-github-release`.
+
+### Claim Boundary
+
+- This release supports self-service alpha adoption and release-state
+  visibility.
+- It does not claim npm package publication while npm auth remains unavailable.
+
+## [0.1.0-alpha.9] - 2026-06-04
+
+### Added
+
 - Alpha.9 Mirai Graph rename transition from the former GrowGraph working name.
 - Primary `mirai-graph` CLI entrypoint and package manifest name.
 - Legacy `mirai_graph` CLI and `mirai-graph-package.json` compatibility wrappers.
