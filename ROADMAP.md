@@ -99,6 +99,14 @@ Next gaps:
 - concise recipes for choosing the right profile and conformance level.
 - a packaged adopter workflow that can be run outside this repository.
 
+Alpha.10 focus:
+
+- profile-selection guide;
+- starter-template happy path;
+- human-readable validation reports for adopter workflows;
+- packaged adopter command sequence;
+- organization-governance adoption report.
+
 ## Phase 3: Reusable Tooling
 
 Goal: make adoption practical for developers.
@@ -127,6 +135,12 @@ Next gaps:
 - add process-control explanation output and richer report formatting.
 - add adoption recipes for technology quality feedback in non-software
   workflows.
+
+Alpha.10 tooling target:
+
+```text
+choose profile -> starter template -> validate -> report -> launch/evidence/kaizen
+```
 
 The standard must remain implementation-independent. Tooling validates and
 demonstrates the standard; it does not replace the standard.
@@ -177,14 +191,14 @@ Planned artifacts:
 
 ## Near-Term Work
 
-1. Complete the external Mirai Graph rename: GitHub repository rename, remote
-   URL update, release publication and package publication only after the local
-   alpha.9 preparation remains green.
-2. Prepare the next alpha around process-control explanations, import/export
-   helpers and packaged adopter workflow commands.
-3. Add one or two external public-safe pilots maintained outside the original
+1. Publish the npm package once npm registry authentication is available.
+2. Prepare alpha.10 around adopter workflow: profile selection, starter
+   template happy path, readable reports and packaged command sequence.
+3. Add process-control explanations, import/export helper skeletons and richer
+   report formatting when they directly support the adopter workflow.
+4. Add one or two external public-safe pilots maintained outside the original
    Mirai Graph authoring contour.
-4. Expand organization-governance validation reports and adoption recipes.
-5. Explore a local interactive playground only after deterministic report
+5. Expand organization-governance validation reports and adoption recipes.
+6. Explore a local interactive playground only after deterministic report
    fixtures remain stable.
-6. Turn evidence package v0.2 into a publication-ready reproducibility bundle.
+7. Turn evidence package v0.2 into a publication-ready reproducibility bundle.

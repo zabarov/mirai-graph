@@ -6,7 +6,8 @@ All notable changes to Mirai Graph will be documented in this file.
 
 ### Added
 
-- Alpha.9 Mirai Graph rename transition from the former Mirai Graph working name.
+- Alpha.10 adopter workflow release skeleton.
+- Alpha.9 Mirai Graph rename transition from the former GrowGraph working name.
 - Primary `mirai-graph` CLI entrypoint and package manifest name.
 - Legacy `mirai_graph` CLI and `mirai-graph-package.json` compatibility wrappers.
 - Transition guide for adopters migrating from Mirai Graph naming.
@@ -24,7 +25,9 @@ All notable changes to Mirai Graph will be documented in this file.
 
 - Working package version is now `0.1.0-alpha.9`.
 - Public-facing standard, package and CLI naming now use Mirai Graph and
-  `mirai-graph`; Mirai Graph is retained as a historical/legacy alias.
+  `mirai-graph`; GrowGraph is retained as a historical/legacy alias.
+- Alpha.9 release notes now reflect the real GitHub repository, tag and
+  prerelease state while keeping npm publication marked pending.
 - `npm test` includes starter template validation and unified CLI smoke checks.
 - Process-control docs and examples now model technology quality feedback as a
   companion gate for significant acceptance and release transitions.

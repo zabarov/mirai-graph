@@ -42,7 +42,7 @@ approval boundaries.
 
 ## Current Status
 
-Status: early public foundation.
+Status: public alpha.
 
 This repository is being prepared as the public source of truth for the
 Mirai Graph model, standard, methods, examples and reproducibility materials.
@@ -50,6 +50,11 @@ Mirai Graph model, standard, methods, examples and reproducibility materials.
 The model is related to the `Evolutionary Object Graph (EOG)` research program.
 The current public name is `Mirai Graph`; `EOG` remains the scientific continuity
 term for earlier preprint materials.
+
+Current release: [v0.1.0-alpha.9](releases/0.1.0-alpha.9.md). The next planned
+release theme is [v0.1.0-alpha.10 Adopter Workflow](releases/0.1.0-alpha.10.md):
+make it easier to choose a profile, start from a template, validate a package,
+produce a readable report and run a governed launch/evidence/kaizen loop.
 
 ## Intended Audiences
 
@@ -109,6 +114,7 @@ Core references:
 - [Profiles](profiles/README.md)
 - [Templates](templates/README.md)
 - [Mirai Graph To Mirai Graph Transition](docs/adoption/mirai-graph-transition.md)
+- [Planned Alpha.10 Adopter Workflow](releases/0.1.0-alpha.10.md)
 
 Current alpha.9 standard areas:
 

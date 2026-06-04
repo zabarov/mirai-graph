@@ -13,6 +13,13 @@ Release notes must separate:
 - what remains limited;
 - which claims are supported by the current evidence.
 
+## Release Notes
+
+- [v0.1.0-alpha.9](0.1.0-alpha.9.md) - Mirai Graph naming, repository,
+  package and CLI identity consolidation.
+- [v0.1.0-alpha.10](0.1.0-alpha.10.md) - planned Adopter Workflow release
+  skeleton.
+
 ## Release Checklist
 
 Before creating a tag:
