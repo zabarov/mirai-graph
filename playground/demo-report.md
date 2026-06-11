@@ -1,11 +1,11 @@
 # Mirai Graph Playground Demo Report
 
-Status: deterministic alpha.10 demo
+Status: deterministic alpha.11 demo
 
 ## Control Loop
 
 ```text
-seed -> graph -> context -> launch -> transition explanation -> evidence -> kaizen -> baseline comparison
+seed -> graph -> context -> launch -> transition explanation -> cockpit -> traceability -> multi-source feedback -> evidence -> kaizen -> baseline comparison
 ```
 
 ## Demo Inputs
@@ -18,6 +18,9 @@ seed -> graph -> context -> launch -> transition explanation -> evidence -> kaiz
 - Transition request: `transition_request.release_ready_to_released`
 - Transition explanation: `transition_explanation.release_ready_to_released`
 - Process-control contract: `process_control_contract.synthetic_executable_process`
+- Development cockpit: `cockpit_report.synthetic_delivery`
+- Feature traceability: `trace_report.synthetic_feature_delivery`
+- Multi-source feedback: `feedback_report.synthetic_multi_source`
 - Baseline comparison: `baseline_comparison.synthetic_notify_after_approval`
 
 ## Commands
@@ -30,6 +33,8 @@ npm run validate:launch-record
 npm run validate:process-transition
 npm run validate:process-transition-report
 npm run validate:process-control
+npm run validate:instrumentation-layer
+npm run validate:instrumentation-report
 npm run validate:implementation-control-cycles
 npm run validate:baseline-comparison
 ```
@@ -41,6 +46,16 @@ npm run validate:baseline-comparison
 - Required evidence: `release_evidence`
 - Missing evidence: `0`
 - Kaizen decision: `satisfied`
+
+## Instrumentation
+
+- Cockpit production readiness: `not_ready`
+- Cockpit next action: `promote_to_review_ready_after_transition_validation`
+- Feature mappings: `1`
+- Evidence-backed mappings: `1`
+- Multi-source feedback verdict: `accepted_for_transition`
+- Blocking findings: `0`
+- Kaizen refs: `kaizen.synthetic_traceability_checklist`
 
 ## Baseline Comparison
 
@@ -58,6 +73,7 @@ npm run validate:baseline-comparison
 - Launch records describe bounded work permission.
 - Process transitions are checked and explained against an executable state machine.
 - Process-control contracts bind launch, evidence, recovery and Kaizen policy.
+- Instrumentation connects cockpit signals, feature traceability and multi-source feedback.
 - Baseline comparison records synthetic measurement boundaries.
 
 ## Boundaries

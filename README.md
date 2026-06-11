@@ -51,14 +51,10 @@ The model is related to the `Evolutionary Object Graph (EOG)` research program.
 The current public name is `Mirai Graph`; `EOG` remains the scientific continuity
 term for earlier preprint materials.
 
-Current release: [v0.1.0-alpha.10](releases/0.1.0-alpha.10.md). This release
-focuses on the Adopter Workflow: choose a profile, start from a template,
-validate a package, produce a readable report and run a governed
-launch/evidence/kaizen loop.
-
-Next prepared layer: [v0.1.0-alpha.11](releases/0.1.0-alpha.11.md). The
-alpha.11 preparation adds instrumentation for development cockpits, feature
-implementation traceability and multi-source quality feedback.
+Current release candidate:
+[v0.1.0-alpha.11](releases/0.1.0-alpha.11.md). This candidate adds
+instrumentation for development cockpits, feature implementation traceability
+and multi-source quality feedback on top of the alpha.10 adopter workflow.
 
 ## Intended Audiences
 
@@ -123,8 +119,9 @@ Core references:
 - [Templates](templates/README.md)
 - [Mirai Graph To Mirai Graph Transition](docs/adoption/mirai-graph-transition.md)
 - [Alpha.10 Adopter Workflow](releases/0.1.0-alpha.10.md)
+- [Alpha.11 Instrumentation Layer](releases/0.1.0-alpha.11.md)
 
-Current alpha.10 standard areas:
+Current alpha.11 standard areas:
 
 - [Object Model](standard/object-model.md)
 - [Relation Model](standard/relation-model.md)
@@ -207,14 +204,16 @@ node packages/cli/readiness-score.js benchmarks/synthetic-context-reduction-v0 -
 node packages/cli/validate-process-transition-report.js
 node packages/cli/validate-baseline-comparison.js benchmarks/synthetic-context-reduction-v0/results/baseline-comparison-result.json
 node packages/cli/playground-demo.js
+node packages/cli/instrumentation-report.js examples/instrumentation-layer-minimal
 node packages/cli/mirai-graph.js validate examples/minimal-graph
 node packages/cli/mirai-graph.js report validation examples/minimal-graph
 node packages/cli/mirai-graph.js explain process-transition examples/process-transition-minimal/state-machine.json examples/process-transition-minimal/transition-request.json
 node packages/cli/mirai-graph.js report technology-quality-feedback examples/technology-quality-feedback-minimal/results/technology-quality-feedback.json
+node packages/cli/mirai-graph.js report instrumentation examples/instrumentation-layer-minimal
 node packages/cli/mirai-graph.js release state --markdown
 ```
 
-The supported alpha.10 command surfaces are `mirai-graph`,
+The supported alpha.11 command surfaces are `mirai-graph`,
 `packages/cli/mirai-graph.js`, `packages/cli/mirai_graph.js`,
 `packages/cli/validate-mirai-graph.js` and `mirai-graph-package.json`.
 
@@ -227,6 +226,7 @@ npm run validate:playground-report
 npm run validate:baseline-comparison
 npm run validate:technology-quality-feedback
 npm run validate:instrumentation-layer
+npm run validate:instrumentation-report
 npm run validate:adopter-workflow
 npm run validate:release-state
 ```

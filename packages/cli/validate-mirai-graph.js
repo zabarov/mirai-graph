@@ -91,7 +91,137 @@ function markdownList(items, emptyText) {
   return items.map((item) => `- ${item}`).join("\n");
 }
 
+function formatInstrumentationMarkdown(output) {
+  const result = output.result || {};
+
+  if (output.mode === "development_cockpit") {
+    const instruments = Array.isArray(result.instruments)
+      ? result.instruments.map((instrument) => `\`${instrument.id}\`: ${instrument.family}, score \`${instrument.score}\`, band \`${instrument.band}\`, status \`${instrument.status}\``)
+      : [];
+    const nextAction = result.next_best_action || {};
+    return [
+      "# Development Cockpit Report",
+      "",
+      `- Valid: \`${output.valid ? "true" : "false"}\``,
+      `- Subject: \`${result.subject_ref || "unknown"}\``,
+      `- Generated at: \`${result.generated_at || "unknown"}\``,
+      `- Production readiness: \`${result.readiness ? result.readiness.production_readiness : "unknown"}\``,
+      `- Next action: \`${nextAction.action || "unknown"}\``,
+      `- Target cycle: \`${nextAction.target_cycle || "unknown"}\``,
+      "",
+      "## Instruments",
+      "",
+      markdownList(instruments, "No instruments declared."),
+      "",
+      "## Required Gates",
+      "",
+      markdownList(nextAction.required_gates || [], "No required gates declared."),
+      "",
+      "## Blocking Rules",
+      "",
+      markdownList(result.blocking_rules || [], "No blocking rules declared."),
+      "",
+      "## Errors",
+      "",
+      markdownList(output.errors, "No errors."),
+      "",
+      "## Warnings",
+      "",
+      markdownList(output.warnings, "No warnings."),
+      "",
+      "## Boundary",
+      "",
+      "- Cockpit metrics support steering, not acceptance or release.",
+      "- Evidence and proposals do not authorize canonical updates."
+    ].join("\n");
+  }
+
+  if (output.mode === "feature_implementation_traceability") {
+    const mappings = Array.isArray(result.implementation_mappings)
+      ? result.implementation_mappings.map((mapping) => `\`${mapping.feature_ref}\`: status \`${mapping.status}\`, confidence \`${mapping.confidence}\`, implementation refs \`${(mapping.implementation_refs || []).length}\`, evidence refs \`${(mapping.evidence_refs || []).length}\``)
+      : [];
+    const summary = result.coverage_summary || {};
+    return [
+      "# Feature Implementation Traceability Report",
+      "",
+      `- Valid: \`${output.valid ? "true" : "false"}\``,
+      `- Subject: \`${result.subject_ref || "unknown"}\``,
+      `- Features: \`${summary.feature_count !== undefined ? summary.feature_count : "unknown"}\``,
+      `- Mapped features: \`${summary.mapped_feature_count !== undefined ? summary.mapped_feature_count : "unknown"}\``,
+      `- Evidence-backed mappings: \`${summary.evidence_backed_mapping_count !== undefined ? summary.evidence_backed_mapping_count : "unknown"}\``,
+      `- Accepted features: \`${summary.accepted_feature_count !== undefined ? summary.accepted_feature_count : "unknown"}\``,
+      "",
+      "## Implementation Mappings",
+      "",
+      markdownList(mappings, "No implementation mappings declared."),
+      "",
+      "## Errors",
+      "",
+      markdownList(output.errors, "No errors."),
+      "",
+      "## Warnings",
+      "",
+      markdownList(output.warnings, "No warnings."),
+      "",
+      "## Boundary",
+      "",
+      "- Mapped intent is not implementation by itself.",
+      "- Accepted or released status requires the relevant evidence and gates."
+    ].join("\n");
+  }
+
+  if (output.mode === "multi_source_quality_feedback") {
+    const sources = Array.isArray(result.sources)
+      ? result.sources.map((source) => `\`${source.id}\`: ${source.kind}, verdict \`${source.verdict}\``)
+      : [];
+    const findings = Array.isArray(result.findings)
+      ? result.findings.map((finding) => `\`${finding.id}\`: ${finding.classification}, severity \`${finding.severity}\`, blocking \`${finding.blocking ? "true" : "false"}\`, route \`${finding.next_route}\``)
+      : [];
+    return [
+      "# Multi-Source Quality Feedback Report",
+      "",
+      `- Valid: \`${output.valid ? "true" : "false"}\``,
+      `- Process: \`${result.process_id || "unknown"}\``,
+      `- Verdict: \`${result.verdict || "unknown"}\``,
+      `- Next transition: \`${result.next_transition || "unknown"}\``,
+      `- Blocking findings: \`${Array.isArray(result.blocking_findings) ? result.blocking_findings.length : "unknown"}\``,
+      "",
+      "## Sources",
+      "",
+      markdownList(sources, "No sources declared."),
+      "",
+      "## Findings",
+      "",
+      markdownList(findings, "No findings declared."),
+      "",
+      "## Kaizen Refs",
+      "",
+      markdownList(result.kaizen_refs || [], "No Kaizen refs declared."),
+      "",
+      "## Errors",
+      "",
+      markdownList(output.errors, "No errors."),
+      "",
+      "## Warnings",
+      "",
+      markdownList(output.warnings, "No warnings."),
+      "",
+      "## Boundary",
+      "",
+      "- Multi-source feedback calibrates transitions; it is not approval by itself.",
+      "- Blocking findings stop the transitions they block."
+    ].join("\n");
+  }
+
+  return null;
+}
+
 function formatMarkdownReport(output) {
+  const instrumentationReport = formatInstrumentationMarkdown(output);
+  if (instrumentationReport) {
+    return instrumentationReport;
+  }
+
   if (output.mode === "process_transition" && output.explanation) {
     const explanation = output.explanation;
     const gate = explanation.kaizen_decision || {};
@@ -1655,7 +1785,7 @@ function validatePublicImplementationControlResult(resultPath, mode) {
     }
   }
 
-  return { errors, warnings };
+  return { errors, warnings, result };
 }
 
 function validateProcessTransition(stateMachinePath, transitionRequestPath) {
@@ -1845,7 +1975,8 @@ try {
     valid: result.errors.length === 0,
     errors: result.errors,
     warnings: result.warnings,
-    explanation: result.explanation
+    explanation: result.explanation,
+    result: isPublicResultMode ? result.result : undefined
   };
   if (outputFormat === "markdown") {
     console.log(formatMarkdownReport(output));

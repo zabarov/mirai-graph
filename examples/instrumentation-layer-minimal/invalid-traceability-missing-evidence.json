@@ -1,0 +1,43 @@
+{
+  "schema_version": "0.1.0",
+  "id": "trace_report.invalid_missing_evidence",
+  "profile": "implementation_control",
+  "public_safety": "synthetic_public",
+  "subject_ref": "process.synthetic_feature_delivery",
+  "features": [
+    {
+      "id": "feature.synthetic_search_filter",
+      "title": "Synthetic Search Filter",
+      "status": "review_ready",
+      "owner_ref": "component.synthetic_search",
+      "evidence_refs": ["evidence.synthetic_instrumentation_brief"]
+    }
+  ],
+  "implementation_mappings": [
+    {
+      "feature_ref": "feature.synthetic_search_filter",
+      "implementation_refs": ["component.synthetic_search.filter_runtime"],
+      "test_refs": ["test.synthetic_filter_contract"],
+      "review_refs": ["review.synthetic_semantic_acceptance"],
+      "documentation_refs": ["doc.synthetic_filter_behavior"],
+      "evidence_refs": [],
+      "status": "review_ready",
+      "confidence": 0.82,
+      "known_gaps": []
+    }
+  ],
+  "dependency_mappings": [],
+  "coverage_summary": {
+    "feature_count": 1,
+    "mapped_feature_count": 1,
+    "evidence_backed_mapping_count": 0,
+    "accepted_feature_count": 0,
+    "release_ready_feature_count": 0
+  },
+  "evidence_refs": ["evidence.synthetic_instrumentation_brief"],
+  "limitations": [
+    "Mapped feature intent is not implementation by itself.",
+    "Review-ready traceability is not acceptance.",
+    "Release readiness requires separate release evidence and approval."
+  ]
+}

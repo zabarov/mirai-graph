@@ -4,6 +4,37 @@ All notable changes to Mirai Graph will be documented in this file.
 
 ## [Unreleased]
 
+## [0.1.0-alpha.11] - 2026-06-11
+
+### Added
+
+- Development Cockpit standard, schema, validator mode and synthetic fixture.
+- Feature Implementation Traceability standard, schema, validator mode and
+  synthetic fixture.
+- Multi-Source Quality Feedback standard, schema, validator mode and synthetic
+  fixture.
+- Instrumentation readable report through
+  `mirai-graph report instrumentation`.
+- Instrumentation negative fixtures and `test:instrumentation-layer-negative`.
+- Alpha.11 playground instrumentation chain.
+- AI Work Field instrumentation bridge for public-safe research framing.
+
+### Changed
+
+- Working package version is now `0.1.0-alpha.11`.
+- `npm test` now includes instrumentation validation, readable report checks
+  and negative fixtures.
+- README, roadmap and evidence docs now describe instrumentation as a bounded
+  input to transition decisions.
+
+### Claim Boundary
+
+- This release candidate supports observable process instrumentation in
+  public-safe fixtures.
+- It does not claim production execution, runtime autonomy, peer-reviewed proof
+  or canonical update authorization from cockpit metrics, evidence, feedback or
+  proposals.
+
 ## [0.1.0-alpha.10] - 2026-06-04
 
 ### Added

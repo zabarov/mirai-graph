@@ -19,7 +19,7 @@ Release notes must separate:
   package and CLI identity consolidation.
 - [v0.1.0-alpha.10](0.1.0-alpha.10.md) - Adopter Workflow, release-state
   reporting and self-service starter path.
-- [v0.1.0-alpha.11](0.1.0-alpha.11.md) - Prepared instrumentation layer for
+- [v0.1.0-alpha.11](0.1.0-alpha.11.md) - Instrumentation release candidate for
   development cockpits, feature traceability and multi-source quality feedback.
 
 ## Release Checklist

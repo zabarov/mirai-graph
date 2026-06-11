@@ -1,0 +1,40 @@
+{
+  "schema_version": "0.1.0",
+  "id": "cockpit_report.invalid_missing_gates",
+  "profile": "implementation_control",
+  "public_safety": "synthetic_public",
+  "subject_ref": "process.synthetic_feature_delivery",
+  "generated_at": "2026-06-11T00:00:00Z",
+  "instruments": [
+    {
+      "id": "instrument.invalid_trajectory",
+      "family": "trajectory",
+      "score": 90,
+      "band": "on_course",
+      "status": "review_ready",
+      "reason": "Synthetic invalid report omits required gates for the next action.",
+      "evidence_refs": ["evidence.synthetic_instrumentation_brief"]
+    }
+  ],
+  "readiness": {
+    "developer_test_readiness": 90,
+    "product_readiness": 40,
+    "production_readiness": "not_ready",
+    "external_user_testing_readiness": "too_early"
+  },
+  "next_best_action": {
+    "action": "promote_to_review_ready_after_transition_validation",
+    "target_cycle": "review_and_evidence",
+    "required_gates": [],
+    "evidence_refs": ["evidence.synthetic_instrumentation_brief"]
+  },
+  "blocking_rules": [
+    "Cockpit score alone cannot approve work."
+  ],
+  "evidence_refs": ["evidence.synthetic_instrumentation_brief"],
+  "limitations": [
+    "Cockpit metrics are not acceptance.",
+    "Evidence supports review but does not authorize canonical update.",
+    "High readiness is not execution, implementation or release."
+  ]
+}

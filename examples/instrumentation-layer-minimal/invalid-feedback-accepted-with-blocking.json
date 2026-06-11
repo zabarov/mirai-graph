@@ -1,0 +1,38 @@
+{
+  "schema_version": "0.1.0",
+  "id": "feedback_report.invalid_accepted_with_blocking",
+  "profile": "implementation_control",
+  "public_safety": "synthetic_public",
+  "process_id": "process.synthetic_feature_delivery",
+  "sources": [
+    {
+      "id": "source.synthetic_review",
+      "kind": "human_expert_review",
+      "verdict": "blocking_issue_found",
+      "evidence_refs": ["review.synthetic_semantic_acceptance"],
+      "limitations": ["Synthetic invalid report."]
+    }
+  ],
+  "findings": [
+    {
+      "id": "finding.synthetic_release_blocker",
+      "source_ref": "source.synthetic_review",
+      "classification": "release_blocker",
+      "severity": "high",
+      "summary": "Release transition is blocked by missing release evidence.",
+      "evidence_refs": ["review.synthetic_semantic_acceptance"],
+      "next_route": "work_fix_required",
+      "blocking": true
+    }
+  ],
+  "feedback_classification": ["release_blocker"],
+  "blocking_findings": ["finding.synthetic_release_blocker"],
+  "verdict": "accepted_for_transition",
+  "next_transition": "review_ready->approved_candidate",
+  "kaizen_refs": [],
+  "evidence_refs": ["evidence.synthetic_instrumentation_brief"],
+  "limitations": [
+    "Multi-source feedback calibrates transition decisions but is not acceptance by itself.",
+    "Evidence and proposals do not authorize canonical updates."
+  ]
+}
