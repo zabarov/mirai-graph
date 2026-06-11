@@ -1,0 +1,22 @@
+[
+  {
+    "id": "evidence.invalid_character_layer_object_kind",
+    "kind": "evidence",
+    "title": "Invalid Character Layer Object Kind Evidence",
+    "summary": "Synthetic evidence for a negative Character Layer object-kind fixture.",
+    "readiness": "accepted",
+    "evidence": [],
+    "profile": "character_layer"
+  },
+  {
+    "id": "capability.invalid_character_layer_runtime_authorization",
+    "kind": "runtime_authorization",
+    "title": "Runtime Authorization Outside Character Layer",
+    "summary": "This object intentionally uses a kind outside the Character Layer profile.",
+    "readiness": "draft",
+    "evidence": [
+      "evidence.invalid_character_layer_object_kind"
+    ],
+    "profile": "character_layer"
+  }
+]

@@ -1,0 +1,13 @@
+[
+  {
+    "id": "relation.character_constitution.invalid_relation_source.authorizes.role_character_profile.invalid_relation_target",
+    "type": "authorizes",
+    "source": "character_constitution.invalid_relation_source",
+    "target": "role_character_profile.invalid_relation_target",
+    "readiness": "draft",
+    "evidence": [
+      "evidence.invalid_character_layer_relation_type"
+    ],
+    "profile": "character_layer"
+  }
+]

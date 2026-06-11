@@ -1,0 +1,33 @@
+[
+  {
+    "id": "evidence.invalid_character_layer_relation_type",
+    "kind": "evidence",
+    "title": "Invalid Character Layer Relation Type Evidence",
+    "summary": "Synthetic evidence for a negative Character Layer relation-type fixture.",
+    "readiness": "accepted",
+    "evidence": [],
+    "profile": "character_layer"
+  },
+  {
+    "id": "character_constitution.invalid_relation_source",
+    "kind": "character_constitution",
+    "title": "Invalid Relation Source Constitution",
+    "summary": "Valid Character Layer object used as the source for an intentionally invalid relation type.",
+    "readiness": "draft",
+    "evidence": [
+      "evidence.invalid_character_layer_relation_type"
+    ],
+    "profile": "character_layer"
+  },
+  {
+    "id": "role_character_profile.invalid_relation_target",
+    "kind": "role_character_profile",
+    "title": "Invalid Relation Target Role",
+    "summary": "Valid Character Layer object used as the target for an intentionally invalid relation type.",
+    "readiness": "draft",
+    "evidence": [
+      "evidence.invalid_character_layer_relation_type"
+    ],
+    "profile": "character_layer"
+  }
+]
