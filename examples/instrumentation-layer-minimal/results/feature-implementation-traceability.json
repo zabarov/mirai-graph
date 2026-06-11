@@ -1,0 +1,56 @@
+{
+  "schema_version": "0.1.0",
+  "id": "trace_report.synthetic_feature_delivery",
+  "profile": "implementation_control",
+  "public_safety": "synthetic_public",
+  "subject_ref": "process.synthetic_feature_delivery",
+  "features": [
+    {
+      "id": "feature.synthetic_search_filter",
+      "title": "Synthetic Search Filter",
+      "status": "review_ready",
+      "owner_ref": "component.synthetic_search",
+      "evidence_refs": ["evidence.synthetic_instrumentation_brief"]
+    }
+  ],
+  "implementation_mappings": [
+    {
+      "feature_ref": "feature.synthetic_search_filter",
+      "implementation_refs": ["component.synthetic_search.filter_runtime"],
+      "test_refs": ["test.synthetic_filter_contract"],
+      "review_refs": ["review.synthetic_semantic_acceptance"],
+      "documentation_refs": ["doc.synthetic_filter_behavior"],
+      "evidence_refs": [
+        "evidence.synthetic_runtime_check",
+        "evidence.synthetic_test_result",
+        "evidence.synthetic_review_note"
+      ],
+      "status": "review_ready",
+      "confidence": 0.82,
+      "known_gaps": [
+        "Production readiness requires a separate release gate."
+      ]
+    }
+  ],
+  "dependency_mappings": [
+    {
+      "source_feature_ref": "feature.synthetic_search_filter",
+      "target_ref": "component.synthetic_index",
+      "relation": "depends_on",
+      "evidence_refs": ["evidence.synthetic_dependency_map"]
+    }
+  ],
+  "coverage_summary": {
+    "feature_count": 1,
+    "mapped_feature_count": 1,
+    "evidence_backed_mapping_count": 1,
+    "accepted_feature_count": 0,
+    "release_ready_feature_count": 0
+  },
+  "evidence_refs": ["evidence.synthetic_instrumentation_brief"],
+  "limitations": [
+    "Mapped feature intent is not implementation by itself.",
+    "Review-ready traceability is not acceptance.",
+    "Release readiness requires separate release evidence and approval."
+  ]
+}

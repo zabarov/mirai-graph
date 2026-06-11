@@ -67,6 +67,8 @@ Additional alpha artifacts now present:
 - multi-agent coordination;
 - source-boundary contract;
 - route explanation, fixtures, regression and federation health.
+- development cockpit, feature implementation traceability and multi-source
+  quality feedback.
 
 Readiness target:
 
@@ -139,7 +141,8 @@ Next gaps:
 
 - package the CLI as a cleaner public developer interface;
 - add import/export helpers;
-- extend human-readable reports beyond process-transition checks;
+- extend human-readable reports beyond process-transition and instrumentation
+  checks;
 - add process-control explanation output and richer report formatting.
 - add adoption recipes for technology quality feedback in non-software
   workflows.
@@ -174,6 +177,8 @@ Next gaps:
 
 - separate synthetic evidence, pilot evidence and scientific claims more
   visibly;
+- connect instrumentation reports to reproducibility packages and pilot
+  protocols without exposing private runtime traces;
 - add more independent implementation pilots;
 - explore an interactive playground after CLI-first reports stabilize.
 
@@ -200,10 +205,10 @@ Planned artifacts:
 ## Near-Term Work
 
 1. Publish the npm package once npm registry authentication is available.
-2. Continue alpha.10 around adopter workflow: richer readable reports,
-   organization-governance report depth and import/export helper skeletons.
-3. Add process-control explanations, import/export helper skeletons and richer
-   report formatting when they directly support the adopter workflow.
+2. Complete alpha.11 instrumentation packaging: cockpit reports, feature
+   traceability, multi-source feedback and readable reports.
+3. Continue adopter workflow: import/export helper skeletons and richer report
+   formatting when they directly support self-service adoption.
 4. Add one or two external public-safe pilots maintained outside the original
    Mirai Graph authoring contour.
 5. Expand organization-governance validation reports and adoption recipes.

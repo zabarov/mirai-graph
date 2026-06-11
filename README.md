@@ -56,6 +56,10 @@ focuses on the Adopter Workflow: choose a profile, start from a template,
 validate a package, produce a readable report and run a governed
 launch/evidence/kaizen loop.
 
+Next prepared layer: [v0.1.0-alpha.11](releases/0.1.0-alpha.11.md). The
+alpha.11 preparation adds instrumentation for development cockpits, feature
+implementation traceability and multi-source quality feedback.
+
 ## Intended Audiences
 
 - Researchers who need a clear model, reproducible experiments and citation
@@ -96,11 +100,14 @@ Start by role:
   [Test Suite](standard/test-suite.md).
 - Product teams: [Managed Project Control Loop Example](examples/managed-project-control-loop/README.md),
   [Implementation Control](standard/implementation-control.md),
-  [Implementation Control Cycles](standard/implementation-control-cycles.md).
+  [Implementation Control Cycles](standard/implementation-control-cycles.md),
+  [Development Cockpit](standard/development-cockpit.md),
+  [Feature Implementation Traceability](standard/feature-implementation-traceability.md).
 - Organizations and AI systems: [Graph As AI Brain](standard/graph-as-ai-brain.md),
   [AI Employee Graph Adoption](docs/adoption/ai-employee-graph.md),
   [Organization Governance](standard/organization-governance.md),
-  [Process Control Contract](standard/process-control-contract.md).
+  [Process Control Contract](standard/process-control-contract.md),
+  [Multi-Source Quality Feedback](standard/multi-source-quality-feedback.md).
 
 Core references:
 
@@ -134,6 +141,9 @@ Current alpha.10 standard areas:
 - [Work State Machine](standard/work-state-machine.md)
 - [Process Control Contract](standard/process-control-contract.md)
 - [Technology Quality Feedback](standard/technology-quality-feedback.md)
+- [Development Cockpit](standard/development-cockpit.md)
+- [Feature Implementation Traceability](standard/feature-implementation-traceability.md)
+- [Multi-Source Quality Feedback](standard/multi-source-quality-feedback.md)
 - [Organization Governance](standard/organization-governance.md)
 - [Recovery Resume](standard/recovery-resume.md)
 - [Risk Control Matrix](standard/risk-control-matrix.md)
@@ -155,6 +165,7 @@ Runnable materials:
 - [Process Transition Example](examples/process-transition-minimal/README.md)
 - [Process Control Contract Example](examples/process-control-contract-minimal/README.md)
 - [Technology Quality Feedback Example](examples/technology-quality-feedback-minimal/README.md)
+- [Instrumentation Layer Example](examples/instrumentation-layer-minimal/README.md)
 - [Organization Governance Example](examples/organization-governance-minimal/README.md)
 - [Federation Routing Smoke Example](examples/federation-routing-smoke/README.md)
 - [Synthetic Context-Reduction Benchmark](benchmarks/synthetic-context-reduction-v0/README.md)
@@ -181,6 +192,9 @@ node packages/cli/validate-mirai-graph.js launch-record examples/launch-record-m
 node packages/cli/validate-mirai-graph.js process-transition examples/process-transition-minimal/state-machine.json examples/process-transition-minimal/transition-request.json
 node packages/cli/validate-mirai-graph.js process-control-contract examples/process-control-contract-minimal/results/process-control-contract.json
 node packages/cli/validate-mirai-graph.js technology-quality-feedback examples/technology-quality-feedback-minimal/results/technology-quality-feedback.json
+node packages/cli/validate-mirai-graph.js development-cockpit examples/instrumentation-layer-minimal/results/development-cockpit.json
+node packages/cli/validate-mirai-graph.js feature-implementation-traceability examples/instrumentation-layer-minimal/results/feature-implementation-traceability.json
+node packages/cli/validate-mirai-graph.js multi-source-quality-feedback examples/instrumentation-layer-minimal/results/multi-source-quality-feedback.json
 node packages/cli/validate-mirai-graph.js graph-dna-alignment examples/graph-dna-alignment-minimal/results/graph-dna-alignment.json
 node packages/cli/validate-mirai-graph.js work-state-machine examples/work-recovery-minimal/results/work-state-machine.json
 node packages/cli/validate-mirai-graph.js recovery-resume-record examples/work-recovery-minimal/results/recovery-resume-record.json
@@ -212,6 +226,7 @@ npm run playground:report
 npm run validate:playground-report
 npm run validate:baseline-comparison
 npm run validate:technology-quality-feedback
+npm run validate:instrumentation-layer
 npm run validate:adopter-workflow
 npm run validate:release-state
 ```

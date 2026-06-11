@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mirai-graph.dev/schemas/development-cockpit.schema.json",
+  "title": "Mirai Graph Development Cockpit",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "id",
+    "profile",
+    "public_safety",
+    "subject_ref",
+    "generated_at",
+    "instruments",
+    "readiness",
+    "next_best_action",
+    "blocking_rules",
+    "evidence_refs",
+    "limitations"
+  ],
+  "properties": {
+    "schema_version": { "type": "string" },
+    "id": { "type": "string" },
+    "profile": { "const": "implementation_control" },
+    "public_safety": { "const": "synthetic_public" },
+    "subject_ref": { "type": "string" },
+    "generated_at": { "type": "string" },
+    "instruments": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/instrument" }
+    },
+    "readiness": {
+      "type": "object",
+      "required": [
+        "developer_test_readiness",
+        "product_readiness",
+        "production_readiness",
+        "external_user_testing_readiness"
+      ],
+      "additionalProperties": true
+    },
+    "next_best_action": {
+      "type": "object",
+      "required": ["action", "target_cycle", "required_gates", "evidence_refs"],
+      "properties": {
+        "action": { "type": "string" },
+        "target_cycle": { "type": "string" },
+        "required_gates": { "type": "array", "items": { "type": "string" } },
+        "evidence_refs": { "type": "array", "items": { "type": "string" } }
+      },
+      "additionalProperties": true
+    },
+    "blocking_rules": { "type": "array", "items": { "type": "string" } },
+    "evidence_refs": { "type": "array", "items": { "type": "string" } },
+    "limitations": { "type": "array", "items": { "type": "string" } }
+  },
+  "$defs": {
+    "instrument": {
+      "type": "object",
+      "required": ["id", "family", "score", "band", "status", "reason", "evidence_refs"],
+      "properties": {
+        "id": { "type": "string" },
+        "family": { "type": "string" },
+        "score": { "type": "number", "minimum": 0, "maximum": 100 },
+        "band": { "type": "string" },
+        "status": { "type": "string" },
+        "reason": { "type": "string" },
+        "evidence_refs": { "type": "array", "items": { "type": "string" } }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

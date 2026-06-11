@@ -37,6 +37,7 @@ Current materials:
 - `examples/federation-routing-smoke/`
 - `examples/process-transition-minimal/`
 - `examples/implementation-control-cycles/`
+- `examples/instrumentation-layer-minimal/`
 
 Use synthetic evidence to inspect method shape, validation behavior and
 reproducibility. Do not treat it as broad external validity.
@@ -51,6 +52,7 @@ Current materials:
 - `pilots/independent-implementation-002-software-specification/`
 - `pilots/independent-implementation-003-ai-employee-workflow/`
 - `pilots/independent-implementation-004-research-program/`
+- `pilots/independent-implementation-005-organization-governance/`
 
 Use pilot evidence to inspect whether the model can be applied outside the
 minimal examples. Pilot evidence still needs replication and independent
@@ -68,6 +70,7 @@ Current supporting materials:
 - `docs/research/baseline-comparison-protocol.md`
 - `docs/research/limitations-and-threats.md`
 - `docs/research/practice-science-program.md`
+- `docs/research/ai-work-field-instrumentation-bridge.md`
 - `docs/research/independent-implementation-pilot-plan.md`
 - `docs/research/semantic-completeness-review-protocol.md`
 - `publications/README.md`
@@ -103,6 +106,7 @@ npm run validate:profile-results
 npm run validate:process-transition
 npm run validate:process-transition-report
 npm run test:process-transition-negative
+npm run validate:instrumentation-layer
 npm run validate:baseline-comparison
 npm run validate:pilots
 npm run validate:templates
@@ -126,6 +130,8 @@ Mirai Graph public alpha may claim:
 - synthetic and pilot evidence are separated;
 - baseline comparisons are public-safe and bounded by explicit limitations;
 - governance controls can be represented and tested in public-safe fixtures.
+- cockpit, traceability and multi-source feedback artifacts can be represented
+  and validated as bounded instrumentation inputs.
 
 Mirai Graph public alpha must not claim:
 

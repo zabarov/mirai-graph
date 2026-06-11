@@ -1,0 +1,56 @@
+[
+  {
+    "id": "relation.process.synthetic_feature_delivery.requires_gate.gate.synthetic_instrumentation_review",
+    "type": "requires_gate",
+    "source": "process.synthetic_feature_delivery",
+    "target": "gate.synthetic_instrumentation_review",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_instrumentation_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "relation.cockpit.synthetic_delivery.measures.process.synthetic_feature_delivery",
+    "type": "measures",
+    "source": "cockpit.synthetic_delivery",
+    "target": "process.synthetic_feature_delivery",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_instrumentation_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "relation.trace.synthetic_feature_delivery.traces_implementation.feature.synthetic_search_filter",
+    "type": "traces_implementation",
+    "source": "trace.synthetic_feature_delivery",
+    "target": "feature.synthetic_search_filter",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_instrumentation_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "relation.feedback.synthetic_multi_source.aggregates_feedback.trace.synthetic_feature_delivery",
+    "type": "aggregates_feedback",
+    "source": "feedback.synthetic_multi_source",
+    "target": "trace.synthetic_feature_delivery",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_instrumentation_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "relation.feedback.synthetic_multi_source.calibrates_transition.process.synthetic_feature_delivery",
+    "type": "calibrates_transition",
+    "source": "feedback.synthetic_multi_source",
+    "target": "process.synthetic_feature_delivery",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_instrumentation_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "relation.feedback.synthetic_multi_source.improves_process.kaizen.synthetic_traceability_checklist",
+    "type": "improves_process",
+    "source": "feedback.synthetic_multi_source",
+    "target": "kaizen.synthetic_traceability_checklist",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_instrumentation_brief"],
+    "profile": "implementation_control"
+  }
+]

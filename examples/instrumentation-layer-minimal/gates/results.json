@@ -1,0 +1,11 @@
+[
+  {
+    "id": "gate_result.synthetic_instrumentation_review",
+    "gate_id": "gate.synthetic_instrumentation_review",
+    "target_id": "process.synthetic_feature_delivery",
+    "verdict": "pass_with_notes",
+    "summary": "Synthetic instrumentation reports are present, evidence-backed and public-safe.",
+    "reviewed_at": "2026-06-11T00:00:00Z",
+    "evidence": ["evidence.synthetic_instrumentation_brief"]
+  }
+]

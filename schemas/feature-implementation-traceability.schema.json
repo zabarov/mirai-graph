@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mirai-graph.dev/schemas/feature-implementation-traceability.schema.json",
+  "title": "Mirai Graph Feature Implementation Traceability",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "id",
+    "profile",
+    "public_safety",
+    "subject_ref",
+    "features",
+    "implementation_mappings",
+    "dependency_mappings",
+    "coverage_summary",
+    "evidence_refs",
+    "limitations"
+  ],
+  "properties": {
+    "schema_version": { "type": "string" },
+    "id": { "type": "string" },
+    "profile": { "const": "implementation_control" },
+    "public_safety": { "const": "synthetic_public" },
+    "subject_ref": { "type": "string" },
+    "features": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "status", "owner_ref", "evidence_refs"],
+        "properties": {
+          "id": { "type": "string" },
+          "title": { "type": "string" },
+          "status": { "type": "string" },
+          "owner_ref": { "type": "string" },
+          "evidence_refs": { "type": "array", "items": { "type": "string" } }
+        },
+        "additionalProperties": true
+      }
+    },
+    "implementation_mappings": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/mapping" }
+    },
+    "dependency_mappings": { "type": "array", "items": { "type": "object" } },
+    "coverage_summary": { "type": "object" },
+    "evidence_refs": { "type": "array", "items": { "type": "string" } },
+    "limitations": { "type": "array", "items": { "type": "string" } }
+  },
+  "$defs": {
+    "mapping": {
+      "type": "object",
+      "required": [
+        "feature_ref",
+        "implementation_refs",
+        "test_refs",
+        "review_refs",
+        "documentation_refs",
+        "evidence_refs",
+        "status",
+        "confidence",
+        "known_gaps"
+      ],
+      "properties": {
+        "feature_ref": { "type": "string" },
+        "implementation_refs": { "type": "array", "items": { "type": "string" } },
+        "test_refs": { "type": "array", "items": { "type": "string" } },
+        "review_refs": { "type": "array", "items": { "type": "string" } },
+        "documentation_refs": { "type": "array", "items": { "type": "string" } },
+        "evidence_refs": { "type": "array", "items": { "type": "string" } },
+        "status": { "type": "string" },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+        "known_gaps": { "type": "array", "items": { "type": "string" } }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

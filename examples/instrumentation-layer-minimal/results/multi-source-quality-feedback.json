@@ -1,0 +1,72 @@
+{
+  "schema_version": "0.1.0",
+  "id": "feedback_report.synthetic_multi_source",
+  "profile": "implementation_control",
+  "public_safety": "synthetic_public",
+  "process_id": "process.synthetic_feature_delivery",
+  "sources": [
+    {
+      "id": "source.synthetic_tests",
+      "kind": "automated_tests",
+      "verdict": "passed",
+      "evidence_refs": ["evidence.synthetic_test_result"],
+      "limitations": [
+        "Tests do not prove semantic acceptance."
+      ]
+    },
+    {
+      "id": "source.synthetic_cockpit",
+      "kind": "development_cockpit",
+      "verdict": "review_ready",
+      "evidence_refs": ["cockpit_report.synthetic_delivery"],
+      "limitations": [
+        "Cockpit scores do not authorize transition."
+      ]
+    },
+    {
+      "id": "source.synthetic_expert_review",
+      "kind": "human_expert_review",
+      "verdict": "accepted_with_follow_up",
+      "evidence_refs": ["review.synthetic_semantic_acceptance"],
+      "limitations": [
+        "Reviewer notes require classification before they can improve the process."
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "id": "finding.synthetic_tests_are_supporting_evidence",
+      "source_ref": "source.synthetic_tests",
+      "classification": "accepted",
+      "severity": "low",
+      "summary": "Automated tests support the transition evidence but do not replace acceptance.",
+      "evidence_refs": ["evidence.synthetic_test_result"],
+      "next_route": "continue_transition_review",
+      "blocking": false
+    },
+    {
+      "id": "finding.synthetic_traceability_checklist",
+      "source_ref": "source.synthetic_expert_review",
+      "classification": "process_improvement",
+      "severity": "low",
+      "summary": "A reusable pre-review checklist should require implementation, tests, docs and review refs before acceptance.",
+      "evidence_refs": ["review.synthetic_semantic_acceptance"],
+      "next_route": "kaizen_improvement",
+      "blocking": false
+    }
+  ],
+  "feedback_classification": [
+    "accepted",
+    "process_improvement"
+  ],
+  "blocking_findings": [],
+  "verdict": "accepted_for_transition",
+  "next_transition": "review_ready->approved_candidate",
+  "kaizen_refs": ["kaizen.synthetic_traceability_checklist"],
+  "evidence_refs": ["evidence.synthetic_instrumentation_brief"],
+  "limitations": [
+    "Multi-source feedback calibrates transition decisions but is not acceptance by itself.",
+    "Evidence and proposals do not authorize canonical updates.",
+    "Process improvements must route through Kaizen before changing the work technology."
+  ]
+}

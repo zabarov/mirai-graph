@@ -1,0 +1,74 @@
+[
+  {
+    "id": "evidence.synthetic_instrumentation_brief",
+    "kind": "evidence",
+    "title": "Synthetic Instrumentation Brief",
+    "summary": "Public-safe brief describing the instrumentation-layer example.",
+    "readiness": "accepted",
+    "evidence": [],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "process.synthetic_feature_delivery",
+    "kind": "workflow_batch",
+    "title": "Synthetic Feature Delivery",
+    "summary": "A bounded work batch used to demonstrate traceability and quality instrumentation.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_instrumentation_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "feature.synthetic_search_filter",
+    "kind": "implementation_mapping",
+    "title": "Synthetic Search Filter Feature",
+    "summary": "Feature intent that must be traced to implementation, tests, docs and review evidence.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_instrumentation_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "cockpit.synthetic_delivery",
+    "kind": "development_cockpit",
+    "title": "Synthetic Delivery Cockpit",
+    "summary": "Instrument panel for feature delivery trajectory, evidence and risk signals.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_instrumentation_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "trace.synthetic_feature_delivery",
+    "kind": "feature_implementation_trace",
+    "title": "Synthetic Feature Implementation Trace",
+    "summary": "Trace linking feature intent to implementation, tests, docs and review.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_instrumentation_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "feedback.synthetic_multi_source",
+    "kind": "multi_source_quality_feedback",
+    "title": "Synthetic Multi-Source Quality Feedback",
+    "summary": "Feedback aggregation across tests, validators, cockpit, traceability and review.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_instrumentation_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "kaizen.synthetic_traceability_checklist",
+    "kind": "kaizen_item",
+    "title": "Traceability Checklist Improvement",
+    "summary": "Reusable improvement to keep feature implementation traceability complete before acceptance.",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_instrumentation_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "gate.synthetic_instrumentation_review",
+    "kind": "approval_gate",
+    "title": "Instrumentation Review Gate",
+    "summary": "Gate confirming cockpit, traceability and feedback are evidence-backed before transition.",
+    "readiness": "accepted",
+    "evidence": ["evidence.synthetic_instrumentation_brief"],
+    "profile": "implementation_control"
+  }
+]

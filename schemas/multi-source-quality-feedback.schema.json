@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mirai-graph.dev/schemas/multi-source-quality-feedback.schema.json",
+  "title": "Mirai Graph Multi-Source Quality Feedback",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "id",
+    "profile",
+    "public_safety",
+    "process_id",
+    "sources",
+    "findings",
+    "feedback_classification",
+    "blocking_findings",
+    "verdict",
+    "next_transition",
+    "kaizen_refs",
+    "evidence_refs",
+    "limitations"
+  ],
+  "properties": {
+    "schema_version": { "type": "string" },
+    "id": { "type": "string" },
+    "profile": { "const": "implementation_control" },
+    "public_safety": { "const": "synthetic_public" },
+    "process_id": { "type": "string" },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "kind", "verdict", "evidence_refs", "limitations"],
+        "properties": {
+          "id": { "type": "string" },
+          "kind": { "type": "string" },
+          "verdict": { "type": "string" },
+          "evidence_refs": { "type": "array", "items": { "type": "string" } },
+          "limitations": { "type": "array", "items": { "type": "string" } }
+        },
+        "additionalProperties": true
+      }
+    },
+    "findings": { "type": "array", "items": { "type": "object" } },
+    "feedback_classification": { "type": "array", "items": { "type": "string" } },
+    "blocking_findings": { "type": "array", "items": { "type": "string" } },
+    "verdict": { "type": "string" },
+    "next_transition": { "type": "string" },
+    "kaizen_refs": { "type": "array", "items": { "type": "string" } },
+    "evidence_refs": { "type": "array", "items": { "type": "string" } },
+    "limitations": { "type": "array", "items": { "type": "string" } }
+  },
+  "additionalProperties": true
+}

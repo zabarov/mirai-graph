@@ -69,6 +69,9 @@ function usage() {
   console.error("  node packages/cli/validate-mirai-graph.js process-transition <state-machine-file> <transition-request-file>");
   console.error("  node packages/cli/validate-mirai-graph.js process-control-contract <contract-file>");
   console.error("  node packages/cli/validate-mirai-graph.js technology-quality-feedback <feedback-file>");
+  console.error("  node packages/cli/validate-mirai-graph.js development-cockpit <cockpit-file>");
+  console.error("  node packages/cli/validate-mirai-graph.js feature-implementation-traceability <traceability-file>");
+  console.error("  node packages/cli/validate-mirai-graph.js multi-source-quality-feedback <feedback-file>");
   console.error("  node packages/cli/validate-mirai-graph.js graph-dna-alignment <result-file>");
   console.error("  node packages/cli/validate-mirai-graph.js work-state-machine <result-file>");
   console.error("  node packages/cli/validate-mirai-graph.js recovery-resume-record <result-file>");
@@ -1310,6 +1313,259 @@ function validatePublicImplementationControlResult(resultPath, mode) {
     }
   }
 
+  if (mode === "development-cockpit") {
+    for (const field of ["subject_ref", "generated_at"]) {
+      requireString(result, field, label, errors);
+    }
+    requireJsonArray(result, "instruments", label, errors);
+    requireObject(result, "readiness", label, errors);
+    requireObject(result, "next_best_action", label, errors);
+    requireArray(result, "blocking_rules", label, errors);
+
+    if (result.readiness && typeof result.readiness === "object") {
+      for (const field of [
+        "developer_test_readiness",
+        "product_readiness",
+        "production_readiness",
+        "external_user_testing_readiness"
+      ]) {
+        if (result.readiness[field] === undefined) {
+          errors.push(`${label}.readiness.${field} is required`);
+        }
+      }
+    }
+
+    if (Array.isArray(result.instruments)) {
+      for (const [index, instrument] of result.instruments.entries()) {
+        const instrumentLabel = `${label}.instruments[${index}]`;
+        for (const field of ["id", "family", "band", "status", "reason"]) {
+          requireString(instrument, field, instrumentLabel, errors);
+        }
+        requireArray(instrument, "evidence_refs", instrumentLabel, errors);
+        if (typeof instrument.score !== "number" || instrument.score < 0 || instrument.score > 100) {
+          errors.push(`${instrumentLabel}.score must be a number between 0 and 100`);
+        }
+        if (Array.isArray(instrument.evidence_refs) && instrument.evidence_refs.length === 0) {
+          errors.push(`${instrumentLabel}.evidence_refs must not be empty`);
+        }
+      }
+    }
+
+    if (result.next_best_action && typeof result.next_best_action === "object") {
+      requireString(result.next_best_action, "action", `${label}.next_best_action`, errors);
+      requireString(result.next_best_action, "target_cycle", `${label}.next_best_action`, errors);
+      requireArray(result.next_best_action, "required_gates", `${label}.next_best_action`, errors);
+      requireArray(result.next_best_action, "evidence_refs", `${label}.next_best_action`, errors);
+      if (
+        Array.isArray(result.next_best_action.required_gates) &&
+        result.next_best_action.required_gates.length === 0
+      ) {
+        errors.push(`${label}.next_best_action.required_gates must not be empty`);
+      }
+    }
+
+    const limitationText = Array.isArray(result.limitations) ? result.limitations.join("\n").toLowerCase() : "";
+    for (const expectedBoundary of ["acceptance", "evidence", "canonical", "release"]) {
+      if (!limitationText.includes(expectedBoundary)) {
+        warnings.push(`${label}.limitations should mention ${expectedBoundary}`);
+      }
+    }
+  }
+
+  if (mode === "feature-implementation-traceability") {
+    requireString(result, "subject_ref", label, errors);
+    requireJsonArray(result, "features", label, errors);
+    requireJsonArray(result, "implementation_mappings", label, errors);
+    requireJsonArray(result, "dependency_mappings", label, errors);
+    requireObject(result, "coverage_summary", label, errors);
+
+    const featureIds = new Set();
+    if (Array.isArray(result.features)) {
+      for (const [index, feature] of result.features.entries()) {
+        const featureLabel = `${label}.features[${index}]`;
+        for (const field of ["id", "title", "status", "owner_ref"]) {
+          requireString(feature, field, featureLabel, errors);
+        }
+        requireArray(feature, "evidence_refs", featureLabel, errors);
+        if (typeof feature.id === "string") {
+          featureIds.add(feature.id);
+        }
+      }
+    }
+
+    if (Array.isArray(result.implementation_mappings)) {
+      for (const [index, mapping] of result.implementation_mappings.entries()) {
+        const mappingLabel = `${label}.implementation_mappings[${index}]`;
+        requireString(mapping, "feature_ref", mappingLabel, errors);
+        for (const field of [
+          "implementation_refs",
+          "test_refs",
+          "review_refs",
+          "documentation_refs",
+          "evidence_refs",
+          "known_gaps"
+        ]) {
+          requireArray(mapping, field, mappingLabel, errors);
+        }
+        requireString(mapping, "status", mappingLabel, errors);
+        if (typeof mapping.confidence !== "number" || mapping.confidence < 0 || mapping.confidence > 1) {
+          errors.push(`${mappingLabel}.confidence must be a number between 0 and 1`);
+        }
+        if (typeof mapping.feature_ref === "string" && !featureIds.has(mapping.feature_ref)) {
+          errors.push(`${mappingLabel}.feature_ref references missing feature ${mapping.feature_ref}`);
+        }
+        if (
+          typeof mapping.status === "string" &&
+          ["implemented", "tested", "review_ready", "accepted", "released"].includes(mapping.status) &&
+          (!Array.isArray(mapping.evidence_refs) || mapping.evidence_refs.length === 0)
+        ) {
+          errors.push(`${mappingLabel}.evidence_refs must not be empty for status ${mapping.status}`);
+        }
+        if (
+          typeof mapping.status === "string" &&
+          ["accepted", "released"].includes(mapping.status) &&
+          (!Array.isArray(mapping.review_refs) || mapping.review_refs.length === 0)
+        ) {
+          errors.push(`${mappingLabel}.review_refs must not be empty for status ${mapping.status}`);
+        }
+      }
+    }
+
+    const limitationText = Array.isArray(result.limitations) ? result.limitations.join("\n").toLowerCase() : "";
+    for (const expectedBoundary of ["mapped", "implementation", "acceptance", "release"]) {
+      if (!limitationText.includes(expectedBoundary)) {
+        warnings.push(`${label}.limitations should mention ${expectedBoundary}`);
+      }
+    }
+  }
+
+  if (mode === "multi-source-quality-feedback") {
+    const classifications = new Set([
+      "accepted",
+      "work_fix_required",
+      "test_gap",
+      "spec_gap",
+      "graph_update_proposal",
+      "process_improvement",
+      "release_blocker",
+      "security_blocker",
+      "defer_with_reason"
+    ]);
+    const verdicts = new Set([
+      "accepted_for_transition",
+      "changes_requested",
+      "blocked",
+      "defer_with_reason",
+      "proposal_required"
+    ]);
+    const severities = new Set(["critical", "high", "medium", "low"]);
+
+    requireString(result, "process_id", label, errors);
+    requireJsonArray(result, "sources", label, errors);
+    requireJsonArray(result, "findings", label, errors);
+    for (const field of ["feedback_classification", "blocking_findings", "kaizen_refs"]) {
+      requireArray(result, field, label, errors);
+    }
+    requireString(result, "verdict", label, errors);
+    requireString(result, "next_transition", label, errors);
+
+    if (typeof result.verdict === "string" && !verdicts.has(result.verdict)) {
+      errors.push(`${label}.verdict has unsupported value ${result.verdict}`);
+    }
+
+    if (Array.isArray(result.sources)) {
+      for (const [index, source] of result.sources.entries()) {
+        const sourceLabel = `${label}.sources[${index}]`;
+        for (const field of ["id", "kind", "verdict"]) {
+          requireString(source, field, sourceLabel, errors);
+        }
+        requireArray(source, "evidence_refs", sourceLabel, errors);
+        requireArray(source, "limitations", sourceLabel, errors);
+        if (Array.isArray(source.evidence_refs) && source.evidence_refs.length === 0) {
+          errors.push(`${sourceLabel}.evidence_refs must not be empty`);
+        }
+      }
+    }
+
+    const feedbackClassifications = new Set(Array.isArray(result.feedback_classification) ? result.feedback_classification : []);
+    const blockingFindingRefs = new Set(Array.isArray(result.blocking_findings) ? result.blocking_findings : []);
+    let hasBlockingFinding = false;
+    let hasProcessImprovement = false;
+    let hasSpecGap = false;
+
+    if (Array.isArray(result.findings)) {
+      for (const [index, finding] of result.findings.entries()) {
+        const findingLabel = `${label}.findings[${index}]`;
+        for (const field of ["id", "source_ref", "classification", "severity", "summary", "next_route"]) {
+          requireString(finding, field, findingLabel, errors);
+        }
+        requireArray(finding, "evidence_refs", findingLabel, errors);
+        if (typeof finding.blocking !== "boolean") {
+          errors.push(`${findingLabel}.blocking must be a boolean`);
+        }
+        if (typeof finding.classification === "string") {
+          if (!classifications.has(finding.classification)) {
+            errors.push(`${findingLabel}.classification has unsupported value ${finding.classification}`);
+          }
+          if (!feedbackClassifications.has(finding.classification)) {
+            errors.push(`${label}.feedback_classification must include finding classification ${finding.classification}`);
+          }
+          if (finding.classification === "process_improvement") {
+            hasProcessImprovement = true;
+            if (typeof finding.next_route !== "string" || !finding.next_route.toLowerCase().includes("kaizen")) {
+              errors.push(`${findingLabel}.next_route must route process_improvement to Kaizen`);
+            }
+          }
+          if (finding.classification === "spec_gap") {
+            hasSpecGap = true;
+            const route = typeof finding.next_route === "string" ? finding.next_route.toLowerCase() : "";
+            if (!route.includes("planning") && !route.includes("graph_sync")) {
+              errors.push(`${findingLabel}.next_route must route spec_gap to planning or graph_sync`);
+            }
+          }
+          if (["release_blocker", "security_blocker"].includes(finding.classification) && finding.blocking !== true) {
+            errors.push(`${findingLabel}.blocking must be true for ${finding.classification}`);
+          }
+        }
+        if (finding.blocking === true) {
+          hasBlockingFinding = true;
+          if (typeof finding.id === "string" && !blockingFindingRefs.has(finding.id)) {
+            errors.push(`${label}.blocking_findings must include blocking finding ${finding.id}`);
+          }
+        }
+        if (typeof finding.severity === "string" && !severities.has(finding.severity)) {
+          errors.push(`${findingLabel}.severity has unsupported value ${finding.severity}`);
+        }
+      }
+    }
+
+    if (hasProcessImprovement && (!Array.isArray(result.kaizen_refs) || result.kaizen_refs.length === 0)) {
+      errors.push(`${label}.kaizen_refs must not be empty when process_improvement is present`);
+    }
+    if (hasSpecGap && typeof result.next_transition === "string") {
+      const transition = result.next_transition.toLowerCase();
+      if (!transition.includes("planning") && !transition.includes("graph_sync")) {
+        errors.push(`${label}.next_transition must route spec_gap to planning or graph_sync`);
+      }
+    }
+    if (hasBlockingFinding && result.verdict === "accepted_for_transition") {
+      errors.push(`${label}.verdict cannot be accepted_for_transition while blocking findings are present`);
+    }
+
+    const feedbackText = JSON.stringify(result).toLowerCase();
+    for (const forbiddenTerm of [
+      "tests are acceptance",
+      "evidence is approval",
+      "automatic canonical update",
+      "feedback directly updates",
+      "proposal is controlled update"
+    ]) {
+      if (feedbackText.includes(forbiddenTerm)) {
+        errors.push(`${label} contains forbidden authorization boundary term: ${forbiddenTerm}`);
+      }
+    }
+  }
+
   if (mode === "recovery-resume-record") {
     for (const field of [
       "current_state",
@@ -1542,6 +1798,9 @@ try {
     "launch-record",
     "process-control-contract",
     "technology-quality-feedback",
+    "development-cockpit",
+    "feature-implementation-traceability",
+    "multi-source-quality-feedback",
     "graph-dna-alignment",
     "work-state-machine",
     "recovery-resume-record",

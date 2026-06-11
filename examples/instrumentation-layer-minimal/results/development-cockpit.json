@@ -1,0 +1,68 @@
+{
+  "schema_version": "0.1.0",
+  "id": "cockpit_report.synthetic_delivery",
+  "profile": "implementation_control",
+  "public_safety": "synthetic_public",
+  "subject_ref": "process.synthetic_feature_delivery",
+  "generated_at": "2026-06-11T00:00:00Z",
+  "instruments": [
+    {
+      "id": "instrument.trajectory",
+      "family": "trajectory",
+      "score": 86,
+      "band": "on_course",
+      "status": "review_ready",
+      "reason": "The batch has a bounded feature, launch context and explicit transition target.",
+      "evidence_refs": ["evidence.synthetic_instrumentation_brief"]
+    },
+    {
+      "id": "instrument.traceability",
+      "family": "traceability",
+      "score": 82,
+      "band": "usable_with_follow_up",
+      "status": "review_ready",
+      "reason": "Feature intent is linked to implementation, test, documentation and review references.",
+      "evidence_refs": ["trace_report.synthetic_feature_delivery"]
+    },
+    {
+      "id": "instrument.quality",
+      "family": "quality",
+      "score": 78,
+      "band": "needs_kaizen_follow_up",
+      "status": "accepted_with_deferred_items",
+      "reason": "No blocking finding is present, but the feedback report creates a reusable checklist improvement.",
+      "evidence_refs": ["feedback_report.synthetic_multi_source"]
+    }
+  ],
+  "readiness": {
+    "developer_test_readiness": 86,
+    "product_readiness": 42,
+    "production_readiness": "not_ready",
+    "external_user_testing_readiness": "too_early"
+  },
+  "next_best_action": {
+    "action": "promote_to_review_ready_after_transition_validation",
+    "target_cycle": "review_and_evidence",
+    "required_gates": [
+      "process-transition",
+      "technology-quality-feedback",
+      "multi-source-quality-feedback"
+    ],
+    "evidence_refs": [
+      "trace_report.synthetic_feature_delivery",
+      "feedback_report.synthetic_multi_source"
+    ]
+  },
+  "blocking_rules": [
+    "Any release_blocker or security_blocker stops release transition.",
+    "Missing implementation evidence stops accepted transition.",
+    "Cockpit score alone cannot approve work."
+  ],
+  "evidence_refs": ["evidence.synthetic_instrumentation_brief"],
+  "limitations": [
+    "Cockpit metrics are not acceptance.",
+    "Evidence supports review but does not authorize canonical update.",
+    "High readiness is not execution, implementation or release.",
+    "Synthetic data demonstrates the model shape, not production performance."
+  ]
+}
