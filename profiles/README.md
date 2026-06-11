@@ -7,6 +7,7 @@ Current public profiles:
 - [software-specification](software-specification/README.md)
 - [project-management](project-management/README.md)
 - [ai-employee](ai-employee/README.md)
+- [character-layer](character-layer/README.md)
 - [skill-runtime](skill-runtime/README.md)
 - [implementation-control](implementation-control/README.md)
 - [organization-governance](organization-governance/README.md)

@@ -1,0 +1,167 @@
+[
+  {
+    "id": "relation.character_constitution.mirai_base_public.defines_principle.character_principle.expose_uncertainty",
+    "type": "defines_principle",
+    "source": "character_constitution.mirai_base_public",
+    "target": "character_principle.expose_uncertainty",
+    "readiness": "draft",
+    "evidence": [
+      "evidence.character_layer_brief"
+    ],
+    "profile": "character_layer"
+  },
+  {
+    "id": "relation.character_constitution.mirai_base_public.defines_principle.character_principle.preserve_authority_boundary",
+    "type": "defines_principle",
+    "source": "character_constitution.mirai_base_public",
+    "target": "character_principle.preserve_authority_boundary",
+    "readiness": "draft",
+    "evidence": [
+      "evidence.character_layer_brief"
+    ],
+    "profile": "character_layer"
+  },
+  {
+    "id": "relation.character_constitution.mirai_base_public.defines_principle.character_principle.report_evidence_and_blockers",
+    "type": "defines_principle",
+    "source": "character_constitution.mirai_base_public",
+    "target": "character_principle.report_evidence_and_blockers",
+    "readiness": "draft",
+    "evidence": [
+      "evidence.character_layer_brief"
+    ],
+    "profile": "character_layer"
+  },
+  {
+    "id": "relation.character_constitution.mirai_base_public.requires_virtue.virtue.evidence_honesty",
+    "type": "requires_virtue",
+    "source": "character_constitution.mirai_base_public",
+    "target": "virtue.evidence_honesty",
+    "readiness": "draft",
+    "evidence": [
+      "evidence.character_layer_brief"
+    ],
+    "profile": "character_layer"
+  },
+  {
+    "id": "relation.character_constitution.mirai_base_public.requires_virtue.virtue.boundary_discipline",
+    "type": "requires_virtue",
+    "source": "character_constitution.mirai_base_public",
+    "target": "virtue.boundary_discipline",
+    "readiness": "draft",
+    "evidence": [
+      "evidence.character_layer_brief"
+    ],
+    "profile": "character_layer"
+  },
+  {
+    "id": "relation.character_constitution.mirai_base_public.sets_boundary.boundary.no_generated_authorization",
+    "type": "sets_boundary",
+    "source": "character_constitution.mirai_base_public",
+    "target": "boundary.no_generated_authorization",
+    "readiness": "accepted",
+    "evidence": [
+      "evidence.character_layer_brief"
+    ],
+    "profile": "character_layer"
+  },
+  {
+    "id": "relation.character_constitution.mirai_base_public.sets_boundary.boundary.no_secret_exposure",
+    "type": "sets_boundary",
+    "source": "character_constitution.mirai_base_public",
+    "target": "boundary.no_secret_exposure",
+    "readiness": "accepted",
+    "evidence": [
+      "evidence.character_layer_brief"
+    ],
+    "profile": "character_layer"
+  },
+  {
+    "id": "relation.role_character_profile.federation_operator.specializes_character.character_constitution.mirai_base_public",
+    "type": "specializes_character",
+    "source": "role_character_profile.federation_operator",
+    "target": "character_constitution.mirai_base_public",
+    "readiness": "draft",
+    "evidence": [
+      "evidence.character_layer_brief"
+    ],
+    "profile": "character_layer"
+  },
+  {
+    "id": "relation.role_character_profile.federation_operator.checks_with.reflection_protocol.final_response_boundary",
+    "type": "checks_with",
+    "source": "role_character_profile.federation_operator",
+    "target": "reflection_protocol.final_response_boundary",
+    "readiness": "draft",
+    "evidence": [
+      "evidence.character_layer_brief"
+    ],
+    "profile": "character_layer"
+  },
+  {
+    "id": "relation.character_fixture.analysis_boundary.tests_character_with.role_character_profile.federation_operator",
+    "type": "tests_character_with",
+    "source": "character_fixture.analysis_boundary",
+    "target": "role_character_profile.federation_operator",
+    "readiness": "draft",
+    "evidence": [
+      "evidence.character_layer_brief"
+    ],
+    "profile": "character_layer"
+  },
+  {
+    "id": "relation.violation_pattern.false_completion_claim.violates.character_principle.report_evidence_and_blockers",
+    "type": "violates",
+    "source": "violation_pattern.false_completion_claim",
+    "target": "character_principle.report_evidence_and_blockers",
+    "readiness": "draft",
+    "evidence": [
+      "evidence.character_layer_brief"
+    ],
+    "profile": "character_layer"
+  },
+  {
+    "id": "relation.correction_loop.owner_reviewed_update.corrects_violation.violation_pattern.false_completion_claim",
+    "type": "corrects_violation",
+    "source": "correction_loop.owner_reviewed_update",
+    "target": "violation_pattern.false_completion_claim",
+    "readiness": "draft",
+    "evidence": [
+      "evidence.character_layer_brief"
+    ],
+    "profile": "character_layer"
+  },
+  {
+    "id": "relation.correction_loop.owner_reviewed_update.updates_character.role_character_profile.federation_operator",
+    "type": "updates_character",
+    "source": "correction_loop.owner_reviewed_update",
+    "target": "role_character_profile.federation_operator",
+    "readiness": "draft",
+    "evidence": [
+      "evidence.character_layer_brief"
+    ],
+    "profile": "character_layer"
+  },
+  {
+    "id": "relation.evidence.character_layer_brief.evidences_character.character_constitution.mirai_base_public",
+    "type": "evidences_character",
+    "source": "evidence.character_layer_brief",
+    "target": "character_constitution.mirai_base_public",
+    "readiness": "accepted",
+    "evidence": [
+      "evidence.character_layer_brief"
+    ],
+    "profile": "character_layer"
+  },
+  {
+    "id": "relation.gate.character_public_safety.governs.role_character_profile.federation_operator",
+    "type": "governs",
+    "source": "gate.character_public_safety",
+    "target": "role_character_profile.federation_operator",
+    "readiness": "accepted",
+    "evidence": [
+      "evidence.character_layer_brief"
+    ],
+    "profile": "character_layer"
+  }
+]

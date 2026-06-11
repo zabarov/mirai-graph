@@ -1,0 +1,47 @@
+{
+  "id": "profile.character_layer",
+  "name": "Character Layer",
+  "version": "0.1.0",
+  "description": "Profile for modeling model-independent AI character, principles, virtues, boundaries, reflection protocols, fixtures, violations and correction loops.",
+  "allowed_object_kinds": [
+    "character_constitution",
+    "character_principle",
+    "virtue",
+    "boundary",
+    "role_character_profile",
+    "decision_principle",
+    "reflection_protocol",
+    "character_fixture",
+    "violation_pattern",
+    "correction_loop",
+    "character_evidence",
+    "governance_gate",
+    "evidence"
+  ],
+  "allowed_relation_types": [
+    "defines_principle",
+    "requires_virtue",
+    "sets_boundary",
+    "specializes_character",
+    "resolves_conflict_with",
+    "checks_with",
+    "tests_character_with",
+    "violates",
+    "corrects_violation",
+    "updates_character",
+    "evidences_character",
+    "governs_role",
+    "governs_employee",
+    "requires_escalation_to",
+    "governs",
+    "related_to"
+  ],
+  "default_readiness": "draft",
+  "governance_gates": [
+    "human_review_before_canonical_write",
+    "approval_before_external_action",
+    "feedback_learning_before_behavior_update",
+    "public_safety_before_release",
+    "scientific_claim_before_publication"
+  ]
+}

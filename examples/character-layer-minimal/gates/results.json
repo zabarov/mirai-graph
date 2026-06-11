@@ -1,0 +1,57 @@
+[
+  {
+    "id": "gate_result.character_layer_minimal.public_safety",
+    "gate_id": "public_safety_before_release",
+    "target_id": "package.character_layer_minimal",
+    "verdict": "pass_with_notes",
+    "summary": "The fixture is synthetic and contains no private runtime, customer, employee or secret material.",
+    "reviewed_at": "2026-06-12",
+    "evidence": [
+      "evidence.character_layer_brief"
+    ]
+  },
+  {
+    "id": "gate_result.character_layer_minimal.canonical_write_boundary",
+    "gate_id": "human_review_before_canonical_write",
+    "target_id": "correction_loop.owner_reviewed_update",
+    "verdict": "pass_with_notes",
+    "summary": "The correction loop represents a proposed update that requires owner review before canonical character state changes.",
+    "reviewed_at": "2026-06-12",
+    "evidence": [
+      "evidence.character_layer_brief"
+    ]
+  },
+  {
+    "id": "gate_result.character_layer_minimal.external_action_boundary",
+    "gate_id": "approval_before_external_action",
+    "target_id": "boundary.no_generated_authorization",
+    "verdict": "pass_with_notes",
+    "summary": "Generated character context is modeled as reasoning support and not as external-action permission.",
+    "reviewed_at": "2026-06-12",
+    "evidence": [
+      "evidence.character_layer_brief"
+    ]
+  },
+  {
+    "id": "gate_result.character_layer_minimal.feedback_learning",
+    "gate_id": "feedback_learning_before_behavior_update",
+    "target_id": "role_character_profile.federation_operator",
+    "verdict": "needs_more_evidence",
+    "summary": "Behavior changes remain proposals until reviewed; the example is structural evidence only.",
+    "reviewed_at": "2026-06-12",
+    "evidence": [
+      "evidence.character_layer_brief"
+    ]
+  },
+  {
+    "id": "gate_result.character_layer_minimal.scientific_claim_boundary",
+    "gate_id": "scientific_claim_before_publication",
+    "target_id": "character_constitution.mirai_base_public",
+    "verdict": "needs_more_evidence",
+    "summary": "The package defines a profile vocabulary and minimal fixture; scientific effectiveness claims require separate methodology and data.",
+    "reviewed_at": "2026-06-12",
+    "evidence": [
+      "evidence.character_layer_brief"
+    ]
+  }
+]
