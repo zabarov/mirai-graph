@@ -89,6 +89,7 @@ Start by role:
   [Evidence Package v0.1](docs/research/evidence-package-v0.1.md),
   [Publications](publications/README.md).
 - Developers: [Getting Started](docs/adoption/getting-started.md),
+  [Alpha.11 Adopter Kit](docs/adoption/adopter-kit.md),
   [Choose A Profile](docs/adoption/choose-profile.md),
   [End-To-End Tutorial](docs/adoption/end-to-end-control-loop.md),
   [Developer Integration Guide](docs/adoption/developer-integration-guide.md),
@@ -117,6 +118,7 @@ Core references:
 - [Standard v0.1 Draft](standard/standard-v0.1.md)
 - [Profiles](profiles/README.md)
 - [Templates](templates/README.md)
+- [Alpha.11 Adopter Kit](docs/adoption/adopter-kit.md)
 - [Mirai Graph To Mirai Graph Transition](docs/adoption/mirai-graph-transition.md)
 - [Alpha.10 Adopter Workflow](releases/0.1.0-alpha.10.md)
 - [Alpha.11 Instrumentation Layer](releases/0.1.0-alpha.11.md)
@@ -155,6 +157,7 @@ Current alpha.11 standard areas:
 Runnable materials:
 
 - [Playground](playground/README.md)
+- [Alpha.11 Adopter Kit](docs/adoption/adopter-kit.md)
 - [Minimal Graph Example](examples/minimal-graph/README.md)
 - [Minimal Implementation Control Example](examples/implementation-control-minimal/README.md)
 - [Implementation Control Cycles Example](examples/implementation-control-cycles/README.md)

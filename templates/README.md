@@ -6,6 +6,9 @@ These templates are small public-safe starter packages. They are intentionally
 complete enough to validate, but small enough to copy into a new project and
 replace with real public or private sources.
 
+For the full role-oriented starter path, use the
+[Alpha.11 Adopter Kit](../docs/adoption/adopter-kit.md).
+
 ## Starters
 
 | Template | Profile | Use when |

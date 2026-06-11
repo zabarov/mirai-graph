@@ -7,6 +7,9 @@ Status: initial adoption guide
 This guide helps a team create a first Mirai Graph package for a project,
 product, organization or human-AI workflow.
 
+For a shorter role-oriented entry point, start with the
+[Alpha.11 Adopter Kit](adopter-kit.md).
+
 ## Step 1: Choose The System Boundary
 
 Define what the graph will manage.
