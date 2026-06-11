@@ -85,6 +85,7 @@ Start by role:
 
 - Researchers: [Practice And Science Program](docs/research/practice-science-program.md),
   [Scientific Evidence Package](docs/research/scientific-evidence-package.md),
+  [Evidence Package v0.3](docs/research/evidence-package-v0.3.md),
   [Evidence Package v0.2](docs/research/evidence-package-v0.2.md),
   [Evidence Package v0.1](docs/research/evidence-package-v0.1.md),
   [Publications](publications/README.md).
@@ -122,6 +123,7 @@ Core references:
 - [Mirai Graph To Mirai Graph Transition](docs/adoption/mirai-graph-transition.md)
 - [Alpha.10 Adopter Workflow](releases/0.1.0-alpha.10.md)
 - [Alpha.11 Instrumentation Layer](releases/0.1.0-alpha.11.md)
+- [Evidence Package v0.3](docs/research/evidence-package-v0.3.md)
 
 Current alpha.11 standard areas:
 

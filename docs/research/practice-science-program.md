@@ -108,7 +108,8 @@ Output examples:
 - response-to-review tables.
 
 The current public evidence framing is maintained in
-`docs/research/scientific-evidence-package.md`.
+`docs/research/scientific-evidence-package.md`, with the current evidence index
+in `docs/research/evidence-package-v0.3.md`.
 
 ## Core Development Loop
 

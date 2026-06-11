@@ -65,6 +65,7 @@ comparison baselines.
 
 Current supporting materials:
 
+- `docs/research/evidence-package-v0.3.md`
 - `docs/research/evidence-package-v0.2.md`
 - `docs/research/evidence-package-v0.1.md`
 - `docs/research/baseline-comparison-protocol.md`
@@ -77,8 +78,9 @@ Current supporting materials:
 - `publications/preprint-note.md`
 - `publications/preprint-outline.md`
 
-Use `docs/research/evidence-package-v0.2.md` as the current public evidence
-entrypoint. The v0.1 package remains a historical alpha evidence snapshot.
+Use `docs/research/evidence-package-v0.3.md` as the current public evidence
+entrypoint. The v0.2 and v0.1 packages remain historical alpha evidence
+snapshots.
 
 ## Metrics Under Development
 
@@ -132,6 +134,8 @@ Mirai Graph public alpha may claim:
 - governance controls can be represented and tested in public-safe fixtures.
 - cockpit, traceability and multi-source feedback artifacts can be represented
   and validated as bounded instrumentation inputs.
+- role-oriented adopter workflow evidence can connect templates, CLI checks and
+  public-safety boundaries into a reproducible first-use path.
 
 Mirai Graph public alpha must not claim:
 
