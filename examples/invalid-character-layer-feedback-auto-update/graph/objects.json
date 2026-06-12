@@ -1,0 +1,22 @@
+[
+  {
+    "id": "evidence.invalid_character_layer_brief",
+    "kind": "evidence",
+    "title": "Invalid Character Layer Brief",
+    "summary": "Synthetic negative fixture evidence.",
+    "readiness": "accepted",
+    "evidence": [],
+    "profile": "character_layer"
+  },
+  {
+    "id": "correction_loop.invalid_feedback_auto_update",
+    "kind": "correction_loop",
+    "title": "Invalid Feedback Auto Update",
+    "summary": "Feedback automatically updates canonical character state without owner review in this intentionally invalid fixture.",
+    "readiness": "draft",
+    "evidence": [
+      "evidence.invalid_character_layer_brief"
+    ],
+    "profile": "character_layer"
+  }
+]

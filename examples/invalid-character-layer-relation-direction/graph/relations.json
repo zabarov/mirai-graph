@@ -1,0 +1,13 @@
+[
+  {
+    "id": "relation.character_principle.invalid_direction.defines_principle.character_constitution.invalid_base",
+    "type": "defines_principle",
+    "source": "character_principle.invalid_direction",
+    "target": "character_constitution.invalid_base",
+    "readiness": "draft",
+    "evidence": [
+      "evidence.invalid_character_layer_brief"
+    ],
+    "profile": "character_layer"
+  }
+]

@@ -1,0 +1,22 @@
+[
+  {
+    "id": "evidence.invalid_character_layer_brief",
+    "kind": "evidence",
+    "title": "Invalid Character Layer Brief",
+    "summary": "Synthetic negative fixture evidence.",
+    "readiness": "accepted",
+    "evidence": [],
+    "profile": "character_layer"
+  },
+  {
+    "id": "correction_loop.invalid_no_review",
+    "kind": "correction_loop",
+    "title": "Invalid Correction Loop Without Review",
+    "summary": "Applies proposed behavior changes after a fixture failure.",
+    "readiness": "draft",
+    "evidence": [
+      "evidence.invalid_character_layer_brief"
+    ],
+    "profile": "character_layer"
+  }
+]

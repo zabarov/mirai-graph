@@ -394,6 +394,133 @@ function loadProfile(profileName) {
   return readJson(profilePath);
 }
 
+function includesAnyLowercase(text, terms) {
+  if (typeof text !== "string") {
+    return null;
+  }
+  const lower = text.toLowerCase();
+  return terms.find((term) => lower.includes(term));
+}
+
+function validateCharacterLayerSemantics(objects, relations, errors) {
+  const objectById = new Map(objects.map((object) => [object.id, object]));
+  const kindOf = (id) => objectById.get(id) && objectById.get(id).kind;
+  const hasKind = (id, kinds) => kinds.includes(kindOf(id));
+
+  const relationShapes = {
+    defines_principle: {
+      source: ["character_constitution"],
+      target: ["character_principle"]
+    },
+    promotes_virtue: {
+      source: ["character_constitution"],
+      target: ["character_virtue"]
+    },
+    sets_character_boundary: {
+      source: ["character_constitution"],
+      target: ["character_boundary"]
+    },
+    specializes_character: {
+      source: ["role_character_profile"],
+      target: ["character_constitution"]
+    },
+    uses_reflection_protocol: {
+      source: ["role_character_profile", "correction_loop"],
+      target: ["reflection_protocol"]
+    },
+    tests_character: {
+      source: ["character_fixture"],
+      target: ["role_character_profile", "character_constitution"]
+    },
+    describes_violation_of: {
+      source: ["violation_pattern"],
+      target: ["character_principle", "character_boundary", "character_virtue", "character_decision_rule"]
+    },
+    corrects_violation: {
+      source: ["correction_loop"],
+      target: ["violation_pattern"]
+    },
+    updates_character: {
+      source: ["correction_loop"],
+      target: ["role_character_profile", "character_constitution", "character_principle", "character_boundary", "character_decision_rule", "reflection_protocol"]
+    },
+    evidences_character: {
+      source: ["evidence"],
+      target: ["character_constitution", "character_principle", "character_virtue", "character_boundary", "role_character_profile", "character_decision_rule", "reflection_protocol", "character_fixture", "violation_pattern", "correction_loop"]
+    },
+    requires_escalation_to: {
+      source: ["character_boundary", "violation_pattern"],
+      target: ["governance_gate"]
+    },
+    governs: {
+      source: ["governance_gate"],
+      target: ["role_character_profile", "character_constitution", "character_boundary", "correction_loop"]
+    }
+  };
+
+  for (const [index, relation] of relations.entries()) {
+    const label = `relation[${index}]`;
+    const shape = relationShapes[relation.type];
+    if (!shape || !objectById.has(relation.source) || !objectById.has(relation.target)) {
+      continue;
+    }
+    if (!hasKind(relation.source, shape.source)) {
+      errors.push(`${label}.source kind ${kindOf(relation.source)} is invalid for character_layer relation ${relation.type}; expected ${shape.source.join(" or ")}`);
+    }
+    if (!hasKind(relation.target, shape.target)) {
+      errors.push(`${label}.target kind ${kindOf(relation.target)} is invalid for character_layer relation ${relation.type}; expected ${shape.target.join(" or ")}`);
+    }
+  }
+
+  const forbiddenAuthorityTerms = [
+    "generated context authorizes",
+    "evidence authorizes",
+    "proposal authorizes",
+    "authorizes external action",
+    "authorizes canonical update",
+    "authorization is granted by evidence"
+  ];
+  const forbiddenAutomaticUpdateTerms = [
+    "feedback automatically updates",
+    "automatically updates canonical",
+    "automatic canonical update",
+    "auto canonical update",
+    "canonical state changes automatically"
+  ];
+  const forbiddenRolePermissionTerms = [
+    "grants tool permission",
+    "grants runtime permission",
+    "grants external action permission",
+    "can execute tools without approval",
+    "can bypass approval"
+  ];
+
+  for (const [index, object] of objects.entries()) {
+    const label = `object[${index}]`;
+    const haystack = `${object.title || ""}\n${object.summary || ""}`;
+    const authorityTerm = includesAnyLowercase(haystack, forbiddenAuthorityTerms);
+    if (authorityTerm) {
+      errors.push(`${label} contains forbidden character_layer authorization semantics: ${authorityTerm}`);
+    }
+    const automaticUpdateTerm = includesAnyLowercase(haystack, forbiddenAutomaticUpdateTerms);
+    if (automaticUpdateTerm) {
+      errors.push(`${label} contains forbidden character_layer automatic-update semantics: ${automaticUpdateTerm}`);
+    }
+    if (object.kind === "role_character_profile") {
+      const permissionTerm = includesAnyLowercase(haystack, forbiddenRolePermissionTerms);
+      if (permissionTerm) {
+        errors.push(`${label} contains forbidden role_character_profile runtime-permission semantics: ${permissionTerm}`);
+      }
+    }
+    if (object.kind === "correction_loop") {
+      const ownerReviewText = haystack.toLowerCase();
+      if (!ownerReviewText.includes("owner review") && !ownerReviewText.includes("human review")) {
+        errors.push(`${label} correction_loop must mention owner review or human review before canonical character updates`);
+      }
+    }
+  }
+}
+
 function validatePackage(packageDir) {
   const manifestLookup = findManifestPath(packageDir);
   const manifest = fs.existsSync(manifestLookup) ? readJson(manifestLookup) : null;
@@ -540,6 +667,10 @@ function validatePackage(packageDir) {
         }
       }
     }
+  }
+
+  if (manifest && manifest.profile === "character_layer") {
+    validateCharacterLayerSemantics(objects, relations, errors);
   }
 
   if (fs.existsSync(gateResultsPath)) {

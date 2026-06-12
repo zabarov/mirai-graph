@@ -1,0 +1,33 @@
+[
+  {
+    "id": "evidence.invalid_character_layer_brief",
+    "kind": "evidence",
+    "title": "Invalid Character Layer Brief",
+    "summary": "Synthetic negative fixture evidence.",
+    "readiness": "accepted",
+    "evidence": [],
+    "profile": "character_layer"
+  },
+  {
+    "id": "character_constitution.invalid_base",
+    "kind": "character_constitution",
+    "title": "Invalid Base Constitution",
+    "summary": "Synthetic constitution object.",
+    "readiness": "draft",
+    "evidence": [
+      "evidence.invalid_character_layer_brief"
+    ],
+    "profile": "character_layer"
+  },
+  {
+    "id": "character_principle.invalid_direction",
+    "kind": "character_principle",
+    "title": "Invalid Direction Principle",
+    "summary": "Synthetic principle object.",
+    "readiness": "draft",
+    "evidence": [
+      "evidence.invalid_character_layer_brief"
+    ],
+    "profile": "character_layer"
+  }
+]

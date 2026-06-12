@@ -1,0 +1,22 @@
+[
+  {
+    "id": "evidence.invalid_character_layer_brief",
+    "kind": "evidence",
+    "title": "Invalid Character Layer Brief",
+    "summary": "Synthetic negative fixture evidence.",
+    "readiness": "accepted",
+    "evidence": [],
+    "profile": "character_layer"
+  },
+  {
+    "id": "role_character_profile.invalid_tool_permission",
+    "kind": "role_character_profile",
+    "title": "Invalid Tool Permission Profile",
+    "summary": "This intentionally invalid role character profile grants tool permission and can bypass approval.",
+    "readiness": "draft",
+    "evidence": [
+      "evidence.invalid_character_layer_brief"
+    ],
+    "profile": "character_layer"
+  }
+]

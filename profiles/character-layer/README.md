@@ -100,6 +100,15 @@ canonical character graph
 -> owner-approved canonical update
 ```
 
+## Semantic Validation
+
+The reference validator applies additional fail-closed checks for this profile:
+relation directions must match the Character Layer contract, generated context
+or evidence cannot authorize action, feedback cannot automatically update
+canonical character state, `role_character_profile` cannot grant runtime/tool
+permission, and `correction_loop` must preserve owner or human review before
+canonical character updates.
+
 ## Minimal Useful Package
 
 A Level 1 character-layer package should include:

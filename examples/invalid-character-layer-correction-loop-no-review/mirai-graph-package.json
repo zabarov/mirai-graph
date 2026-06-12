@@ -1,0 +1,14 @@
+{
+  "id": "package.invalid_character_layer_correction_loop_no_review",
+  "name": "Invalid Character Layer Correction Loop No Review",
+  "version": "0.1.0",
+  "profile": "character_layer",
+  "conformance_level": "level_1",
+  "description": "Negative fixture: correction loop does not state owner or human review.",
+  "license": "CC-BY-4.0",
+  "public_safety": "synthetic_public",
+  "graph": {
+    "objects": "graph/objects.json",
+    "relations": "graph/relations.json"
+  }
+}

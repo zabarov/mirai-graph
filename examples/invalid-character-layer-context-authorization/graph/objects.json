@@ -1,0 +1,22 @@
+[
+  {
+    "id": "evidence.invalid_character_layer_brief",
+    "kind": "evidence",
+    "title": "Invalid Character Layer Brief",
+    "summary": "Synthetic negative fixture evidence.",
+    "readiness": "accepted",
+    "evidence": [],
+    "profile": "character_layer"
+  },
+  {
+    "id": "character_boundary.invalid_context_authorization",
+    "kind": "character_boundary",
+    "title": "Invalid Context Authorization Boundary",
+    "summary": "Generated context authorizes external action and canonical update in this intentionally invalid fixture.",
+    "readiness": "draft",
+    "evidence": [
+      "evidence.invalid_character_layer_brief"
+    ],
+    "profile": "character_layer"
+  }
+]

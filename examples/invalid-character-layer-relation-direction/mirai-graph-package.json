@@ -1,0 +1,14 @@
+{
+  "id": "package.invalid_character_layer_relation_direction",
+  "name": "Invalid Character Layer Relation Direction",
+  "version": "0.1.0",
+  "profile": "character_layer",
+  "conformance_level": "level_1",
+  "description": "Negative fixture: relation direction violates Character Layer semantics.",
+  "license": "CC-BY-4.0",
+  "public_safety": "synthetic_public",
+  "graph": {
+    "objects": "graph/objects.json",
+    "relations": "graph/relations.json"
+  }
+}
