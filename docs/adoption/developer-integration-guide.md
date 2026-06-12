@@ -1,6 +1,6 @@
 # Mirai Graph Developer Integration Guide
 
-Status: alpha developer guide
+Status: 1.0 release-candidate developer guide
 
 ## Purpose
 
@@ -13,7 +13,7 @@ profiles, context packs and process-control artifacts.
 
 ## Install
 
-For the current alpha, run commands from the repository root:
+For the current release candidate, run commands from the repository root:
 
 ```bash
 npm install

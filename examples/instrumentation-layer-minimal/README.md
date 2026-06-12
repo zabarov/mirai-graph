@@ -1,6 +1,6 @@
 # Instrumentation Layer Minimal Example
 
-This example shows the Mirai Graph alpha.11 instrumentation pattern:
+This example shows the Mirai Graph release-candidate instrumentation pattern:
 
 ```text
 feature intent

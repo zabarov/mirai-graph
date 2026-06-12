@@ -77,7 +77,7 @@ Expected:
 node packages/cli/context-pack.js pilots/independent-implementation-001-conference-planning --task-id task.prepare_speaker_schedule
 ```
 
-Current alpha behavior:
+Current release-candidate behavior:
 
 The generator uses token matching and one-hop relation expansion. It remains an
 alpha generator and does not prove semantic completeness.

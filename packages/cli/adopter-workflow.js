@@ -130,7 +130,7 @@ function printPlan(input) {
   console.log("");
   console.log("## Review Boundary");
   console.log("");
-  console.log("- Validation confirms current alpha package shape only.");
+  console.log("- Validation confirms the current release-candidate package shape only.");
   console.log("- Reports support review; they do not authorize canonical updates.");
   console.log("- Add launch, evidence and Kaizen controls before using the package for governed work.");
 }

@@ -130,7 +130,7 @@ function scorePackage(packageDir, targetMode) {
     evidence,
     blockers,
     caps,
-    note: "Alpha readiness score; use as navigation, not approval."
+    note: "Release-candidate readiness score; use as navigation, not approval."
   };
 }
 

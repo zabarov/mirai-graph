@@ -91,7 +91,8 @@ node packages/cli/mirai-graph.js adopter report templates/software-project-start
 ## Boundaries
 
 - A selected profile is a starting point, not a claim of complete governance.
-- Passing validation means the package follows current alpha shape rules.
+- Passing validation means the package follows current release-candidate shape
+  rules.
 - Generated context, evidence, feedback and proposals do not authorize
   canonical updates.
 - Production execution stays outside the public alpha adopter workflow.

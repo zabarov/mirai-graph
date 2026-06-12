@@ -1,11 +1,11 @@
 # Mirai Graph Playground
 
-Status: alpha.8 deterministic runnable demo
+Status: 1.0 release-candidate deterministic runnable demo
 
 This directory is a playground package for public-safe Mirai Graph demos. The
-current alpha.8 playground is CLI-based and deterministic: runnable examples
-live in `examples/`, `benchmarks/` and `pilots/`, and the generated report is
-stored as `playground/demo-report.md`.
+current 1.0 release-candidate playground is CLI-based and deterministic:
+runnable examples live in `examples/`, `benchmarks/` and `pilots/`, and the
+generated report is stored as `playground/demo-report.md`.
 
 ## Quick Runs
 
@@ -51,7 +51,7 @@ npm run test:negative
 npm run test:process-transition-negative
 ```
 
-Run the full alpha suite:
+Run the full release-candidate suite:
 
 ```bash
 npm test

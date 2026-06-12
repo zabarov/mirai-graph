@@ -1,6 +1,6 @@
-# Mirai Graph Alpha.11 Adopter Kit
+# Mirai Graph 1.0 RC Adopter Kit
 
-Status: alpha adoption kit
+Status: 1.0 release-candidate adoption kit
 
 This kit is the shortest public path from "I want to try Mirai Graph" to a
 validated local graph package. It is intentionally CLI-first and repository
@@ -16,7 +16,7 @@ based while npm publication is pending.
 
 It does not prove that a project is correct, complete or scientifically
 validated. It proves that the adopter has a structured, reviewable starting
-package that follows the current alpha.11 shape.
+package that follows the current 1.0 release-candidate shape.
 
 ## Start By Role
 
@@ -107,7 +107,7 @@ npm run validate:adopter-workflow
 
 ## Acceptance Checklist
 
-An alpha.11 adopter package is ready for first internal use when:
+A 1.0 release-candidate adopter package is ready for first internal use when:
 
 - `mirai-graph-package.json` exists and points to graph, gates and profile.
 - `graph/objects.json` has stable object ids, kinds, summaries and readiness.

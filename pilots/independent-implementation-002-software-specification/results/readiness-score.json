@@ -22,5 +22,5 @@
       "max_score": 69
     }
   ],
-  "note": "Alpha readiness score; use as navigation, not approval."
+  "note": "Release-candidate readiness score; use as navigation, not approval."
 }

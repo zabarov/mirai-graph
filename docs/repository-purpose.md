@@ -86,7 +86,8 @@ The model is not just a knowledge graph. It combines:
 - implementation and adoption methods.
 - organization-governance coordination patterns.
 
-The current alpha also makes the operating model executable enough to test:
+The current 1.0 release candidate also makes the operating model executable
+enough to test:
 
 - launch records define bounded work permission;
 - process transitions validate movement through a state machine;
@@ -146,9 +147,9 @@ adopt:
 The first code should be small and testable. The standard must not depend on
 one implementation.
 
-Current alpha tooling is a reference implementation, not the standard itself.
-It validates public-safe packages and examples so readers can inspect the model
-through executable checks.
+Current release-candidate tooling is a reference implementation, not the
+standard itself. It validates public-safe packages and examples so readers can
+inspect the model through executable checks.
 
 ### 4. Provide Use Cases, Profiles And Adoption Guides
 
@@ -180,8 +181,8 @@ test the model:
 
 Synthetic evidence must be clearly separated from real-world validation.
 
-In the current alpha, `playground/` is an index of runnable CLI examples. A
-hosted or interactive playground is future work.
+In the current release candidate, `playground/` is an index of runnable CLI
+examples. A hosted or interactive playground is future work.
 
 ### 6. Link Publications And Research Evidence
 

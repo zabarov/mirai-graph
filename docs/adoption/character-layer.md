@@ -171,7 +171,7 @@ The current profile and example provide structural conformance evidence for the
 Mirai Graph package shape. Scientific effectiveness claims require separate
 research design, measurements and review.
 
-The current alpha profile does not claim improvements in trust, safety,
+The current release-candidate profile does not claim improvements in trust, safety,
 auditability, consistency or employee performance.
 
 ## Public Safety

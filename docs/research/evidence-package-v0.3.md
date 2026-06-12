@@ -1,11 +1,11 @@
 # Mirai Graph Evidence Package v0.3
 
-Status: alpha.11 public evidence package
+Status: 1.0 release-candidate public evidence package
 
 ## Purpose
 
-This package is the current public evidence entrypoint for Mirai Graph alpha.11.
-It connects three evidence layers:
+This package is the current public evidence entrypoint for Mirai Graph
+`1.0.0-rc.1`. It connects three evidence layers:
 
 1. Synthetic benchmark and baseline comparison.
 2. Executable instrumentation artifacts.
@@ -124,7 +124,8 @@ not broad empirical proof.
 - Public pilots demonstrate profile applicability and adoption shape.
 - Baseline comparison artifacts are bounded examples, not broad empirical
   studies.
-- Passing validators prove conformance to current alpha checks only.
+- Passing validators prove conformance to current release-candidate checks
+  only.
 - Generated context is not canonical state.
 - Evidence, feedback, runtime results and proposals do not authorize canonical
   updates.
@@ -170,7 +171,7 @@ node packages/cli/mirai-graph.js report playground
 
 ## Current Evidence Verdict
 
-Mirai Graph alpha.11 supports these bounded claims:
+Mirai Graph `1.0.0-rc.1` supports these bounded claims:
 
 - a public executable standard draft exists;
 - schemas, validators, templates, examples and pilots are runnable;
@@ -187,7 +188,7 @@ Mirai Graph alpha.11 supports these bounded claims:
   AI-employee, research-program and organization-governance scenarios;
 - the adopter kit gives a reproducible first-use path.
 
-Mirai Graph alpha.11 does not yet support these claims:
+Mirai Graph `1.0.0-rc.1` does not yet support these claims:
 
 - peer-reviewed effectiveness;
 - production autonomous execution safety;
@@ -208,7 +209,7 @@ Mirai Graph alpha.11 does not yet support these claims:
 - Add pilot limitation tables with the same fields across all pilots.
 - Add reviewer-effort and time-to-relevant-context metrics.
 - Prepare a publication-ready reproducibility bundle that cites this package as
-  the current alpha evidence index.
+  the current release-candidate evidence index.
 
 ## Public Safety Boundary
 

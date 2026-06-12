@@ -1,13 +1,13 @@
 # Mirai Graph Roadmap
 
-Status: draft
+Status: 1.0 release-candidate roadmap
 
 ## Phase 0: Public Foundation
 
 Goal: make the repository understandable, safe to open and ready for structured
 growth.
 
-Alpha status: implemented for public alpha.
+1.0 RC status: implemented.
 
 Done when:
 
@@ -33,10 +33,11 @@ Initial artifacts:
 
 Goal: define the implementation-independent Mirai Graph standard.
 
-Alpha status: partially implemented. The repository now contains the core
-object/relation/readiness/evidence/governance standard plus alpha drafts for
-graph seed, hybrid source of truth, profiles, implementation control, routing
-control, source boundaries, recovery, risk and process control.
+1.0 RC status: implemented with notes. The repository now contains the core
+object/relation/readiness/evidence/governance standard plus validator-backed
+sections for graph seed, hybrid source of truth, profiles, implementation
+control, routing control, source boundaries, recovery, risk, process control,
+instrumentation and Character Layer.
 
 Planned artifacts:
 
@@ -51,7 +52,7 @@ Planned artifacts:
 - `standard/conformance-levels.md`
 - `standard/test-suite.md`
 
-Additional alpha artifacts now present:
+Additional 1.0 RC artifacts now present:
 
 - graph seed and graph embryo;
 - hybrid source of truth;
@@ -68,20 +69,24 @@ Additional alpha artifacts now present:
 - source-boundary contract;
 - route explanation, fixtures, regression and federation health.
 - development cockpit, feature implementation traceability and multi-source
-  quality feedback.
+  quality feedback;
+- Character Layer profile, starter pack, integration evidence, portability
+  evidence shape and 1.0 readiness artifact.
 
 Readiness target:
 
-`standard_ready_with_notes` for internal and public implementation pilots.
+`1_0_release_candidate_ready_with_notes` for public review and implementation
+pilots.
 
 ## Phase 2: Method And Adoption Kit
 
 Goal: help teams use Mirai Graph in real work.
 
-Alpha status: partially implemented. The current repository includes getting
+1.0 RC status: implemented with notes. The current repository includes getting
 started material, profile conformance fixtures, AI employee adoption, seed to
 validated package tutorial, implementation-control examples, managed-project
-examples and public-safe transfer notes.
+examples, Character Layer adoption, starter templates and public-safe transfer
+notes.
 
 Planned artifacts:
 
@@ -94,14 +99,15 @@ Planned artifacts:
 - implementation checklist;
 - examples and anti-examples.
 
-Next gaps after alpha.10:
+Post-1.0 gaps:
 
-- npm publication once registry authentication is available;
+- final npm publication and GitHub Release execution after release-state
+  approval;
 - import/export helpers for starter packages;
 - stronger non-software adoption recipes;
 - external adopter feedback from independent pilots.
 
-Alpha.10 implemented focus:
+Implemented adopter-workflow focus:
 
 - profile-selection guide;
 - starter-template happy path;
@@ -121,12 +127,13 @@ Initial implementation:
 
 Goal: make adoption practical for developers.
 
-Alpha status: partially implemented. The CLI validates packages, profiles,
+1.0 RC status: implemented with notes. The CLI validates packages, profiles,
 context packs, graph seeds, implementation-control cycles, launch records,
 process transitions, process-transition decision reports, process-control
 contracts, technology quality feedback reports, DNA alignment, work state,
 recovery, risk, coordination, source boundaries, routing-control examples and
-baseline-comparison artifacts.
+baseline-comparison artifacts, instrumentation artifacts and Character Layer
+readiness.
 
 Planned artifacts:
 
@@ -137,9 +144,9 @@ Planned artifacts:
 - import/export helpers;
 - test fixtures.
 
-Next gaps:
+Post-1.0 gaps:
 
-- package the CLI as a cleaner public developer interface;
+- package and publish the CLI as a cleaner public developer interface;
 - add import/export helpers;
 - extend human-readable reports beyond process-transition and instrumentation
   checks;
@@ -147,7 +154,7 @@ Next gaps:
 - add adoption recipes for technology quality feedback in non-software
   workflows.
 
-Alpha.10 tooling target:
+Current tooling target:
 
 ```text
 choose profile -> starter template -> validate -> report -> launch/evidence/kaizen
@@ -160,7 +167,7 @@ demonstrates the standard; it does not replace the standard.
 
 Goal: provide reproducible public-safe demonstrations.
 
-Alpha status: partially implemented. Synthetic benchmark, baseline-comparison
+1.0 RC status: implemented with notes. Synthetic benchmark, baseline-comparison
 artifact, pilot packages, profile conformance results and runnable CLI examples
 exist. The playground is a deterministic local report package rather than a
 hosted interactive app.
@@ -173,7 +180,7 @@ Planned artifacts:
 - semantic-completeness review protocol;
 - limitations and threats-to-validity notes.
 
-Next gaps:
+Post-1.0 gaps:
 
 - separate synthetic evidence, pilot evidence and scientific claims more
   visibly;
@@ -188,8 +195,8 @@ Synthetic materials must remain clearly separated from real-world validation.
 
 Goal: connect the repository to research publications and external adoption.
 
-Alpha status: early. Citation metadata, publication notes and evidence package
-v0.2 exist, but the project still needs public publication records, stronger
+1.0 RC status: early. Citation metadata, publication notes and evidence package
+v0.3 exist, but the project still needs public publication records, stronger
 reviewer protocols and external adoption evidence before making broad
 scientific claims.
 
@@ -202,16 +209,17 @@ Planned artifacts:
 - release process;
 - public examples from approved external adopters.
 
-## Near-Term Work
+## Near-Term Work After 1.0 RC
 
-1. Publish the npm package once npm registry authentication is available.
-2. Complete alpha.11 instrumentation packaging: cockpit reports, feature
-   traceability, multi-source feedback and readable reports.
-3. Continue adopter workflow: import/export helper skeletons and richer report
+1. Execute the `1.0.0-rc.1` release: tag, GitHub Release and npm publication
+   only after release-state checks are accepted.
+2. Continue adopter workflow: import/export helper skeletons and richer report
    formatting when they directly support self-service adoption.
-4. Add one or two external public-safe pilots maintained outside the original
+3. Add one or two external public-safe pilots maintained outside the original
    Mirai Graph authoring contour.
-5. Expand organization-governance validation reports and adoption recipes.
+4. Expand organization-governance validation reports and adoption recipes.
+5. Collect real multi-model Character Layer replay evidence before stronger
+   portability claims.
 6. Explore a local interactive playground only after deterministic report
    fixtures remain stable.
-7. Turn evidence package v0.2 into a publication-ready reproducibility bundle.
+7. Turn evidence package v0.3 into a publication-ready reproducibility bundle.

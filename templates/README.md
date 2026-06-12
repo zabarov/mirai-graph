@@ -1,13 +1,13 @@
 # Mirai Graph Templates
 
-Status: alpha starter kit
+Status: 1.0 release-candidate starter kit
 
 These templates are small public-safe starter packages. They are intentionally
 complete enough to validate, but small enough to copy into a new project and
 replace with real public or private sources.
 
 For the full role-oriented starter path, use the
-[Alpha.11 Adopter Kit](../docs/adoption/adopter-kit.md).
+[1.0 RC Adopter Kit](../docs/adoption/adopter-kit.md).
 
 ## Starters
 
@@ -60,4 +60,5 @@ node packages/cli/mirai-graph.js adopter report templates/organization-governanc
 ## Boundary
 
 Templates are starter packages, not adoption proof. Passing validation means
-only that the package follows the current alpha schema/profile shape.
+only that the package follows the current release-candidate schema/profile
+shape.

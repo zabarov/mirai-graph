@@ -4,6 +4,29 @@ All notable changes to Mirai Graph will be documented in this file.
 
 ## [Unreleased]
 
+## [1.0.0-rc.1] - 2026-06-12
+
+### Added
+
+- Mirai Graph 1.0 release-candidate notes.
+- 1.0 RC public navigation in README, release index and adopter kit.
+- Release-candidate framing across core standard, profiles, executable process
+  control, instrumentation, Character Layer and evidence boundaries.
+
+### Changed
+
+- Working package version is now `1.0.0-rc.1`.
+- README now presents the repository as a public 1.0 release candidate instead
+  of the alpha.11 working state.
+- Roadmap now separates the 1.0 RC foundation from post-1.0 work.
+
+### Claim Boundary
+
+- This release candidate supports external review of a coherent,
+  validator-backed public standard.
+- It does not claim final stable `1.0.0`, npm publication, peer-reviewed proof,
+  production autonomous execution safety or automatic canonical updates.
+
 ## [0.1.0-alpha.11] - 2026-06-11
 
 ### Added

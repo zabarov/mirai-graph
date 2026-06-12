@@ -15,6 +15,9 @@ Release notes must separate:
 
 ## Release Notes
 
+- [v1.0.0-rc.1](1.0.0-rc.1.md) - 1.0 release candidate consolidating the
+  public standard, profiles, executable process control, instrumentation,
+  Character Layer, adopter kit and evidence boundaries.
 - [v0.1.0-alpha.9](0.1.0-alpha.9.md) - Mirai Graph naming, repository,
   package and CLI identity consolidation.
 - [v0.1.0-alpha.10](0.1.0-alpha.10.md) - Adopter Workflow, release-state
@@ -102,3 +105,10 @@ During alpha:
   evidence changes;
 - release notes must state limitations;
 - tags should not be rewritten after publication.
+
+For `1.0.0-rc.*`:
+
+- the package may be reviewed as a release candidate;
+- release notes must still state limitations and publication boundaries;
+- final `1.0.0` requires a separate tag, GitHub Release and npm publication
+  decision after release-state checks.

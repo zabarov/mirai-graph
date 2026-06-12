@@ -42,7 +42,7 @@ approval boundaries.
 
 ## Current Status
 
-Status: public alpha.
+Status: public 1.0 release candidate.
 
 This repository is being prepared as the public source of truth for the
 Mirai Graph model, standard, methods, examples and reproducibility materials.
@@ -52,9 +52,10 @@ The current public name is `Mirai Graph`; `EOG` remains the scientific continuit
 term for earlier preprint materials.
 
 Current release candidate:
-[v0.1.0-alpha.11](releases/0.1.0-alpha.11.md). This candidate adds
-instrumentation for development cockpits, feature implementation traceability
-and multi-source quality feedback on top of the alpha.10 adopter workflow.
+[v1.0.0-rc.1](releases/1.0.0-rc.1.md). This candidate consolidates the
+validator-backed public standard across the core model, profiles, executable
+process control, instrumentation, Character Layer, adopter kit and evidence
+boundaries.
 
 ## Intended Audiences
 
@@ -90,7 +91,7 @@ Start by role:
   [Evidence Package v0.1](docs/research/evidence-package-v0.1.md),
   [Publications](publications/README.md).
 - Developers: [Getting Started](docs/adoption/getting-started.md),
-  [Alpha.11 Adopter Kit](docs/adoption/adopter-kit.md),
+  [1.0 RC Adopter Kit](docs/adoption/adopter-kit.md),
   [Choose A Profile](docs/adoption/choose-profile.md),
   [End-To-End Tutorial](docs/adoption/end-to-end-control-loop.md),
   [Developer Integration Guide](docs/adoption/developer-integration-guide.md),
@@ -120,13 +121,14 @@ Core references:
 - [Standard v0.1 Draft](standard/standard-v0.1.md)
 - [Profiles](profiles/README.md)
 - [Templates](templates/README.md)
-- [Alpha.11 Adopter Kit](docs/adoption/adopter-kit.md)
+- [1.0 RC Adopter Kit](docs/adoption/adopter-kit.md)
 - [Mirai Graph To Mirai Graph Transition](docs/adoption/mirai-graph-transition.md)
 - [Alpha.10 Adopter Workflow](releases/0.1.0-alpha.10.md)
 - [Alpha.11 Instrumentation Layer](releases/0.1.0-alpha.11.md)
+- [1.0 Release Candidate](releases/1.0.0-rc.1.md)
 - [Evidence Package v0.3](docs/research/evidence-package-v0.3.md)
 
-Current alpha.11 standard areas:
+Current 1.0 release-candidate standard areas:
 
 - [Object Model](standard/object-model.md)
 - [Relation Model](standard/relation-model.md)
@@ -156,11 +158,12 @@ Current alpha.11 standard areas:
 - [Federation Health](standard/federation-health.md)
 - [Route Regression](standard/route-regression.md)
 - [Conformance Levels](standard/conformance-levels.md)
+- [Test Suite](standard/test-suite.md)
 
 Runnable materials:
 
 - [Playground](playground/README.md)
-- [Alpha.11 Adopter Kit](docs/adoption/adopter-kit.md)
+- [1.0 RC Adopter Kit](docs/adoption/adopter-kit.md)
 - [Minimal Graph Example](examples/minimal-graph/README.md)
 - [Minimal Implementation Control Example](examples/implementation-control-minimal/README.md)
 - [Implementation Control Cycles Example](examples/implementation-control-cycles/README.md)
@@ -219,7 +222,7 @@ node packages/cli/mirai-graph.js report instrumentation examples/instrumentation
 node packages/cli/mirai-graph.js release state --markdown
 ```
 
-The supported alpha.11 command surfaces are `mirai-graph`,
+The supported 1.0 release-candidate command surfaces are `mirai-graph`,
 `packages/cli/mirai-graph.js`, `packages/cli/mirai_graph.js`,
 `packages/cli/validate-mirai-graph.js` and `mirai-graph-package.json`.
 

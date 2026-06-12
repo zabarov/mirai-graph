@@ -141,7 +141,7 @@ Read:
 
 ## Full Smoke Check
 
-Run the current alpha test suite:
+Run the current release-candidate test suite:
 
 ```bash
 npm test
