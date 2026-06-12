@@ -1,0 +1,53 @@
+{
+  "schema_version": "0.1.0",
+  "profile": "character_layer",
+  "public_safety": "synthetic_public",
+  "integration_id": "character_layer_integration.synthetic_ai_employee_work_cycle",
+  "character_package_ref": "templates/character-layer-starter",
+  "ai_employee_links": [
+    {
+      "ai_employee_ref": "ai_employee.research_assistant",
+      "role_ref": "role.research_support",
+      "role_character_profile_ref": "role_character_profile.researcher",
+      "composition_relations": [
+        "ai_employee -> has_role -> role",
+        "role_character_profile -> governs_role -> role",
+        "role_character_profile -> governs_employee -> ai_employee",
+        "role_character_profile -> specializes_character -> character_constitution",
+        "role_character_profile -> uses_reflection_protocol -> reflection_protocol"
+      ]
+    }
+  ],
+  "process_control_links": {
+    "launch_record_ref": "examples/launch-record-minimal/results/launch-record.json",
+    "process_control_contract_ref": "examples/process-control-contract-minimal/results/process-control-contract.json",
+    "technology_quality_feedback_ref": "examples/technology-quality-feedback-minimal/results/technology-quality-feedback.json",
+    "transition_gate_refs": [
+      "human_review_before_canonical_write",
+      "approval_before_external_action",
+      "technology_quality_feedback",
+      "process_transition_explanation"
+    ]
+  },
+  "runtime_context_boundary": {
+    "generated_context_ref": "context_pack.synthetic_character_runtime_context",
+    "reflection_protocol_ref": "reflection_protocol.character_pre_output_check",
+    "authorization_boundary": "Generated character context may guide runtime reflection but does not authorize tool use, external action or approval bypass.",
+    "canonical_update_boundary": "Feedback and runtime results may create proposals; canonical character updates require owner review."
+  },
+  "required_gates": [
+    "human_review_before_canonical_write",
+    "approval_before_external_action",
+    "technology_quality_feedback",
+    "public_safety_before_release"
+  ],
+  "evidence_refs": [
+    "evidence.character_starter_brief",
+    "gate_result.template_character_layer.owner_review_boundary"
+  ],
+  "limitations": [
+    "Synthetic public-safe integration example only.",
+    "This artifact does not prove runtime quality or model portability.",
+    "Generated context, evidence, feedback and proposals do not authorize canonical updates."
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mirai-graph.dev/schemas/character-layer-integration.schema.json",
+  "title": "Mirai Graph Character Layer Integration",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "profile",
+    "public_safety",
+    "integration_id",
+    "character_package_ref",
+    "ai_employee_links",
+    "process_control_links",
+    "runtime_context_boundary",
+    "required_gates",
+    "evidence_refs",
+    "limitations"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "profile": {
+      "const": "character_layer"
+    },
+    "public_safety": {
+      "const": "synthetic_public"
+    },
+    "integration_id": {
+      "type": "string"
+    },
+    "character_package_ref": {
+      "type": "string"
+    },
+    "ai_employee_links": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "ai_employee_ref",
+          "role_ref",
+          "role_character_profile_ref",
+          "composition_relations"
+        ],
+        "properties": {
+          "ai_employee_ref": { "type": "string" },
+          "role_ref": { "type": "string" },
+          "role_character_profile_ref": { "type": "string" },
+          "composition_relations": {
+            "type": "array",
+            "minItems": 1,
+            "items": { "type": "string" }
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "process_control_links": {
+      "type": "object",
+      "required": [
+        "launch_record_ref",
+        "process_control_contract_ref",
+        "technology_quality_feedback_ref",
+        "transition_gate_refs"
+      ],
+      "properties": {
+        "launch_record_ref": { "type": "string" },
+        "process_control_contract_ref": { "type": "string" },
+        "technology_quality_feedback_ref": { "type": "string" },
+        "transition_gate_refs": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": true
+    },
+    "runtime_context_boundary": {
+      "type": "object",
+      "required": [
+        "generated_context_ref",
+        "reflection_protocol_ref",
+        "authorization_boundary",
+        "canonical_update_boundary"
+      ],
+      "properties": {
+        "generated_context_ref": { "type": "string" },
+        "reflection_protocol_ref": { "type": "string" },
+        "authorization_boundary": { "type": "string" },
+        "canonical_update_boundary": { "type": "string" }
+      },
+      "additionalProperties": true
+    },
+    "required_gates": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string" }
+    },
+    "evidence_refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string" }
+    },
+    "limitations": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string" }
+    }
+  },
+  "additionalProperties": true
+}

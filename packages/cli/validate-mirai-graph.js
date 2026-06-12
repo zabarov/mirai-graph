@@ -69,6 +69,7 @@ function usage() {
   console.error("  node packages/cli/validate-mirai-graph.js process-transition <state-machine-file> <transition-request-file>");
   console.error("  node packages/cli/validate-mirai-graph.js process-control-contract <contract-file>");
   console.error("  node packages/cli/validate-mirai-graph.js technology-quality-feedback <feedback-file>");
+  console.error("  node packages/cli/validate-mirai-graph.js character-layer-integration <integration-file>");
   console.error("  node packages/cli/validate-mirai-graph.js development-cockpit <cockpit-file>");
   console.error("  node packages/cli/validate-mirai-graph.js feature-implementation-traceability <traceability-file>");
   console.error("  node packages/cli/validate-mirai-graph.js multi-source-quality-feedback <feedback-file>");
@@ -1257,6 +1258,110 @@ function validateImplementationControlCycle(cyclePath) {
   return { errors, warnings };
 }
 
+function validateCharacterLayerIntegration(resultPath) {
+  const errors = [];
+  const warnings = [];
+  const result = readJson(resultPath);
+  const label = "character_layer_integration";
+
+  requireString(result, "schema_version", label, errors);
+  requireString(result, "profile", label, errors);
+  requireString(result, "public_safety", label, errors);
+  requireString(result, "integration_id", label, errors);
+  requireString(result, "character_package_ref", label, errors);
+  requireArray(result, "required_gates", label, errors);
+  requireArray(result, "evidence_refs", label, errors);
+  requireArray(result, "limitations", label, errors);
+  requireJsonArray(result, "ai_employee_links", label, errors);
+  requireObject(result, "process_control_links", label, errors);
+  requireObject(result, "runtime_context_boundary", label, errors);
+
+  if (result.profile !== undefined && result.profile !== "character_layer") {
+    errors.push(`${label}.profile must be character_layer`);
+  }
+  if (result.public_safety !== undefined && result.public_safety !== "synthetic_public") {
+    errors.push(`${label}.public_safety must be synthetic_public`);
+  }
+
+  if (Array.isArray(result.ai_employee_links)) {
+    result.ai_employee_links.forEach((link, index) => {
+      const linkLabel = `${label}.ai_employee_links[${index}]`;
+      requireString(link, "ai_employee_ref", linkLabel, errors);
+      requireString(link, "role_ref", linkLabel, errors);
+      requireString(link, "role_character_profile_ref", linkLabel, errors);
+      requireArray(link, "composition_relations", linkLabel, errors);
+      const relationText = Array.isArray(link.composition_relations) ? link.composition_relations.join("\n") : "";
+      for (const requiredRelation of ["governs_role", "governs_employee", "specializes_character", "uses_reflection_protocol"]) {
+        if (!relationText.includes(requiredRelation)) {
+          errors.push(`${linkLabel}.composition_relations must include ${requiredRelation}`);
+        }
+      }
+    });
+  }
+
+  if (result.process_control_links && typeof result.process_control_links === "object") {
+    for (const field of [
+      "launch_record_ref",
+      "process_control_contract_ref",
+      "technology_quality_feedback_ref"
+    ]) {
+      requireString(result.process_control_links, field, `${label}.process_control_links`, errors);
+    }
+    requireArray(result.process_control_links, "transition_gate_refs", `${label}.process_control_links`, errors);
+  }
+
+  if (result.runtime_context_boundary && typeof result.runtime_context_boundary === "object") {
+    for (const field of [
+      "generated_context_ref",
+      "reflection_protocol_ref",
+      "authorization_boundary",
+      "canonical_update_boundary"
+    ]) {
+      requireString(result.runtime_context_boundary, field, `${label}.runtime_context_boundary`, errors);
+    }
+  }
+
+  const gateText = Array.isArray(result.required_gates) ? result.required_gates.join("\n") : "";
+  for (const requiredGate of [
+    "human_review_before_canonical_write",
+    "approval_before_external_action",
+    "technology_quality_feedback"
+  ]) {
+    if (!gateText.includes(requiredGate)) {
+      errors.push(`${label}.required_gates must include ${requiredGate}`);
+    }
+  }
+
+  const resultText = JSON.stringify(result).toLowerCase();
+  for (const forbiddenTerm of [
+    "/users/rim/documents/" + "github/",
+    "simai private",
+    "private runtime " + "trace",
+    "generated context authorizes",
+    "evidence authorizes",
+    "feedback automatically updates",
+    "automatic canonical update",
+    "grants tool permission",
+    "can bypass approval"
+  ]) {
+    if (resultText.includes(forbiddenTerm)) {
+      errors.push(`${label} contains forbidden integration boundary term: ${forbiddenTerm}`);
+    }
+  }
+
+  for (const requiredBoundary of [
+    "does not authorize",
+    "owner review",
+    "canonical"
+  ]) {
+    if (!resultText.includes(requiredBoundary)) {
+      warnings.push(`${label} should mention ${requiredBoundary}`);
+    }
+  }
+
+  return { errors, warnings, result };
+}
+
 function validatePublicImplementationControlResult(resultPath, mode) {
   const errors = [];
   const warnings = [];
@@ -2059,6 +2164,7 @@ try {
     "launch-record",
     "process-control-contract",
     "technology-quality-feedback",
+    "character-layer-integration",
     "development-cockpit",
     "feature-implementation-traceability",
     "multi-source-quality-feedback",
@@ -2095,7 +2201,9 @@ try {
           ? validateImplementationControlCycle(path.resolve(targetPath))
           : isProcessTransitionMode
             ? validateProcessTransition(path.resolve(targetPath), path.resolve(transitionRequestPath))
-            : isPublicResultMode
+            : modeOrPackageDir === "character-layer-integration"
+              ? validateCharacterLayerIntegration(path.resolve(targetPath))
+              : isPublicResultMode
               ? validatePublicImplementationControlResult(path.resolve(targetPath), modeOrPackageDir)
               : validatePackage(path.resolve(targetPath));
   const output = {

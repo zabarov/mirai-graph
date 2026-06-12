@@ -100,6 +100,26 @@ loop.
 Use it when the same behavior governance layer should be reused across AI
 employees, project roles or model backends.
 
+## Cross-Layer Integration
+
+Character Layer should compose with other layers through an integration artifact
+rather than by mixing all profile vocabularies into one package.
+
+Minimal synthetic integration example:
+
+```text
+examples/character-layer-integration-minimal/
+```
+
+It links:
+
+- `role_character_profile` to AI employee and role references;
+- launch record and process-control contract references;
+- technology quality feedback;
+- runtime generated context boundary;
+- reflection protocol;
+- required gates for approval, review and technology feedback.
+
 ## Validation
 
 From the repository root:
@@ -108,8 +128,10 @@ From the repository root:
 node packages/cli/validate-mirai-graph.js profile profiles/character-layer/profile.json
 node packages/cli/validate-mirai-graph.js examples/character-layer-minimal
 node packages/cli/validate-mirai-graph.js templates/character-layer-starter
+node packages/cli/validate-mirai-graph.js character-layer-integration examples/character-layer-integration-minimal/results/character-layer-integration.json
 npm run validate:character-layer
 npm run validate:character-layer-starter
+npm run validate:character-layer-integration
 ```
 
 ## Evidence Limits
