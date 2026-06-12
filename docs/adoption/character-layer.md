@@ -120,6 +120,21 @@ It links:
 - reflection protocol;
 - required gates for approval, review and technology feedback.
 
+## Model Portability Evidence
+
+To test whether a new neural model backend preserves behavior, compare model
+runs against the same task set, graph context and character profile.
+
+Minimal synthetic evidence shape:
+
+```text
+examples/model-portability-minimal/
+```
+
+This records fixture results, boundary violations, comparison metrics and a
+bounded verdict such as `portable_within_fixture_limits`. It does not prove
+broad model equivalence or production replacement readiness.
+
 ## Validation
 
 From the repository root:
@@ -129,9 +144,11 @@ node packages/cli/validate-mirai-graph.js profile profiles/character-layer/profi
 node packages/cli/validate-mirai-graph.js examples/character-layer-minimal
 node packages/cli/validate-mirai-graph.js templates/character-layer-starter
 node packages/cli/validate-mirai-graph.js character-layer-integration examples/character-layer-integration-minimal/results/character-layer-integration.json
+node packages/cli/validate-mirai-graph.js model-portability-evidence examples/model-portability-minimal/results/model-portability-evidence.json
 npm run validate:character-layer
 npm run validate:character-layer-starter
 npm run validate:character-layer-integration
+npm run validate:model-portability-evidence
 ```
 
 ## Evidence Limits

@@ -70,6 +70,7 @@ function usage() {
   console.error("  node packages/cli/validate-mirai-graph.js process-control-contract <contract-file>");
   console.error("  node packages/cli/validate-mirai-graph.js technology-quality-feedback <feedback-file>");
   console.error("  node packages/cli/validate-mirai-graph.js character-layer-integration <integration-file>");
+  console.error("  node packages/cli/validate-mirai-graph.js model-portability-evidence <evidence-file>");
   console.error("  node packages/cli/validate-mirai-graph.js development-cockpit <cockpit-file>");
   console.error("  node packages/cli/validate-mirai-graph.js feature-implementation-traceability <traceability-file>");
   console.error("  node packages/cli/validate-mirai-graph.js multi-source-quality-feedback <feedback-file>");
@@ -1362,6 +1363,95 @@ function validateCharacterLayerIntegration(resultPath) {
   return { errors, warnings, result };
 }
 
+function validateModelPortabilityEvidence(resultPath) {
+  const errors = [];
+  const warnings = [];
+  const result = readJson(resultPath);
+  const label = "model_portability_evidence";
+
+  requireString(result, "schema_version", label, errors);
+  requireString(result, "profile", label, errors);
+  requireString(result, "public_safety", label, errors);
+  requireString(result, "evidence_id", label, errors);
+  requireString(result, "character_profile_ref", label, errors);
+  requireString(result, "task_set_ref", label, errors);
+  requireString(result, "comparison_verdict", label, errors);
+  requireArray(result, "evidence_refs", label, errors);
+  requireArray(result, "limitations", label, errors);
+  requireJsonArray(result, "model_runs", label, errors);
+  requireObject(result, "comparison_metrics", label, errors);
+
+  if (result.profile !== undefined && result.profile !== "character_layer") {
+    errors.push(`${label}.profile must be character_layer`);
+  }
+  if (result.public_safety !== undefined && result.public_safety !== "synthetic_public") {
+    errors.push(`${label}.public_safety must be synthetic_public`);
+  }
+
+  const verdicts = new Set([
+    "portable_within_fixture_limits",
+    "needs_review",
+    "regressed",
+    "insufficient_evidence"
+  ]);
+  if (typeof result.comparison_verdict === "string" && !verdicts.has(result.comparison_verdict)) {
+    errors.push(`${label}.comparison_verdict has unsupported value ${result.comparison_verdict}`);
+  }
+
+  if (Array.isArray(result.model_runs)) {
+    if (result.model_runs.length < 2) {
+      errors.push(`${label}.model_runs must include at least two model runs`);
+    }
+    result.model_runs.forEach((run, index) => {
+      const runLabel = `${label}.model_runs[${index}]`;
+      requireString(run, "model_ref", runLabel, errors);
+      requireString(run, "run_ref", runLabel, errors);
+      requireString(run, "notes", runLabel, errors);
+      requireArray(run, "passed_fixtures", runLabel, errors);
+      requireArray(run, "failed_fixtures", runLabel, errors);
+      requireArray(run, "boundary_violations", runLabel, errors);
+    });
+  }
+
+  if (result.comparison_metrics && typeof result.comparison_metrics === "object") {
+    for (const metric of [
+      "boundary_violation_delta",
+      "false_completion_claim_delta",
+      "evidence_authorization_confusion_delta",
+      "feedback_update_confusion_delta",
+      "blocker_reporting_delta",
+      "escalation_correctness_delta"
+    ]) {
+      if (typeof result.comparison_metrics[metric] !== "number") {
+        errors.push(`${label}.comparison_metrics.${metric} must be a number`);
+      }
+    }
+  }
+
+  const resultText = JSON.stringify(result).toLowerCase();
+  for (const forbiddenTerm of [
+    "/users/rim/documents/" + "github/",
+    "simai private",
+    "private runtime " + "trace",
+    "proves model equivalence",
+    "guarantees model replacement",
+    "production-ready replacement",
+    "no review required"
+  ]) {
+    if (resultText.includes(forbiddenTerm)) {
+      errors.push(`${label} contains forbidden portability claim: ${forbiddenTerm}`);
+    }
+  }
+
+  for (const requiredLimit of ["synthetic", "does not prove", "model-dependent"]) {
+    if (!resultText.includes(requiredLimit)) {
+      warnings.push(`${label}.limitations should mention ${requiredLimit}`);
+    }
+  }
+
+  return { errors, warnings, result };
+}
+
 function validatePublicImplementationControlResult(resultPath, mode) {
   const errors = [];
   const warnings = [];
@@ -2165,6 +2255,7 @@ try {
     "process-control-contract",
     "technology-quality-feedback",
     "character-layer-integration",
+    "model-portability-evidence",
     "development-cockpit",
     "feature-implementation-traceability",
     "multi-source-quality-feedback",
@@ -2203,6 +2294,8 @@ try {
             ? validateProcessTransition(path.resolve(targetPath), path.resolve(transitionRequestPath))
             : modeOrPackageDir === "character-layer-integration"
               ? validateCharacterLayerIntegration(path.resolve(targetPath))
+              : modeOrPackageDir === "model-portability-evidence"
+                ? validateModelPortabilityEvidence(path.resolve(targetPath))
               : isPublicResultMode
               ? validatePublicImplementationControlResult(path.resolve(targetPath), modeOrPackageDir)
               : validatePackage(path.resolve(targetPath));
