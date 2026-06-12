@@ -103,6 +103,7 @@ Start by role:
   [Feature Implementation Traceability](standard/feature-implementation-traceability.md).
 - Organizations and AI systems: [Graph As AI Brain](standard/graph-as-ai-brain.md),
   [AI Employee Graph Adoption](docs/adoption/ai-employee-graph.md),
+  [Character Layer Adoption](docs/adoption/character-layer.md),
   [Organization Governance](standard/organization-governance.md),
   [Process Control Contract](standard/process-control-contract.md),
   [Multi-Source Quality Feedback](standard/multi-source-quality-feedback.md).

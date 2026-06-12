@@ -16,6 +16,7 @@ For the full role-oriented starter path, use the
 | `software-project-starter/` | `software_specification` | Starting from features, requirements, components, tasks and risks. |
 | `research-program-starter/` | `project_management` | Starting from hypotheses, evidence, milestones, review gates and publication risks. |
 | `ai-employee-starter/` | `ai_employee` | Modeling an AI worker with role, skill, tool, policy, action and feedback gates. |
+| `character-layer-starter/` | `character_layer` | Reusing behavior constitution, role character profiles, reflection and correction boundaries. |
 | `organization-governance-starter/` | `organization_governance` | Modeling mission, strategy, departments, programs, policies, controls and metrics. |
 
 ## One-Day Adoption Path

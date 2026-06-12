@@ -84,6 +84,22 @@ It includes:
 - gate results for public safety, canonical writes, external actions, feedback
   learning and scientific claims.
 
+## Starter Pack
+
+For new projects, start from the reusable starter:
+
+```text
+templates/character-layer-starter/
+```
+
+It expands the minimal fixture into a base character constitution, reusable
+principles, character virtues, hard boundaries, reflection protocol, several
+role character profiles, violation patterns and an owner-reviewed correction
+loop.
+
+Use it when the same behavior governance layer should be reused across AI
+employees, project roles or model backends.
+
 ## Validation
 
 From the repository root:
@@ -91,7 +107,9 @@ From the repository root:
 ```bash
 node packages/cli/validate-mirai-graph.js profile profiles/character-layer/profile.json
 node packages/cli/validate-mirai-graph.js examples/character-layer-minimal
+node packages/cli/validate-mirai-graph.js templates/character-layer-starter
 npm run validate:character-layer
+npm run validate:character-layer-starter
 ```
 
 ## Evidence Limits

@@ -43,6 +43,18 @@ const profiles = [
     ]
   },
   {
+    role: "character-layer",
+    aliases: ["character-layer", "character_layer", "character", "behavior", "behaviour", "behavior-governance"],
+    profile: "character_layer",
+    starter: "templates/character-layer-starter",
+    useWhen: "behavior constitution, role character profiles, reflection, violation patterns and correction loops",
+    nextCommands: [
+      "node packages/cli/mirai-graph.js validate templates/character-layer-starter",
+      "node packages/cli/mirai-graph.js report validation templates/character-layer-starter",
+      "node packages/cli/mirai-graph.js adopter report templates/character-layer-starter"
+    ]
+  },
+  {
     role: "organization",
     aliases: ["organization", "org", "governance", "organization_governance"],
     profile: "organization_governance",

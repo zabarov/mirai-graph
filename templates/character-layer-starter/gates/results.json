@@ -1,0 +1,20 @@
+[
+  {
+    "id": "gate_result.template_character_layer.public_safety",
+    "gate_id": "public_safety_before_release",
+    "target_id": "package.template_character_layer",
+    "verdict": "pass_with_notes",
+    "summary": "Template uses only synthetic public-safe character content and no private runtime traces.",
+    "reviewed_at": "2026-06-12",
+    "evidence": ["evidence.character_starter_brief"]
+  },
+  {
+    "id": "gate_result.template_character_layer.owner_review_boundary",
+    "gate_id": "human_review_before_canonical_write",
+    "target_id": "correction_loop.owner_reviewed_character_update",
+    "verdict": "pass_with_notes",
+    "summary": "The correction loop keeps behavior changes as proposals until owner review.",
+    "reviewed_at": "2026-06-12",
+    "evidence": ["evidence.character_starter_brief"]
+  }
+]

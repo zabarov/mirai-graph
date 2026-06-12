@@ -17,6 +17,7 @@ entire organization.
 | Software product, feature or package | `software_specification` | `templates/software-project-starter` | `npm run validate:templates` |
 | Research program or evidence workflow | `project_management` | `templates/research-program-starter` | `npm run validate:templates` |
 | AI employee, agent workflow or governed AI role | `ai_employee` | `templates/ai-employee-starter` | `npm run validate:templates` |
+| AI behavior constitution, role character or reflection boundary | `character_layer` | `templates/character-layer-starter` | `npm run validate:templates` |
 | Organization, department, portfolio or governance system | `organization_governance` | `templates/organization-governance-starter` | `npm run validate:templates` |
 
 ## Decision Rules
@@ -32,6 +33,10 @@ Choose `ai_employee` when the graph needs to describe an AI worker as a governed
 system with role, skill, tool, policy, action, result, feedback and learning
 boundaries.
 
+Choose `character_layer` when the graph needs to describe model-independent AI
+behavior governance: constitution, principles, character virtues, boundaries,
+reflection protocols, violation patterns and correction loops.
+
 Choose `organization_governance` when the graph needs to model mission,
 strategy, departments, programs, policies, controls, metrics, delegated
 responsibility and governance risks.
@@ -42,6 +47,7 @@ you need to make:
 - build or change software -> `software_specification`;
 - coordinate work -> `project_management`;
 - govern an AI worker -> `ai_employee`;
+- govern behavior across AI roles or model backends -> `character_layer`;
 - govern an organization or portfolio -> `organization_governance`.
 
 ## First-Day Workflow

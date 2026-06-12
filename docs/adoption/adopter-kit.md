@@ -25,6 +25,7 @@ package that follows the current alpha.11 shape.
 | Developer | `software_specification` | `templates/software-project-starter/` | package validation, process transition, technology feedback |
 | Researcher | `project_management` | `templates/research-program-starter/` | seed validation, evidence boundaries, reproducibility notes |
 | AI product team | `ai_employee` | `templates/ai-employee-starter/` | role/skill/tool/policy graph, approval gates, feedback |
+| Behavior governance | `character_layer` | `templates/character-layer-starter/` | constitution, role character profiles, reflection, correction loops |
 | Organization | `organization_governance` | `templates/organization-governance-starter/` | goals, departments, policies, controls, metrics |
 
 ## Local Setup
@@ -63,6 +64,7 @@ node packages/cli/mirai-graph.js adopter plan organization
 node packages/cli/validate-mirai-graph.js templates/software-project-starter
 node packages/cli/validate-mirai-graph.js templates/research-program-starter
 node packages/cli/validate-mirai-graph.js templates/ai-employee-starter
+node packages/cli/validate-mirai-graph.js templates/character-layer-starter
 node packages/cli/validate-mirai-graph.js templates/organization-governance-starter
 ```
 
@@ -136,6 +138,7 @@ Use these starters for new work:
 - `templates/software-project-starter/`
 - `templates/research-program-starter/`
 - `templates/ai-employee-starter/`
+- `templates/character-layer-starter/`
 - `templates/organization-governance-starter/`
 
 ## Public Safety Boundary
