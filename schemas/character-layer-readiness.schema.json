@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mirai-graph.dev/schemas/character-layer-readiness.schema.json",
+  "title": "Mirai Graph Character Layer Readiness",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "profile",
+    "public_safety",
+    "readiness_id",
+    "target_release_track",
+    "readiness_verdict",
+    "completed_capabilities",
+    "validation_commands",
+    "evidence_refs",
+    "claim_boundaries",
+    "remaining_limits"
+  ],
+  "properties": {
+    "schema_version": { "type": "string" },
+    "profile": { "const": "character_layer" },
+    "public_safety": { "const": "synthetic_public" },
+    "readiness_id": { "type": "string" },
+    "target_release_track": { "type": "string" },
+    "readiness_verdict": {
+      "enum": [
+        "ready_for_1_0_candidate",
+        "needs_hardening",
+        "blocked",
+        "insufficient_evidence"
+      ]
+    },
+    "completed_capabilities": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "status", "evidence_refs"],
+        "properties": {
+          "id": { "type": "string" },
+          "status": { "enum": ["completed", "partial", "missing"] },
+          "evidence_refs": {
+            "type": "array",
+            "minItems": 1,
+            "items": { "type": "string" }
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "validation_commands": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string" }
+    },
+    "evidence_refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string" }
+    },
+    "claim_boundaries": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string" }
+    },
+    "remaining_limits": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string" }
+    }
+  },
+  "additionalProperties": true
+}

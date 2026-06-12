@@ -1,0 +1,90 @@
+{
+  "schema_version": "0.1.0",
+  "profile": "character_layer",
+  "public_safety": "synthetic_public",
+  "readiness_id": "character_layer_readiness.1_0_candidate",
+  "target_release_track": "mirai_graph_1_0",
+  "readiness_verdict": "ready_for_1_0_candidate",
+  "completed_capabilities": [
+    {
+      "id": "profile_vocabulary",
+      "status": "completed",
+      "evidence_refs": [
+        "profiles/character-layer/profile.json",
+        "profiles/character-layer/README.md"
+      ]
+    },
+    {
+      "id": "minimal_fixture",
+      "status": "completed",
+      "evidence_refs": [
+        "examples/character-layer-minimal/"
+      ]
+    },
+    {
+      "id": "starter_pack",
+      "status": "completed",
+      "evidence_refs": [
+        "templates/character-layer-starter/"
+      ]
+    },
+    {
+      "id": "semantic_negative_fixtures",
+      "status": "completed",
+      "evidence_refs": [
+        "examples/invalid-character-layer-context-authorization/",
+        "examples/invalid-character-layer-feedback-auto-update/",
+        "examples/invalid-character-layer-role-permission/",
+        "examples/invalid-character-layer-correction-loop-no-review/",
+        "examples/invalid-character-layer-relation-direction/"
+      ]
+    },
+    {
+      "id": "cross_layer_integration",
+      "status": "completed",
+      "evidence_refs": [
+        "schemas/character-layer-integration.schema.json",
+        "examples/character-layer-integration-minimal/results/character-layer-integration.json"
+      ]
+    },
+    {
+      "id": "model_portability_evidence_shape",
+      "status": "completed",
+      "evidence_refs": [
+        "schemas/model-portability-evidence.schema.json",
+        "examples/model-portability-minimal/results/model-portability-evidence.json"
+      ]
+    }
+  ],
+  "validation_commands": [
+    "npm run validate:character-layer",
+    "npm run validate:character-layer-starter",
+    "npm run validate:character-layer-integration",
+    "npm run validate:model-portability-evidence",
+    "npm run test:character-layer-semantic-negative",
+    "npm run validate:character-layer-readiness",
+    "npm test",
+    "npm run release:check"
+  ],
+  "evidence_refs": [
+    "docs/adoption/character-layer.md",
+    "templates/character-layer-starter/",
+    "examples/character-layer-integration-minimal/",
+    "examples/model-portability-minimal/",
+    "examples/character-layer-readiness-1-0/"
+  ],
+  "claim_boundaries": [
+    "Character Layer can be represented as a reusable Mirai Graph behavior-governance profile.",
+    "Character Layer can be composed with AI employee, process-control, technology-quality-feedback and runtime context through a checked integration artifact.",
+    "Model portability can be measured through bounded fixture evidence.",
+    "A portable-within-fixture-limits verdict does not prove broad model equivalence.",
+    "Generated context, evidence, feedback and proposals do not authorize canonical updates."
+  ],
+  "remaining_limits": [
+    "No live multi-model replay evidence is included in the public package.",
+    "No peer-reviewed scientific proof is claimed.",
+    "No production autonomous execution safety is claimed.",
+    "Real model replacement remains dependent on reasoning quality, coding ability, long-context handling and project-specific review.",
+    "Private operational constitutions remain outside public examples."
+  ]
+}

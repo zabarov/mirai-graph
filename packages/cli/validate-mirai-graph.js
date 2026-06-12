@@ -71,6 +71,7 @@ function usage() {
   console.error("  node packages/cli/validate-mirai-graph.js technology-quality-feedback <feedback-file>");
   console.error("  node packages/cli/validate-mirai-graph.js character-layer-integration <integration-file>");
   console.error("  node packages/cli/validate-mirai-graph.js model-portability-evidence <evidence-file>");
+  console.error("  node packages/cli/validate-mirai-graph.js character-layer-readiness <readiness-file>");
   console.error("  node packages/cli/validate-mirai-graph.js development-cockpit <cockpit-file>");
   console.error("  node packages/cli/validate-mirai-graph.js feature-implementation-traceability <traceability-file>");
   console.error("  node packages/cli/validate-mirai-graph.js multi-source-quality-feedback <feedback-file>");
@@ -1452,6 +1453,114 @@ function validateModelPortabilityEvidence(resultPath) {
   return { errors, warnings, result };
 }
 
+function validateCharacterLayerReadiness(resultPath) {
+  const errors = [];
+  const warnings = [];
+  const result = readJson(resultPath);
+  const label = "character_layer_readiness";
+
+  requireString(result, "schema_version", label, errors);
+  requireString(result, "profile", label, errors);
+  requireString(result, "public_safety", label, errors);
+  requireString(result, "readiness_id", label, errors);
+  requireString(result, "target_release_track", label, errors);
+  requireString(result, "readiness_verdict", label, errors);
+  requireArray(result, "validation_commands", label, errors);
+  requireArray(result, "evidence_refs", label, errors);
+  requireArray(result, "claim_boundaries", label, errors);
+  requireArray(result, "remaining_limits", label, errors);
+  requireJsonArray(result, "completed_capabilities", label, errors);
+
+  if (result.profile !== undefined && result.profile !== "character_layer") {
+    errors.push(`${label}.profile must be character_layer`);
+  }
+  if (result.public_safety !== undefined && result.public_safety !== "synthetic_public") {
+    errors.push(`${label}.public_safety must be synthetic_public`);
+  }
+
+  const verdicts = new Set([
+    "ready_for_1_0_candidate",
+    "needs_hardening",
+    "blocked",
+    "insufficient_evidence"
+  ]);
+  if (typeof result.readiness_verdict === "string" && !verdicts.has(result.readiness_verdict)) {
+    errors.push(`${label}.readiness_verdict has unsupported value ${result.readiness_verdict}`);
+  }
+
+  const completedIds = new Set();
+  if (Array.isArray(result.completed_capabilities)) {
+    result.completed_capabilities.forEach((capability, index) => {
+      const capLabel = `${label}.completed_capabilities[${index}]`;
+      requireString(capability, "id", capLabel, errors);
+      requireString(capability, "status", capLabel, errors);
+      requireArray(capability, "evidence_refs", capLabel, errors);
+      if (capability.status !== undefined && !["completed", "partial", "missing"].includes(capability.status)) {
+        errors.push(`${capLabel}.status has unsupported value ${capability.status}`);
+      }
+      if (capability.status === "completed" && typeof capability.id === "string") {
+        completedIds.add(capability.id);
+      }
+    });
+  }
+
+  for (const requiredCapability of [
+    "profile_vocabulary",
+    "minimal_fixture",
+    "starter_pack",
+    "semantic_negative_fixtures",
+    "cross_layer_integration",
+    "model_portability_evidence_shape"
+  ]) {
+    if (!completedIds.has(requiredCapability)) {
+      errors.push(`${label}.completed_capabilities must include completed ${requiredCapability}`);
+    }
+  }
+
+  const commandText = Array.isArray(result.validation_commands) ? result.validation_commands.join("\n") : "";
+  for (const requiredCommand of [
+    "validate:character-layer",
+    "validate:character-layer-starter",
+    "validate:character-layer-integration",
+    "validate:model-portability-evidence",
+    "test:character-layer-semantic-negative",
+    "npm test",
+    "release:check"
+  ]) {
+    if (!commandText.includes(requiredCommand)) {
+      errors.push(`${label}.validation_commands must include ${requiredCommand}`);
+    }
+  }
+
+  const resultText = JSON.stringify(result).toLowerCase();
+  for (const forbiddenTerm of [
+    "/users/rim/documents/" + "github/",
+    "simai private",
+    "private runtime " + "trace",
+    "proves broad model equivalence",
+    "guarantees model replacement",
+    "production autonomous execution safety is proven",
+    "peer-reviewed proof"
+  ]) {
+    if (resultText.includes(forbiddenTerm)) {
+      errors.push(`${label} contains forbidden readiness claim: ${forbiddenTerm}`);
+    }
+  }
+
+  for (const requiredBoundary of [
+    "does not prove",
+    "not authorize canonical updates",
+    "no peer-reviewed scientific proof",
+    "model replacement"
+  ]) {
+    if (!resultText.includes(requiredBoundary)) {
+      warnings.push(`${label} should mention ${requiredBoundary}`);
+    }
+  }
+
+  return { errors, warnings, result };
+}
+
 function validatePublicImplementationControlResult(resultPath, mode) {
   const errors = [];
   const warnings = [];
@@ -2256,6 +2365,7 @@ try {
     "technology-quality-feedback",
     "character-layer-integration",
     "model-portability-evidence",
+    "character-layer-readiness",
     "development-cockpit",
     "feature-implementation-traceability",
     "multi-source-quality-feedback",
@@ -2296,6 +2406,8 @@ try {
               ? validateCharacterLayerIntegration(path.resolve(targetPath))
               : modeOrPackageDir === "model-portability-evidence"
                 ? validateModelPortabilityEvidence(path.resolve(targetPath))
+                : modeOrPackageDir === "character-layer-readiness"
+                  ? validateCharacterLayerReadiness(path.resolve(targetPath))
               : isPublicResultMode
               ? validatePublicImplementationControlResult(path.resolve(targetPath), modeOrPackageDir)
               : validatePackage(path.resolve(targetPath));

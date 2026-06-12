@@ -135,6 +135,18 @@ This records fixture results, boundary violations, comparison metrics and a
 bounded verdict such as `portable_within_fixture_limits`. It does not prove
 broad model equivalence or production replacement readiness.
 
+## 1.0 Readiness Consolidation
+
+The Character Layer 1.0 readiness artifact is:
+
+```text
+examples/character-layer-readiness-1-0/
+```
+
+It consolidates profile vocabulary, minimal fixture, starter pack, semantic
+anti-fixtures, cross-layer integration, model portability evidence shape,
+validation commands, claim boundaries and remaining limits.
+
 ## Validation
 
 From the repository root:
@@ -145,10 +157,12 @@ node packages/cli/validate-mirai-graph.js examples/character-layer-minimal
 node packages/cli/validate-mirai-graph.js templates/character-layer-starter
 node packages/cli/validate-mirai-graph.js character-layer-integration examples/character-layer-integration-minimal/results/character-layer-integration.json
 node packages/cli/validate-mirai-graph.js model-portability-evidence examples/model-portability-minimal/results/model-portability-evidence.json
+node packages/cli/validate-mirai-graph.js character-layer-readiness examples/character-layer-readiness-1-0/results/character-layer-readiness.json
 npm run validate:character-layer
 npm run validate:character-layer-starter
 npm run validate:character-layer-integration
 npm run validate:model-portability-evidence
+npm run validate:character-layer-readiness
 ```
 
 ## Evidence Limits

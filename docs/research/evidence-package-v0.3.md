@@ -25,6 +25,7 @@ It does not claim peer-reviewed proof of effectiveness.
 | Baseline comparison | `results/baseline-comparison-result.json` | explicit baseline-vs-graph metrics on one public-safe task | external validity |
 | Process fixtures | `examples/process-transition-minimal/` | fail-closed transition validation and readable explanations | runtime execution safety |
 | Instrumentation | `examples/instrumentation-layer-minimal/` | cockpit, traceability and multi-source feedback shape | prediction of real production outcomes |
+| Character Layer | `examples/character-layer-readiness-1-0/` | reusable behavior-governance profile, integration shape and portability evidence format | proof of broad model equivalence or production replacement safety |
 | Public pilots | `pilots/independent-implementation-001..005-*` | profile applicability across domains | proof of real-world effectiveness |
 | Adopter kit | `docs/adoption/adopter-kit.md` | repeatable first adoption path | successful adoption without review |
 
@@ -48,6 +49,10 @@ research, AI employee and organization-governance scenarios.
 H6. A role-oriented adopter kit can reduce first-use ambiguity for external
 evaluators.
 
+H7. Externalized Character Layer constraints can improve behavior portability
+across model backends when measured through the same graph context, task set and
+fixtures.
+
 These are hypotheses and engineering claims under test, not settled scientific
 facts.
 
@@ -63,6 +68,8 @@ facts.
 | Technology feedback | `examples/technology-quality-feedback-minimal/` | `npm run validate:technology-quality-feedback` | Executable fixture |
 | Instrumentation layer | `examples/instrumentation-layer-minimal/` | `npm run validate:instrumentation-layer` | Executable fixture |
 | Instrumentation report | `examples/instrumentation-layer-minimal/` | `npm run validate:instrumentation-report` | Readable report |
+| Character Layer readiness | `examples/character-layer-readiness-1-0/` | `npm run validate:character-layer-readiness` | Profile readiness |
+| Model portability evidence | `examples/model-portability-minimal/` | `npm run validate:model-portability-evidence` | Synthetic comparison shape |
 | Adopter workflow | `docs/adoption/adopter-kit.md` and templates | `npm run validate:adopter-workflow` | Adoption readiness |
 | Public pilots | `pilots/independent-implementation-*` | `npm run validate:pilots` | Public-safe pilot |
 | Full release check | repository root | `npm run release:check` | Integrated validation |
@@ -95,6 +102,8 @@ The public suite currently measures or validates:
 - missing transition evidence;
 - technology-feedback classification;
 - instrumentation report validity;
+- character-layer readiness;
+- model-portability evidence shape;
 - pilot package validity;
 - public-safety boundaries.
 
@@ -142,6 +151,8 @@ npm run validate:process-transition-report
 npm run validate:technology-quality-feedback
 npm run validate:instrumentation-layer
 npm run validate:instrumentation-report
+npm run validate:character-layer-readiness
+npm run validate:model-portability-evidence
 npm run validate:pilots
 npm run validate:profile-results
 npm run validate:adopter-workflow
@@ -168,6 +179,8 @@ Mirai Graph alpha.11 supports these bounded claims:
   acceptance;
 - instrumentation can connect cockpit signals, feature traceability and
   multi-source feedback to transition decisions;
+- Character Layer can represent reusable behavior governance, cross-layer
+  integration and bounded model-portability evidence;
 - synthetic baseline comparison can record context, evidence and assumption
   metrics;
 - public-safe pilots cover project-management, software-specification,
