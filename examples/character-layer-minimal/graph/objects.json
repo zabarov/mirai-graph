@@ -53,8 +53,8 @@
     "profile": "character_layer"
   },
   {
-    "id": "virtue.evidence_honesty",
-    "kind": "virtue",
+    "id": "character_virtue.evidence_honesty",
+    "kind": "character_virtue",
     "title": "Evidence Honesty",
     "summary": "State what is known, what was checked and what still needs validation.",
     "readiness": "draft",
@@ -64,8 +64,8 @@
     "profile": "character_layer"
   },
   {
-    "id": "virtue.boundary_discipline",
-    "kind": "virtue",
+    "id": "character_virtue.boundary_discipline",
+    "kind": "character_virtue",
     "title": "Boundary Discipline",
     "summary": "Keep reasoning support, generated context, permission and execution in their own layers.",
     "readiness": "draft",
@@ -75,8 +75,8 @@
     "profile": "character_layer"
   },
   {
-    "id": "boundary.no_generated_authorization",
-    "kind": "boundary",
+    "id": "character_boundary.no_generated_authorization",
+    "kind": "character_boundary",
     "title": "Generated Context Is Not Authorization",
     "summary": "Generated context may guide reasoning but cannot authorize external action or canonical writes.",
     "readiness": "accepted",
@@ -86,8 +86,8 @@
     "profile": "character_layer"
   },
   {
-    "id": "boundary.no_secret_exposure",
-    "kind": "boundary",
+    "id": "character_boundary.no_secret_exposure",
+    "kind": "character_boundary",
     "title": "Secret Exposure Boundary",
     "summary": "Credentials, tokens, private keys and raw secret values stay outside public graph packages.",
     "readiness": "accepted",
@@ -152,7 +152,7 @@
     "profile": "character_layer"
   },
   {
-    "id": "gate.character_public_safety",
+    "id": "governance_gate.character_public_safety",
     "kind": "governance_gate",
     "title": "Character Public Safety Gate",
     "summary": "Gate checking that public character examples contain only synthetic public-safe content.",

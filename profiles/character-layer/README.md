@@ -11,8 +11,8 @@ It treats character as graph state:
 
 - constitution;
 - principles;
-- virtues;
-- boundaries;
+- character virtues;
+- character boundaries;
 - role character profiles;
 - reflection protocols;
 - fixtures;
@@ -38,15 +38,14 @@ Initial allowed object kinds:
 
 - `character_constitution`;
 - `character_principle`;
-- `virtue`;
-- `boundary`;
+- `character_virtue`;
+- `character_boundary`;
 - `role_character_profile`;
-- `decision_principle`;
+- `character_decision_rule`;
 - `reflection_protocol`;
 - `character_fixture`;
 - `violation_pattern`;
 - `correction_loop`;
-- `character_evidence`;
 - `governance_gate`;
 - `evidence`.
 
@@ -55,13 +54,13 @@ Initial allowed object kinds:
 Initial allowed relation types:
 
 - `defines_principle`;
-- `requires_virtue`;
-- `sets_boundary`;
+- `promotes_virtue`;
+- `sets_character_boundary`;
 - `specializes_character`;
-- `resolves_conflict_with`;
-- `checks_with`;
-- `tests_character_with`;
-- `violates`;
+- `resolves_character_conflict`;
+- `uses_reflection_protocol`;
+- `tests_character`;
+- `describes_violation_of`;
 - `corrects_violation`;
 - `updates_character`;
 - `evidences_character`;
@@ -107,8 +106,8 @@ A Level 1 character-layer package should include:
 
 - one `character_constitution`;
 - several `character_principle` objects;
-- at least one `virtue`;
-- at least one `boundary`;
+- at least one `character_virtue`;
+- at least one `character_boundary`;
 - one `reflection_protocol`;
 - one `role_character_profile`;
 - one `character_fixture`;

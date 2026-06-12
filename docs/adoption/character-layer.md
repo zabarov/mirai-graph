@@ -10,8 +10,8 @@ model-independent AI character governance.
 It is intended for systems that need to represent:
 
 - character constitutions;
-- principles and virtues;
-- behavioral boundaries;
+- principles and character virtues;
+- character boundaries;
 - role-specific character profiles;
 - reflection protocols;
 - evaluation fixtures;
@@ -52,6 +52,18 @@ skills, tools, capabilities, workflows, actions, feedback and lessons.
 The profiles can be composed by a system design, but the first Character Layer
 profile is separate and does not modify `profiles/ai-employee/`.
 
+Typical composition:
+
+```text
+ai_employee -> has_role -> role
+role_character_profile -> governs_role -> role
+role_character_profile -> governs_employee -> ai_employee
+role_character_profile -> specializes_character -> character_constitution
+role_character_profile -> uses_reflection_protocol -> reflection_protocol
+character_boundary -> requires_escalation_to -> governance_gate
+correction_loop -> updates_character -> role_character_profile|character_principle|character_boundary
+```
+
 ## Minimal Package
 
 The minimal package is:
@@ -64,8 +76,8 @@ It includes:
 
 - one public-safe character constitution;
 - principles for uncertainty, authority boundaries and evidence reporting;
-- virtues for evidence honesty and boundary discipline;
-- boundaries for generated authorization and secret exposure;
+- character virtues for evidence honesty and boundary discipline;
+- character boundaries for generated authorization and secret exposure;
 - a reflection protocol;
 - a role character profile;
 - a fixture, violation pattern and correction loop;

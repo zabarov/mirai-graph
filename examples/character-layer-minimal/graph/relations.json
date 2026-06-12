@@ -33,10 +33,10 @@
     "profile": "character_layer"
   },
   {
-    "id": "relation.character_constitution.mirai_base_public.requires_virtue.virtue.evidence_honesty",
-    "type": "requires_virtue",
+    "id": "relation.character_constitution.mirai_base_public.promotes_virtue.character_virtue.evidence_honesty",
+    "type": "promotes_virtue",
     "source": "character_constitution.mirai_base_public",
-    "target": "virtue.evidence_honesty",
+    "target": "character_virtue.evidence_honesty",
     "readiness": "draft",
     "evidence": [
       "evidence.character_layer_brief"
@@ -44,10 +44,10 @@
     "profile": "character_layer"
   },
   {
-    "id": "relation.character_constitution.mirai_base_public.requires_virtue.virtue.boundary_discipline",
-    "type": "requires_virtue",
+    "id": "relation.character_constitution.mirai_base_public.promotes_virtue.character_virtue.boundary_discipline",
+    "type": "promotes_virtue",
     "source": "character_constitution.mirai_base_public",
-    "target": "virtue.boundary_discipline",
+    "target": "character_virtue.boundary_discipline",
     "readiness": "draft",
     "evidence": [
       "evidence.character_layer_brief"
@@ -55,10 +55,10 @@
     "profile": "character_layer"
   },
   {
-    "id": "relation.character_constitution.mirai_base_public.sets_boundary.boundary.no_generated_authorization",
-    "type": "sets_boundary",
+    "id": "relation.character_constitution.mirai_base_public.sets_character_boundary.character_boundary.no_generated_authorization",
+    "type": "sets_character_boundary",
     "source": "character_constitution.mirai_base_public",
-    "target": "boundary.no_generated_authorization",
+    "target": "character_boundary.no_generated_authorization",
     "readiness": "accepted",
     "evidence": [
       "evidence.character_layer_brief"
@@ -66,10 +66,10 @@
     "profile": "character_layer"
   },
   {
-    "id": "relation.character_constitution.mirai_base_public.sets_boundary.boundary.no_secret_exposure",
-    "type": "sets_boundary",
+    "id": "relation.character_constitution.mirai_base_public.sets_character_boundary.character_boundary.no_secret_exposure",
+    "type": "sets_character_boundary",
     "source": "character_constitution.mirai_base_public",
-    "target": "boundary.no_secret_exposure",
+    "target": "character_boundary.no_secret_exposure",
     "readiness": "accepted",
     "evidence": [
       "evidence.character_layer_brief"
@@ -88,8 +88,8 @@
     "profile": "character_layer"
   },
   {
-    "id": "relation.role_character_profile.federation_operator.checks_with.reflection_protocol.final_response_boundary",
-    "type": "checks_with",
+    "id": "relation.role_character_profile.federation_operator.uses_reflection_protocol.reflection_protocol.final_response_boundary",
+    "type": "uses_reflection_protocol",
     "source": "role_character_profile.federation_operator",
     "target": "reflection_protocol.final_response_boundary",
     "readiness": "draft",
@@ -99,8 +99,8 @@
     "profile": "character_layer"
   },
   {
-    "id": "relation.character_fixture.analysis_boundary.tests_character_with.role_character_profile.federation_operator",
-    "type": "tests_character_with",
+    "id": "relation.character_fixture.analysis_boundary.tests_character.role_character_profile.federation_operator",
+    "type": "tests_character",
     "source": "character_fixture.analysis_boundary",
     "target": "role_character_profile.federation_operator",
     "readiness": "draft",
@@ -110,8 +110,8 @@
     "profile": "character_layer"
   },
   {
-    "id": "relation.violation_pattern.false_completion_claim.violates.character_principle.report_evidence_and_blockers",
-    "type": "violates",
+    "id": "relation.violation_pattern.false_completion_claim.describes_violation_of.character_principle.report_evidence_and_blockers",
+    "type": "describes_violation_of",
     "source": "violation_pattern.false_completion_claim",
     "target": "character_principle.report_evidence_and_blockers",
     "readiness": "draft",
@@ -154,10 +154,21 @@
     "profile": "character_layer"
   },
   {
-    "id": "relation.gate.character_public_safety.governs.role_character_profile.federation_operator",
+    "id": "relation.governance_gate.character_public_safety.governs.role_character_profile.federation_operator",
     "type": "governs",
-    "source": "gate.character_public_safety",
+    "source": "governance_gate.character_public_safety",
     "target": "role_character_profile.federation_operator",
+    "readiness": "accepted",
+    "evidence": [
+      "evidence.character_layer_brief"
+    ],
+    "profile": "character_layer"
+  },
+  {
+    "id": "relation.character_boundary.no_generated_authorization.requires_escalation_to.governance_gate.character_public_safety",
+    "type": "requires_escalation_to",
+    "source": "character_boundary.no_generated_authorization",
+    "target": "governance_gate.character_public_safety",
     "readiness": "accepted",
     "evidence": [
       "evidence.character_layer_brief"
