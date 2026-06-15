@@ -1,0 +1,29 @@
+[
+  {
+    "id": "evidence.invalid_rights_override",
+    "kind": "evidence",
+    "title": "Invalid Rights Override Evidence",
+    "summary": "Synthetic negative fixture evidence.",
+    "readiness": "accepted",
+    "evidence": [],
+    "profile": "societal_governance"
+  },
+  {
+    "id": "participation_weight.contribution_weight",
+    "kind": "participation_weight",
+    "title": "Contribution Weight",
+    "summary": "Contribution weight incorrectly treated as stronger than protected rights.",
+    "readiness": "draft",
+    "evidence": ["evidence.invalid_rights_override"],
+    "profile": "societal_governance"
+  },
+  {
+    "id": "rights_gate.protected_rights",
+    "kind": "rights_gate",
+    "title": "Protected Rights",
+    "summary": "Rights gate that must dominate optimization and weighting.",
+    "readiness": "accepted",
+    "evidence": ["evidence.invalid_rights_override"],
+    "profile": "societal_governance"
+  }
+]

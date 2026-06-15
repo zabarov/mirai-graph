@@ -1,0 +1,14 @@
+{
+  "id": "package.invalid_societal_governance_rights_overridden",
+  "name": "Invalid Societal Governance Rights Overridden",
+  "version": "0.1.0-proposal",
+  "profile": "societal_governance",
+  "conformance_level": "level_1",
+  "description": "Negative fixture: participation weight overrides protected rights.",
+  "license": "CC-BY-4.0",
+  "public_safety": "synthetic_public",
+  "graph": {
+    "objects": "graph/objects.json",
+    "relations": "graph/relations.json"
+  }
+}

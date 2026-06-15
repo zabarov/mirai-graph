@@ -1,0 +1,209 @@
+[
+  {
+    "id": "relation.governance_level.organization_shadow.defined_by_dna.governance_dna.example_charter",
+    "type": "defined_by_dna",
+    "source": "governance_level.organization_shadow",
+    "target": "governance_dna.example_charter",
+    "readiness": "review_ready",
+    "evidence": ["evidence.societal_governance_brief"],
+    "profile": "societal_governance"
+  },
+  {
+    "id": "relation.participant.example_member.member_of_level.governance_level.organization_shadow",
+    "type": "member_of_level",
+    "source": "participant.example_member",
+    "target": "governance_level.organization_shadow",
+    "readiness": "draft",
+    "evidence": ["evidence.societal_governance_brief"],
+    "profile": "societal_governance"
+  },
+  {
+    "id": "relation.participant.example_member.represented_by_avatar.ai_avatar.example_member_avatar",
+    "type": "represented_by_avatar",
+    "source": "participant.example_member",
+    "target": "ai_avatar.example_member_avatar",
+    "readiness": "draft",
+    "evidence": ["evidence.societal_governance_brief"],
+    "profile": "societal_governance"
+  },
+  {
+    "id": "relation.ai_avatar.example_member_avatar.bound_by_contract.avatar_contract.example_member_avatar_contract",
+    "type": "bound_by_contract",
+    "source": "ai_avatar.example_member_avatar",
+    "target": "avatar_contract.example_member_avatar_contract",
+    "readiness": "review_ready",
+    "evidence": ["evidence.societal_governance_brief"],
+    "profile": "societal_governance"
+  },
+  {
+    "id": "relation.avatar_contract.example_member_avatar_contract.delegates_scope_to.delegation_scope.non_binding_signal",
+    "type": "delegates_scope_to",
+    "source": "avatar_contract.example_member_avatar_contract",
+    "target": "delegation_scope.non_binding_signal",
+    "readiness": "review_ready",
+    "evidence": ["evidence.societal_governance_brief"],
+    "profile": "societal_governance"
+  },
+  {
+    "id": "relation.delegation_scope.non_binding_signal.has_consent_receipt.consent_receipt.example_member_consent",
+    "type": "has_consent_receipt",
+    "source": "delegation_scope.non_binding_signal",
+    "target": "consent_receipt.example_member_consent",
+    "readiness": "review_ready",
+    "evidence": ["evidence.societal_governance_brief"],
+    "profile": "societal_governance"
+  },
+  {
+    "id": "relation.ai_avatar.example_member_avatar.opens_initiative.initiative.service_window_change",
+    "type": "opens_initiative",
+    "source": "ai_avatar.example_member_avatar",
+    "target": "initiative.service_window_change",
+    "readiness": "draft",
+    "evidence": ["evidence.societal_governance_brief"],
+    "profile": "societal_governance"
+  },
+  {
+    "id": "relation.initiative.service_window_change.affects_group.stakeholder_group.service_users",
+    "type": "affects_group",
+    "source": "initiative.service_window_change",
+    "target": "stakeholder_group.service_users",
+    "readiness": "draft",
+    "evidence": ["evidence.societal_governance_brief"],
+    "profile": "societal_governance"
+  },
+  {
+    "id": "relation.initiative.service_window_change.uses_simulation.simulation.service_impact_simulation",
+    "type": "uses_simulation",
+    "source": "initiative.service_window_change",
+    "target": "simulation.service_impact_simulation",
+    "readiness": "draft",
+    "evidence": ["evidence.societal_governance_brief"],
+    "profile": "societal_governance"
+  },
+  {
+    "id": "relation.initiative.service_window_change.requires_gate.rights_gate.protected_rights_check",
+    "type": "requires_gate",
+    "source": "initiative.service_window_change",
+    "target": "rights_gate.protected_rights_check",
+    "readiness": "accepted",
+    "evidence": ["evidence.societal_governance_brief"],
+    "profile": "societal_governance"
+  },
+  {
+    "id": "relation.initiative.service_window_change.requires_gate.privacy_gate.public_trace_privacy_check",
+    "type": "requires_gate",
+    "source": "initiative.service_window_change",
+    "target": "privacy_gate.public_trace_privacy_check",
+    "readiness": "accepted",
+    "evidence": ["evidence.societal_governance_brief"],
+    "profile": "societal_governance"
+  },
+  {
+    "id": "relation.initiative.service_window_change.requires_gate.affectedness_gate.service_user_affectedness",
+    "type": "requires_gate",
+    "source": "initiative.service_window_change",
+    "target": "affectedness_gate.service_user_affectedness",
+    "readiness": "accepted",
+    "evidence": ["evidence.societal_governance_brief"],
+    "profile": "societal_governance"
+  },
+  {
+    "id": "relation.initiative.service_window_change.requires_gate.anti_capture_gate.weight_change_check",
+    "type": "requires_gate",
+    "source": "initiative.service_window_change",
+    "target": "anti_capture_gate.weight_change_check",
+    "readiness": "accepted",
+    "evidence": ["evidence.societal_governance_brief"],
+    "profile": "societal_governance"
+  },
+  {
+    "id": "relation.initiative.service_window_change.requires_gate.legitimacy_gate.shadow_decision_check",
+    "type": "requires_gate",
+    "source": "initiative.service_window_change",
+    "target": "legitimacy_gate.shadow_decision_check",
+    "readiness": "accepted",
+    "evidence": ["evidence.societal_governance_brief"],
+    "profile": "societal_governance"
+  },
+  {
+    "id": "relation.ai_avatar.example_member_avatar.casts_signal.participation_signal.example_member_signal",
+    "type": "casts_signal",
+    "source": "ai_avatar.example_member_avatar",
+    "target": "participation_signal.example_member_signal",
+    "readiness": "draft",
+    "evidence": ["evidence.societal_governance_brief"],
+    "profile": "societal_governance"
+  },
+  {
+    "id": "relation.decision_trace.service_window_trace.summarizes_private_proof.private_decision_journal.example_member_journal",
+    "type": "summarizes_private_proof",
+    "source": "decision_trace.service_window_trace",
+    "target": "private_decision_journal.example_member_journal",
+    "readiness": "draft",
+    "evidence": ["evidence.societal_governance_brief"],
+    "profile": "societal_governance"
+  },
+  {
+    "id": "relation.participation_signal.example_member_signal.supports_decision_trace.decision_trace.service_window_trace",
+    "type": "supports_decision_trace",
+    "source": "participation_signal.example_member_signal",
+    "target": "decision_trace.service_window_trace",
+    "readiness": "draft",
+    "evidence": ["evidence.societal_governance_brief"],
+    "profile": "societal_governance"
+  },
+  {
+    "id": "relation.legitimacy_gate.shadow_decision_check.authorizes_decision.decision.service_window_shadow_decision",
+    "type": "authorizes_decision",
+    "source": "legitimacy_gate.shadow_decision_check",
+    "target": "decision.service_window_shadow_decision",
+    "readiness": "review_ready",
+    "evidence": ["evidence.societal_governance_brief"],
+    "profile": "societal_governance"
+  },
+  {
+    "id": "relation.decision.service_window_shadow_decision.has_appeal_path.appeal.service_window_appeal_path",
+    "type": "has_appeal_path",
+    "source": "decision.service_window_shadow_decision",
+    "target": "appeal.service_window_appeal_path",
+    "readiness": "review_ready",
+    "evidence": ["evidence.societal_governance_brief"],
+    "profile": "societal_governance"
+  },
+  {
+    "id": "relation.decision.service_window_shadow_decision.creates_execution_mandate.execution_mandate.service_window_trial",
+    "type": "creates_execution_mandate",
+    "source": "decision.service_window_shadow_decision",
+    "target": "execution_mandate.service_window_trial",
+    "readiness": "draft",
+    "evidence": ["evidence.societal_governance_brief"],
+    "profile": "societal_governance"
+  },
+  {
+    "id": "relation.execution_mandate.service_window_trial.produces_outcome.outcome_evidence.service_window_trial_result",
+    "type": "produces_outcome",
+    "source": "execution_mandate.service_window_trial",
+    "target": "outcome_evidence.service_window_trial_result",
+    "readiness": "draft",
+    "evidence": ["evidence.societal_governance_brief"],
+    "profile": "societal_governance"
+  },
+  {
+    "id": "relation.outcome_evidence.service_window_trial_result.creates_learning_proposal.learning_proposal.service_window_learning",
+    "type": "creates_learning_proposal",
+    "source": "outcome_evidence.service_window_trial_result",
+    "target": "learning_proposal.service_window_learning",
+    "readiness": "draft",
+    "evidence": ["evidence.societal_governance_brief"],
+    "profile": "societal_governance"
+  },
+  {
+    "id": "relation.learning_proposal.service_window_learning.requires_gate.legitimacy_gate.shadow_decision_check",
+    "type": "requires_gate",
+    "source": "learning_proposal.service_window_learning",
+    "target": "legitimacy_gate.shadow_decision_check",
+    "readiness": "draft",
+    "evidence": ["evidence.societal_governance_brief"],
+    "profile": "societal_governance"
+  }
+]

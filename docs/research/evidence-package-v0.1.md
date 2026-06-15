@@ -1,6 +1,6 @@
 # Mirai Graph Evidence Package v0.1
 
-Status: alpha research package
+Status: historical alpha research package
 
 Superseded by: [Evidence Package v0.2](evidence-package-v0.2.md) as the current
 public evidence entrypoint. This document remains a historical v0.1 snapshot.

@@ -1,6 +1,6 @@
 # Mirai Graph CLI
 
-Status: alpha unified entrypoint
+Status: 1.0 release-candidate CLI guide
 
 Mirai Graph keeps the reference scripts for direct automation. The
 `mirai-graph` entrypoint is the primary command surface for common checks and
@@ -8,53 +8,71 @@ reports.
 
 ## Commands
 
+Detect an existing project without writing files:
+
+```bash
+npx mirai-graph detect . --markdown
+```
+
+Create a bootstrap proposal without canonical writes:
+
+```bash
+npx mirai-graph bootstrap . --mode suggest --markdown
+```
+
+Initialize a starter package:
+
+```bash
+npx mirai-graph init . --profile software_specification
+```
+
 List profile choices:
 
 ```bash
-node packages/cli/mirai-graph.js choose-profile
+npx mirai-graph choose-profile
 ```
 
 Print an adopter plan for a role or profile:
 
 ```bash
-node packages/cli/mirai-graph.js adopter plan developer
-node packages/cli/mirai-graph.js adopter plan organization_governance
+npx mirai-graph adopter plan developer
+npx mirai-graph adopter plan organization_governance
 ```
 
 Generate a readable adopter report for a starter template:
 
 ```bash
-node packages/cli/mirai-graph.js adopter report templates/software-project-starter
+npx mirai-graph adopter report templates/software-project-starter
 ```
 
 Validate a package:
 
 ```bash
-node packages/cli/mirai-graph.js validate examples/minimal-graph
+npx mirai-graph validate examples/minimal-graph
 ```
 
 Generate a Markdown validation report:
 
 ```bash
-node packages/cli/mirai-graph.js report validation examples/minimal-graph
+npx mirai-graph report validation examples/minimal-graph
 ```
 
 Explain a process transition:
 
 ```bash
-node packages/cli/mirai-graph.js explain process-transition examples/process-transition-minimal/state-machine.json examples/process-transition-minimal/transition-request.json
+npx mirai-graph explain process-transition examples/process-transition-minimal/state-machine.json examples/process-transition-minimal/transition-request.json
 ```
 
 Generate the playground report:
 
 ```bash
-node packages/cli/mirai-graph.js report playground
+npx mirai-graph report playground
 ```
 
 Check the external release state without publishing:
 
 ```bash
-node packages/cli/mirai-graph.js release state --markdown
+npx mirai-graph release state --markdown
 npm run validate:release-state
 ```
 
@@ -62,6 +80,9 @@ npm run validate:release-state
 
 - JSON output is intended for tools and CI.
 - Markdown output is intended for human review.
+- `detect` is read-only.
+- `bootstrap --mode suggest` writes proposal/evidence only.
+- `init` creates starter graph files and refuses to overwrite by default.
 - Adopter workflow output is a starting aid, not adoption proof.
 - A passing report is evidence for the checked artifact only.
 - A release-state report checks package, git tag, GitHub Release, npm registry
@@ -73,6 +94,5 @@ npm run validate:release-state
 
 The `mirai_graph` entrypoint is an underscore alias for environments where a
 hyphenated command name is inconvenient. New documentation and automation
-should prefer
-`node packages/cli/validate-mirai-graph.js <package-dir>` or
-`node packages/cli/mirai-graph.js ...`.
+should prefer `npx mirai-graph ...` for adopter projects and
+`node packages/cli/mirai-graph.js ...` for repository checkout maintenance.

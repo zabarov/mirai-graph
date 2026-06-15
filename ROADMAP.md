@@ -82,11 +82,11 @@ pilots.
 
 Goal: help teams use Mirai Graph in real work.
 
-1.0 RC status: implemented with notes. The current repository includes getting
-started material, profile conformance fixtures, AI employee adoption, seed to
-validated package tutorial, implementation-control examples, managed-project
-examples, Character Layer adoption, starter templates and public-safe transfer
-notes.
+1.0 RC status: implemented with notes. The current repository includes
+npm-first self-service onboarding, getting started material, profile
+conformance fixtures, AI employee adoption, seed to validated package tutorial,
+implementation-control examples, managed-project examples, Character Layer
+adoption, starter templates and public-safe transfer notes.
 
 Planned artifacts:
 
@@ -114,6 +114,9 @@ Implemented adopter-workflow focus:
 - human-readable validation reports for adopter workflows;
 - packaged adopter command sequence;
 - organization-governance adoption report.
+- self-service onboarding with `detect`, `bootstrap` and `init`;
+- 15-minute project connection tutorial;
+- GitHub Action starter for validation.
 
 Initial implementation:
 
@@ -146,7 +149,7 @@ Planned artifacts:
 
 Post-1.0 gaps:
 
-- package and publish the CLI as a cleaner public developer interface;
+- publish the prepared CLI package after release-state approval;
 - add import/export helpers;
 - extend human-readable reports beyond process-transition and instrumentation
   checks;
@@ -213,8 +216,9 @@ Planned artifacts:
 
 1. Execute the `1.0.0-rc.1` release: tag, GitHub Release and npm publication
    only after release-state checks are accepted.
-2. Continue adopter workflow: import/export helper skeletons and richer report
-   formatting when they directly support self-service adoption.
+2. Continue adopter workflow: import/export helper skeletons, richer report
+   formatting and more adoption recipes when they directly support self-service
+   adoption.
 3. Add one or two external public-safe pilots maintained outside the original
    Mirai Graph authoring contour.
 4. Expand organization-governance validation reports and adoption recipes.

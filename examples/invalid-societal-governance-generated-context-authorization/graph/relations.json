@@ -1,0 +1,20 @@
+[
+  {
+    "id": "relation.generated_context.context_pack.authorizes_decision.decision.context_authorized_decision",
+    "type": "authorizes_decision",
+    "source": "generated_context.context_pack",
+    "target": "decision.context_authorized_decision",
+    "readiness": "draft",
+    "evidence": ["evidence.invalid_generated_authorization"],
+    "profile": "societal_governance"
+  },
+  {
+    "id": "relation.decision.context_authorized_decision.has_appeal_path.appeal.context_authorized_appeal",
+    "type": "has_appeal_path",
+    "source": "decision.context_authorized_decision",
+    "target": "appeal.context_authorized_appeal",
+    "readiness": "draft",
+    "evidence": ["evidence.invalid_generated_authorization"],
+    "profile": "societal_governance"
+  }
+]

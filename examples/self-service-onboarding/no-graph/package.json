@@ -1,0 +1,6 @@
+{
+  "name": "synthetic-no-graph-project",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Synthetic project used to test Mirai Graph self-service detection."
+}

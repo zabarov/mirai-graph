@@ -1,6 +1,6 @@
 # Mirai Graph Standard v0.1 Draft
 
-Status: initial public draft
+Status: historical v0.1 standard draft
 
 ## Purpose
 

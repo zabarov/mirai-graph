@@ -2,7 +2,7 @@
 
 Profiles adapt Mirai Graph to a domain without changing the core standard.
 
-Current public profiles:
+Current release-candidate profiles:
 
 - [software-specification](software-specification/README.md)
 - [project-management](project-management/README.md)
@@ -12,8 +12,14 @@ Current public profiles:
 - [implementation-control](implementation-control/README.md)
 - [organization-governance](organization-governance/README.md)
 
-Each profile declares allowed object kinds, relation types, default readiness
-and governance gates.
+Proposal/experimental profile:
+
+- [societal-governance](societal-governance/README.md)
+
+Each release-candidate profile declares allowed object kinds, relation types,
+default readiness and governance gates. Proposal/experimental profiles are
+public-safe exploration surfaces and are not core `1.0.0-rc.1` conformance
+requirements.
 
 Executable profile examples and anti-examples are documented in
 [Profile Conformance Fixtures](../docs/adoption/profile-conformance-fixtures.md).

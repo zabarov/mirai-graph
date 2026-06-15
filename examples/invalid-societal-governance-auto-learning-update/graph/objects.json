@@ -1,0 +1,29 @@
+[
+  {
+    "id": "evidence.invalid_auto_learning",
+    "kind": "evidence",
+    "title": "Invalid Auto Learning Evidence",
+    "summary": "Synthetic negative fixture evidence.",
+    "readiness": "accepted",
+    "evidence": [],
+    "profile": "societal_governance"
+  },
+  {
+    "id": "outcome_evidence.trial_result",
+    "kind": "outcome_evidence",
+    "title": "Trial Result",
+    "summary": "Outcome evidence incorrectly routed to automatic update.",
+    "readiness": "draft",
+    "evidence": ["evidence.invalid_auto_learning"],
+    "profile": "societal_governance"
+  },
+  {
+    "id": "governance_dna.example_charter",
+    "kind": "governance_dna",
+    "title": "Example Charter",
+    "summary": "Governance DNA that must not update automatically.",
+    "readiness": "draft",
+    "evidence": ["evidence.invalid_auto_learning"],
+    "profile": "societal_governance"
+  }
+]

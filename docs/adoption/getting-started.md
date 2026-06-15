@@ -1,14 +1,31 @@
 # Getting Started With Mirai Graph
 
-Status: initial adoption guide
+Status: 1.0 release-candidate adoption guide
 
 ## Goal
 
 This guide helps a team create a first Mirai Graph package for a project,
 product, organization or human-AI workflow.
 
-For a shorter role-oriented entry point, start with the
-[1.0 RC Adopter Kit](adopter-kit.md).
+For the fastest path from an existing project, use
+[Connect A Project In 15 Minutes](connect-project-15-minutes.md). For a shorter
+role-oriented entry point, start with the [1.0 RC Adopter Kit](adopter-kit.md).
+
+## NPM-First Quick Start
+
+From the project you want to connect:
+
+```bash
+npm install -D mirai-graph
+npx mirai-graph detect . --markdown
+npx mirai-graph bootstrap . --mode suggest --markdown
+npx mirai-graph init . --profile software_specification
+npx mirai-graph validate .
+```
+
+Use `detect` first when you are unsure which profile to use. `detect` is
+read-only. `bootstrap --mode suggest` creates proposal/evidence only. `init`
+creates the starter package after you choose a profile.
 
 ## Step 1: Choose The System Boundary
 
@@ -107,7 +124,7 @@ Common relation types:
 Run:
 
 ```bash
-node packages/cli/validate-mirai-graph.js <package-dir>
+npx mirai-graph validate <package-dir>
 ```
 
 Example:
@@ -119,9 +136,9 @@ node packages/cli/validate-mirai-graph.js examples/minimal-graph
 For a role-oriented starter workflow, run:
 
 ```bash
-node packages/cli/mirai-graph.js choose-profile
-node packages/cli/mirai-graph.js adopter plan developer
-node packages/cli/mirai-graph.js adopter report templates/software-project-starter
+npx mirai-graph choose-profile
+npx mirai-graph adopter plan developer
+npx mirai-graph adopter report templates/software-project-starter
 ```
 
 ## Step 7: Generate A Context Pack

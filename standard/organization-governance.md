@@ -1,6 +1,6 @@
 # Organization Governance
 
-Status: alpha standard section
+Status: 1.0 release-candidate standard section
 
 ## Purpose
 
@@ -81,4 +81,3 @@ This alpha section is not:
 ## Example
 
 See [Organization Governance Minimal](../examples/organization-governance-minimal/README.md).
-

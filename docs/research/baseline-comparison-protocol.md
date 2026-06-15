@@ -1,6 +1,6 @@
 # Mirai Graph Baseline Comparison Protocol
 
-Status: alpha protocol
+Status: 1.0 release-candidate protocol
 
 ## Purpose
 

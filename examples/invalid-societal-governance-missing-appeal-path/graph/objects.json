@@ -1,0 +1,29 @@
+[
+  {
+    "id": "evidence.invalid_missing_appeal",
+    "kind": "evidence",
+    "title": "Invalid Missing Appeal Evidence",
+    "summary": "Synthetic negative fixture evidence.",
+    "readiness": "accepted",
+    "evidence": [],
+    "profile": "societal_governance"
+  },
+  {
+    "id": "legitimacy_gate.shadow_gate",
+    "kind": "legitimacy_gate",
+    "title": "Shadow Gate",
+    "summary": "Legitimacy gate for a decision that still lacks appeal.",
+    "readiness": "accepted",
+    "evidence": ["evidence.invalid_missing_appeal"],
+    "profile": "societal_governance"
+  },
+  {
+    "id": "decision.no_appeal_decision",
+    "kind": "decision",
+    "title": "No Appeal Decision",
+    "summary": "Decision intentionally missing appeal path.",
+    "readiness": "draft",
+    "evidence": ["evidence.invalid_missing_appeal"],
+    "profile": "societal_governance"
+  }
+]

@@ -1,6 +1,6 @@
 # Mirai Graph Evidence Package v0.2
 
-Status: alpha research package
+Status: historical alpha research package
 
 ## Purpose
 

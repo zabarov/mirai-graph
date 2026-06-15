@@ -1,0 +1,20 @@
+{
+  "schema_version": "0.1.0",
+  "id": "bootstrap_proposal.self_service_fixture",
+  "mode": "bootstrap_suggest",
+  "target_dir": "examples/self-service-onboarding/no-graph",
+  "graph_presence": "missing",
+  "recommended_profile": "software_specification",
+  "recommended_template": "templates/software-project-starter",
+  "candidate_objects": [
+    {
+      "id": "project.detected_system",
+      "kind": "project",
+      "title": "Detected Project",
+      "summary": "Initial project object candidate for adopter review."
+    }
+  ],
+  "candidate_relations": [],
+  "canonical_write_allowed": false,
+  "next_safe_action": "mirai-graph init <target> --profile software_specification"
+}

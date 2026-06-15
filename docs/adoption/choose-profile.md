@@ -1,6 +1,6 @@
 # Choose A Mirai Graph Profile
 
-Status: alpha.10 adopter workflow
+Status: 1.0 release-candidate adopter workflow
 
 ## Purpose
 

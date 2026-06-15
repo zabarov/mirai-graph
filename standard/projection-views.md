@@ -1,6 +1,6 @@
 # Projection Views
 
-Status: alpha standard section
+Status: 1.0 release-candidate standard section
 
 ## Purpose
 

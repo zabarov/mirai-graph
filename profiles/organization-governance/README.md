@@ -1,6 +1,6 @@
 # Organization Governance Profile
 
-Status: alpha profile
+Status: 1.0 release-candidate profile
 
 The organization-governance profile models how an organization coordinates
 mission, strategy, departments, portfolios, projects, policies, decision rights,
@@ -58,4 +58,3 @@ graph contract and validation surface for connecting them.
 ## Example
 
 See [Organization Governance Minimal](../../examples/organization-governance-minimal/README.md).
-

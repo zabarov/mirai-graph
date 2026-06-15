@@ -1,0 +1,11 @@
+[
+  {
+    "id": "relation.ai_avatar.unbounded_avatar.opens_initiative.initiative.unsafely_opened",
+    "type": "opens_initiative",
+    "source": "ai_avatar.unbounded_avatar",
+    "target": "initiative.unsafely_opened",
+    "readiness": "draft",
+    "evidence": ["evidence.invalid_avatar_no_consent"],
+    "profile": "societal_governance"
+  }
+]

@@ -1,6 +1,6 @@
 # Mirai Graph Repository Purpose
 
-Status: draft alignment brief
+Status: 1.0 release-candidate alignment brief
 
 ## Mission
 
@@ -23,9 +23,10 @@ The repository should become the public source of truth for:
 - synthetic benchmarks and playground materials;
 - publications, citations and research evidence.
 
-For the current public alpha, "source of truth" means public standardization
-and reproducible examples. It does not mean that private project graphs,
-internal workflows or generated context packs are published here.
+For the current public release candidate, "source of truth" means public
+standardization and reproducible examples. It does not mean that private
+project graphs, internal workflows or generated context packs are published
+here.
 
 ## Strategic Goal
 

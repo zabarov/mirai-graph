@@ -1,6 +1,6 @@
 # End-To-End Mirai Graph Control Loop
 
-Status: alpha tutorial
+Status: 1.0 release-candidate tutorial
 
 ## Purpose
 

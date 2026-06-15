@@ -1,6 +1,6 @@
 # Implementation Control Profile
 
-Status: initial public profile
+Status: 1.0 release-candidate profile
 
 ## Purpose
 

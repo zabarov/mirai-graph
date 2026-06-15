@@ -1,0 +1,11 @@
+[
+  {
+    "id": "relation.legitimacy_gate.shadow_gate.authorizes_decision.decision.no_appeal_decision",
+    "type": "authorizes_decision",
+    "source": "legitimacy_gate.shadow_gate",
+    "target": "decision.no_appeal_decision",
+    "readiness": "draft",
+    "evidence": ["evidence.invalid_missing_appeal"],
+    "profile": "societal_governance"
+  }
+]

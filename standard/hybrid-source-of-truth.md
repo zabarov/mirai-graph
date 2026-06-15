@@ -1,6 +1,6 @@
 # Hybrid Source Of Truth
 
-Status: alpha standard section
+Status: 1.0 release-candidate standard section
 
 ## Purpose
 

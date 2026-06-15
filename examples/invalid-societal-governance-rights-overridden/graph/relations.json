@@ -1,0 +1,11 @@
+[
+  {
+    "id": "relation.participation_weight.contribution_weight.overrides_rights.rights_gate.protected_rights",
+    "type": "overrides_rights",
+    "source": "participation_weight.contribution_weight",
+    "target": "rights_gate.protected_rights",
+    "readiness": "draft",
+    "evidence": ["evidence.invalid_rights_override"],
+    "profile": "societal_governance"
+  }
+]

@@ -1,6 +1,6 @@
 # Mirai Graph Scientific Evidence Package
 
-Status: alpha evidence framing
+Status: 1.0 release-candidate evidence framing
 
 ## Purpose
 

@@ -1,6 +1,6 @@
 # Graph As AI Brain
 
-Status: alpha standard draft
+Status: 1.0 release-candidate standard section
 
 ## Purpose
 

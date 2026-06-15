@@ -1,0 +1,38 @@
+[
+  {
+    "id": "evidence.invalid_generated_authorization",
+    "kind": "evidence",
+    "title": "Invalid Generated Authorization Evidence",
+    "summary": "Synthetic negative fixture evidence.",
+    "readiness": "accepted",
+    "evidence": [],
+    "profile": "societal_governance"
+  },
+  {
+    "id": "generated_context.context_pack",
+    "kind": "generated_context",
+    "title": "Generated Context Pack",
+    "summary": "Generated context incorrectly used as authorization.",
+    "readiness": "draft",
+    "evidence": ["evidence.invalid_generated_authorization"],
+    "profile": "societal_governance"
+  },
+  {
+    "id": "decision.context_authorized_decision",
+    "kind": "decision",
+    "title": "Context Authorized Decision",
+    "summary": "Decision incorrectly authorized by generated context.",
+    "readiness": "draft",
+    "evidence": ["evidence.invalid_generated_authorization"],
+    "profile": "societal_governance"
+  },
+  {
+    "id": "appeal.context_authorized_appeal",
+    "kind": "appeal",
+    "title": "Context Authorized Appeal",
+    "summary": "Appeal path present so the fixture isolates authorization failure.",
+    "readiness": "draft",
+    "evidence": ["evidence.invalid_generated_authorization"],
+    "profile": "societal_governance"
+  }
+]

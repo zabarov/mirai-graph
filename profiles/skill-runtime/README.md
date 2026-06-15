@@ -1,6 +1,6 @@
 # Skill Runtime Profile
 
-Status: alpha profile
+Status: 1.0 release-candidate profile
 
 The `skill_runtime` profile models a governed skill, capability module or
 service as a Mirai Graph-managed runtime context.

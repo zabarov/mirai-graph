@@ -1,0 +1,11 @@
+[
+  {
+    "id": "relation.decision_trace.public_trace.exposes_private_trace.private_decision_journal.private_journal",
+    "type": "exposes_private_trace",
+    "source": "decision_trace.public_trace",
+    "target": "private_decision_journal.private_journal",
+    "readiness": "draft",
+    "evidence": ["evidence.invalid_private_trace"],
+    "profile": "societal_governance"
+  }
+]

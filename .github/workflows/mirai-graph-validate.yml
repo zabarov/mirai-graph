@@ -1,0 +1,30 @@
+name: Mirai Graph Validate
+
+on:
+  workflow_dispatch:
+    inputs:
+      graph_package_dir:
+        description: "Path to the Mirai Graph package directory"
+        required: true
+        default: "."
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Validate Mirai Graph package
+        run: npx mirai-graph validate "${{ inputs.graph_package_dir }}"
+
+      - name: Boundary
+        run: |
+          echo "Mirai Graph validation checks package structure and profile rules."
+          echo "It does not prove correctness, production readiness or approval."

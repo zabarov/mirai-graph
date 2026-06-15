@@ -1,6 +1,6 @@
 # Profile Conformance Fixtures
 
-Status: initial public guide
+Status: 1.0 release-candidate public guide
 
 ## Purpose
 

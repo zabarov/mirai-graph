@@ -1,6 +1,6 @@
 # AI Employee Profile
 
-Status: alpha profile
+Status: 1.0 release-candidate profile
 
 ## Purpose
 

@@ -1,6 +1,6 @@
 # Semantic Completeness Review Protocol
 
-Status: initial public protocol
+Status: 1.0 release-candidate public protocol
 
 ## Purpose
 

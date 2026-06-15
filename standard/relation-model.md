@@ -1,6 +1,6 @@
 # Mirai Graph Relation Model
 
-Status: initial public draft
+Status: 1.0 release-candidate standard section
 
 ## Purpose
 

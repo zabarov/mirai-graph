@@ -9,6 +9,9 @@ const node = process.execPath;
 function usage() {
   console.error("Usage:");
   console.error("  mirai-graph validate <package-dir>");
+  console.error("  mirai-graph init [target-dir] --profile <profile> [--template <template>] [--force]");
+  console.error("  mirai-graph detect [target-dir] [--json|--markdown]");
+  console.error("  mirai-graph bootstrap [target-dir] --mode detect|suggest [--profile auto|<profile>] [--output <dir>] [--json|--markdown]");
   console.error("  mirai-graph choose-profile");
   console.error("  mirai-graph adopter plan <role-or-profile>");
   console.error("  mirai-graph adopter report <template-dir>");
@@ -40,6 +43,11 @@ if (args.length === 0 || args[0] === "--help" || args[0] === "-h") {
 }
 
 const [command, subcommand, ...rest] = args;
+
+if (command === "init" || command === "detect" || command === "bootstrap") {
+  const forwarded = subcommand ? [subcommand, ...rest] : rest;
+  run("packages/cli/self-service-onboarding.js", [command, ...forwarded]);
+}
 
 if (command === "validate") {
   if (!subcommand) {

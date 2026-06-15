@@ -1,6 +1,6 @@
 # Routing Fixtures
 
-Status: alpha standard section
+Status: 1.0 release-candidate standard section
 
 ## Purpose
 

@@ -1,0 +1,13 @@
+{
+  "id": "package.synthetic_stale_graph",
+  "name": "Synthetic Stale Graph",
+  "version": "0.1.0",
+  "profile": "software_specification",
+  "conformance_level": "level_1",
+  "description": "Incomplete fixture for self-service detection.",
+  "public_safety": "synthetic_public",
+  "graph": {
+    "objects": "graph/objects.json",
+    "relations": "graph/relations.json"
+  }
+}

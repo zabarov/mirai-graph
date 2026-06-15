@@ -3,8 +3,8 @@
 Status: 1.0 release-candidate adoption kit
 
 This kit is the shortest public path from "I want to try Mirai Graph" to a
-validated local graph package. It is intentionally CLI-first and repository
-based while npm publication is pending.
+validated local graph package. It is intentionally CLI-first and works through
+the published `mirai-graph` package or a repository checkout.
 
 ## What This Kit Gives You
 
@@ -30,7 +30,15 @@ package that follows the current 1.0 release-candidate shape.
 
 ## Local Setup
 
-Until npm publication is complete, run commands from the repository checkout:
+Install in the project you want to connect:
+
+```bash
+npm install -D mirai-graph
+npx mirai-graph detect . --markdown
+npx mirai-graph bootstrap . --mode suggest --markdown
+```
+
+For repository checkout development:
 
 ```bash
 cd /path/to/mirai-graph
@@ -38,44 +46,41 @@ npm install
 npm test
 ```
 
-After npm publication, the same adopter path should be available through the
-published `mirai-graph` package.
+`detect` is read-only. `bootstrap --mode suggest` writes proposal/evidence only
+and does not create canonical graph files.
 
 ## One-Hour Adoption Path
 
 1. Choose a role:
 
 ```bash
-node packages/cli/mirai-graph.js choose-profile
+npx mirai-graph choose-profile
 ```
 
 2. Print the role plan:
 
 ```bash
-node packages/cli/mirai-graph.js adopter plan developer
-node packages/cli/mirai-graph.js adopter plan researcher
-node packages/cli/mirai-graph.js adopter plan ai_employee
-node packages/cli/mirai-graph.js adopter plan organization
+npx mirai-graph adopter plan developer
+npx mirai-graph adopter plan researcher
+npx mirai-graph adopter plan ai_employee
+npx mirai-graph adopter plan organization
 ```
 
-3. Validate the closest starter:
+3. Initialize the closest starter in your project:
 
 ```bash
-node packages/cli/validate-mirai-graph.js templates/software-project-starter
-node packages/cli/validate-mirai-graph.js templates/research-program-starter
-node packages/cli/validate-mirai-graph.js templates/ai-employee-starter
-node packages/cli/validate-mirai-graph.js templates/character-layer-starter
-node packages/cli/validate-mirai-graph.js templates/organization-governance-starter
+npx mirai-graph init . --profile software_specification
+npx mirai-graph validate .
 ```
 
 4. Generate a readable adopter report:
 
 ```bash
-node packages/cli/mirai-graph.js adopter report templates/software-project-starter
+npx mirai-graph report validation .
 ```
 
-5. Copy the starter into your own project and replace synthetic objects with
-your real public-safe or private source material.
+5. Replace synthetic objects with your real public-safe or private source
+material.
 
 6. Run validation again in the copied package before adding runtime evidence.
 
@@ -140,6 +145,9 @@ Use these starters for new work:
 - `templates/ai-employee-starter/`
 - `templates/character-layer-starter/`
 - `templates/organization-governance-starter/`
+
+Use [Connect A Project In 15 Minutes](connect-project-15-minutes.md) for a
+complete self-service walkthrough.
 
 ## Public Safety Boundary
 

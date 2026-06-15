@@ -1,134 +1,79 @@
 # Mirai Graph
 
 Mirai Graph is an evolutionary graph operating model for managing the growth of
-complex systems.
+complex systems: projects, products, organizations, research programs and
+human-AI systems.
 
-It defines how projects, products, organizations and human-AI systems can use
-canonical graph state, generated context packs, evidence, readiness and
-governance gates to coordinate knowledge, decisions and action.
+It connects canonical graph state, generated context, evidence, readiness,
+process control, feedback and governance gates so people and AI systems can
+work from explicit state instead of scattered chats, documents and task memory.
 
-Mirai Graph is the graph foundation of the broader Mirai direction: governed AI
-systems that can work with people, projects and organizations through explicit
-state, evidence, approval gates, feedback loops and controlled evolution.
+Status: public `1.0.0-rc.1` release candidate.
+
+## Quick Start
+
+Connect an existing project:
+
+```bash
+npm install -D mirai-graph
+npx mirai-graph detect . --markdown
+npx mirai-graph bootstrap . --mode suggest --markdown
+npx mirai-graph init . --profile software_specification
+npx mirai-graph validate .
+```
+
+`detect` is read-only. `bootstrap --mode suggest` creates proposal/evidence
+only. `init` creates starter graph files after you choose a profile.
+
+For the guided path, use
+[Connect A Project In 15 Minutes](docs/adoption/connect-project-15-minutes.md).
+
+## What Should I Read First?
+
+| If you are... | Start here | Then read |
+| --- | --- | --- |
+| Trying Mirai Graph in a project | [Connect A Project In 15 Minutes](docs/adoption/connect-project-15-minutes.md) | [Getting Started](docs/adoption/getting-started.md), [CLI](docs/adoption/cli.md) |
+| A developer integrating validation | [Developer Integration Guide](docs/adoption/developer-integration-guide.md) | [Test Suite](standard/test-suite.md), [Templates](templates/README.md) |
+| A researcher evaluating the model | [Scientific Evidence Package](docs/research/scientific-evidence-package.md) | [Practice And Science Program](docs/research/practice-science-program.md), [Publications](publications/README.md) |
+| Building an AI employee | [AI Employee Graph Adoption](docs/adoption/ai-employee-graph.md) | [Character Layer Adoption](docs/adoption/character-layer.md), [Graph As AI Brain](standard/graph-as-ai-brain.md) |
+| Managing an organization or program | [Organization Governance](standard/organization-governance.md) | [Project Management Profile](profiles/project-management/README.md), [Process Control Contract](standard/process-control-contract.md) |
+| Looking for the full map | [Documentation Map](docs/README.md) | [Roadmap](ROADMAP.md), [Release Process](releases/README.md) |
 
 ## Why Mirai Graph
 
-Many teams use documents, chats, task trackers and isolated knowledge bases as
-their main working substrate. This becomes fragile when the system grows:
-requirements change, decisions depend on each other, evidence is scattered and
-AI assistants receive incomplete context.
+Complex work breaks when requirements, decisions, evidence and AI context live
+in separate places. Mirai Graph treats the working system as an evolving graph:
 
-Mirai Graph treats the working system as an evolving graph:
-
-- objects represent the system state;
+- objects represent stable system state;
 - relations make dependencies explicit;
 - evidence links claims to sources;
 - readiness records maturity and uncertainty;
 - generated context packs provide task-specific AI context;
 - governance gates separate suggestions, decisions and actions;
-- profiles adapt the model to domains without changing the core standard.
+- profiles adapt the model to different domains.
 
-## Strategic Goal
-
-The long-term goal is to make Mirai Graph an open, verifiable and practical
-standard for governed AI work. A Mirai Graph system should make it possible to
-move from idea to action without losing context, ownership, evidence, process
-discipline or human control.
-
-In this framing, an AI agent is not just a prompt or chat session. It is a
-governed graph-backed operating process: context, tools, policies, actions,
-results, feedback and learning are connected through explicit state and
-approval boundaries.
-
-## Current Status
-
-Status: public 1.0 release candidate.
-
-This repository is being prepared as the public source of truth for the
-Mirai Graph model, standard, methods, examples and reproducibility materials.
-
-The model is related to the `Evolutionary Object Graph (EOG)` research program.
-The current public name is `Mirai Graph`; `EOG` remains the scientific continuity
-term for earlier preprint materials.
-
-Current release candidate:
-[v1.0.0-rc.1](releases/1.0.0-rc.1.md). This candidate consolidates the
-validator-backed public standard across the core model, profiles, executable
-process control, instrumentation, Character Layer, adopter kit and evidence
+In this framing, an AI employee is not just a prompt. It is a governed
+graph-backed operating process: context, tools, policies, actions, results,
+feedback and learning are connected through explicit state and approval
 boundaries.
-
-## Intended Audiences
-
-- Researchers who need a clear model, reproducible experiments and citation
-  trail.
-- Developers who need schemas, validators, examples and integration methods.
-- Product teams that need adoption guides, profiles and operating procedures.
-- Organizations that need governance patterns for complex human-AI systems.
 
 ## Repository Map
 
 ```text
-docs/          Concept, terminology, methodology, adoption and research guides.
+docs/          Concept, terminology, adoption and research guides.
 standard/      Implementation-independent standard sections.
-schemas/       Machine-readable schemas and validation rules.
-benchmarks/    Synthetic benchmarks and reproducibility packages.
+schemas/       Machine-readable schemas.
 examples/      Public-safe examples and anti-examples.
-packages/      Reference tooling, libraries and CLI packages.
-playground/    Runnable demo index backed by examples and CLI commands.
-profiles/      Domain profiles for project, software, AI and process use cases.
+templates/     Starter graph packages.
+packages/      Reference CLI and validators.
+playground/    Deterministic local demo report.
+profiles/      Domain profiles.
 pilots/        Public-safe pilot packages and reports.
-publications/  Publication links, citation notes and reproducibility records.
+publications/  Citation notes and publication materials.
+releases/      Release notes and release process.
 ```
 
-## Start Here
-
-Start by role:
-
-- Researchers: [Practice And Science Program](docs/research/practice-science-program.md),
-  [Scientific Evidence Package](docs/research/scientific-evidence-package.md),
-  [Evidence Package v0.3](docs/research/evidence-package-v0.3.md),
-  [Evidence Package v0.2](docs/research/evidence-package-v0.2.md),
-  [Evidence Package v0.1](docs/research/evidence-package-v0.1.md),
-  [Publications](publications/README.md).
-- Developers: [Getting Started](docs/adoption/getting-started.md),
-  [1.0 RC Adopter Kit](docs/adoption/adopter-kit.md),
-  [Choose A Profile](docs/adoption/choose-profile.md),
-  [End-To-End Tutorial](docs/adoption/end-to-end-control-loop.md),
-  [Developer Integration Guide](docs/adoption/developer-integration-guide.md),
-  [Mirai Graph CLI](docs/adoption/cli.md),
-  [Test Suite](standard/test-suite.md).
-- Product teams: [Managed Project Control Loop Example](examples/managed-project-control-loop/README.md),
-  [Implementation Control](standard/implementation-control.md),
-  [Implementation Control Cycles](standard/implementation-control-cycles.md),
-  [Development Cockpit](standard/development-cockpit.md),
-  [Feature Implementation Traceability](standard/feature-implementation-traceability.md).
-- Organizations and AI systems: [Graph As AI Brain](standard/graph-as-ai-brain.md),
-  [AI Employee Graph Adoption](docs/adoption/ai-employee-graph.md),
-  [Character Layer Adoption](docs/adoption/character-layer.md),
-  [Organization Governance](standard/organization-governance.md),
-  [Process Control Contract](standard/process-control-contract.md),
-  [Multi-Source Quality Feedback](standard/multi-source-quality-feedback.md).
-
-Core references:
-
-- [Repository Purpose](docs/repository-purpose.md)
-- [Roadmap](ROADMAP.md)
-- [Changelog](CHANGELOG.md)
-- [Contributing](CONTRIBUTING.md)
-- [Release Process](releases/README.md)
-- [Concept](docs/concept.md)
-- [Terminology](docs/terminology.md)
-- [Standard v0.1 Draft](standard/standard-v0.1.md)
-- [Profiles](profiles/README.md)
-- [Templates](templates/README.md)
-- [1.0 RC Adopter Kit](docs/adoption/adopter-kit.md)
-- [Mirai Graph To Mirai Graph Transition](docs/adoption/mirai-graph-transition.md)
-- [Alpha.10 Adopter Workflow](releases/0.1.0-alpha.10.md)
-- [Alpha.11 Instrumentation Layer](releases/0.1.0-alpha.11.md)
-- [1.0 Release Candidate](releases/1.0.0-rc.1.md)
-- [Evidence Package v0.3](docs/research/evidence-package-v0.3.md)
-
-Current 1.0 release-candidate standard areas:
+## Core Standard Areas
 
 - [Object Model](standard/object-model.md)
 - [Relation Model](standard/relation-model.md)
@@ -136,117 +81,71 @@ Current 1.0 release-candidate standard areas:
 - [Evidence Provenance](standard/evidence-provenance.md)
 - [Context Pack Generation](standard/context-pack-generation.md)
 - [Governance](standard/governance.md)
-- [Graph Seed](standard/graph-seed.md)
-- [Graph Embryo](standard/graph-embryo.md)
 - [Hybrid Source Of Truth](standard/hybrid-source-of-truth.md)
-- [Graph DNA Alignment](standard/graph-dna-alignment.md)
 - [Implementation Control](standard/implementation-control.md)
-- [Launch Record](standard/launch-record.md)
-- [Work State Machine](standard/work-state-machine.md)
 - [Process Control Contract](standard/process-control-contract.md)
 - [Technology Quality Feedback](standard/technology-quality-feedback.md)
-- [Development Cockpit](standard/development-cockpit.md)
-- [Feature Implementation Traceability](standard/feature-implementation-traceability.md)
-- [Multi-Source Quality Feedback](standard/multi-source-quality-feedback.md)
+- [Character Layer Profile](profiles/character-layer/README.md)
 - [Organization Governance](standard/organization-governance.md)
-- [Recovery Resume](standard/recovery-resume.md)
-- [Risk Control Matrix](standard/risk-control-matrix.md)
-- [Multi-Agent Coordination](standard/multi-agent-coordination.md)
-- [Source Boundary Contract](standard/source-boundary-contract.md)
-- [Route Explanation](standard/route-explanation.md)
-- [Routing Fixtures](standard/routing-fixtures.md)
-- [Federation Health](standard/federation-health.md)
-- [Route Regression](standard/route-regression.md)
-- [Conformance Levels](standard/conformance-levels.md)
-- [Test Suite](standard/test-suite.md)
 
-Runnable materials:
+Additional standard sections, profiles, examples and research materials are
+listed in the [Documentation Map](docs/README.md).
 
-- [Playground](playground/README.md)
-- [1.0 RC Adopter Kit](docs/adoption/adopter-kit.md)
-- [Minimal Graph Example](examples/minimal-graph/README.md)
-- [Minimal Implementation Control Example](examples/implementation-control-minimal/README.md)
-- [Implementation Control Cycles Example](examples/implementation-control-cycles/README.md)
-- [Launch Record Example](examples/launch-record-minimal/README.md)
-- [Process Transition Example](examples/process-transition-minimal/README.md)
-- [Process Control Contract Example](examples/process-control-contract-minimal/README.md)
-- [Technology Quality Feedback Example](examples/technology-quality-feedback-minimal/README.md)
-- [Instrumentation Layer Example](examples/instrumentation-layer-minimal/README.md)
-- [Organization Governance Example](examples/organization-governance-minimal/README.md)
-- [Federation Routing Smoke Example](examples/federation-routing-smoke/README.md)
-- [Synthetic Context-Reduction Benchmark](benchmarks/synthetic-context-reduction-v0/README.md)
-- [Independent Implementation Pilot 001](pilots/independent-implementation-001-conference-planning/reports/pilot-report.md)
-- [Independent Implementation Pilot 002](pilots/independent-implementation-002-software-specification/reports/pilot-report.md)
-- [Independent Implementation Pilot 003](pilots/independent-implementation-003-ai-employee-workflow/reports/pilot-report.md)
-- [Independent Implementation Pilot 004](pilots/independent-implementation-004-research-program/reports/pilot-report.md)
-- [Independent Implementation Pilot 005](pilots/independent-implementation-005-organization-governance/reports/pilot-report.md)
+## Profiles
 
-## Validate A Graph Package
+Current release-candidate profiles:
 
-Run the initial validator:
+- [Software Specification](profiles/software-specification/README.md)
+- [Project Management](profiles/project-management/README.md)
+- [AI Employee](profiles/ai-employee/README.md)
+- [Character Layer](profiles/character-layer/README.md)
+- [Skill Runtime](profiles/skill-runtime/README.md)
+- [Implementation Control](profiles/implementation-control/README.md)
+- [Organization Governance](profiles/organization-governance/README.md)
+
+Proposal/experimental profile:
+
+- [Societal Governance](profiles/societal-governance/README.md)
+
+## Validate And Explore
+
+Common commands:
 
 ```bash
-node packages/cli/validate-mirai-graph.js examples/minimal-graph
-node packages/cli/validate-mirai-graph.js benchmarks/synthetic-context-reduction-v0
-node packages/cli/validate-mirai-graph.js examples/ai-employee-minimal
-node packages/cli/validate-mirai-graph.js examples/skill-runtime-minimal
-node packages/cli/validate-mirai-graph.js seed examples/graph-seed-minimal/graph-seed.json
-node packages/cli/validate-mirai-graph.js profile profiles/software-specification/profile.json
-node packages/cli/validate-mirai-graph.js profile profiles/skill-runtime/profile.json
-node packages/cli/validate-mirai-graph.js context-pack benchmarks/synthetic-context-reduction-v0 benchmarks/synthetic-context-reduction-v0/results/context-pack.json
-node packages/cli/validate-mirai-graph.js launch-record examples/launch-record-minimal/results/launch-record.json
-node packages/cli/validate-mirai-graph.js process-transition examples/process-transition-minimal/state-machine.json examples/process-transition-minimal/transition-request.json
-node packages/cli/validate-mirai-graph.js process-control-contract examples/process-control-contract-minimal/results/process-control-contract.json
-node packages/cli/validate-mirai-graph.js technology-quality-feedback examples/technology-quality-feedback-minimal/results/technology-quality-feedback.json
-node packages/cli/validate-mirai-graph.js development-cockpit examples/instrumentation-layer-minimal/results/development-cockpit.json
-node packages/cli/validate-mirai-graph.js feature-implementation-traceability examples/instrumentation-layer-minimal/results/feature-implementation-traceability.json
-node packages/cli/validate-mirai-graph.js multi-source-quality-feedback examples/instrumentation-layer-minimal/results/multi-source-quality-feedback.json
-node packages/cli/validate-mirai-graph.js graph-dna-alignment examples/graph-dna-alignment-minimal/results/graph-dna-alignment.json
-node packages/cli/validate-mirai-graph.js work-state-machine examples/work-recovery-minimal/results/work-state-machine.json
-node packages/cli/validate-mirai-graph.js recovery-resume-record examples/work-recovery-minimal/results/recovery-resume-record.json
-node packages/cli/validate-mirai-graph.js risk-control-matrix examples/risk-and-coordination-minimal/results/risk-control-matrix.json
-node packages/cli/validate-mirai-graph.js source-boundary-contract examples/source-boundary-minimal/results/source-boundary-contract.json
-node packages/cli/validate-mirai-graph.js examples/organization-governance-minimal
-node packages/cli/seed-preview.js examples/graph-seed-minimal/graph-seed.json
-node packages/cli/context-pack.js benchmarks/synthetic-context-reduction-v0 --task-id task.notify_after_approval
-node packages/cli/readiness-score.js benchmarks/synthetic-context-reduction-v0 --target-mode pilot
-node packages/cli/validate-process-transition-report.js
-node packages/cli/validate-baseline-comparison.js benchmarks/synthetic-context-reduction-v0/results/baseline-comparison-result.json
-node packages/cli/playground-demo.js
-node packages/cli/instrumentation-report.js examples/instrumentation-layer-minimal
-node packages/cli/mirai-graph.js validate examples/minimal-graph
-node packages/cli/mirai-graph.js report validation examples/minimal-graph
-node packages/cli/mirai-graph.js explain process-transition examples/process-transition-minimal/state-machine.json examples/process-transition-minimal/transition-request.json
-node packages/cli/mirai-graph.js report technology-quality-feedback examples/technology-quality-feedback-minimal/results/technology-quality-feedback.json
-node packages/cli/mirai-graph.js report instrumentation examples/instrumentation-layer-minimal
-node packages/cli/mirai-graph.js release state --markdown
+npx mirai-graph validate .
+npx mirai-graph report validation .
+npx mirai-graph choose-profile
+npx mirai-graph report playground
 ```
 
-The supported 1.0 release-candidate command surfaces are `mirai-graph`,
-`packages/cli/mirai-graph.js`, `packages/cli/mirai_graph.js`,
-`packages/cli/validate-mirai-graph.js` and `mirai-graph-package.json`.
-
-Or run the current smoke checks:
+Repository checkout checks:
 
 ```bash
 npm test
-npm run playground:report
-npm run validate:playground-report
-npm run validate:baseline-comparison
-npm run validate:technology-quality-feedback
-npm run validate:instrumentation-layer
-npm run validate:instrumentation-report
-npm run validate:adopter-workflow
-npm run validate:release-state
+npm run release:check
 ```
 
-Adopter workflow commands:
+For the full command surface, see [Mirai Graph CLI](docs/adoption/cli.md) and
+[Test Suite](standard/test-suite.md).
 
-```bash
-node packages/cli/mirai-graph.js choose-profile
-node packages/cli/mirai-graph.js adopter plan developer
-node packages/cli/mirai-graph.js adopter report templates/software-project-starter
-```
+## Evidence Boundary
+
+Mirai Graph validation checks graph package structure, profile rules, process
+artifacts and public-safe examples. It does not prove that a project is correct,
+scientifically validated, production-ready or authorized for release.
+
+Generated context, evidence, feedback, cockpit metrics and proposals do not
+authorize canonical updates by themselves. Controlled updates require explicit
+governance gates.
+
+## Release Candidate
+
+The current release candidate consolidates the validator-backed public standard
+across the core model, profiles, executable process control, instrumentation,
+Character Layer, adopter kit and evidence boundaries.
+
+See [v1.0.0-rc.1](releases/1.0.0-rc.1.md) and the
+[Release Process](releases/README.md).
 
 ## What This Repository Is Not
 
@@ -254,17 +153,10 @@ This repository is not a dump of private research, company or client material.
 Private project data, internal chats, internal skill sources, secrets and raw
 customer or employee data do not belong here.
 
-Synthetic examples and benchmarks are clearly marked as synthetic. They support
-method inspection and reproducibility, not broad external validity claims.
+Synthetic examples and benchmarks are marked as synthetic. They support method
+inspection and reproducibility, not broad external validity claims.
 
 ## License
 
 - Code is licensed under the MIT License. See [LICENSE](LICENSE).
-- Documentation, standard text and research materials are licensed under
-  Creative Commons Attribution 4.0 International. See
-  [LICENSE-DOCS](LICENSE-DOCS).
-
-## Citation
-
-Use [CITATION.cff](CITATION.cff) for citation metadata. Publication links will
-be maintained in `publications/`.
+- Documentation is licensed separately. See [LICENSE-DOCS](LICENSE-DOCS).

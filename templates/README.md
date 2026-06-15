@@ -9,6 +9,19 @@ replace with real public or private sources.
 For the full role-oriented starter path, use the
 [1.0 RC Adopter Kit](../docs/adoption/adopter-kit.md).
 
+For self-service onboarding in a project, prefer:
+
+```bash
+npx mirai-graph detect . --markdown
+npx mirai-graph bootstrap . --mode suggest --markdown
+npx mirai-graph init . --profile software_specification
+npx mirai-graph validate .
+```
+
+`init` copies only starter graph package files. It does not overwrite project
+README files and refuses to replace existing graph files unless `--force` is
+passed.
+
 ## Starters
 
 | Template | Profile | Use when |

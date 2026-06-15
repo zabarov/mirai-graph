@@ -1,6 +1,6 @@
 # Character Layer Adoption
 
-Status: alpha profile guide
+Status: 1.0 release-candidate profile guide
 
 ## Purpose
 

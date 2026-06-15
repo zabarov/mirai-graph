@@ -1,0 +1,29 @@
+[
+  {
+    "id": "evidence.invalid_private_trace",
+    "kind": "evidence",
+    "title": "Invalid Private Trace Evidence",
+    "summary": "Synthetic negative fixture evidence.",
+    "readiness": "accepted",
+    "evidence": [],
+    "profile": "societal_governance"
+  },
+  {
+    "id": "decision_trace.public_trace",
+    "kind": "decision_trace",
+    "title": "Public Trace",
+    "summary": "Trace incorrectly exposes private material.",
+    "readiness": "draft",
+    "evidence": ["evidence.invalid_private_trace"],
+    "profile": "societal_governance"
+  },
+  {
+    "id": "private_decision_journal.private_journal",
+    "kind": "private_decision_journal",
+    "title": "Private Journal",
+    "summary": "Private decision journal that must not be exposed.",
+    "readiness": "draft",
+    "evidence": ["evidence.invalid_private_trace"],
+    "profile": "societal_governance"
+  }
+]

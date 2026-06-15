@@ -1,0 +1,11 @@
+[
+  {
+    "id": "evidence.existing_fixture",
+    "kind": "evidence",
+    "title": "Existing Fixture Evidence",
+    "summary": "Synthetic evidence showing this fixture already has a graph.",
+    "readiness": "accepted",
+    "evidence": [],
+    "profile": "software_specification"
+  }
+]

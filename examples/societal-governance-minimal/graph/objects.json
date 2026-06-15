@@ -1,0 +1,218 @@
+[
+  {
+    "id": "evidence.societal_governance_brief",
+    "kind": "evidence",
+    "title": "Synthetic Societal Governance Brief",
+    "summary": "Public-safe synthetic brief for a non-binding governance trace fixture.",
+    "readiness": "accepted",
+    "evidence": [],
+    "profile": "societal_governance"
+  },
+  {
+    "id": "governance_dna.example_charter",
+    "kind": "governance_dna",
+    "title": "Example Charter",
+    "summary": "Synthetic governance DNA defining rights, consent, appeal and controlled evolution constraints.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.societal_governance_brief"],
+    "profile": "societal_governance"
+  },
+  {
+    "id": "governance_level.organization_shadow",
+    "kind": "governance_level",
+    "title": "Organization Shadow Level",
+    "summary": "Non-binding organizational shadow-governance level used for synthetic simulation.",
+    "readiness": "draft",
+    "evidence": ["evidence.societal_governance_brief"],
+    "profile": "societal_governance"
+  },
+  {
+    "id": "participant.example_member",
+    "kind": "participant",
+    "title": "Example Member",
+    "summary": "Synthetic participant represented without personal data.",
+    "readiness": "draft",
+    "evidence": ["evidence.societal_governance_brief"],
+    "profile": "societal_governance"
+  },
+  {
+    "id": "stakeholder_group.service_users",
+    "kind": "stakeholder_group",
+    "title": "Service Users",
+    "summary": "Synthetic stakeholder group affected by the proposed service change.",
+    "readiness": "draft",
+    "evidence": ["evidence.societal_governance_brief"],
+    "profile": "societal_governance"
+  },
+  {
+    "id": "ai_avatar.example_member_avatar",
+    "kind": "ai_avatar",
+    "title": "Example Member Avatar",
+    "summary": "Bounded AI avatar that can summarize options and submit non-binding participation signals inside explicit consent scope.",
+    "readiness": "draft",
+    "evidence": ["evidence.societal_governance_brief"],
+    "profile": "societal_governance"
+  },
+  {
+    "id": "avatar_contract.example_member_avatar_contract",
+    "kind": "avatar_contract",
+    "title": "Example Member Avatar Contract",
+    "summary": "Contract limiting the avatar to explanation, summary and non-binding signal submission.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.societal_governance_brief"],
+    "profile": "societal_governance"
+  },
+  {
+    "id": "delegation_scope.non_binding_signal",
+    "kind": "delegation_scope",
+    "title": "Non-Binding Signal Scope",
+    "summary": "Delegation scope allowing only non-binding participation signals and requiring human owner review for binding actions.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.societal_governance_brief"],
+    "profile": "societal_governance"
+  },
+  {
+    "id": "consent_receipt.example_member_consent",
+    "kind": "consent_receipt",
+    "title": "Example Member Consent",
+    "summary": "Synthetic consent receipt granting the avatar the non-binding signal scope.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.societal_governance_brief"],
+    "profile": "societal_governance"
+  },
+  {
+    "id": "private_decision_journal.example_member_journal",
+    "kind": "private_decision_journal",
+    "title": "Example Member Private Journal",
+    "summary": "Private synthetic journal represented only through summarized proof in the public trace.",
+    "readiness": "draft",
+    "evidence": ["evidence.societal_governance_brief"],
+    "profile": "societal_governance"
+  },
+  {
+    "id": "initiative.service_window_change",
+    "kind": "initiative",
+    "title": "Service Window Change",
+    "summary": "Non-binding proposal to adjust a service window after rights, privacy and affectedness checks.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.societal_governance_brief"],
+    "profile": "societal_governance"
+  },
+  {
+    "id": "simulation.service_impact_simulation",
+    "kind": "simulation",
+    "title": "Service Impact Simulation",
+    "summary": "Synthetic simulation of impact on service users and implementation effort.",
+    "readiness": "draft",
+    "evidence": ["evidence.societal_governance_brief"],
+    "profile": "societal_governance"
+  },
+  {
+    "id": "rights_gate.protected_rights_check",
+    "kind": "rights_gate",
+    "title": "Protected Rights Check",
+    "summary": "Gate ensuring contribution or expertise weights cannot override protected rights.",
+    "readiness": "accepted",
+    "evidence": ["evidence.societal_governance_brief"],
+    "profile": "societal_governance"
+  },
+  {
+    "id": "privacy_gate.public_trace_privacy_check",
+    "kind": "privacy_gate",
+    "title": "Public Trace Privacy Check",
+    "summary": "Gate ensuring private journal contents are summarized without exposure.",
+    "readiness": "accepted",
+    "evidence": ["evidence.societal_governance_brief"],
+    "profile": "societal_governance"
+  },
+  {
+    "id": "affectedness_gate.service_user_affectedness",
+    "kind": "affectedness_gate",
+    "title": "Service User Affectedness",
+    "summary": "Gate checking whether affected stakeholder groups are represented in the trace.",
+    "readiness": "accepted",
+    "evidence": ["evidence.societal_governance_brief"],
+    "profile": "societal_governance"
+  },
+  {
+    "id": "anti_capture_gate.weight_change_check",
+    "kind": "anti_capture_gate",
+    "title": "Weight Change Check",
+    "summary": "Gate preventing participation weights from becoming capture or social scoring.",
+    "readiness": "accepted",
+    "evidence": ["evidence.societal_governance_brief"],
+    "profile": "societal_governance"
+  },
+  {
+    "id": "legitimacy_gate.shadow_decision_check",
+    "kind": "legitimacy_gate",
+    "title": "Shadow Decision Check",
+    "summary": "Gate confirming the decision trace is non-binding and human-owned.",
+    "readiness": "accepted",
+    "evidence": ["evidence.societal_governance_brief"],
+    "profile": "societal_governance"
+  },
+  {
+    "id": "participation_signal.example_member_signal",
+    "kind": "participation_signal",
+    "title": "Example Member Signal",
+    "summary": "Non-binding synthetic participation signal submitted by the avatar within consent scope.",
+    "readiness": "draft",
+    "evidence": ["evidence.societal_governance_brief"],
+    "profile": "societal_governance"
+  },
+  {
+    "id": "decision.service_window_shadow_decision",
+    "kind": "decision",
+    "title": "Service Window Shadow Decision",
+    "summary": "Non-binding shadow decision created after governance gates and appeal path are present.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.societal_governance_brief"],
+    "profile": "societal_governance"
+  },
+  {
+    "id": "decision_trace.service_window_trace",
+    "kind": "decision_trace",
+    "title": "Service Window Decision Trace",
+    "summary": "Layered public trace summarizing proposal, gates, evidence, participation, decision and learning proposal.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.societal_governance_brief"],
+    "profile": "societal_governance"
+  },
+  {
+    "id": "execution_mandate.service_window_trial",
+    "kind": "execution_mandate",
+    "title": "Service Window Trial Mandate",
+    "summary": "Non-binding execution mandate for a reversible trial controlled by human owner review.",
+    "readiness": "draft",
+    "evidence": ["evidence.societal_governance_brief"],
+    "profile": "societal_governance"
+  },
+  {
+    "id": "outcome_evidence.service_window_trial_result",
+    "kind": "outcome_evidence",
+    "title": "Service Window Trial Result",
+    "summary": "Synthetic outcome evidence from the reversible service window trial.",
+    "readiness": "draft",
+    "evidence": ["evidence.societal_governance_brief"],
+    "profile": "societal_governance"
+  },
+  {
+    "id": "appeal.service_window_appeal_path",
+    "kind": "appeal",
+    "title": "Service Window Appeal Path",
+    "summary": "Appeal path allowing affected participants to reopen or challenge the shadow decision.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.societal_governance_brief"],
+    "profile": "societal_governance"
+  },
+  {
+    "id": "learning_proposal.service_window_learning",
+    "kind": "learning_proposal",
+    "title": "Service Window Learning Proposal",
+    "summary": "Proposal to improve governance DNA after reviewing outcome evidence; it does not apply automatically.",
+    "readiness": "draft",
+    "evidence": ["evidence.societal_governance_brief"],
+    "profile": "societal_governance"
+  }
+]

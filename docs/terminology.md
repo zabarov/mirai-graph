@@ -1,6 +1,6 @@
 # Mirai Graph Terminology
 
-Status: initial draft
+Status: 1.0 release-candidate terminology
 
 ## Mirai Graph
 

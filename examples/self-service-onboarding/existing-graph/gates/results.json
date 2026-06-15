@@ -1,0 +1,11 @@
+[
+  {
+    "id": "gate_result.synthetic_existing_graph.public_safety",
+    "gate_id": "gate.public_safety",
+    "target_id": "package.synthetic_existing_graph",
+    "verdict": "pass",
+    "summary": "Synthetic fixture contains no private material.",
+    "evidence": ["evidence.existing_fixture"],
+    "reviewer": "Mirai Graph self-service validator"
+  }
+]

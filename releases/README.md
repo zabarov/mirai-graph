@@ -1,6 +1,6 @@
 # Mirai Graph Release Process
 
-Status: initial public process
+Status: 1.0 release-candidate release process
 
 ## Purpose
 
@@ -17,7 +17,11 @@ Release notes must separate:
 
 - [v1.0.0-rc.1](1.0.0-rc.1.md) - 1.0 release candidate consolidating the
   public standard, profiles, executable process control, instrumentation,
-  Character Layer, adopter kit and evidence boundaries.
+  Character Layer, self-service onboarding, adopter kit and evidence
+  boundaries.
+- [Societal Governance profile proposal](societal-governance-profile-proposal.md)
+  - proposal-level transfer note for the public-safe experimental governance
+  profile; not a core `1.0.0-rc.1` profile requirement.
 - [v0.1.0-alpha.9](0.1.0-alpha.9.md) - Mirai Graph naming, repository,
   package and CLI identity consolidation.
 - [v0.1.0-alpha.10](0.1.0-alpha.10.md) - Adopter Workflow, release-state

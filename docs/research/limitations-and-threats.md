@@ -1,6 +1,6 @@
 # Mirai Graph Limitations And Threats To Validity
 
-Status: alpha limitation table
+Status: 1.0 release-candidate limitation table
 
 ## Known Limitations
 

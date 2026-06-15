@@ -1,6 +1,6 @@
 # AI Employee Graph Adoption
 
-Status: alpha adoption guide
+Status: 1.0 release-candidate adoption guide
 
 ## Purpose
 

@@ -1,6 +1,6 @@
 # Independent Implementation Pilot Plan
 
-Status: initial research plan
+Status: 1.0 release-candidate research plan
 
 ## Purpose
 

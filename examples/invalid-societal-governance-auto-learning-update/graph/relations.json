@@ -1,0 +1,11 @@
+[
+  {
+    "id": "relation.outcome_evidence.trial_result.auto_applies_learning.governance_dna.example_charter",
+    "type": "auto_applies_learning",
+    "source": "outcome_evidence.trial_result",
+    "target": "governance_dna.example_charter",
+    "readiness": "draft",
+    "evidence": ["evidence.invalid_auto_learning"],
+    "profile": "societal_governance"
+  }
+]

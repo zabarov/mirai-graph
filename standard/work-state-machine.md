@@ -1,6 +1,6 @@
 # Work State Machine
 
-Status: initial public standard note
+Status: 1.0 release-candidate standard section
 
 ## Purpose
 

@@ -524,6 +524,124 @@ function validateCharacterLayerSemantics(objects, relations, errors) {
   }
 }
 
+function validateSocietalGovernanceSemantics(objects, relations, errors) {
+  const objectById = new Map(objects.map((object) => [object.id, object]));
+  const kindOf = (id) => objectById.get(id) && objectById.get(id).kind;
+  const hasKind = (id, kinds) => kinds.includes(kindOf(id));
+
+  const relationShapes = {
+    represented_by_avatar: {
+      source: ["participant"],
+      target: ["ai_avatar"]
+    },
+    bound_by_contract: {
+      source: ["ai_avatar"],
+      target: ["avatar_contract"]
+    },
+    delegates_scope_to: {
+      source: ["avatar_contract"],
+      target: ["delegation_scope"]
+    },
+    has_consent_receipt: {
+      source: ["delegation_scope"],
+      target: ["consent_receipt"]
+    },
+    opens_initiative: {
+      source: ["participant", "ai_avatar"],
+      target: ["initiative"]
+    },
+    authorizes_decision: {
+      source: ["legitimacy_gate", "rights_gate"],
+      target: ["decision"]
+    },
+    has_appeal_path: {
+      source: ["decision"],
+      target: ["appeal"]
+    },
+    creates_learning_proposal: {
+      source: ["outcome_evidence", "harm_report"],
+      target: ["learning_proposal"]
+    },
+    approved_update_to: {
+      source: ["learning_proposal", "amendment_proposal"],
+      target: ["governance_dna"]
+    }
+  };
+
+  for (const [index, relation] of relations.entries()) {
+    const label = `relation[${index}]`;
+    const shape = relationShapes[relation.type];
+    if (shape && objectById.has(relation.source) && objectById.has(relation.target)) {
+      if (!hasKind(relation.source, shape.source)) {
+        errors.push(`${label}.source kind ${kindOf(relation.source)} is invalid for societal_governance relation ${relation.type}; expected ${shape.source.join(" or ")}`);
+      }
+      if (!hasKind(relation.target, shape.target)) {
+        errors.push(`${label}.target kind ${kindOf(relation.target)} is invalid for societal_governance relation ${relation.type}; expected ${shape.target.join(" or ")}`);
+      }
+    }
+
+    const sourceKind = kindOf(relation.source);
+    if (relation.type === "authorizes_decision" && ["ai_avatar", "generated_context", "participation_signal", "outcome_evidence"].includes(sourceKind)) {
+      errors.push(`${label} uses ${sourceKind} as decision authority; societal_governance requires human/governance gate authorization`);
+    }
+    if (relation.type === "opens_initiative" && sourceKind === "ai_avatar") {
+      const avatarHasConsent = relations.some((candidate) => {
+        if (candidate.type !== "bound_by_contract" || candidate.source !== relation.source) {
+          return false;
+        }
+        const contractId = candidate.target;
+        return relations.some((scopeRelation) => {
+          if (scopeRelation.type !== "delegates_scope_to" || scopeRelation.source !== contractId) {
+            return false;
+          }
+          const scopeId = scopeRelation.target;
+          return relations.some((consentRelation) => consentRelation.type === "has_consent_receipt" && consentRelation.source === scopeId);
+        });
+      });
+      if (!avatarHasConsent) {
+        errors.push(`${label} lets ai_avatar open an initiative without contract scope and consent receipt`);
+      }
+    }
+    if (relation.type === "exposes_private_trace") {
+      errors.push(`${label} exposes private decision material; public traces may only summarize private proof`);
+    }
+    if (relation.type === "overrides_rights") {
+      errors.push(`${label} lets weights override rights; societal_governance requires rights_before_optimization`);
+    }
+    if (relation.type === "auto_applies_learning") {
+      errors.push(`${label} auto-applies learning; outcome evidence must create a learning proposal and approval-gated update`);
+    }
+  }
+
+  const decisions = objects.filter((object) => object.kind === "decision");
+  for (const decision of decisions) {
+    const hasAppealPath = relations.some((relation) => relation.source === decision.id && relation.type === "has_appeal_path" && hasKind(relation.target, ["appeal"]));
+    if (!hasAppealPath) {
+      errors.push(`${decision.id} decision must have an appeal path before governed decision readiness`);
+    }
+  }
+
+  const forbiddenTerms = [
+    "generated context authorizes",
+    "avatar authorizes",
+    "ai avatar authorizes",
+    "private journal is public",
+    "private decision journal is public",
+    "contribution weight overrides rights",
+    "outcome evidence automatically updates",
+    "learning automatically updates",
+    "automatic governance update",
+    "social score"
+  ];
+  for (const [index, object] of objects.entries()) {
+    const haystack = `${object.title || ""}\n${object.summary || ""}`;
+    const term = includesAnyLowercase(haystack, forbiddenTerms);
+    if (term) {
+      errors.push(`object[${index}] contains forbidden societal_governance semantics: ${term}`);
+    }
+  }
+}
+
 function validatePackage(packageDir) {
   const manifestLookup = findManifestPath(packageDir);
   const manifest = fs.existsSync(manifestLookup) ? readJson(manifestLookup) : null;
@@ -674,6 +792,9 @@ function validatePackage(packageDir) {
 
   if (manifest && manifest.profile === "character_layer") {
     validateCharacterLayerSemantics(objects, relations, errors);
+  }
+  if (manifest && manifest.profile === "societal_governance") {
+    validateSocietalGovernanceSemantics(objects, relations, errors);
   }
 
   if (fs.existsSync(gateResultsPath)) {

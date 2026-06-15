@@ -1,0 +1,29 @@
+[
+  {
+    "id": "evidence.invalid_avatar_no_consent",
+    "kind": "evidence",
+    "title": "Invalid Avatar No Consent Evidence",
+    "summary": "Synthetic negative fixture evidence.",
+    "readiness": "accepted",
+    "evidence": [],
+    "profile": "societal_governance"
+  },
+  {
+    "id": "ai_avatar.unbounded_avatar",
+    "kind": "ai_avatar",
+    "title": "Unbounded Avatar",
+    "summary": "Avatar attempts governance action without consent scope.",
+    "readiness": "draft",
+    "evidence": ["evidence.invalid_avatar_no_consent"],
+    "profile": "societal_governance"
+  },
+  {
+    "id": "initiative.unsafely_opened",
+    "kind": "initiative",
+    "title": "Unsafely Opened Initiative",
+    "summary": "Initiative opened without consent receipt.",
+    "readiness": "draft",
+    "evidence": ["evidence.invalid_avatar_no_consent"],
+    "profile": "societal_governance"
+  }
+]
