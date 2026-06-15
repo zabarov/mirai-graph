@@ -1,6 +1,6 @@
 # Mirai Graph Playground Demo Report
 
-Status: deterministic 1.0.0-rc.1 demo
+Status: deterministic 1.0.0-rc.2 demo
 
 ## Control Loop
 

@@ -105,7 +105,7 @@ Proposal or experimental profile:
 - [Roadmap](../ROADMAP.md)
 - [Changelog](../CHANGELOG.md)
 - [Release Process](../releases/README.md)
-- [v1.0.0-rc.1](../releases/1.0.0-rc.1.md)
+- [v1.0.0-rc.2](../releases/1.0.0-rc.2.md)
 - [Contributing](../CONTRIBUTING.md)
 
 ## Transfer And Historical Notes

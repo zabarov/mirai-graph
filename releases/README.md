@@ -15,13 +15,15 @@ Release notes must separate:
 
 ## Release Notes
 
+- [v1.0.0-rc.2](1.0.0-rc.2.md) - self-service onboarding and public
+  documentation hardening release candidate.
 - [v1.0.0-rc.1](1.0.0-rc.1.md) - 1.0 release candidate consolidating the
   public standard, profiles, executable process control, instrumentation,
   Character Layer, self-service onboarding, adopter kit and evidence
   boundaries.
 - [Societal Governance profile proposal](societal-governance-profile-proposal.md)
   - proposal-level transfer note for the public-safe experimental governance
-  profile; not a core `1.0.0-rc.1` profile requirement.
+  profile; not a core `1.0.0` profile requirement.
 - [v0.1.0-alpha.9](0.1.0-alpha.9.md) - Mirai Graph naming, repository,
   package and CLI identity consolidation.
 - [v0.1.0-alpha.10](0.1.0-alpha.10.md) - Adopter Workflow, release-state

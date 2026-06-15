@@ -4,6 +4,33 @@ All notable changes to Mirai Graph will be documented in this file.
 
 ## [Unreleased]
 
+## [1.0.0-rc.2] - 2026-06-15
+
+### Added
+
+- Self-service onboarding CLI path for `init`, `detect` and `bootstrap`.
+- Self-service onboarding fixtures for missing, existing and stale graph states.
+- GitHub Action starter for validating Mirai Graph packages.
+- "Connect A Project In 15 Minutes" adoption tutorial.
+- Public documentation map in `docs/README.md`.
+- Proposal-level Societal Governance profile and fail-closed fixtures.
+
+### Changed
+
+- Working package version is now `1.0.0-rc.2`.
+- README now focuses on public landing, npm-first quickstart and role paths.
+- Adoption and developer docs now separate npm usage from contributor checkout.
+- Release notes and roadmap now reflect self-service onboarding as part of the
+  release-candidate surface.
+- Societal Governance is explicitly marked proposal/experimental, not core
+  `1.0.0` conformance.
+
+### Claim Boundary
+
+- This release candidate supports self-service external review of Mirai Graph.
+- It does not claim final stable `1.0.0`, npm publication, peer-reviewed proof,
+  production autonomous execution safety, or automatic canonical updates.
+
 ## [1.0.0-rc.1] - 2026-06-12
 
 ### Added

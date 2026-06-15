@@ -8,7 +8,7 @@ It connects canonical graph state, generated context, evidence, readiness,
 process control, feedback and governance gates so people and AI systems can
 work from explicit state instead of scattered chats, documents and task memory.
 
-Status: public `1.0.0-rc.1` release candidate.
+Status: public `1.0.0-rc.2` release candidate.
 
 ## Quick Start
 
@@ -144,7 +144,7 @@ The current release candidate consolidates the validator-backed public standard
 across the core model, profiles, executable process control, instrumentation,
 Character Layer, adopter kit and evidence boundaries.
 
-See [v1.0.0-rc.1](releases/1.0.0-rc.1.md) and the
+See [v1.0.0-rc.2](releases/1.0.0-rc.2.md) and the
 [Release Process](releases/README.md).
 
 ## What This Repository Is Not
