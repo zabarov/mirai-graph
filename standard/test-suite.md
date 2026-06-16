@@ -24,6 +24,7 @@ Current checks:
 - validate synthetic benchmark graph package;
 - validate public profile manifests;
 - validate public pilot packages;
+- validate dynamic episode traces and reject unsafe trace semantics;
 - run deterministic seed preview;
 - generate benchmark context pack;
 - score benchmark readiness;
@@ -62,6 +63,30 @@ Current validator:
 
 ```bash
 node packages/cli/validate-mirai-graph.js <package-dir>
+```
+
+## Dynamic Episode Validation
+
+Dynamic episode validation checks:
+
+- event presence;
+- source refs;
+- activated objects, relations, policies, gates and technology steps;
+- selected path;
+- blocked paths;
+- finding classifications;
+- feedback classifications;
+- Kaizen route for process improvements;
+- replay/regression placeholders;
+- `canonical_write_allowed=false`;
+- absence of evidence-as-authorization language.
+
+Current commands:
+
+```bash
+npm run validate:dynamic-episodes
+npm run validate:dynamic-episode-report
+npm run test:dynamic-episodes-negative
 ```
 
 ## Benchmark Reproducibility

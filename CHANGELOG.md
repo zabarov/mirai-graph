@@ -4,6 +4,29 @@ All notable changes to Mirai Graph will be documented in this file.
 
 ## [Unreleased]
 
+## [1.0.0-rc.4] - 2026-06-16
+
+### Added
+
+- Proposal/experimental Dynamic Episode Layer standard documents.
+- Dynamic episode trace schema, synthetic positive fixture and negative
+  fixtures for unsafe canonical-write, evidence-as-authorization, missing
+  event, missing selected path and unclassified finding cases.
+- CLI validation and report support for `dynamic-episode-trace`.
+
+### Changed
+
+- Working package version is now `1.0.0-rc.4`.
+- README, roadmap, release index, test-suite docs and evidence package now
+  reflect Dynamic Episode tracing as the current release-candidate addition.
+
+### Claim Boundary
+
+- This release validates the public shape and safety boundaries of Dynamic
+  Episode tracing.
+- It does not claim proof that real AI-assisted work drift is reduced without
+  pilot replay/regression evidence.
+
 ## [1.0.0-rc.3] - 2026-06-16
 
 ### Added

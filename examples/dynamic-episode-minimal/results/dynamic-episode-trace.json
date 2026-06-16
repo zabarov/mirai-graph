@@ -1,0 +1,149 @@
+{
+  "schema_version": "1.0.0",
+  "id": "episode.synthetic_codegen_login_audit_001",
+  "profile": "dynamic_episode_layer",
+  "public_safety": "synthetic_public",
+  "event": {
+    "id": "event.synthetic_codegen_request_001",
+    "type": "code_generation_request",
+    "summary": "Generate a bounded implementation draft for the synthetic login audit feature."
+  },
+  "source_refs": {
+    "spec_refs": [
+      "spec.synthetic_login_audit"
+    ],
+    "graph_refs": [
+      "feature.synthetic_login_audit",
+      "requirement.synthetic_allowed_scope",
+      "governance_gate.dynamic_episode_boundary"
+    ],
+    "workflow_refs": [
+      "workflow.synthetic_bounded_codegen"
+    ],
+    "launch_record_ref": "launch_record.synthetic_codegen_001"
+  },
+  "activated": {
+    "objects": [
+      "feature.synthetic_login_audit",
+      "requirement.synthetic_allowed_scope",
+      "governance_gate.dynamic_episode_boundary"
+    ],
+    "relations": [
+      "relation.feature.synthetic_login_audit.depends_on.requirement.synthetic_allowed_scope",
+      "relation.governance_gate.dynamic_episode_boundary.governs.feature.synthetic_login_audit"
+    ],
+    "policies": [
+      "policy.no_evidence_as_authorization",
+      "policy.no_runtime_trace_as_canonical_update"
+    ],
+    "gates": [
+      "gate.scope_boundary",
+      "gate.technology_quality_feedback",
+      "gate.canonical_update_approval"
+    ],
+    "technology_steps": [
+      "inspect_feature_spec",
+      "activate_dependencies",
+      "prepare_implementation_plan",
+      "write_bounded_code",
+      "record_tests",
+      "classify_findings"
+    ]
+  },
+  "selected_path": [
+    "inspect_feature_spec",
+    "activate_dependencies",
+    "prepare_implementation_plan",
+    "write_bounded_code",
+    "record_tests",
+    "classify_findings"
+  ],
+  "blocked_paths": [
+    {
+      "id": "blocked.modify_unrelated_package",
+      "reason": "outside_allowed_scope",
+      "blocked_by": "gate.scope_boundary"
+    },
+    {
+      "id": "blocked.apply_canonical_graph_update",
+      "reason": "episode_trace_is_evidence_not_authorization",
+      "blocked_by": "gate.canonical_update_approval"
+    }
+  ],
+  "gates": [
+    {
+      "id": "gate.scope_boundary",
+      "status": "pass"
+    },
+    {
+      "id": "gate.technology_quality_feedback",
+      "status": "pass_with_notes"
+    },
+    {
+      "id": "gate.canonical_update_approval",
+      "status": "blocked_not_requested"
+    }
+  ],
+  "actions": [
+    {
+      "id": "action.synthetic_codegen_draft",
+      "type": "action_proposal",
+      "summary": "Prepare bounded implementation draft only.",
+      "executed": false
+    }
+  ],
+  "results": [
+    {
+      "id": "result.synthetic_codegen_trace",
+      "status": "review_ready",
+      "summary": "Episode produced a trace and review-ready evidence without canonical update."
+    }
+  ],
+  "findings": [
+    {
+      "id": "finding.synthetic_scope_guard_worked",
+      "classification": "accepted",
+      "severity": "low",
+      "summary": "The unrelated-package path was blocked by scope boundary.",
+      "evidence_refs": [
+        "evidence.synthetic_episode_trace"
+      ],
+      "next_route": "continue_review",
+      "blocking": false
+    },
+    {
+      "id": "finding.synthetic_replay_needed",
+      "classification": "process_improvement",
+      "severity": "low",
+      "summary": "A replay fixture should be added before claiming behavior improvement.",
+      "evidence_refs": [
+        "evidence.synthetic_episode_trace"
+      ],
+      "next_route": "kaizen_improvement",
+      "blocking": false
+    }
+  ],
+  "feedback_classification": [
+    "accepted",
+    "process_improvement"
+  ],
+  "kaizen_candidates": [
+    "kaizen.synthetic_add_replay_fixture"
+  ],
+  "replay_regression": {
+    "replay_ready": false,
+    "baseline_ref": null,
+    "regression_check_ref": "proposal.synthetic_replay_fixture"
+  },
+  "evidence_refs": [
+    "evidence.synthetic_episode_trace",
+    "evidence.synthetic_boundary_rule"
+  ],
+  "limitations": [
+    "Synthetic example only.",
+    "The trace demonstrates shape and boundaries, not real code quality.",
+    "Episode trace is evidence, not authorization.",
+    "Runtime trace does not update canonical graph state."
+  ],
+  "canonical_write_allowed": false
+}

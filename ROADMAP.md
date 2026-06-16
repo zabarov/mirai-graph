@@ -72,6 +72,8 @@ Additional 1.0 RC artifacts now present:
   quality feedback;
 - Character Layer profile, starter pack, integration evidence, portability
   evidence shape and 1.0 readiness artifact.
+- proposal/experimental Dynamic Episode Layer, episode trace schema and
+  synthetic code-generation trace example.
 
 Readiness target:
 
@@ -156,6 +158,8 @@ Post-1.0 gaps:
 - add process-control explanation output and richer report formatting.
 - add adoption recipes for technology quality feedback in non-software
   workflows.
+- evolve dynamic episode traces from synthetic validation to replay/regression
+  support for internal pilots.
 
 Current tooling target:
 
@@ -189,6 +193,8 @@ Post-1.0 gaps:
   visibly;
 - connect instrumentation reports to reproducibility packages and pilot
   protocols without exposing private runtime traces;
+- add dynamic episode trace datasets for public-safe code-generation drift
+  experiments;
 - add more independent implementation pilots;
 - explore an interactive playground after CLI-first reports stabilize.
 
@@ -214,7 +220,7 @@ Planned artifacts:
 
 ## Near-Term Work After 1.0 RC
 
-1. Execute the `1.0.0-rc.3` release: tag, GitHub Release and npm publication
+1. Execute the `1.0.0-rc.4` release: tag, GitHub Release and npm publication
    only after release-state checks are accepted.
 2. Continue adopter workflow: import/export helper skeletons, richer report
    formatting and more adoption recipes when they directly support self-service

@@ -18,6 +18,7 @@ function usage() {
   console.error("  mirai-graph report validation <package-dir>");
   console.error("  mirai-graph report process-transition <state-machine-file> <transition-request-file>");
   console.error("  mirai-graph report technology-quality-feedback <feedback-file>");
+  console.error("  mirai-graph report dynamic-episode <trace-file>");
   console.error("  mirai-graph report instrumentation [package-dir]");
   console.error("  mirai-graph explain process-transition <state-machine-file> <transition-request-file>");
   console.error("  mirai-graph report playground");
@@ -103,6 +104,14 @@ if (command === "report" && subcommand === "technology-quality-feedback") {
     process.exit(1);
   }
   run("packages/cli/validate-mirai-graph.js", ["--markdown", "technology-quality-feedback", rest[0]]);
+}
+
+if (command === "report" && subcommand === "dynamic-episode") {
+  if (rest.length !== 1) {
+    usage();
+    process.exit(1);
+  }
+  run("packages/cli/validate-mirai-graph.js", ["--markdown", "dynamic-episode-trace", rest[0]]);
 }
 
 if (command === "report" && subcommand === "instrumentation") {

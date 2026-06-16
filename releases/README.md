@@ -15,6 +15,8 @@ Release notes must separate:
 
 ## Release Notes
 
+- [v1.0.0-rc.4](1.0.0-rc.4.md) - Dynamic Episode proposal/experimental
+  tracing release candidate.
 - [v1.0.0-rc.3](1.0.0-rc.3.md) - developer-first onboarding release
   candidate.
 - [v1.0.0-rc.2](1.0.0-rc.2.md) - self-service onboarding and public

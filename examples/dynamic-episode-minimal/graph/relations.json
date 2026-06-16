@@ -1,0 +1,29 @@
+[
+  {
+    "id": "relation.feature.synthetic_login_audit.depends_on.requirement.synthetic_allowed_scope",
+    "type": "depends_on",
+    "profile": "core",
+    "source": "feature.synthetic_login_audit",
+    "target": "requirement.synthetic_allowed_scope",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_feature_spec"]
+  },
+  {
+    "id": "relation.governance_gate.dynamic_episode_boundary.governs.feature.synthetic_login_audit",
+    "type": "governs",
+    "profile": "core",
+    "source": "governance_gate.dynamic_episode_boundary",
+    "target": "feature.synthetic_login_audit",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_boundary_rule"]
+  },
+  {
+    "id": "relation.evidence.synthetic_episode_trace.evidences.feature.synthetic_login_audit",
+    "type": "evidences",
+    "profile": "core",
+    "source": "evidence.synthetic_episode_trace",
+    "target": "feature.synthetic_login_audit",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_episode_trace"]
+  }
+]

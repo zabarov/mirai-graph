@@ -75,6 +75,7 @@ function usage() {
   console.error("  node packages/cli/validate-mirai-graph.js development-cockpit <cockpit-file>");
   console.error("  node packages/cli/validate-mirai-graph.js feature-implementation-traceability <traceability-file>");
   console.error("  node packages/cli/validate-mirai-graph.js multi-source-quality-feedback <feedback-file>");
+  console.error("  node packages/cli/validate-mirai-graph.js dynamic-episode-trace <trace-file>");
   console.error("  node packages/cli/validate-mirai-graph.js graph-dna-alignment <result-file>");
   console.error("  node packages/cli/validate-mirai-graph.js work-state-machine <result-file>");
   console.error("  node packages/cli/validate-mirai-graph.js recovery-resume-record <result-file>");
@@ -213,6 +214,55 @@ function formatInstrumentationMarkdown(output) {
       "",
       "- Multi-source feedback calibrates transitions; it is not approval by itself.",
       "- Blocking findings stop the transitions they block."
+    ].join("\n");
+  }
+
+  if (output.mode === "dynamic_episode_trace") {
+    const result = output.result || {};
+    const activated = result.activated || {};
+    const blockedPaths = Array.isArray(result.blocked_paths)
+      ? result.blocked_paths.map((blockedPath) => `\`${blockedPath.id}\`: ${blockedPath.reason}, blocked by \`${blockedPath.blocked_by}\``)
+      : [];
+    const findings = Array.isArray(result.findings)
+      ? result.findings.map((finding) => `\`${finding.id}\`: ${finding.classification}, severity \`${finding.severity}\`, route \`${finding.next_route}\`, blocking \`${finding.blocking ? "true" : "false"}\``)
+      : [];
+    return [
+      "# Dynamic Episode Trace Report",
+      "",
+      `- Valid: \`${output.valid ? "true" : "false"}\``,
+      `- Episode: \`${result.id || "unknown"}\``,
+      `- Event: \`${result.event ? result.event.id : "unknown"}\``,
+      `- Event type: \`${result.event ? result.event.type : "unknown"}\``,
+      `- Canonical write allowed: \`${result.canonical_write_allowed === false ? "false" : "true"}\``,
+      `- Activated objects: \`${Array.isArray(activated.objects) ? activated.objects.length : "unknown"}\``,
+      `- Activated relations: \`${Array.isArray(activated.relations) ? activated.relations.length : "unknown"}\``,
+      `- Selected path steps: \`${Array.isArray(result.selected_path) ? result.selected_path.length : "unknown"}\``,
+      "",
+      "## Blocked Paths",
+      "",
+      markdownList(blockedPaths, "No blocked paths declared."),
+      "",
+      "## Findings",
+      "",
+      markdownList(findings, "No findings declared."),
+      "",
+      "## Feedback Classification",
+      "",
+      markdownList(result.feedback_classification, "No feedback classifications declared."),
+      "",
+      "## Errors",
+      "",
+      markdownList(output.errors, "No errors."),
+      "",
+      "## Warnings",
+      "",
+      markdownList(output.warnings, "No warnings."),
+      "",
+      "## Boundary",
+      "",
+      "- Episode traces explain operational behavior; they do not expose hidden model reasoning.",
+      "- Episode traces are evidence, not authorization.",
+      "- Runtime traces do not update canonical graph state."
     ].join("\n");
   }
 
@@ -2344,6 +2394,190 @@ function validatePublicImplementationControlResult(resultPath, mode) {
   return { errors, warnings, result };
 }
 
+function validateDynamicEpisodeTrace(resultPath) {
+  const errors = [];
+  const warnings = [];
+  const result = readJson(resultPath);
+  const label = "dynamic_episode_trace";
+  const classifications = new Set([
+    "accepted",
+    "work_fix_required",
+    "test_gap",
+    "spec_gap",
+    "graph_update_proposal",
+    "process_improvement",
+    "release_blocker",
+    "security_blocker",
+    "defer_with_reason",
+    "scope_drift",
+    "package_boundary_violation",
+    "wrong_dependency_activation",
+    "unsupported_assumption",
+    "missing_evidence",
+    "wrong_workflow_selected",
+    "approval_gate_bypass",
+    "technology_step_skipped",
+    "evidence_treated_as_authorization",
+    "feedback_loss"
+  ]);
+  const severities = new Set(["critical", "high", "medium", "low"]);
+
+  requireString(result, "schema_version", label, errors);
+  requireString(result, "id", label, errors);
+  requireString(result, "profile", label, errors);
+  requireString(result, "public_safety", label, errors);
+  requireObject(result, "event", label, errors);
+  requireObject(result, "source_refs", label, errors);
+  requireObject(result, "activated", label, errors);
+  requireJsonArray(result, "selected_path", label, errors);
+  requireJsonArray(result, "blocked_paths", label, errors);
+  requireJsonArray(result, "gates", label, errors);
+  requireJsonArray(result, "actions", label, errors);
+  requireJsonArray(result, "results", label, errors);
+  requireJsonArray(result, "findings", label, errors);
+  requireArray(result, "feedback_classification", label, errors);
+  requireArray(result, "kaizen_candidates", label, errors);
+  requireObject(result, "replay_regression", label, errors);
+  requireArray(result, "evidence_refs", label, errors);
+  requireArray(result, "limitations", label, errors);
+
+  if (result.profile !== undefined && result.profile !== "dynamic_episode_layer") {
+    errors.push(`${label}.profile must be dynamic_episode_layer`);
+  }
+  if (result.public_safety !== undefined && result.public_safety !== "synthetic_public") {
+    errors.push(`${label}.public_safety must be synthetic_public`);
+  }
+  if (result.canonical_write_allowed !== false) {
+    errors.push(`${label}.canonical_write_allowed must be false`);
+  }
+
+  if (result.event && typeof result.event === "object") {
+    for (const field of ["id", "type", "summary"]) {
+      requireString(result.event, field, `${label}.event`, errors);
+    }
+  }
+
+  if (result.source_refs && typeof result.source_refs === "object") {
+    requireOptionalArray(result.source_refs, "spec_refs", `${label}.source_refs`, errors);
+    requireArray(result.source_refs, "graph_refs", `${label}.source_refs`, errors);
+    requireArray(result.source_refs, "workflow_refs", `${label}.source_refs`, errors);
+    requireString(result.source_refs, "launch_record_ref", `${label}.source_refs`, errors);
+  }
+
+  if (result.activated && typeof result.activated === "object") {
+    for (const field of ["objects", "relations", "policies", "gates", "technology_steps"]) {
+      requireArray(result.activated, field, `${label}.activated`, errors);
+    }
+  }
+
+  if (Array.isArray(result.selected_path) && result.selected_path.length === 0) {
+    errors.push(`${label}.selected_path must contain at least one step`);
+  }
+
+  if (Array.isArray(result.blocked_paths)) {
+    for (const [index, blockedPath] of result.blocked_paths.entries()) {
+      const blockedLabel = `${label}.blocked_paths[${index}]`;
+      for (const field of ["id", "reason", "blocked_by"]) {
+        requireString(blockedPath, field, blockedLabel, errors);
+      }
+    }
+  }
+
+  if (Array.isArray(result.gates)) {
+    for (const [index, gate] of result.gates.entries()) {
+      const gateLabel = `${label}.gates[${index}]`;
+      for (const field of ["id", "status"]) {
+        requireString(gate, field, gateLabel, errors);
+      }
+    }
+  }
+
+  const feedbackClassifications = new Set(Array.isArray(result.feedback_classification) ? result.feedback_classification : []);
+  if (Array.isArray(result.feedback_classification)) {
+    for (const classification of result.feedback_classification) {
+      if (!classifications.has(classification)) {
+        errors.push(`${label}.feedback_classification has unsupported value ${classification}`);
+      }
+    }
+  }
+
+  let hasProcessImprovement = false;
+  if (Array.isArray(result.findings)) {
+    for (const [index, finding] of result.findings.entries()) {
+      const findingLabel = `${label}.findings[${index}]`;
+      for (const field of ["id", "classification", "severity", "summary", "next_route"]) {
+        requireString(finding, field, findingLabel, errors);
+      }
+      requireArray(finding, "evidence_refs", findingLabel, errors);
+      if (typeof finding.blocking !== "boolean") {
+        errors.push(`${findingLabel}.blocking must be a boolean`);
+      }
+      if (typeof finding.classification === "string") {
+        if (!classifications.has(finding.classification)) {
+          errors.push(`${findingLabel}.classification has unsupported value ${finding.classification}`);
+        }
+        if (!feedbackClassifications.has(finding.classification)) {
+          errors.push(`${label}.feedback_classification must include finding classification ${finding.classification}`);
+        }
+        if (finding.classification === "process_improvement") {
+          hasProcessImprovement = true;
+          if (typeof finding.next_route !== "string" || !finding.next_route.toLowerCase().includes("kaizen")) {
+            errors.push(`${findingLabel}.next_route must route process_improvement to Kaizen`);
+          }
+        }
+        if (["release_blocker", "security_blocker", "approval_gate_bypass"].includes(finding.classification) && finding.blocking !== true) {
+          errors.push(`${findingLabel}.blocking must be true for ${finding.classification}`);
+        }
+      }
+      if (typeof finding.severity === "string" && !severities.has(finding.severity)) {
+        errors.push(`${findingLabel}.severity has unsupported value ${finding.severity}`);
+      }
+    }
+  }
+
+  if (hasProcessImprovement && (!Array.isArray(result.kaizen_candidates) || result.kaizen_candidates.length === 0)) {
+    errors.push(`${label}.kaizen_candidates must not be empty when process_improvement is present`);
+  }
+
+  if (result.replay_regression && typeof result.replay_regression === "object") {
+    if (typeof result.replay_regression.replay_ready !== "boolean") {
+      errors.push(`${label}.replay_regression.replay_ready must be a boolean`);
+    }
+    if (result.replay_regression.baseline_ref !== null && typeof result.replay_regression.baseline_ref !== "string") {
+      errors.push(`${label}.replay_regression.baseline_ref must be a string or null`);
+    }
+    if (result.replay_regression.regression_check_ref !== null && typeof result.replay_regression.regression_check_ref !== "string") {
+      errors.push(`${label}.replay_regression.regression_check_ref must be a string or null`);
+    }
+  }
+
+  const traceText = JSON.stringify(result).toLowerCase();
+  const forbiddenBoundaryTerms = [
+    "evidence is approval",
+    "tests are acceptance",
+    "feedback directly updates",
+    "automatic canonical update",
+    "automatically updates canonical",
+    "runtime trace updates canonical",
+    "episode trace authorizes",
+    "trace authorizes"
+  ];
+  for (const forbiddenTerm of forbiddenBoundaryTerms) {
+    if (traceText.includes(forbiddenTerm)) {
+      errors.push(`${label} contains forbidden authorization boundary term: ${forbiddenTerm}`);
+    }
+  }
+
+  const limitationText = Array.isArray(result.limitations) ? result.limitations.join("\n").toLowerCase() : "";
+  for (const expectedBoundary of ["synthetic", "evidence", "canonical"]) {
+    if (!limitationText.includes(expectedBoundary)) {
+      warnings.push(`${label}.limitations should mention ${expectedBoundary}`);
+    }
+  }
+
+  return { errors, warnings, result };
+}
+
 function validateProcessTransition(stateMachinePath, transitionRequestPath) {
   const errors = [];
   const warnings = [];
@@ -2490,6 +2724,7 @@ try {
     "development-cockpit",
     "feature-implementation-traceability",
     "multi-source-quality-feedback",
+    "dynamic-episode-trace",
     "graph-dna-alignment",
     "work-state-machine",
     "recovery-resume-record",
@@ -2498,6 +2733,7 @@ try {
     "source-boundary-contract"
   ]);
   const isPublicResultMode = publicResultModes.has(modeOrPackageDir);
+  const isDynamicEpisodeTraceMode = modeOrPackageDir === "dynamic-episode-trace";
   const targetPath = isSeedMode || isProfileMode || isContextPackMode || isImplementationControlCycleMode || isProcessTransitionMode || isPublicResultMode ? positionalArgs[1] : modeOrPackageDir;
   const contextPackPath = isContextPackMode ? positionalArgs[2] : null;
   const transitionRequestPath = isProcessTransitionMode ? positionalArgs[2] : null;
@@ -2529,11 +2765,13 @@ try {
                 ? validateModelPortabilityEvidence(path.resolve(targetPath))
                 : modeOrPackageDir === "character-layer-readiness"
                   ? validateCharacterLayerReadiness(path.resolve(targetPath))
+              : isDynamicEpisodeTraceMode
+                ? validateDynamicEpisodeTrace(path.resolve(targetPath))
               : isPublicResultMode
               ? validatePublicImplementationControlResult(path.resolve(targetPath), modeOrPackageDir)
               : validatePackage(path.resolve(targetPath));
   const output = {
-    mode: isSeedMode ? "seed" : isProfileMode ? "profile" : isContextPackMode ? "context_pack" : isImplementationControlCycleMode ? "implementation_control_cycle" : isProcessTransitionMode ? "process_transition" : isPublicResultMode ? modeOrPackageDir.replace(/-/g, "_") : "package",
+    mode: isSeedMode ? "seed" : isProfileMode ? "profile" : isContextPackMode ? "context_pack" : isImplementationControlCycleMode ? "implementation_control_cycle" : isProcessTransitionMode ? "process_transition" : isDynamicEpisodeTraceMode ? "dynamic_episode_trace" : isPublicResultMode ? modeOrPackageDir.replace(/-/g, "_") : "package",
     target: isContextPackMode ? path.resolve(contextPackPath) : isProcessTransitionMode ? path.resolve(transitionRequestPath) : path.resolve(targetPath),
     package: isContextPackMode ? path.resolve(targetPath) : undefined,
     state_machine: isProcessTransitionMode ? path.resolve(targetPath) : undefined,
@@ -2541,7 +2779,7 @@ try {
     errors: result.errors,
     warnings: result.warnings,
     explanation: result.explanation,
-    result: isPublicResultMode ? result.result : undefined
+    result: isPublicResultMode || isDynamicEpisodeTraceMode ? result.result : undefined
   };
   if (outputFormat === "markdown") {
     console.log(formatMarkdownReport(output));

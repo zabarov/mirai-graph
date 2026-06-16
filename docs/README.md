@@ -47,6 +47,9 @@ Executable process and implementation control:
 - [Work State Machine](../standard/work-state-machine.md)
 - [Process Control Contract](../standard/process-control-contract.md)
 - [Technology Quality Feedback](../standard/technology-quality-feedback.md)
+- [Dynamic Episode Layer](../standard/dynamic-episode-layer.md)
+- [Episode Trace](../standard/episode-trace.md)
+- [Dynamic Layer For AI-Assisted Code Generation](../standard/dynamic-layer-code-generation.md)
 - [Recovery Resume](../standard/recovery-resume.md)
 - [Risk Control Matrix](../standard/risk-control-matrix.md)
 - [Multi-Agent Coordination](../standard/multi-agent-coordination.md)
@@ -88,6 +91,7 @@ Proposal or experimental profile:
 - [Implementation Control](../examples/implementation-control-minimal/README.md)
 - [Process Transition](../examples/process-transition-minimal/README.md)
 - [Technology Quality Feedback](../examples/technology-quality-feedback-minimal/README.md)
+- [Dynamic Episode Minimal Example](../examples/dynamic-episode-minimal/README.md)
 - [Instrumentation Layer](../examples/instrumentation-layer-minimal/README.md)
 - [Organization Governance](../examples/organization-governance-minimal/README.md)
 - [Societal Governance Proposal Example](../examples/societal-governance-minimal/README.md)
@@ -107,7 +111,7 @@ Proposal or experimental profile:
 - [Roadmap](../ROADMAP.md)
 - [Changelog](../CHANGELOG.md)
 - [Release Process](../releases/README.md)
-- [v1.0.0-rc.3](../releases/1.0.0-rc.3.md)
+- [v1.0.0-rc.4](../releases/1.0.0-rc.4.md)
 - [Contributing](../CONTRIBUTING.md)
 
 ## Transfer And Historical Notes

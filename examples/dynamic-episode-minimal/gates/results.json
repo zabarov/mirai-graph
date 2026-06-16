@@ -1,0 +1,12 @@
+[
+  {
+    "id": "gate.dynamic_episode_boundary_result",
+    "gate_id": "gate.dynamic_episode_boundary",
+    "target_id": "feature.synthetic_login_audit",
+    "verdict": "pass",
+    "summary": "Synthetic example keeps runtime trace separate from canonical graph update.",
+    "evidence": ["evidence.synthetic_boundary_rule"],
+    "reviewed_at": "2026-06-16",
+    "reviewer": "Mirai Graph maintainers"
+  }
+]

@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0.0",
+  "id": "episode.invalid_missing_event",
+  "profile": "dynamic_episode_layer",
+  "public_safety": "synthetic_public",
+  "source_refs": {
+    "spec_refs": ["spec.synthetic"],
+    "graph_refs": ["feature.synthetic"],
+    "workflow_refs": ["workflow.synthetic"],
+    "launch_record_ref": "launch_record.synthetic"
+  },
+  "activated": {
+    "objects": ["feature.synthetic"],
+    "relations": [],
+    "policies": [],
+    "gates": ["gate.synthetic"],
+    "technology_steps": ["inspect_feature_spec"]
+  },
+  "selected_path": ["inspect_feature_spec"],
+  "blocked_paths": [],
+  "gates": [{"id": "gate.synthetic", "status": "pass"}],
+  "actions": [],
+  "results": [],
+  "findings": [],
+  "feedback_classification": ["accepted"],
+  "kaizen_candidates": [],
+  "replay_regression": {
+    "replay_ready": false,
+    "baseline_ref": null,
+    "regression_check_ref": null
+  },
+  "evidence_refs": ["evidence.synthetic"],
+  "limitations": ["Invalid: missing event."],
+  "canonical_write_allowed": false
+}

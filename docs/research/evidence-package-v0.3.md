@@ -5,7 +5,7 @@ Status: 1.0 release-candidate public evidence package
 ## Purpose
 
 This package is the current public evidence entrypoint for Mirai Graph
-`1.0.0-rc.3`. It connects three evidence layers:
+`1.0.0-rc.4`. It connects three evidence layers:
 
 1. Synthetic benchmark and baseline comparison.
 2. Executable instrumentation artifacts.
@@ -26,6 +26,7 @@ It does not claim peer-reviewed proof of effectiveness.
 | Process fixtures | `examples/process-transition-minimal/` | fail-closed transition validation and readable explanations | runtime execution safety |
 | Instrumentation | `examples/instrumentation-layer-minimal/` | cockpit, traceability and multi-source feedback shape | prediction of real production outcomes |
 | Character Layer | `examples/character-layer-readiness-1-0/` | reusable behavior-governance profile, integration shape and portability evidence format | proof of broad model equivalence or production replacement safety |
+| Dynamic Episode | `examples/dynamic-episode-minimal/` | event-to-decision trace shape, blocked alternatives and feedback routing | proof of reduced drift in real code generation |
 | Public pilots | `pilots/independent-implementation-001..005-*` | profile applicability across domains | proof of real-world effectiveness |
 | Adopter kit | `docs/adoption/adopter-kit.md` | repeatable first adoption path | successful adoption without review |
 
@@ -171,7 +172,7 @@ node packages/cli/mirai-graph.js report playground
 
 ## Current Evidence Verdict
 
-Mirai Graph `1.0.0-rc.3` supports these bounded claims:
+Mirai Graph `1.0.0-rc.4` supports these bounded claims:
 
 - a public executable standard draft exists;
 - schemas, validators, templates, examples and pilots are runnable;
@@ -182,13 +183,16 @@ Mirai Graph `1.0.0-rc.3` supports these bounded claims:
   multi-source feedback to transition decisions;
 - Character Layer can represent reusable behavior governance, cross-layer
   integration and bounded model-portability evidence;
+- Dynamic Episode traces can record a selected path, blocked alternatives,
+  evidence refs, finding classification and feedback routing for one governed
+  episode;
 - synthetic baseline comparison can record context, evidence and assumption
   metrics;
 - public-safe pilots cover project-management, software-specification,
   AI-employee, research-program and organization-governance scenarios;
 - the adopter kit gives a reproducible first-use path.
 
-Mirai Graph `1.0.0-rc.3` does not yet support these claims:
+Mirai Graph `1.0.0-rc.4` does not yet support these claims:
 
 - peer-reviewed effectiveness;
 - production autonomous execution safety;

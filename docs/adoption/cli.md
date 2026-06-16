@@ -63,6 +63,12 @@ Explain a process transition:
 npx mirai-graph explain process-transition examples/process-transition-minimal/state-machine.json examples/process-transition-minimal/transition-request.json
 ```
 
+Generate a dynamic episode trace report:
+
+```bash
+npx mirai-graph report dynamic-episode examples/dynamic-episode-minimal/results/dynamic-episode-trace.json
+```
+
 Generate the playground report:
 
 ```bash
@@ -84,6 +90,8 @@ npm run validate:release-state
 - `bootstrap --mode suggest` writes proposal/evidence only.
 - `init` creates starter graph files and refuses to overwrite by default.
 - Adopter workflow output is a starting aid, not adoption proof.
+- Dynamic episode reports explain operational behavior. They do not expose
+  hidden model reasoning and do not authorize canonical updates.
 - A passing report is evidence for the checked artifact only.
 - A release-state report checks package, git tag, GitHub Release, npm registry
   and npm auth state, but it does not publish or authorize a release.

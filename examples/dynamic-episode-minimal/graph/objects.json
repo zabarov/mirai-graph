@@ -1,0 +1,92 @@
+[
+  {
+    "id": "system.synthetic_code_project",
+    "kind": "system",
+    "profile": "core",
+    "title": "Synthetic Code Project",
+    "summary": "A public-safe project used to demonstrate dynamic episode tracing.",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_project_seed"]
+  },
+  {
+    "id": "feature.synthetic_login_audit",
+    "kind": "feature",
+    "profile": "core",
+    "title": "Synthetic Login Audit Feature",
+    "summary": "A bounded feature used for a code-generation episode.",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_feature_spec"]
+  },
+  {
+    "id": "requirement.synthetic_allowed_scope",
+    "kind": "requirement",
+    "profile": "core",
+    "title": "Allowed File Scope",
+    "summary": "The episode must keep changes inside the declared feature scope.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_scope_contract"]
+  },
+  {
+    "id": "governance_gate.dynamic_episode_boundary",
+    "kind": "governance_gate",
+    "profile": "core",
+    "title": "Dynamic Episode Boundary Gate",
+    "summary": "Episode traces and evidence cannot authorize canonical updates.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_boundary_rule"]
+  },
+  {
+    "id": "evidence.synthetic_episode_trace",
+    "kind": "evidence",
+    "profile": "core",
+    "title": "Synthetic Episode Trace Evidence",
+    "summary": "Synthetic evidence for the dynamic episode trace example.",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_public_source"]
+  },
+  {
+    "id": "evidence.synthetic_feature_spec",
+    "kind": "evidence",
+    "profile": "core",
+    "title": "Synthetic Feature Spec",
+    "summary": "Public-safe synthetic feature specification evidence.",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_public_source"]
+  },
+  {
+    "id": "evidence.synthetic_scope_contract",
+    "kind": "evidence",
+    "profile": "core",
+    "title": "Synthetic Scope Contract",
+    "summary": "Public-safe synthetic allowed-scope evidence.",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_public_source"]
+  },
+  {
+    "id": "evidence.synthetic_boundary_rule",
+    "kind": "evidence",
+    "profile": "core",
+    "title": "Synthetic Boundary Rule",
+    "summary": "Public-safe evidence that traces are not authorization.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.synthetic_public_source"]
+  },
+  {
+    "id": "evidence.synthetic_project_seed",
+    "kind": "evidence",
+    "profile": "core",
+    "title": "Synthetic Project Seed",
+    "summary": "Public-safe synthetic project seed evidence.",
+    "readiness": "draft",
+    "evidence": ["evidence.synthetic_public_source"]
+  },
+  {
+    "id": "evidence.synthetic_public_source",
+    "kind": "evidence",
+    "profile": "core",
+    "title": "Synthetic Public Source",
+    "summary": "Internal source marker for synthetic examples.",
+    "readiness": "draft",
+    "evidence": []
+  }
+]
