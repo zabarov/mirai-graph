@@ -4,6 +4,29 @@ All notable changes to Mirai Graph will be documented in this file.
 
 ## [Unreleased]
 
+## [1.0.0-rc.3] - 2026-06-16
+
+### Added
+
+- Developer-first adoption guide explaining what Mirai Graph solves for
+  ordinary software projects, what files it creates and how it helps
+  AI-assisted development.
+- README sections for concrete developer problems, project use cases, current
+  npm publication status, created files and expected bootstrap output.
+
+### Changed
+
+- Working package version is now `1.0.0-rc.3`.
+- README now starts from developer value before the broader standard model.
+- Getting-started and 15-minute tutorial now point to the developer entry guide
+  and state the current pre-npm publication boundary.
+
+### Claim Boundary
+
+- This release candidate improves external developer onboarding.
+- It does not claim final stable `1.0.0`, npm publication, peer-reviewed proof,
+  production autonomous execution safety or automatic canonical updates.
+
 ## [1.0.0-rc.2] - 2026-06-15
 
 ### Added
@@ -12,13 +35,16 @@ All notable changes to Mirai Graph will be documented in this file.
 - Self-service onboarding fixtures for missing, existing and stale graph states.
 - GitHub Action starter for validating Mirai Graph packages.
 - "Connect A Project In 15 Minutes" adoption tutorial.
+- Developer-first adoption guide explaining concrete project problems, created
+  files, expected outputs and AI-assisted development use cases.
 - Public documentation map in `docs/README.md`.
 - Proposal-level Societal Governance profile and fail-closed fixtures.
 
 ### Changed
 
 - Working package version is now `1.0.0-rc.2`.
-- README now focuses on public landing, npm-first quickstart and role paths.
+- README now focuses on developer-first problem framing, created-file
+  expectations, npm/repository quickstart and role paths.
 - Adoption and developer docs now separate npm usage from contributor checkout.
 - Release notes and roadmap now reflect self-service onboarding as part of the
   release-candidate surface.

@@ -8,8 +8,10 @@ This guide helps a team create a first Mirai Graph package for a project,
 product, organization or human-AI workflow.
 
 For the fastest path from an existing project, use
-[Connect A Project In 15 Minutes](connect-project-15-minutes.md). For a shorter
-role-oriented entry point, start with the [1.0 RC Adopter Kit](adopter-kit.md).
+[Connect A Project In 15 Minutes](connect-project-15-minutes.md). For a
+developer-focused explanation of what problem Mirai Graph solves, start with
+[Mirai Graph For Developers](for-developers.md). For a shorter role-oriented
+entry point, start with the [1.0 RC Adopter Kit](adopter-kit.md).
 
 ## NPM-First Quick Start
 
@@ -22,6 +24,10 @@ npx mirai-graph bootstrap . --mode suggest --markdown
 npx mirai-graph init . --profile software_specification
 npx mirai-graph validate .
 ```
+
+Release-candidate note: `mirai-graph@1.0.0-rc.3` is not published on npm yet.
+Until npm publication is complete, use the repository checkout path and run the
+same commands through `node packages/cli/mirai-graph.js`.
 
 Use `detect` first when you are unsure which profile to use. `detect` is
 read-only. `bootstrap --mode suggest` creates proposal/evidence only. `init`

@@ -214,7 +214,7 @@ Planned artifacts:
 
 ## Near-Term Work After 1.0 RC
 
-1. Execute the `1.0.0-rc.2` release: tag, GitHub Release and npm publication
+1. Execute the `1.0.0-rc.3` release: tag, GitHub Release and npm publication
    only after release-state checks are accepted.
 2. Continue adopter workflow: import/export helper skeletons, richer report
    formatting and more adoption recipes when they directly support self-service

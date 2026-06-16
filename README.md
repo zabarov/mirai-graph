@@ -1,61 +1,139 @@
 # Mirai Graph
 
-Mirai Graph is an evolutionary graph operating model for managing the growth of
-complex systems: projects, products, organizations, research programs and
-human-AI systems.
+Make your project understandable to humans and AI.
 
-It connects canonical graph state, generated context, evidence, readiness,
-process control, feedback and governance gates so people and AI systems can
-work from explicit state instead of scattered chats, documents and task memory.
+Mirai Graph turns scattered project knowledge into a structured graph of
+features, requirements, dependencies, risks, decisions, evidence and process
+gates.
 
-Status: public `1.0.0-rc.2` release candidate.
+Use it when a software project has useful knowledge spread across README files,
+docs, issues, chats, code comments and AI prompts, and you need a small
+machine-readable map that developers and AI assistants can validate and reuse.
 
-## Quick Start
+Status: public `1.0.0-rc.3` release candidate.
 
-Connect an existing project:
+## What Problem Does It Solve?
+
+- New developers need too much time to understand the project.
+- AI assistants miss important constraints because context is scattered.
+- Feature dependencies live in people's heads or old tickets.
+- Requirements, implementation decisions and evidence are hard to trace.
+- Work is marked "done" before the process, tests, review or evidence are clear.
+- Project knowledge improves in chats but does not become reusable structure.
+
+Mirai Graph gives the project a reviewable graph package: objects, relations and
+gates that describe what exists, how it connects, what is blocked, what is
+evidenced and what needs approval.
+
+## What Can A Developer Do With It?
+
+Start with a normal repository and use Mirai Graph to:
+
+- detect whether the project already has a graph package;
+- generate a bootstrap proposal without changing canonical graph files;
+- create a starter graph for features, requirements, risks and decisions;
+- validate the graph locally or in CI;
+- give AI assistants a cleaner project map instead of dumping full docs into a
+  prompt;
+- grow the graph later into process control, AI employee workflows or
+  organization governance.
+
+## Current Installation Status
+
+The repository is ready as a release candidate, but `mirai-graph@1.0.0-rc.3` is
+not published on npm yet. Until npm publication is complete, use the repository
+checkout path:
+
+```bash
+git clone https://github.com/zabarov/mirai-graph.git
+cd mirai-graph
+npm install
+npm run release:check
+```
+
+After npm publication, external projects will use:
 
 ```bash
 npm install -D mirai-graph
+```
+
+## Connect A Project In 10 Minutes
+
+From the project you want to connect, the intended workflow is:
+
+```bash
 npx mirai-graph detect . --markdown
 npx mirai-graph bootstrap . --mode suggest --markdown
 npx mirai-graph init . --profile software_specification
 npx mirai-graph validate .
 ```
 
-`detect` is read-only. `bootstrap --mode suggest` creates proposal/evidence
-only. `init` creates starter graph files after you choose a profile.
+What each command does:
+
+- `detect` is read-only and reports what kind of project you have.
+- `bootstrap --mode suggest` creates proposal/evidence only.
+- `init` creates starter graph files after you choose a profile.
+- `validate` checks the graph package structure and profile rules.
+
+If you are using a repository checkout before npm publication, run the same
+commands through `node packages/cli/mirai-graph.js` from this repository.
+
+## What Files Will Be Created?
+
+For a typical software project, `init` creates:
+
+```text
+mirai-graph-package.json
+graph/
+  objects.json      # features, requirements, risks, decisions, evidence
+  relations.json    # depends_on, implements, blocks, evidences, governs
+gates/
+  results.json      # validation and readiness checks
+```
+
+`bootstrap --mode suggest` creates proposal/evidence separately:
+
+```text
+mirai-graph/
+  bootstrap-proposal/
+    bootstrap-proposal.json
+```
+
+Generated proposals do not update canonical graph state by themselves.
 
 For the guided path, use
-[Connect A Project In 15 Minutes](docs/adoption/connect-project-15-minutes.md).
+[Connect A Project In 15 Minutes](docs/adoption/connect-project-15-minutes.md)
+or the developer-focused guide
+[Mirai Graph For Developers](docs/adoption/for-developers.md).
 
 ## What Should I Read First?
 
 | If you are... | Start here | Then read |
 | --- | --- | --- |
-| Trying Mirai Graph in a project | [Connect A Project In 15 Minutes](docs/adoption/connect-project-15-minutes.md) | [Getting Started](docs/adoption/getting-started.md), [CLI](docs/adoption/cli.md) |
-| A developer integrating validation | [Developer Integration Guide](docs/adoption/developer-integration-guide.md) | [Test Suite](standard/test-suite.md), [Templates](templates/README.md) |
+| Trying Mirai Graph in a project | [Connect A Project In 15 Minutes](docs/adoption/connect-project-15-minutes.md) | [Mirai Graph For Developers](docs/adoption/for-developers.md), [CLI](docs/adoption/cli.md) |
+| A developer integrating validation | [Mirai Graph For Developers](docs/adoption/for-developers.md) | [Developer Integration Guide](docs/adoption/developer-integration-guide.md), [Test Suite](standard/test-suite.md) |
 | A researcher evaluating the model | [Scientific Evidence Package](docs/research/scientific-evidence-package.md) | [Practice And Science Program](docs/research/practice-science-program.md), [Publications](publications/README.md) |
 | Building an AI employee | [AI Employee Graph Adoption](docs/adoption/ai-employee-graph.md) | [Character Layer Adoption](docs/adoption/character-layer.md), [Graph As AI Brain](standard/graph-as-ai-brain.md) |
 | Managing an organization or program | [Organization Governance](standard/organization-governance.md) | [Project Management Profile](profiles/project-management/README.md), [Process Control Contract](standard/process-control-contract.md) |
 | Looking for the full map | [Documentation Map](docs/README.md) | [Roadmap](ROADMAP.md), [Release Process](releases/README.md) |
 
-## Why Mirai Graph
+## How It Helps AI Assistants
 
-Complex work breaks when requirements, decisions, evidence and AI context live
-in separate places. Mirai Graph treats the working system as an evolving graph:
+LLMs are useful, but they depend on the context they receive. If the project
+context is incomplete, the assistant can miss constraints, invent assumptions or
+ignore the team's working process.
 
-- objects represent stable system state;
-- relations make dependencies explicit;
-- evidence links claims to sources;
-- readiness records maturity and uncertainty;
-- generated context packs provide task-specific AI context;
-- governance gates separate suggestions, decisions and actions;
-- profiles adapt the model to different domains.
+Mirai Graph gives AI assistants structured context:
 
-In this framing, an AI employee is not just a prompt. It is a governed
-graph-backed operating process: context, tools, policies, actions, results,
-feedback and learning are connected through explicit state and approval
-boundaries.
+- stable objects instead of loose paragraphs;
+- explicit dependency and evidence links;
+- readiness and uncertainty;
+- process gates that separate suggestion, approval and action;
+- technology-quality feedback when work did not follow the declared process.
+
+In this framing, an AI employee is not just a prompt. It is a governed process:
+context, tools, policies, actions, results, feedback and learning are connected
+through explicit state and approval boundaries.
 
 ## Repository Map
 
@@ -144,7 +222,7 @@ The current release candidate consolidates the validator-backed public standard
 across the core model, profiles, executable process control, instrumentation,
 Character Layer, adopter kit and evidence boundaries.
 
-See [v1.0.0-rc.2](releases/1.0.0-rc.2.md) and the
+See [v1.0.0-rc.3](releases/1.0.0-rc.3.md) and the
 [Release Process](releases/README.md).
 
 ## What This Repository Is Not

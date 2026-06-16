@@ -1,6 +1,6 @@
 {
   "name": "mirai-graph",
-  "version": "1.0.0-rc.2",
+  "version": "1.0.0-rc.3",
   "private": false,
   "description": "An evolutionary graph operating model for managing the growth of complex systems.",
   "license": "MIT",

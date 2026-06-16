@@ -6,6 +6,9 @@ This tutorial starts from an existing project and creates a first validated
 Mirai Graph package. It is intentionally small: the goal is a reviewable
 starter graph, not a complete model of the project.
 
+If you want the developer-facing rationale first, read
+[Mirai Graph For Developers](for-developers.md).
+
 ## 1. Install
 
 From the project you want to connect:
@@ -13,6 +16,10 @@ From the project you want to connect:
 ```bash
 npm install -D mirai-graph
 ```
+
+Release-candidate note: `mirai-graph@1.0.0-rc.3` is not published on npm yet.
+Until npm publication is complete, use a repository checkout and run the same
+commands through `node packages/cli/mirai-graph.js`.
 
 You can also run without saving the dependency:
 

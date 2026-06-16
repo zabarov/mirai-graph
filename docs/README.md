@@ -8,6 +8,7 @@ the whole repository.
 ## Start Here
 
 - New adopter: [Connect A Project In 15 Minutes](adoption/connect-project-15-minutes.md)
+- Developer entry point: [Mirai Graph For Developers](adoption/for-developers.md)
 - General onboarding: [Getting Started](adoption/getting-started.md)
 - Role-oriented kit: [1.0 RC Adopter Kit](adoption/adopter-kit.md)
 - CLI usage: [Mirai Graph CLI](adoption/cli.md)
@@ -17,6 +18,7 @@ the whole repository.
 ## Adoption
 
 - [Choose A Profile](adoption/choose-profile.md)
+- [Mirai Graph For Developers](adoption/for-developers.md)
 - [Developer Integration Guide](adoption/developer-integration-guide.md)
 - [End-To-End Control Loop](adoption/end-to-end-control-loop.md)
 - [Seed To Validated Package](adoption/seed-to-validated-package.md)
@@ -105,7 +107,7 @@ Proposal or experimental profile:
 - [Roadmap](../ROADMAP.md)
 - [Changelog](../CHANGELOG.md)
 - [Release Process](../releases/README.md)
-- [v1.0.0-rc.2](../releases/1.0.0-rc.2.md)
+- [v1.0.0-rc.3](../releases/1.0.0-rc.3.md)
 - [Contributing](../CONTRIBUTING.md)
 
 ## Transfer And Historical Notes
