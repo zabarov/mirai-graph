@@ -11,3 +11,6 @@ node_modules/
 dist/
 coverage/
 .DS_Store
+
+# SIMAI project memory runtime logs
+source/logs/

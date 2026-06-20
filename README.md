@@ -162,6 +162,7 @@ releases/      Release notes and release process.
 - [Context Pack Generation](standard/context-pack-generation.md)
 - [Governance](standard/governance.md)
 - [Hybrid Source Of Truth](standard/hybrid-source-of-truth.md)
+- [Profile Boundaries](standard/profile-boundaries.md)
 - [Implementation Control](standard/implementation-control.md)
 - [Process Control Contract](standard/process-control-contract.md)
 - [Technology Quality Feedback](standard/technology-quality-feedback.md)
@@ -225,6 +226,12 @@ scientifically validated, production-ready or authorized for release.
 Generated context, evidence, feedback, cockpit metrics and proposals do not
 authorize canonical updates by themselves. Controlled updates require explicit
 governance gates.
+
+Mirai Graph also does not store bulk source content as canonical graph state.
+Documents, code, CMS records, tickets and databases remain source systems. The
+graph stores governable meaning: object ids, relations, summaries, source refs,
+evidence refs, owners, readiness, gates, decisions, episode metadata and Kaizen
+routes. See [Profile Boundaries](standard/profile-boundaries.md).
 
 ## Release Candidate
 

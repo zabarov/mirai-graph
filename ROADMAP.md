@@ -56,6 +56,7 @@ Additional 1.0 RC artifacts now present:
 
 - graph seed and graph embryo;
 - hybrid source of truth;
+- profile boundaries and the extension-before-profile rule;
 - graph-as-AI-brain;
 - action/runtime boundary;
 - implementation-control cycles;
@@ -160,6 +161,8 @@ Post-1.0 gaps:
   workflows.
 - evolve dynamic episode traces from synthetic validation to replay/regression
   support for internal pilots.
+- add optional validator/report warnings for profile overlap and bulk-content
+  drift.
 
 Current tooling target:
 

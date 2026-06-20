@@ -10,6 +10,11 @@ the first profile, starter template and validation path.
 Start narrow. A useful first package should model one bounded system, not the
 entire organization.
 
+If a new idea appears to need a new profile, first read
+[Profile Boundaries](../../standard/profile-boundaries.md). Mirai Graph uses
+`extension before profile`: prefer an existing profile object, relation, gate,
+validator or proposal before adding a new profile name.
+
 ## Quick Choice
 
 | You are modeling | Start with profile | Starter template | Validate with |
@@ -96,3 +101,6 @@ node packages/cli/mirai-graph.js adopter report templates/software-project-start
 - Generated context, evidence, feedback and proposals do not authorize
   canonical updates.
 - Production execution stays outside the public alpha adopter workflow.
+- Full documents, articles, code and raw logs should stay in source systems.
+  Mirai Graph stores references, governable meaning, gates and evidence links,
+  not bulk content.

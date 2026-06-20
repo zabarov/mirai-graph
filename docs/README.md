@@ -38,6 +38,7 @@ Core model:
 - [Context Pack Generation](../standard/context-pack-generation.md)
 - [Governance](../standard/governance.md)
 - [Hybrid Source Of Truth](../standard/hybrid-source-of-truth.md)
+- [Profile Boundaries](../standard/profile-boundaries.md)
 
 Executable process and implementation control:
 

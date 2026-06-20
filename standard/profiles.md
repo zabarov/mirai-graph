@@ -9,22 +9,27 @@ Profiles adapt Mirai Graph to domains without changing the core standard.
 A profile may define additional object kinds, relation types, readiness rules,
 governance gates, examples and adoption guidance.
 
+Before adding a profile, use [Profile Boundaries](profile-boundaries.md).
+Mirai Graph prefers extension of existing profiles before introducing new
+profile names.
+
 ## Profile
 
 A profile is a named specialization of Mirai Graph.
 
-Example profiles:
+Release-candidate profiles:
 
-- `core`;
 - `software_specification`;
 - `project_management`;
 - `implementation_control`;
-- `product_development`;
-- `organization_governance`;
-- `research_program`;
-- `human_ai_system`;
 - `ai_employee`;
-- `public_sector_governance`.
+- `character_layer`;
+- `skill_runtime`;
+- `organization_governance`.
+
+Proposal/experimental profiles:
+
+- `societal_governance`.
 
 ## Profile Rules
 
@@ -44,6 +49,10 @@ A profile should not:
 - weaken public-safety rules;
 - claim conformance without tests;
 - mix private domain material into public examples.
+- duplicate an existing profile with a more attractive name;
+- store bulk source content that belongs in source systems;
+- turn generated context, evidence, feedback or episode traces into
+  authorization.
 
 ## Core Profile
 
@@ -217,6 +226,17 @@ Possible relation types:
 ## Profile Conformance
 
 Profile conformance should be declared separately from core conformance.
+
+## New Profile Decision
+
+New profile ideas are `proposal_only` until they answer:
+
+1. What new behavior does this add?
+2. Which existing profiles were considered?
+3. Why is an extension not enough?
+4. How does it preserve Hybrid Source Of Truth?
+5. What validator, fixture, report, pilot or experiment can check it?
+6. Why is it needed now?
 
 Example:
 

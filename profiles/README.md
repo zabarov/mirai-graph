@@ -1,6 +1,9 @@
 # Mirai Graph Profiles
 
 Profiles adapt Mirai Graph to a domain without changing the core standard.
+Use [Profile Boundaries](../standard/profile-boundaries.md) before adding a new
+profile: most new ideas should become an extension, validator, example or
+proposal before they become another profile.
 
 Current release-candidate profiles:
 
