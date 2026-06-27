@@ -5,7 +5,7 @@ Status: 1.0 release-candidate public evidence package
 ## Purpose
 
 This package is the current public evidence entrypoint for Mirai Graph
-`1.0.0-rc.4`. It connects three evidence layers:
+`1.0.0-rc.6`. It connects three evidence layers:
 
 1. Synthetic benchmark and baseline comparison.
 2. Executable instrumentation artifacts.
@@ -27,6 +27,9 @@ It does not claim peer-reviewed proof of effectiveness.
 | Instrumentation | `examples/instrumentation-layer-minimal/` | cockpit, traceability and multi-source feedback shape | prediction of real production outcomes |
 | Character Layer | `examples/character-layer-readiness-1-0/` | reusable behavior-governance profile, integration shape and portability evidence format | proof of broad model equivalence or production replacement safety |
 | Dynamic Episode | `examples/dynamic-episode-minimal/` | event-to-decision trace shape, blocked alternatives and feedback routing | proof of reduced drift in real code generation |
+| Semantic Intent | `examples/semantic-intent-resolution-minimal/` | input-control shape for intent, scale, owner, missing context and safe default action | proof that all real requests are interpreted correctly |
+| Goal Vector | `examples/goal-vector-quality-control-minimal/` | final-outcome vector links, reverse audit and correction routing | proof of reduced real-world goal drift |
+| Technology Feedback | `examples/technology-quality-feedback-minimal/` | conformance-check shape and classified process findings | proof that real work always followed the technology |
 | Public pilots | `pilots/independent-implementation-001..005-*` | profile applicability across domains | proof of real-world effectiveness |
 | Adopter kit | `docs/adoption/adopter-kit.md` | repeatable first adoption path | successful adoption without review |
 
@@ -54,6 +57,14 @@ H7. Externalized Character Layer constraints can improve behavior portability
 across model backends when measured through the same graph context, task set and
 fixtures.
 
+H8. Semantic intent resolution plus goal-vector quality control can reduce
+wrong-start errors, goal drift and false completion claims in AI-assisted
+workflows.
+
+H9. Dynamic episode traces plus technology quality feedback can make
+AI-assisted work auditable enough to support replay, regression and Kaizen
+improvement loops.
+
 These are hypotheses and engineering claims under test, not settled scientific
 facts.
 
@@ -67,6 +78,8 @@ facts.
 | Process transition | `examples/process-transition-minimal/` | `npm run validate:process-transition` | Executable fixture |
 | Process explanation report | `examples/process-transition-minimal/results/` | `npm run validate:process-transition-report` | Executable fixture |
 | Technology feedback | `examples/technology-quality-feedback-minimal/` | `npm run validate:technology-quality-feedback` | Executable fixture |
+| Semantic intent | `examples/semantic-intent-resolution-minimal/` | `npm run validate:semantic-intent-resolution` | Executable fixture |
+| Goal vector quality | `examples/goal-vector-quality-control-minimal/` | `npm run validate:goal-vector-quality-control` | Executable fixture |
 | Instrumentation layer | `examples/instrumentation-layer-minimal/` | `npm run validate:instrumentation-layer` | Executable fixture |
 | Instrumentation report | `examples/instrumentation-layer-minimal/` | `npm run validate:instrumentation-report` | Readable report |
 | Character Layer readiness | `examples/character-layer-readiness-1-0/` | `npm run validate:character-layer-readiness` | Profile readiness |
@@ -102,6 +115,8 @@ The public suite currently measures or validates:
 - process-transition validity;
 - missing transition evidence;
 - technology-feedback classification;
+- semantic-intent route decision shape;
+- goal-vector linkage and reverse-audit shape;
 - instrumentation report validity;
 - character-layer readiness;
 - model-portability evidence shape;
@@ -172,7 +187,7 @@ node packages/cli/mirai-graph.js report playground
 
 ## Current Evidence Verdict
 
-Mirai Graph `1.0.0-rc.4` supports these bounded claims:
+Mirai Graph `1.0.0-rc.6` supports these bounded claims:
 
 - a public executable standard draft exists;
 - schemas, validators, templates, examples and pilots are runnable;
@@ -186,13 +201,20 @@ Mirai Graph `1.0.0-rc.4` supports these bounded claims:
 - Dynamic Episode traces can record a selected path, blocked alternatives,
   evidence refs, finding classification and feedback routing for one governed
   episode;
+- Semantic Intent Resolution can represent and validate an intent, scale,
+  owner/process and safe-default-action decision before execution;
+- Goal Vector Quality Control can represent and validate final-outcome vector
+  links, reverse audit, drift findings and correction routes;
+- the current public anti-drift contour can be inspected as a connected
+  sequence of input control, process control, episode trace, goal-vector audit,
+  technology feedback and Kaizen/replay candidate;
 - synthetic baseline comparison can record context, evidence and assumption
   metrics;
 - public-safe pilots cover project-management, software-specification,
   AI-employee, research-program and organization-governance scenarios;
 - the adopter kit gives a reproducible first-use path.
 
-Mirai Graph `1.0.0-rc.4` does not yet support these claims:
+Mirai Graph `1.0.0-rc.6` does not yet support these claims:
 
 - peer-reviewed effectiveness;
 - production autonomous execution safety;
@@ -202,6 +224,8 @@ Mirai Graph `1.0.0-rc.4` does not yet support these claims:
 - automatic correctness of generated context;
 - automatic canonical update authorization from evidence, feedback or
   proposals.
+- proven real-world reduction of wrong-start, goal drift or process violation
+  rates without pilot/replay/regression evidence.
 
 ## Next Evidence Work
 
@@ -214,6 +238,8 @@ Mirai Graph `1.0.0-rc.4` does not yet support these claims:
 - Add reviewer-effort and time-to-relevant-context metrics.
 - Prepare a publication-ready reproducibility bundle that cites this package as
   the current release-candidate evidence index.
+- Use the two article foundation packages in `publications/` to collect
+  sanitized pilot evidence and publication-ready limitations.
 
 ## Public Safety Boundary
 

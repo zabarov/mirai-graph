@@ -4,6 +4,32 @@ All notable changes to Mirai Graph will be documented in this file.
 
 ## [Unreleased]
 
+## [1.0.0-rc.6] - 2026-06-27
+
+### Added
+
+- Release consolidation notes for the anti-drift / quality-control contour that
+  connects Semantic Intent Resolution, Dynamic Episode tracing, Goal Vector
+  Quality Control and Technology Quality Feedback.
+- Publication foundation package for Semantic Intent and Goal-Vector Control.
+- Publication foundation package for Observable Self-Correcting AI Workflows.
+
+### Changed
+
+- Working package version is now `1.0.0-rc.6`.
+- README, release index and evidence package now describe the consolidated
+  anti-drift contour as a review surface instead of separate isolated features.
+- Publications index now separates the two article candidates and their evidence
+  requirements.
+
+### Claim Boundary
+
+- This release candidate consolidates already validator-backed public shapes and
+  publication scaffolds.
+- It does not claim peer-reviewed effectiveness, real-world drift reduction,
+  production autonomous execution safety or authorization from traces, evidence,
+  feedback, goal vectors, semantic confidence or proposals.
+
 ## [1.0.0-rc.5] - 2026-06-27
 
 ### Added

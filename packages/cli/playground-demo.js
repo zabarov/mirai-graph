@@ -27,7 +27,7 @@ const feedback = readJson("examples/instrumentation-layer-minimal/results/multi-
 const lines = [
   "# Mirai Graph Playground Demo Report",
   "",
-  "Status: deterministic 1.0.0-rc.5 demo",
+  "Status: deterministic 1.0.0-rc.6 demo",
   "",
   "## Control Loop",
   "",

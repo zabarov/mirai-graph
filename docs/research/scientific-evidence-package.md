@@ -20,6 +20,16 @@ Mirai Graph is currently evaluated around these hypotheses:
   progress claims such as treating readiness as execution.
 - Recovery, source-boundary and Kaizen records can improve continuation across
   long-running human-AI workflows.
+- Semantic intent resolution can reduce wrong-start errors by making intent,
+  scale, owner, missing context and safe default action explicit before
+  execution starts.
+- Goal-vector quality control can reduce goal drift and false completion claims
+  by requiring each meaningful batch to link to the final outcome and pass
+  reverse audit before completion is claimed.
+- Dynamic episode traces and technology quality feedback can make AI-assisted
+  work more observable by separating what should have happened, what actually
+  happened, why paths were selected or blocked and where correction should
+  route.
 
 These are hypotheses and engineering claims under test, not settled scientific
 facts.
@@ -38,6 +48,10 @@ Current materials:
 - `examples/process-transition-minimal/`
 - `examples/implementation-control-cycles/`
 - `examples/instrumentation-layer-minimal/`
+- `examples/semantic-intent-resolution-minimal/`
+- `examples/goal-vector-quality-control-minimal/`
+- `examples/dynamic-episode-minimal/`
+- `examples/technology-quality-feedback-minimal/`
 
 Use synthetic evidence to inspect method shape, validation behavior and
 reproducibility. Do not treat it as broad external validity.
@@ -77,6 +91,8 @@ Current supporting materials:
 - `publications/README.md`
 - `publications/preprint-note.md`
 - `publications/preprint-outline.md`
+- `publications/semantic-intent-goal-vector-control/README.md`
+- `publications/observable-self-correcting-ai-workflows/README.md`
 
 Use `docs/research/evidence-package-v0.3.md` as the current public evidence
 entrypoint. The v0.2 and v0.1 packages remain historical alpha evidence
@@ -96,6 +112,13 @@ Recommended metrics:
 - time to validated completion;
 - review overhead;
 - false-transition rejection rate.
+- wrong-start rate;
+- goal-drift finding count;
+- false-completion claim count;
+- missing reverse-audit count;
+- process-violation classification count;
+- correction-route coverage;
+- replay/regression pass rate.
 
 ## Reproducibility Path
 
@@ -109,6 +132,10 @@ npm run validate:process-transition
 npm run validate:process-transition-report
 npm run test:process-transition-negative
 npm run validate:instrumentation-layer
+npm run validate:dynamic-episodes
+npm run validate:semantic-intent-resolution
+npm run validate:goal-vector-quality-control
+npm run validate:technology-quality-feedback
 npm run validate:baseline-comparison
 npm run validate:pilots
 npm run validate:templates
@@ -136,6 +163,8 @@ Mirai Graph public alpha may claim:
   and validated as bounded instrumentation inputs.
 - role-oriented adopter workflow evidence can connect templates, CLI checks and
   public-safety boundaries into a reproducible first-use path.
+- semantic intent, dynamic episode, goal-vector and technology-feedback
+  artifacts can be represented as one anti-drift / quality-control contour.
 
 Mirai Graph public alpha must not claim:
 
@@ -144,6 +173,7 @@ Mirai Graph public alpha must not claim:
 - universal superiority over document-based workflows;
 - automatic correctness of generated context;
 - canonical update authorization from evidence, feedback or proposals.
+- real-world drift reduction without pilot/replay/regression evidence.
 
 ## Next Evidence Work
 
@@ -152,3 +182,7 @@ Mirai Graph public alpha must not claim:
 - Publish limitation tables per pilot.
 - Prepare publication-ready reproducibility bundles.
 - Record reviewer objections and response notes when publications exist.
+- Run sanitized baseline-vs-graph-controlled episodes for software-generation
+  and research/governance tasks.
+- Package the two article candidates under `publications/` with metrics,
+  limitations and artifact maps.

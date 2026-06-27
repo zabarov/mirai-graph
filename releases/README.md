@@ -15,6 +15,9 @@ Release notes must separate:
 
 ## Release Notes
 
+- [v1.0.0-rc.6](1.0.0-rc.6.md) - anti-drift / quality-control release
+  consolidation across Semantic Intent, Dynamic Episode, Goal Vector and
+  Technology Quality Feedback.
 - [v1.0.0-rc.5](1.0.0-rc.5.md) - Semantic Intent Resolution input-control
   contract release candidate.
 - [v1.0.0-rc.4](1.0.0-rc.4.md) - Dynamic Episode proposal/experimental

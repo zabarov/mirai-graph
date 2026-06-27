@@ -64,6 +64,8 @@ Additional 1.0 RC artifacts now present:
 - work state machine;
 - process-control contract;
 - technology quality feedback;
+- semantic intent resolution;
+- goal vector quality control;
 - recovery/resume;
 - risk-control matrix;
 - multi-agent coordination;
@@ -74,7 +76,10 @@ Additional 1.0 RC artifacts now present:
 - Character Layer profile, starter pack, integration evidence, portability
   evidence shape and 1.0 readiness artifact.
 - proposal/experimental Dynamic Episode Layer, episode trace schema and
-  synthetic code-generation trace example.
+  synthetic code-generation trace example;
+- `1.0.0-rc.6` anti-drift / quality-control contour that connects semantic
+  intent, process control, dynamic episode tracing, goal-vector reverse audit,
+  technology quality feedback and Kaizen/replay follow-up.
 
 Readiness target:
 
@@ -109,6 +114,8 @@ Post-1.0 gaps:
 - import/export helpers for starter packages;
 - stronger non-software adoption recipes;
 - external adopter feedback from independent pilots.
+- sanitized pilot/replay evidence for the anti-drift contour before claiming
+  real-world drift reduction.
 
 Implemented adopter-workflow focus:
 
@@ -223,7 +230,7 @@ Planned artifacts:
 
 ## Near-Term Work After 1.0 RC
 
-1. Execute the `1.0.0-rc.5` release: tag, GitHub Release and npm publication
+1. Execute the `1.0.0-rc.6` release: tag, GitHub Release and npm publication
    only after release-state checks are accepted.
 2. Continue adopter workflow: import/export helper skeletons, richer report
    formatting and more adoption recipes when they directly support self-service
@@ -235,4 +242,5 @@ Planned artifacts:
    portability claims.
 6. Explore a local interactive playground only after deterministic report
    fixtures remain stable.
-7. Turn evidence package v0.3 into a publication-ready reproducibility bundle.
+7. Turn evidence package v0.3 and the two article foundations into a
+   publication-ready reproducibility bundle.

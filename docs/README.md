@@ -116,6 +116,7 @@ Proposal or experimental profile:
 - [Roadmap](../ROADMAP.md)
 - [Changelog](../CHANGELOG.md)
 - [Release Process](../releases/README.md)
+- [v1.0.0-rc.6](../releases/1.0.0-rc.6.md)
 - [v1.0.0-rc.5](../releases/1.0.0-rc.5.md)
 - [v1.0.0-rc.4](../releases/1.0.0-rc.4.md)
 - [Contributing](../CONTRIBUTING.md)

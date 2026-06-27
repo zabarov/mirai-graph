@@ -19,6 +19,21 @@ For the current public evidence framing, see
 
 - initial preprint record;
 - preprint outline;
+- [Semantic Intent And Goal Vector Control](semantic-intent-goal-vector-control/README.md);
+- [Observable Self-Correcting AI Workflows](observable-self-correcting-ai-workflows/README.md);
 - public citation note;
 - reproducibility package note;
 - future journal manuscript records.
+
+## Article Candidates
+
+The current `1.0.0-rc.6` release candidate supports two public-safe article
+tracks:
+
+| Candidate | Focus | Current evidence level |
+| --- | --- | --- |
+| Semantic Intent And Goal Vector Control | preventing wrong-start and false-completion drift before and after work execution | public standard, schema, synthetic examples and negative fixtures |
+| Observable Self-Correcting AI Workflows | explaining what happened, checking process conformance and routing corrections into Kaizen/replay | public standard sections, schemas, synthetic examples and negative fixtures |
+
+Both tracks still require sanitized pilot/replay evidence before broad
+effectiveness claims.
