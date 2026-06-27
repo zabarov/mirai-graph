@@ -1,0 +1,130 @@
+{
+  "schema_version": "1.0.0",
+  "id": "goal_vector_quality_control.synthetic_reviewable_onboarding",
+  "profile": "implementation_control",
+  "public_safety": "synthetic_public",
+  "start_state": {
+    "id": "state.synthetic_no_starter_package",
+    "summary": "The project has no reviewed starter graph package or validation evidence."
+  },
+  "final_outcome": {
+    "id": "outcome.synthetic_reviewable_onboarding",
+    "summary": "The project has a reviewable starter graph package with validation evidence and reverse audit."
+  },
+  "work_scale": "goal",
+  "goal_vector": {
+    "id": "goal_vector.synthetic_onboarding",
+    "from": "state.synthetic_no_starter_package",
+    "to": "outcome.synthetic_reviewable_onboarding",
+    "summary": "Move from missing starter package to reviewable package with evidence and reverse audit."
+  },
+  "vector_segments": [
+    {
+      "id": "segment.synthetic_package_created",
+      "from": "state.synthetic_no_starter_package",
+      "to": "state.synthetic_package_review_ready",
+      "advances": "outcome.synthetic_reviewable_onboarding",
+      "evidence_refs": [
+        "evidence.synthetic_package_files",
+        "evidence.synthetic_validation_report"
+      ]
+    }
+  ],
+  "batch_vector_links": [
+    {
+      "batch_ref": "batch.synthetic_prepare_starter_package",
+      "advances": "goal_vector.synthetic_onboarding",
+      "specific_contribution": "Creates the starter package and evidence needed for review.",
+      "evidence_refs": [
+        "evidence.synthetic_package_files",
+        "evidence.synthetic_validation_report"
+      ]
+    }
+  ],
+  "required_qualities": [
+    {
+      "id": "quality.reviewable_package_exists",
+      "summary": "A reviewer can inspect package contents and validation result.",
+      "evidence_required": [
+        "evidence.synthetic_package_files",
+        "evidence.synthetic_validation_report"
+      ]
+    },
+    {
+      "id": "quality.no_false_completion_claim",
+      "summary": "The final answer does not claim completion beyond the evidence.",
+      "evidence_required": [
+        "evidence.synthetic_reverse_audit"
+      ]
+    }
+  ],
+  "quality_evidence": [
+    {
+      "id": "evidence.synthetic_package_files",
+      "supports_quality": "quality.reviewable_package_exists",
+      "summary": "Synthetic package files exist for review."
+    },
+    {
+      "id": "evidence.synthetic_validation_report",
+      "supports_quality": "quality.reviewable_package_exists",
+      "summary": "Synthetic validation result supports review readiness."
+    },
+    {
+      "id": "evidence.synthetic_reverse_audit",
+      "supports_quality": "quality.no_false_completion_claim",
+      "summary": "Reverse audit checks the final outcome against evidence."
+    }
+  ],
+  "reverse_audit": {
+    "performed": true,
+    "from_final_outcome": "outcome.synthetic_reviewable_onboarding",
+    "checked_qualities": [
+      "quality.reviewable_package_exists",
+      "quality.no_false_completion_claim"
+    ],
+    "evidence_refs": [
+      "evidence.synthetic_package_files",
+      "evidence.synthetic_validation_report",
+      "evidence.synthetic_reverse_audit"
+    ],
+    "verdict": "PASS_WITH_NOTES"
+  },
+  "drift_findings": [
+    {
+      "id": "finding.synthetic_followup_docs",
+      "classification": "process_improvement",
+      "severity": "low",
+      "summary": "Future examples should add a shorter reviewer checklist.",
+      "blocking": false,
+      "evidence_refs": [
+        "evidence.synthetic_reverse_audit"
+      ]
+    }
+  ],
+  "correction_routes": [
+    {
+      "finding_ref": "finding.synthetic_followup_docs",
+      "route": "kaizen_improvement",
+      "owner_role": "process_coordinator"
+    }
+  ],
+  "quality_verdict": "PASS_WITH_NOTES",
+  "completion_claim": {
+    "claimed_complete": true,
+    "claim_ref": "claim.synthetic_goal_review_ready",
+    "evidence_refs": [
+      "evidence.synthetic_validation_report",
+      "evidence.synthetic_reverse_audit"
+    ],
+    "accepted": false
+  },
+  "canonical_write_allowed": false,
+  "limitations": [
+    "Goal vector quality control is not authorization.",
+    "Reverse audit is not approval or release permission.",
+    "Evidence does not equal acceptance.",
+    "Tests do not equal semantic acceptance.",
+    "This synthetic example does not prove production readiness.",
+    "The report does not update canonical graph state."
+  ]
+}

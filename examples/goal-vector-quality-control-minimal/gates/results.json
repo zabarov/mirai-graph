@@ -1,0 +1,22 @@
+[
+  {
+    "id": "gate_result.goal_vector.public_safety",
+    "gate_id": "gate.public_safety",
+    "target_id": "package.goal_vector_quality_control_minimal",
+    "verdict": "pass",
+    "summary": "The example uses synthetic public-safe goal-vector quality-control material only.",
+    "evidence": ["evidence.goal_vector.synthetic_brief"],
+    "reviewed_at": "2026-06-27",
+    "reviewer": "Synthetic coordinator"
+  },
+  {
+    "id": "gate_result.goal_vector.reverse_audit",
+    "gate_id": "gate.goal_vector_reverse_audit",
+    "target_id": "drift.goal_vector.reverse_audit",
+    "verdict": "pass_with_notes",
+    "summary": "Reverse audit supports review readiness but does not approve release or canonical update.",
+    "evidence": ["evidence_pack.goal_vector.reviewable_package"],
+    "reviewed_at": "2026-06-27",
+    "reviewer": "Synthetic reviewer"
+  }
+]

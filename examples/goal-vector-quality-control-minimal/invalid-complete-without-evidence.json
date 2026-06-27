@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.0.0",
+  "id": "goal_vector_quality_control.invalid_complete_without_evidence",
+  "profile": "implementation_control",
+  "public_safety": "synthetic_public",
+  "start_state": {
+    "id": "state.synthetic_start",
+    "summary": "Synthetic start state."
+  },
+  "final_outcome": {
+    "id": "outcome.synthetic_done",
+    "summary": "Synthetic final outcome."
+  },
+  "work_scale": "goal",
+  "goal_vector": {
+    "id": "goal_vector.synthetic",
+    "from": "state.synthetic_start",
+    "to": "outcome.synthetic_done",
+    "summary": "Move toward the final outcome."
+  },
+  "vector_segments": [
+    {
+      "id": "segment.synthetic",
+      "from": "state.synthetic_start",
+      "to": "state.synthetic_review_ready",
+      "advances": "outcome.synthetic_done",
+      "evidence_refs": ["evidence.synthetic"]
+    }
+  ],
+  "batch_vector_links": [
+    {
+      "batch_ref": "batch.synthetic",
+      "advances": "goal_vector.synthetic",
+      "specific_contribution": "Moves the synthetic work forward.",
+      "evidence_refs": ["evidence.synthetic"]
+    }
+  ],
+  "required_qualities": [
+    {
+      "id": "quality.synthetic",
+      "summary": "Synthetic quality.",
+      "evidence_required": ["evidence.synthetic"]
+    }
+  ],
+  "quality_evidence": [
+    {
+      "id": "evidence.synthetic",
+      "supports_quality": "quality.synthetic",
+      "summary": "Synthetic evidence."
+    }
+  ],
+  "reverse_audit": {
+    "performed": true,
+    "from_final_outcome": "outcome.synthetic_done",
+    "checked_qualities": ["quality.synthetic"],
+    "evidence_refs": ["evidence.synthetic"],
+    "verdict": "PASS"
+  },
+  "drift_findings": [],
+  "correction_routes": [],
+  "quality_verdict": "PASS",
+  "completion_claim": {
+    "claimed_complete": true,
+    "claim_ref": "claim.synthetic_done",
+    "evidence_refs": [],
+    "accepted": true
+  },
+  "canonical_write_allowed": false,
+  "limitations": [
+    "Goal vector quality control is not authorization.",
+    "Evidence does not equal acceptance.",
+    "Tests do not equal semantic acceptance.",
+    "Reverse audit is not approval.",
+    "This synthetic example does not prove production readiness.",
+    "The report does not update canonical graph state."
+  ]
+}

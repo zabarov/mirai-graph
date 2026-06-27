@@ -64,6 +64,7 @@ Mirai Graph documents and profiles should make their status visible:
 | `implementation_control` | Launch records, work states, transitions, evidence, approval, drift, recovery and controlled update | Domain facts that belong to software, AI employee or organization profiles |
 | `technology_quality_feedback` | Whether the declared work technology was followed and how findings are routed | Unit-test success by itself, general acceptance, or release authorization |
 | `dynamic_episode_layer` | What happened in a concrete event, why a path was selected and which alternatives were blocked | Canonical updates, permissions or durable source-of-truth content |
+| `goal_vector_quality_control` | Extension contract for checking whether work advances a visible final-outcome vector and passes reverse audit | Authorization, release approval, production permission or a new core profile |
 | `ai_employee` | AI worker model: role, skill, tools, policy, actions, results, feedback and lessons | Model-independent character principles or organization-wide governance |
 | `character_layer` | Stable behavior governance independent of model backend | Tool permissions, runtime authorization or employee memory store |
 | `skill_runtime` | Hybrid SOT runtime context for skills, fallback and federation contracts | Rewriting owner skill methodology as graph-only runtime |

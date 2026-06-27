@@ -83,6 +83,7 @@ function usage() {
   console.error("  node packages/cli/validate-mirai-graph.js multi-agent-coordination <result-file>");
   console.error("  node packages/cli/validate-mirai-graph.js source-boundary-contract <result-file>");
   console.error("  node packages/cli/validate-mirai-graph.js semantic-intent-resolution <result-file>");
+  console.error("  node packages/cli/validate-mirai-graph.js goal-vector-quality-control <result-file>");
   console.error("");
   console.error("Output options:");
   console.error("  --json       Print JSON output (default)");
@@ -2817,6 +2818,285 @@ function validateSemanticIntentResolution(resultPath) {
   return { errors, warnings, result };
 }
 
+function validateGoalVectorQualityControl(resultPath) {
+  const errors = [];
+  const warnings = [];
+  const result = readJson(resultPath);
+  const label = "goal_vector_quality_control";
+
+  for (const field of [
+    "schema_version",
+    "id",
+    "profile",
+    "public_safety",
+    "work_scale",
+    "quality_verdict"
+  ]) {
+    requireString(result, field, label, errors);
+  }
+  for (const field of [
+    "start_state",
+    "final_outcome",
+    "goal_vector",
+    "reverse_audit",
+    "completion_claim"
+  ]) {
+    requireObject(result, field, label, errors);
+  }
+  for (const field of [
+    "vector_segments",
+    "batch_vector_links",
+    "required_qualities",
+    "quality_evidence",
+    "drift_findings",
+    "correction_routes"
+  ]) {
+    requireJsonArray(result, field, label, errors);
+  }
+  for (const field of [
+    "limitations"
+  ]) {
+    requireArray(result, field, label, errors);
+  }
+
+  if (typeof result.canonical_write_allowed !== "boolean") {
+    errors.push(`${label}.canonical_write_allowed must be a boolean`);
+  }
+  if (result.canonical_write_allowed !== false) {
+    errors.push(`${label}.canonical_write_allowed must be false`);
+  }
+
+  const verdicts = new Set(["PASS", "PASS_WITH_NOTES", "PARTIAL", "CORRECTION_REQUIRED", "BLOCKED", "FAIL"]);
+  if (typeof result.quality_verdict === "string" && !verdicts.has(result.quality_verdict)) {
+    errors.push(`${label}.quality_verdict has unsupported value ${result.quality_verdict}`);
+  }
+
+  const workScales = new Set(["checkpoint", "batch", "milestone", "goal", "track", "program", "vision"]);
+  if (typeof result.work_scale === "string" && !workScales.has(result.work_scale)) {
+    errors.push(`${label}.work_scale has unsupported value ${result.work_scale}`);
+  }
+
+  if (result.start_state && typeof result.start_state === "object") {
+    requireString(result.start_state, "id", `${label}.start_state`, errors);
+    requireString(result.start_state, "summary", `${label}.start_state`, errors);
+  }
+  if (result.final_outcome && typeof result.final_outcome === "object") {
+    requireString(result.final_outcome, "id", `${label}.final_outcome`, errors);
+    requireString(result.final_outcome, "summary", `${label}.final_outcome`, errors);
+  }
+  if (result.goal_vector && typeof result.goal_vector === "object") {
+    for (const field of ["id", "from", "to", "summary"]) {
+      requireString(result.goal_vector, field, `${label}.goal_vector`, errors);
+    }
+    if (result.start_state && result.goal_vector.from && result.goal_vector.from !== result.start_state.id) {
+      errors.push(`${label}.goal_vector.from must match start_state.id`);
+    }
+    if (result.final_outcome && result.goal_vector.to && result.goal_vector.to !== result.final_outcome.id) {
+      errors.push(`${label}.goal_vector.to must match final_outcome.id`);
+    }
+  }
+
+  const significantScales = new Set(["batch", "milestone", "goal", "track", "program", "vision"]);
+  if (significantScales.has(result.work_scale)) {
+    if (!Array.isArray(result.vector_segments) || result.vector_segments.length === 0) {
+      errors.push(`${label}.vector_segments must not be empty for significant work`);
+    }
+    if (!Array.isArray(result.batch_vector_links) || result.batch_vector_links.length === 0) {
+      errors.push(`${label}.batch_vector_links must not be empty for significant work`);
+    }
+  }
+
+  const qualityIds = new Set();
+  if (Array.isArray(result.required_qualities)) {
+    for (const [index, quality] of result.required_qualities.entries()) {
+      const qualityLabel = `${label}.required_qualities[${index}]`;
+      for (const field of ["id", "summary"]) {
+        requireString(quality, field, qualityLabel, errors);
+      }
+      requireArray(quality, "evidence_required", qualityLabel, errors);
+      if (typeof quality.id === "string") {
+        qualityIds.add(quality.id);
+      }
+      if (Array.isArray(quality.evidence_required) && quality.evidence_required.length === 0) {
+        errors.push(`${qualityLabel}.evidence_required must not be empty`);
+      }
+    }
+  }
+
+  const evidenceIds = new Set();
+  if (Array.isArray(result.quality_evidence)) {
+    for (const [index, evidence] of result.quality_evidence.entries()) {
+      const evidenceLabel = `${label}.quality_evidence[${index}]`;
+      for (const field of ["id", "supports_quality", "summary"]) {
+        requireString(evidence, field, evidenceLabel, errors);
+      }
+      if (typeof evidence.id === "string") {
+        evidenceIds.add(evidence.id);
+      }
+      if (typeof evidence.supports_quality === "string" && !qualityIds.has(evidence.supports_quality)) {
+        errors.push(`${evidenceLabel}.supports_quality must reference required_qualities`);
+      }
+    }
+  }
+
+  if (Array.isArray(result.vector_segments)) {
+    for (const [index, segment] of result.vector_segments.entries()) {
+      const segmentLabel = `${label}.vector_segments[${index}]`;
+      for (const field of ["id", "from", "to", "advances"]) {
+        requireString(segment, field, segmentLabel, errors);
+      }
+      requireArray(segment, "evidence_refs", segmentLabel, errors);
+      if (Array.isArray(segment.evidence_refs) && segment.evidence_refs.length === 0) {
+        errors.push(`${segmentLabel}.evidence_refs must not be empty`);
+      }
+    }
+  }
+
+  if (Array.isArray(result.batch_vector_links)) {
+    for (const [index, link] of result.batch_vector_links.entries()) {
+      const linkLabel = `${label}.batch_vector_links[${index}]`;
+      for (const field of ["batch_ref", "advances", "specific_contribution"]) {
+        requireString(link, field, linkLabel, errors);
+      }
+      requireArray(link, "evidence_refs", linkLabel, errors);
+      if (Array.isArray(link.evidence_refs) && link.evidence_refs.length === 0) {
+        errors.push(`${linkLabel}.evidence_refs must not be empty`);
+      }
+      if (result.goal_vector && typeof link.advances === "string" && link.advances !== result.goal_vector.id) {
+        errors.push(`${linkLabel}.advances must reference goal_vector.id`);
+      }
+    }
+  }
+
+  if (result.reverse_audit && typeof result.reverse_audit === "object") {
+    if (result.reverse_audit.performed !== true) {
+      errors.push(`${label}.reverse_audit.performed must be true`);
+    }
+    requireString(result.reverse_audit, "from_final_outcome", `${label}.reverse_audit`, errors);
+    requireString(result.reverse_audit, "verdict", `${label}.reverse_audit`, errors);
+    requireArray(result.reverse_audit, "checked_qualities", `${label}.reverse_audit`, errors);
+    requireArray(result.reverse_audit, "evidence_refs", `${label}.reverse_audit`, errors);
+    if (result.final_outcome && result.reverse_audit.from_final_outcome !== result.final_outcome.id) {
+      errors.push(`${label}.reverse_audit.from_final_outcome must match final_outcome.id`);
+    }
+    if (Array.isArray(result.reverse_audit.checked_qualities) && result.reverse_audit.checked_qualities.length === 0) {
+      errors.push(`${label}.reverse_audit.checked_qualities must not be empty`);
+    }
+    if (Array.isArray(result.reverse_audit.evidence_refs) && result.reverse_audit.evidence_refs.length === 0) {
+      errors.push(`${label}.reverse_audit.evidence_refs must not be empty`);
+    }
+  }
+
+  const correctionFindingRefs = new Set(Array.isArray(result.correction_routes)
+    ? result.correction_routes.map((route) => route.finding_ref).filter((value) => typeof value === "string")
+    : []);
+  let hasBlockingDrift = false;
+  let hasCorrectionFinding = false;
+  if (Array.isArray(result.drift_findings)) {
+    for (const [index, finding] of result.drift_findings.entries()) {
+      const findingLabel = `${label}.drift_findings[${index}]`;
+      for (const field of ["id", "classification", "severity", "summary"]) {
+        requireString(finding, field, findingLabel, errors);
+      }
+      requireArray(finding, "evidence_refs", findingLabel, errors);
+      if (typeof finding.blocking !== "boolean") {
+        errors.push(`${findingLabel}.blocking must be a boolean`);
+      }
+      if (finding.blocking === true) {
+        hasBlockingDrift = true;
+      }
+      if (["scope_drift", "goal_drift", "quality_gap", "process_improvement", "correction_required"].includes(finding.classification)) {
+        hasCorrectionFinding = true;
+        if (typeof finding.id === "string" && !correctionFindingRefs.has(finding.id)) {
+          errors.push(`${findingLabel} requires a correction route`);
+        }
+      }
+    }
+  }
+
+  if (Array.isArray(result.correction_routes)) {
+    for (const [index, route] of result.correction_routes.entries()) {
+      const routeLabel = `${label}.correction_routes[${index}]`;
+      for (const field of ["finding_ref", "route", "owner_role"]) {
+        requireString(route, field, routeLabel, errors);
+      }
+      const routeValue = typeof route.route === "string" ? route.route.toLowerCase() : "";
+      if (!["correction", "kaizen", "planning", "graph_sync", "work_fix"].some((term) => routeValue.includes(term))) {
+        errors.push(`${routeLabel}.route must point to correction, Kaizen, planning, graph_sync or work_fix`);
+      }
+    }
+  }
+
+  if (hasCorrectionFinding && (!Array.isArray(result.correction_routes) || result.correction_routes.length === 0)) {
+    errors.push(`${label}.correction_routes must not be empty when drift findings require correction`);
+  }
+
+  if (result.completion_claim && typeof result.completion_claim === "object") {
+    if (typeof result.completion_claim.claimed_complete !== "boolean") {
+      errors.push(`${label}.completion_claim.claimed_complete must be a boolean`);
+    }
+    if (typeof result.completion_claim.accepted !== "boolean") {
+      errors.push(`${label}.completion_claim.accepted must be a boolean`);
+    }
+    requireString(result.completion_claim, "claim_ref", `${label}.completion_claim`, errors);
+    requireArray(result.completion_claim, "evidence_refs", `${label}.completion_claim`, errors);
+    if (result.completion_claim.claimed_complete === true && Array.isArray(result.completion_claim.evidence_refs) && result.completion_claim.evidence_refs.length === 0) {
+      errors.push(`${label}.completion_claim.evidence_refs must not be empty when completion is claimed`);
+    }
+    if (result.completion_claim.accepted === true) {
+      errors.push(`${label}.completion_claim.accepted must remain false; quality control is not acceptance`);
+    }
+  }
+
+  if (["PASS", "PASS_WITH_NOTES"].includes(result.quality_verdict)) {
+    if (hasBlockingDrift) {
+      errors.push(`${label}.quality_verdict cannot pass with blocking drift findings`);
+    }
+    if (!result.reverse_audit || result.reverse_audit.performed !== true) {
+      errors.push(`${label}.quality_verdict requires reverse audit`);
+    }
+    if (!Array.isArray(result.quality_evidence) || result.quality_evidence.length === 0) {
+      errors.push(`${label}.quality_verdict requires quality evidence`);
+    }
+  }
+
+  const text = JSON.stringify(result).toLowerCase();
+  for (const forbiddenTerm of [
+    "tests are acceptance",
+    "evidence is acceptance",
+    "goal vector authorizes",
+    "reverse audit approves",
+    "automatic canonical update",
+    "canonical_write_allowed\":true",
+    "/users/rim/documents/" + "github/",
+    "simai private",
+    "private runtime " + "trace",
+    "token",
+    "secret value",
+    "customer raw log"
+  ]) {
+    if (text.includes(forbiddenTerm)) {
+      errors.push(`${label} contains forbidden boundary/public-safety term: ${forbiddenTerm}`);
+    }
+  }
+
+  const limitationText = Array.isArray(result.limitations) ? result.limitations.join("\n").toLowerCase() : "";
+  for (const expectedBoundary of [
+    "not authorization",
+    "not approval",
+    "evidence",
+    "tests",
+    "canonical",
+    "production"
+  ]) {
+    if (!limitationText.includes(expectedBoundary)) {
+      warnings.push(`${label}.limitations should mention ${expectedBoundary}`);
+    }
+  }
+
+  return { errors, warnings, result };
+}
+
 const rawArgs = process.argv.slice(2);
 const outputFormat = rawArgs.includes("--markdown") ? "markdown" : "json";
 const positionalArgs = rawArgs.filter((arg) => arg !== "--markdown" && arg !== "--json");
@@ -2849,7 +3129,8 @@ try {
     "risk-control-matrix",
     "multi-agent-coordination",
     "source-boundary-contract",
-    "semantic-intent-resolution"
+    "semantic-intent-resolution",
+    "goal-vector-quality-control"
   ]);
   const isPublicResultMode = publicResultModes.has(modeOrPackageDir);
   const isDynamicEpisodeTraceMode = modeOrPackageDir === "dynamic-episode-trace";
@@ -2888,6 +3169,8 @@ try {
                 ? validateDynamicEpisodeTrace(path.resolve(targetPath))
               : modeOrPackageDir === "semantic-intent-resolution"
                 ? validateSemanticIntentResolution(path.resolve(targetPath))
+              : modeOrPackageDir === "goal-vector-quality-control"
+                ? validateGoalVectorQualityControl(path.resolve(targetPath))
               : isPublicResultMode
               ? validatePublicImplementationControlResult(path.resolve(targetPath), modeOrPackageDir)
               : validatePackage(path.resolve(targetPath));

@@ -1,0 +1,29 @@
+[
+  {
+    "id": "relation.batch.goal_vector.prepare_starter_package.produces_evidence.evidence_pack.goal_vector.reviewable_package",
+    "type": "produces_evidence",
+    "source": "batch.goal_vector.prepare_starter_package",
+    "target": "evidence_pack.goal_vector.reviewable_package",
+    "readiness": "review_ready",
+    "evidence": ["evidence.goal_vector.synthetic_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "relation.drift.goal_vector.reverse_audit.checks_drift.evidence_pack.goal_vector.reviewable_package",
+    "type": "checks_drift",
+    "source": "drift.goal_vector.reverse_audit",
+    "target": "evidence_pack.goal_vector.reviewable_package",
+    "readiness": "review_ready",
+    "evidence": ["evidence_pack.goal_vector.reviewable_package"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "relation.kaizen.goal_vector.reviewer_checklist.improves_process.batch.goal_vector.prepare_starter_package",
+    "type": "improves_process",
+    "source": "kaizen.goal_vector.reviewer_checklist",
+    "target": "batch.goal_vector.prepare_starter_package",
+    "readiness": "draft",
+    "evidence": ["evidence_pack.goal_vector.reviewable_package"],
+    "profile": "implementation_control"
+  }
+]

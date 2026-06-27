@@ -1,0 +1,131 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mirai-graph.dev/schemas/goal-vector-quality-control.schema.json",
+  "title": "Goal Vector Quality Control",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "id",
+    "profile",
+    "public_safety",
+    "start_state",
+    "final_outcome",
+    "work_scale",
+    "goal_vector",
+    "vector_segments",
+    "batch_vector_links",
+    "required_qualities",
+    "quality_evidence",
+    "reverse_audit",
+    "drift_findings",
+    "correction_routes",
+    "quality_verdict",
+    "completion_claim",
+    "canonical_write_allowed",
+    "limitations"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string"
+    },
+    "profile": {
+      "type": "string"
+    },
+    "public_safety": {
+      "type": "string"
+    },
+    "start_state": {
+      "type": "object",
+      "required": ["id", "summary"],
+      "properties": {
+        "id": { "type": "string" },
+        "summary": { "type": "string" }
+      }
+    },
+    "final_outcome": {
+      "type": "object",
+      "required": ["id", "summary"],
+      "properties": {
+        "id": { "type": "string" },
+        "summary": { "type": "string" }
+      }
+    },
+    "work_scale": {
+      "enum": ["checkpoint", "batch", "milestone", "goal", "track", "program", "vision"]
+    },
+    "goal_vector": {
+      "type": "object",
+      "required": ["id", "from", "to", "summary"],
+      "properties": {
+        "id": { "type": "string" },
+        "from": { "type": "string" },
+        "to": { "type": "string" },
+        "summary": { "type": "string" }
+      }
+    },
+    "vector_segments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "from", "to", "advances", "evidence_refs"]
+      }
+    },
+    "batch_vector_links": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["batch_ref", "advances", "specific_contribution", "evidence_refs"]
+      }
+    },
+    "required_qualities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "summary", "evidence_required"]
+      }
+    },
+    "quality_evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "supports_quality", "summary"]
+      }
+    },
+    "reverse_audit": {
+      "type": "object",
+      "required": ["performed", "from_final_outcome", "checked_qualities", "evidence_refs", "verdict"]
+    },
+    "drift_findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "classification", "severity", "summary", "blocking", "evidence_refs"]
+      }
+    },
+    "correction_routes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["finding_ref", "route", "owner_role"]
+      }
+    },
+    "quality_verdict": {
+      "enum": ["PASS", "PASS_WITH_NOTES", "PARTIAL", "CORRECTION_REQUIRED", "BLOCKED", "FAIL"]
+    },
+    "completion_claim": {
+      "type": "object",
+      "required": ["claimed_complete", "claim_ref", "evidence_refs", "accepted"]
+    },
+    "canonical_write_allowed": {
+      "const": false
+    },
+    "limitations": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  }
+}

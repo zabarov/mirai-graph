@@ -25,6 +25,8 @@ Current checks:
 - validate public profile manifests;
 - validate public pilot packages;
 - validate dynamic episode traces and reject unsafe trace semantics;
+- validate goal-vector quality-control reports and reject false-progress
+  semantics;
 - run deterministic seed preview;
 - generate benchmark context pack;
 - score benchmark readiness;
@@ -87,6 +89,26 @@ Current commands:
 npm run validate:dynamic-episodes
 npm run validate:dynamic-episode-report
 npm run test:dynamic-episodes-negative
+```
+
+## Goal Vector Quality Control Validation
+
+Goal-vector validation checks:
+
+- final outcome and start state presence;
+- visible vector segments and batch vector links;
+- evidence before completion claims;
+- reverse audit before pass verdicts;
+- rejection of tests-as-acceptance language;
+- correction routes for drift findings;
+- `canonical_write_allowed=false`;
+- public-safety boundaries.
+
+Current commands:
+
+```bash
+npm run validate:goal-vector-quality-control
+npm run test:goal-vector-quality-control-negative
 ```
 
 ## Benchmark Reproducibility

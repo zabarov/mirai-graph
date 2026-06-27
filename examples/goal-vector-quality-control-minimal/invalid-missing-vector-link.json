@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0.0",
+  "id": "goal_vector_quality_control.invalid_missing_vector_link",
+  "profile": "implementation_control",
+  "public_safety": "synthetic_public",
+  "start_state": {
+    "id": "state.synthetic_no_starter_package",
+    "summary": "The project has no reviewed starter graph package."
+  },
+  "final_outcome": {
+    "id": "outcome.synthetic_reviewable_onboarding",
+    "summary": "The project has a reviewable starter graph package."
+  },
+  "work_scale": "goal",
+  "goal_vector": {
+    "id": "goal_vector.synthetic_onboarding",
+    "from": "state.synthetic_no_starter_package",
+    "to": "outcome.synthetic_reviewable_onboarding",
+    "summary": "Move toward a reviewable starter package."
+  },
+  "vector_segments": [],
+  "batch_vector_links": [],
+  "required_qualities": [
+    {
+      "id": "quality.reviewable_package_exists",
+      "summary": "A reviewer can inspect package contents.",
+      "evidence_required": ["evidence.synthetic_package_files"]
+    }
+  ],
+  "quality_evidence": [
+    {
+      "id": "evidence.synthetic_package_files",
+      "supports_quality": "quality.reviewable_package_exists",
+      "summary": "Synthetic package files exist."
+    }
+  ],
+  "reverse_audit": {
+    "performed": true,
+    "from_final_outcome": "outcome.synthetic_reviewable_onboarding",
+    "checked_qualities": ["quality.reviewable_package_exists"],
+    "evidence_refs": ["evidence.synthetic_package_files"],
+    "verdict": "PASS"
+  },
+  "drift_findings": [],
+  "correction_routes": [],
+  "quality_verdict": "PASS",
+  "completion_claim": {
+    "claimed_complete": false,
+    "claim_ref": "claim.synthetic_not_complete",
+    "evidence_refs": [],
+    "accepted": false
+  },
+  "canonical_write_allowed": false,
+  "limitations": [
+    "Goal vector quality control is not authorization.",
+    "Evidence does not equal acceptance.",
+    "Tests do not equal semantic acceptance.",
+    "Reverse audit is not approval.",
+    "This synthetic example does not prove production readiness.",
+    "The report does not update canonical graph state."
+  ]
+}

@@ -12,13 +12,20 @@ All notable changes to Mirai Graph will be documented in this file.
 - Semantic intent schema, synthetic positive example and negative fixtures for
   low-confidence execution and proposal-as-canonical-update violations.
 - CLI validation support for `semantic-intent-resolution`.
+- Goal Vector Quality Control standard as a quality-control extension contract.
+- Goal-vector schema, synthetic positive example and negative fixtures for
+  missing vector links, false completion, tests-as-acceptance, missing reverse
+  audit and correction-without-route violations.
+- CLI validation support for `goal-vector-quality-control`.
 
 ### Changed
 
 - Working package version is now `1.0.0-rc.5`.
 - README, documentation map and release index now list Semantic Intent
-  Resolution as part of the release-candidate standard surface.
-- `npm test` includes Semantic Intent Resolution positive and negative checks.
+  Resolution and Goal Vector Quality Control as part of the release-candidate
+  standard surface.
+- `npm test` includes Semantic Intent Resolution and Goal Vector Quality
+  Control positive and negative checks.
 
 ### Claim Boundary
 
@@ -26,7 +33,7 @@ All notable changes to Mirai Graph will be documented in this file.
   Intent Resolution.
 - It does not claim production readiness, automatic correct process selection,
   live-action authorization or canonical updates from generated briefs,
-  proposals or semantic confidence.
+  proposals, evidence, reverse audits, goal vectors or semantic confidence.
 
 ## [1.0.0-rc.4] - 2026-06-16
 

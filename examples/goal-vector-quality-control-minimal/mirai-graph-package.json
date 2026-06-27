@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0.0",
+  "id": "package.goal_vector_quality_control_minimal",
+  "name": "Goal Vector Quality Control Minimal",
+  "version": "0.1.0",
+  "profile": "implementation_control",
+  "conformance_level": "level_1",
+  "description": "Synthetic public-safe package for goal-vector quality control.",
+  "public_safety": "synthetic_public",
+  "graph": {
+    "objects": "graph/objects.json",
+    "relations": "graph/relations.json"
+  },
+  "gates": "gates/results.json"
+}

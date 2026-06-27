@@ -168,6 +168,7 @@ releases/      Release notes and release process.
 - [Technology Quality Feedback](standard/technology-quality-feedback.md)
 - [Dynamic Episode Layer](standard/dynamic-episode-layer.md)
 - [Semantic Intent Resolution](standard/semantic-intent-resolution.md)
+- [Goal Vector Quality Control](standard/goal-vector-quality-control.md)
 - [Character Layer Profile](profiles/character-layer/README.md)
 - [Organization Governance](standard/organization-governance.md)
 

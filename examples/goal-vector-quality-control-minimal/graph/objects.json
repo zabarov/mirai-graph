@@ -1,0 +1,56 @@
+[
+  {
+    "id": "evidence.goal_vector.synthetic_brief",
+    "kind": "evidence",
+    "title": "Synthetic Goal Vector Brief",
+    "summary": "Public-safe brief for a synthetic goal-vector quality-control package.",
+    "readiness": "accepted",
+    "evidence": [],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "baseline.goal_vector.start_state",
+    "kind": "implementation_baseline",
+    "title": "Goal Vector Start State",
+    "summary": "Synthetic start state with no reviewed starter package.",
+    "readiness": "accepted",
+    "evidence": ["evidence.goal_vector.synthetic_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "batch.goal_vector.prepare_starter_package",
+    "kind": "workflow_batch",
+    "title": "Prepare Starter Package Batch",
+    "summary": "Synthetic batch that advances the final outcome by producing reviewable package evidence.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.goal_vector.synthetic_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "evidence_pack.goal_vector.reviewable_package",
+    "kind": "evidence_pack",
+    "title": "Reviewable Package Evidence Pack",
+    "summary": "Evidence pack containing synthetic package files, validation report and reverse audit.",
+    "readiness": "review_ready",
+    "evidence": ["evidence.goal_vector.synthetic_brief"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "drift.goal_vector.reverse_audit",
+    "kind": "drift_check",
+    "title": "Goal Vector Reverse Audit",
+    "summary": "Reverse audit checking the final outcome against required qualities and evidence.",
+    "readiness": "review_ready",
+    "evidence": ["evidence_pack.goal_vector.reviewable_package"],
+    "profile": "implementation_control"
+  },
+  {
+    "id": "kaizen.goal_vector.reviewer_checklist",
+    "kind": "kaizen_item",
+    "title": "Reviewer Checklist Improvement",
+    "summary": "Non-blocking improvement route for a shorter reusable reviewer checklist.",
+    "readiness": "draft",
+    "evidence": ["evidence_pack.goal_vector.reviewable_package"],
+    "profile": "implementation_control"
+  }
+]
