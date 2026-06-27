@@ -1,0 +1,151 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mirai-graph.dev/schemas/semantic-intent-resolution.schema.json",
+  "title": "Mirai Graph Semantic Intent Resolution",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "id",
+    "user_request",
+    "intent_hypothesis",
+    "confidence",
+    "work_scale",
+    "selected_chain_id",
+    "process_model_id",
+    "owner_role",
+    "required_context_slots",
+    "missing_context_slots",
+    "safe_default_action",
+    "execution_allowed",
+    "evidence_requirements",
+    "canonical_write_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string"
+    },
+    "user_request": {
+      "type": "string"
+    },
+    "intent_hypothesis": {
+      "type": "string"
+    },
+    "confidence": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ]
+    },
+    "work_scale": {
+      "type": "string",
+      "enum": [
+        "checkpoint",
+        "batch",
+        "milestone",
+        "goal",
+        "track",
+        "program",
+        "vision",
+        "unspecified"
+      ]
+    },
+    "selected_chain_id": {
+      "type": "string"
+    },
+    "process_model_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "owner_role": {
+      "type": "string"
+    },
+    "companion_roles": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "required_context_slots": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "missing_context_slots": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "clarifying_questions": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "safe_default_action": {
+      "type": "string"
+    },
+    "execution_allowed": {
+      "type": "boolean"
+    },
+    "review_surface_required": {
+      "type": "boolean"
+    },
+    "risk_flags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "live",
+          "destructive",
+          "access",
+          "data",
+          "git_history",
+          "secret"
+        ]
+      }
+    },
+    "required_gates": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "evidence_requirements": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "dynamic_episode_ref": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "technology_quality_feedback_ref": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "canonical_write_allowed": {
+      "const": false
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

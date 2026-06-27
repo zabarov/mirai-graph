@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0.0",
+  "id": "semantic_intent_resolution.invalid.proposal-canonical-update",
+  "user_request": "Accept the generated proposal into the graph.",
+  "intent_hypothesis": "Canonical graph update request.",
+  "confidence": "high",
+  "work_scale": "batch",
+  "selected_chain_id": "graph_update_protocol",
+  "process_model_id": "graph_update",
+  "owner_role": "graph_owner",
+  "required_context_slots": [
+    "proposal",
+    "owner_review"
+  ],
+  "missing_context_slots": [],
+  "safe_default_action": "Apply the generated proposal.",
+  "execution_allowed": true,
+  "review_surface_required": false,
+  "evidence_requirements": [
+    "proposal"
+  ],
+  "proposal_updates_canonical": true,
+  "canonical_write_allowed": true,
+  "limitations": [
+    "Invalid fixture: generated proposals do not authorize canonical updates."
+  ]
+}

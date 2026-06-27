@@ -10,7 +10,7 @@ Use it when a software project has useful knowledge spread across README files,
 docs, issues, chats, code comments and AI prompts, and you need a small
 machine-readable map that developers and AI assistants can validate and reuse.
 
-Status: public `1.0.0-rc.4` release candidate.
+Status: public `1.0.0-rc.5` release candidate.
 
 ## What Problem Does It Solve?
 
@@ -42,7 +42,7 @@ Start with a normal repository and use Mirai Graph to:
 
 ## Current Installation Status
 
-The repository is ready as a release candidate, but `mirai-graph@1.0.0-rc.4` is
+The repository is ready as a release candidate, but `mirai-graph@1.0.0-rc.5` is
 not published on npm yet. Until npm publication is complete, use the repository
 checkout path:
 
@@ -167,6 +167,7 @@ releases/      Release notes and release process.
 - [Process Control Contract](standard/process-control-contract.md)
 - [Technology Quality Feedback](standard/technology-quality-feedback.md)
 - [Dynamic Episode Layer](standard/dynamic-episode-layer.md)
+- [Semantic Intent Resolution](standard/semantic-intent-resolution.md)
 - [Character Layer Profile](profiles/character-layer/README.md)
 - [Organization Governance](standard/organization-governance.md)
 
@@ -239,7 +240,7 @@ The current release candidate consolidates the validator-backed public standard
 across the core model, profiles, executable process control, instrumentation,
 Character Layer, Dynamic Episode tracing, adopter kit and evidence boundaries.
 
-See [v1.0.0-rc.4](releases/1.0.0-rc.4.md) and the
+See [v1.0.0-rc.5](releases/1.0.0-rc.5.md) and the
 [Release Process](releases/README.md).
 
 ## What This Repository Is Not

@@ -4,6 +4,30 @@ All notable changes to Mirai Graph will be documented in this file.
 
 ## [Unreleased]
 
+## [1.0.0-rc.5] - 2026-06-27
+
+### Added
+
+- Semantic Intent Resolution standard as an input-control extension contract.
+- Semantic intent schema, synthetic positive example and negative fixtures for
+  low-confidence execution and proposal-as-canonical-update violations.
+- CLI validation support for `semantic-intent-resolution`.
+
+### Changed
+
+- Working package version is now `1.0.0-rc.5`.
+- README, documentation map and release index now list Semantic Intent
+  Resolution as part of the release-candidate standard surface.
+- `npm test` includes Semantic Intent Resolution positive and negative checks.
+
+### Claim Boundary
+
+- This release validates the public shape and safety boundaries of Semantic
+  Intent Resolution.
+- It does not claim production readiness, automatic correct process selection,
+  live-action authorization or canonical updates from generated briefs,
+  proposals or semantic confidence.
+
 ## [1.0.0-rc.4] - 2026-06-16
 
 ### Added

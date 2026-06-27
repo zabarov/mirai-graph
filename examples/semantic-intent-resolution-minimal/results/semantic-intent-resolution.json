@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0.0",
+  "id": "semantic_intent_resolution.synthetic.project-track-request",
+  "user_request": "Start this project and bring it to a working result.",
+  "intent_hypothesis": "The user is asking for a governed project track, not a single implementation batch.",
+  "confidence": "high",
+  "work_scale": "track",
+  "selected_chain_id": "track_start_protocol",
+  "process_model_id": "project_track_control",
+  "owner_role": "project_coordinator",
+  "companion_roles": [
+    "implementation_owner",
+    "quality_reviewer"
+  ],
+  "required_context_slots": [
+    "final_outcome",
+    "goal_queue",
+    "stop_conditions",
+    "evidence_plan"
+  ],
+  "missing_context_slots": [],
+  "clarifying_questions": [],
+  "safe_default_action": "Create a track contract and goal queue before starting implementation.",
+  "execution_allowed": false,
+  "review_surface_required": true,
+  "risk_flags": [],
+  "required_gates": [
+    "track_contract_review"
+  ],
+  "evidence_requirements": [
+    "track_contract",
+    "goal_queue",
+    "stop_conditions",
+    "evidence_plan"
+  ],
+  "dynamic_episode_ref": "examples/semantic-intent-resolution-minimal/results/intake-episode-placeholder.json",
+  "technology_quality_feedback_ref": null,
+  "canonical_write_allowed": false,
+  "limitations": [
+    "Semantic confidence is not authorization.",
+    "A generated brief does not approve execution.",
+    "The proposal does not update canonical graph state.",
+    "This synthetic example does not prove production readiness."
+  ]
+}

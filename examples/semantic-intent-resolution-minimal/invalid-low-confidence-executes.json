@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0.0",
+  "id": "semantic_intent_resolution.invalid.low-confidence-executes",
+  "user_request": "Make it normal.",
+  "intent_hypothesis": "Unclear request.",
+  "confidence": "low",
+  "work_scale": "batch",
+  "selected_chain_id": "general_delivery",
+  "process_model_id": "general_delivery",
+  "owner_role": "implementation_owner",
+  "required_context_slots": [
+    "target",
+    "acceptance_criteria"
+  ],
+  "missing_context_slots": [],
+  "safe_default_action": "Start implementation.",
+  "execution_allowed": true,
+  "review_surface_required": false,
+  "evidence_requirements": [
+    "diff"
+  ],
+  "canonical_write_allowed": false,
+  "limitations": [
+    "Invalid fixture: low confidence must not execute."
+  ]
+}

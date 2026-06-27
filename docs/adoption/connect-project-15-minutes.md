@@ -17,7 +17,7 @@ From the project you want to connect:
 npm install -D mirai-graph
 ```
 
-Release-candidate note: `mirai-graph@1.0.0-rc.4` is not published on npm yet.
+Release-candidate note: `mirai-graph@1.0.0-rc.5` is not published on npm yet.
 Until npm publication is complete, use a repository checkout and run the same
 commands through `node packages/cli/mirai-graph.js`.
 

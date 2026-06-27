@@ -82,6 +82,7 @@ function usage() {
   console.error("  node packages/cli/validate-mirai-graph.js risk-control-matrix <result-file>");
   console.error("  node packages/cli/validate-mirai-graph.js multi-agent-coordination <result-file>");
   console.error("  node packages/cli/validate-mirai-graph.js source-boundary-contract <result-file>");
+  console.error("  node packages/cli/validate-mirai-graph.js semantic-intent-resolution <result-file>");
   console.error("");
   console.error("Output options:");
   console.error("  --json       Print JSON output (default)");
@@ -2699,6 +2700,123 @@ function validateProcessTransition(stateMachinePath, transitionRequestPath) {
   return { errors, warnings, explanation };
 }
 
+function validateSemanticIntentResolution(resultPath) {
+  const errors = [];
+  const warnings = [];
+  const result = readJson(resultPath);
+  const label = "semantic_intent_resolution";
+
+  for (const field of [
+    "schema_version",
+    "id",
+    "user_request",
+    "intent_hypothesis",
+    "confidence",
+    "work_scale",
+    "selected_chain_id",
+    "process_model_id",
+    "owner_role",
+    "safe_default_action"
+  ]) {
+    requireString(result, field, label, errors);
+  }
+  for (const field of [
+    "required_context_slots",
+    "missing_context_slots",
+    "evidence_requirements",
+    "limitations"
+  ]) {
+    requireArray(result, field, label, errors);
+  }
+
+  if (typeof result.execution_allowed !== "boolean") {
+    errors.push(`${label}.execution_allowed must be a boolean`);
+  }
+  if (typeof result.canonical_write_allowed !== "boolean") {
+    errors.push(`${label}.canonical_write_allowed must be a boolean`);
+  }
+  if (result.canonical_write_allowed !== false) {
+    errors.push(`${label}.canonical_write_allowed must be false`);
+  }
+
+  const confidenceValues = new Set(["low", "medium", "high"]);
+  if (typeof result.confidence === "string" && !confidenceValues.has(result.confidence)) {
+    errors.push(`${label}.confidence has unsupported value ${result.confidence}`);
+  }
+
+  const workScales = new Set(["checkpoint", "batch", "milestone", "goal", "track", "program", "vision", "unspecified"]);
+  if (typeof result.work_scale === "string" && !workScales.has(result.work_scale)) {
+    errors.push(`${label}.work_scale has unsupported value ${result.work_scale}`);
+  }
+
+  if (result.confidence === "low" && result.execution_allowed === true) {
+    errors.push(`${label} low confidence must not allow execution`);
+  }
+  if (result.confidence === "low" && result.review_surface_required !== true) {
+    errors.push(`${label} low confidence requires review_surface_required=true`);
+  }
+
+  const missingContext = Array.isArray(result.missing_context_slots) ? result.missing_context_slots : [];
+  const significantScales = new Set(["batch", "milestone", "goal", "track", "program", "vision"]);
+  if (missingContext.length > 0 && significantScales.has(result.work_scale) && result.execution_allowed === true) {
+    errors.push(`${label} missing context must not allow significant execution`);
+  }
+
+  if (result.work_scale === "track" && !String(result.selected_chain_id || "").includes("track")) {
+    errors.push(`${label} track work must use a track chain`);
+  }
+
+  if (result.work_scale === "goal") {
+    const evidence = Array.isArray(result.evidence_requirements) ? result.evidence_requirements.join("\n").toLowerCase() : "";
+    if (!["done_when", "stages", "batches", "gates", "evidence"].some((term) => evidence.includes(term))) {
+      errors.push(`${label} goal work must include goal-contract evidence`);
+    }
+  }
+
+  const riskyFlags = new Set(Array.isArray(result.risk_flags) ? result.risk_flags : []);
+  const hasRisk = ["live", "destructive", "access", "data", "git_history", "secret"].some((flag) => riskyFlags.has(flag));
+  if (hasRisk && result.execution_allowed === true && (!Array.isArray(result.required_gates) || result.required_gates.length === 0)) {
+    errors.push(`${label} risky work requires gates before execution`);
+  }
+
+  if (result.semantic_confidence_authorizes_action === true) {
+    errors.push(`${label} semantic confidence must not authorize action`);
+  }
+  if (result.generated_brief_is_approval === true) {
+    errors.push(`${label} generated brief must not be approval`);
+  }
+  if (result.proposal_updates_canonical === true) {
+    errors.push(`${label} generated proposal must not update canonical graph state`);
+  }
+
+  const text = JSON.stringify(result).toLowerCase();
+  for (const forbiddenTerm of [
+    "/users/rim/documents/" + "github/",
+    "simai private",
+    "private runtime " + "trace",
+    "token",
+    "secret value",
+    "customer raw log"
+  ]) {
+    if (text.includes(forbiddenTerm)) {
+      errors.push(`${label} contains forbidden public-safety term: ${forbiddenTerm}`);
+    }
+  }
+
+  for (const requiredBoundary of [
+    "not authorization",
+    "not approve",
+    "does not update canonical",
+    "does not prove production"
+  ]) {
+    if (!text.includes(requiredBoundary)) {
+      warnings.push(`${label}.limitations should mention ${requiredBoundary}`);
+    }
+  }
+
+  return { errors, warnings, result };
+}
+
 const rawArgs = process.argv.slice(2);
 const outputFormat = rawArgs.includes("--markdown") ? "markdown" : "json";
 const positionalArgs = rawArgs.filter((arg) => arg !== "--markdown" && arg !== "--json");
@@ -2730,7 +2848,8 @@ try {
     "recovery-resume-record",
     "risk-control-matrix",
     "multi-agent-coordination",
-    "source-boundary-contract"
+    "source-boundary-contract",
+    "semantic-intent-resolution"
   ]);
   const isPublicResultMode = publicResultModes.has(modeOrPackageDir);
   const isDynamicEpisodeTraceMode = modeOrPackageDir === "dynamic-episode-trace";
@@ -2767,6 +2886,8 @@ try {
                   ? validateCharacterLayerReadiness(path.resolve(targetPath))
               : isDynamicEpisodeTraceMode
                 ? validateDynamicEpisodeTrace(path.resolve(targetPath))
+              : modeOrPackageDir === "semantic-intent-resolution"
+                ? validateSemanticIntentResolution(path.resolve(targetPath))
               : isPublicResultMode
               ? validatePublicImplementationControlResult(path.resolve(targetPath), modeOrPackageDir)
               : validatePackage(path.resolve(targetPath));

@@ -49,6 +49,7 @@ Executable process and implementation control:
 - [Process Control Contract](../standard/process-control-contract.md)
 - [Technology Quality Feedback](../standard/technology-quality-feedback.md)
 - [Dynamic Episode Layer](../standard/dynamic-episode-layer.md)
+- [Semantic Intent Resolution](../standard/semantic-intent-resolution.md)
 - [Episode Trace](../standard/episode-trace.md)
 - [Dynamic Layer For AI-Assisted Code Generation](../standard/dynamic-layer-code-generation.md)
 - [Recovery Resume](../standard/recovery-resume.md)
@@ -93,6 +94,7 @@ Proposal or experimental profile:
 - [Process Transition](../examples/process-transition-minimal/README.md)
 - [Technology Quality Feedback](../examples/technology-quality-feedback-minimal/README.md)
 - [Dynamic Episode Minimal Example](../examples/dynamic-episode-minimal/README.md)
+- [Semantic Intent Resolution](../examples/semantic-intent-resolution-minimal/README.md)
 - [Instrumentation Layer](../examples/instrumentation-layer-minimal/README.md)
 - [Organization Governance](../examples/organization-governance-minimal/README.md)
 - [Societal Governance Proposal Example](../examples/societal-governance-minimal/README.md)
@@ -112,6 +114,7 @@ Proposal or experimental profile:
 - [Roadmap](../ROADMAP.md)
 - [Changelog](../CHANGELOG.md)
 - [Release Process](../releases/README.md)
+- [v1.0.0-rc.5](../releases/1.0.0-rc.5.md)
 - [v1.0.0-rc.4](../releases/1.0.0-rc.4.md)
 - [Contributing](../CONTRIBUTING.md)
 
