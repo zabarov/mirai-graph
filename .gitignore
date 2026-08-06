@@ -10,6 +10,7 @@ output/
 node_modules/
 dist/
 coverage/
+.mirai-graph/
 .DS_Store
 
 # SIMAI project memory runtime logs

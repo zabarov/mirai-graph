@@ -137,7 +137,7 @@ function printPlan(input) {
 
 function templateReport(templateDir) {
   const absTemplate = path.resolve(root, templateDir);
-  const manifestPath = path.join(absTemplate, "mirai-graph-package.json");
+  const manifestPath = path.join(absTemplate, "graph.json");
   const objectsPath = path.join(absTemplate, "graph", "objects.json");
   const relationsPath = path.join(absTemplate, "graph", "relations.json");
   const gatesPath = path.join(absTemplate, "gates", "results.json");
@@ -152,12 +152,13 @@ function templateReport(templateDir) {
   const objects = readJson(objectsPath);
   const relations = readJson(relationsPath);
   const gates = fs.existsSync(gatesPath) ? readJson(gatesPath) : [];
-  const profile = profiles.find((item) => item.profile === manifest.profile);
+  const manifestProfile = Array.isArray(manifest.profiles) ? manifest.profiles[0] : manifest.profile;
+  const profile = profiles.find((item) => item.profile === manifestProfile);
 
-  console.log(`# Mirai Graph Adopter Report: ${manifest.name}`);
+  console.log(`# Mirai Graph Adopter Report: ${manifest.title || manifest.name}`);
   console.log("");
   console.log(`- Package: \`${manifest.id}\``);
-  console.log(`- Profile: \`${manifest.profile}\``);
+  console.log(`- Profile: \`${manifestProfile}\``);
   console.log(`- Conformance: \`${manifest.conformance_level || "unspecified"}\``);
   console.log(`- Public safety: \`${manifest.public_safety || "unspecified"}\``);
   console.log(`- Objects: \`${objects.length}\``);

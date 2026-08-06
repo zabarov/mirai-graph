@@ -21,7 +21,7 @@ using only public Mirai Graph docs, schemas and examples?
 ## Files
 
 - `graph-seed.json`
-- `mirai-graph-package.json`
+- `graph.json`
 - `graph/objects.json`
 - `graph/relations.json`
 - `gates/results.json`

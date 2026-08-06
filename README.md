@@ -10,7 +10,7 @@ Use it when a software project has useful knowledge spread across README files,
 docs, issues, chats, code comments and AI prompts, and you need a small
 machine-readable map that developers and AI assistants can validate and reuse.
 
-Status: public `1.0.0-rc.6` release candidate.
+Status: public `1.0.0-rc.7` release candidate.
 
 ## What Problem Does It Solve?
 
@@ -42,7 +42,7 @@ Start with a normal repository and use Mirai Graph to:
 
 ## Current Installation Status
 
-The repository is ready as a release candidate, but `mirai-graph@1.0.0-rc.6` is
+The repository is ready as a release candidate, but `mirai-graph@1.0.0-rc.7` is
 not published on npm yet. Until npm publication is complete, use the repository
 checkout path:
 
@@ -68,6 +68,7 @@ npx mirai-graph detect . --markdown
 npx mirai-graph bootstrap . --mode suggest --markdown
 npx mirai-graph init . --profile software_specification
 npx mirai-graph validate .
+npx mirai-graph migrate .
 ```
 
 What each command does:
@@ -76,6 +77,7 @@ What each command does:
 - `bootstrap --mode suggest` creates proposal/evidence only.
 - `init` creates starter graph files after you choose a profile.
 - `validate` checks the graph package structure and profile rules.
+- `migrate` shows a read-only plan; add `--apply` only after reviewing it.
 
 If you are using a repository checkout before npm publication, run the same
 commands through `node packages/cli/mirai-graph.js` from this repository.
@@ -85,7 +87,7 @@ commands through `node packages/cli/mirai-graph.js` from this repository.
 For a typical software project, `init` creates:
 
 ```text
-mirai-graph-package.json
+graph.json
 graph/
   objects.json      # features, requirements, risks, decisions, evidence
   relations.json    # depends_on, implements, blocks, evidences, governs

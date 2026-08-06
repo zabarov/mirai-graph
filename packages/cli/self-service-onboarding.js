@@ -2,6 +2,7 @@
 
 const fs = require("fs");
 const path = require("path");
+const { migratePlan, readJson: readManifestJson } = require("./graph-manifest");
 
 const root = path.resolve(__dirname, "..", "..");
 
@@ -96,15 +97,15 @@ function resolveProfile(input) {
 function resolveTemplate(templateInput, profileInfo) {
   const template = templateInput || profileInfo.template;
   const templatePath = path.isAbsolute(template) ? template : path.resolve(root, template);
-  if (!fs.existsSync(path.join(templatePath, "mirai-graph-package.json"))) {
-    throw new Error(`Template is missing mirai-graph-package.json: ${template}`);
+  if (!fs.existsSync(path.join(templatePath, "graph.json")) && !fs.existsSync(path.join(templatePath, "mirai-graph-package.json"))) {
+    throw new Error(`Template is missing graph.json or a supported legacy manifest: ${template}`);
   }
   return templatePath;
 }
 
 function packagePaths(targetDir) {
   return [
-    "mirai-graph-package.json",
+    "graph.json",
     path.join("graph", "objects.json"),
     path.join("graph", "relations.json"),
     path.join("gates", "results.json")
@@ -137,19 +138,27 @@ function initPackage(targetDir, flags) {
     throw new Error(`Target already has graph files: ${existing.join(", ")}. Re-run with --force only if you intend to replace these starter files.`);
   }
 
-  copyFileSafe(path.join(templatePath, "mirai-graph-package.json"), path.join(target, "mirai-graph-package.json"), force);
+  const manifestPlan = migratePlan(templatePath, { owner: "repository_owner" });
+  if (!manifestPlan.can_execute_now) {
+    throw new Error(`Template manifest cannot be converted to v2: ${manifestPlan.conflicts.join("; ")}`);
+  }
+  ensureDir(target);
+  if (fs.existsSync(path.join(target, "graph.json")) && !force) {
+    throw new Error(`Refusing to overwrite existing file without --force: ${path.join(target, "graph.json")}`);
+  }
+  writeJson(path.join(target, "graph.json"), { ...manifestPlan.manifest, owner: "repository_owner" });
   copyFileSafe(path.join(templatePath, "graph", "objects.json"), path.join(target, "graph", "objects.json"), force);
   copyFileSafe(path.join(templatePath, "graph", "relations.json"), path.join(target, "graph", "relations.json"), force);
   if (fs.existsSync(path.join(templatePath, "gates", "results.json"))) {
     copyFileSafe(path.join(templatePath, "gates", "results.json"), path.join(target, "gates", "results.json"), force);
   }
 
-  const manifest = readJson(path.join(target, "mirai-graph-package.json"));
+  const manifest = readManifestJson(path.join(target, "graph.json"));
   return {
     mode: "init",
     status: "created",
     target_dir: target,
-    profile: manifest.profile,
+    profile: manifest.profiles[0],
     template: path.relative(root, templatePath),
     files_created: packagePaths(target).filter((entry) => fs.existsSync(entry.absolutePath)).map((entry) => entry.relativePath),
     overwritten: force,
@@ -204,7 +213,7 @@ function detectProject(targetDir) {
   const missing = files.filter((entry) => !fs.existsSync(entry.absolutePath)).map((entry) => entry.relativePath);
   const present = files.filter((entry) => fs.existsSync(entry.absolutePath)).map((entry) => entry.relativePath);
   const classification = classifyProject(target);
-  const hasManifest = fs.existsSync(path.join(target, "mirai-graph-package.json"));
+  const hasManifest = fs.existsSync(path.join(target, "graph.json")) || fs.existsSync(path.join(target, "mirai-graph-package.json"));
   const hasCoreGraph = fs.existsSync(path.join(target, "graph", "objects.json")) && fs.existsSync(path.join(target, "graph", "relations.json"));
   const graphPresence = hasManifest && hasCoreGraph ? "present" : present.length > 0 ? "incomplete" : "missing";
 

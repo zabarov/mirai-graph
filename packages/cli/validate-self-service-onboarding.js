@@ -103,14 +103,14 @@ if (bootstrap.status === 0) {
   assert(fs.existsSync(result.proposal_ref), "bootstrap proposal should exist");
   const proposal = readJson(fs.readFileSync(result.proposal_ref, "utf8"));
   assert(proposal.canonical_write_allowed === false, "bootstrap proposal must keep canonical_write_allowed=false");
-  assert(!fs.existsSync(path.join(bootstrapTarget, "mirai-graph-package.json")), "bootstrap suggest must not create canonical manifest");
+  assert(!fs.existsSync(path.join(bootstrapTarget, "graph.json")), "bootstrap suggest must not create canonical manifest");
 }
 
 const initTarget = path.join(tmpRoot, "init-target");
 fs.mkdirSync(initTarget, { recursive: true });
 const init = run(["init", initTarget, "--profile", "software_specification"]);
 assert(init.status === 0, `init failed: ${init.stderr}`);
-assert(fs.existsSync(path.join(initTarget, "mirai-graph-package.json")), "init should create manifest");
+assert(fs.existsSync(path.join(initTarget, "graph.json")), "init should create v2 manifest");
 assert(fs.existsSync(path.join(initTarget, "graph", "objects.json")), "init should create graph/objects.json");
 assert(fs.existsSync(path.join(initTarget, "graph", "relations.json")), "init should create graph/relations.json");
 assert(fs.existsSync(path.join(initTarget, "gates", "results.json")), "init should create gates/results.json");

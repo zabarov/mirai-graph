@@ -1,0 +1,37 @@
+{
+  "$schema": "https://mirai-graph.dev/schemas/graph-manifest.schema.json",
+  "format": "mirai-graph",
+  "schema_version": "2.0.0",
+  "id": "package.synthetic_context_reduction_v0",
+  "aliases": [],
+  "title": "Synthetic Context-Reduction Benchmark v0",
+  "scope": "package",
+  "kind": "graph_package",
+  "owner": "mirai-graph",
+  "profiles": [
+    "software_specification"
+  ],
+  "graph": {
+    "root": "graph",
+    "source_of_truth": [
+      "graph"
+    ],
+    "objects": [
+      "graph/objects.json"
+    ],
+    "relations": [
+      "graph/relations.json"
+    ],
+    "schemas": [],
+    "generated": [],
+    "raw_sources": [
+      "README.md"
+    ]
+  },
+  "imports": [],
+  "version": "0.1.0",
+  "conformance_level": "level_1",
+  "description": "A public-safe synthetic benchmark for inspecting Mirai Graph context-selection structure.",
+  "license": "CC-BY-4.0",
+  "public_safety": "synthetic_public"
+}

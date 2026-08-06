@@ -1,0 +1,149 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mirai-graph.dev/schemas/graph-manifest.schema.json",
+  "title": "Mirai Graph Workspace Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "format",
+    "schema_version",
+    "id",
+    "aliases",
+    "title",
+    "scope",
+    "kind",
+    "owner",
+    "profiles",
+    "graph",
+    "imports"
+  ],
+  "properties": {
+    "$schema": { "const": "https://mirai-graph.dev/schemas/graph-manifest.schema.json" },
+    "format": { "const": "mirai-graph" },
+    "schema_version": { "const": "2.0.0" },
+    "id": { "$ref": "#/$defs/nonEmptyString" },
+    "aliases": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/nonEmptyString" },
+      "uniqueItems": true
+    },
+    "title": { "$ref": "#/$defs/nonEmptyString" },
+    "scope": {
+      "enum": ["skill", "repository", "workspace", "domain", "federation", "package"]
+    },
+    "kind": { "$ref": "#/$defs/nonEmptyString" },
+    "owner": { "$ref": "#/$defs/nonEmptyString" },
+    "profiles": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/nonEmptyString" },
+      "uniqueItems": true
+    },
+    "version": { "$ref": "#/$defs/nonEmptyString" },
+    "conformance_level": {
+      "enum": ["level_0", "level_1", "level_2", "level_3", "level_4"]
+    },
+    "description": { "type": "string" },
+    "license": { "type": "string" },
+    "public_safety": {},
+    "nonclaims": {
+      "type": "array",
+      "items": { "type": "string" },
+      "uniqueItems": true
+    },
+    "graph": {
+      "oneOf": [
+        { "type": "null" },
+        { "$ref": "#/$defs/localGraph" }
+      ]
+    },
+    "imports": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/import" }
+    },
+    "federation": { "type": "object" },
+    "runtime": { "type": "object" },
+    "evolution": { "type": "object" },
+    "extensions": {
+      "type": "object",
+      "propertyNames": { "pattern": "^[a-z0-9][a-z0-9_.-]*$" }
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "scope": { "const": "package" } } },
+      "then": {
+        "required": ["version", "conformance_level"],
+        "properties": {
+          "graph": {
+            "type": "object",
+            "properties": {
+              "objects": { "minItems": 1 },
+              "relations": { "minItems": 1 }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "nonEmptyString": { "type": "string", "minLength": 1 },
+    "relativePath": {
+      "type": "string",
+      "minLength": 1,
+      "not": { "pattern": "^(?:/|[A-Za-z]:[\\\\/]|.*(?:^|[\\\\/])\\.\\.(?:[\\\\/]|$))" }
+    },
+    "stringArray": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/nonEmptyString" },
+      "uniqueItems": true
+    },
+    "pathArray": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/relativePath" },
+      "uniqueItems": true
+    },
+    "localGraph": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["root", "source_of_truth", "objects", "relations", "schemas", "generated", "raw_sources"],
+      "properties": {
+        "root": { "$ref": "#/$defs/relativePath" },
+        "source_of_truth": { "$ref": "#/$defs/pathArray" },
+        "objects": { "$ref": "#/$defs/pathArray" },
+        "relations": { "$ref": "#/$defs/pathArray" },
+        "schemas": { "$ref": "#/$defs/pathArray" },
+        "generated": { "$ref": "#/$defs/pathArray" },
+        "raw_sources": { "$ref": "#/$defs/pathArray" }
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["type"],
+      "properties": {
+        "type": { "enum": ["registry", "git", "file"] },
+        "ref": { "type": "string" },
+        "path": { "$ref": "#/$defs/relativePath" },
+        "cache_path": { "$ref": "#/$defs/relativePath" }
+      }
+    },
+    "import": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["alias", "graph_id", "source"],
+      "properties": {
+        "alias": { "$ref": "#/$defs/nonEmptyString" },
+        "graph_id": { "$ref": "#/$defs/nonEmptyString" },
+        "source": { "$ref": "#/$defs/source" },
+        "enabled": { "type": "boolean" },
+        "profiles": { "$ref": "#/$defs/stringArray" },
+        "authority_domains": { "$ref": "#/$defs/stringArray" },
+        "use_for": { "$ref": "#/$defs/stringArray" },
+        "required_for": { "$ref": "#/$defs/stringArray" },
+        "raw_source_fallback": { "$ref": "#/$defs/pathArray" },
+        "extensions": { "type": "object" }
+      }
+    }
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "$schema": "https://mirai-graph.dev/schemas/graph-manifest.schema.json",
+  "format": "mirai-graph",
+  "schema_version": "2.0.0",
+  "id": "package.societal_governance_minimal",
+  "aliases": [],
+  "title": "Societal Governance Minimal",
+  "scope": "package",
+  "kind": "graph_package",
+  "owner": "mirai-graph",
+  "profiles": [
+    "societal_governance"
+  ],
+  "graph": {
+    "root": "graph",
+    "source_of_truth": [
+      "graph"
+    ],
+    "objects": [
+      "graph/objects.json"
+    ],
+    "relations": [
+      "graph/relations.json"
+    ],
+    "schemas": [],
+    "generated": [],
+    "raw_sources": [
+      "README.md"
+    ]
+  },
+  "imports": [],
+  "version": "0.1.0-proposal",
+  "conformance_level": "level_1",
+  "description": "Synthetic proposal fixture showing rights-bounded AI-avatar assisted governance as a non-binding shadow trace.",
+  "license": "CC-BY-4.0",
+  "public_safety": "synthetic_public"
+}

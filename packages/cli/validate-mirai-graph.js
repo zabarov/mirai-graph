@@ -2,6 +2,7 @@
 
 const fs = require("fs");
 const path = require("path");
+const { SCHEMA_VERSION: MANIFEST_SCHEMA_VERSION, validateManifest } = require("./graph-manifest");
 
 const readinessValues = new Set([
   "draft",
@@ -366,7 +367,31 @@ function readJson(filePath) {
 }
 
 function findManifestPath(packageDir) {
+  const rootManifest = path.join(packageDir, "graph.json");
+  if (fs.existsSync(rootManifest)) {
+    const payload = readJson(rootManifest);
+    if (payload.format === "mirai-graph" && payload.schema_version === MANIFEST_SCHEMA_VERSION) return rootManifest;
+  }
   return path.join(packageDir, "mirai-graph-package.json");
+}
+
+function readPackageManifest(filePath) {
+  const manifest = readJson(filePath);
+  if (manifest.format === "mirai-graph" && manifest.schema_version === MANIFEST_SCHEMA_VERSION) {
+    const profiles = Array.isArray(manifest.profiles) ? manifest.profiles : [];
+    return {
+      ...manifest,
+      _manifest_v2: true,
+      name: manifest.title,
+      profile: profiles[0],
+      graph: manifest.graph ? {
+        ...manifest.graph,
+        objects: Array.isArray(manifest.graph.objects) ? manifest.graph.objects[0] : manifest.graph.objects,
+        relations: Array.isArray(manifest.graph.relations) ? manifest.graph.relations[0] : manifest.graph.relations
+      } : null
+    };
+  }
+  return manifest;
 }
 
 function asArray(value, label, errors) {
@@ -696,7 +721,7 @@ function validateSocietalGovernanceSemantics(objects, relations, errors) {
 
 function validatePackage(packageDir) {
   const manifestLookup = findManifestPath(packageDir);
-  const manifest = fs.existsSync(manifestLookup) ? readJson(manifestLookup) : null;
+  const manifest = fs.existsSync(manifestLookup) ? readPackageManifest(manifestLookup) : null;
   const graphDir = path.join(packageDir, "graph");
   const objectsPath = manifest
     ? path.join(packageDir, manifest.graph && manifest.graph.objects ? manifest.graph.objects : "")
@@ -710,10 +735,14 @@ function validatePackage(packageDir) {
 
   if (manifest) {
     requireString(manifest, "id", "manifest", errors);
-    requireString(manifest, "name", "manifest", errors);
-    requireString(manifest, "version", "manifest", errors);
-    requireString(manifest, "profile", "manifest", errors);
-    requireString(manifest, "conformance_level", "manifest", errors);
+    if (manifest._manifest_v2) {
+      errors.push(...validateManifest(readJson(manifestLookup), packageDir).map((error) => `manifest.${error}`));
+    } else {
+      requireString(manifest, "name", "manifest", errors);
+      requireString(manifest, "version", "manifest", errors);
+      requireString(manifest, "profile", "manifest", errors);
+      requireString(manifest, "conformance_level", "manifest", errors);
+    }
 
     if (!manifest.graph || typeof manifest.graph !== "object") {
       errors.push("manifest.graph must be an object");
@@ -729,7 +758,7 @@ function validatePackage(packageDir) {
       errors.push(`manifest.conformance_level has unsupported value ${manifest.conformance_level}`);
     }
   } else {
-    warnings.push("Missing mirai-graph-package.json manifest");
+    warnings.push("Missing graph.json or legacy mirai-graph-package.json manifest");
   }
 
   if (!fs.existsSync(objectsPath)) {
@@ -995,7 +1024,7 @@ function validateProfile(profilePath) {
 
 function loadPackageGraph(packageDir, errors) {
   const manifestLookup = findManifestPath(packageDir);
-  const manifest = fs.existsSync(manifestLookup) ? readJson(manifestLookup) : null;
+  const manifest = fs.existsSync(manifestLookup) ? readPackageManifest(manifestLookup) : null;
   const graphDir = path.join(packageDir, "graph");
   const objectsPath = manifest
     ? path.join(packageDir, manifest.graph && manifest.graph.objects ? manifest.graph.objects : "")

@@ -12,6 +12,8 @@ function readJson(filePath) {
 }
 
 function findManifestPath(packageDir) {
+  const current = path.join(packageDir, "graph.json");
+  if (fs.existsSync(current)) return current;
   return path.join(packageDir, "mirai-graph-package.json");
 }
 

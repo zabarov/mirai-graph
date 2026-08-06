@@ -74,7 +74,7 @@ Do not try to model everything at once.
 Recommended minimal structure:
 
 ```text
-mirai-graph-package.json
+graph.json
 graph/
   objects.json
   relations.json

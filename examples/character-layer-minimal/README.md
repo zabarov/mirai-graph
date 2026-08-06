@@ -14,7 +14,7 @@ graph writes.
 
 ## Files
 
-- `mirai-graph-package.json`: package manifest using `profile:
+- `graph.json`: package manifest using `profile:
   "character_layer"`;
 - `graph/objects.json`: synthetic profile objects;
 - `graph/relations.json`: relations among the synthetic objects;

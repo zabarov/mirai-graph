@@ -75,7 +75,7 @@ npx mirai-graph init . --profile organization_governance
 `init` creates:
 
 ```text
-mirai-graph-package.json
+graph.json
 graph/objects.json
 graph/relations.json
 gates/results.json

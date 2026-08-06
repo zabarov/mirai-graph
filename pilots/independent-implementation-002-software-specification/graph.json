@@ -1,0 +1,37 @@
+{
+  "$schema": "https://mirai-graph.dev/schemas/graph-manifest.schema.json",
+  "format": "mirai-graph",
+  "schema_version": "2.0.0",
+  "id": "package.notification_api_spec_pilot_002",
+  "aliases": [],
+  "title": "Notification API Specification Pilot 002",
+  "scope": "package",
+  "kind": "graph_package",
+  "owner": "mirai-graph",
+  "profiles": [
+    "software_specification"
+  ],
+  "graph": {
+    "root": "graph",
+    "source_of_truth": [
+      "graph"
+    ],
+    "objects": [
+      "graph/objects.json"
+    ],
+    "relations": [
+      "graph/relations.json"
+    ],
+    "schemas": [],
+    "generated": [],
+    "raw_sources": [
+      "README.md"
+    ]
+  },
+  "imports": [],
+  "version": "0.1.0",
+  "conformance_level": "level_1",
+  "description": "A synthetic independent implementation pilot for a small software specification workflow.",
+  "license": "CC-BY-4.0",
+  "public_safety": "synthetic_public"
+}

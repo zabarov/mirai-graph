@@ -41,7 +41,7 @@ The embryo is a reviewable candidate state. It is not canonical graph state.
 Minimum package shape:
 
 ```text
-mirai-graph-package.json
+graph.json
 graph/
   objects.json
   relations.json

@@ -1,0 +1,35 @@
+{
+  "$schema": "https://mirai-graph.dev/schemas/graph-manifest.schema.json",
+  "format": "mirai-graph",
+  "schema_version": "2.0.0",
+  "id": "package.invalid_societal_governance_private_trace_exposed",
+  "aliases": [],
+  "title": "Invalid Societal Governance Private Trace Exposed",
+  "scope": "package",
+  "kind": "graph_package",
+  "owner": "mirai-graph",
+  "profiles": [
+    "societal_governance"
+  ],
+  "graph": {
+    "root": "graph",
+    "source_of_truth": [
+      "graph"
+    ],
+    "objects": [
+      "graph/objects.json"
+    ],
+    "relations": [
+      "graph/relations.json"
+    ],
+    "schemas": [],
+    "generated": [],
+    "raw_sources": []
+  },
+  "imports": [],
+  "version": "0.1.0-proposal",
+  "conformance_level": "level_1",
+  "description": "Negative fixture: a private decision journal is exposed in a public trace.",
+  "license": "CC-BY-4.0",
+  "public_safety": "synthetic_public"
+}

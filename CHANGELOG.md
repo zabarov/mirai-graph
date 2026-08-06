@@ -4,6 +4,26 @@ All notable changes to Mirai Graph will be documented in this file.
 
 ## [Unreleased]
 
+## [1.0.0-rc.7] - 2026-08-06
+
+### Added
+
+- Public `graph.json` schema `2.0.0` and separate immutable dependency-lock schema.
+- Read-only-by-default `mirai-graph migrate`, with `--apply`, backup, atomic activation, automatic rollback and idempotent repeat execution.
+- Cross-format readers for the former root workspace descriptor, inner graph manifest and public package manifest.
+
+### Changed
+
+- `init`, examples, pilots and starters now write one root `graph.json`; `graph/` contains graph data only.
+- Legacy identifiers become aliases, while known legacy metadata is preserved in namespaced extensions.
+- Validation, context, readiness and adopter workflows consume the same v2 manifest.
+
+### Compatibility Boundary
+
+- Legacy manifests remain readable for one public RC, but all writers emit v2 only.
+- Migration fails closed on identity conflicts, unknown legacy fields or missing package entrypoints.
+- Graph objects, relations and raw technology sources are not rewritten by manifest migration.
+
 ## [1.0.0-rc.6] - 2026-06-27
 
 ### Added

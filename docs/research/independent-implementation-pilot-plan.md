@@ -27,7 +27,7 @@ Recommended first scope:
 
 Each pilot should produce:
 
-- `mirai-graph-package.json`;
+- `graph.json`;
 - `graph/objects.json`;
 - `graph/relations.json`;
 - optional `gates/results.json`;

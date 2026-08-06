@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mirai-graph.dev/schemas/graph-lock.schema.json",
+  "title": "Mirai Graph Dependency Lock",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "manifest_id", "providers"],
+  "properties": {
+    "schema_version": { "const": "2.0.0" },
+    "manifest_id": { "type": "string", "minLength": 1 },
+    "providers": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["alias", "source_type", "revision", "export_hash", "cache_path", "enabled"],
+        "properties": {
+          "alias": { "type": "string", "minLength": 1 },
+          "source_type": { "enum": ["registry", "git", "file"] },
+          "revision": { "type": "string", "minLength": 1 },
+          "export_hash": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+          "cache_path": { "type": "string", "minLength": 1 },
+          "enabled": { "type": "boolean" }
+        }
+      }
+    }
+  }
+}

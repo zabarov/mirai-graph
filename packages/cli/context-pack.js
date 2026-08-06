@@ -12,6 +12,8 @@ function readJson(filePath) {
 }
 
 function findManifestPath(packageDir) {
+  const current = path.join(packageDir, "graph.json");
+  if (fs.existsSync(current)) return current;
   return path.join(packageDir, "mirai-graph-package.json");
 }
 
@@ -114,10 +116,10 @@ function buildContextPack(packageDir, taskId) {
   const manifestPath = findManifestPath(packageDir);
   const manifest = fs.existsSync(manifestPath) ? readJson(manifestPath) : null;
   const objectsPath = manifest
-    ? path.join(packageDir, manifest.graph.objects)
+    ? path.join(packageDir, Array.isArray(manifest.graph.objects) ? manifest.graph.objects[0] : manifest.graph.objects)
     : path.join(packageDir, "graph", "objects.json");
   const relationsPath = manifest
-    ? path.join(packageDir, manifest.graph.relations)
+    ? path.join(packageDir, Array.isArray(manifest.graph.relations) ? manifest.graph.relations[0] : manifest.graph.relations)
     : path.join(packageDir, "graph", "relations.json");
   const objects = readJson(objectsPath);
   const relations = readJson(relationsPath);

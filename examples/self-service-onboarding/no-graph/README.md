@@ -2,5 +2,5 @@
 
 This fixture represents a small software project before Mirai Graph adoption.
 
-It intentionally has no `mirai-graph-package.json`, `graph/` or `gates/`
+It intentionally has no `graph.json`, `graph/` or `gates/`
 artifacts.

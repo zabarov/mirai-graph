@@ -71,7 +71,7 @@ package remains structurally usable.
 A starter software graph usually looks like this:
 
 ```text
-mirai-graph-package.json
+graph.json
 graph/
   objects.json
   relations.json

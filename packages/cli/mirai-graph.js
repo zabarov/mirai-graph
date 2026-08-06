@@ -10,6 +10,7 @@ function usage() {
   console.error("Usage:");
   console.error("  mirai-graph validate <package-dir>");
   console.error("  mirai-graph init [target-dir] --profile <profile> [--template <template>] [--force]");
+  console.error("  mirai-graph migrate [target-dir] [--owner <owner>] [--apply]");
   console.error("  mirai-graph detect [target-dir] [--json|--markdown]");
   console.error("  mirai-graph bootstrap [target-dir] --mode detect|suggest [--profile auto|<profile>] [--output <dir>] [--json|--markdown]");
   console.error("  mirai-graph choose-profile");
@@ -56,6 +57,11 @@ if (command === "validate") {
     process.exit(1);
   }
   run("packages/cli/validate-mirai-graph.js", [subcommand, ...rest]);
+}
+
+if (command === "migrate") {
+  const forwarded = subcommand ? [subcommand, ...rest] : rest;
+  run("packages/cli/migrate-graph-manifest.js", forwarded);
 }
 
 if (command === "choose-profile") {

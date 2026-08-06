@@ -1,0 +1,36 @@
+{
+  "$schema": "https://mirai-graph.dev/schemas/graph-manifest.schema.json",
+  "format": "mirai-graph",
+  "schema_version": "2.0.0",
+  "id": "package.synthetic_stale_graph",
+  "aliases": [],
+  "title": "Synthetic Stale Graph",
+  "scope": "package",
+  "kind": "graph_package",
+  "owner": "mirai-graph",
+  "profiles": [
+    "software_specification"
+  ],
+  "graph": {
+    "root": "graph",
+    "source_of_truth": [
+      "graph"
+    ],
+    "objects": [
+      "graph/objects.json"
+    ],
+    "relations": [
+      "graph/relations.json"
+    ],
+    "schemas": [],
+    "generated": [],
+    "raw_sources": [
+      "README.md"
+    ]
+  },
+  "imports": [],
+  "version": "0.1.0",
+  "conformance_level": "level_1",
+  "description": "Incomplete fixture for self-service detection.",
+  "public_safety": "synthetic_public"
+}

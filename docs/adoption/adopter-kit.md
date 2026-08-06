@@ -114,7 +114,7 @@ npm run validate:adopter-workflow
 
 A 1.0 release-candidate adopter package is ready for first internal use when:
 
-- `mirai-graph-package.json` exists and points to graph, gates and profile.
+- root `graph.json` v2 exists and points to graph sources and profiles.
 - `graph/objects.json` has stable object ids, kinds, summaries and readiness.
 - `graph/relations.json` has directed relations with valid source/target ids.
 - `gates/results.json` records at least the initial validation gate.
