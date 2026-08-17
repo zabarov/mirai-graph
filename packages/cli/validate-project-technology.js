@@ -59,7 +59,14 @@ function executionContract() {
     architecture_contract: {
       contract_ref: "contract.fixture.architecture",
       acceptance_ref: "decision.fixture.accepted", lifecycle: "accepted",
-      owner_ids: ["runtime"], package_ids: ["fixture/runtime"],
+      owner_ids: ["runtime"], component_ids: ["component.fixture.runtime"],
+      package_ids: ["fixture/runtime"], capability_ids: ["capability.fixture.runtime"],
+      ownership_boundaries: [{
+        subject_ref: "capability.fixture.runtime", data_owner: "runtime", access_owner: "runtime",
+        lifecycle_owner: "runtime", interface_owner: "runtime", runtime_owner: "runtime",
+      }],
+      required_relations: ["component.fixture.runtime->capability.fixture.runtime"],
+      allowed_relations: [], forbidden_relations: ["capability.fixture.runtime->capability.fixture.legacy"],
       required_dependencies: [], forbidden_dependencies: ["fixture/runtime->fixture/legacy"],
     },
   };
@@ -221,6 +228,27 @@ try {
 
   const disabled = technology.execute("disable", skill, { apply: true });
   check("disabled_state_fails_closed", disabled.status === "success" && technology.verify(skill, { significantWork: true }).status === "blocked");
+
+  const largeProvider = initRepo(root, "large-provider");
+  addTarget(largeProvider);
+  const emptyBlob = spawnSync("git", ["hash-object", "-w", "--stdin"], {
+    cwd: largeProvider, input: "", encoding: "utf8",
+  }).stdout.trim();
+  const padding = "x".repeat(190);
+  const indexInfo = Array.from({ length: 5200 }, (_, index) =>
+    `100644 ${emptyBlob}\tarchive/${String(index).padStart(5, "0")}-${padding}.txt\n`
+  ).join("");
+  const indexed = spawnSync("git", ["update-index", "--index-info"], {
+    cwd: largeProvider, input: indexInfo, encoding: "utf8", maxBuffer: 64 * 1024 * 1024,
+  });
+  check("large_repository_fixture_created", indexed.status === 0, indexed.stderr);
+  git(largeProvider, "commit", "-qm", "large tracked index");
+  const largeRevision = git(largeProvider, "rev-parse", "HEAD");
+  check("large_repository_enable", technology.execute("enable", largeProvider, { apply: true }).status === "success");
+  const largeProvided = technology.execute("provide", largeProvider, {
+    apply: true, targetId: TARGET_ID, semanticDigest: SEMANTIC_DIGEST, providerRevision: largeRevision,
+  });
+  check("large_repository_target_is_not_lost_to_process_buffer", largeProvided.status === "success", largeProvided.blockers);
 
   const cli = spawnSync(process.execPath, [path.join(__dirname, "mirai-graph.js"), "technology", "explain", federation], { encoding: "utf8" });
   const cliResult = JSON.parse(cli.stdout);

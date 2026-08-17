@@ -4,6 +4,15 @@ All notable changes to Mirai Graph will be documented in this file.
 
 ## [Unreleased]
 
+## [1.0.0-rc.10] - 2026-08-17
+
+### Fixed
+
+- Project Technology now reads complete tracked-file inventories in large
+  repositories instead of accepting Node's default child-process buffer.
+- A regression proves that an accepted target remains discoverable after more
+  than one megabyte of earlier tracked paths.
+
 ## [1.0.0-rc.9] - 2026-08-17
 
 ### Fixed

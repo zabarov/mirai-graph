@@ -47,6 +47,11 @@ references, Done When, requirements and acceptance references, constraints,
 non-goals, deferred boundaries, approved repository/owner/package/file/action
 scope, the accepted architecture boundary and a contract digest.
 
+The architecture boundary carries exact component, package and capability
+identities, ownership for data/access/lifecycle/interface/runtime, required and
+forbidden relations, and dependency constraints. This keeps an imported target
+executable without copying the provider's private source or full graph.
+
 ## Hybrid Source Of Truth
 
 Project Technology may select graph objects and point to raw sources. It must

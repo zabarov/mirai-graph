@@ -77,7 +77,11 @@ function result(operation, operationMode, status, extra = {}) {
 }
 
 function git(repo, ...args) {
-  const completed = spawnSync("git", args, { cwd: repo, encoding: "utf8" });
+  const completed = spawnSync("git", args, {
+    cwd: repo,
+    encoding: "utf8",
+    maxBuffer: 64 * 1024 * 1024,
+  });
   return completed.status === 0 ? completed.stdout.trim() : "";
 }
 
@@ -225,7 +229,11 @@ function normalizeExecutionContract(value) {
   scopes.sort((a, b) => canonicalBytes(a).localeCompare(canonicalBytes(b)));
 
   const architecture = value.architecture_contract && typeof value.architecture_contract === "object" && !Array.isArray(value.architecture_contract) ? value.architecture_contract : {};
-  const architectureAllowed = new Set(["contract_ref", "acceptance_ref", "lifecycle", "owner_ids", "package_ids", "required_dependencies", "forbidden_dependencies"]);
+  const architectureAllowed = new Set([
+    "contract_ref", "acceptance_ref", "lifecycle", "owner_ids", "component_ids",
+    "package_ids", "capability_ids", "ownership_boundaries", "required_relations",
+    "allowed_relations", "forbidden_relations", "required_dependencies", "forbidden_dependencies",
+  ]);
   if (Object.keys(architecture).some((key) => !architectureAllowed.has(key))) blockers.push("provider_architecture_contract_not_bounded");
   const contractRef = String(architecture.contract_ref || "").trim();
   const acceptanceRef = String(architecture.acceptance_ref || "").trim();
@@ -234,7 +242,29 @@ function normalizeExecutionContract(value) {
   if (!REF_RE.test(acceptanceRef)) blockers.push("provider_architecture_acceptance_ref_missing_or_unsafe");
   if (!ACCEPTED_LIFECYCLES.has(lifecycle)) blockers.push("provider_architecture_not_accepted");
   const ownerIds = boundedRefs(architecture.owner_ids, "architecture_owner_ids", blockers);
+  const componentIds = boundedRefs(architecture.component_ids, "architecture_component_ids", blockers);
   const packageIds = boundedRefs(architecture.package_ids, "architecture_package_ids", blockers);
+  const capabilityIds = boundedRefs(architecture.capability_ids, "architecture_capability_ids", blockers);
+  const ownershipBoundaries = [];
+  if (!Array.isArray(architecture.ownership_boundaries) || architecture.ownership_boundaries.length === 0) blockers.push("provider_architecture_ownership_boundaries_empty");
+  else for (const boundary of architecture.ownership_boundaries) {
+    const keys = ["subject_ref", "data_owner", "access_owner", "lifecycle_owner", "interface_owner", "runtime_owner"];
+    if (!boundary || typeof boundary !== "object" || Array.isArray(boundary) || Object.keys(boundary).some((key) => !keys.includes(key))) {
+      blockers.push("provider_architecture_ownership_boundary_invalid"); continue;
+    }
+    const normalizedBoundary = Object.fromEntries(keys.map((key) => [key, String(boundary[key] || "").trim()]));
+    if (Object.values(normalizedBoundary).some((id) => !REF_RE.test(id))) {
+      blockers.push("provider_architecture_ownership_boundary_unsafe"); continue;
+    }
+    if (![...componentIds, ...packageIds, ...capabilityIds].includes(normalizedBoundary.subject_ref)) blockers.push("provider_architecture_ownership_subject_unknown");
+    if (["data_owner", "access_owner", "lifecycle_owner", "interface_owner", "runtime_owner"].some((key) => !ownerIds.includes(normalizedBoundary[key]))) blockers.push("provider_architecture_boundary_owner_unapproved");
+    ownershipBoundaries.push(normalizedBoundary);
+  }
+  ownershipBoundaries.sort((a, b) => canonicalBytes(a).localeCompare(canonicalBytes(b)));
+  const requiredRelations = boundedRelations(architecture.required_relations, "architecture_required_relations", blockers);
+  const allowedRelations = boundedRelations(architecture.allowed_relations, "architecture_allowed_relations", blockers);
+  const forbiddenRelations = boundedRelations(architecture.forbidden_relations, "architecture_forbidden_relations", blockers);
+  if (requiredRelations.some((item) => forbiddenRelations.includes(item))) blockers.push("provider_architecture_forbidden_relation");
   const requiredDependencies = boundedRelations(architecture.required_dependencies, "required_dependencies", blockers);
   const forbiddenDependencies = boundedRelations(architecture.forbidden_dependencies, "forbidden_dependencies", blockers);
   if (requiredDependencies.some((item) => forbiddenDependencies.includes(item))) blockers.push("provider_architecture_forbidden_dependency");
@@ -255,7 +285,13 @@ function normalizeExecutionContract(value) {
       acceptance_ref: acceptanceRef,
       lifecycle,
       owner_ids: ownerIds,
+      component_ids: componentIds,
       package_ids: packageIds,
+      capability_ids: capabilityIds,
+      ownership_boundaries: ownershipBoundaries,
+      required_relations: requiredRelations,
+      allowed_relations: allowedRelations,
+      forbidden_relations: forbiddenRelations,
       required_dependencies: requiredDependencies,
       forbidden_dependencies: forbiddenDependencies,
     },
