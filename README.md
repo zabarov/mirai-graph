@@ -10,7 +10,7 @@ Use it when a software project has useful knowledge spread across README files,
 docs, issues, chats, code comments and AI prompts, and you need a small
 machine-readable map that developers and AI assistants can validate and reuse.
 
-Status: public `1.0.0-rc.7` release candidate.
+Status: public `1.0.0-rc.8` release candidate.
 
 ## What Problem Does It Solve?
 
@@ -42,9 +42,8 @@ Start with a normal repository and use Mirai Graph to:
 
 ## Current Installation Status
 
-The repository is ready as a release candidate, but `mirai-graph@1.0.0-rc.7` is
-not published on npm yet. Until npm publication is complete, use the repository
-checkout path:
+The repository is ready as the `mirai-graph@1.0.0-rc.8` release candidate.
+Until npm publication is confirmed, use the repository checkout path:
 
 ```bash
 git clone https://github.com/zabarov/mirai-graph.git
@@ -81,6 +80,40 @@ What each command does:
 
 If you are using a repository checkout before npm publication, run the same
 commands through `node packages/cli/mirai-graph.js` from this repository.
+
+## Project Technology
+
+Project Technology is the executable part of Mirai Graph. It gives ordinary
+projects, skills, platforms and federations one safe way to build task context,
+bind an accepted target and verify that work still follows it.
+
+Enable it in the existing root manifest:
+
+```json
+{
+  "extensions": {
+    "mirai.project_technology": {
+      "contract_version": "1.0.0",
+      "enabled": true,
+      "context_policy": "task_scoped",
+      "source_boundary": "hybrid_sot"
+    }
+  }
+}
+```
+
+Read-only operations never need `--apply`:
+
+```bash
+mirai-graph technology explain .
+mirai-graph technology status .
+mirai-graph technology context . --task "implement the approved feature"
+mirai-graph technology verify . --significant-work
+```
+
+Changing operations return a preview unless `--apply` is explicit. See
+[Project Technology](standard/project-technology.md) for provider/consumer
+binding, local state and safety boundaries.
 
 ## What Files Will Be Created?
 

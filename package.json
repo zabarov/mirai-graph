@@ -1,6 +1,6 @@
 {
   "name": "mirai-graph",
-  "version": "1.0.0-rc.7",
+  "version": "1.0.0-rc.8",
   "private": false,
   "description": "An evolutionary graph operating model for managing the growth of complex systems.",
   "license": "MIT",
@@ -9,7 +9,13 @@
     "mirai-graph": "packages/cli/mirai-graph.js",
     "mirai_graph": "packages/cli/mirai-graph.js"
   },
+  "exports": {
+    "./project-technology": "./packages/project-technology/index.js"
+  },
   "scripts": {
+    "pretest": "npm run test:project-technology",
+    "test:project-technology": "node packages/cli/validate-project-technology.js",
+    "validate:project-technology-schemas": "node -e \"JSON.parse(require('fs').readFileSync('schemas/project-technology-extension.schema.json')); JSON.parse(require('fs').readFileSync('schemas/project-technology-target-export.schema.json'))\"",
     "validate:graph-manifest": "node packages/cli/validate-graph-manifest-migration.js",
     "validate:minimal": "node packages/cli/validate-mirai-graph.js examples/minimal-graph",
     "validate:benchmark": "node packages/cli/validate-mirai-graph.js benchmarks/synthetic-context-reduction-v0",

@@ -4,6 +4,30 @@ All notable changes to Mirai Graph will be documented in this file.
 
 ## [Unreleased]
 
+## [1.0.0-rc.8] - 2026-08-17
+
+### Added
+
+- Public `mirai.project_technology` extension contract for projects, skills,
+  platforms and multi-repository systems.
+- One CLI and programmatic API for safe inventory, task-scoped context, target
+  provider export/import, exact verification and idempotent refresh-binding.
+- Fail-closed fixtures for incomplete or tampered contracts, stale providers,
+  dependency cycles, disabled state and blocked significant work.
+
+### Changed
+
+- `skill_runtime` remains the vocabulary for skill-specific knowledge, while
+  Project Technology supplies the shared execution mechanism.
+- Local mutable state now belongs under `.mirai-graph/project-technology/`.
+
+### Safety Boundary
+
+- Bounded provider exports contain identifiers, constraints, approved scope
+  and digests only. Raw documents, private source and full graph content remain
+  with their owners.
+- Read-only diagnostics remain available when significant work is blocked.
+
 ## [1.0.0-rc.7] - 2026-08-06
 
 ### Added

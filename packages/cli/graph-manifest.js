@@ -121,6 +121,18 @@ function validateManifest(manifest, repo = null) {
   }
   if (Array.isArray(manifest.aliases) && new Set(manifest.aliases).size !== manifest.aliases.length) errors.push("aliases must be unique");
   if (Array.isArray(manifest.profiles) && new Set(manifest.profiles).size !== manifest.profiles.length) errors.push("profiles must be unique");
+  const technology = manifest?.extensions?.["mirai.project_technology"];
+  if (technology !== undefined) {
+    if (!technology || typeof technology !== "object" || Array.isArray(technology)) errors.push("extensions.mirai.project_technology must be an object");
+    else {
+      const expected = {
+        contract_version: "1.0.0", context_policy: "task_scoped", source_boundary: "hybrid_sot",
+      };
+      for (const field of Object.keys(expected)) if (technology[field] !== expected[field]) errors.push(`extensions.mirai.project_technology.${field} is invalid`);
+      if (typeof technology.enabled !== "boolean") errors.push("extensions.mirai.project_technology.enabled is invalid");
+      for (const field of Object.keys(technology)) if (!(field in expected) && field !== "enabled") errors.push(`extensions.mirai.project_technology has unknown field ${field}`);
+    }
+  }
   if (manifest.graph !== null) {
     if (!manifest.graph || typeof manifest.graph !== "object" || Array.isArray(manifest.graph)) {
       errors.push("graph must be an object or null");

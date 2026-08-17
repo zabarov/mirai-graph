@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mirai-graph.dev/schemas/project-technology-extension.schema.json",
+  "title": "Mirai Graph Project Technology Extension",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract_version", "enabled", "context_policy", "source_boundary"],
+  "properties": {
+    "contract_version": { "const": "1.0.0" },
+    "enabled": { "type": "boolean" },
+    "context_policy": { "const": "task_scoped" },
+    "source_boundary": { "const": "hybrid_sot" }
+  }
+}

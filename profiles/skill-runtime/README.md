@@ -69,6 +69,11 @@ Graph-mode can become the primary context only for a declared task and scope
 after runtime preflight. Sensitive work requires fallback to raw sources and
 the relevant approval gates.
 
+The profile does not provide a separate runtime engine. Skills use the public
+[Project Technology](../../standard/project-technology.md) extension for
+inventory, task-scoped context, synchronization and verification. The profile
+continues to own the vocabulary of skill capabilities, rules and relations.
+
 ## Federation Routing Control Loop
 
 When a skill runtime participates in a larger federation, routing should be

@@ -66,7 +66,12 @@
     "evolution": { "type": "object" },
     "extensions": {
       "type": "object",
-      "propertyNames": { "pattern": "^[a-z0-9][a-z0-9_.-]*$" }
+      "propertyNames": { "pattern": "^[a-z0-9][a-z0-9_.-]*$" },
+      "properties": {
+        "mirai.project_technology": {
+          "$ref": "project-technology-extension.schema.json"
+        }
+      }
     }
   },
   "allOf": [

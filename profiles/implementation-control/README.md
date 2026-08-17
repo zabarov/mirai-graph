@@ -161,6 +161,10 @@ In short: `project-management` coordinates work; `implementation-control`
 governs movement from plans and generated context into bounded action,
 evidence, approved updates and process learning.
 
+The shared [Project Technology](../../standard/project-technology.md) extension
+supplies inventory, task context and exact accepted-target verification. It
+does not replace this profile's launch, transition and evidence rules.
+
 ## Public Example
 
 Executable example:

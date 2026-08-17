@@ -71,6 +71,11 @@ Mirai Graph documents and profiles should make their status visible:
 | `organization_governance` | Departments, responsibility, policies, controls, strategy, programs, metrics and organization-scale feedback | Country-scale civic governance as a core 1.0 claim |
 | `societal_governance` | Proposal/experimental public governance modeling | Core 1.0 release-candidate conformance |
 
+`mirai.project_technology` is an extension shared by `project_management`,
+`implementation_control` and `skill_runtime`. It executes inventory, context,
+target binding and verification. It does not add another profile or take
+ownership of any profile's domain objects.
+
 ## Extension Before Profile
 
 Use this sequence before creating a new profile:

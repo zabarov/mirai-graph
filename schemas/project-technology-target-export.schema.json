@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mirai-graph.dev/schemas/project-technology-target-export.schema.json",
+  "title": "Mirai Graph bounded Project Technology target export",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "target_id", "semantic_digest", "provider_revision",
+    "decision_refs", "goal_binding", "requirement_bindings", "constraint_ids",
+    "non_goal_ids", "deferred_boundary_ids", "allowed_change_scope",
+    "architecture_contract", "execution_contract_digest"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "target_id": { "type": "string", "minLength": 2 },
+    "semantic_digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "provider_revision": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+    "decision_refs": { "$ref": "#/$defs/nonEmptyRefs" },
+    "goal_binding": {
+      "type": "object", "additionalProperties": false,
+      "required": ["goal_id", "done_when_ids"],
+      "properties": { "goal_id": { "type": "string" }, "done_when_ids": { "$ref": "#/$defs/nonEmptyRefs" } }
+    },
+    "requirement_bindings": { "type": "array", "minItems": 1, "items": { "type": "object" } },
+    "constraint_ids": { "$ref": "#/$defs/nonEmptyRefs" },
+    "non_goal_ids": { "$ref": "#/$defs/nonEmptyRefs" },
+    "deferred_boundary_ids": { "$ref": "#/$defs/nonEmptyRefs" },
+    "allowed_change_scope": { "type": "array", "minItems": 1, "items": { "type": "object" } },
+    "architecture_contract": { "type": "object" },
+    "execution_contract_digest": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+  },
+  "$defs": {
+    "nonEmptyRefs": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "minLength": 2 } }
+  }
+}

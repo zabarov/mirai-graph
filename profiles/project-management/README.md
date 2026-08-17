@@ -113,3 +113,7 @@ See:
 
 - `docs/transfer/project-management-standard-harvest-2026-06-02.md`
 - `examples/managed-project-control-loop/README.md`
+
+Repository execution uses the shared
+[Project Technology](../../standard/project-technology.md) extension. This
+profile still owns goals, stages, tasks, decisions and delivery meaning.

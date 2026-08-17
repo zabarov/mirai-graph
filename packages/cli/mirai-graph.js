@@ -24,6 +24,8 @@ function usage() {
   console.error("  mirai-graph explain process-transition <state-machine-file> <transition-request-file>");
   console.error("  mirai-graph report playground");
   console.error("  mirai-graph release state [--markdown] [--require-git-tag] [--require-github-release] [--require-npm-published]");
+  console.error("  mirai-graph technology <explain|status|plan|verify|context> [repository] [options]");
+  console.error("  mirai-graph technology <enable|sync|connect|disconnect|provide|disable|repair> [repository] [options] [--apply]");
   console.error("");
   console.error("Boundary:");
   console.error("  Reports explain validation decisions. They do not authorize canonical updates.");
@@ -45,6 +47,14 @@ if (args.length === 0 || args[0] === "--help" || args[0] === "-h") {
 }
 
 const [command, subcommand, ...rest] = args;
+
+if (command === "technology") {
+  if (!subcommand) {
+    usage();
+    process.exit(1);
+  }
+  run("packages/cli/project-technology.js", [subcommand, ...rest]);
+}
 
 if (command === "init" || command === "detect" || command === "bootstrap") {
   const forwarded = subcommand ? [subcommand, ...rest] : rest;
