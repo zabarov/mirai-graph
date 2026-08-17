@@ -230,16 +230,18 @@ function normalizeExecutionContract(value) {
 
   const architecture = value.architecture_contract && typeof value.architecture_contract === "object" && !Array.isArray(value.architecture_contract) ? value.architecture_contract : {};
   const architectureAllowed = new Set([
-    "contract_ref", "acceptance_ref", "lifecycle", "owner_ids", "component_ids",
+    "contract_ref", "acceptance_ref", "architecture_owner_id", "lifecycle", "owner_ids", "component_ids",
     "package_ids", "capability_ids", "ownership_boundaries", "required_relations",
     "allowed_relations", "forbidden_relations", "required_dependencies", "forbidden_dependencies",
   ]);
   if (Object.keys(architecture).some((key) => !architectureAllowed.has(key))) blockers.push("provider_architecture_contract_not_bounded");
   const contractRef = String(architecture.contract_ref || "").trim();
   const acceptanceRef = String(architecture.acceptance_ref || "").trim();
+  const architectureOwnerId = String(architecture.architecture_owner_id || "").trim();
   const lifecycle = String(architecture.lifecycle || "").trim();
   if (!REF_RE.test(contractRef)) blockers.push("provider_architecture_contract_ref_missing_or_unsafe");
   if (!REF_RE.test(acceptanceRef)) blockers.push("provider_architecture_acceptance_ref_missing_or_unsafe");
+  if (!REF_RE.test(architectureOwnerId)) blockers.push("provider_architecture_owner_missing_or_unsafe");
   if (!ACCEPTED_LIFECYCLES.has(lifecycle)) blockers.push("provider_architecture_not_accepted");
   const ownerIds = boundedRefs(architecture.owner_ids, "architecture_owner_ids", blockers);
   const componentIds = boundedRefs(architecture.component_ids, "architecture_component_ids", blockers);
@@ -283,6 +285,7 @@ function normalizeExecutionContract(value) {
     architecture_contract: {
       contract_ref: contractRef,
       acceptance_ref: acceptanceRef,
+      architecture_owner_id: architectureOwnerId,
       lifecycle,
       owner_ids: ownerIds,
       component_ids: componentIds,

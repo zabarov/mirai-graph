@@ -58,7 +58,7 @@ function executionContract() {
     }],
     architecture_contract: {
       contract_ref: "contract.fixture.architecture",
-      acceptance_ref: "decision.fixture.accepted", lifecycle: "accepted",
+      acceptance_ref: "decision.fixture.accepted", architecture_owner_id: "human.fixture.owner", lifecycle: "accepted",
       owner_ids: ["runtime"], component_ids: ["component.fixture.runtime"],
       package_ids: ["fixture/runtime"], capability_ids: ["capability.fixture.runtime"],
       ownership_boundaries: [{

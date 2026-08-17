@@ -4,6 +4,15 @@ All notable changes to Mirai Graph will be documented in this file.
 
 ## [Unreleased]
 
+## [1.0.0-rc.11] - 2026-08-17
+
+### Fixed
+
+- The bounded architecture contract now preserves the exact human architecture
+  owner together with component, capability and operational ownership data.
+- Federation adapters can consume the public contract without reconstructing
+  owner identity from a package owner.
+
 ## [1.0.0-rc.10] - 2026-08-17
 
 ### Fixed
