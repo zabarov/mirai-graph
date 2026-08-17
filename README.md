@@ -10,7 +10,7 @@ Use it when a software project has useful knowledge spread across README files,
 docs, issues, chats, code comments and AI prompts, and you need a small
 machine-readable map that developers and AI assistants can validate and reuse.
 
-Status: public `1.0.0-rc.8` release candidate.
+Status: public `1.0.0-rc.9` release candidate.
 
 ## What Problem Does It Solve?
 
@@ -42,7 +42,7 @@ Start with a normal repository and use Mirai Graph to:
 
 ## Current Installation Status
 
-The repository is ready as the `mirai-graph@1.0.0-rc.8` release candidate.
+The repository is ready as the `mirai-graph@1.0.0-rc.9` release candidate.
 Until npm publication is confirmed, use the repository checkout path:
 
 ```bash

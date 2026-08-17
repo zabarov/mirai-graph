@@ -31,9 +31,9 @@ function usage() {
   console.error("  Reports explain validation decisions. They do not authorize canonical updates.");
 }
 
-function run(script, args) {
+function run(script, args, cwd = root) {
   const result = spawnSync(node, [path.join(root, script), ...args], {
-    cwd: root,
+    cwd,
     stdio: "inherit"
   });
   process.exit(result.status === null ? 1 : result.status);
@@ -53,7 +53,7 @@ if (command === "technology") {
     usage();
     process.exit(1);
   }
-  run("packages/cli/project-technology.js", [subcommand, ...rest]);
+  run("packages/cli/project-technology.js", [subcommand, ...rest], process.cwd());
 }
 
 if (command === "init" || command === "detect" || command === "bootstrap") {

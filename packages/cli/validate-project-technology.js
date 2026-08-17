@@ -226,6 +226,18 @@ try {
   const cliResult = JSON.parse(cli.stdout);
   check("unified_cli_contract", cli.status === 0 && cliResult.operation_id === "mirai.project_technology.explain" && cliResult.operation_mode === "read_only");
 
+  const cliFromCwd = spawnSync(process.execPath, [path.join(__dirname, "mirai-graph.js"), "technology", "status"], {
+    cwd: federation, encoding: "utf8",
+  });
+  const cliFromCwdResult = JSON.parse(cliFromCwd.stdout);
+  check("unified_cli_defaults_to_caller_cwd", cliFromCwd.status === 0 && cliFromCwdResult.repository_id === "fixture-federation", cliFromCwdResult);
+
+  const cliDot = spawnSync(process.execPath, [path.join(__dirname, "mirai-graph.js"), "technology", "status", "."], {
+    cwd: federation, encoding: "utf8",
+  });
+  const cliDotResult = JSON.parse(cliDot.stdout);
+  check("unified_cli_resolves_relative_repo_from_caller_cwd", cliDot.status === 0 && cliDotResult.repository_id === "fixture-federation", cliDotResult);
+
   process.stdout.write(`${JSON.stringify({ status: "success", checks_passed: checks.length, checks_failed: 0, checks }, null, 2)}\n`);
 } finally {
   fs.rmSync(root, { recursive: true, force: true });

@@ -4,6 +4,14 @@ All notable changes to Mirai Graph will be documented in this file.
 
 ## [Unreleased]
 
+## [1.0.0-rc.9] - 2026-08-17
+
+### Fixed
+
+- `mirai-graph technology ...` now resolves an omitted repository or `.` from
+  the caller's working directory instead of the installed package directory.
+- CLI regressions cover omitted, relative and absolute repository selection.
+
 ## [1.0.0-rc.8] - 2026-08-17
 
 ### Added
