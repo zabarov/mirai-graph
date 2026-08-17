@@ -23,7 +23,7 @@ The repository should become the public source of truth for:
 - synthetic benchmarks and playground materials;
 - publications, citations and research evidence.
 
-For the current public release candidate, "source of truth" means public
+For the current stable release, "source of truth" means public
 standardization and reproducible examples. It does not mean that private
 project graphs, internal workflows or generated context packs are published
 here.
@@ -87,7 +87,7 @@ The model is not just a knowledge graph. It combines:
 - implementation and adoption methods.
 - organization-governance coordination patterns.
 
-The current 1.0 release candidate also makes the operating model executable
+The stable 1.0 release also makes the operating model executable
 enough to test:
 
 - launch records define bounded work permission;
@@ -182,7 +182,7 @@ test the model:
 
 Synthetic evidence must be clearly separated from real-world validation.
 
-In the current release candidate, `playground/` is an index of runnable CLI
+In the stable release, `playground/` is an index of runnable CLI
 examples. A hosted or interactive playground is future work.
 
 ### 6. Link Publications And Research Evidence

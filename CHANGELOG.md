@@ -4,6 +4,21 @@ All notable changes to Mirai Graph will be documented in this file.
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-08-17
+
+### Changed
+
+- Project Technology is now the stable public execution mechanism for ordinary
+  projects, skills, platforms and multi-repository systems.
+- The package, CLI and programmatic API leave release-candidate status without
+  changing the public `graph.json` schema or the accepted safety boundaries.
+
+### Evidence Boundary
+
+- Stable means the documented contracts and release checks are supported for
+  production adoption. It does not claim that every project outcome is correct
+  without project-specific goals, evidence and review.
+
 ## [1.0.0-rc.11] - 2026-08-17
 
 ### Fixed

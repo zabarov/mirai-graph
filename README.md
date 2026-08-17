@@ -10,7 +10,7 @@ Use it when a software project has useful knowledge spread across README files,
 docs, issues, chats, code comments and AI prompts, and you need a small
 machine-readable map that developers and AI assistants can validate and reuse.
 
-Status: public `1.0.0-rc.11` release candidate.
+Status: stable public `1.0.0` release.
 
 ## What Problem Does It Solve?
 
@@ -42,8 +42,8 @@ Start with a normal repository and use Mirai Graph to:
 
 ## Current Installation Status
 
-The repository is ready as the `mirai-graph@1.0.0-rc.11` release candidate.
-Until npm publication is confirmed, use the repository checkout path:
+The repository is ready as the stable `mirai-graph@1.0.0` package. To verify a
+repository checkout directly, use:
 
 ```bash
 git clone https://github.com/zabarov/mirai-graph.git
@@ -52,7 +52,7 @@ npm install
 npm run release:check
 ```
 
-After npm publication, external projects will use:
+External projects use:
 
 ```bash
 npm install -D mirai-graph
@@ -272,7 +272,7 @@ routes. See [Profile Boundaries](standard/profile-boundaries.md).
 
 ## Release Candidate
 
-The current release candidate consolidates the validator-backed public standard
+The stable 1.0 release consolidates the validator-backed public standard
 across the core model, profiles, executable process control, instrumentation,
 Character Layer, adopter kit and evidence boundaries.
 
