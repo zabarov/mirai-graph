@@ -4,6 +4,26 @@ All notable changes to Mirai Graph will be documented in this file.
 
 ## [Unreleased]
 
+## [1.1.1] - 2026-08-26
+
+### Fixed
+
+- Sequential context traversal now reads the accepted legacy aliases used by
+  existing `graph.json` 2.0.0 repositories (`type`, `from`, `to`,
+  `relation_type` and `status`) without requiring a graph rewrite.
+- Established structural and required relation names are projected onto the
+  public traversal vocabulary while preserving their direction and mandatory
+  closure semantics.
+- Existing accepted Mirai readiness levels and revision-bound objects without
+  an explicit historical readiness field remain usable; draft, seed, gap,
+  blocked, stale and deprecated states still fail closed.
+
+### Compatibility
+
+- This patch makes the 1.1.0 compatibility promise executable. It does not
+  change schema `2.0.0`, the Project Technology activation contract, provider
+  transport or write boundaries.
+
 ## [1.1.0] - 2026-08-26
 
 ### Added

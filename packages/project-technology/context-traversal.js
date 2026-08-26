@@ -19,7 +19,13 @@ const SUPPORTED_RELATIONS = new Set([
   "conflicts_with",
 ]);
 const TERMINAL_KINDS = new Set(["resource", "source", "check", "gate", "constraint"]);
-const ACTIVE_READINESS = new Set(["ready", "accepted", "implemented", "validated", "operating", "evolving"]);
+const ACTIVE_READINESS = new Set(["ready", "accepted", "implemented", "validated", "operating", "evolving", "pilot"]);
+const LEGACY_ACTIVE_READINESS = new Set([
+  "r3_structured", "r3_specified", "r4_integrated", "r4_validated",
+  "r4_executable", "r4_evidence_ready", "a4_validated_projection",
+  "a6_accepted_local_candidate", "t5_implementation_ready",
+  "active_controlled_paid_test",
+]);
 const BLOCKING_READINESS = new Set(["blocked", "deprecated", "stale", "retired", "superseded"]);
 const SECRET_PARTS = [".env", "credential", "secret", "token", "password", "cookie", "private-key", "id_rsa", ".pem", ".p12"];
 
@@ -53,6 +59,21 @@ function gitBlob(repo, relative) {
   return completed.status === 0 ? completed.stdout : null;
 }
 
+function trackedState(repo) {
+  const trackedRun = spawnSync("git", ["ls-files", "-z"], { cwd: repo, encoding: "utf8", maxBuffer: 64 * 1024 * 1024 });
+  const dirtyRun = spawnSync("git", ["diff", "--name-only", "-z", "HEAD", "--"], { cwd: repo, encoding: "utf8", maxBuffer: 64 * 1024 * 1024 });
+  return {
+    tracked: new Set(trackedRun.status === 0 ? trackedRun.stdout.split("\0").filter(Boolean) : []),
+    dirty: new Set(dirtyRun.status === 0 ? dirtyRun.stdout.split("\0").filter(Boolean) : []),
+  };
+}
+
+function graphBlob(graph, relative) {
+  if (!graph.tracked?.has(relative) || graph.dirty?.has(relative)) return null;
+  if (!graph.blobCache.has(relative)) graph.blobCache.set(relative, gitBlob(graph.repo, relative));
+  return graph.blobCache.get(relative);
+}
+
 function revisionBound(repo, relative) {
   if (!gitBlob(repo, relative)) return false;
   return spawnSync("git", ["diff", "--quiet", "HEAD", "--", relative], { cwd: repo }).status === 0;
@@ -70,6 +91,54 @@ function safeRef(value) {
   if (typeof value !== "string" || !value.trim() || value.length > 512) return false;
   if (/^(repo|https):\/\//.test(value)) return !SECRET_PARTS.some((part) => value.toLowerCase().includes(part));
   return safeRelative(value);
+}
+
+const LEGACY_RELATION_TYPES = new Map([
+  ["implements", { type: "contains" }],
+  ["has_capability", { type: "contains" }],
+  ["uses_process", { type: "contains" }],
+  ["includes", { type: "contains" }],
+  ["member_of", { type: "contains", reverse: true }],
+  ["refines", { type: "specializes" }],
+  ["depends_on", { type: "requires" }],
+  ["requires_current_source_check", { type: "requires" }],
+  ["requires_gate", { type: "validated_by" }],
+  ["requires_quality_gate", { type: "validated_by" }],
+  ["tested_by_scenario", { type: "validated_by" }],
+  ["validates", { type: "validated_by", reverse: true }],
+  ["assessed_by", { type: "validated_by" }],
+  ["blocked_without_gate", { type: "validated_by" }],
+  ["conforms_to", { type: "governed_by" }],
+  ["constrained_by", { type: "governed_by" }],
+  ["evidenced_by", { type: "documented_by" }],
+]);
+
+function normalizeObject(value) {
+  const normalized = { ...value };
+  if (!normalized.kind && normalized.type) normalized.kind = normalized.type;
+  if (!normalized.readiness) normalized.readiness = normalized.lifecycle || normalized.status || "accepted";
+  if (!value.kind) delete normalized.type;
+  return normalized;
+}
+
+function normalizeRelation(value) {
+  const legacyType = value.type || value.relation_type;
+  const mapping = LEGACY_RELATION_TYPES.get(legacyType) || { type: legacyType };
+  let source = value.source || value.from;
+  let target = value.target || value.to;
+  if (mapping.reverse) [source, target] = [target, source];
+  const normalized = {
+    ...value,
+    type: mapping.type,
+    source,
+    target,
+    readiness: value.readiness || value.status || value.lifecycle || "accepted",
+  };
+  delete normalized.from;
+  delete normalized.to;
+  delete normalized.relation_type;
+  delete normalized.status;
+  return normalized;
 }
 
 function loadEntry(repo, relative, kind, output, visited = new Set()) {
@@ -112,14 +181,15 @@ function readGraph(repoArg) {
   for (const relative of manifest.graph?.relations || []) loadEntry(repo, relative, "relations", output);
   const objects = new Map();
   for (const record of output.objects) {
-    const id = String(record.value.id || "").trim();
+    const normalized = normalizeObject(record.value);
+    const id = String(normalized.id || "").trim();
     if (!id || objects.has(id)) { output.blockers.push(id ? "duplicate_object_id" : "object_id_missing"); continue; }
-    objects.set(id, record);
+    objects.set(id, { ...record, value: normalized });
   }
   const relations = [];
   const relationIds = new Set();
   for (const record of output.relations) {
-    const relation = record.value;
+    const relation = normalizeRelation(record.value);
     const id = String(relation.id || "").trim();
     if (!id || relationIds.has(id)) { output.blockers.push(id ? "duplicate_relation_id" : "relation_id_missing"); continue; }
     relationIds.add(id);
@@ -128,11 +198,12 @@ function readGraph(repoArg) {
     relations.push({ ...relation, _record: record });
   }
   const revision = git(repo, "rev-parse", "HEAD") || null;
+  const state = trackedState(repo);
   for (const relative of unique([
     "graph.json",
     ...[...objects.values()].map((record) => record.relative),
     ...relations.map((relation) => relation._record.relative),
-  ])) if (!revisionBound(repo, relative)) output.blockers.push("graph_source_not_revision_bound");
+  ])) if (!state.tracked.has(relative) || state.dirty.has(relative)) output.blockers.push("graph_source_not_revision_bound");
   const graphPayload = {
     manifest: { id: manifest.id, scope: manifest.scope, profiles: manifest.profiles, graph: manifest.graph },
     objects: [...objects.values()].map((record) => record.value).sort((a, b) => a.id.localeCompare(b.id)),
@@ -146,6 +217,9 @@ function readGraph(repoArg) {
     graphDigest: digest(graphPayload),
     objects,
     relations,
+    tracked: state.tracked,
+    dirty: state.dirty,
+    blobCache: new Map(),
     blockers: unique(output.blockers),
   };
 }
@@ -156,6 +230,11 @@ function tokenize(value) {
 
 function readinessOf(object) {
   return String(object.readiness || object.lifecycle || object.status || "unknown").toLowerCase();
+}
+
+function activeReadiness(value) {
+  const normalized = String(value || "").toLowerCase();
+  return ACTIVE_READINESS.has(normalized) || LEGACY_ACTIVE_READINESS.has(normalized);
 }
 
 function outgoing(graph, id) {
@@ -181,7 +260,7 @@ function sourcePassport(graph, record, value) {
     if (!fs.existsSync(absolute) || fs.lstatSync(absolute).isSymbolicLink() || !fs.statSync(absolute).isFile()) {
       return { ref, availability: "unavailable", revision: graph.revision, sha256: null };
     }
-    const blob = gitBlob(graph.repo, ref);
+    const blob = graphBlob(graph, ref);
     return { ref, availability: blob ? "available" : "unbound", revision: graph.revision, sha256: digest(blob || fs.readFileSync(absolute)) };
   }).concat([{ ref: record.relative, availability: "available", revision: graph.revision, sha256: record.sha256 }]);
 }
@@ -446,7 +525,7 @@ function compileContext(repository, traversalReceipt, selectionInput, options = 
   for (const id of closure.ids) {
     const passport = nodePassport(graph, id);
     if (!passport) continue;
-    if (!ACTIVE_READINESS.has(passport.readiness)) blockers.push(`context_node_${passport.readiness}`);
+    if (!activeReadiness(passport.readiness)) blockers.push(`context_node_${passport.readiness}`);
     if (passport.omitted_source_ref_count > 0) blockers.push("unsafe_source_reference_omitted");
     if (passport.sensitive_metadata_detected) blockers.push("context_node_sensitive_metadata");
     if (passport.expansion_policy === "terminal" && passport.expandable) blockers.push("terminal_node_has_children");
@@ -468,7 +547,7 @@ function compileContext(repository, traversalReceipt, selectionInput, options = 
   const includedIds = [...included].sort();
   const includedNodes = includedIds.map((id) => nodePassport(graph, id)).filter(Boolean);
   const includedRelations = graph.relations.filter((relation) => included.has(relation.source) && included.has(relation.target)).map(relationPassport).sort((a, b) => a.id.localeCompare(b.id));
-  for (const relation of includedRelations) if (!ACTIVE_READINESS.has(String(relation.readiness).toLowerCase())) blockers.push(`context_relation_${String(relation.readiness).toLowerCase()}`);
+  for (const relation of includedRelations) if (!activeReadiness(relation.readiness)) blockers.push(`context_relation_${String(relation.readiness).toLowerCase()}`);
   const terminalSourceMap = new Map();
   for (const node of includedNodes.filter((item) => !item.expandable || ["resource", "source"].includes(item.kind))) {
     for (const source of node.source_refs) {

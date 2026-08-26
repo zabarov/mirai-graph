@@ -73,6 +73,44 @@ function createFixture(root, name, scope = "repository", mutation = null) {
   return repo;
 }
 
+function createLegacyFixture(root) {
+  const repo = createFixture(root, "legacy-skill-graph", "skill");
+  const objectFile = path.join(repo, "graph/specs/objects.json");
+  const relationFile = path.join(repo, "graph/specs/relations.json");
+  const objects = JSON.parse(fs.readFileSync(objectFile, "utf8")).map((item) => {
+    const legacy = { ...item, type: item.kind };
+    delete legacy.kind;
+    delete legacy.readiness;
+    return legacy;
+  });
+  const aliases = {
+    contains: "implements",
+    governed_by: "governed_by",
+    validated_by: "validates",
+    documented_by: "evidenced_by",
+  };
+  const relations = JSON.parse(fs.readFileSync(relationFile, "utf8")).map((item) => {
+    const legacyType = aliases[item.type] || item.type;
+    const reverse = item.type === "validated_by";
+    const legacy = {
+      ...item,
+      relation_type: legacyType,
+      from: reverse ? item.target : item.source,
+      to: reverse ? item.source : item.target,
+      status: item.readiness,
+    };
+    delete legacy.type;
+    delete legacy.source;
+    delete legacy.target;
+    delete legacy.readiness;
+    return legacy;
+  });
+  writeJson(objectFile, objects);
+  writeJson(relationFile, relations);
+  git(repo, "add", "."); git(repo, "commit", "-qm", "legacy graph aliases");
+  return repo;
+}
+
 function selection(receipt) {
   return {
     selector: "ai", task_digest: receipt.task.digest, graph_digest: receipt.graph.digest,
@@ -109,6 +147,28 @@ try {
     const discovered = technology.discoverContext(fixture, "deliver application safely", { maxCandidates: 2 });
     check(`universal_scope_${scope}`, discovered.status === "success" && discovered.traversal_receipt.repository_id === name, discovered.blockers);
   }
+
+  const legacyRepo = createLegacyFixture(root);
+  let legacyReceipt = technology.discoverContext(legacyRepo, "build application delivery safely").traversal_receipt;
+  for (const ids of [["capability.delivery"], ["process.delivery"], ["resource.delivery_guide", "constraint.safety", "check.delivery"], ["resource.shared"]]) {
+    legacyReceipt = technology.expandContext(legacyRepo, legacyReceipt, ids, { selector: "ai", reason: "legacy graph compatibility" }).traversal_receipt;
+  }
+  const legacyCompiled = technology.compileContext(legacyRepo, legacyReceipt, selection(legacyReceipt));
+  check("legacy_graph_2_aliases_compile", legacyCompiled.status === "ready", legacyCompiled.blockers);
+  check("legacy_relation_semantics_preserved", legacyCompiled.context_pack.required_closure.object_ids.includes("constraint.safety") && legacyCompiled.context_pack.validators.includes("check.delivery"), legacyCompiled.context_pack);
+  const legacyReadinessRepo = createFixture(root, "legacy-readiness", "skill", (objects) => {
+    objects.find((item) => item.id === "capability.delivery").readiness = "R3_structured";
+  });
+  let legacyReadinessReceipt = technology.discoverContext(legacyReadinessRepo, "build application delivery safely").traversal_receipt;
+  for (const ids of [["capability.delivery"], ["process.delivery"], ["resource.delivery_guide", "constraint.safety", "check.delivery"], ["resource.shared"]]) {
+    legacyReadinessReceipt = technology.expandContext(legacyReadinessRepo, legacyReadinessReceipt, ids).traversal_receipt;
+  }
+  check("legacy_ready_level_compiles", technology.compileContext(legacyReadinessRepo, legacyReadinessReceipt, selection(legacyReadinessReceipt)).status === "ready");
+  const legacyDraftRepo = createFixture(root, "legacy-draft-readiness", "skill", (objects) => {
+    objects.find((item) => item.id === "capability.delivery").readiness = "R2_seed";
+  });
+  const legacyDraftReceipt = technology.discoverContext(legacyDraftRepo, "build application delivery safely").traversal_receipt;
+  check("legacy_draft_level_remains_blocked", technology.compileContext(legacyDraftRepo, legacyDraftReceipt, selection(legacyDraftReceipt)).status !== "ready");
 
   const before = git(repo, "status", "--porcelain=v1");
   const discovered = technology.discoverContext(repo, "build application delivery safely", { maxCandidates: 2 });
