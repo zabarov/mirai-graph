@@ -1,0 +1,47 @@
+[
+  {
+    "id": "relation.capability.release_delivery.contains.process.release_verification",
+    "type": "contains",
+    "source": "capability.release_delivery",
+    "target": "process.release_verification",
+    "readiness": "accepted",
+    "evidence": [],
+    "profile": "core"
+  },
+  {
+    "id": "relation.process.release_verification.documented_by.source.release_guide",
+    "type": "documented_by",
+    "source": "process.release_verification",
+    "target": "source.release_guide",
+    "readiness": "accepted",
+    "evidence": [],
+    "profile": "core"
+  },
+  {
+    "id": "relation.process.release_verification.governed_by.constraint.rollback_required",
+    "type": "governed_by",
+    "source": "process.release_verification",
+    "target": "constraint.rollback_required",
+    "readiness": "accepted",
+    "evidence": [],
+    "profile": "core"
+  },
+  {
+    "id": "relation.process.release_verification.validated_by.check.release_smoke",
+    "type": "validated_by",
+    "source": "process.release_verification",
+    "target": "check.release_smoke",
+    "readiness": "accepted",
+    "evidence": [],
+    "profile": "core"
+  },
+  {
+    "id": "relation.capability.release_delivery.contains.capability.optional_announcement",
+    "type": "contains",
+    "source": "capability.release_delivery",
+    "target": "capability.optional_announcement",
+    "readiness": "accepted",
+    "evidence": [],
+    "profile": "core"
+  }
+]

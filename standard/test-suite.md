@@ -1,6 +1,6 @@
 # Mirai Graph Test Suite
 
-Status: 1.0 release-candidate standard section
+Status: 1.1 stable standard section
 
 ## Purpose
 
@@ -32,6 +32,10 @@ Current checks:
 - score benchmark readiness;
 - run synthetic context-reduction calculation;
 - reject negative fixtures.
+- verify deterministic Project Technology context traversal across project,
+  research, organization, platform, skill-like and multi-repository scopes;
+- reject incomplete mandatory closure, stale nodes, conflicts, cycles,
+  tampered digests, secret-like evidence and context-budget shortcuts.
 
 ## Structural Validation
 

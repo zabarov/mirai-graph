@@ -1,6 +1,6 @@
 # Mirai Graph Relation Model
 
-Status: 1.0 release-candidate standard section
+Status: 1.1 stable standard section
 
 ## Purpose
 
@@ -91,6 +91,16 @@ Initial core relation types:
 - `supersedes`;
 - `belongs_to`;
 - `related_to`.
+
+Project Technology context traversal also standardizes:
+
+- structure: `contains`, `specializes`;
+- mandatory closure: `requires`, `governed_by`, `validated_by`;
+- sources: `documented_by`, `implemented_by`;
+- interaction: `hands_off_to`, `conflicts_with`.
+
+These names are domain-neutral. A consumer may present them with its own user
+vocabulary, but canonical traversal uses the shared relation types.
 
 ## Relation Boundary Rules
 

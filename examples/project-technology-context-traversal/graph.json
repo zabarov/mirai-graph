@@ -1,0 +1,30 @@
+{
+  "$schema": "https://mirai-graph.dev/schemas/graph-manifest.schema.json",
+  "format": "mirai-graph",
+  "schema_version": "2.0.0",
+  "id": "example.project_technology_context_traversal",
+  "aliases": [],
+  "title": "Project Technology Context Traversal Example",
+  "scope": "repository",
+  "kind": "project_graph",
+  "owner": "example.delivery_owner",
+  "profiles": [],
+  "graph": {
+    "root": "graph",
+    "source_of_truth": ["graph"],
+    "objects": ["graph/objects.json"],
+    "relations": ["graph/relations.json"],
+    "schemas": [],
+    "generated": [],
+    "raw_sources": ["sources"]
+  },
+  "imports": [],
+  "extensions": {
+    "mirai.project_technology": {
+      "contract_version": "1.0.0",
+      "enabled": true,
+      "context_policy": "task_scoped",
+      "source_boundary": "hybrid_sot"
+    }
+  }
+}

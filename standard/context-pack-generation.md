@@ -1,6 +1,6 @@
 # Mirai Graph Context-Pack Generation
 
-Status: 1.0 release-candidate standard section
+Status: 1.1 stable standard section
 
 ## Purpose
 
@@ -56,6 +56,29 @@ task -> select relevant objects -> select relevant relations
      -> generate context pack -> review/use for task
 ```
 
+Project Technology 1.1 implements this as a deterministic four-phase protocol:
+
+```text
+discover -> expand -> compile -> verify
+```
+
+The traversal receipt binds the task digest, graph digest and revision to the
+visited nodes. The client records selected and rejected nodes, reasons,
+confidence and selector type. Compilation then adds the mandatory dependency
+closure and returns one of `needs_more_discovery`, `needs_decision`, `blocked`
+or `ready`.
+
+`ready` requires a result owner, terminal sources with exact revision and
+SHA-256, all mandatory processes and validators, explicit reasons for omitted
+branches, no required dependency cycle and no access or readiness conflict.
+The context budget may remove optional material only; it must never remove the
+mandatory closure.
+
+The compiled pack adds selected and rejected paths, visited nodes, stop
+reasons, mandatory closure, terminal sources, processes, constraints,
+validators, completeness and `context_pack_digest`. These fields extend this
+single context-pack contract; there is no parallel pack format.
+
 ## Selection Rules
 
 A context pack should include:
@@ -88,6 +111,20 @@ Relation explanations should include:
 
 Scores are implementation signals. They help review the generated context, but
 they do not prove semantic completeness.
+
+## Usage Evidence
+
+Loading a source is not proof that it was used. For each significant rule,
+usage evidence connects:
+
+```text
+source -> applied rule -> decision -> changed or checked surface
+       -> validator -> outcome
+```
+
+Verification fails when the evidence belongs to another context pack, skips a
+mandatory source, process or validator, uses stale or tampered content, exposes
+private material or treats generated context as write authorization.
 
 ## Validation
 

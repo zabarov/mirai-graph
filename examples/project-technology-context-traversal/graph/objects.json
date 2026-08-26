@@ -1,0 +1,78 @@
+[
+  {
+    "id": "capability.release_delivery",
+    "kind": "capability",
+    "title": "Release delivery",
+    "summary": "Prepare a bounded and verifiable software release.",
+    "owner": "role.release_owner",
+    "readiness": "accepted",
+    "authority": "contract",
+    "expansion_policy": "expandable",
+    "evidence": [],
+    "profile": "core"
+  },
+  {
+    "id": "process.release_verification",
+    "kind": "process",
+    "title": "Release verification",
+    "summary": "Run the accepted release checks before publication.",
+    "owner": "role.release_owner",
+    "readiness": "accepted",
+    "authority": "contract",
+    "expansion_policy": "expandable",
+    "evidence": [],
+    "profile": "core"
+  },
+  {
+    "id": "source.release_guide",
+    "kind": "source",
+    "title": "Release guide",
+    "summary": "The authoritative local guide for the synthetic release.",
+    "owner": "role.release_owner",
+    "readiness": "accepted",
+    "authority": "source",
+    "expansion_policy": "terminal",
+    "source_refs": ["sources/release-guide.md"],
+    "evidence": [],
+    "profile": "core"
+  },
+  {
+    "id": "constraint.rollback_required",
+    "kind": "constraint",
+    "title": "Rollback is required",
+    "summary": "Publication must retain a tested rollback path.",
+    "owner": "role.release_owner",
+    "readiness": "accepted",
+    "authority": "contract",
+    "expansion_policy": "terminal",
+    "source_refs": ["sources/rollback-policy.md"],
+    "evidence": [],
+    "profile": "core"
+  },
+  {
+    "id": "check.release_smoke",
+    "kind": "check",
+    "title": "Release smoke",
+    "summary": "Verify the installed release identity and core behavior.",
+    "owner": "role.release_quality",
+    "readiness": "accepted",
+    "authority": "validator",
+    "expansion_policy": "terminal",
+    "source_refs": ["sources/release-smoke.md"],
+    "evidence": [],
+    "profile": "core"
+  },
+  {
+    "id": "capability.optional_announcement",
+    "kind": "capability",
+    "title": "Optional announcement",
+    "summary": "Prepare a public announcement only when requested.",
+    "owner": "role.communication",
+    "readiness": "accepted",
+    "authority": "reference",
+    "expansion_policy": "terminal",
+    "source_refs": ["sources/announcement.md"],
+    "evidence": [],
+    "profile": "core"
+  }
+]

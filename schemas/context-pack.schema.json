@@ -130,8 +130,61 @@
     "limitations": {
       "type": "array",
       "items": {
-        "type": "string"
+        "type": ["string", "object"]
       }
+    },
+    "task_digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "graph_digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "graph_revision": {
+      "type": ["string", "null"]
+    },
+    "selected_paths": {
+      "type": "array",
+      "items": { "type": "object" }
+    },
+    "rejected_paths": {
+      "type": "array",
+      "items": { "type": "object" }
+    },
+    "visited_nodes": {
+      "type": "array",
+      "items": { "type": "string" },
+      "uniqueItems": true
+    },
+    "stop_reasons": {
+      "type": "array",
+      "items": { "type": "object" }
+    },
+    "required_closure": {
+      "type": "object",
+      "required": ["object_ids", "relation_ids"],
+      "properties": {
+        "object_ids": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+        "relation_ids": { "type": "array", "items": { "type": "string" }, "uniqueItems": true }
+      }
+    },
+    "terminal_sources": {
+      "type": "array",
+      "items": { "type": "object" }
+    },
+    "completeness": {
+      "type": "object",
+      "required": ["status", "unresolved_required_ids", "unresolved_branch_ids"],
+      "properties": {
+        "status": { "enum": ["needs_more_discovery", "needs_decision", "blocked", "ready"] },
+        "unresolved_required_ids": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+        "unresolved_branch_ids": { "type": "array", "items": { "type": "string" }, "uniqueItems": true }
+      }
+    },
+    "context_pack_digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
     }
   }
 }

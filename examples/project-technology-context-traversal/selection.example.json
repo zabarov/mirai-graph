@@ -1,0 +1,29 @@
+{
+  "selector": "human",
+  "task_digest": "replace-with-discover-task-digest",
+  "graph_digest": "replace-with-discover-graph-digest",
+  "result_owner_id": "role.release_owner",
+  "selected": [
+    {
+      "id": "capability.release_delivery",
+      "reason": "The requested outcome is a release.",
+      "confidence": 1
+    },
+    {
+      "id": "process.release_verification",
+      "reason": "The release must be verified before publication.",
+      "confidence": 1
+    },
+    {
+      "id": "source.release_guide",
+      "reason": "This is the accepted release source.",
+      "confidence": 1
+    }
+  ],
+  "rejected": [
+    {
+      "id": "capability.optional_announcement",
+      "reason": "An announcement was not requested."
+    }
+  ]
+}

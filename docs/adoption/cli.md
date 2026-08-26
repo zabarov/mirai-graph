@@ -1,6 +1,6 @@
 # Mirai Graph CLI
 
-Status: 1.0 release-candidate CLI guide
+Status: 1.1 stable CLI guide
 
 Mirai Graph keeps the reference scripts for direct automation. The
 `mirai-graph` entrypoint is the primary command surface for common checks and
@@ -82,6 +82,19 @@ npx mirai-graph release state --markdown
 npm run validate:release-state
 ```
 
+Discover and compile task context without writing files:
+
+```bash
+npx mirai-graph technology context . --phase discover --task "prepare the release"
+npx mirai-graph technology context . --phase expand --input receipt.json --select capability.release
+npx mirai-graph technology context . --phase compile --input receipt.json --selection selection.json
+npx mirai-graph technology context . --phase verify --packet context-pack.json --evidence usage-evidence.json
+```
+
+Omitting `--phase` keeps the original bounded context-discovery behavior.
+Receipt, selection, context-pack and usage-evidence files are caller-owned
+inputs and outputs; the command never stores them itself.
+
 ## Output Boundary
 
 - JSON output is intended for tools and CI.
@@ -97,6 +110,8 @@ npm run validate:release-state
   and npm auth state, but it does not publish or authorize a release.
 - Generated context, evidence, feedback and proposals do not authorize
   canonical updates.
+- Context traversal never reads secret values into its output. Access is
+  represented by a safe reference, availability and required permission.
 
 ## Command Aliases
 

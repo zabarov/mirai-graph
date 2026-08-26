@@ -24,7 +24,17 @@ const coreObjectKinds = new Set([
   "evidence",
   "context_pack",
   "governance_gate",
-  "profile"
+  "profile",
+  "owner",
+  "role",
+  "capability",
+  "process",
+  "resource",
+  "source",
+  "check",
+  "gate",
+  "constraint",
+  "access_requirement"
 ]);
 
 const coreRelationTypes = new Set([
@@ -40,7 +50,16 @@ const coreRelationTypes = new Set([
   "derived_from",
   "supersedes",
   "belongs_to",
-  "related_to"
+  "related_to",
+  "contains",
+  "specializes",
+  "requires",
+  "governed_by",
+  "validated_by",
+  "documented_by",
+  "implemented_by",
+  "hands_off_to",
+  "conflicts_with"
 ]);
 
 const conformanceLevels = new Set([

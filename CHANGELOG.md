@@ -4,6 +4,36 @@ All notable changes to Mirai Graph will be documented in this file.
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-08-26
+
+### Added
+
+- Model-independent `discover`, `expand`, `compile` and `verify` phases for
+  progressively navigating Project Technology context.
+- Public JavaScript API and matching CLI for deterministic traversal,
+  mandatory dependency closure and usage verification.
+- One bounded context-traversal receipt contract and direct context-pack fields
+  for selection, completeness, exact sources and a stable digest.
+- Universal fixtures for software, research, organization, platform,
+  skill-like and multi-repository graphs, including macOS, Linux and Windows CI.
+
+### Safety Boundary
+
+- All traversal phases are read-only and generated context never authorizes a
+  write.
+- Required sources, processes and validators cannot be removed to meet a token
+  budget. Missing, stale, blocked, deprecated, conflicting, cyclic or tampered
+  context fails closed.
+- Access data is limited to safe references and availability metadata; secret
+  values and private source content are not included.
+
+### Compatibility
+
+- The public `graph.json` schema remains `2.0.0` and
+  `mirai.project_technology.contract_version` remains `1.0.0`.
+- Existing graphs need no migration, the original context command remains
+  available, and provider/consumer behavior is unchanged.
+
 ## [1.0.0] - 2026-08-17
 
 ### Changed

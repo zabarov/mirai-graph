@@ -10,7 +10,7 @@ Use it when a software project has useful knowledge spread across README files,
 docs, issues, chats, code comments and AI prompts, and you need a small
 machine-readable map that developers and AI assistants can validate and reuse.
 
-Status: stable public `1.0.0` release.
+Status: stable public `1.1.0` release.
 
 ## What Problem Does It Solve?
 
@@ -42,7 +42,7 @@ Start with a normal repository and use Mirai Graph to:
 
 ## Current Installation Status
 
-The repository is ready as the stable `mirai-graph@1.0.0` package. To verify a
+The repository is ready as the stable `mirai-graph@1.1.0` package. To verify a
 repository checkout directly, use:
 
 ```bash
@@ -110,6 +110,25 @@ mirai-graph technology status .
 mirai-graph technology context . --task "implement the approved feature"
 mirai-graph technology verify . --significant-work
 ```
+
+For deeper graphs, the same `context` operation supports four read-only phases:
+
+```bash
+mirai-graph technology context . --phase discover --task "implement the approved feature"
+mirai-graph technology context . --phase expand --input receipt.json --select capability.delivery
+mirai-graph technology context . --phase compile --input receipt.json --selection selection.json
+mirai-graph technology context . --phase verify --packet context-pack.json --evidence usage-evidence.json
+```
+
+`discover` returns a bounded top-level choice. `expand` follows only selected
+branches. `compile` adds every required process, constraint and validator, and
+returns an immutable context pack only when the selection is complete.
+`verify` proves that required sources influenced a decision and a checked
+outcome; merely loading a document is not enough.
+
+The programmatic API exposes the same operations as `discoverContext`,
+`expandContext`, `compileContext` and `verifyContext`. Mirai Graph does not call
+or depend on a particular AI model.
 
 Changing operations return a preview unless `--apply` is explicit. See
 [Project Technology](standard/project-technology.md) for provider/consumer

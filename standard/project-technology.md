@@ -1,6 +1,6 @@
 # Project Technology
 
-Status: 1.0 release-candidate extension contract
+Status: 1.1 stable standard; activation contract remains 1.0.0
 
 Project Technology is the shared executable mechanism of Mirai Graph. It is
 not a profile, a second graph or a source of domain methodology.
@@ -18,6 +18,37 @@ Project Technology operations therefore work for:
 Each graph keeps its own objects and relations. Project Technology only
 standardizes safe inventory, task context, accepted-target binding, freshness
 and verification.
+
+## Sequential Context Traversal
+
+Project Technology exposes one model-independent navigation protocol:
+
+```text
+discover -> expand -> compile -> verify
+```
+
+- `discover` ranks a bounded set of top-level candidates for a task.
+- `expand` reveals the accepted children of one or more selected nodes.
+- `compile` validates the client's structured selection and adds the mandatory
+  closure over `requires`, `governed_by` and `validated_by`.
+- `verify` checks that the resulting sources and rules were connected to a
+  decision, a surface, a validator and an outcome.
+
+The caller may be a human, an AI model or a deterministic rule. Mirai Graph
+does not select or invoke a model. Sequential and batched expansion of the same
+nodes produces the same receipt digest.
+
+The universal relation vocabulary for traversal is:
+
+- structure: `contains`, `specializes`;
+- mandatory closure: `requires`, `governed_by`, `validated_by`;
+- sources: `documented_by`, `implemented_by`;
+- interaction: `hands_off_to`, `conflicts_with`.
+
+Consumer-specific names such as skills, companions or product commands are not
+part of this protocol. Consumers map their own domain vocabulary to ordinary
+owners, roles, capabilities, processes, resources, checks and access
+requirements.
 
 ## Public Contract
 
@@ -73,3 +104,8 @@ source still answers "how should the domain work be done?".
   changed.
 - A blocked repository still supports narrow `explain`, `status`, `plan` and
   diagnostic `verify` calls.
+- Context traversal is read-only in every phase and never grants write
+  authority.
+- A context pack is not ready while a required branch, source, access boundary
+  or validator is missing, stale, blocked, deprecated, conflicting or
+  digest-mismatched.

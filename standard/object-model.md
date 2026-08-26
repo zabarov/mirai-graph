@@ -1,6 +1,6 @@
 # Mirai Graph Object Model
 
-Status: 1.0 release-candidate standard section
+Status: 1.1 stable standard section
 
 ## Purpose
 
@@ -106,7 +106,16 @@ Initial core kinds:
 - `evidence`;
 - `context_pack`;
 - `governance_gate`;
-- `profile`.
+- `profile`;
+- `owner`, `role`;
+- `capability`, `process`;
+- `resource`, `source`;
+- `check`, `gate`, `constraint`;
+- `access_requirement`.
+
+The additional domain-neutral kinds support Project Technology traversal. A
+consumer may display them using its own vocabulary without changing their
+canonical meaning.
 
 ## Object Boundary Rules
 

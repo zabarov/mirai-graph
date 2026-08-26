@@ -1,6 +1,6 @@
 # Mirai Graph Roadmap
 
-Status: 1.0 release-candidate roadmap
+Status: stable 1.1 roadmap
 
 ## Phase 0: Public Foundation
 
@@ -228,19 +228,14 @@ Planned artifacts:
 - release process;
 - public examples from approved external adopters.
 
-## Near-Term Work After 1.0 RC
+## Near-Term Work After 1.1
 
-1. Execute the `1.0.0-rc.6` release: tag, GitHub Release and npm publication
-   only after release-state checks are accepted.
-2. Continue adopter workflow: import/export helper skeletons, richer report
-   formatting and more adoption recipes when they directly support self-service
-   adoption.
-3. Add one or two external public-safe pilots maintained outside the original
-   Mirai Graph authoring contour.
-4. Expand organization-governance validation reports and adoption recipes.
-5. Collect real multi-model Character Layer replay evidence before stronger
+1. Validate sequential context traversal in independent adopter projects and
+   collect public-safe compatibility evidence.
+2. Continue adopter workflow with richer reports and domain-neutral recipes.
+3. Add external public-safe pilots maintained outside the original Mirai Graph
+   authoring contour.
+4. Collect real multi-model replay evidence before stronger effectiveness or
    portability claims.
-6. Explore a local interactive playground only after deterministic report
-   fixtures remain stable.
-7. Turn evidence package v0.3 and the two article foundations into a
-   publication-ready reproducibility bundle.
+5. Keep the deterministic CLI and public contracts stable while improving
+   ranking as a replaceable client-side concern.

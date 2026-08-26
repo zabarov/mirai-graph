@@ -13,6 +13,7 @@ const {
   readJson,
   validateManifest,
 } = require("../cli/graph-manifest");
+const traversal = require("./context-traversal");
 
 const CONTRACT_VERSION = "1.0.0";
 const EXTENSION_KEY = "mirai.project_technology";
@@ -412,48 +413,26 @@ function inventory(repo) {
   return payload;
 }
 
-function loadObjects(repo, manifest) {
-  const objects = [];
-  for (const file of specObjectFiles(repo, manifest)) {
-    try {
-      const item = readJson(file);
-      const lifecycle = String(item.lifecycle || item.status || "").toLowerCase();
-      if (!["archived", "superseded", "deprecated", "retired", "completed"].includes(lifecycle)) objects.push(item);
-    } catch (_) { /* unavailable sources are omitted and reported through empty result */ }
-  }
-  return objects;
-}
-
 function context(repoArg, options = {}) {
-  const repo = normalizeRepo(repoArg);
-  const manifestState = readManifest(repo);
-  const ext = extensionState(manifestState.manifest);
-  const task = String(options.task || "").trim();
-  const tokens = new Set(task.toLowerCase().split(/[^a-zа-я0-9_]+/i).filter((item) => item.length > 2));
-  const ranked = loadObjects(repo, manifestState.manifest).map((object) => {
-    const text = [object.id, object.kind, object.subtype, object.title, object.summary, ...(object.tags || [])].join(" ").toLowerCase();
-    const objectTokens = new Set(text.split(/[^a-zа-я0-9_]+/i).filter((item) => item.length > 2));
-    const overlap = [...tokens].filter((token) => objectTokens.has(token)).length;
-    const baseline = ["skill_core", "skill_policy", "quality_gate"].includes(object.subtype) ? 0.15 : 0;
-    return {
-      object_id: object.id,
-      score: Math.min(1, baseline + overlap * 0.18),
-      title: object.title || null,
-      summary: object.summary || null,
-      source_refs: Array.isArray(object.source_refs) ? object.source_refs.filter((ref) => typeof ref === "string" && !path.isAbsolute(ref)) : [],
-    };
-  }).filter((item) => item.score > 0).sort((a, b) => b.score - a.score || String(a.object_id).localeCompare(String(b.object_id))).slice(0, Number(options.maxObjects || 12));
-  const blockers = [...manifestState.blockers, ...ext.blockers];
-  if (!ext.contract || ext.legacy || ext.contract.enabled !== true) blockers.push("project_technology_not_enabled");
-  if (ranked.length === 0) blockers.push("no_verifiable_runtime_objects");
-  return result("context", "read_only", blockers.length ? "blocked" : "success", {
-    repository_id: manifestState.manifest?.id || path.basename(repo),
-    task,
-    included_objects: ranked,
+  if (options.phase === "expand") return traversal.expandContext(repoArg, options.traversalReceipt, options.selectedIds, options);
+  if (options.phase === "compile") return traversal.compileContext(repoArg, options.traversalReceipt, options.selection, options);
+  if (options.phase === "verify") return traversal.verifyContext(repoArg, options.contextPack, options.usageEvidence, options);
+  if (options.phase === "discover") return traversal.discoverContext(repoArg, options.task, options);
+  const discovered = traversal.discoverContext(repoArg, options.task, options);
+  const nodes = new Map((discovered.traversal_receipt?.nodes || []).map((node) => [node.id, node]));
+  return {
+    ...discovered,
+    operation_id: "mirai.project_technology.context",
+    task: discovered.traversal_receipt?.task?.text || "",
+    included_objects: (discovered.traversal_receipt?.candidates || []).map((candidate) => ({
+      object_id: candidate.id,
+      score: candidate.score,
+      title: nodes.get(candidate.id)?.title || null,
+      summary: nodes.get(candidate.id)?.summary || null,
+      source_refs: (nodes.get(candidate.id)?.source_refs || []).map((source) => source.ref),
+    })),
     runtime_contract: { graph_first_scope: "routing/capability/policy orientation", raw_source_authoritative: true, canonical_write_allowed: false },
-    blockers: [...new Set(blockers)].sort(),
-    next_action: blockers.length ? "repair graph coverage or load the declared raw source" : "load selected raw source references",
-  });
+  };
 }
 
 function targetBindingStatus(repo) {
@@ -721,11 +700,14 @@ module.exports = {
   bindingValues,
   canonicalBytes,
   connect,
+  compileContext: traversal.compileContext,
   context,
+  discoverContext: traversal.discoverContext,
   disable,
   disconnect,
   enable,
   execute,
+  expandContext: traversal.expandContext,
   explain,
   extensionContract,
   inventory,
@@ -739,4 +721,5 @@ module.exports = {
   sync,
   targetBindingStatus,
   verify,
+  verifyContext: traversal.verifyContext,
 };

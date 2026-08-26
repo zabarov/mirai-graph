@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mirai-graph.dev/schemas/context-traversal-receipt.schema.json",
+  "title": "Mirai Graph Context Traversal Receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract",
+    "contract_version",
+    "repository_id",
+    "task",
+    "graph",
+    "visited_ids",
+    "expanded_ids",
+    "frontier_ids",
+    "candidates",
+    "nodes",
+    "relations",
+    "selection_history",
+    "blockers",
+    "warnings",
+    "traversal_digest"
+  ],
+  "properties": {
+    "contract": { "const": "context-traversal-receipt" },
+    "contract_version": { "const": "1.0.0" },
+    "repository_id": { "type": "string", "minLength": 1 },
+    "task": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["text", "digest"],
+      "properties": {
+        "text": { "type": "string" },
+        "digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" }
+      }
+    },
+    "graph": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["revision", "digest"],
+      "properties": {
+        "revision": { "type": ["string", "null"] },
+        "digest": { "type": ["string", "null"], "pattern": "^sha256:[0-9a-f]{64}$" }
+      }
+    },
+    "visited_ids": { "$ref": "#/$defs/ids" },
+    "expanded_ids": { "$ref": "#/$defs/ids" },
+    "frontier_ids": { "$ref": "#/$defs/ids" },
+    "candidates": { "type": "array", "items": { "type": "object" } },
+    "nodes": { "type": "array", "items": { "type": "object" } },
+    "relations": { "type": "array", "items": { "type": "object" } },
+    "selection_history": { "type": "array", "items": { "type": "object" } },
+    "blockers": { "$ref": "#/$defs/ids" },
+    "warnings": { "$ref": "#/$defs/ids" },
+    "traversal_digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" }
+  },
+  "$defs": {
+    "ids": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "uniqueItems": true
+    }
+  }
+}
