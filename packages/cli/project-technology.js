@@ -101,4 +101,4 @@ catch (error) {
   };
 }
 process.stdout.write(`${JSON.stringify(output, null, 2)}\n`);
-process.exit(output.status === "fail" ? 1 : ["blocked", "needs_more_discovery", "needs_decision"].includes(output.status) ? 2 : 0);
+process.exitCode = output.status === "fail" ? 1 : ["blocked", "needs_more_discovery", "needs_decision"].includes(output.status) ? 2 : 0;
