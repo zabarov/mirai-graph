@@ -47,6 +47,17 @@ function git(repo, ...args) {
   return completed.status === 0 ? completed.stdout.trim() : "";
 }
 
+function gitBlob(repo, relative) {
+  if (!relative || !git(repo, "ls-files", "--error-unmatch", "--", relative)) return null;
+  const completed = spawnSync("git", ["show", `HEAD:${relative}`], { cwd: repo, encoding: null, maxBuffer: 64 * 1024 * 1024 });
+  return completed.status === 0 ? completed.stdout : null;
+}
+
+function revisionBound(repo, relative) {
+  if (!gitBlob(repo, relative)) return false;
+  return spawnSync("git", ["diff", "--quiet", "HEAD", "--", relative], { cwd: repo }).status === 0;
+}
+
 function safeRelative(value) {
   if (typeof value !== "string" || !value.trim() || path.isAbsolute(value)) return false;
   const lowered = value.toLowerCase();
@@ -117,6 +128,11 @@ function readGraph(repoArg) {
     relations.push({ ...relation, _record: record });
   }
   const revision = git(repo, "rev-parse", "HEAD") || null;
+  for (const relative of unique([
+    "graph.json",
+    ...[...objects.values()].map((record) => record.relative),
+    ...relations.map((relation) => relation._record.relative),
+  ])) if (!revisionBound(repo, relative)) output.blockers.push("graph_source_not_revision_bound");
   const graphPayload = {
     manifest: { id: manifest.id, scope: manifest.scope, profiles: manifest.profiles, graph: manifest.graph },
     objects: [...objects.values()].map((record) => record.value).sort((a, b) => a.id.localeCompare(b.id)),
@@ -165,7 +181,8 @@ function sourcePassport(graph, record, value) {
     if (!fs.existsSync(absolute) || fs.lstatSync(absolute).isSymbolicLink() || !fs.statSync(absolute).isFile()) {
       return { ref, availability: "unavailable", revision: graph.revision, sha256: null };
     }
-    return { ref, availability: "available", revision: graph.revision, sha256: digest(fs.readFileSync(absolute)) };
+    const blob = gitBlob(graph.repo, ref);
+    return { ref, availability: blob ? "available" : "unbound", revision: graph.revision, sha256: digest(blob || fs.readFileSync(absolute)) };
   }).concat([{ ref: record.relative, availability: "available", revision: graph.revision, sha256: record.sha256 }]);
 }
 
@@ -435,6 +452,7 @@ function compileContext(repository, traversalReceipt, selectionInput, options = 
     if (passport.expansion_policy === "terminal" && passport.expandable) blockers.push("terminal_node_has_children");
     if (passport.expansion_policy === "expandable" && !passport.expandable) blockers.push("expandable_node_has_no_children");
     for (const source of passport.source_refs) if (source.availability === "unavailable") blockers.push("required_source_unavailable");
+    for (const source of passport.source_refs) if (source.availability === "unbound") blockers.push("required_source_not_revision_bound");
     for (const access of passport.access_requirements) if (!["available", "granted", "not_required"].includes(access.status)) blockers.push("context_access_not_available");
     if (!passport.expandable) continue;
     if (!receipt.expanded_ids?.includes(id)) { unresolvedBranches.push(id); continue; }
@@ -540,7 +558,10 @@ function verifyContext(repository, contextPack, usageEvidence, options = {}) {
     if (/^(repo|https):\/\//.test(source.ref)) continue;
     const absolute = path.join(graph.repo, source.ref);
     if (!fs.existsSync(absolute) || fs.lstatSync(absolute).isSymbolicLink() || !fs.statSync(absolute).isFile()) blockers.push("context_pack_source_unavailable");
-    else if (digest(fs.readFileSync(absolute)) !== source.sha256 || source.revision !== graph.revision) blockers.push("context_pack_source_revision_or_digest_mismatch");
+    else {
+      const blob = gitBlob(graph.repo, source.ref);
+      if (!blob || !revisionBound(graph.repo, source.ref) || digest(blob) !== source.sha256 || source.revision !== graph.revision) blockers.push("context_pack_source_revision_or_digest_mismatch");
+    }
   }
   for (const process of contextPack?.processes || []) if (!coveredProcesses.has(process)) blockers.push("mandatory_process_not_applied");
   for (const validator of contextPack?.validators || []) if (!coveredValidators.has(validator)) blockers.push("mandatory_validator_not_applied");

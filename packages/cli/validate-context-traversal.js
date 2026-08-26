@@ -94,10 +94,11 @@ function check(id, condition, details = null) {
 }
 
 function runCli(args) {
-  const completed = spawnSync(process.execPath, [cli, ...args], { encoding: "utf8" });
-  let output = null;
-  try { output = JSON.parse(completed.stdout); } catch (_) { /* asserted by caller */ }
-  return { status: completed.status, output, stderr: completed.stderr };
+  const completed = spawnSync(process.execPath, [cli, ...args], { encoding: "utf8", maxBuffer: 64 * 1024 * 1024 });
+  const stdout = String(completed.stdout || "").replace(/^\uFEFF/, "").trim();
+  let output = null; let parseError = null;
+  try { output = JSON.parse(stdout); } catch (error) { parseError = error.message; }
+  return { status: completed.status, output, stderr: completed.stderr, stdout_length: stdout.length, parse_error: parseError };
 }
 
 const root = fs.mkdtempSync(path.join(os.tmpdir(), "mirai-context-traversal-"));
