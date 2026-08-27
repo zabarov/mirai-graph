@@ -207,12 +207,17 @@ function readGraph(repoArg) {
     relations.push({ ...relation, _record: record });
   }
   const state = trackedState(repo);
-  for (const relative of unique([
+  const graphSources = unique([
     "graph.json",
     ...[...objects.values()].map((record) => record.relative),
     ...relations.map((relation) => relation._record.relative),
-  ])) if (state.hasGit && (!state.tracked.has(relative) || state.dirty.has(relative))) output.blockers.push("graph_source_not_revision_bound");
-  const gitRevision = git(repo, "rev-parse", "HEAD") || null;
+  ]);
+  const newContentBoundGraph = state.hasGit
+    && graphSources.length > 0
+    && graphSources.every((relative) => !state.tracked.has(relative))
+    && graphSources.every((relative) => !state.dirty.has(relative));
+  for (const relative of graphSources) if (state.hasGit && !newContentBoundGraph && (!state.tracked.has(relative) || state.dirty.has(relative))) output.blockers.push("graph_source_not_revision_bound");
+  const gitRevision = !newContentBoundGraph ? git(repo, "rev-parse", "HEAD") || null : null;
   const graphPayloadBase = {
     manifest: { id: manifest.id, scope: manifest.scope, profiles: manifest.profiles, graph: manifest.graph },
     objects: [...objects.values()].map((record) => record.value).sort((a, b) => a.id.localeCompare(b.id)),

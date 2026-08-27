@@ -152,6 +152,17 @@ try {
   check("portable_specs_contain_no_host_paths", !/(?:\/Users\/|\/home\/|[A-Za-z]:\\Users\\)/.test(fs.readFileSync(path.join(repo, "graph/specs/project-continuity.json"), "utf8")));
   check("continuity_policy_keeps_contract_version", JSON.parse(fs.readFileSync(path.join(repo, "graph.json"), "utf8")).extensions["mirai.project_technology"].contract_version === "1.0.0");
 
+  const bootstrapRepo = path.join(root, "existing-code-new-graph");
+  fs.mkdirSync(bootstrapRepo, { recursive: true });
+  fs.writeFileSync(path.join(bootstrapRepo, "README.md"), "# Existing code\n");
+  git(bootstrapRepo, "init", "-q"); git(bootstrapRepo, "config", "user.name", "Mirai Fixture"); git(bootstrapRepo, "config", "user.email", "fixture@example.invalid");
+  git(bootstrapRepo, "add", "README.md"); git(bootstrapRepo, "commit", "-qm", "existing code");
+  writeJson(path.join(bootstrapRepo, "graph.json"), manifest("bootstrap-project"));
+  writeJson(path.join(bootstrapRepo, "graph/specs/objects.json"), [{ id: "goal.bootstrap", kind: "goal", title: "Bootstrap", summary: "Use content-bound bootstrap context", readiness: "accepted", profile: "project_management" }]);
+  writeJson(path.join(bootstrapRepo, "graph/specs/relations.json"), []);
+  const bootstrapContext = technology.context(bootstrapRepo, { phase: "discover", task: "bootstrap context" });
+  check("new_git_graph_is_content_bound_before_first_commit", bootstrapContext.status === "success" && String(bootstrapContext.traversal_receipt.graph_revision).startsWith("content:"), bootstrapContext.blockers);
+
   process.stdout.write(`${JSON.stringify({ status: "success", checks_passed: checks.length, checks_failed: 0, checks }, null, 2)}\n`);
 } catch (error) {
   process.stdout.write(`${JSON.stringify({ status: "fail", checks_passed: checks.filter((item) => item.passed).length, checks_failed: 1, checks, error: error.message }, null, 2)}\n`);
