@@ -161,7 +161,7 @@ try {
   writeJson(path.join(bootstrapRepo, "graph/specs/objects.json"), [{ id: "goal.bootstrap", kind: "goal", title: "Bootstrap", summary: "Use content-bound bootstrap context", readiness: "accepted", profile: "project_management" }]);
   writeJson(path.join(bootstrapRepo, "graph/specs/relations.json"), []);
   const bootstrapContext = technology.context(bootstrapRepo, { phase: "discover", task: "bootstrap context" });
-  check("new_git_graph_is_content_bound_before_first_commit", bootstrapContext.status === "success" && String(bootstrapContext.traversal_receipt.graph_revision).startsWith("content:"), bootstrapContext.blockers);
+  check("new_git_graph_is_content_bound_before_first_commit", bootstrapContext.status === "success" && String(bootstrapContext.traversal_receipt.graph.revision).startsWith("content:"), bootstrapContext.blockers);
 
   process.stdout.write(`${JSON.stringify({ status: "success", checks_passed: checks.length, checks_failed: 0, checks }, null, 2)}\n`);
 } catch (error) {
