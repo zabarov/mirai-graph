@@ -72,6 +72,18 @@ function executionContract() {
   };
 }
 
+function continuityEvidence(repositoryId) {
+  return {
+    task_digest: technology.sha256(`task:${repositoryId}`, true),
+    outcome: `Exact target binding verified for ${repositoryId}`,
+    requirement_refs: ["requirement.fixture.runtime"],
+    evidence_refs: ["repo://fixture/evidence/project-technology"],
+    checks: [{ id: "check.fixture.binding", verdict: "pass", evidence_ref: "repo://fixture/evidence/project-technology" }],
+    changed_surfaces: ["graph/specs/project-continuity.json"],
+    case_signature: "case.fixture.target-binding",
+  };
+}
+
 function initRepo(root, name, scope = "repository", profiles) {
   const repo = path.join(root, name); fs.mkdirSync(repo, { recursive: true });
   git(repo, "init", "-q"); git(repo, "config", "user.name", "Mirai Fixture");
@@ -104,6 +116,7 @@ function check(id, condition, details = null) {
 }
 
 const root = fs.mkdtempSync(path.join(os.tmpdir(), "mirai-project-technology-test-"));
+process.env.MIRAI_GRAPH_STATE_ROOT = path.join(root, "host-state");
 try {
   const provider = initRepo(root, "fixture-provider", "repository");
   const consumer = initRepo(root, "fixture-consumer", "repository");
@@ -111,6 +124,11 @@ try {
   const skill = initRepo(root, "fixture-skill", "skill", ["skill_runtime"]);
   const federation = initRepo(root, "fixture-federation", "federation", ["project_management", "implementation_control"]);
   const providerRevision = addTarget(provider);
+
+  const legacyRuntimeRepo = initRepo(root, "legacy-runtime-repository");
+  writeJson(path.join(legacyRuntimeRepo, ".mirai-graph/project-technology/inventory.json"), { schema_version: "1.0.0", repository_id: "legacy-runtime-repository", inventory_digest: `sha256:${"0".repeat(64)}`, files: [] });
+  const legacyRuntimeEnabled = technology.execute("enable", legacyRuntimeRepo, { apply: true });
+  check("project_local_runtime_moves_to_host_state", legacyRuntimeEnabled.status === "success" && legacyRuntimeEnabled.migration_ref.startsWith("host-local://") && fs.existsSync(path.join(legacyRuntimeRepo, ".mirai-graph/project-technology/inventory.json")), legacyRuntimeEnabled);
 
   const before = fs.readFileSync(path.join(consumer, "graph.json"));
   const preview = technology.execute("enable", consumer, { apply: false });
@@ -147,12 +165,18 @@ try {
     apply: true, source: exportPath, targetId: TARGET_ID,
     semanticDigest: SEMANTIC_DIGEST, providerRevision,
   });
-  check("consumer_binding_ready", connected.status === "success" && technology.verify(consumer, { significantWork: true }).status === "success", connected.blockers);
+  const consumerContinuity = technology.execute("sync", consumer, {
+    apply: true, boundary: "task_complete", continuityEvidence: continuityEvidence("fixture-consumer"),
+  });
+  check("consumer_binding_ready", connected.status === "success" && consumerContinuity.status === "success" && technology.verify(consumer, { significantWork: true }).status === "success", { connect: connected.blockers, continuity: consumerContinuity.blockers });
   const connectedTwo = technology.execute("connect", consumerTwo, {
     apply: true, source: exportPath, targetId: TARGET_ID,
     semanticDigest: SEMANTIC_DIGEST, providerRevision,
   });
-  check("second_consumer_binding_ready", connectedTwo.status === "success" && technology.verify(consumerTwo, { significantWork: true }).status === "success", connectedTwo.blockers);
+  const consumerTwoContinuity = technology.execute("sync", consumerTwo, {
+    apply: true, boundary: "task_complete", continuityEvidence: continuityEvidence("fixture-consumer-two"),
+  });
+  check("second_consumer_binding_ready", connectedTwo.status === "success" && consumerTwoContinuity.status === "success" && technology.verify(consumerTwo, { significantWork: true }).status === "success", { connect: connectedTwo.blockers, continuity: consumerTwoContinuity.blockers });
   const repeated = technology.execute("connect", consumer, {
     apply: true, source: exportPath, targetId: TARGET_ID,
     semanticDigest: SEMANTIC_DIGEST, providerRevision,

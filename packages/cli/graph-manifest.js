@@ -130,7 +130,8 @@ function validateManifest(manifest, repo = null) {
       };
       for (const field of Object.keys(expected)) if (technology[field] !== expected[field]) errors.push(`extensions.mirai.project_technology.${field} is invalid`);
       if (typeof technology.enabled !== "boolean") errors.push("extensions.mirai.project_technology.enabled is invalid");
-      for (const field of Object.keys(technology)) if (!(field in expected) && field !== "enabled") errors.push(`extensions.mirai.project_technology has unknown field ${field}`);
+      if (technology.continuity_policy !== undefined && technology.continuity_policy !== "task_boundary") errors.push("extensions.mirai.project_technology.continuity_policy is invalid");
+      for (const field of Object.keys(technology)) if (!(field in expected) && !["enabled", "continuity_policy"].includes(field)) errors.push(`extensions.mirai.project_technology has unknown field ${field}`);
     }
   }
   if (manifest.graph !== null) {

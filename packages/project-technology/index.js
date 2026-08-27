@@ -14,15 +14,16 @@ const {
   validateManifest,
 } = require("../cli/graph-manifest");
 const traversal = require("./context-traversal");
+const continuity = require("./continuity");
 
 const CONTRACT_VERSION = "1.0.0";
 const EXTENSION_KEY = "mirai.project_technology";
 const LEGACY_EXTENSION_KEY = "simai.project_technology";
 const LOCAL_DIR = path.join(".mirai-graph", "project-technology");
 const LEGACY_LOCAL_DIR = path.join(".simai", "project-technology");
-const INVENTORY_FILE = path.join(LOCAL_DIR, "inventory.json");
-const BINDING_FILE = path.join(LOCAL_DIR, "target-provider-binding.json");
-const IMPORT_DIR = path.join(LOCAL_DIR, "provider-exports");
+const INVENTORY_FILE = "inventory.json";
+const BINDING_FILE = "target-provider-binding.json";
+const IMPORT_DIR = "provider-exports";
 const EXPORT_FILE = path.join("graph", "generated", "project-technology", "target-provider-export.json");
 const TARGET_DIGEST_RE = /^sha256:[0-9a-f]{64}$/;
 const REVISION_RE = /^[0-9a-f]{40}$/;
@@ -90,6 +91,58 @@ function normalizeRepo(repo) {
   return path.resolve(repo || ".");
 }
 
+function runtimeRoot(repo, manifest = null, options = {}) {
+  return continuity.stateRoot(repo, manifest || readManifest(repo).manifest, options);
+}
+
+function legacyRuntimeState(repo) {
+  const root = path.join(repo, LOCAL_DIR);
+  return {
+    root,
+    present: fs.existsSync(root),
+    inventory: path.join(root, INVENTORY_FILE),
+    binding: path.join(root, BINDING_FILE),
+  };
+}
+
+function migrateProjectLocalRuntime(repo, manifest, root) {
+  const legacy = legacyRuntimeState(repo);
+  if (!legacy.present) return { changed: false, blockers: [], migration_ref: null };
+  const blockers = [];
+  let changed = false;
+  if (fs.existsSync(legacy.binding)) {
+    const binding = readJson(legacy.binding);
+    const identity = bindingValues(binding); blockers.push(...identity.blockers);
+    const ref = String(binding.provider_export_ref || "");
+    const exportPath = ref && !path.isAbsolute(ref) ? path.resolve(repo, ref) : null;
+    const exported = exportPath ? readExport(exportPath) : { export: {}, blockers: ["legacy_provider_export_missing"] };
+    blockers.push(...exported.blockers);
+    for (const key of Object.keys(identity.values)) if (exported.export[key] !== identity.values[key]) blockers.push(`legacy_${key}_mismatch`);
+    if (!blockers.length) {
+      const exportBytes = canonicalBytes(exported.export);
+      const exportSha = sha256(exportBytes);
+      changed = atomicWrite(path.join(root, IMPORT_DIR, `${exportSha}.json`), exportBytes) || changed;
+      changed = atomicWrite(path.join(root, BINDING_FILE), canonicalBytes({
+        schema_version: "1.0.0", ...identity.values,
+        provider_export_ref: `host-local://${IMPORT_DIR}/${exportSha}.json`,
+        provider_export_sha256: exportSha,
+      })) || changed;
+    }
+  }
+  if (blockers.length) return { changed: false, blockers: [...new Set(blockers)].sort(), migration_ref: null };
+  const receipt = {
+    schema_version: "1.0.0",
+    status: "migrated",
+    repository_id: manifest.id,
+    source: LOCAL_DIR,
+    source_preserved: true,
+    active_runtime: "host-local",
+  };
+  const receiptName = `project-local-runtime-${sha256(canonicalBytes(receipt)).slice(0, 16)}.json`;
+  changed = atomicWrite(path.join(root, "migrations", receiptName), canonicalBytes(receipt)) || changed;
+  return { changed, blockers: [], migration_ref: `host-local://migrations/${receiptName}` };
+}
+
 function readManifest(repo) {
   const manifestPath = path.join(repo, "graph.json");
   if (!fs.existsSync(manifestPath)) return { manifest: null, blockers: ["graph_manifest_missing"] };
@@ -106,6 +159,7 @@ function extensionContract() {
     enabled: true,
     context_policy: "task_scoped",
     source_boundary: "hybrid_sot",
+    continuity_policy: "task_boundary",
   };
 }
 
@@ -432,19 +486,23 @@ function context(repoArg, options = {}) {
       source_refs: (nodes.get(candidate.id)?.source_refs || []).map((source) => source.ref),
     })),
     runtime_contract: { graph_first_scope: "routing/capability/policy orientation", raw_source_authoritative: true, canonical_write_allowed: false },
+    continuity: continuity.status(normalizeRepo(repoArg), readManifest(normalizeRepo(repoArg)).manifest, options),
   };
 }
 
-function targetBindingStatus(repo) {
-  const bindingPath = path.join(repo, BINDING_FILE);
+function targetBindingStatus(repo, options = {}) {
+  const manifest = readManifest(repo).manifest;
+  const root = runtimeRoot(repo, manifest, options);
+  const bindingPath = path.join(root, BINDING_FILE);
   if (!fs.existsSync(bindingPath)) return { status: "not_configured", enabled: false, blockers: [], next_action: "connect an exact target provider binding" };
   let binding;
   try { binding = readJson(bindingPath); } catch (_) { return { status: "blocked", enabled: true, blockers: ["target_binding_invalid"] }; }
   const identity = bindingValues(binding);
   const exportRef = String(binding.provider_export_ref || "");
-  const exportPath = exportRef && !path.isAbsolute(exportRef) ? path.resolve(repo, exportRef) : null;
+  const hostPrefix = "host-local://";
+  const exportPath = exportRef.startsWith(hostPrefix) ? path.join(root, exportRef.slice(hostPrefix.length)) : null;
   const blockers = [...identity.blockers];
-  if (!exportPath || !exportPath.startsWith(`${repo}${path.sep}`)) blockers.push("provider_export_outside_repository");
+  if (!exportPath || !exportPath.startsWith(`${root}${path.sep}`)) blockers.push("provider_export_outside_host_state");
   const exported = exportPath ? readExport(exportPath) : { export: {}, blockers: ["provider_export_missing"] };
   blockers.push(...exported.blockers);
   for (const key of Object.keys(identity.values)) if (exported.export[key] !== identity.values[key]) blockers.push(`${key}_mismatch`);
@@ -466,18 +524,20 @@ function targetBindingStatus(repo) {
   };
 }
 
-function status(repoArg) {
+function status(repoArg, options = {}) {
   const repo = normalizeRepo(repoArg);
   const manifestState = readManifest(repo);
   const ext = extensionState(manifestState.manifest);
   let stored = null;
-  try { if (fs.existsSync(path.join(repo, INVENTORY_FILE))) stored = readJson(path.join(repo, INVENTORY_FILE)); } catch (_) { /* stale */ }
+  const root = runtimeRoot(repo, manifestState.manifest, options);
+  try { if (fs.existsSync(path.join(root, INVENTORY_FILE))) stored = readJson(path.join(root, INVENTORY_FILE)); } catch (_) { /* stale */ }
   const current = inventory(repo);
   const freshness = stored && stored.inventory_digest === current.inventory_digest ? "current" : stored ? "stale" : "missing";
   const blockers = [...manifestState.blockers, ...ext.blockers];
+  if (!stored && legacyRuntimeState(repo).present) blockers.push("project_technology_host_state_migration_required");
   if (ext.contract && ext.contract.enabled === false) blockers.push("project_technology_disabled");
   if (freshness !== "current") blockers.push(`project_technology_inventory_${freshness}`);
-  const binding = targetBindingStatus(repo);
+  const binding = targetBindingStatus(repo, options);
   if (binding.status === "blocked") blockers.push(...binding.blockers);
   return result("status", "read_only", blockers.length ? "blocked" : "success", {
     repository_id: manifestState.manifest?.id || path.basename(repo),
@@ -486,6 +546,7 @@ function status(repoArg) {
     technology_freshness: freshness,
     technology_digest: current.inventory_digest,
     target_binding: binding,
+    continuity: continuity.status(repo, manifestState.manifest, {}),
     blockers: [...new Set(blockers)].sort(),
     next_action: ext.legacy ? "run enable --apply to migrate the legacy contract" : blockers.length ? "run plan, then the required transactional operation" : "none",
   });
@@ -502,18 +563,18 @@ function plan(repoArg) {
   const state = status(repoArg);
   return result("plan", "read_only", "success", {
     current_status: state.status,
-    planned_changes: ["validate_graph_manifest", "migrate_legacy_extension_if_present", "enable_public_contract", "build_safe_inventory", "verify_target_binding"],
+    planned_changes: ["validate_graph_manifest", "migrate_legacy_extension_if_present", "migrate_project_local_runtime_to_host_state", "enable_public_contract", "build_safe_inventory", "verify_target_binding"],
     blockers: state.blockers.filter((item) => !["project_technology_not_configured", "project_technology_migration_required", "project_technology_inventory_missing", "project_technology_inventory_stale"].includes(item)),
     next_action: "rerun the selected operation with --apply",
   });
 }
 
-function preview(operation, repoArg) {
-  const state = status(repoArg);
+function preview(operation, repoArg, options = {}) {
+  const state = status(repoArg, options);
   return result(operation, "preview", "preview", { apply_required: true, current_status: state.status, blockers: state.blockers.filter((item) => item.startsWith("graph_manifest_")), next_action: `${operation} --apply` });
 }
 
-function enable(repoArg) {
+function enable(repoArg, options = {}) {
   const repo = normalizeRepo(repoArg);
   const manifestState = readManifest(repo);
   if (!manifestState.manifest || manifestState.blockers.length) return result("enable", "transactional", "fail", { blockers: manifestState.blockers, next_action: "repair graph.json" });
@@ -523,7 +584,13 @@ function enable(repoArg) {
   delete extensions[LEGACY_EXTENSION_KEY];
   extensions[EXTENSION_KEY] = extensionContract();
   manifest.extensions = extensions;
-  const migrationRoot = path.join(repo, LOCAL_DIR, "migrations", sha256(canonicalBytes({ legacy: legacy || null, head: git(repo, "rev-parse", "HEAD") })).slice(0, 16));
+  const root = runtimeRoot(repo, manifest, options);
+  const runtimeMigration = migrateProjectLocalRuntime(repo, manifest, root);
+  if (runtimeMigration.blockers.length) return result("enable", "transactional", "fail", {
+    blockers: runtimeMigration.blockers,
+    next_action: "repair the project-local runtime before host-state migration",
+  });
+  const migrationRoot = path.join(root, "migrations", sha256(canonicalBytes({ legacy: legacy || null, head: git(repo, "rev-parse", "HEAD") })).slice(0, 16));
   fs.mkdirSync(migrationRoot, { recursive: true });
   atomicWrite(path.join(migrationRoot, "graph.json.before"), fs.readFileSync(path.join(repo, "graph.json")));
   if (legacy) atomicWrite(path.join(migrationRoot, "legacy-extension.json"), canonicalBytes(legacy));
@@ -531,25 +598,52 @@ function enable(repoArg) {
   if (fs.existsSync(legacyLocal)) atomicWrite(path.join(migrationRoot, "legacy-local-state.json"), canonicalBytes({ status: "preserved_for_rollback", path: LEGACY_LOCAL_DIR }));
   const manifestChanged = atomicWrite(path.join(repo, "graph.json"), canonicalBytes(manifest));
   const inv = inventory(repo);
-  const inventoryChanged = atomicWrite(path.join(repo, INVENTORY_FILE), canonicalBytes(inv));
+  const inventoryChanged = atomicWrite(path.join(root, INVENTORY_FILE), canonicalBytes(inv));
   const verified = readManifest(repo);
   if (verified.blockers.length || extensionState(verified.manifest).blockers.length) {
     fs.copyFileSync(path.join(migrationRoot, "graph.json.before"), path.join(repo, "graph.json"));
     return result("enable", "transactional", "fail", { blockers: ["project_technology_enable_rolled_back", ...verified.blockers], next_action: "inspect the rollback receipt" });
   }
-  return result("enable", "transactional", "success", { changed: manifestChanged || inventoryChanged, migration_ref: path.relative(repo, migrationRoot).split(path.sep).join("/"), technology_digest: inv.inventory_digest });
+  return result("enable", "transactional", "success", {
+    changed: manifestChanged || inventoryChanged || runtimeMigration.changed,
+    migration_ref: runtimeMigration.migration_ref || `host-local://migrations/${path.basename(migrationRoot)}`,
+    technology_digest: inv.inventory_digest,
+  });
 }
 
-function sync(repoArg) {
+function sync(repoArg, options = {}) {
   const repo = normalizeRepo(repoArg);
   const manifestState = readManifest(repo);
   const ext = extensionState(manifestState.manifest);
   const blockers = [...manifestState.blockers, ...ext.blockers];
+  const hostRoot = runtimeRoot(repo, manifestState.manifest, options);
+  if (legacyRuntimeState(repo).present && !fs.existsSync(path.join(hostRoot, INVENTORY_FILE))) blockers.push("project_technology_host_state_migration_required");
   if (!ext.contract || ext.legacy || ext.contract.enabled !== true) blockers.push("project_technology_not_enabled");
   if (blockers.length) return result("sync", "transactional", "fail", { blockers: [...new Set(blockers)].sort(), next_action: "enable or repair Project Technology" });
+  let continuityResult = null;
+  if (options.boundary) {
+    continuityResult = continuity.sync(repo, manifestState.manifest, options.boundary, options.continuityEvidence, options);
+    if (continuityResult.status !== "success") return result("sync", "transactional", continuityResult.status, {
+      blockers: continuityResult.blockers,
+      continuity: continuityResult.continuity || null,
+      next_action: "repair the continuity evidence or reconcile the graph state",
+    });
+    if (options.boundary === "task_start") return result("sync", "read_only", "success", {
+      changed: false,
+      technology_digest: inventory(repo).inventory_digest,
+      target_binding: targetBindingStatus(repo, options),
+      continuity: continuityResult.continuity,
+    });
+  }
   const inv = inventory(repo);
-  const changed = atomicWrite(path.join(repo, INVENTORY_FILE), canonicalBytes(inv));
-  return result("sync", "transactional", "success", { changed, technology_digest: inv.inventory_digest, target_binding: targetBindingStatus(repo) });
+  const currentManifest = readManifest(repo).manifest;
+  const changed = atomicWrite(path.join(runtimeRoot(repo, currentManifest || manifestState.manifest, options), INVENTORY_FILE), canonicalBytes(inv));
+  return result("sync", "transactional", "success", {
+    changed: changed || Boolean(continuityResult?.changed),
+    technology_digest: inv.inventory_digest,
+    target_binding: targetBindingStatus(repo, options),
+    continuity: continuityResult?.continuity || continuity.status(repo, currentManifest, options),
+  });
 }
 
 function provide(repoArg, options = {}) {
@@ -588,7 +682,8 @@ function connect(repoArg, options = {}) {
   const providerRoot = providerRootFor(source);
   if (!providerRoot) blockers.push("provider_revision_order_unverifiable");
   else if (git(providerRoot, "rev-parse", "HEAD").toLowerCase() !== identity.values.provider_revision) blockers.push("provider_revision_does_not_match_head");
-  const currentPath = path.join(repo, BINDING_FILE);
+  const root = runtimeRoot(repo, manifestState.manifest, options);
+  const currentPath = path.join(root, BINDING_FILE);
   let current = null;
   try { if (fs.existsSync(currentPath)) current = readJson(currentPath); } catch (_) { blockers.push("current_target_binding_invalid"); }
   if (current) {
@@ -596,14 +691,14 @@ function connect(repoArg, options = {}) {
       const same = Object.keys(identity.values).every((key) => current[key] === identity.values[key]);
       if (!same) blockers.push("target_provider_conflict", "target_provider_refresh_required");
       else {
-        const currentState = targetBindingStatus(repo);
+        const currentState = targetBindingStatus(repo, options);
         if (currentState.status !== "ready") blockers.push(...currentState.blockers);
         if (currentState.execution_contract_digest !== read.export.execution_contract_digest) blockers.push("target_provider_conflict", "provider_execution_contract_mismatch");
       }
     } else {
       if (current.target_id !== identity.values.target_id) blockers.push("target_provider_target_mismatch");
       if (current.semantic_digest !== identity.values.semantic_digest) blockers.push("target_provider_semantic_mismatch");
-      const currentState = targetBindingStatus(repo);
+      const currentState = targetBindingStatus(repo, options);
       if (currentState.status !== "ready") blockers.push(...currentState.blockers);
       if (currentState.execution_contract_digest !== read.export.execution_contract_digest) blockers.push("provider_execution_contract_refresh_mismatch");
       if (!providerRoot) blockers.push("provider_revision_order_unverifiable");
@@ -618,8 +713,8 @@ function connect(repoArg, options = {}) {
   if (blockers.length) return result("connect", "transactional", "fail", { blockers: [...new Set(blockers)].sort(), next_action: "repair the provider export or request an explicit accepted target change" });
   const exportBytes = canonicalBytes(read.export);
   const exportSha = sha256(exportBytes);
-  const imported = path.join(repo, IMPORT_DIR, `${exportSha}.json`);
-  const binding = { schema_version: "1.0.0", ...identity.values, provider_export_ref: path.relative(repo, imported).split(path.sep).join("/"), provider_export_sha256: exportSha };
+  const imported = path.join(root, IMPORT_DIR, `${exportSha}.json`);
+  const binding = { schema_version: "1.0.0", ...identity.values, provider_export_ref: `host-local://${IMPORT_DIR}/${exportSha}.json`, provider_export_sha256: exportSha };
   const transaction = fs.mkdtempSync(path.join(os.tmpdir(), "mirai-project-technology-"));
   const bindingBefore = fs.existsSync(currentPath) ? fs.readFileSync(currentPath) : null;
   const importBefore = fs.existsSync(imported) ? fs.readFileSync(imported) : null;
@@ -627,7 +722,7 @@ function connect(repoArg, options = {}) {
     const exportChanged = atomicWrite(imported, exportBytes);
     const bindingChanged = atomicWrite(currentPath, canonicalBytes(binding));
     fs.rmSync(transaction, { recursive: true, force: true });
-    return result("connect", "transactional", "success", { changed: exportChanged || bindingChanged, refresh_binding: Boolean(options.refreshBinding), target_binding: targetBindingStatus(repo) });
+    return result("connect", "transactional", "success", { changed: exportChanged || bindingChanged, refresh_binding: Boolean(options.refreshBinding), target_binding: targetBindingStatus(repo, options) });
   } catch (_) {
     if (bindingBefore) atomicWrite(currentPath, bindingBefore); else if (fs.existsSync(currentPath)) fs.unlinkSync(currentPath);
     if (importBefore) atomicWrite(imported, importBefore); else if (fs.existsSync(imported)) fs.unlinkSync(imported);
@@ -636,14 +731,15 @@ function connect(repoArg, options = {}) {
   }
 }
 
-function disconnect(repoArg) {
+function disconnect(repoArg, options = {}) {
   const repo = normalizeRepo(repoArg);
-  const bindingPath = path.join(repo, BINDING_FILE);
+  const root = runtimeRoot(repo, readManifest(repo).manifest, options);
+  const bindingPath = path.join(root, BINDING_FILE);
   if (!fs.existsSync(bindingPath)) return result("disconnect", "transactional", "success");
-  const backup = path.join(repo, LOCAL_DIR, "rollback", `binding-${sha256(fs.readFileSync(bindingPath)).slice(0, 16)}.json`);
+  const backup = path.join(root, "rollback", `binding-${sha256(fs.readFileSync(bindingPath)).slice(0, 16)}.json`);
   atomicWrite(backup, fs.readFileSync(bindingPath));
   fs.unlinkSync(bindingPath);
-  return result("disconnect", "transactional", "success", { changed: true, rollback_ref: path.relative(repo, backup).split(path.sep).join("/") });
+  return result("disconnect", "transactional", "success", { changed: true, rollback_ref: `host-local://rollback/${path.basename(backup)}` });
 }
 
 function disable(repoArg) {
@@ -658,19 +754,25 @@ function disable(repoArg) {
   return result("disable", "transactional", "success", { changed });
 }
 
-function repair(repoArg) {
+function repair(repoArg, options = {}) {
   const repo = normalizeRepo(repoArg);
   const manifestState = readManifest(repo);
   if (!manifestState.manifest || manifestState.blockers.length) return result("repair", "transactional", "fail", { blockers: manifestState.blockers, next_action: "repair graph.json before Project Technology" });
   const ext = extensionState(manifestState.manifest);
-  if (!ext.contract || ext.legacy) return enable(repo);
-  if (ext.blockers.length) return enable(repo);
-  return sync(repo);
+  if (!ext.contract || ext.legacy) return enable(repo, options);
+  if (ext.blockers.length) return enable(repo, options);
+  const root = runtimeRoot(repo, manifestState.manifest, options);
+  if (legacyRuntimeState(repo).present && !fs.existsSync(path.join(root, INVENTORY_FILE))) return enable(repo, options);
+  return sync(repo, options);
 }
 
 function verify(repoArg, options = {}) {
-  const state = status(repoArg);
+  const state = status(repoArg, options);
   const blockers = [...state.blockers];
+  const repo = normalizeRepo(repoArg);
+  const manifest = readManifest(repo).manifest;
+  const continuityResult = continuity.verify(repo, manifest, options);
+  if (options.significantWork) blockers.push(...continuityResult.blockers);
   if (options.significantWork && state.target_binding.status !== "ready") blockers.push("accepted_target_binding_required_for_significant_work");
   return result("verify", "read_only", blockers.length ? "blocked" : "success", {
     repository_id: state.repository_id,
@@ -679,6 +781,7 @@ function verify(repoArg, options = {}) {
     technology_freshness: state.technology_freshness,
     technology_digest: state.technology_digest,
     target_binding: state.target_binding,
+    continuity: continuityResult.continuity,
     blockers: [...new Set(blockers)].sort(),
     next_action: blockers.length ? "repair the listed Project Technology blockers" : "none",
   });
@@ -689,7 +792,7 @@ function execute(operation, repoArg, options = {}) {
   if (readOnly[operation]) return readOnly[operation](repoArg, options);
   const transactional = { enable, sync, connect, disconnect, provide, disable, repair };
   if (!transactional[operation]) return result(operation, "read_only", "fail", { blockers: ["unsupported_project_technology_operation"] });
-  if (!options.apply) return preview(operation, repoArg);
+  if (!options.apply) return preview(operation, repoArg, options);
   return transactional[operation](repoArg, options);
 }
 
@@ -712,6 +815,7 @@ module.exports = {
   extensionContract,
   inventory,
   normalizeExecutionContract,
+  continuity,
   plan,
   provide,
   readExport,

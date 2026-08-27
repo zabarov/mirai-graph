@@ -13,6 +13,8 @@ function usage() {
   console.error("Options: --apply --task <text> --source <file> --target-id <id>");
   console.error("         --semantic-digest <sha256:...> --provider-revision <sha>");
   console.error("         --refresh-binding --significant-work --max-objects <count>");
+  console.error("Continuity: sync --boundary task_start|stage_complete|task_complete [--evidence <json>] [--expected-graph-digest <sha256:...>]");
+  console.error("            verify --significant-work [--receipt-digest <sha256:...>]");
   console.error("Context: --phase discover --task <text>");
   console.error("         --phase expand --input <receipt.json> --select <id> [--select <id>]");
   console.error("         --phase compile --input <receipt.json> --selection <selection.json>");
@@ -25,7 +27,7 @@ function parse(argv) {
   let repository = ".";
   if (argv[0] && !argv[0].startsWith("--")) repository = argv.shift();
   const options = {};
-  const values = new Set(["--task", "--source", "--target-id", "--semantic-digest", "--provider-revision", "--max-objects", "--phase", "--input", "--select", "--selection", "--packet", "--evidence", "--selector", "--reason", "--confidence", "--context-budget"]);
+  const values = new Set(["--task", "--source", "--target-id", "--semantic-digest", "--provider-revision", "--max-objects", "--phase", "--input", "--select", "--selection", "--packet", "--evidence", "--selector", "--reason", "--confidence", "--context-budget", "--boundary", "--expected-graph-digest", "--receipt-digest", "--state-root"]);
   const flags = new Set(["--apply", "--refresh-binding", "--significant-work"]);
   const names = {
     "--task": "task", "--source": "source", "--target-id": "targetId",
@@ -36,6 +38,8 @@ function parse(argv) {
     "--selection": "selectionFile", "--packet": "packetFile", "--evidence": "evidenceFile",
     "--selector": "selector", "--reason": "reason", "--confidence": "confidence",
     "--context-budget": "contextBudget",
+    "--boundary": "boundary", "--expected-graph-digest": "expectedGraphDigest",
+    "--receipt-digest": "receiptDigest", "--state-root": "stateRoot",
   };
   while (argv.length) {
     const token = argv.shift();
@@ -57,6 +61,11 @@ function readJsonFile(file) {
 }
 
 function hydrateContextOptions(request) {
+  if (request.operation === "sync" && request.options.boundary) {
+    if (request.options.boundary !== "task_start" && !request.options.evidenceFile) throw new Error(`${request.options.boundary} requires --evidence`);
+    if (request.options.evidenceFile) request.options.continuityEvidence = readJsonFile(request.options.evidenceFile);
+    return;
+  }
   if (request.operation !== "context" || !request.options.phase) return;
   const phase = request.options.phase;
   if (!new Set(["discover", "expand", "compile", "verify"]).has(phase)) throw new Error(`unsupported context phase ${phase}`);

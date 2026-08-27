@@ -112,10 +112,16 @@ Initial core kinds:
 - `resource`, `source`;
 - `check`, `gate`, `constraint`;
 - `access_requirement`.
+- `project_dna`, `stage`, `batch`;
+- `method`, `lesson`, `regression_case`.
 
 The additional domain-neutral kinds support Project Technology traversal. A
 consumer may display them using its own vocabulary without changing their
 canonical meaning.
+
+Portable continuity uses these existing domain-neutral kinds. A verified task
+result is evidence plus a regression case; an inferred reusable method remains
+a lesson proposal until its promotion rule is satisfied.
 
 ## Object Boundary Rules
 

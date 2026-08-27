@@ -15,6 +15,8 @@ Release notes must separate:
 
 ## Release Notes
 
+- [v1.2.0](1.2.0.md) - portable task-boundary project continuity in Project
+  Technology.
 - [v1.1.0](1.1.0.md) - universal sequential context traversal and usage
   verification in Project Technology.
 - [v1.0.0](1.0.0.md) - stable Project Technology, CLI and public contract.

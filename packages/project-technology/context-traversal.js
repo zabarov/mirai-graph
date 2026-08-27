@@ -63,18 +63,27 @@ function trackedState(repo) {
   const trackedRun = spawnSync("git", ["ls-files", "-z"], { cwd: repo, encoding: "utf8", maxBuffer: 64 * 1024 * 1024 });
   const dirtyRun = spawnSync("git", ["diff", "--name-only", "-z", "HEAD", "--"], { cwd: repo, encoding: "utf8", maxBuffer: 64 * 1024 * 1024 });
   return {
+    hasGit: Boolean(git(repo, "rev-parse", "--is-inside-work-tree")),
     tracked: new Set(trackedRun.status === 0 ? trackedRun.stdout.split("\0").filter(Boolean) : []),
     dirty: new Set(dirtyRun.status === 0 ? dirtyRun.stdout.split("\0").filter(Boolean) : []),
   };
 }
 
 function graphBlob(graph, relative) {
+  if (!graph.hasGit) {
+    const absolute = path.join(graph.repo, relative);
+    return fs.existsSync(absolute) && !fs.lstatSync(absolute).isSymbolicLink() && fs.statSync(absolute).isFile() ? fs.readFileSync(absolute) : null;
+  }
   if (!graph.tracked?.has(relative) || graph.dirty?.has(relative)) return null;
   if (!graph.blobCache.has(relative)) graph.blobCache.set(relative, gitBlob(graph.repo, relative));
   return graph.blobCache.get(relative);
 }
 
 function revisionBound(repo, relative) {
+  if (!git(repo, "rev-parse", "--is-inside-work-tree")) {
+    const absolute = path.join(repo, relative);
+    return fs.existsSync(absolute) && !fs.lstatSync(absolute).isSymbolicLink() && fs.statSync(absolute).isFile();
+  }
   if (!gitBlob(repo, relative)) return false;
   return spawnSync("git", ["diff", "--quiet", "HEAD", "--", relative], { cwd: repo }).status === 0;
 }
@@ -197,19 +206,20 @@ function readGraph(repoArg) {
     if (!objects.has(relation.source) || !objects.has(relation.target)) { output.blockers.push("relation_endpoint_missing"); continue; }
     relations.push({ ...relation, _record: record });
   }
-  const revision = git(repo, "rev-parse", "HEAD") || null;
   const state = trackedState(repo);
   for (const relative of unique([
     "graph.json",
     ...[...objects.values()].map((record) => record.relative),
     ...relations.map((relation) => relation._record.relative),
-  ])) if (!state.tracked.has(relative) || state.dirty.has(relative)) output.blockers.push("graph_source_not_revision_bound");
-  const graphPayload = {
+  ])) if (state.hasGit && (!state.tracked.has(relative) || state.dirty.has(relative))) output.blockers.push("graph_source_not_revision_bound");
+  const gitRevision = git(repo, "rev-parse", "HEAD") || null;
+  const graphPayloadBase = {
     manifest: { id: manifest.id, scope: manifest.scope, profiles: manifest.profiles, graph: manifest.graph },
     objects: [...objects.values()].map((record) => record.value).sort((a, b) => a.id.localeCompare(b.id)),
     relations: relations.map(({ _record, ...relation }) => relation).sort((a, b) => a.id.localeCompare(b.id)),
-    revision,
   };
+  const revision = gitRevision || `content:${digest(graphPayloadBase).slice(7)}`;
+  const graphPayload = { ...graphPayloadBase, revision };
   return {
     repo,
     manifest,
@@ -219,6 +229,7 @@ function readGraph(repoArg) {
     relations,
     tracked: state.tracked,
     dirty: state.dirty,
+    hasGit: state.hasGit,
     blobCache: new Map(),
     blockers: unique(output.blockers),
   };
@@ -638,7 +649,7 @@ function verifyContext(repository, contextPack, usageEvidence, options = {}) {
     const absolute = path.join(graph.repo, source.ref);
     if (!fs.existsSync(absolute) || fs.lstatSync(absolute).isSymbolicLink() || !fs.statSync(absolute).isFile()) blockers.push("context_pack_source_unavailable");
     else {
-      const blob = gitBlob(graph.repo, source.ref);
+      const blob = graphBlob(graph, source.ref);
       if (!blob || !revisionBound(graph.repo, source.ref) || digest(blob) !== source.sha256 || source.revision !== graph.revision) blockers.push("context_pack_source_revision_or_digest_mismatch");
     }
   }

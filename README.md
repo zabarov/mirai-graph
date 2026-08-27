@@ -10,7 +10,7 @@ Use it when a software project has useful knowledge spread across README files,
 docs, issues, chats, code comments and AI prompts, and you need a small
 machine-readable map that developers and AI assistants can validate and reuse.
 
-Status: stable public `1.1.0` release.
+Status: stable public `1.2.0` release.
 
 ## What Problem Does It Solve?
 
@@ -42,7 +42,7 @@ Start with a normal repository and use Mirai Graph to:
 
 ## Current Installation Status
 
-The repository is ready as the stable `mirai-graph@1.1.0` package. To verify a
+The repository provides the stable `mirai-graph@1.2.0` package. To verify a
 repository checkout directly, use:
 
 ```bash
@@ -96,7 +96,8 @@ Enable it in the existing root manifest:
       "contract_version": "1.0.0",
       "enabled": true,
       "context_policy": "task_scoped",
-      "source_boundary": "hybrid_sot"
+      "source_boundary": "hybrid_sot",
+      "continuity_policy": "task_boundary"
     }
   }
 }
@@ -129,6 +130,17 @@ outcome; merely loading a document is not enough.
 The programmatic API exposes the same operations as `discoverContext`,
 `expandContext`, `compileContext` and `verifyContext`. Mirai Graph does not call
 or depend on a particular AI model.
+
+Verified project experience can be saved without storing a chat transcript:
+
+```bash
+mirai-graph technology sync . --boundary task_complete --evidence continuity-evidence.json
+mirai-graph technology sync . --boundary task_complete --evidence continuity-evidence.json --apply
+```
+
+Accepted facts and reusable cases live in `graph/specs`; mutable receipts and
+rollback data stay host-local. The same contract works in Git repositories and
+ordinary shared folders.
 
 Changing operations return a preview unless `--apply` is explicit. See
 [Project Technology](standard/project-technology.md) for provider/consumer

@@ -12,7 +12,14 @@
     "milestone",
     "stakeholder",
     "evidence",
-    "governance_gate"
+    "governance_gate",
+    "project_dna",
+    "stage",
+    "batch",
+    "requirement",
+    "method",
+    "lesson",
+    "regression_case"
   ],
   "allowed_relation_types": [
     "depends_on",

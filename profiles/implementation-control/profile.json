@@ -47,7 +47,9 @@
     "review",
     "release_gate",
     "kaizen_item",
-    "evidence"
+    "evidence",
+    "regression_case",
+    "lesson"
   ],
   "allowed_relation_types": [
     "derives_projection",

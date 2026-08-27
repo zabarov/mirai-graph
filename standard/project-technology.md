@@ -1,6 +1,6 @@
 # Project Technology
 
-Status: 1.1 stable standard; activation contract remains 1.0.0
+Status: 1.2 stable standard; activation contract remains 1.0.0
 
 Project Technology is the shared executable mechanism of Mirai Graph. It is
 not a profile, a second graph or a source of domain methodology.
@@ -18,6 +18,31 @@ Project Technology operations therefore work for:
 Each graph keeps its own objects and relations. Project Technology only
 standardizes safe inventory, task context, accepted-target binding, freshness
 and verification.
+
+## Portable Project Continuity
+
+Project Technology preserves verified project experience at task boundaries:
+
+```text
+task context -> verified outcome -> semantic candidate -> graph/specs
+             -> next task context -> usage verification
+```
+
+`graph/specs` is the portable authority. Chat history and local workflow files
+are not required by another person or installation. Mutable receipts and
+rollback data are stored outside the project in a host-local directory keyed by
+`graph.id`.
+
+The existing `sync` operation accepts `task_start`, `stage_complete` and
+`task_complete`. Task start is read-only. A completed stage or task requires a
+verified, requirement-bound input and records accepted evidence plus one
+reusable regression case. New goals, architectural decisions and ownership
+changes remain proposals.
+
+Two independent verified cases with the same signature may promote a method
+lesson when they do not change architecture. Repeated input is byte-identical
+and returns `changed=false`. Shared folders without Git additionally use a
+lease, compare-and-swap graph digest, backup, atomic write and readback.
 
 ## Sequential Context Traversal
 
@@ -59,13 +84,15 @@ The only manifest extension key is `mirai.project_technology`:
   "contract_version": "1.0.0",
   "enabled": true,
   "context_policy": "task_scoped",
-  "source_boundary": "hybrid_sot"
+  "source_boundary": "hybrid_sot",
+  "continuity_policy": "task_boundary"
 }
 ```
 
 Canonical graph objects remain in `graph/specs`. Exact external revisions
-remain in `graph.lock.json`. Mutable local state is ignored under
-`.mirai-graph/project-technology/`.
+remain in `graph.lock.json`. Mutable continuity state is host-local and keyed
+by graph identity; project-local runtime directories are not continuity
+authority.
 
 The only generated provider artifact is:
 
@@ -106,6 +133,10 @@ source still answers "how should the domain work be done?".
   diagnostic `verify` calls.
 - Context traversal is read-only in every phase and never grants write
   authority.
+- Chat text, secrets, private source, user paths and unverified assumptions are
+  rejected from portable continuity.
+- Significant work with an enabled continuity policy fails closed when its
+  terminal receipt is missing or stale.
 - A context pack is not ready while a required branch, source, access boundary
   or validator is missing, stale, blocked, deprecated, conflicting or
   digest-mismatched.

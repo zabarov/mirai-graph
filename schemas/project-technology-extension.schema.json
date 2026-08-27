@@ -9,6 +9,7 @@
     "contract_version": { "const": "1.0.0" },
     "enabled": { "type": "boolean" },
     "context_policy": { "const": "task_scoped" },
-    "source_boundary": { "const": "hybrid_sot" }
+    "source_boundary": { "const": "hybrid_sot" },
+    "continuity_policy": { "enum": ["task_boundary"] }
   }
 }

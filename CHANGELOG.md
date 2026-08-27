@@ -4,6 +4,34 @@ All notable changes to Mirai Graph will be documented in this file.
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-08-27
+
+### Added
+
+- Portable project continuity in the existing Project Technology `sync`,
+  `context` and `verify` operations.
+- Task-boundary evidence compaction into accepted facts, evidence, reusable
+  regression cases and bounded proposals in `graph/specs`.
+- Host-local receipts keyed by graph identity, with lease, compare-and-swap,
+  backup, atomic write, readback and rollback support for shared non-Git folders.
+- Automatic discovery of relevant previous cases through the existing context
+  traversal protocol.
+
+### Safety Boundary
+
+- Chat transcripts, secrets, private source, user paths and unverified claims
+  are not portable project memory.
+- New goals, architecture changes and ownership changes remain proposals.
+- Generated human context is a projection only and never authorizes writes.
+- The public `graph.json` schema and Project Technology activation contract
+  remain `2.0.0` and `1.0.0` respectively.
+
+### Verification
+
+- New fixtures cover Git and non-Git projects, two-installation portability,
+  idempotence, stale receipts, concurrent-write protection, secret rejection,
+  proposal boundaries and two-case method promotion.
+
 ## [1.1.1] - 2026-08-26
 
 ### Fixed

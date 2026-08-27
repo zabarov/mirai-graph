@@ -1,6 +1,6 @@
 # Mirai Graph Test Suite
 
-Status: 1.1 stable standard section
+Status: 1.2 stable standard section
 
 ## Purpose
 
@@ -36,6 +36,9 @@ Current checks:
   research, organization, platform, skill-like and multi-repository scopes;
 - reject incomplete mandatory closure, stale nodes, conflicts, cycles,
   tampered digests, secret-like evidence and context-budget shortcuts.
+- verify portable continuity for Git and non-Git projects, two independent
+  installations, idempotent repeats, stale receipts, CAS conflicts, secret
+  rejection, bounded proposals and two-case method promotion.
 
 ## Structural Validation
 

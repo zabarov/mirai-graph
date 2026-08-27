@@ -1,6 +1,6 @@
 # Mirai Graph Context-Pack Generation
 
-Status: 1.1 stable standard section
+Status: 1.2 stable standard section
 
 ## Purpose
 
@@ -56,7 +56,7 @@ task -> select relevant objects -> select relevant relations
      -> generate context pack -> review/use for task
 ```
 
-Project Technology 1.1 implements this as a deterministic four-phase protocol:
+Project Technology implements this as a deterministic four-phase protocol:
 
 ```text
 discover -> expand -> compile -> verify
@@ -167,6 +167,12 @@ Each non-trivial context pack should state:
 Generated context packs may be reviewed and then used as evidence or source
 material for graph updates. They do not automatically mutate canonical graph
 state.
+
+With `continuity_policy: task_boundary`, accepted continuity objects in
+`graph/specs` participate in the same traversal as every other graph object.
+Relevant previous cases can therefore be found without reading chat history or
+requiring a user to say "continue". Host-local receipts never enter a context
+pack and never become portable authority.
 
 ## Anti-Patterns
 
