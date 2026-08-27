@@ -5,8 +5,10 @@ const fs = require("fs");
 const os = require("os");
 const path = require("path");
 
-const CONTINUITY_FILE = path.join("graph", "specs", "project-continuity.json");
-const CONTEXT_PROJECTION_FILE = path.join("graph", "docs", "project-context.md");
+// Manifest refs are portable POSIX-style identifiers even when the host is Windows.
+// Convert them to host paths only when joining with the repository root.
+const CONTINUITY_FILE = "graph/specs/project-continuity.json";
+const CONTEXT_PROJECTION_FILE = "graph/docs/project-context.md";
 const BOUNDARIES = new Set(["task_start", "stage_complete", "task_complete"]);
 const SECRET_PATTERN = /(?:ghp_|github_pat_|bearer\s+)[a-z0-9_-]{12,}|-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----|(?:^|["'\s/])\.env(?:["'\s/]|$)|(?:password|token|secret|cookie)\s*[:=]/i;
 const PRIVATE_PATH_PATTERN = /(?:^|[^A-Za-z0-9._-])source[\\/](?:private|memory|workflow|handoff)(?:[\\/]|$)/i;
