@@ -81,6 +81,8 @@ try {
   check("task_start_is_read_only", taskStart.status === "success" && taskStart.changed === false && git(repo, "status", "--porcelain=v1") === before, taskStart);
   const preview = technology.execute("sync", repo, { apply: false, boundary: "task_complete", continuityEvidence: evidence("preview"), stateRoot });
   check("preview_is_zero_write", preview.status === "preview" && git(repo, "status", "--porcelain=v1") === before, preview);
+  const missingReceiptVerify = technology.verify(repo, { stateRoot });
+  check("configured_continuity_without_receipt_blocks_verify", missingReceiptVerify.status === "blocked" && missingReceiptVerify.blockers.includes("continuity_missing"), missingReceiptVerify);
 
   const first = technology.execute("sync", repo, { apply: true, boundary: "stage_complete", continuityEvidence: evidence("first", { method_candidate: "Use the verified bounded fixture path." }), stateRoot });
   check("verified_result_is_saved", first.status === "success" && first.changed && first.continuity.saved_refs.length === 2, first);
@@ -104,6 +106,7 @@ try {
   const beforeRepeat = fs.readFileSync(path.join(repo, "graph/specs/project-continuity.json"));
   const repeated = technology.execute("sync", repo, { apply: true, boundary: "task_complete", continuityEvidence: evidence("second", { method_candidate: "Use the verified bounded fixture path." }), stateRoot });
   check("repeat_is_byte_identical", repeated.status === "success" && repeated.changed === false && fs.readFileSync(path.join(repo, "graph/specs/project-continuity.json")).equals(beforeRepeat), repeated);
+  check("fresh_continuity_verifies_without_target_for_light_work", technology.verify(repo, { stateRoot }).status === "success");
   check("fresh_receipt_allows_significant_work", technology.continuity.verify(repo, JSON.parse(fs.readFileSync(path.join(repo, "graph.json"), "utf8")), { stateRoot }).status === "success");
 
   const staleDigest = technology.continuity.graphDigest(repo);

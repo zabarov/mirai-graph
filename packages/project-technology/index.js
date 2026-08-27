@@ -772,7 +772,7 @@ function verify(repoArg, options = {}) {
   const repo = normalizeRepo(repoArg);
   const manifest = readManifest(repo).manifest;
   const continuityResult = continuity.verify(repo, manifest, options);
-  if (options.significantWork) blockers.push(...continuityResult.blockers);
+  if (continuity.continuityPolicy(manifest) === "task_boundary" || options.receiptDigest || options.significantWork) blockers.push(...continuityResult.blockers);
   if (options.significantWork && state.target_binding.status !== "ready") blockers.push("accepted_target_binding_required_for_significant_work");
   return result("verify", "read_only", blockers.length ? "blocked" : "success", {
     repository_id: state.repository_id,
