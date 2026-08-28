@@ -15,6 +15,7 @@ const {
 } = require("../cli/graph-manifest");
 const traversal = require("./context-traversal");
 const continuity = require("./continuity");
+const artifacts = require("./artifact-release");
 
 const CONTRACT_VERSION = "1.0.0";
 const EXTENSION_KEY = "mirai.project_technology";
@@ -788,6 +789,7 @@ function verify(repoArg, options = {}) {
 }
 
 function execute(operation, repoArg, options = {}) {
+  if (operation === "artifact") return artifacts.executeArtifact(repoArg, options);
   const readOnly = { explain, status, plan, verify, context };
   if (readOnly[operation]) return readOnly[operation](repoArg, options);
   const transactional = { enable, sync, connect, disconnect, provide, disable, repair };
@@ -802,9 +804,11 @@ module.exports = {
   LOCAL_DIR,
   bindingValues,
   canonicalBytes,
+  compareArtifactReleases: artifacts.compareArtifactReleases,
   connect,
   compileContext: traversal.compileContext,
   context,
+  createArtifactRelease: artifacts.createArtifactRelease,
   discoverContext: traversal.discoverContext,
   disable,
   disconnect,
@@ -814,6 +818,7 @@ module.exports = {
   explain,
   extensionContract,
   inventory,
+  inspectArtifactBundle: artifacts.inspectArtifactBundle,
   normalizeExecutionContract,
   continuity,
   plan,
@@ -825,5 +830,6 @@ module.exports = {
   sync,
   targetBindingStatus,
   verify,
+  verifyArtifactRelease: artifacts.verifyArtifactRelease,
   verifyContext: traversal.verifyContext,
 };

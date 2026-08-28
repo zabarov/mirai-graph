@@ -1,6 +1,6 @@
 # Project Technology
 
-Status: 1.2 stable standard; activation contract remains 1.0.0
+Status: 1.3 stable standard; activation contract remains 1.0.0
 
 Project Technology is the shared executable mechanism of Mirai Graph. It is
 not a profile, a second graph or a source of domain methodology.
@@ -18,6 +18,46 @@ Project Technology operations therefore work for:
 Each graph keeps its own objects and relations. Project Technology only
 standardizes safe inventory, task context, accepted-target binding, freshness
 and verification.
+
+## Immutable Artifact Releases
+
+Project Technology can preserve versioned file bundles without turning their
+contents into graph data:
+
+```text
+inspect -> release preview -> transactional release -> compare -> verify
+```
+
+The generic CLI is:
+
+```bash
+mirai-graph technology artifact inspect . --input incoming.zip
+mirai-graph technology artifact release . --input incoming.zip --matter-id agreement-main --direction inbound
+mirai-graph technology artifact release . --input incoming.zip --matter-id agreement-main --direction inbound --apply
+mirai-graph technology artifact compare . --matter-id agreement-main --base-release 20260828-01 --target-release 20260828-02
+mirai-graph technology artifact verify . --matter-id agreement-main --release-id 20260828-02
+```
+
+The programmatic API exposes `inspectArtifactBundle`,
+`createArtifactRelease`, `compareArtifactReleases` and
+`verifyArtifactRelease`.
+
+Each immutable release keeps the original input, a normalized package, a
+hash-bound manifest and a technical comparison. The portable registry at
+`graph/specs/artifact-releases.json` stores only opaque matter/release ids,
+relative or provider refs, lineage, state and digests. Raw files, document
+contents, party names and private discussion remain in the protected artifact
+store.
+
+Direct files, directories, ZIP, TAR and TAR.GZ are supported. Unsafe paths,
+links, encrypted archives, executable or macro-enabled files, nested archives,
+normalized path collisions and configured archive limits fail closed. RAR and
+7z need an explicitly supplied safe provider.
+
+Creation uses a lease, compare-and-swap registry digest, temporary assembly,
+atomic activation and readback. Repeating the same release returns
+`changed=false`. Domain consumers own the meaning of release states; Mirai
+Graph owns only generic identity, lineage, integrity and technical comparison.
 
 ## Portable Project Continuity
 
@@ -137,6 +177,10 @@ source still answers "how should the domain work be done?".
   rejected from portable continuity.
 - Significant work with an enabled continuity policy fails closed when its
   terminal receipt is missing or stale.
+- Artifact inspection, comparison and verification are read-only. Release
+  creation is preview-only without `--apply`.
+- An artifact manifest or generated export never proves legal, business or
+  domain acceptance.
 - A context pack is not ready while a required branch, source, access boundary
   or validator is missing, stale, blocked, deprecated, conflicting or
   digest-mismatched.

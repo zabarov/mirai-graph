@@ -91,6 +91,19 @@ npx mirai-graph technology context . --phase compile --input receipt.json --sele
 npx mirai-graph technology context . --phase verify --packet context-pack.json --evidence usage-evidence.json
 ```
 
+Versioned file bundles use the same Project Technology entrypoint:
+
+```bash
+npx mirai-graph technology artifact inspect . --input incoming.zip
+npx mirai-graph technology artifact release . --input incoming.zip --matter-id agreement-main --direction inbound
+npx mirai-graph technology artifact release . --input incoming.zip --matter-id agreement-main --direction inbound --apply
+npx mirai-graph technology artifact compare . --matter-id agreement-main --base-release 20260828-01 --target-release 20260828-02
+npx mirai-graph technology artifact verify . --matter-id agreement-main --release-id 20260828-02
+```
+
+Inspection, comparison and verification are read-only. Release creation is a
+preview until `--apply` is present.
+
 Omitting `--phase` keeps the original bounded context-discovery behavior.
 Receipt, selection, context-pack and usage-evidence files are caller-owned
 inputs and outputs; the command never stores them itself.

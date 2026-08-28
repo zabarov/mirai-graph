@@ -4,6 +4,36 @@ All notable changes to Mirai Graph will be documented in this file.
 
 ## [Unreleased]
 
+## [1.3.0] - 2026-08-28
+
+### Added
+
+- Generic immutable artifact releases in the existing Project Technology
+  engine: inspect, release, compare and verify.
+- Public JavaScript API and matching CLI for direct files, directories, ZIP,
+  TAR and TAR.GZ bundles.
+- Hash-bound manifests, release lineage, technical comparisons, deterministic
+  client-safe exports and portable metadata in `graph/specs`.
+- Transactional release creation with lease, compare-and-swap, atomic
+  activation, readback, rollback and idempotent repeat behavior.
+
+### Safety Boundary
+
+- Unsafe paths, links, encrypted or nested archives, executable and
+  macro-enabled files, normalized duplicates and archive-limit violations fail
+  closed.
+- Raw artifacts and private document content do not enter graph metadata.
+- Artifact integrity is not domain approval; consumers retain semantic
+  ownership.
+- The public graph schema remains `2.0.0` and the Project Technology
+  activation contract remains `1.0.0`.
+
+### Verification
+
+- New fixtures cover immutable releases, multiple matters, branching,
+  comparisons, tamper detection, concurrency, CAS conflicts, safe archives,
+  unsupported formats, read-only zero-write and shared folders.
+
 ## [1.2.0] - 2026-08-27
 
 ### Added

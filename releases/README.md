@@ -20,6 +20,7 @@ Release notes must separate:
 - [v1.1.0](1.1.0.md) - universal sequential context traversal and usage
   verification in Project Technology.
 - [v1.0.0](1.0.0.md) - stable Project Technology, CLI and public contract.
+- [v1.3.0](1.3.0.md) - immutable artifact releases in Project Technology.
 - [v1.0.0-rc.6](1.0.0-rc.6.md) - anti-drift / quality-control release
   consolidation across Semantic Intent, Dynamic Episode, Goal Vector and
   Technology Quality Feedback.

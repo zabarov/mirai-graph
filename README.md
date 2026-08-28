@@ -10,7 +10,7 @@ Use it when a software project has useful knowledge spread across README files,
 docs, issues, chats, code comments and AI prompts, and you need a small
 machine-readable map that developers and AI assistants can validate and reuse.
 
-Status: stable public `1.2.0` release.
+Status: stable public `1.3.0` release.
 
 ## What Problem Does It Solve?
 
@@ -42,7 +42,7 @@ Start with a normal repository and use Mirai Graph to:
 
 ## Current Installation Status
 
-The repository provides the stable `mirai-graph@1.2.0` package. To verify a
+The repository provides the stable `mirai-graph@1.3.0` package. To verify a
 repository checkout directly, use:
 
 ```bash
@@ -141,6 +141,20 @@ mirai-graph technology sync . --boundary task_complete --evidence continuity-evi
 Accepted facts and reusable cases live in `graph/specs`; mutable receipts and
 rollback data stay host-local. The same contract works in Git repositories and
 ordinary shared folders.
+
+Project Technology can also preserve immutable releases of file bundles:
+
+```bash
+mirai-graph technology artifact inspect . --input incoming.zip
+mirai-graph technology artifact release . --input incoming.zip --matter-id agreement-main --direction inbound
+mirai-graph technology artifact release . --input incoming.zip --matter-id agreement-main --direction inbound --apply
+mirai-graph technology artifact compare . --matter-id agreement-main --base-release 20260828-01 --target-release 20260828-02
+mirai-graph technology artifact verify . --matter-id agreement-main --release-id 20260828-02
+```
+
+The protected files remain outside graph data. The graph keeps only safe
+identity, lineage, state, references and checksums. Mirai Graph performs
+technical integrity checks; a domain owner decides what a version means.
 
 Changing operations return a preview unless `--apply` is explicit. See
 [Project Technology](standard/project-technology.md) for provider/consumer
