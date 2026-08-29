@@ -156,6 +156,23 @@ The protected files remain outside graph data. The graph keeps only safe
 identity, lineage, state, references and checksums. Mirai Graph performs
 technical integrity checks; a domain owner decides what a version means.
 
+Large operational methods can be described once as executable technologies and
+compiled into staff courses without maintaining a second semantic copy:
+
+```bash
+mirai-graph technology course compile . --technology graph/specs/technology.json
+mirai-graph technology course compile . --technology graph/specs/technology.json --scenario scenario.recovery
+mirai-graph technology course verify . --course-pack course-pack.json
+mirai-graph technology course reconcile . --course-pack course-pack.json --projection edited-course.json
+```
+
+An executable technology contains reusable operations, their prerequisites,
+inputs, outputs, stop conditions, rollback paths, checks and raw source refs.
+Scenarios select the operations needed for a complete or partial outcome.
+Compilation restores every required dependency. Reconciliation is read-only:
+editorial differences go to the documentation owner, while changed execution
+or safety rules become proposals to the technology owner.
+
 Changing operations return a preview unless `--apply` is explicit. See
 [Project Technology](standard/project-technology.md) for provider/consumer
 binding, local state and safety boundaries.

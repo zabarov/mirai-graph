@@ -1,0 +1,99 @@
+{
+  "schema_version": "1.0.0",
+  "id": "technology.service_release",
+  "title": "Safe service release",
+  "owner": "role.release_owner",
+  "outcome": "A verified service version is promoted with a tested recovery path.",
+  "lifecycle": "accepted",
+  "version": "2026.08",
+  "source_refs": ["repo://example/operations/release.md"],
+  "projection_refs": ["docs://staff-course/service-release"],
+  "operations": [
+    {
+      "id": "operation.inventory",
+      "title": "Inventory the current state",
+      "summary": "Record exact versions, dependencies and available environments before change.",
+      "owner": "role.release_owner",
+      "capability_ref": "capability.release.inventory",
+      "prerequisites": [],
+      "input_refs": ["input.release_request"],
+      "output_refs": ["evidence.current_state"],
+      "check_refs": ["check.inventory_complete"],
+      "stop_condition_refs": ["stop.unknown_current_state"],
+      "rollback_refs": [],
+      "source_refs": ["repo://example/operations/inventory.md"],
+      "instructional_refs": ["lesson.inventory"],
+      "applicability": ["release", "recovery"],
+      "negative_boundaries": ["Do not mutate the environment during inventory."]
+    },
+    {
+      "id": "operation.backup",
+      "title": "Prepare recovery",
+      "summary": "Create and verify a bounded backup and rollback procedure.",
+      "owner": "role.operations",
+      "capability_ref": "capability.release.recovery",
+      "prerequisites": ["operation.inventory"],
+      "input_refs": ["evidence.current_state"],
+      "output_refs": ["evidence.backup", "procedure.rollback"],
+      "check_refs": ["check.restore_smoke"],
+      "stop_condition_refs": ["stop.restore_not_proven"],
+      "rollback_refs": ["procedure.rollback"],
+      "source_refs": ["repo://example/operations/recovery.md"],
+      "instructional_refs": ["lesson.recovery"],
+      "applicability": ["release", "recovery"],
+      "negative_boundaries": ["A backup without a restore check is not sufficient."]
+    },
+    {
+      "id": "operation.validate",
+      "title": "Validate the candidate",
+      "summary": "Run the required functional, compatibility and safety checks.",
+      "owner": "role.tester",
+      "capability_ref": "capability.release.validation",
+      "prerequisites": ["operation.inventory"],
+      "input_refs": ["input.release_candidate"],
+      "output_refs": ["evidence.validation"],
+      "check_refs": ["check.acceptance"],
+      "stop_condition_refs": ["stop.blocking_regression"],
+      "rollback_refs": [],
+      "source_refs": ["repo://example/operations/validation.md"],
+      "instructional_refs": ["lesson.validation"],
+      "applicability": ["release"],
+      "negative_boundaries": ["A green syntax check is not an outcome verdict."]
+    },
+    {
+      "id": "operation.promote",
+      "title": "Promote the accepted version",
+      "summary": "Apply the exact accepted candidate and verify the resulting identity.",
+      "owner": "role.release_owner",
+      "capability_ref": "capability.release.promotion",
+      "prerequisites": ["operation.backup", "operation.validate"],
+      "input_refs": ["evidence.backup", "evidence.validation"],
+      "output_refs": ["evidence.release_readback"],
+      "check_refs": ["check.release_identity", "check.runtime_smoke"],
+      "stop_condition_refs": ["stop.identity_mismatch"],
+      "rollback_refs": ["procedure.rollback"],
+      "source_refs": ["repo://example/operations/promotion.md"],
+      "instructional_refs": ["lesson.promotion"],
+      "applicability": ["release"],
+      "negative_boundaries": ["Do not promote a candidate that differs from the accepted identity."]
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "scenario.full_release",
+      "title": "Full release",
+      "outcome": "The accepted service version is released and verified.",
+      "operation_ids": ["operation.inventory", "operation.backup", "operation.validate", "operation.promote"],
+      "required_inputs": ["input.release_request", "input.release_candidate"],
+      "audience": ["release_manager", "operations_engineer"]
+    },
+    {
+      "id": "scenario.recovery_preparation",
+      "title": "Recovery preparation only",
+      "outcome": "A verified rollback path exists without performing a release.",
+      "operation_ids": ["operation.backup"],
+      "required_inputs": ["input.release_request"],
+      "audience": ["operations_engineer"]
+    }
+  ]
+}

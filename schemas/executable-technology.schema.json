@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mirai-graph.org/schemas/executable-technology.schema.json",
+  "title": "Mirai Graph Executable Technology",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "id", "title", "owner", "outcome", "lifecycle", "version", "source_refs", "operations", "scenarios"],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "id": { "$ref": "#/$defs/id" },
+    "title": { "$ref": "#/$defs/text" },
+    "owner": { "$ref": "#/$defs/id" },
+    "outcome": { "$ref": "#/$defs/text" },
+    "lifecycle": { "enum": ["reviewed", "accepted", "active"] },
+    "version": { "$ref": "#/$defs/text" },
+    "source_refs": { "$ref": "#/$defs/nonEmptyIds" },
+    "projection_refs": { "$ref": "#/$defs/ids" },
+    "operations": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/operation" }
+    },
+    "scenarios": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/scenario" }
+    }
+  },
+  "$defs": {
+    "id": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/@?=+*\\-]{1,255}$" },
+    "text": { "type": "string", "minLength": 1 },
+    "ids": { "type": "array", "uniqueItems": true, "items": { "$ref": "#/$defs/id" } },
+    "nonEmptyIds": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "$ref": "#/$defs/id" } },
+    "operation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "title", "summary", "owner", "capability_ref", "output_refs", "check_refs", "source_refs"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "title": { "$ref": "#/$defs/text" },
+        "summary": { "$ref": "#/$defs/text" },
+        "owner": { "$ref": "#/$defs/id" },
+        "capability_ref": { "$ref": "#/$defs/id" },
+        "prerequisites": { "$ref": "#/$defs/ids" },
+        "input_refs": { "$ref": "#/$defs/ids" },
+        "output_refs": { "$ref": "#/$defs/nonEmptyIds" },
+        "check_refs": { "$ref": "#/$defs/nonEmptyIds" },
+        "stop_condition_refs": { "$ref": "#/$defs/ids" },
+        "rollback_refs": { "$ref": "#/$defs/ids" },
+        "source_refs": { "$ref": "#/$defs/nonEmptyIds" },
+        "instructional_refs": { "$ref": "#/$defs/ids" },
+        "applicability": { "type": "array", "uniqueItems": true, "items": { "$ref": "#/$defs/text" } },
+        "negative_boundaries": { "type": "array", "uniqueItems": true, "items": { "$ref": "#/$defs/text" } }
+      }
+    },
+    "scenario": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "title", "outcome", "operation_ids"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "title": { "$ref": "#/$defs/text" },
+        "outcome": { "$ref": "#/$defs/text" },
+        "operation_ids": { "$ref": "#/$defs/nonEmptyIds" },
+        "required_inputs": { "$ref": "#/$defs/ids" },
+        "audience": { "type": "array", "uniqueItems": true, "items": { "$ref": "#/$defs/text" } }
+      }
+    }
+  }
+}

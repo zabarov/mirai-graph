@@ -23,20 +23,28 @@ function usage() {
   console.error("           artifact release <repo> --input <path> --matter-id <id> --direction inbound|internal|outbound [--parent-release <id>] [--client-note <text>] [--create-export] [--apply]");
   console.error("           artifact compare <repo> --matter-id <id> --base-release <id> --target-release <id>");
   console.error("           artifact verify <repo> --matter-id <id> --release-id <id>");
+  console.error("Courses: course compile <repo> --technology <file> [--scenario <id>] [--audience <id>]");
+  console.error("         course verify <repo> --course-pack <file>");
+  console.error("         course reconcile <repo> --course-pack <file> --projection <file>");
 }
 
 function parse(argv) {
   if (!argv.length) return null;
   const operation = argv.shift();
   let artifactAction = null;
+  let courseAction = null;
   if (operation === "artifact") {
     artifactAction = argv.shift() || null;
     if (!new Set(["inspect", "release", "compare", "verify"]).has(artifactAction)) throw new Error("artifact requires inspect, release, compare or verify");
   }
+  if (operation === "course") {
+    courseAction = argv.shift() || null;
+    if (!new Set(["compile", "verify", "reconcile"]).has(courseAction)) throw new Error("course requires compile, verify or reconcile");
+  }
   let repository = ".";
   if (argv[0] && !argv[0].startsWith("--")) repository = argv.shift();
   const options = {};
-  const values = new Set(["--task", "--source", "--target-id", "--semantic-digest", "--provider-revision", "--max-objects", "--phase", "--input", "--select", "--selection", "--packet", "--evidence", "--selector", "--reason", "--confidence", "--context-budget", "--boundary", "--expected-graph-digest", "--receipt-digest", "--state-root", "--matter-id", "--direction", "--artifact-root", "--release-date", "--release-id", "--parent-release", "--base-release", "--target-release", "--client-note"]);
+  const values = new Set(["--task", "--source", "--target-id", "--semantic-digest", "--provider-revision", "--max-objects", "--phase", "--input", "--select", "--selection", "--packet", "--evidence", "--selector", "--reason", "--confidence", "--context-budget", "--boundary", "--expected-graph-digest", "--receipt-digest", "--state-root", "--matter-id", "--direction", "--artifact-root", "--release-date", "--release-id", "--parent-release", "--base-release", "--target-release", "--client-note", "--technology", "--scenario", "--audience", "--course-pack", "--projection"]);
   const flags = new Set(["--apply", "--refresh-binding", "--significant-work", "--create-export"]);
   const names = {
     "--task": "task", "--source": "source", "--target-id": "targetId",
@@ -54,6 +62,8 @@ function parse(argv) {
     "--parent-release": "parentReleaseIds", "--base-release": "baseReleaseId",
     "--target-release": "targetReleaseId", "--client-note": "clientNote",
     "--create-export": "createExport",
+    "--technology": "technologyFile", "--scenario": "scenarioIds",
+    "--audience": "audience", "--course-pack": "coursePackFile", "--projection": "projectionFile",
   };
   while (argv.length) {
     const token = argv.shift();
@@ -63,10 +73,12 @@ function parse(argv) {
       const value = argv.shift();
       if (token === "--select") options.selectedIds = [...(options.selectedIds || []), value];
       else if (token === "--parent-release") options.parentReleaseIds = [...(options.parentReleaseIds || []), value];
+      else if (token === "--scenario") options.scenarioIds = [...(options.scenarioIds || []), value];
       else options[names[token]] = value;
     } else throw new Error(`unsupported argument ${token}`);
   }
   if (artifactAction) options.artifactAction = artifactAction;
+  if (courseAction) options.courseAction = courseAction;
   return { operation, repository: path.resolve(repository), options };
 }
 

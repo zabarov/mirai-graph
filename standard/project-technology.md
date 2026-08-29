@@ -1,6 +1,6 @@
 # Project Technology
 
-Status: 1.3 stable standard; activation contract remains 1.0.0
+Status: 1.4 stable standard; activation contract remains 1.0.0
 
 Project Technology is the shared executable mechanism of Mirai Graph. It is
 not a profile, a second graph or a source of domain methodology.
@@ -18,6 +18,35 @@ Project Technology operations therefore work for:
 Each graph keeps its own objects and relations. Project Technology only
 standardizes safe inventory, task context, accepted-target binding, freshness
 and verification.
+
+## Executable Technologies And Course Projections
+
+An executable technology is an accepted graph of reusable operations and
+user-facing scenarios. It is suitable for a long method that has both an
+end-to-end path and independently useful parts. Each operation binds its owner,
+capability, prerequisites, inputs, outputs, checks, stop conditions, rollback
+and exact raw source references.
+
+A scenario names an outcome and selects the operations needed to reach it.
+Project Technology calculates prerequisite closure, so a course or executor
+cannot silently omit a required safety step.
+
+```bash
+mirai-graph technology course compile . --technology graph/specs/technology.json
+mirai-graph technology course compile . --technology graph/specs/technology.json --scenario scenario.recovery
+mirai-graph technology course verify . --course-pack course-pack.json
+mirai-graph technology course reconcile . --course-pack course-pack.json --projection edited-course.json
+```
+
+The JavaScript API exposes `compileTechnologyCourse`,
+`verifyTechnologyCourse` and `reconcileTechnologyCourse`.
+
+A Course Pack is hash-bound to the normalized technology, chosen scenarios,
+sources and revisions. It may be rendered into a document, learning system or
+documentation site. It remains a projection: editorial changes may be routed
+to the documentation owner, while changed prerequisites, owners, checks, stop
+conditions, rollback or scope become semantic proposals. Reconciliation never
+writes them into the accepted technology automatically.
 
 ## Immutable Artifact Releases
 

@@ -25,7 +25,7 @@ function usage() {
   console.error("  mirai-graph report playground");
   console.error("  mirai-graph release state [--markdown] [--require-git-tag] [--require-github-release] [--require-npm-published]");
   console.error("  mirai-graph technology <explain|status|plan|verify|context> [repository] [options]");
-  console.error("  mirai-graph technology <enable|sync|connect|disconnect|provide|disable|repair|artifact> [repository] [options] [--apply]");
+  console.error("  mirai-graph technology <enable|sync|connect|disconnect|provide|disable|repair|artifact|course> [repository] [options] [--apply]");
   console.error("");
   console.error("Boundary:");
   console.error("  Reports explain validation decisions. They do not authorize canonical updates.");

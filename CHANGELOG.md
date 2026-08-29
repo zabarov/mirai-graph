@@ -4,6 +4,28 @@ All notable changes to Mirai Graph will be documented in this file.
 
 ## [Unreleased]
 
+## [1.4.0] - 2026-08-29
+
+### Added
+
+- A domain-neutral executable-technology contract for large, ordered methods
+  whose scenarios reuse independently executable operations.
+- Deterministic Course Pack compilation with required dependency closure,
+  exact source binding and partial courses for one scenario.
+- Read-only `technology course compile`, `verify` and `reconcile` operations in
+  the public CLI and JavaScript API.
+- Universal positive and negative fixtures for course projection.
+
+### Safety Boundary
+
+- A course is a projection, not another source of truth. Reconciliation never
+  writes to the executable technology and semantic changes require an owner
+  decision.
+- Missing operations, dependency cycles, stale digests and secret fields fail
+  closed.
+- The public `graph.json` schema remains `2.0.0`; the Project Technology
+  activation contract remains `1.0.0` and no new profile is introduced.
+
 ## [1.3.0] - 2026-08-28
 
 ### Added
