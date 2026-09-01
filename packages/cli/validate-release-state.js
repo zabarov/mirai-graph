@@ -39,8 +39,8 @@ if (state) {
   if (state.report_type !== "mirai_graph_release_state") {
     errors.push("unexpected report_type");
   }
-  if (!state.package || state.package.name !== "mirai-graph") {
-    errors.push("package name must be mirai-graph");
+  if (!state.package || !["mirai-graph", "@zabarov/mirai"].includes(state.package.name)) {
+    errors.push("package name must be mirai-graph or @zabarov/mirai");
   }
   if (!state.package || !state.package.version) {
     errors.push("package version is required");

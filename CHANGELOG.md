@@ -4,6 +4,27 @@ All notable changes to Mirai Graph will be documented in this file.
 
 ## [Unreleased]
 
+### Mirai 2.0.0-alpha.1
+
+- Renamed the 2.x product surface to Mirai while retaining Mirai Graph Core
+  and all `mirai-graph` CLI compatibility aliases.
+- Added TypeScript ESM/CommonJS package exports for core, program, runtime,
+  adapters and conformance modules.
+- Added typed Mirai Program YAML authoring, deterministic JSON IR compilation,
+  source maps, semantic digests and static plan simulation.
+- Added fail-closed 1.4 executable-technology migration reports that require
+  explicit operation bindings and never write canonical state.
+- Added the `mirai.program` manifest extension, public schemas, fixtures and
+  compiler/migration tests.
+
+### Safety Boundary
+
+- Alpha.1 does not execute effects or expose live/network adapters.
+- Source maps are diagnostic metadata; the program digest binds executable
+  semantics and is stable across equivalent formatting and file locations.
+- Migration output is proposal-only and keeps
+  `canonical_write_allowed=false`.
+
 ## [1.4.1] - 2026-09-01
 
 ### Changed

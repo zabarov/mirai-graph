@@ -1,0 +1,27 @@
+[
+  {
+    "id": "project_dna.mirai",
+    "kind": "project_dna",
+    "profile": "project_management",
+    "provenance": "transactional_project_bootstrap",
+    "readiness": "accepted",
+    "evidence": [],
+    "source_refs": [
+      "graph.json"
+    ],
+    "summary": "Mirai preserves Hybrid SOT while adding typed, governed and auditable process execution.",
+    "title": "Mirai"
+  },
+  {
+    "id": "goal.mirai-2.0",
+    "kind": "goal",
+    "profile": "project_management",
+    "readiness": "review_ready",
+    "evidence": [],
+    "source_refs": [
+      "ROADMAP.md"
+    ],
+    "summary": "Release Mirai 2.0 only after deterministic conformance, governed effects and three controlled pilots.",
+    "title": "Deliver Mirai 2.0"
+  }
+]

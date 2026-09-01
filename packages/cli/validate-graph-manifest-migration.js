@@ -61,4 +61,19 @@ const invalidV2 = { ...readJson(path.join(combined, "graph.json")), surprise: tr
 assert(validateManifest(invalidV2).includes("unknown v2 field surprise"));
 checked.push("unknown v2 fields rejected");
 
+const programManifest = readJson(path.join(combined, "graph.json"));
+programManifest.extensions = {
+  ...(programManifest.extensions || {}),
+  "mirai.program": {
+    contract_version: "1.0.0",
+    programs: [{ id: "program.synthetic", source: "programs/synthetic.mirai.yaml" }],
+    default_program: "program.synthetic",
+    canonical_write_allowed: false
+  }
+};
+assert.deepEqual(validateManifest(programManifest), []);
+programManifest.extensions["mirai.program"].canonical_write_allowed = true;
+assert(validateManifest(programManifest).includes("extensions.mirai.program.canonical_write_allowed must be false"));
+checked.push("Mirai Program extension fail-closed validation");
+
 console.log(JSON.stringify({ mode: "graph_manifest_v2_migration", valid: true, checked }, null, 2));

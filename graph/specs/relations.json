@@ -1,0 +1,11 @@
+[
+  {
+    "id": "relation.project_dna.mirai.supports.goal.mirai-2.0",
+    "type": "supports",
+    "source": "project_dna.mirai",
+    "target": "goal.mirai-2.0",
+    "readiness": "review_ready",
+    "evidence": [],
+    "profile": "project_management"
+  }
+]

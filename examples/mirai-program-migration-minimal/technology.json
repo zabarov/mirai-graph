@@ -1,0 +1,22 @@
+{
+  "id": "technology.synthetic-review",
+  "version": "1.4.0",
+  "operations": [
+    {
+      "id": "operation.inspect",
+      "capability_ref": "capability.repository.read",
+      "prerequisites": []
+    },
+    {
+      "id": "operation.decide",
+      "capability_ref": "capability.pure.decision",
+      "prerequisites": ["operation.inspect"]
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "scenario.default",
+      "operation_ids": ["operation.decide"]
+    }
+  ]
+}

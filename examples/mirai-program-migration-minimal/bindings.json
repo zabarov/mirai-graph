@@ -1,0 +1,16 @@
+{
+  "technology_id": "technology.synthetic-review",
+  "outputs": [],
+  "operations": {
+    "operation.inspect": {
+      "adapter": "pure",
+      "operation": "identity",
+      "effects": ["pure"]
+    },
+    "operation.decide": {
+      "adapter": "pure",
+      "operation": "identity",
+      "effects": ["pure"]
+    }
+  }
+}

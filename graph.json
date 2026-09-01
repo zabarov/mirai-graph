@@ -1,0 +1,46 @@
+{
+  "$schema": "https://mirai-graph.dev/schemas/graph-manifest.schema.json",
+  "aliases": [],
+  "extensions": {
+    "mirai.project_technology": {
+      "context_policy": "task_scoped",
+      "continuity_policy": "task_boundary",
+      "contract_version": "1.0.0",
+      "enabled": true,
+      "source_boundary": "hybrid_sot"
+    }
+  },
+  "format": "mirai-graph",
+  "graph": {
+    "generated": [
+      "graph/generated",
+      "graph/docs/project-context.md"
+    ],
+    "objects": [
+      "graph/specs/project.json"
+    ],
+    "raw_sources": [
+      "README.md",
+      "docs"
+    ],
+    "relations": [
+      "graph/specs/relations.json"
+    ],
+    "root": "graph",
+    "schemas": [],
+    "source_of_truth": [
+      "graph/specs"
+    ]
+  },
+  "id": "project.mirai",
+  "imports": [],
+  "kind": "project_graph",
+  "owner": "repository_owner",
+  "profiles": [
+    "project_management",
+    "implementation_control"
+  ],
+  "schema_version": "2.0.0",
+  "scope": "repository",
+  "title": "Mirai"
+}

@@ -1,16 +1,19 @@
 # Mirai Versioning
 
-Status: stable 1.4 compatibility contract
+Status: stable 1.4 compatibility contract and Mirai 2.0 development dimensions
 
 Mirai uses independent version dimensions. A matching number in two dimensions
 does not imply that their lifecycle or compatibility boundary is the same.
 
 | Dimension | Current baseline | Meaning |
 |---|---:|---|
-| npm/product release | `1.4.1` | Public package, CLI and repository release |
+| stable npm/product release | `mirai-graph@1.4.1` | Published compatibility baseline |
+| development npm/product release | `@zabarov/mirai@2.0.0-alpha.1` | Mirai 2.0 Program/compiler preview |
 | `graph.json` manifest | `2.0.0` | Workspace/package manifest shape |
 | Project Technology activation | `1.0.0` | `mirai.project_technology` extension contract |
 | Executable Technology | `1.0.0` | Declarative technology and Course Pack contract |
+| Mirai Program | `1.0.0` | Typed immutable executable-process IR |
+| Runtime API | `1.0.0` | Reserved 2.0 runtime interface; unavailable in alpha.1 |
 
 Mirai 2.0 changes the product boundary by adding Mirai Program and Mirai
 Runtime. It does not automatically invalidate a `graph.json` manifest whose

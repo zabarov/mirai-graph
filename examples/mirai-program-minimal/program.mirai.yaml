@@ -1,0 +1,45 @@
+contract_version: 1.0.0
+id: program.review-decision
+version: 1.0.0
+imports: []
+inputs:
+  - id: approved
+    type: boolean
+    required: true
+outputs:
+  - id: decision
+    type: string
+    required: true
+state: []
+nodes:
+  - id: decision.route
+    kind: branch
+    condition:
+      op: ref
+      path: input.approved
+    then: decision.accepted
+    else: decision.blocked
+  - id: decision.accepted
+    kind: return
+    values:
+      decision:
+        op: literal
+        value: accepted
+  - id: decision.blocked
+    kind: return
+    values:
+      decision:
+        op: literal
+        value: blocked
+entry: decision.route
+error_routes: []
+policies:
+  budgets:
+    max_steps: 16
+    max_depth: 8
+    max_iterations: 16
+    max_parallel: 4
+    max_duration_ms: 30000
+  allowed_effects:
+    - pure
+  canonical_write_allowed: false

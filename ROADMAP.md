@@ -234,10 +234,11 @@ The stable `1.4.1` line remains the declarative compatibility baseline. Mirai
 2.0 develops a separate governed execution layer without replacing Hybrid SOT
 or treating graph content as runtime authorization.
 
-Planned release sequence:
+Release sequence and current status:
 
-1. `2.0.0-alpha.1`: typed Mirai Program contracts, deterministic compiler and
-   migration reports;
+1. `2.0.0-alpha.1`: implemented on the 2.0 development branch: typed Mirai
+   Program contracts, deterministic compiler, static simulation and
+   proposal-only migration reports;
 2. `2.0.0-alpha.2`: pure deterministic interpreter and conformance corpus;
 3. `2.0.0-alpha.3`: capability-gated sandbox adapters, durable execution,
    episodes, replay and recovery;

@@ -1,6 +1,6 @@
-# Mirai Graph Documentation Map
+# Mirai Documentation Map
 
-Status: 1.0 release-candidate documentation map
+Status: Mirai 2.0 development map with stable Mirai Graph 1.4 compatibility
 
 This page helps readers choose the right Mirai Graph documents without reading
 the whole repository.
@@ -29,6 +29,13 @@ the whole repository.
 - [Mirai Graph Transition](adoption/mirai-graph-transition.md)
 
 ## Standard
+
+Mirai 2.0 execution:
+
+- [Mirai Program](../standard/mirai-program.md)
+- [Mirai Runtime](../standard/mirai-runtime.md)
+- [2.0 Architecture Decisions](architecture/mirai-2.0-decisions.md)
+- [Migrate 1.4 To 2.0](adoption/migrate-1.4-to-2.0.md)
 
 Core model:
 

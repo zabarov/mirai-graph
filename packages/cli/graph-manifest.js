@@ -134,6 +134,37 @@ function validateManifest(manifest, repo = null) {
       for (const field of Object.keys(technology)) if (!(field in expected) && !["enabled", "continuity_policy"].includes(field)) errors.push(`extensions.mirai.project_technology has unknown field ${field}`);
     }
   }
+  const programExtension = manifest?.extensions?.["mirai.program"];
+  if (programExtension !== undefined) {
+    if (!programExtension || typeof programExtension !== "object" || Array.isArray(programExtension)) {
+      errors.push("extensions.mirai.program must be an object");
+    } else {
+      const fields = new Set(["contract_version", "programs", "default_program", "canonical_write_allowed"]);
+      for (const field of Object.keys(programExtension)) if (!fields.has(field)) errors.push(`extensions.mirai.program has unknown field ${field}`);
+      if (programExtension.contract_version !== "1.0.0") errors.push("extensions.mirai.program.contract_version is invalid");
+      if (!Array.isArray(programExtension.programs) || programExtension.programs.length === 0) {
+        errors.push("extensions.mirai.program.programs must be a non-empty array");
+      } else {
+        const ids = new Set();
+        for (const [index, item] of programExtension.programs.entries()) {
+          if (!item || typeof item !== "object" || Array.isArray(item)) {
+            errors.push(`extensions.mirai.program.programs[${index}] must be an object`);
+            continue;
+          }
+          const itemFields = new Set(["id", "source", "compiled", "digest"]);
+          for (const field of Object.keys(item)) if (!itemFields.has(field)) errors.push(`extensions.mirai.program.programs[${index}] has unknown field ${field}`);
+          if (typeof item.id !== "string" || !item.id.trim()) errors.push(`extensions.mirai.program.programs[${index}].id is invalid`);
+          else if (ids.has(item.id)) errors.push(`extensions.mirai.program duplicate id ${item.id}`);
+          else ids.add(item.id);
+          if (!relativePath(item.source)) errors.push(`extensions.mirai.program.programs[${index}].source is unsafe`);
+          if (item.compiled !== undefined && !relativePath(item.compiled)) errors.push(`extensions.mirai.program.programs[${index}].compiled is unsafe`);
+          if (item.digest !== undefined && !/^sha256:[a-f0-9]{64}$/.test(item.digest)) errors.push(`extensions.mirai.program.programs[${index}].digest is invalid`);
+        }
+        if (programExtension.default_program !== undefined && !ids.has(programExtension.default_program)) errors.push("extensions.mirai.program.default_program is unknown");
+      }
+      if (programExtension.canonical_write_allowed !== undefined && programExtension.canonical_write_allowed !== false) errors.push("extensions.mirai.program.canonical_write_allowed must be false");
+    }
+  }
   if (manifest.graph !== null) {
     if (!manifest.graph || typeof manifest.graph !== "object" || Array.isArray(manifest.graph)) {
       errors.push("graph must be an object or null");

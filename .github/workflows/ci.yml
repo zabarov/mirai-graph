@@ -7,6 +7,32 @@ on:
   pull_request:
 
 jobs:
+  mirai-program:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Mirai Program packages
+        run: npm run build
+
+      - name: Verify Mirai Program contracts
+        run: npm run test:mirai-alpha1
+
   context-traversal:
     strategy:
       fail-fast: false
@@ -43,6 +69,9 @@ jobs:
 
       - name: Install release-check dependencies
         run: sudo apt-get update && sudo apt-get install -y ripgrep
+
+      - name: Install package dependencies
+        run: npm ci
 
       - name: Run release check
         run: npm run release:check

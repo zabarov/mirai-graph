@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zabarov.github.io/mirai/schemas/mirai-migration-result.schema.json",
+  "title": "Mirai 1.4 to 2.0 Migration Result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version", "operation", "status", "source_technology_id",
+    "source_version", "blockers", "warnings", "candidate_program",
+    "canonical_write_allowed"
+  ],
+  "properties": {
+    "contract_version": { "const": "1.0.0" },
+    "operation": { "const": "mirai.migrate.1_4_to_2_0" },
+    "status": { "enum": ["ready", "blocked"] },
+    "source_technology_id": { "type": "string", "minLength": 1 },
+    "source_version": { "type": "string", "minLength": 1 },
+    "blockers": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
+    "warnings": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
+    "candidate_program": {
+      "oneOf": [
+        { "type": "null" },
+        { "$ref": "mirai-program.schema.json" }
+      ]
+    },
+    "canonical_write_allowed": { "const": false }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "status": { "const": "blocked" } } },
+      "then": {
+        "properties": {
+          "blockers": { "minItems": 1 },
+          "candidate_program": { "type": "null" }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "status": { "const": "ready" } } },
+      "then": {
+        "properties": {
+          "blockers": { "maxItems": 0 },
+          "candidate_program": { "$ref": "mirai-program.schema.json" }
+        }
+      }
+    }
+  ]
+}

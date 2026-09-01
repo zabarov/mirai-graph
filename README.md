@@ -1,16 +1,38 @@
-# Mirai Graph
+# Mirai
 
-Make your project understandable to humans and AI.
+Make complex work explicit, executable and auditable for humans and AI.
 
-Mirai Graph turns scattered project knowledge into a structured graph of
-features, requirements, dependencies, risks, decisions, evidence and process
-gates.
+Mirai 2.0 combines **Mirai Graph Core** with a typed process language and a
+governed runtime. The graph describes goals, knowledge, dependencies, risks,
+policies and evidence. A Mirai Program describes the bounded decisions and
+steps that may be performed. The runtime can execute only authorized effects
+and records a replayable episode.
 
 Use it when a software project has useful knowledge spread across README files,
 docs, issues, chats, code comments and AI prompts, and you need a small
 machine-readable map that developers and AI assistants can validate and reuse.
 
-Status: stable public `1.4.1` maintenance baseline.
+Status: `2.0.0-alpha.1` development branch. The stable compatibility line is
+`mirai-graph@1.4.1`.
+
+## Mirai 2.0 Preview
+
+The first 2.0 alpha provides deterministic Mirai Program compilation, static
+validation, plan simulation and fail-closed migration reports. It does **not**
+execute effects yet.
+
+```bash
+npm install
+npm run build
+node packages/cli/mirai.js program validate examples/mirai-program-minimal/program.mirai.yaml
+node packages/cli/mirai.js compile examples/mirai-program-minimal/program.mirai.yaml --out /tmp/program.mirai.json
+node packages/cli/mirai.js simulate examples/mirai-program-minimal/program.mirai.yaml --input examples/mirai-program-minimal/input-approved.json
+```
+
+Read [Mirai Program](standard/mirai-program.md), the
+[2.0 architecture decisions](docs/architecture/mirai-2.0-decisions.md) and the
+[1.4 migration guide](docs/adoption/migrate-1.4-to-2.0.md) before adopting the
+alpha runtime contracts.
 
 ## What Problem Does It Solve?
 
@@ -40,27 +62,28 @@ Start with a normal repository and use Mirai Graph to:
 - grow the graph later into process control, AI employee workflows or
   organization governance.
 
-## Current Installation Status
+## Stable 1.4 Installation
 
-The repository provides the stable `mirai-graph@1.4.1` package. To verify a
-repository checkout directly, use:
+The published stable line remains `mirai-graph@1.4.1`. To verify that release
+from its tag, use:
 
 ```bash
-git clone https://github.com/zabarov/mirai-graph.git
+git clone --branch v1.4.1 https://github.com/zabarov/mirai-graph.git
 cd mirai-graph
 npm install
 npm run release:check
 ```
 
-External projects use:
+Existing projects use:
 
 ```bash
 npm install -D mirai-graph
 ```
 
-The package version, `graph.json` manifest contract and extension contracts
-are versioned independently. See [Versioning](docs/versioning.md) before
-planning migrations or comparing release numbers.
+Mirai 2.0 will publish the primary package as `@zabarov/mirai`; the
+`mirai-graph` package and CLI names remain compatibility wrappers throughout
+the 2.x line. Product, manifest, Program and Runtime contracts are versioned
+independently. See [Versioning](docs/versioning.md).
 
 ## Connect A Project In 10 Minutes
 
