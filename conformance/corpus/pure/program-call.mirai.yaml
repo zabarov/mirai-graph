@@ -1,0 +1,52 @@
+contract_version: 1.0.0
+id: program.conformance-program-call
+version: 1.0.0
+imports:
+  - alias: worker
+    ref: program.conformance-worker
+    digest: sha256:b79e42065385e3a82b9e5c41281ac5098398ee645bf9983332ea4678bb9c0317
+inputs: []
+outputs:
+  - id: value
+    type: string
+state:
+  - id: child_result
+    type:
+      kind: record
+      fields:
+        value: string
+    default:
+      value: pending
+nodes:
+  - id: call.worker
+    kind: call
+    target:
+      kind: program
+      program: worker
+    args:
+      item:
+        op: literal
+        value: called
+    result: child_result
+    next: return.result
+  - id: return.result
+    kind: return
+    values:
+      value:
+        op: get
+        target:
+          op: ref
+          path: state.child_result
+        key: value
+entry: call.worker
+error_routes: []
+policies:
+  budgets:
+    max_steps: 16
+    max_depth: 8
+    max_iterations: 8
+    max_parallel: 4
+    max_duration_ms: 100
+  allowed_effects:
+    - pure
+  canonical_write_allowed: false

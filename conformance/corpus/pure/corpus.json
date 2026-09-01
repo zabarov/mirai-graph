@@ -1,0 +1,108 @@
+{
+  "contract_version": "1.0.0",
+  "id": "mirai.pure.language.v1",
+  "cases": [
+    {
+      "id": "decision.accepted.100x",
+      "program": "../../../examples/mirai-program-minimal/program.mirai.yaml",
+      "input": { "approved": true },
+      "expected_status": "completed",
+      "expected_outputs": { "decision": "accepted" },
+      "repetitions": 100
+    },
+    {
+      "id": "decision.blocked",
+      "program": "../../../examples/mirai-program-minimal/program.mirai.yaml",
+      "input": { "approved": false },
+      "expected_status": "completed",
+      "expected_outputs": { "decision": "blocked" }
+    },
+    {
+      "id": "adapter.add-int64",
+      "program": "add.mirai.yaml",
+      "input": { "left": 20, "right": 22 },
+      "expected_status": "completed",
+      "expected_outputs": { "total": 42 },
+      "repetitions": 10
+    },
+    {
+      "id": "operations.call-match-emit",
+      "program": "operations.mirai.yaml",
+      "input": { "left": 2, "right": 3 },
+      "expected_status": "completed",
+      "expected_outputs": { "status": "five", "total": 5 },
+      "expected_decisions": ["selected:emit.five", "emitted:sum.five"],
+      "expected_emitted_events": ["sum.five"],
+      "repetitions": 10
+    },
+    {
+      "id": "collections.foreach-parallel",
+      "program": "collection-flow.mirai.yaml",
+      "imports": { "worker": "worker.mirai.yaml" },
+      "input": { "items": ["x", "y"] },
+      "expected_status": "completed",
+      "expected_outputs": {
+        "each_results": [{ "value": "x" }, { "value": "y" }],
+        "parallel_results": { "second": { "value": "B" }, "first": { "value": "A" } }
+      },
+      "expected_decisions": ["iterations:2", "joined:object"],
+      "repetitions": 10
+    },
+    {
+      "id": "call.imported-program",
+      "program": "program-call.mirai.yaml",
+      "imports": { "worker": "worker.mirai.yaml" },
+      "expected_status": "completed",
+      "expected_outputs": { "value": "called" },
+      "repetitions": 10
+    },
+    {
+      "id": "await.event-received",
+      "program": "await.mirai.yaml",
+      "events": { "review.completed": "accepted" },
+      "expected_status": "completed",
+      "expected_outputs": { "status": "accepted" },
+      "expected_decisions": ["event_received"]
+    },
+    {
+      "id": "await.deadline-route",
+      "program": "await.mirai.yaml",
+      "expected_status": "completed",
+      "expected_outputs": { "status": "timeout" },
+      "expected_decisions": ["deadline_elapsed"]
+    },
+    {
+      "id": "retry.exhausted",
+      "program": "retry.mirai.yaml",
+      "imports": { "failing": "failing.mirai.yaml" },
+      "expected_status": "completed",
+      "expected_outputs": { "status": "failed" },
+      "expected_decisions": ["failed_attempt:1", "failed_attempt:2", "failed_attempt:3"]
+    },
+    {
+      "id": "timeout.compensation-route",
+      "program": "timeout-compensate.mirai.yaml",
+      "imports": { "slow": "slow.mirai.yaml" },
+      "expected_status": "completed",
+      "expected_outputs": { "status": "timed_out" },
+      "expected_decisions": ["timed_out:3", "pure_compensation_recorded"]
+    },
+    {
+      "id": "cancel.terminal",
+      "program": "cancel.mirai.yaml",
+      "expected_status": "cancelled",
+      "expected_outputs": {},
+      "expected_decisions": ["cancelled:operator_request"]
+    },
+    {
+      "id": "invalid.unbounded-foreach",
+      "program": "../../../examples/mirai-program-invalid/unbounded-foreach.mirai.yaml",
+      "expected_validation_error": "unbounded_foreach"
+    },
+    {
+      "id": "invalid.unknown-effect",
+      "program": "../../../examples/mirai-program-invalid/unknown-effect.mirai.yaml",
+      "expected_validation_error": "unknown_effect"
+    }
+  ]
+}

@@ -20,3 +20,5 @@ export function checkProgramConformance(program: MiraiProgram): ProgramConforman
     ...result
   };
 }
+
+export * from "./pure-corpus.js";

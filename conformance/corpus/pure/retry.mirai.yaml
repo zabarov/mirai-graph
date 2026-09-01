@@ -1,0 +1,45 @@
+contract_version: 1.0.0
+id: program.conformance-retry
+version: 1.0.0
+imports:
+  - alias: failing
+    ref: program.conformance-failing
+    digest: sha256:89b85e1687023764677079891366fe3f93abd109e119aa3f95935913dadde3d7
+inputs: []
+outputs:
+  - id: status
+    type: string
+state: []
+nodes:
+  - id: retry.failing
+    kind: retry
+    program: failing
+    max_attempts: 3
+    backoff_ms: 0
+    timeout_ms: 10
+    on_error: return.failed
+    next: return.unexpected
+  - id: return.failed
+    kind: return
+    values:
+      status:
+        op: literal
+        value: failed
+  - id: return.unexpected
+    kind: return
+    values:
+      status:
+        op: literal
+        value: unexpected
+entry: retry.failing
+error_routes: []
+policies:
+  budgets:
+    max_steps: 32
+    max_depth: 8
+    max_iterations: 8
+    max_parallel: 4
+    max_duration_ms: 100
+  allowed_effects:
+    - pure
+  canonical_write_allowed: false

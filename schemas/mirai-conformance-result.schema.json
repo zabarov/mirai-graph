@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zabarov.github.io/mirai/schemas/mirai-conformance-result.schema.json",
+  "title": "Mirai Conformance Result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract_version", "corpus_id", "corpus_digest", "implementation", "status", "passed", "failed", "cases"],
+  "properties": {
+    "contract_version": { "const": "1.0.0" },
+    "corpus_id": { "type": "string", "minLength": 1 },
+    "corpus_digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "implementation": { "enum": ["typescript_reference", "python_independent"] },
+    "status": { "enum": ["passed", "failed"] },
+    "passed": { "type": "integer", "minimum": 0 },
+    "failed": { "type": "integer", "minimum": 0 },
+    "cases": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "passed", "status", "errors"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "passed": { "type": "boolean" },
+          "status": { "type": "string", "minLength": 1 },
+          "trace_digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+          "output_digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+          "errors": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    }
+  }
+}

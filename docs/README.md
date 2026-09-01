@@ -34,6 +34,7 @@ Mirai 2.0 execution:
 
 - [Mirai Program](../standard/mirai-program.md)
 - [Mirai Runtime](../standard/mirai-runtime.md)
+- [Mirai Conformance Corpus](../conformance/README.md)
 - [2.0 Architecture Decisions](architecture/mirai-2.0-decisions.md)
 - [Migrate 1.4 To 2.0](adoption/migrate-1.4-to-2.0.md)
 

@@ -1,0 +1,95 @@
+contract_version: 1.0.0
+id: program.conformance-collection-flow
+version: 1.0.0
+imports:
+  - alias: worker
+    ref: program.conformance-worker
+    digest: sha256:b79e42065385e3a82b9e5c41281ac5098398ee645bf9983332ea4678bb9c0317
+inputs:
+  - id: items
+    type:
+      kind: list
+      items: string
+outputs:
+  - id: each_results
+    type:
+      kind: list
+      items:
+        kind: record
+        fields:
+          value: string
+  - id: parallel_results
+    type:
+      kind: map
+      values:
+        kind: record
+        fields:
+          value: string
+state:
+  - id: each_results
+    type:
+      kind: list
+      items:
+        kind: record
+        fields:
+          value: string
+    default: []
+  - id: parallel_results
+    type:
+      kind: map
+      values:
+        kind: record
+        fields:
+          value: string
+    default: {}
+nodes:
+  - id: foreach.items
+    kind: foreach
+    items:
+      op: ref
+      path: input.items
+    item: item
+    program: worker
+    max_iterations: 8
+    result: each_results
+    next: parallel.items
+  - id: parallel.items
+    kind: parallel
+    branches:
+      - id: second
+        program: worker
+        input:
+          item:
+            op: literal
+            value: B
+      - id: first
+        program: worker
+        input:
+          item:
+            op: literal
+            value: A
+    max_parallel: 2
+    merge: object
+    result: parallel_results
+    next: return.results
+  - id: return.results
+    kind: return
+    values:
+      each_results:
+        op: ref
+        path: state.each_results
+      parallel_results:
+        op: ref
+        path: state.parallel_results
+entry: foreach.items
+error_routes: []
+policies:
+  budgets:
+    max_steps: 64
+    max_depth: 8
+    max_iterations: 16
+    max_parallel: 4
+    max_duration_ms: 100
+  allowed_effects:
+    - pure
+  canonical_write_allowed: false

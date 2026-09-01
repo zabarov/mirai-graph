@@ -4,6 +4,17 @@ All notable changes to Mirai Graph will be documented in this file.
 
 ## [Unreleased]
 
+### Mirai 2.0.0-alpha.2
+
+- Added the deterministic pure Mirai Program interpreter and safe expression
+  evaluation.
+- Added pure episodes, decision traces, replay and bounded logical execution.
+- Added portable conformance corpus/result schemas and fixtures covering every
+  1.0 Program control node.
+- Added `mirai simulate`, `mirai replay` and `mirai conformance run` behavior.
+- External effects, capability grants and durable host-local runs remain
+  unavailable until `2.0.0-alpha.3`.
+
 ### Mirai 2.0.0-alpha.1
 
 - Renamed the 2.x product surface to Mirai while retaining Mirai Graph Core

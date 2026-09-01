@@ -7,7 +7,7 @@ const root = path.resolve(__dirname, "..", "..");
 const args = process.argv.slice(2);
 const newCommands = new Set([
   "program", "compile", "simulate", "run", "resume", "cancel", "inspect",
-  "replay", "evidence"
+  "replay", "evidence", "conformance"
 ]);
 
 if (newCommands.has(args[0]) || (args[0] === "migrate" && args.includes("--from"))) {

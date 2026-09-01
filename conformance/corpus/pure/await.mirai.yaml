@@ -1,0 +1,44 @@
+contract_version: 1.0.0
+id: program.conformance-await
+version: 1.0.0
+imports: []
+inputs: []
+outputs:
+  - id: status
+    type: string
+state:
+  - id: review
+    type: string
+    default: pending
+nodes:
+  - id: await.review
+    kind: await
+    event: review.completed
+    deadline_ms: 100
+    result: review
+    next: return.received
+    on_timeout: return.timeout
+  - id: return.received
+    kind: return
+    values:
+      status:
+        op: ref
+        path: state.review
+  - id: return.timeout
+    kind: return
+    values:
+      status:
+        op: literal
+        value: timeout
+entry: await.review
+error_routes: []
+policies:
+  budgets:
+    max_steps: 8
+    max_depth: 8
+    max_iterations: 8
+    max_parallel: 4
+    max_duration_ms: 100
+  allowed_effects:
+    - pure
+  canonical_write_allowed: false

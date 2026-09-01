@@ -1,0 +1,30 @@
+contract_version: 1.0.0
+id: program.conformance-slow
+version: 1.0.0
+imports: []
+inputs: []
+outputs: []
+state: []
+nodes:
+  - id: emit.first
+    kind: emit
+    event: slow.first
+    next: emit.second
+  - id: emit.second
+    kind: emit
+    event: slow.second
+    next: return.done
+  - id: return.done
+    kind: return
+entry: emit.first
+error_routes: []
+policies:
+  budgets:
+    max_steps: 8
+    max_depth: 8
+    max_iterations: 8
+    max_parallel: 4
+    max_duration_ms: 100
+  allowed_effects:
+    - pure
+  canonical_write_allowed: false

@@ -239,7 +239,9 @@ Release sequence and current status:
 1. `2.0.0-alpha.1`: implemented on the 2.0 development branch: typed Mirai
    Program contracts, deterministic compiler, static simulation and
    proposal-only migration reports;
-2. `2.0.0-alpha.2`: pure deterministic interpreter and conformance corpus;
+2. `2.0.0-alpha.2`: implemented on the 2.0 development branch: pure
+   deterministic interpreter, replay, execution budgets and portable language
+   conformance corpus;
 3. `2.0.0-alpha.3`: capability-gated sandbox adapters, durable execution,
    episodes, replay and recovery;
 4. `2.0.0-beta.1`: controlled Federation, Larena and AI Employee pilots plus

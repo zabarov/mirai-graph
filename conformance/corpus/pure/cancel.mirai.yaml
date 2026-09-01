@@ -1,0 +1,25 @@
+contract_version: 1.0.0
+id: program.conformance-cancel
+version: 1.0.0
+imports: []
+inputs: []
+outputs: []
+state: []
+nodes:
+  - id: cancel.run
+    kind: cancel
+    reason:
+      op: literal
+      value: operator_request
+entry: cancel.run
+error_routes: []
+policies:
+  budgets:
+    max_steps: 8
+    max_depth: 8
+    max_iterations: 8
+    max_parallel: 4
+    max_duration_ms: 100
+  allowed_effects:
+    - pure
+  canonical_write_allowed: false

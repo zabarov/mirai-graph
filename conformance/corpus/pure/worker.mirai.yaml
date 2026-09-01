@@ -1,0 +1,30 @@
+contract_version: 1.0.0
+id: program.conformance-worker
+version: 1.0.0
+imports: []
+inputs:
+  - id: item
+    type: string
+outputs:
+  - id: value
+    type: string
+state: []
+nodes:
+  - id: return.value
+    kind: return
+    values:
+      value:
+        op: ref
+        path: input.item
+entry: return.value
+error_routes: []
+policies:
+  budgets:
+    max_steps: 8
+    max_depth: 8
+    max_iterations: 8
+    max_parallel: 4
+    max_duration_ms: 100
+  allowed_effects:
+    - pure
+  canonical_write_allowed: false

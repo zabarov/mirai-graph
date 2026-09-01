@@ -1,0 +1,82 @@
+contract_version: 1.0.0
+id: program.conformance-operations
+version: 1.0.0
+imports: []
+inputs:
+  - id: left
+    type: int64
+  - id: right
+    type: int64
+outputs:
+  - id: status
+    type: string
+  - id: total
+    type: int64
+state:
+  - id: total
+    type: int64
+    default: 0
+nodes:
+  - id: calculate.total
+    kind: call
+    target:
+      kind: adapter
+      adapter: pure
+      operation: add_int64
+    args:
+      left:
+        op: ref
+        path: input.left
+      right:
+        op: ref
+        path: input.right
+    result: total
+    effects:
+      - pure
+    next: match.total
+  - id: match.total
+    kind: match
+    value:
+      op: ref
+      path: state.total
+    cases:
+      - equals: 5
+        to: emit.five
+    default: return.other
+  - id: emit.five
+    kind: emit
+    event: sum.five
+    payload:
+      op: ref
+      path: state.total
+    next: return.five
+  - id: return.five
+    kind: return
+    values:
+      status:
+        op: literal
+        value: five
+      total:
+        op: ref
+        path: state.total
+  - id: return.other
+    kind: return
+    values:
+      status:
+        op: literal
+        value: other
+      total:
+        op: ref
+        path: state.total
+entry: calculate.total
+error_routes: []
+policies:
+  budgets:
+    max_steps: 16
+    max_depth: 8
+    max_iterations: 16
+    max_parallel: 4
+    max_duration_ms: 100
+  allowed_effects:
+    - pure
+  canonical_write_allowed: false

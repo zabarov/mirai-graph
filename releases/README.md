@@ -16,6 +16,8 @@ Release notes must separate:
 
 ## Release Notes
 
+- [v2.0.0-alpha.2](2.0.0-alpha.2.md) - deterministic pure interpreter,
+  replay and portable language conformance corpus.
 - [v2.0.0-alpha.1](2.0.0-alpha.1.md) - typed Mirai Program contracts,
   deterministic compiler and proposal-only 1.4 migration.
 - [v1.4.1](1.4.1.md) - maintenance and versioning baseline for Mirai 2.0

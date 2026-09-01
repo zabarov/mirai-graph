@@ -1,0 +1,35 @@
+contract_version: 1.0.0
+id: program.conformance-failing
+version: 1.0.0
+imports: []
+inputs: []
+outputs: []
+state: []
+nodes:
+  - id: fail.expected
+    kind: call
+    target:
+      kind: adapter
+      adapter: pure
+      operation: fail
+    args:
+      code:
+        op: literal
+        value: expected_failure
+    effects:
+      - pure
+    next: return.unreachable
+  - id: return.unreachable
+    kind: return
+entry: fail.expected
+error_routes: []
+policies:
+  budgets:
+    max_steps: 8
+    max_depth: 8
+    max_iterations: 8
+    max_parallel: 4
+    max_duration_ms: 100
+  allowed_effects:
+    - pure
+  canonical_write_allowed: false

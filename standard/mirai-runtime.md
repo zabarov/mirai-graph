@@ -1,12 +1,29 @@
 # Mirai Runtime
 
-Status: architecture contract; execution is unavailable in `2.0.0-alpha.1`
+Status: pure reference interpreter available in `2.0.0-alpha.2`; governed
+external effects remain planned for `2.0.0-alpha.3`
 
 ## Purpose
 
 Mirai Runtime executes a validated Mirai Program under explicit budgets,
 capabilities and durable evidence. It is not a general-purpose language
 runtime and does not replace JavaScript, Python, databases or owner sources.
+
+## Alpha.2 Pure Execution
+
+The reference interpreter executes only programs whose allowed effects are
+`pure`. It supports every Mirai Program control node, produces deterministic
+decision traces and pure episodes, and can replay an episode without adapters.
+
+Parallel branches are scheduled in declared order and merged by an explicit
+join policy. This makes the trace independent from host Promise timing. Await,
+timeout and retry use deterministic logical time in pure execution. Execution
+budgets for steps, nesting depth, iterations, parallel width and logical
+duration fail closed.
+
+The language corpus under `conformance/corpus/pure/` is portable evidence for
+the bounded fixtures. Passing it does not authorize effects or prove project
+correctness.
 
 ## State Separation
 

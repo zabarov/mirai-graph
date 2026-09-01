@@ -12,14 +12,15 @@ Use it when a software project has useful knowledge spread across README files,
 docs, issues, chats, code comments and AI prompts, and you need a small
 machine-readable map that developers and AI assistants can validate and reuse.
 
-Status: `2.0.0-alpha.1` development branch. The stable compatibility line is
+Status: `2.0.0-alpha.2` development branch. The stable compatibility line is
 `mirai-graph@1.4.1`.
 
 ## Mirai 2.0 Preview
 
-The first 2.0 alpha provides deterministic Mirai Program compilation, static
-validation, plan simulation and fail-closed migration reports. It does **not**
-execute effects yet.
+The second 2.0 alpha provides deterministic Mirai Program compilation, static
+validation, a pure reference interpreter, replay and a portable language
+conformance corpus. It does **not** execute repository, workspace or other
+external effects yet.
 
 ```bash
 npm install
@@ -27,6 +28,7 @@ npm run build
 node packages/cli/mirai.js program validate examples/mirai-program-minimal/program.mirai.yaml
 node packages/cli/mirai.js compile examples/mirai-program-minimal/program.mirai.yaml --out /tmp/program.mirai.json
 node packages/cli/mirai.js simulate examples/mirai-program-minimal/program.mirai.yaml --input examples/mirai-program-minimal/input-approved.json
+node packages/cli/mirai.js conformance run conformance/corpus/pure/corpus.json
 ```
 
 Read [Mirai Program](standard/mirai-program.md), the

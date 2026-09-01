@@ -1,6 +1,6 @@
 # Mirai Program
 
-Status: `2.0.0-alpha.1` contract
+Status: `2.0.0-alpha.2` contract with pure reference execution
 
 ## Purpose
 
@@ -75,7 +75,8 @@ episodes cannot mint a capability or update canonical graph state.
 2. Semantic validation checks types, references, bounds, declared effects and
    digest.
 3. Simulation reports reachable paths and effects without executing them.
-4. Runtime conformance and capability checks apply only in later releases.
+4. Pure runtime conformance applies in alpha.2; capability checks remain an
+   alpha.3 requirement for every external effect.
 
 See `schemas/mirai-program.schema.json` and
 `examples/mirai-program-minimal/`.

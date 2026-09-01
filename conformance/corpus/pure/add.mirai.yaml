@@ -1,0 +1,52 @@
+contract_version: 1.0.0
+id: program.conformance-add
+version: 1.0.0
+imports: []
+inputs:
+  - id: left
+    type: int64
+  - id: right
+    type: int64
+outputs:
+  - id: total
+    type: int64
+state:
+  - id: total
+    type: int64
+    default: 0
+nodes:
+  - id: calculate
+    kind: call
+    target:
+      kind: adapter
+      adapter: pure
+      operation: add_int64
+    args:
+      left:
+        op: ref
+        path: input.left
+      right:
+        op: ref
+        path: input.right
+    result: total
+    effects:
+      - pure
+    next: return
+  - id: return
+    kind: return
+    values:
+      total:
+        op: ref
+        path: state.total
+entry: calculate
+error_routes: []
+policies:
+  budgets:
+    max_steps: 16
+    max_depth: 8
+    max_iterations: 16
+    max_parallel: 4
+    max_duration_ms: 30000
+  allowed_effects:
+    - pure
+  canonical_write_allowed: false

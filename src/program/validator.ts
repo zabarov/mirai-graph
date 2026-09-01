@@ -56,7 +56,7 @@ function validateType(type: unknown, label: string, errors: string[]): type is T
   return false;
 }
 
-function valueMatchesType(value: unknown, type: TypeSpec): boolean {
+export function valueMatchesType(value: unknown, type: TypeSpec): boolean {
   if (typeof type === "string") {
     if (type === "boolean") return typeof value === "boolean";
     if (type === "int64") return Number.isSafeInteger(value);
@@ -130,6 +130,11 @@ function requireRef(value: unknown, refs: Set<string>, label: string, errors: st
   if (typeof value !== "string" || !refs.has(value)) errors.push(`${label}:unknown_node_ref:${String(value)}`);
 }
 
+function requireProgramRef(value: unknown, program: MiraiProgram, label: string, errors: string[]): void {
+  const refs = new Set([program.id, ...program.imports.flatMap((item) => [item.alias, item.ref])]);
+  if (typeof value !== "string" || !refs.has(value)) errors.push(`${label}:unknown_program_ref:${String(value)}`);
+}
+
 function validateNode(node: ProgramNode, refs: Set<string>, env: Map<string, TypeSpec>, program: MiraiProgram, errors: string[]): void {
   const label = `node:${node.id}`;
   if (!NODE_KINDS.has(node.kind)) { errors.push(`${label}:unknown_kind:${node.kind}`); return; }
@@ -138,7 +143,8 @@ function validateNode(node: ProgramNode, refs: Set<string>, env: Map<string, Typ
   if (node.kind === "call") {
     if (!isRecord(node.target) || !["adapter", "program"].includes(String(node.target.kind))) errors.push(`${label}:invalid_target`);
     if (node.target?.kind === "adapter" && (!node.target.adapter || !node.target.operation)) errors.push(`${label}:adapter_binding_required`);
-    if (node.target?.kind === "program" && !node.target.program) errors.push(`${label}:program_ref_required`);
+    if (node.target?.kind === "program") requireProgramRef(node.target.program, program, `${label}.target.program`, errors);
+    if (node.target?.kind === "adapter" && (!Array.isArray(node.effects) || node.effects.length === 0)) errors.push(`${label}:effects_required`);
     for (const [key, value] of Object.entries(node.args || {})) inferExpression(value, env, errors, `${label}.args.${key}`);
     for (const effect of node.effects || []) {
       if (!ALLOWED_EFFECTS.has(effect)) errors.push(`${label}:unknown_effect:${effect}`);
@@ -146,6 +152,7 @@ function validateNode(node: ProgramNode, refs: Set<string>, env: Map<string, Typ
     }
     if (node.effects?.some((effect) => effect !== "pure") && !node.capability) errors.push(`${label}:capability_required`);
     if (node.on_error !== undefined) requireRef(node.on_error, refs, `${label}.on_error`, errors);
+    if (node.result !== undefined && !env.has(`state.${node.result}`)) errors.push(`${label}:unknown_result_state:${node.result}`);
   } else if (node.kind === "branch") {
     if (inferExpression(node.condition, env, errors, `${label}.condition`) !== "boolean") errors.push(`${label}:condition_must_be_boolean`);
     requireRef(node.then, refs, `${label}.then`, errors); requireRef(node.else, refs, `${label}.else`, errors);
@@ -159,19 +166,29 @@ function validateNode(node: ProgramNode, refs: Set<string>, env: Map<string, Typ
     if (!itemType || typeof itemType === "string" || itemType.kind !== "list") errors.push(`${label}:items_must_be_list`);
     if (!Number.isInteger(node.max_iterations) || node.max_iterations < 1 || node.max_iterations > program.policies.budgets.max_iterations) errors.push(`${label}:unbounded_foreach`);
     if (!node.program || !node.item) errors.push(`${label}:program_and_item_required`);
+    else requireProgramRef(node.program, program, `${label}.program`, errors);
+    if (node.result !== undefined && !env.has(`state.${node.result}`)) errors.push(`${label}:unknown_result_state:${node.result}`);
   } else if (node.kind === "parallel") {
     if (!Array.isArray(node.branches) || node.branches.length === 0) errors.push(`${label}:branches_required`);
+    else node.branches.forEach((branch, index) => requireProgramRef(branch.program, program, `${label}.branches[${index}].program`, errors));
     if (!Number.isInteger(node.max_parallel) || node.max_parallel < 1 || node.max_parallel > program.policies.budgets.max_parallel) errors.push(`${label}:parallel_budget_invalid`);
+    if (new Set((node.branches || []).map((item) => item.id)).size !== (node.branches || []).length) errors.push(`${label}:duplicate_parallel_branch`);
+    if (node.result !== undefined && !env.has(`state.${node.result}`)) errors.push(`${label}:unknown_result_state:${node.result}`);
   } else if (node.kind === "await") {
     if (!node.event || !Number.isInteger(node.deadline_ms) || node.deadline_ms < 1) errors.push(`${label}:event_and_deadline_required`);
     requireRef(node.on_timeout, refs, `${label}.on_timeout`, errors);
+    if (node.result !== undefined && !env.has(`state.${node.result}`)) errors.push(`${label}:unknown_result_state:${node.result}`);
   } else if (node.kind === "retry") {
     if (!node.program || !Number.isInteger(node.max_attempts) || node.max_attempts < 1 || node.max_attempts > program.policies.budgets.max_iterations) errors.push(`${label}:retry_budget_invalid`);
+    else requireProgramRef(node.program, program, `${label}.program`, errors);
     if (!Number.isInteger(node.timeout_ms) || node.timeout_ms < 1 || !Number.isInteger(node.backoff_ms) || node.backoff_ms < 0) errors.push(`${label}:retry_timing_invalid`);
     requireRef(node.on_error, refs, `${label}.on_error`, errors);
+    if (node.result !== undefined && !env.has(`state.${node.result}`)) errors.push(`${label}:unknown_result_state:${node.result}`);
   } else if (node.kind === "timeout") {
     if (!node.program || !Number.isInteger(node.timeout_ms) || node.timeout_ms < 1) errors.push(`${label}:timeout_invalid`);
+    else requireProgramRef(node.program, program, `${label}.program`, errors);
     requireRef(node.on_timeout, refs, `${label}.on_timeout`, errors);
+    if (node.result !== undefined && !env.has(`state.${node.result}`)) errors.push(`${label}:unknown_result_state:${node.result}`);
   } else if (node.kind === "compensate") {
     inferExpression(node.receipt, env, errors, `${label}.receipt`);
     if (node.on_error !== undefined) requireRef(node.on_error, refs, `${label}.on_error`, errors);
@@ -187,6 +204,10 @@ function validateNode(node: ProgramNode, refs: Set<string>, env: Map<string, Typ
         if (actual && typeKey(actual) !== typeKey(output.type)) errors.push(`${label}:output_type_mismatch:${output.id}`);
       }
     }
+  }
+
+  if (["call", "foreach", "parallel", "await", "retry", "timeout", "compensate", "emit"].includes(node.kind) && node.next === undefined) {
+    errors.push(`${label}:next_required`);
   }
 }
 
@@ -214,10 +235,22 @@ export function validateProgram(value: unknown, options: { verifyDigest?: boolea
       if (validateType(slot.type, `${group}:${slot.id}`, errors)) {
         env.set(`${group}.${slot.id}`, slot.type);
         if (slot.default !== undefined && !valueMatchesType(slot.default, slot.type)) errors.push(`${group}:${slot.id}:default_type_mismatch`);
+        if (group === "state" && slot.required !== false && slot.default === undefined) errors.push(`state:${slot.id}:default_required`);
       }
     }
   }
-  for (const slot of program.outputs || []) validateType(slot.type, `output:${slot.id}`, errors);
+  const outputIds = new Set<string>();
+  for (const slot of program.outputs || []) {
+    if (outputIds.has(slot.id)) errors.push(`duplicate_output:${slot.id}`);
+    outputIds.add(slot.id);
+    validateType(slot.type, `output:${slot.id}`, errors);
+  }
+
+  const importAliases = new Set<string>();
+  for (const item of program.imports || []) {
+    if (importAliases.has(item.alias)) errors.push(`duplicate_import_alias:${item.alias}`);
+    importAliases.add(item.alias);
+  }
 
   for (const effect of program.policies.allowed_effects || []) if (!ALLOWED_EFFECTS.has(effect)) errors.push(`unknown_allowed_effect:${effect}`);
   if (program.policies.canonical_write_allowed !== false) errors.push("canonical_write_must_be_false");
