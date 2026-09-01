@@ -1,0 +1,83 @@
+{
+  "contract_version": "1.0.0",
+  "pilot_id": "pilot.mirai-2.federation.technology-conformance",
+  "domain": "federation",
+  "task_id": "federation.technology-conformance.public-safe-fixture.v1",
+  "protocol_ref": "docs/research/mirai-2-beta-pilot-protocol.md",
+  "status": "engineering_evidence_complete",
+  "conditions": [
+    {
+      "id": "plain_instructions",
+      "status": "not_available",
+      "run_count": 0,
+      "accepted_count": null,
+      "evidence_refs": [],
+      "limitations": [
+        "No isolated prompt-only execution was available for this beta fixture."
+      ]
+    },
+    {
+      "id": "mirai_graph_1_4",
+      "status": "historical_evidence",
+      "run_count": 20,
+      "accepted_count": 20,
+      "evidence_refs": [
+        "https://github.com/simai/ai-codex/releases/tag/v7.4.0"
+      ],
+      "limitations": [
+        "The historical conformance run used the declarative technology packet and is not a randomized comparison."
+      ]
+    },
+    {
+      "id": "mirai_2_0",
+      "status": "completed",
+      "run_count": 1,
+      "accepted_count": 1,
+      "evidence_refs": [
+        "pilots/mirai-2-beta-federation/results/episode.json",
+        "pilots/mirai-2-beta-federation/results/replay-result.json"
+      ],
+      "limitations": [
+        "This run uses a public-safe pure fixture rather than mutating the installed federation."
+      ]
+    }
+  ],
+  "mirai_2": {
+    "runtime_version": "2.0.0-alpha.3",
+    "execution_mode": "pure_no_effects",
+    "program_ref": "pilots/mirai-2-beta-federation/programs/program.mirai.yaml",
+    "ir_ref": "pilots/mirai-2-beta-federation/programs/results/program.mirai.json",
+    "episode_ref": "pilots/mirai-2-beta-federation/results/episode.json",
+    "evidence_ref": "pilots/mirai-2-beta-federation/results/episode.json",
+    "replay_ref": "pilots/mirai-2-beta-federation/results/replay-result.json",
+    "independent_conformance_ref": "conformance/results/python-federation-episode-result.json"
+  },
+  "safety": {
+    "production_effects": false,
+    "network_effects": false,
+    "customer_facing_effects": false,
+    "canonical_graph_write": false,
+    "automatic_learning_update": false
+  },
+  "metrics": {
+    "technology_adherence_percent": 100,
+    "task_correctness_percent": 100,
+    "skipped_mandatory_steps": 0,
+    "unauthorized_effects": 0,
+    "false_completion_claims": 0,
+    "correction_loops": 0,
+    "audit_completeness_percent": 100
+  },
+  "human_review": {
+    "status": "pending",
+    "blinded": false,
+    "independent": false,
+    "evidence_refs": []
+  },
+  "limitations": [
+    "The measured values describe one deterministic fixture, not Federation-wide effectiveness.",
+    "The prompt-only condition is absent and the 1.4 condition is historical.",
+    "A blinded independent review remains required for comparative scientific claims."
+  ],
+  "claim_boundary": "The pilot proves that nested route, packet, sync, reverse-audit and Kaizen decisions can execute deterministically and replay without effects; it does not prove model-quality improvement."
+}

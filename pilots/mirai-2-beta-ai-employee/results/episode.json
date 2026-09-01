@@ -1,0 +1,177 @@
+{
+  "contract_version": "1.0.0",
+  "episode_id": "episode.4d01241a23e47910",
+  "program_id": "program.ai-employee.no-send-workflow",
+  "program_digest": "sha256:1bb0f9295ca198085a163525a294cf08c67491b794d07b85fb29a47646bc6ed1",
+  "input_digest": "sha256:8ef4f115b090fc98be981056694061388701b35e5de5e885ae046d046a654517",
+  "replay_input": {
+    "request_kind": "support_request",
+    "intent_resolved": true,
+    "character_conformant": true,
+    "policy_allows_simulation": true,
+    "approval_status": "simulation_approved"
+  },
+  "status": "completed",
+  "outputs": {
+    "next_action": "retain_feedback_as_proposal",
+    "verdict": "dry_run_completed"
+  },
+  "output_digest": "sha256:539570f01ee4558c3b72e1aaf150ea69af3438d2808121989fc22222da143009",
+  "final_state": {},
+  "emitted_events": [
+    {
+      "event": "request_received",
+      "payload": "support_request"
+    },
+    {
+      "event": "governed_context_selected",
+      "payload": "ai_employee_plus_character_layer"
+    },
+    {
+      "event": "decision_recorded",
+      "payload": "draft_only_until_simulation_approval"
+    },
+    {
+      "event": "draft_created",
+      "payload": "synthetic_response_draft"
+    },
+    {
+      "event": "action_simulated",
+      "payload": "no_send_no_provider_no_write"
+    },
+    {
+      "event": "technology_feedback_recorded",
+      "payload": "accepted_for_dry_run_fixture"
+    },
+    {
+      "event": "lesson_proposed",
+      "payload": "proposal_only_no_canonical_update"
+    }
+  ],
+  "trace": [
+    {
+      "sequence": 1,
+      "logical_time": 1,
+      "depth": 0,
+      "program_id": "program.ai-employee.no-send-workflow",
+      "node_id": "request.record",
+      "kind": "emit",
+      "decision": "emitted:request_received",
+      "result_digest": "sha256:7e4fc83ec9b2e546aef39f46a5ca235e28ec274877f433ccf075a9aee36f4820"
+    },
+    {
+      "sequence": 2,
+      "logical_time": 2,
+      "depth": 0,
+      "program_id": "program.ai-employee.no-send-workflow",
+      "node_id": "intent.branch",
+      "kind": "branch",
+      "decision": "selected:context.record"
+    },
+    {
+      "sequence": 3,
+      "logical_time": 3,
+      "depth": 0,
+      "program_id": "program.ai-employee.no-send-workflow",
+      "node_id": "context.record",
+      "kind": "emit",
+      "decision": "emitted:governed_context_selected",
+      "result_digest": "sha256:a9a29b43e5662d84a97235edba5ab22791ce7365a611b2c5716bd84e4465c8c6"
+    },
+    {
+      "sequence": 4,
+      "logical_time": 4,
+      "depth": 0,
+      "program_id": "program.ai-employee.no-send-workflow",
+      "node_id": "character.branch",
+      "kind": "branch",
+      "decision": "selected:decision.branch"
+    },
+    {
+      "sequence": 5,
+      "logical_time": 5,
+      "depth": 0,
+      "program_id": "program.ai-employee.no-send-workflow",
+      "node_id": "decision.branch",
+      "kind": "branch",
+      "decision": "selected:decision.record"
+    },
+    {
+      "sequence": 6,
+      "logical_time": 6,
+      "depth": 0,
+      "program_id": "program.ai-employee.no-send-workflow",
+      "node_id": "decision.record",
+      "kind": "emit",
+      "decision": "emitted:decision_recorded",
+      "result_digest": "sha256:37b34202aece9eaa1e3b12b4a0a5f9dbe922b09d2c99c2593b155d08af5a642c"
+    },
+    {
+      "sequence": 7,
+      "logical_time": 7,
+      "depth": 0,
+      "program_id": "program.ai-employee.no-send-workflow",
+      "node_id": "draft.record",
+      "kind": "emit",
+      "decision": "emitted:draft_created",
+      "result_digest": "sha256:a2afaa26511f09ade91b98b12e01a35039ac44a9011c8cc6306786fd6e635039"
+    },
+    {
+      "sequence": 8,
+      "logical_time": 8,
+      "depth": 0,
+      "program_id": "program.ai-employee.no-send-workflow",
+      "node_id": "approval.match",
+      "kind": "match",
+      "decision": "selected:action.simulate"
+    },
+    {
+      "sequence": 9,
+      "logical_time": 9,
+      "depth": 0,
+      "program_id": "program.ai-employee.no-send-workflow",
+      "node_id": "action.simulate",
+      "kind": "emit",
+      "decision": "emitted:action_simulated",
+      "result_digest": "sha256:9a9f5a2878b28dbc4383f2055da5c0f0c2bb6dddfa03564330c35627f59e89e1"
+    },
+    {
+      "sequence": 10,
+      "logical_time": 10,
+      "depth": 0,
+      "program_id": "program.ai-employee.no-send-workflow",
+      "node_id": "feedback.record",
+      "kind": "emit",
+      "decision": "emitted:technology_feedback_recorded",
+      "result_digest": "sha256:3d133bc36f787c1b1bcad27d321e8c5317bf6a7fecf80caec8ef39045f8f5ed0"
+    },
+    {
+      "sequence": 11,
+      "logical_time": 11,
+      "depth": 0,
+      "program_id": "program.ai-employee.no-send-workflow",
+      "node_id": "lesson.propose",
+      "kind": "emit",
+      "decision": "emitted:lesson_proposed",
+      "result_digest": "sha256:0add3dff92aaf6636a9b5e03a53fc87224c80a530e7cdbf43f03b99ee52ea4fe"
+    },
+    {
+      "sequence": 12,
+      "logical_time": 12,
+      "depth": 0,
+      "program_id": "program.ai-employee.no-send-workflow",
+      "node_id": "return.accepted",
+      "kind": "return",
+      "decision": "returned",
+      "result_digest": "sha256:539570f01ee4558c3b72e1aaf150ea69af3438d2808121989fc22222da143009"
+    }
+  ],
+  "trace_digest": "sha256:fb45e562fda731182fa6fc9f439016a3e8d745e10a1586aedf1b847ca5b9c682",
+  "steps": 12,
+  "logical_duration_ms": 12,
+  "effects_executed": false,
+  "canonical_write_allowed": false,
+  "limitations": [
+    "Pure episodes contain no external effects or runtime authorization."
+  ]
+}

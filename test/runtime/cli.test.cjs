@@ -13,19 +13,6 @@ function command(args, options = {}) {
   return spawnSync(process.execPath, [cli, ...args], { cwd: root, encoding: "utf8", ...options });
 }
 
-function findFile(directory, name) {
-  const queue = [directory];
-  while (queue.length) {
-    const current = queue.shift();
-    for (const entry of fs.readdirSync(current, { withFileTypes: true })) {
-      const target = path.join(current, entry.name);
-      if (entry.isDirectory()) queue.push(target);
-      else if (entry.name === name) return target;
-    }
-  }
-  throw new Error(`${name} not found`);
-}
-
 test("primary CLI exposes Mirai 2 help and version while preserving legacy routing", () => {
   const help = command(["--help"]);
   assert.equal(help.status, 0, help.stderr);
@@ -54,8 +41,7 @@ test("CLI run, inspect, replay and sanitized evidence form a closed workflow", (
   assert(!inspect.stdout.includes("Synthetic repository note"));
   assert(!inspect.stdout.includes(sandbox));
 
-  const episode = findFile(home, "episode.json");
-  const replay = command(["replay", episode, "--program", program]);
+  const replay = command(["replay", "run.cli-test", "--program", program, "--home", home]);
   assert.equal(replay.status, 0, replay.stderr);
   assert.equal(JSON.parse(replay.stdout).status, "match");
 

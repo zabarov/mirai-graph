@@ -1,0 +1,276 @@
+{
+  "contract_version": "1.0.0",
+  "run": {
+    "contract_version": "1.0.0",
+    "run_id": "run.larena.denied-action.beta1-r2",
+    "graph_id": "program.larena.denied-action-bounded-implementation",
+    "program_id": "program.larena.denied-action-bounded-implementation",
+    "program_digest": "sha256:900b296b71dc39e0fed12387f83fec1e374b2ddca1e5ea31e45788b2c918a88b",
+    "input_digest": "sha256:57bcb5a8ae5e4bb03603e7242669b83a4f4b2e06f01367175955a2416fc0ff01",
+    "status": "completed",
+    "revision": 21,
+    "event_sequence": 18,
+    "apply_requested": true,
+    "created_at": "2026-09-01T04:57:22.185Z",
+    "updated_at": "2026-09-01T04:57:22.464Z",
+    "blockers": [],
+    "limitations": [
+      "Runtime state is host-local and does not authorize canonical graph updates."
+    ],
+    "program_ref": "program.json",
+    "input_ref": "input.json",
+    "checkpoint_ref": "checkpoint.json",
+    "started_at": "2026-09-01T04:57:22.191Z",
+    "finished_at": "2026-09-01T04:57:22.464Z",
+    "episode_ref": "episode.json",
+    "sandbox_ref": "redacted-host-local"
+  },
+  "episode": {
+    "contract_version": "1.0.0",
+    "episode_id": "episode.b3ba951f647d0c51",
+    "run_id": "run.larena.denied-action.beta1-r2",
+    "program_id": "program.larena.denied-action-bounded-implementation",
+    "program_digest": "sha256:900b296b71dc39e0fed12387f83fec1e374b2ddca1e5ea31e45788b2c918a88b",
+    "input_digest": "sha256:57bcb5a8ae5e4bb03603e7242669b83a4f4b2e06f01367175955a2416fc0ff01",
+    "status": "completed",
+    "output_digest": "sha256:0735e47bc49eee14c68f881cc3940ac655b67623d91afbadf8b2370b9d305e0c",
+    "trace_digest": "sha256:7597c1a661acaeca30acab9609ab60994eb41c25e75a827974d3b905127b2f9f",
+    "steps": 7,
+    "logical_duration_ms": 7,
+    "effects_executed": true,
+    "replay_input_digest": "sha256:57bcb5a8ae5e4bb03603e7242669b83a4f4b2e06f01367175955a2416fc0ff01",
+    "effect_summaries": [
+      {
+        "sequence": 1,
+        "receipt_id": "receipt.edd721474ce9f0be",
+        "node_id": "runtime.write",
+        "invocation_id": "root:program.larena.denied-action-bounded-implementation/node:runtime.write",
+        "adapter": "workspace",
+        "operation": "write_file",
+        "args_digest": "sha256:108666981c5c5e3292b1a5cba865cee7aa564fbd25e358538cac5545565171e5",
+        "status": "verified",
+        "result_digest": "sha256:af790290f48ec0d5c615d95f4b4be60b1e1316c8aa2210f6874b1b062bd5a4dd"
+      },
+      {
+        "sequence": 2,
+        "receipt_id": "receipt.dd4e304e8a857cb3",
+        "node_id": "test.write",
+        "invocation_id": "root:program.larena.denied-action-bounded-implementation/node:test.write",
+        "adapter": "workspace",
+        "operation": "write_file",
+        "args_digest": "sha256:74a942f4f3912207c2f543e5f62f3b03621cf7da70e9ba53e0dbd7229f497fdc",
+        "status": "verified",
+        "result_digest": "sha256:beba338d07a96ebd2d5f82ee4872f85c9a264aba8d55db5cf312f0053a204eff"
+      },
+      {
+        "sequence": 3,
+        "receipt_id": "receipt.63ccd2c3999cd0f1",
+        "node_id": "syntax.run",
+        "invocation_id": "root:program.larena.denied-action-bounded-implementation/node:syntax.run",
+        "adapter": "test",
+        "operation": "run",
+        "args_digest": "sha256:82e850f887acfd64a53fe0b9c19d2281b254143b041a8ef4ee8801bf74a0da56",
+        "status": "verified",
+        "result_digest": "sha256:3a6ab054c8a1576684da1463aaf8134c0a536aeab755786012fecfba419f4686"
+      },
+      {
+        "sequence": 4,
+        "receipt_id": "receipt.6846af35a2003133",
+        "node_id": "visible.run",
+        "invocation_id": "root:program.larena.denied-action-bounded-implementation/node:visible.run",
+        "adapter": "test",
+        "operation": "run",
+        "args_digest": "sha256:acf10edd5cfb0baf6a8b39acaa4797f49312c54f0075d727456c6a5943748c2a",
+        "status": "verified",
+        "result_digest": "sha256:a1ba7b5604b19a508df8c532dbe95cedc165e8b24c6d0f3141b62a9354b70abc"
+      },
+      {
+        "sequence": 5,
+        "receipt_id": "receipt.ae6a51a6f04590db",
+        "node_id": "hidden.run",
+        "invocation_id": "root:program.larena.denied-action-bounded-implementation/node:hidden.run",
+        "adapter": "test",
+        "operation": "run",
+        "args_digest": "sha256:b865297839f5b52d4f19dbd54b390275122abbaa2f921d5028f11fc0ac20a7f1",
+        "status": "verified",
+        "result_digest": "sha256:2d43c16021900a1d01396a85356ca623618df133396bc41eba2766bc0e28b893"
+      }
+    ],
+    "canonical_write_allowed": false,
+    "learning_update_allowed": false,
+    "limitations": [
+      "Episode evidence does not authorize canonical graph updates.",
+      "External effect results are host-local and are removed from sanitized exports."
+    ]
+  },
+  "receipts": [
+    {
+      "contract_version": "1.0.0",
+      "receipt_id": "receipt.edd721474ce9f0be",
+      "idempotency_key": "sha256:edd721474ce9f0bed6d40d8c434dae542804877ec083dc51b8dfa8ced93d0cca",
+      "run_id": "run.larena.denied-action.beta1-r2",
+      "program_id": "program.larena.denied-action-bounded-implementation",
+      "program_digest": "sha256:900b296b71dc39e0fed12387f83fec1e374b2ddca1e5ea31e45788b2c918a88b",
+      "node_id": "runtime.write",
+      "adapter": "workspace",
+      "operation": "write_file",
+      "effects": [
+        "workspace_patch"
+      ],
+      "args_digest": "sha256:108666981c5c5e3292b1a5cba865cee7aa564fbd25e358538cac5545565171e5",
+      "invocation_id": "root:program.larena.denied-action-bounded-implementation/node:runtime.write",
+      "status": "verified",
+      "sequence": 1,
+      "attempt": 1,
+      "prepared_at": "2026-09-01T04:57:22.199Z",
+      "compensation": {
+        "status": "available",
+        "backup_ref": "redacted-host-local"
+      },
+      "executed_at": "2026-09-01T04:57:22.200Z",
+      "result_digest": "sha256:af790290f48ec0d5c615d95f4b4be60b1e1316c8aa2210f6874b1b062bd5a4dd",
+      "verified_at": "2026-09-01T04:57:22.201Z",
+      "verification": {
+        "status": "verified",
+        "details": [
+          "current_digest:sha256:17b22bd90966b077818ea9f83eb1d3d9f0cc0c9703bc4a3a81f8d250c0cbe395"
+        ]
+      }
+    },
+    {
+      "contract_version": "1.0.0",
+      "receipt_id": "receipt.dd4e304e8a857cb3",
+      "idempotency_key": "sha256:dd4e304e8a857cb3ba6b86e6b86d815a52fd05700f708e701f91ab5beec4f3b4",
+      "run_id": "run.larena.denied-action.beta1-r2",
+      "program_id": "program.larena.denied-action-bounded-implementation",
+      "program_digest": "sha256:900b296b71dc39e0fed12387f83fec1e374b2ddca1e5ea31e45788b2c918a88b",
+      "node_id": "test.write",
+      "adapter": "workspace",
+      "operation": "write_file",
+      "effects": [
+        "workspace_patch"
+      ],
+      "args_digest": "sha256:74a942f4f3912207c2f543e5f62f3b03621cf7da70e9ba53e0dbd7229f497fdc",
+      "invocation_id": "root:program.larena.denied-action-bounded-implementation/node:test.write",
+      "status": "verified",
+      "sequence": 2,
+      "attempt": 1,
+      "prepared_at": "2026-09-01T04:57:22.202Z",
+      "compensation": {
+        "status": "available",
+        "backup_ref": "redacted-host-local"
+      },
+      "executed_at": "2026-09-01T04:57:22.204Z",
+      "result_digest": "sha256:beba338d07a96ebd2d5f82ee4872f85c9a264aba8d55db5cf312f0053a204eff",
+      "verified_at": "2026-09-01T04:57:22.204Z",
+      "verification": {
+        "status": "verified",
+        "details": [
+          "current_digest:sha256:eafbb735273fb315c57b00df035670c3d87e3acda7a3cec69233539b0a6c3dc5"
+        ]
+      }
+    },
+    {
+      "contract_version": "1.0.0",
+      "receipt_id": "receipt.63ccd2c3999cd0f1",
+      "idempotency_key": "sha256:63ccd2c3999cd0f12a4e2468c1b656060439a2b8728e9c60001b4aadbae1bf2a",
+      "run_id": "run.larena.denied-action.beta1-r2",
+      "program_id": "program.larena.denied-action-bounded-implementation",
+      "program_digest": "sha256:900b296b71dc39e0fed12387f83fec1e374b2ddca1e5ea31e45788b2c918a88b",
+      "node_id": "syntax.run",
+      "adapter": "test",
+      "operation": "run",
+      "effects": [
+        "process_run"
+      ],
+      "args_digest": "sha256:82e850f887acfd64a53fe0b9c19d2281b254143b041a8ef4ee8801bf74a0da56",
+      "invocation_id": "root:program.larena.denied-action-bounded-implementation/node:syntax.run",
+      "status": "verified",
+      "sequence": 3,
+      "attempt": 1,
+      "prepared_at": "2026-09-01T04:57:22.206Z",
+      "compensation": {
+        "status": "not_available"
+      },
+      "executed_at": "2026-09-01T04:57:22.300Z",
+      "result_digest": "sha256:3a6ab054c8a1576684da1463aaf8134c0a536aeab755786012fecfba419f4686",
+      "verified_at": "2026-09-01T04:57:22.301Z",
+      "verification": {
+        "status": "verified",
+        "details": [
+          "exit_code:0"
+        ]
+      }
+    },
+    {
+      "contract_version": "1.0.0",
+      "receipt_id": "receipt.6846af35a2003133",
+      "idempotency_key": "sha256:6846af35a2003133f97d6ae2b5fef8a9fb4734eb19d5e3e9abfbbbdc2b0906eb",
+      "run_id": "run.larena.denied-action.beta1-r2",
+      "program_id": "program.larena.denied-action-bounded-implementation",
+      "program_digest": "sha256:900b296b71dc39e0fed12387f83fec1e374b2ddca1e5ea31e45788b2c918a88b",
+      "node_id": "visible.run",
+      "adapter": "test",
+      "operation": "run",
+      "effects": [
+        "process_run"
+      ],
+      "args_digest": "sha256:acf10edd5cfb0baf6a8b39acaa4797f49312c54f0075d727456c6a5943748c2a",
+      "invocation_id": "root:program.larena.denied-action-bounded-implementation/node:visible.run",
+      "status": "verified",
+      "sequence": 4,
+      "attempt": 1,
+      "prepared_at": "2026-09-01T04:57:22.303Z",
+      "compensation": {
+        "status": "not_available"
+      },
+      "executed_at": "2026-09-01T04:57:22.383Z",
+      "result_digest": "sha256:a1ba7b5604b19a508df8c532dbe95cedc165e8b24c6d0f3141b62a9354b70abc",
+      "verified_at": "2026-09-01T04:57:22.384Z",
+      "verification": {
+        "status": "verified",
+        "details": [
+          "exit_code:0"
+        ]
+      }
+    },
+    {
+      "contract_version": "1.0.0",
+      "receipt_id": "receipt.ae6a51a6f04590db",
+      "idempotency_key": "sha256:ae6a51a6f04590dbcff7b2723dd72f5242f796634be9531934b42510dbdedf00",
+      "run_id": "run.larena.denied-action.beta1-r2",
+      "program_id": "program.larena.denied-action-bounded-implementation",
+      "program_digest": "sha256:900b296b71dc39e0fed12387f83fec1e374b2ddca1e5ea31e45788b2c918a88b",
+      "node_id": "hidden.run",
+      "adapter": "test",
+      "operation": "run",
+      "effects": [
+        "process_run"
+      ],
+      "args_digest": "sha256:b865297839f5b52d4f19dbd54b390275122abbaa2f921d5028f11fc0ac20a7f1",
+      "invocation_id": "root:program.larena.denied-action-bounded-implementation/node:hidden.run",
+      "status": "verified",
+      "sequence": 5,
+      "attempt": 1,
+      "prepared_at": "2026-09-01T04:57:22.386Z",
+      "compensation": {
+        "status": "not_available"
+      },
+      "executed_at": "2026-09-01T04:57:22.461Z",
+      "result_digest": "sha256:2d43c16021900a1d01396a85356ca623618df133396bc41eba2766bc0e28b893",
+      "verified_at": "2026-09-01T04:57:22.462Z",
+      "verification": {
+        "status": "verified",
+        "details": [
+          "exit_code:0"
+        ]
+      }
+    }
+  ],
+  "exported_at": "2026-09-01T04:57:36.749Z",
+  "canonical_write_allowed": false,
+  "limitations": [
+    "Content, external outputs, capability grants, approval signatures, sandbox paths and backups are excluded.",
+    "Evidence supports audit of this run only and does not authorize canonical updates."
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "contract_version": "1.0.0",
+  "implementation": "python_independent",
+  "artifact_type": "pure_episode",
+  "source_ref": "pilots/mirai-2-beta-ai-employee/results/episode.json",
+  "schema_ref": "schemas/mirai-pure-episode.schema.json",
+  "program_ref": "pilots/mirai-2-beta-ai-employee/programs/results/program.mirai.json",
+  "status": "passed",
+  "checks": [
+    "schema",
+    "digest_recalculation",
+    "trace_sequence",
+    "logical_time",
+    "effect_boundary",
+    "program_binding"
+  ],
+  "errors": [],
+  "limitations": [
+    "This result checks the supplied episode and does not authorize an external effect."
+  ]
+}

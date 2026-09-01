@@ -2,7 +2,7 @@
   "contract_version": "1.0.0",
   "checker": {
     "repository": "https://github.com/zabarov/mirai-conformance",
-    "revision": "87670c4234b8885175b3c35f67bd270845b28970",
+    "revision": "6f5253da1d216841c6a54888e916ed6d1a29cb5d",
     "language": "Python",
     "python_requires": ">=3.12",
     "imports_typescript_runtime": false
@@ -10,9 +10,22 @@
   "corpus_ref": "conformance/corpus/pure/corpus.json",
   "typescript_result_ref": "conformance/results/typescript-pure-result.json",
   "python_result_ref": "conformance/results/python-pure-result.json",
+  "runtime_result_refs": [
+    "conformance/results/python-federation-episode-result.json",
+    "conformance/results/python-ai-employee-episode-result.json",
+    "conformance/results/python-larena-runtime-evidence-result.json"
+  ],
+  "supported_surfaces": [
+    "program_ir",
+    "pure_expression_semantics",
+    "pure_transition_traces",
+    "pure_episodes",
+    "sanitized_runtime_receipts",
+    "sanitized_runtime_evidence"
+  ],
   "status": "matched",
   "limitations": [
-    "This checkpoint covers the pure-language corpus; governed receipt and episode cross-checks are added before RC.",
+    "The governed runtime check covers sanitized receipts and cannot attest to excluded host-local payloads or approval signatures.",
     "A matching corpus is conformance evidence, not production authorization or broad correctness proof."
   ]
 }

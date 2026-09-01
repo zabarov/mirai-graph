@@ -1,0 +1,97 @@
+{
+  "contract_version": "1.0.0",
+  "entry": "evidence.branch",
+  "error_routes": [],
+  "id": "program.federation.stage-check",
+  "imports": [],
+  "inputs": [
+    {
+      "id": "stage",
+      "type": "string"
+    },
+    {
+      "id": "evidence_present",
+      "type": "boolean"
+    }
+  ],
+  "nodes": [
+    {
+      "condition": {
+        "op": "ref",
+        "path": "input.evidence_present"
+      },
+      "else": "return.blocked",
+      "id": "evidence.branch",
+      "kind": "branch",
+      "then": "return.pass"
+    },
+    {
+      "id": "return.pass",
+      "kind": "return",
+      "values": {
+        "stage": {
+          "op": "ref",
+          "path": "input.stage"
+        },
+        "status": {
+          "op": "literal",
+          "value": "pass"
+        }
+      }
+    },
+    {
+      "id": "return.blocked",
+      "kind": "return",
+      "values": {
+        "stage": {
+          "op": "ref",
+          "path": "input.stage"
+        },
+        "status": {
+          "op": "literal",
+          "value": "blocked"
+        }
+      }
+    }
+  ],
+  "outputs": [
+    {
+      "id": "stage",
+      "type": "string"
+    },
+    {
+      "id": "status",
+      "type": "string"
+    }
+  ],
+  "policies": {
+    "allowed_effects": [
+      "pure"
+    ],
+    "budgets": {
+      "max_depth": 4,
+      "max_duration_ms": 100,
+      "max_iterations": 4,
+      "max_parallel": 2,
+      "max_steps": 8
+    },
+    "canonical_write_allowed": false
+  },
+  "source_map": {
+    "evidence.branch": {
+      "file": "stage-check.mirai.yaml",
+      "line": 17
+    },
+    "return.blocked": {
+      "file": "stage-check.mirai.yaml",
+      "line": 33
+    },
+    "return.pass": {
+      "file": "stage-check.mirai.yaml",
+      "line": 24
+    }
+  },
+  "state": [],
+  "version": "1.0.0",
+  "digest": "sha256:771722b3931e396c2cb137b9e4d18e57ad2f3ecc583511624995202817ad7bbc"
+}

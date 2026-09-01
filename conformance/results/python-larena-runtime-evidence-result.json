@@ -1,0 +1,21 @@
+{
+  "contract_version": "1.0.0",
+  "implementation": "python_independent",
+  "artifact_type": "sanitized_runtime_evidence",
+  "source_ref": "pilots/mirai-2-beta-larena/results/mirai-evidence.json",
+  "schema_ref": "schemas/mirai-sanitized-evidence.schema.json",
+  "status": "passed",
+  "checks": [
+    "schema",
+    "public_export_boundary",
+    "run_episode_binding",
+    "receipt_sequence",
+    "receipt_summary_consistency",
+    "terminal_receipt_status",
+    "canonical_and_learning_boundary"
+  ],
+  "errors": [],
+  "limitations": [
+    "This result checks sanitized evidence only and cannot attest to hidden host-local effect payloads."
+  ]
+}

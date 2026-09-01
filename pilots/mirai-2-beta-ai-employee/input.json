@@ -1,0 +1,7 @@
+{
+  "request_kind": "support_request",
+  "intent_resolved": true,
+  "character_conformant": true,
+  "policy_allows_simulation": true,
+  "approval_status": "simulation_approved"
+}

@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zabarov.github.io/mirai/schemas/mirai-scientific-evaluation-plan.schema.json",
+  "title": "Mirai Scientific Evaluation Plan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "study_id",
+    "status",
+    "factors",
+    "domains",
+    "unit_of_analysis",
+    "primary_endpoint",
+    "secondary_endpoints",
+    "randomization",
+    "blinding",
+    "sample_size",
+    "missing_data_policy",
+    "claim_boundary"
+  ],
+  "properties": {
+    "contract_version": { "const": "1.0.0" },
+    "study_id": { "type": "string", "pattern": "^study\\.[a-z0-9._-]+$" },
+    "status": { "enum": ["pilot_variance_pending", "preregistered", "running", "analysis_locked", "complete"] },
+    "factors": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["model_class", "control_system"],
+      "properties": {
+        "model_class": { "const": ["strong_model", "weaker_model"] },
+        "control_system": { "const": ["plain_instructions", "mirai_graph_1_4", "mirai_2_0"] }
+      }
+    },
+    "domains": {
+      "const": ["federation", "larena_code_generation", "ai_employee"]
+    },
+    "unit_of_analysis": { "const": "independent_task" },
+    "primary_endpoint": { "const": "technology_adherence" },
+    "secondary_endpoints": {
+      "type": "array",
+      "minItems": 8,
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "randomization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["unit", "within", "seed_policy", "retain_failed_runs"],
+      "properties": {
+        "unit": { "const": "task_condition_order" },
+        "within": { "const": "model_class_and_domain" },
+        "seed_policy": { "const": "freeze_before_first_outcome" },
+        "retain_failed_runs": { "const": true }
+      }
+    },
+    "blinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["outcome_reviewer_blinded", "independent_reviewer_required", "excluded_from_review_packet", "rubric_lock"],
+      "properties": {
+        "outcome_reviewer_blinded": { "const": true },
+        "independent_reviewer_required": { "const": true },
+        "excluded_from_review_packet": {
+          "type": "array",
+          "contains": { "const": "condition_id" },
+          "minItems": 3,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "rubric_lock": { "const": "before_condition_unsealing" }
+      }
+    },
+    "sample_size": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["alpha", "power", "minimum_tasks_per_domain", "maximum_tasks_per_domain", "repetitions_per_cell", "selection_rule"],
+      "properties": {
+        "alpha": { "const": 0.05 },
+        "power": { "const": 0.8 },
+        "minimum_tasks_per_domain": { "const": 10 },
+        "maximum_tasks_per_domain": { "const": 40 },
+        "repetitions_per_cell": { "const": 3 },
+        "selection_rule": { "const": "power_analysis_before_confirmatory_outcomes" }
+      }
+    },
+    "missing_data_policy": { "const": "retain_failed_blocked_and_interrupted_runs" },
+    "claim_boundary": { "type": "string", "minLength": 1 }
+  }
+}

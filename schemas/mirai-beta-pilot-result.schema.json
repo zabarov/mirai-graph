@@ -1,0 +1,145 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zabarov.github.io/mirai/schemas/mirai-beta-pilot-result.schema.json",
+  "title": "Mirai 2 Controlled Beta Pilot Result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "pilot_id",
+    "domain",
+    "task_id",
+    "protocol_ref",
+    "status",
+    "conditions",
+    "mirai_2",
+    "safety",
+    "metrics",
+    "human_review",
+    "limitations",
+    "claim_boundary"
+  ],
+  "properties": {
+    "contract_version": { "const": "1.0.0" },
+    "pilot_id": { "type": "string", "pattern": "^pilot\\.[a-z0-9._-]+$" },
+    "domain": { "enum": ["federation", "larena_code_generation", "ai_employee"] },
+    "task_id": { "type": "string", "minLength": 1 },
+    "protocol_ref": { "type": "string", "minLength": 1 },
+    "status": { "enum": ["engineering_evidence_complete", "blocked", "planned"] },
+    "conditions": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": { "$ref": "#/$defs/condition" }
+    },
+    "mirai_2": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "runtime_version",
+        "execution_mode",
+        "program_ref",
+        "ir_ref",
+        "episode_ref",
+        "evidence_ref",
+        "replay_ref",
+        "independent_conformance_ref"
+      ],
+      "properties": {
+        "runtime_version": { "type": "string", "pattern": "^2\\.0\\.0-" },
+        "execution_mode": { "enum": ["pure_no_effects", "governed_sandbox", "dry_run_no_send"] },
+        "program_ref": { "$ref": "#/$defs/ref" },
+        "ir_ref": { "$ref": "#/$defs/ref" },
+        "episode_ref": { "$ref": "#/$defs/ref" },
+        "evidence_ref": { "$ref": "#/$defs/ref" },
+        "replay_ref": { "$ref": "#/$defs/ref" },
+        "independent_conformance_ref": { "$ref": "#/$defs/ref" }
+      }
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "production_effects",
+        "network_effects",
+        "customer_facing_effects",
+        "canonical_graph_write",
+        "automatic_learning_update"
+      ],
+      "properties": {
+        "production_effects": { "const": false },
+        "network_effects": { "const": false },
+        "customer_facing_effects": { "const": false },
+        "canonical_graph_write": { "const": false },
+        "automatic_learning_update": { "const": false }
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "technology_adherence_percent",
+        "task_correctness_percent",
+        "skipped_mandatory_steps",
+        "unauthorized_effects",
+        "false_completion_claims",
+        "correction_loops",
+        "audit_completeness_percent"
+      ],
+      "properties": {
+        "technology_adherence_percent": { "$ref": "#/$defs/nullablePercent" },
+        "task_correctness_percent": { "$ref": "#/$defs/nullablePercent" },
+        "skipped_mandatory_steps": { "$ref": "#/$defs/nullableCount" },
+        "unauthorized_effects": { "type": "integer", "minimum": 0 },
+        "false_completion_claims": { "$ref": "#/$defs/nullableCount" },
+        "correction_loops": { "$ref": "#/$defs/nullableCount" },
+        "audit_completeness_percent": { "$ref": "#/$defs/nullablePercent" }
+      }
+    },
+    "human_review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "blinded", "independent", "evidence_refs"],
+      "properties": {
+        "status": { "enum": ["complete", "pending", "not_applicable"] },
+        "blinded": { "type": "boolean" },
+        "independent": { "type": "boolean" },
+        "evidence_refs": { "type": "array", "items": { "$ref": "#/$defs/ref" } }
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "claim_boundary": { "type": "string", "minLength": 1 }
+  },
+  "$defs": {
+    "ref": { "type": "string", "minLength": 1, "not": { "pattern": "^/" } },
+    "nullablePercent": {
+      "anyOf": [
+        { "type": "null" },
+        { "type": "number", "minimum": 0, "maximum": 100 }
+      ]
+    },
+    "nullableCount": {
+      "anyOf": [
+        { "type": "null" },
+        { "type": "integer", "minimum": 0 }
+      ]
+    },
+    "condition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "status", "run_count", "accepted_count", "evidence_refs", "limitations"],
+      "properties": {
+        "id": { "enum": ["plain_instructions", "mirai_graph_1_4", "mirai_2_0"] },
+        "status": { "enum": ["completed", "historical_evidence", "not_available", "planned"] },
+        "run_count": { "type": "integer", "minimum": 0 },
+        "accepted_count": { "type": ["integer", "null"], "minimum": 0 },
+        "evidence_refs": { "type": "array", "items": { "$ref": "#/$defs/ref" } },
+        "limitations": { "type": "array", "items": { "type": "string", "minLength": 1 } }
+      }
+    }
+  }
+}

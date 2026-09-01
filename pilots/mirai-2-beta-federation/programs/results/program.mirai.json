@@ -1,0 +1,362 @@
+{
+  "contract_version": "1.0.0",
+  "entry": "route.check",
+  "error_routes": [
+    {
+      "error": "*",
+      "to": "correction.record"
+    }
+  ],
+  "id": "program.federation.technology-conformance",
+  "imports": [
+    {
+      "alias": "stage_check",
+      "digest": "sha256:771722b3931e396c2cb137b9e4d18e57ad2f3ecc583511624995202817ad7bbc",
+      "ref": "program.federation.stage-check"
+    }
+  ],
+  "inputs": [
+    {
+      "id": "route_verified",
+      "type": "boolean"
+    },
+    {
+      "id": "technology_packet_verified",
+      "type": "boolean"
+    },
+    {
+      "id": "sync_verified",
+      "type": "boolean"
+    },
+    {
+      "id": "reverse_audit_verified",
+      "type": "boolean"
+    }
+  ],
+  "nodes": [
+    {
+      "args": {
+        "evidence_present": {
+          "op": "ref",
+          "path": "input.route_verified"
+        },
+        "stage": {
+          "op": "literal",
+          "value": "route"
+        }
+      },
+      "id": "route.check",
+      "kind": "call",
+      "next": "packet.check",
+      "result": "route_result",
+      "target": {
+        "kind": "program",
+        "program": "stage_check"
+      }
+    },
+    {
+      "args": {
+        "evidence_present": {
+          "op": "ref",
+          "path": "input.technology_packet_verified"
+        },
+        "stage": {
+          "op": "literal",
+          "value": "technology_packet"
+        }
+      },
+      "id": "packet.check",
+      "kind": "call",
+      "next": "sync.check",
+      "result": "packet_result",
+      "target": {
+        "kind": "program",
+        "program": "stage_check"
+      }
+    },
+    {
+      "args": {
+        "evidence_present": {
+          "op": "ref",
+          "path": "input.sync_verified"
+        },
+        "stage": {
+          "op": "literal",
+          "value": "skill_sync"
+        }
+      },
+      "id": "sync.check",
+      "kind": "call",
+      "next": "audit.check",
+      "result": "sync_result",
+      "target": {
+        "kind": "program",
+        "program": "stage_check"
+      }
+    },
+    {
+      "args": {
+        "evidence_present": {
+          "op": "ref",
+          "path": "input.reverse_audit_verified"
+        },
+        "stage": {
+          "op": "literal",
+          "value": "reverse_audit"
+        }
+      },
+      "id": "audit.check",
+      "kind": "call",
+      "next": "completion.branch",
+      "result": "audit_result",
+      "target": {
+        "kind": "program",
+        "program": "stage_check"
+      }
+    },
+    {
+      "condition": {
+        "left": {
+          "left": {
+            "key": "status",
+            "op": "get",
+            "target": {
+              "op": "ref",
+              "path": "state.route_result"
+            }
+          },
+          "op": "eq",
+          "right": {
+            "op": "literal",
+            "value": "pass"
+          }
+        },
+        "op": "and",
+        "right": {
+          "left": {
+            "left": {
+              "key": "status",
+              "op": "get",
+              "target": {
+                "op": "ref",
+                "path": "state.packet_result"
+              }
+            },
+            "op": "eq",
+            "right": {
+              "op": "literal",
+              "value": "pass"
+            }
+          },
+          "op": "and",
+          "right": {
+            "left": {
+              "left": {
+                "key": "status",
+                "op": "get",
+                "target": {
+                  "op": "ref",
+                  "path": "state.sync_result"
+                }
+              },
+              "op": "eq",
+              "right": {
+                "op": "literal",
+                "value": "pass"
+              }
+            },
+            "op": "and",
+            "right": {
+              "left": {
+                "key": "status",
+                "op": "get",
+                "target": {
+                  "op": "ref",
+                  "path": "state.audit_result"
+                }
+              },
+              "op": "eq",
+              "right": {
+                "op": "literal",
+                "value": "pass"
+              }
+            }
+          }
+        }
+      },
+      "else": "correction.record",
+      "id": "completion.branch",
+      "kind": "branch",
+      "then": "kaizen.record"
+    },
+    {
+      "event": "kaizen_review_required",
+      "id": "kaizen.record",
+      "kind": "emit",
+      "next": "return.accepted",
+      "payload": {
+        "op": "literal",
+        "value": "no_reusable_lessons_recorded_for_fixture"
+      }
+    },
+    {
+      "event": "correction_required",
+      "id": "correction.record",
+      "kind": "emit",
+      "next": "return.blocked",
+      "payload": {
+        "op": "literal",
+        "value": "failed_stage_must_route_to_owner"
+      }
+    },
+    {
+      "id": "return.accepted",
+      "kind": "return",
+      "values": {
+        "next_action": {
+          "op": "literal",
+          "value": "retain_evidence_and_open_kaizen_if_needed"
+        },
+        "verdict": {
+          "op": "literal",
+          "value": "accepted"
+        }
+      }
+    },
+    {
+      "id": "return.blocked",
+      "kind": "return",
+      "values": {
+        "next_action": {
+          "op": "literal",
+          "value": "correct_failed_stage_before_completion"
+        },
+        "verdict": {
+          "op": "literal",
+          "value": "blocked"
+        }
+      }
+    }
+  ],
+  "outputs": [
+    {
+      "id": "verdict",
+      "type": "string"
+    },
+    {
+      "id": "next_action",
+      "type": "string"
+    }
+  ],
+  "policies": {
+    "allowed_effects": [
+      "pure"
+    ],
+    "budgets": {
+      "max_depth": 8,
+      "max_duration_ms": 200,
+      "max_iterations": 8,
+      "max_parallel": 4,
+      "max_steps": 64
+    },
+    "canonical_write_allowed": false
+  },
+  "source_map": {
+    "audit.check": {
+      "file": "program.mirai.yaml",
+      "line": 64
+    },
+    "completion.branch": {
+      "file": "program.mirai.yaml",
+      "line": 72
+    },
+    "correction.record": {
+      "file": "program.mirai.yaml",
+      "line": 103
+    },
+    "kaizen.record": {
+      "file": "program.mirai.yaml",
+      "line": 98
+    },
+    "packet.check": {
+      "file": "program.mirai.yaml",
+      "line": 48
+    },
+    "return.accepted": {
+      "file": "program.mirai.yaml",
+      "line": 108
+    },
+    "return.blocked": {
+      "file": "program.mirai.yaml",
+      "line": 113
+    },
+    "route.check": {
+      "file": "program.mirai.yaml",
+      "line": 40
+    },
+    "sync.check": {
+      "file": "program.mirai.yaml",
+      "line": 56
+    }
+  },
+  "state": [
+    {
+      "default": {
+        "stage": "route",
+        "status": "pending"
+      },
+      "id": "route_result",
+      "type": {
+        "fields": {
+          "stage": "string",
+          "status": "string"
+        },
+        "kind": "record"
+      }
+    },
+    {
+      "default": {
+        "stage": "technology_packet",
+        "status": "pending"
+      },
+      "id": "packet_result",
+      "type": {
+        "fields": {
+          "stage": "string",
+          "status": "string"
+        },
+        "kind": "record"
+      }
+    },
+    {
+      "default": {
+        "stage": "skill_sync",
+        "status": "pending"
+      },
+      "id": "sync_result",
+      "type": {
+        "fields": {
+          "stage": "string",
+          "status": "string"
+        },
+        "kind": "record"
+      }
+    },
+    {
+      "default": {
+        "stage": "reverse_audit",
+        "status": "pending"
+      },
+      "id": "audit_result",
+      "type": {
+        "fields": {
+          "stage": "string",
+          "status": "string"
+        },
+        "kind": "record"
+      }
+    }
+  ],
+  "version": "1.0.0",
+  "digest": "sha256:f30c8c23a76335c78830b99b9fb7a84e5f4d6dc69e221b4ec41afa6456c51b87"
+}

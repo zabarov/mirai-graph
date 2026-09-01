@@ -1,0 +1,198 @@
+{
+  "contract_version": "1.0.0",
+  "episode_id": "episode.b226ad5544168e19",
+  "program_id": "program.federation.technology-conformance",
+  "program_digest": "sha256:f30c8c23a76335c78830b99b9fb7a84e5f4d6dc69e221b4ec41afa6456c51b87",
+  "input_digest": "sha256:5774a60313f7b3aebf4cd411d8fe3074c6649e3a760102821d6bab57f14149b6",
+  "replay_input": {
+    "route_verified": true,
+    "technology_packet_verified": true,
+    "sync_verified": true,
+    "reverse_audit_verified": true
+  },
+  "status": "completed",
+  "outputs": {
+    "next_action": "retain_evidence_and_open_kaizen_if_needed",
+    "verdict": "accepted"
+  },
+  "output_digest": "sha256:942afd2bf5320f807e9137df4a76e137918c3a3f50dbf3abad96835e0b946674",
+  "final_state": {
+    "route_result": {
+      "stage": "route",
+      "status": "pass"
+    },
+    "packet_result": {
+      "stage": "technology_packet",
+      "status": "pass"
+    },
+    "sync_result": {
+      "stage": "skill_sync",
+      "status": "pass"
+    },
+    "audit_result": {
+      "stage": "reverse_audit",
+      "status": "pass"
+    }
+  },
+  "emitted_events": [
+    {
+      "event": "kaizen_review_required",
+      "payload": "no_reusable_lessons_recorded_for_fixture"
+    }
+  ],
+  "trace": [
+    {
+      "sequence": 1,
+      "logical_time": 1,
+      "depth": 1,
+      "program_id": "program.federation.stage-check",
+      "node_id": "evidence.branch",
+      "kind": "branch",
+      "decision": "selected:return.pass"
+    },
+    {
+      "sequence": 2,
+      "logical_time": 2,
+      "depth": 1,
+      "program_id": "program.federation.stage-check",
+      "node_id": "return.pass",
+      "kind": "return",
+      "decision": "returned",
+      "result_digest": "sha256:ff74390f2939d3ea82be33284b7e34a3375667a668b0852c58a19610d7ed60b2"
+    },
+    {
+      "sequence": 3,
+      "logical_time": 3,
+      "depth": 0,
+      "program_id": "program.federation.technology-conformance",
+      "node_id": "route.check",
+      "kind": "call",
+      "decision": "completed",
+      "result_digest": "sha256:ff74390f2939d3ea82be33284b7e34a3375667a668b0852c58a19610d7ed60b2"
+    },
+    {
+      "sequence": 4,
+      "logical_time": 4,
+      "depth": 1,
+      "program_id": "program.federation.stage-check",
+      "node_id": "evidence.branch",
+      "kind": "branch",
+      "decision": "selected:return.pass"
+    },
+    {
+      "sequence": 5,
+      "logical_time": 5,
+      "depth": 1,
+      "program_id": "program.federation.stage-check",
+      "node_id": "return.pass",
+      "kind": "return",
+      "decision": "returned",
+      "result_digest": "sha256:a3512170f4e011a324ae9a939d610f0e59648f0076559400bae92861520de3a4"
+    },
+    {
+      "sequence": 6,
+      "logical_time": 6,
+      "depth": 0,
+      "program_id": "program.federation.technology-conformance",
+      "node_id": "packet.check",
+      "kind": "call",
+      "decision": "completed",
+      "result_digest": "sha256:a3512170f4e011a324ae9a939d610f0e59648f0076559400bae92861520de3a4"
+    },
+    {
+      "sequence": 7,
+      "logical_time": 7,
+      "depth": 1,
+      "program_id": "program.federation.stage-check",
+      "node_id": "evidence.branch",
+      "kind": "branch",
+      "decision": "selected:return.pass"
+    },
+    {
+      "sequence": 8,
+      "logical_time": 8,
+      "depth": 1,
+      "program_id": "program.federation.stage-check",
+      "node_id": "return.pass",
+      "kind": "return",
+      "decision": "returned",
+      "result_digest": "sha256:e70e8765036de2bdc031f73831727546c48f726e7c3e4da362bd7c693cc480fc"
+    },
+    {
+      "sequence": 9,
+      "logical_time": 9,
+      "depth": 0,
+      "program_id": "program.federation.technology-conformance",
+      "node_id": "sync.check",
+      "kind": "call",
+      "decision": "completed",
+      "result_digest": "sha256:e70e8765036de2bdc031f73831727546c48f726e7c3e4da362bd7c693cc480fc"
+    },
+    {
+      "sequence": 10,
+      "logical_time": 10,
+      "depth": 1,
+      "program_id": "program.federation.stage-check",
+      "node_id": "evidence.branch",
+      "kind": "branch",
+      "decision": "selected:return.pass"
+    },
+    {
+      "sequence": 11,
+      "logical_time": 11,
+      "depth": 1,
+      "program_id": "program.federation.stage-check",
+      "node_id": "return.pass",
+      "kind": "return",
+      "decision": "returned",
+      "result_digest": "sha256:18be18af7b8615bbf7ecf77f6cd67b75067ae5b4bb1db097a8496be79bf0d762"
+    },
+    {
+      "sequence": 12,
+      "logical_time": 12,
+      "depth": 0,
+      "program_id": "program.federation.technology-conformance",
+      "node_id": "audit.check",
+      "kind": "call",
+      "decision": "completed",
+      "result_digest": "sha256:18be18af7b8615bbf7ecf77f6cd67b75067ae5b4bb1db097a8496be79bf0d762"
+    },
+    {
+      "sequence": 13,
+      "logical_time": 13,
+      "depth": 0,
+      "program_id": "program.federation.technology-conformance",
+      "node_id": "completion.branch",
+      "kind": "branch",
+      "decision": "selected:kaizen.record"
+    },
+    {
+      "sequence": 14,
+      "logical_time": 14,
+      "depth": 0,
+      "program_id": "program.federation.technology-conformance",
+      "node_id": "kaizen.record",
+      "kind": "emit",
+      "decision": "emitted:kaizen_review_required",
+      "result_digest": "sha256:ac310f1cb16afd45f6e23c7c3dfc059d7430c7f3dcdb6f6f103112b23d43a9b2"
+    },
+    {
+      "sequence": 15,
+      "logical_time": 15,
+      "depth": 0,
+      "program_id": "program.federation.technology-conformance",
+      "node_id": "return.accepted",
+      "kind": "return",
+      "decision": "returned",
+      "result_digest": "sha256:942afd2bf5320f807e9137df4a76e137918c3a3f50dbf3abad96835e0b946674"
+    }
+  ],
+  "trace_digest": "sha256:6d55675741012279486c1c6d35944111cbed52d03c5325c3815fdf075ccf58af",
+  "steps": 15,
+  "logical_duration_ms": 15,
+  "effects_executed": false,
+  "canonical_write_allowed": false,
+  "limitations": [
+    "Pure episodes contain no external effects or runtime authorization."
+  ]
+}

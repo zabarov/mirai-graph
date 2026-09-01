@@ -245,8 +245,8 @@ Release sequence and current status:
 3. `2.0.0-alpha.3`: implemented on the 2.0 development branch:
    capability-gated reference adapters, durable receipts and checkpoints,
    effect-stub replay, recovery, compensation and sanitized evidence export;
-4. `2.0.0-beta.1`: controlled Federation, Larena and AI Employee pilots plus
-   an independent checker;
+4. `2.0.0-beta.1`: engineering pilot and independent-checker package is
+   complete; promotion awaits blinded external review and a variance pilot;
 5. `2.0.0-rc.1`: API freeze, security review and clean-room installation;
 6. `2.0.0`: stable only after all conformance, safety and pilot gates pass.
 

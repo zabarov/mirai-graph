@@ -1,0 +1,46 @@
+{
+  "contract_version": "1.0.0",
+  "study_id": "study.mirai-2.technology-adherence.factorial-v1",
+  "status": "pilot_variance_pending",
+  "factors": {
+    "model_class": ["strong_model", "weaker_model"],
+    "control_system": ["plain_instructions", "mirai_graph_1_4", "mirai_2_0"]
+  },
+  "domains": ["federation", "larena_code_generation", "ai_employee"],
+  "unit_of_analysis": "independent_task",
+  "primary_endpoint": "technology_adherence",
+  "secondary_endpoints": [
+    "task_correctness",
+    "skipped_mandatory_steps",
+    "unauthorized_effects",
+    "false_completion_claims",
+    "correction_loops",
+    "token_use",
+    "elapsed_time",
+    "audit_completeness",
+    "replay_success",
+    "recovery_success"
+  ],
+  "randomization": {
+    "unit": "task_condition_order",
+    "within": "model_class_and_domain",
+    "seed_policy": "freeze_before_first_outcome",
+    "retain_failed_runs": true
+  },
+  "blinding": {
+    "outcome_reviewer_blinded": true,
+    "independent_reviewer_required": true,
+    "excluded_from_review_packet": ["condition_id", "model_class", "runtime_name"],
+    "rubric_lock": "before_condition_unsealing"
+  },
+  "sample_size": {
+    "alpha": 0.05,
+    "power": 0.8,
+    "minimum_tasks_per_domain": 10,
+    "maximum_tasks_per_domain": 40,
+    "repetitions_per_cell": 3,
+    "selection_rule": "power_analysis_before_confirmatory_outcomes"
+  },
+  "missing_data_policy": "retain_failed_blocked_and_interrupted_runs",
+  "claim_boundary": "This plan preregisters the evaluation shape; it contains no effectiveness result and does not authorize a stable-release claim."
+}

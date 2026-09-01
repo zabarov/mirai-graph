@@ -1,0 +1,244 @@
+{
+  "contract_version": "1.0.0",
+  "entry": "runtime.write",
+  "error_routes": [
+    {
+      "error": "*",
+      "to": "return.blocked"
+    }
+  ],
+  "id": "program.larena.denied-action-bounded-implementation",
+  "imports": [],
+  "inputs": [
+    {
+      "id": "runtime_source",
+      "type": "string"
+    },
+    {
+      "id": "test_source",
+      "type": "string"
+    }
+  ],
+  "nodes": [
+    {
+      "args": {
+        "content": {
+          "op": "ref",
+          "path": "input.runtime_source"
+        },
+        "expected_sha256": {
+          "op": "literal",
+          "value": "missing"
+        },
+        "path": {
+          "op": "literal",
+          "value": "src/Runtime/DeniedEmployeeActionRuntime.php"
+        }
+      },
+      "capability": "capability.workspace.patch",
+      "effects": [
+        "workspace_patch"
+      ],
+      "id": "runtime.write",
+      "kind": "call",
+      "next": "test.write",
+      "on_error": "return.blocked",
+      "target": {
+        "adapter": "workspace",
+        "kind": "adapter",
+        "operation": "write_file"
+      }
+    },
+    {
+      "args": {
+        "content": {
+          "op": "ref",
+          "path": "input.test_source"
+        },
+        "expected_sha256": {
+          "op": "literal",
+          "value": "missing"
+        },
+        "path": {
+          "op": "literal",
+          "value": "tests/Unit/DeniedEmployeeActionRuntimeTest.php"
+        }
+      },
+      "capability": "capability.workspace.patch",
+      "effects": [
+        "workspace_patch"
+      ],
+      "id": "test.write",
+      "kind": "call",
+      "next": "syntax.run",
+      "on_error": "return.blocked",
+      "target": {
+        "adapter": "workspace",
+        "kind": "adapter",
+        "operation": "write_file"
+      }
+    },
+    {
+      "args": {
+        "command_id": {
+          "op": "literal",
+          "value": "php-syntax"
+        }
+      },
+      "capability": "capability.test.run",
+      "effects": [
+        "process_run"
+      ],
+      "id": "syntax.run",
+      "kind": "call",
+      "next": "visible.run",
+      "on_error": "return.blocked",
+      "target": {
+        "adapter": "test",
+        "kind": "adapter",
+        "operation": "run"
+      }
+    },
+    {
+      "args": {
+        "command_id": {
+          "op": "literal",
+          "value": "visible-unit"
+        }
+      },
+      "capability": "capability.test.run",
+      "effects": [
+        "process_run"
+      ],
+      "id": "visible.run",
+      "kind": "call",
+      "next": "hidden.run",
+      "on_error": "return.blocked",
+      "target": {
+        "adapter": "test",
+        "kind": "adapter",
+        "operation": "run"
+      }
+    },
+    {
+      "args": {
+        "command_id": {
+          "op": "literal",
+          "value": "hidden-acceptance"
+        }
+      },
+      "capability": "capability.test.run",
+      "effects": [
+        "process_run"
+      ],
+      "id": "hidden.run",
+      "kind": "call",
+      "next": "kaizen.record",
+      "on_error": "return.blocked",
+      "target": {
+        "adapter": "test",
+        "kind": "adapter",
+        "operation": "run"
+      }
+    },
+    {
+      "event": "kaizen_review_required",
+      "id": "kaizen.record",
+      "kind": "emit",
+      "next": "return.accepted",
+      "payload": {
+        "op": "literal",
+        "value": "inspect_prior_zero_acceptance_failure_and_runtime_evidence"
+      }
+    },
+    {
+      "id": "return.accepted",
+      "kind": "return",
+      "values": {
+        "next_action": {
+          "op": "literal",
+          "value": "preserve_sanitized_evidence_for_blinded_review"
+        },
+        "verdict": {
+          "op": "literal",
+          "value": "accepted"
+        }
+      }
+    },
+    {
+      "id": "return.blocked",
+      "kind": "return",
+      "values": {
+        "next_action": {
+          "op": "literal",
+          "value": "reconcile_receipt_or_correct_work_before_retry"
+        },
+        "verdict": {
+          "op": "literal",
+          "value": "blocked"
+        }
+      }
+    }
+  ],
+  "outputs": [
+    {
+      "id": "verdict",
+      "type": "string"
+    },
+    {
+      "id": "next_action",
+      "type": "string"
+    }
+  ],
+  "policies": {
+    "allowed_effects": [
+      "workspace_patch",
+      "process_run"
+    ],
+    "budgets": {
+      "max_depth": 8,
+      "max_duration_ms": 1000,
+      "max_iterations": 8,
+      "max_parallel": 2,
+      "max_steps": 32
+    },
+    "canonical_write_allowed": false
+  },
+  "source_map": {
+    "hidden.run": {
+      "file": "program.mirai.yaml",
+      "line": 57
+    },
+    "kaizen.record": {
+      "file": "program.mirai.yaml",
+      "line": 66
+    },
+    "return.accepted": {
+      "file": "program.mirai.yaml",
+      "line": 71
+    },
+    "return.blocked": {
+      "file": "program.mirai.yaml",
+      "line": 76
+    },
+    "runtime.write": {
+      "file": "program.mirai.yaml",
+      "line": 17
+    },
+    "syntax.run": {
+      "file": "program.mirai.yaml",
+      "line": 39
+    },
+    "test.write": {
+      "file": "program.mirai.yaml",
+      "line": 28
+    },
+    "visible.run": {
+      "file": "program.mirai.yaml",
+      "line": 48
+    }
+  },
+  "state": [],
+  "version": "1.0.0",
+  "digest": "sha256:900b296b71dc39e0fed12387f83fec1e374b2ddca1e5ea31e45788b2c918a88b"
+}

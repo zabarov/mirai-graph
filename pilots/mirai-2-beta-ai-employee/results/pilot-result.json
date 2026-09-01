@@ -1,0 +1,83 @@
+{
+  "contract_version": "1.0.0",
+  "pilot_id": "pilot.mirai-2.ai-employee.no-send",
+  "domain": "ai_employee",
+  "task_id": "ai-employee.support-request.no-send.v1",
+  "protocol_ref": "docs/research/mirai-2-beta-pilot-protocol.md",
+  "status": "engineering_evidence_complete",
+  "conditions": [
+    {
+      "id": "plain_instructions",
+      "status": "not_available",
+      "run_count": 0,
+      "accepted_count": null,
+      "evidence_refs": [],
+      "limitations": [
+        "No isolated prompt-only support workflow was executed in this batch."
+      ]
+    },
+    {
+      "id": "mirai_graph_1_4",
+      "status": "historical_evidence",
+      "run_count": 1,
+      "accepted_count": 1,
+      "evidence_refs": [
+        "private-evidence-alias:simai-ai-sofia-local-acceptance-2026-06-05"
+      ],
+      "limitations": [
+        "The historical result is local readiness evidence, not a customer-facing execution or comparative model run."
+      ]
+    },
+    {
+      "id": "mirai_2_0",
+      "status": "completed",
+      "run_count": 1,
+      "accepted_count": 1,
+      "evidence_refs": [
+        "pilots/mirai-2-beta-ai-employee/results/episode.json",
+        "pilots/mirai-2-beta-ai-employee/results/replay-result.json"
+      ],
+      "limitations": [
+        "The action is simulated as a pure event; no provider, send, Bitrix write or production effect exists."
+      ]
+    }
+  ],
+  "mirai_2": {
+    "runtime_version": "2.0.0-alpha.3",
+    "execution_mode": "dry_run_no_send",
+    "program_ref": "pilots/mirai-2-beta-ai-employee/programs/program.mirai.yaml",
+    "ir_ref": "pilots/mirai-2-beta-ai-employee/programs/results/program.mirai.json",
+    "episode_ref": "pilots/mirai-2-beta-ai-employee/results/episode.json",
+    "evidence_ref": "pilots/mirai-2-beta-ai-employee/results/episode.json",
+    "replay_ref": "pilots/mirai-2-beta-ai-employee/results/replay-result.json",
+    "independent_conformance_ref": "conformance/results/python-ai-employee-episode-result.json"
+  },
+  "safety": {
+    "production_effects": false,
+    "network_effects": false,
+    "customer_facing_effects": false,
+    "canonical_graph_write": false,
+    "automatic_learning_update": false
+  },
+  "metrics": {
+    "technology_adherence_percent": 100,
+    "task_correctness_percent": null,
+    "skipped_mandatory_steps": 0,
+    "unauthorized_effects": 0,
+    "false_completion_claims": 0,
+    "correction_loops": 0,
+    "audit_completeness_percent": 100
+  },
+  "human_review": {
+    "status": "pending",
+    "blinded": false,
+    "independent": false,
+    "evidence_refs": []
+  },
+  "limitations": [
+    "The fixture evaluates workflow conformance, not response usefulness or production behavior.",
+    "The prompt-only condition and blinded independent review are absent.",
+    "Historical readiness evidence and the Mirai 2 episode were produced at different times and are not a randomized pair."
+  ],
+  "claim_boundary": "The pilot demonstrates an explicit no-send AI employee control flow with Character Layer, feedback and proposal-only learning boundaries; it does not prove live employee quality or model portability."
+}

@@ -1,0 +1,125 @@
+contract_version: 1.0.0
+id: program.ai-employee.no-send-workflow
+version: 1.0.0
+imports: []
+inputs:
+  - id: request_kind
+    type: string
+  - id: intent_resolved
+    type: boolean
+  - id: character_conformant
+    type: boolean
+  - id: policy_allows_simulation
+    type: boolean
+  - id: approval_status
+    type:
+      kind: enum
+      values: [simulation_approved, not_approved]
+outputs:
+  - id: verdict
+    type: string
+  - id: next_action
+    type: string
+state: []
+nodes:
+  - id: request.record
+    kind: emit
+    event: request_received
+    payload: { op: ref, path: input.request_kind }
+    next: intent.branch
+  - id: intent.branch
+    kind: branch
+    condition: { op: ref, path: input.intent_resolved }
+    then: context.record
+    else: intent.correction
+  - id: context.record
+    kind: emit
+    event: governed_context_selected
+    payload: { op: literal, value: ai_employee_plus_character_layer }
+    next: character.branch
+  - id: character.branch
+    kind: branch
+    condition: { op: ref, path: input.character_conformant }
+    then: decision.branch
+    else: character.correction
+  - id: decision.branch
+    kind: branch
+    condition: { op: ref, path: input.policy_allows_simulation }
+    then: decision.record
+    else: policy.correction
+  - id: decision.record
+    kind: emit
+    event: decision_recorded
+    payload: { op: literal, value: draft_only_until_simulation_approval }
+    next: draft.record
+  - id: draft.record
+    kind: emit
+    event: draft_created
+    payload: { op: literal, value: synthetic_response_draft }
+    next: approval.match
+  - id: approval.match
+    kind: match
+    value: { op: ref, path: input.approval_status }
+    cases:
+      - equals: simulation_approved
+        to: action.simulate
+    default: approval.correction
+  - id: action.simulate
+    kind: emit
+    event: action_simulated
+    payload: { op: literal, value: no_send_no_provider_no_write }
+    next: feedback.record
+  - id: feedback.record
+    kind: emit
+    event: technology_feedback_recorded
+    payload: { op: literal, value: accepted_for_dry_run_fixture }
+    next: lesson.propose
+  - id: lesson.propose
+    kind: emit
+    event: lesson_proposed
+    payload: { op: literal, value: proposal_only_no_canonical_update }
+    next: return.accepted
+  - id: intent.correction
+    kind: emit
+    event: correction_required
+    payload: { op: literal, value: resolve_intent }
+    next: return.blocked
+  - id: character.correction
+    kind: emit
+    event: correction_required
+    payload: { op: literal, value: review_character_boundary }
+    next: return.blocked
+  - id: policy.correction
+    kind: emit
+    event: correction_required
+    payload: { op: literal, value: policy_blocks_simulation }
+    next: return.blocked
+  - id: approval.correction
+    kind: emit
+    event: correction_required
+    payload: { op: literal, value: simulation_approval_missing }
+    next: return.blocked
+  - id: return.accepted
+    kind: return
+    values:
+      verdict: { op: literal, value: dry_run_completed }
+      next_action: { op: literal, value: retain_feedback_as_proposal }
+  - id: return.blocked
+    kind: return
+    values:
+      verdict: { op: literal, value: blocked }
+      next_action: { op: literal, value: correct_gate_and_replay_without_send }
+entry: request.record
+error_routes:
+  - error: "*"
+    to: return.blocked
+policies:
+  budgets:
+    max_steps: 48
+    max_depth: 8
+    max_iterations: 8
+    max_parallel: 4
+    max_duration_ms: 200
+  allowed_effects:
+    - pure
+  canonical_write_allowed: false

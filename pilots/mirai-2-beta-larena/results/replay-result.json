@@ -1,0 +1,7 @@
+{
+  "status": "match",
+  "output_digest": "sha256:0735e47bc49eee14c68f881cc3940ac655b67623d91afbadf8b2370b9d305e0c",
+  "trace_digest": "sha256:7597c1a661acaeca30acab9609ab60994eb41c25e75a827974d3b905127b2f9f",
+  "effects_executed": false,
+  "errors": []
+}

@@ -1,0 +1,53 @@
+contract_version: 1.0.0
+id: program.federation.stage-check
+version: 1.0.0
+imports: []
+inputs:
+  - id: stage
+    type: string
+  - id: evidence_present
+    type: boolean
+outputs:
+  - id: stage
+    type: string
+  - id: status
+    type: string
+state: []
+nodes:
+  - id: evidence.branch
+    kind: branch
+    condition:
+      op: ref
+      path: input.evidence_present
+    then: return.pass
+    else: return.blocked
+  - id: return.pass
+    kind: return
+    values:
+      stage:
+        op: ref
+        path: input.stage
+      status:
+        op: literal
+        value: pass
+  - id: return.blocked
+    kind: return
+    values:
+      stage:
+        op: ref
+        path: input.stage
+      status:
+        op: literal
+        value: blocked
+entry: evidence.branch
+error_routes: []
+policies:
+  budgets:
+    max_steps: 8
+    max_depth: 4
+    max_iterations: 4
+    max_parallel: 2
+    max_duration_ms: 100
+  allowed_effects:
+    - pure
+  canonical_write_allowed: false

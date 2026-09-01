@@ -1,0 +1,95 @@
+contract_version: 1.0.0
+id: program.larena.denied-action-bounded-implementation
+version: 1.0.0
+imports: []
+inputs:
+  - id: runtime_source
+    type: string
+  - id: test_source
+    type: string
+outputs:
+  - id: verdict
+    type: string
+  - id: next_action
+    type: string
+state: []
+nodes:
+  - id: runtime.write
+    kind: call
+    target: { kind: adapter, adapter: workspace, operation: write_file }
+    args:
+      path: { op: literal, value: src/Runtime/DeniedEmployeeActionRuntime.php }
+      content: { op: ref, path: input.runtime_source }
+      expected_sha256: { op: literal, value: missing }
+    effects: [workspace_patch]
+    capability: capability.workspace.patch
+    on_error: return.blocked
+    next: test.write
+  - id: test.write
+    kind: call
+    target: { kind: adapter, adapter: workspace, operation: write_file }
+    args:
+      path: { op: literal, value: tests/Unit/DeniedEmployeeActionRuntimeTest.php }
+      content: { op: ref, path: input.test_source }
+      expected_sha256: { op: literal, value: missing }
+    effects: [workspace_patch]
+    capability: capability.workspace.patch
+    on_error: return.blocked
+    next: syntax.run
+  - id: syntax.run
+    kind: call
+    target: { kind: adapter, adapter: test, operation: run }
+    args:
+      command_id: { op: literal, value: php-syntax }
+    effects: [process_run]
+    capability: capability.test.run
+    on_error: return.blocked
+    next: visible.run
+  - id: visible.run
+    kind: call
+    target: { kind: adapter, adapter: test, operation: run }
+    args:
+      command_id: { op: literal, value: visible-unit }
+    effects: [process_run]
+    capability: capability.test.run
+    on_error: return.blocked
+    next: hidden.run
+  - id: hidden.run
+    kind: call
+    target: { kind: adapter, adapter: test, operation: run }
+    args:
+      command_id: { op: literal, value: hidden-acceptance }
+    effects: [process_run]
+    capability: capability.test.run
+    on_error: return.blocked
+    next: kaizen.record
+  - id: kaizen.record
+    kind: emit
+    event: kaizen_review_required
+    payload: { op: literal, value: inspect_prior_zero_acceptance_failure_and_runtime_evidence }
+    next: return.accepted
+  - id: return.accepted
+    kind: return
+    values:
+      verdict: { op: literal, value: accepted }
+      next_action: { op: literal, value: preserve_sanitized_evidence_for_blinded_review }
+  - id: return.blocked
+    kind: return
+    values:
+      verdict: { op: literal, value: blocked }
+      next_action: { op: literal, value: reconcile_receipt_or_correct_work_before_retry }
+entry: runtime.write
+error_routes:
+  - error: "*"
+    to: return.blocked
+policies:
+  budgets:
+    max_steps: 32
+    max_depth: 8
+    max_iterations: 8
+    max_parallel: 2
+    max_duration_ms: 1000
+  allowed_effects:
+    - workspace_patch
+    - process_run
+  canonical_write_allowed: false

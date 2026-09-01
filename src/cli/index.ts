@@ -33,7 +33,7 @@ function usage(): void {
     "  mirai compile <source.mirai.yaml> --out <program.mirai.json>",
     "  mirai program plan <program>",
     "  mirai simulate <program> [--input <input.json>] [--events <events.json>] [--import <alias=program>]",
-    "  mirai replay <episode> --program <program> [--import <alias=program>]",
+    "  mirai replay <episode|run-id> --program <program> [--home <mirai-home>] [--import <alias=program>]",
     "  mirai conformance run <corpus.json>",
     "  mirai conformance compare <reference-result.json> <candidate-result.json>",
     "  mirai approval create <program.mirai.json> --sandbox <dir> --effects <list> --out <receipt.json>",
@@ -181,9 +181,14 @@ export async function runCli(args: string[]): Promise<number> {
     }
 
     if (args[0] === "replay") {
-      const episodeFile = requireArgument(args[1], "episode path");
+      const episodeRef = requireArgument(args[1], "episode path or run id");
       const programFile = requireArgument(readOption(args, "--program"), "--program path");
-      const rawEpisode = loadJson(episodeFile);
+      const episodePath = path.resolve(episodeRef);
+      const rawEpisode = fs.existsSync(episodePath)
+        ? loadJson(episodePath)
+        : episodeRef.startsWith("run.")
+          ? new RunStore(runtimeHome(args)).readEpisode(episodeRef) as unknown as Record<string, unknown>
+          : loadJson(episodePath);
       const result = Array.isArray(rawEpisode.effect_stubs)
         ? await replayGovernedEpisode(rawEpisode as unknown as GovernedEpisode, loadRuntimeProgram(programFile), { programs: loadRuntimeRegistry(args) })
         : await replayPure(rawEpisode as unknown as PureEpisode, loadProgram(programFile), { programs: loadRegistry(args) });

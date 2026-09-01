@@ -39,6 +39,10 @@ Mirai 2.0 execution:
 - [Mirai Conformance Corpus](../conformance/README.md)
 - [2.0 Architecture Decisions](architecture/mirai-2.0-decisions.md)
 - [Migrate 1.4 To 2.0](adoption/migrate-1.4-to-2.0.md)
+- [Governed Runtime Tutorial](adoption/mirai-2-governed-runtime-tutorial.md)
+- [Mirai 2 API Reference](reference/mirai-2-api.md)
+- [Runtime Operations Guide](operations/mirai-runtime-operations-guide.md)
+- [Runtime Threat Model](security/mirai-runtime-threat-model.md)
 
 Core model:
 
@@ -121,6 +125,10 @@ Proposal or experimental profile:
 - [Practice And Science Program](research/practice-science-program.md)
 - [Baseline Comparison Protocol](research/baseline-comparison-protocol.md)
 - [Limitations And Threats](research/limitations-and-threats.md)
+- [Mirai 2 Beta Readiness](research/mirai-2-beta-readiness.md)
+- [Mirai 2 Scientific Evaluation Protocol](research/mirai-2-scientific-evaluation-protocol.md)
+- [Mirai 2 Metric Dictionary](research/mirai-2-metric-dictionary.md)
+- [Mirai 2 Blinded Review Guide](research/mirai-2-blinded-review-guide.md)
 - [Publications](../publications/README.md)
 
 ## Releases And Project Process

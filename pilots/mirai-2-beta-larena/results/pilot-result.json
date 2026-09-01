@@ -1,0 +1,86 @@
+{
+  "contract_version": "1.0.0",
+  "pilot_id": "pilot.mirai-2.larena.denied-action",
+  "domain": "larena_code_generation",
+  "task_id": "larena.blind.denied_ai_action_replay.implementation.v1",
+  "protocol_ref": "docs/research/mirai-2-beta-pilot-protocol.md",
+  "status": "engineering_evidence_complete",
+  "conditions": [
+    {
+      "id": "plain_instructions",
+      "status": "historical_evidence",
+      "run_count": 3,
+      "accepted_count": 0,
+      "evidence_refs": [
+        "private-evidence-alias:larena-g3-3-blind-v1-arm-a"
+      ],
+      "limitations": [
+        "The historical task score was not fully evaluable and received a no-promotion verdict."
+      ]
+    },
+    {
+      "id": "mirai_graph_1_4",
+      "status": "historical_evidence",
+      "run_count": 3,
+      "accepted_count": 0,
+      "evidence_refs": [
+        "private-evidence-alias:larena-g3-3-blind-v1-arm-c"
+      ],
+      "limitations": [
+        "The 1.4-era graph condition was context-oriented and did not execute a Mirai Program."
+      ]
+    },
+    {
+      "id": "mirai_2_0",
+      "status": "completed",
+      "run_count": 1,
+      "accepted_count": 1,
+      "evidence_refs": [
+        "pilots/mirai-2-beta-larena/results/mirai-evidence.json",
+        "pilots/mirai-2-beta-larena/results/replay-result.json"
+      ],
+      "limitations": [
+        "The implementation was authored after the historical fixture was available and is not a blinded model run."
+      ]
+    }
+  ],
+  "mirai_2": {
+    "runtime_version": "2.0.0-alpha.3",
+    "execution_mode": "governed_sandbox",
+    "program_ref": "pilots/mirai-2-beta-larena/programs/program.mirai.yaml",
+    "ir_ref": "pilots/mirai-2-beta-larena/programs/results/program.mirai.json",
+    "episode_ref": "private-evidence-alias:larena-denied-action-beta1-r2-raw-episode",
+    "evidence_ref": "pilots/mirai-2-beta-larena/results/mirai-evidence.json",
+    "replay_ref": "pilots/mirai-2-beta-larena/results/replay-result.json",
+    "independent_conformance_ref": "conformance/results/python-larena-runtime-evidence-result.json"
+  },
+  "safety": {
+    "production_effects": false,
+    "network_effects": false,
+    "customer_facing_effects": false,
+    "canonical_graph_write": false,
+    "automatic_learning_update": false
+  },
+  "metrics": {
+    "technology_adherence_percent": 100,
+    "task_correctness_percent": 100,
+    "skipped_mandatory_steps": 0,
+    "unauthorized_effects": 0,
+    "false_completion_claims": 0,
+    "correction_loops": 1,
+    "audit_completeness_percent": 100
+  },
+  "human_review": {
+    "status": "pending",
+    "blinded": false,
+    "independent": false,
+    "evidence_refs": []
+  },
+  "limitations": [
+    "The Mirai 2 run is an engineering execution check, not a randomized comparison with historical arms.",
+    "The task and hidden fixture were visible during implementation, so the 1/1 acceptance cannot be compared causally with the earlier 0/3 arms.",
+    "The first run stopped on a failing host autoload harness; fail-closed receipt handling prevented a false completion and the corrected second run passed.",
+    "The generated implementation remains in a disposable worktree and was not promoted into Larena."
+  ],
+  "claim_boundary": "The pilot proves bounded, approval-gated sandbox writes, allowlisted acceptance checks, fail-closed test handling, replay without effects and sanitized evidence; it does not prove a code-quality uplift."
+}

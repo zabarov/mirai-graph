@@ -43,6 +43,13 @@ Read [Mirai Program](standard/mirai-program.md), the
 [1.4 migration guide](docs/adoption/migrate-1.4-to-2.0.md) before adopting the
 alpha runtime contracts.
 
+For a runnable path, use the
+[governed runtime tutorial](docs/adoption/mirai-2-governed-runtime-tutorial.md).
+The [API reference](docs/reference/mirai-2-api.md),
+[operations guide](docs/operations/mirai-runtime-operations-guide.md) and
+[threat model](docs/security/mirai-runtime-threat-model.md) define the current
+integration and safety boundary.
+
 Programs declare effects but cannot authorize them. Workspace writes require
 `--apply` and a signed host-local approval receipt. A completed episode is
 evidence, not permission to update canonical graph state.

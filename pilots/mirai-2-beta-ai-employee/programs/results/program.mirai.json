@@ -1,0 +1,321 @@
+{
+  "contract_version": "1.0.0",
+  "entry": "request.record",
+  "error_routes": [
+    {
+      "error": "*",
+      "to": "return.blocked"
+    }
+  ],
+  "id": "program.ai-employee.no-send-workflow",
+  "imports": [],
+  "inputs": [
+    {
+      "id": "request_kind",
+      "type": "string"
+    },
+    {
+      "id": "intent_resolved",
+      "type": "boolean"
+    },
+    {
+      "id": "character_conformant",
+      "type": "boolean"
+    },
+    {
+      "id": "policy_allows_simulation",
+      "type": "boolean"
+    },
+    {
+      "id": "approval_status",
+      "type": {
+        "kind": "enum",
+        "values": [
+          "simulation_approved",
+          "not_approved"
+        ]
+      }
+    }
+  ],
+  "nodes": [
+    {
+      "event": "request_received",
+      "id": "request.record",
+      "kind": "emit",
+      "next": "intent.branch",
+      "payload": {
+        "op": "ref",
+        "path": "input.request_kind"
+      }
+    },
+    {
+      "condition": {
+        "op": "ref",
+        "path": "input.intent_resolved"
+      },
+      "else": "intent.correction",
+      "id": "intent.branch",
+      "kind": "branch",
+      "then": "context.record"
+    },
+    {
+      "event": "governed_context_selected",
+      "id": "context.record",
+      "kind": "emit",
+      "next": "character.branch",
+      "payload": {
+        "op": "literal",
+        "value": "ai_employee_plus_character_layer"
+      }
+    },
+    {
+      "condition": {
+        "op": "ref",
+        "path": "input.character_conformant"
+      },
+      "else": "character.correction",
+      "id": "character.branch",
+      "kind": "branch",
+      "then": "decision.branch"
+    },
+    {
+      "condition": {
+        "op": "ref",
+        "path": "input.policy_allows_simulation"
+      },
+      "else": "policy.correction",
+      "id": "decision.branch",
+      "kind": "branch",
+      "then": "decision.record"
+    },
+    {
+      "event": "decision_recorded",
+      "id": "decision.record",
+      "kind": "emit",
+      "next": "draft.record",
+      "payload": {
+        "op": "literal",
+        "value": "draft_only_until_simulation_approval"
+      }
+    },
+    {
+      "event": "draft_created",
+      "id": "draft.record",
+      "kind": "emit",
+      "next": "approval.match",
+      "payload": {
+        "op": "literal",
+        "value": "synthetic_response_draft"
+      }
+    },
+    {
+      "cases": [
+        {
+          "equals": "simulation_approved",
+          "to": "action.simulate"
+        }
+      ],
+      "default": "approval.correction",
+      "id": "approval.match",
+      "kind": "match",
+      "value": {
+        "op": "ref",
+        "path": "input.approval_status"
+      }
+    },
+    {
+      "event": "action_simulated",
+      "id": "action.simulate",
+      "kind": "emit",
+      "next": "feedback.record",
+      "payload": {
+        "op": "literal",
+        "value": "no_send_no_provider_no_write"
+      }
+    },
+    {
+      "event": "technology_feedback_recorded",
+      "id": "feedback.record",
+      "kind": "emit",
+      "next": "lesson.propose",
+      "payload": {
+        "op": "literal",
+        "value": "accepted_for_dry_run_fixture"
+      }
+    },
+    {
+      "event": "lesson_proposed",
+      "id": "lesson.propose",
+      "kind": "emit",
+      "next": "return.accepted",
+      "payload": {
+        "op": "literal",
+        "value": "proposal_only_no_canonical_update"
+      }
+    },
+    {
+      "event": "correction_required",
+      "id": "intent.correction",
+      "kind": "emit",
+      "next": "return.blocked",
+      "payload": {
+        "op": "literal",
+        "value": "resolve_intent"
+      }
+    },
+    {
+      "event": "correction_required",
+      "id": "character.correction",
+      "kind": "emit",
+      "next": "return.blocked",
+      "payload": {
+        "op": "literal",
+        "value": "review_character_boundary"
+      }
+    },
+    {
+      "event": "correction_required",
+      "id": "policy.correction",
+      "kind": "emit",
+      "next": "return.blocked",
+      "payload": {
+        "op": "literal",
+        "value": "policy_blocks_simulation"
+      }
+    },
+    {
+      "event": "correction_required",
+      "id": "approval.correction",
+      "kind": "emit",
+      "next": "return.blocked",
+      "payload": {
+        "op": "literal",
+        "value": "simulation_approval_missing"
+      }
+    },
+    {
+      "id": "return.accepted",
+      "kind": "return",
+      "values": {
+        "next_action": {
+          "op": "literal",
+          "value": "retain_feedback_as_proposal"
+        },
+        "verdict": {
+          "op": "literal",
+          "value": "dry_run_completed"
+        }
+      }
+    },
+    {
+      "id": "return.blocked",
+      "kind": "return",
+      "values": {
+        "next_action": {
+          "op": "literal",
+          "value": "correct_gate_and_replay_without_send"
+        },
+        "verdict": {
+          "op": "literal",
+          "value": "blocked"
+        }
+      }
+    }
+  ],
+  "outputs": [
+    {
+      "id": "verdict",
+      "type": "string"
+    },
+    {
+      "id": "next_action",
+      "type": "string"
+    }
+  ],
+  "policies": {
+    "allowed_effects": [
+      "pure"
+    ],
+    "budgets": {
+      "max_depth": 8,
+      "max_duration_ms": 200,
+      "max_iterations": 8,
+      "max_parallel": 4,
+      "max_steps": 48
+    },
+    "canonical_write_allowed": false
+  },
+  "source_map": {
+    "action.simulate": {
+      "file": "program.mirai.yaml",
+      "line": 67
+    },
+    "approval.correction": {
+      "file": "program.mirai.yaml",
+      "line": 97
+    },
+    "approval.match": {
+      "file": "program.mirai.yaml",
+      "line": 60
+    },
+    "character.branch": {
+      "file": "program.mirai.yaml",
+      "line": 40
+    },
+    "character.correction": {
+      "file": "program.mirai.yaml",
+      "line": 87
+    },
+    "context.record": {
+      "file": "program.mirai.yaml",
+      "line": 35
+    },
+    "decision.branch": {
+      "file": "program.mirai.yaml",
+      "line": 45
+    },
+    "decision.record": {
+      "file": "program.mirai.yaml",
+      "line": 50
+    },
+    "draft.record": {
+      "file": "program.mirai.yaml",
+      "line": 55
+    },
+    "feedback.record": {
+      "file": "program.mirai.yaml",
+      "line": 72
+    },
+    "intent.branch": {
+      "file": "program.mirai.yaml",
+      "line": 30
+    },
+    "intent.correction": {
+      "file": "program.mirai.yaml",
+      "line": 82
+    },
+    "lesson.propose": {
+      "file": "program.mirai.yaml",
+      "line": 77
+    },
+    "policy.correction": {
+      "file": "program.mirai.yaml",
+      "line": 92
+    },
+    "request.record": {
+      "file": "program.mirai.yaml",
+      "line": 25
+    },
+    "return.accepted": {
+      "file": "program.mirai.yaml",
+      "line": 102
+    },
+    "return.blocked": {
+      "file": "program.mirai.yaml",
+      "line": 107
+    }
+  },
+  "state": [],
+  "version": "1.0.0",
+  "digest": "sha256:1bb0f9295ca198085a163525a294cf08c67491b794d07b85fb29a47646bc6ed1"
+}

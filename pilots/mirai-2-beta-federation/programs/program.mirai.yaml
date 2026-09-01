@@ -1,0 +1,131 @@
+contract_version: 1.0.0
+id: program.federation.technology-conformance
+version: 1.0.0
+imports:
+  - alias: stage_check
+    ref: program.federation.stage-check
+    digest: sha256:771722b3931e396c2cb137b9e4d18e57ad2f3ecc583511624995202817ad7bbc
+inputs:
+  - id: route_verified
+    type: boolean
+  - id: technology_packet_verified
+    type: boolean
+  - id: sync_verified
+    type: boolean
+  - id: reverse_audit_verified
+    type: boolean
+outputs:
+  - id: verdict
+    type: string
+  - id: next_action
+    type: string
+state:
+  - id: route_result
+    type: &stage_result
+      kind: record
+      fields:
+        stage: string
+        status: string
+    default: { stage: route, status: pending }
+  - id: packet_result
+    type: *stage_result
+    default: { stage: technology_packet, status: pending }
+  - id: sync_result
+    type: *stage_result
+    default: { stage: skill_sync, status: pending }
+  - id: audit_result
+    type: *stage_result
+    default: { stage: reverse_audit, status: pending }
+nodes:
+  - id: route.check
+    kind: call
+    target: { kind: program, program: stage_check }
+    args:
+      stage: { op: literal, value: route }
+      evidence_present: { op: ref, path: input.route_verified }
+    result: route_result
+    next: packet.check
+  - id: packet.check
+    kind: call
+    target: { kind: program, program: stage_check }
+    args:
+      stage: { op: literal, value: technology_packet }
+      evidence_present: { op: ref, path: input.technology_packet_verified }
+    result: packet_result
+    next: sync.check
+  - id: sync.check
+    kind: call
+    target: { kind: program, program: stage_check }
+    args:
+      stage: { op: literal, value: skill_sync }
+      evidence_present: { op: ref, path: input.sync_verified }
+    result: sync_result
+    next: audit.check
+  - id: audit.check
+    kind: call
+    target: { kind: program, program: stage_check }
+    args:
+      stage: { op: literal, value: reverse_audit }
+      evidence_present: { op: ref, path: input.reverse_audit_verified }
+    result: audit_result
+    next: completion.branch
+  - id: completion.branch
+    kind: branch
+    condition:
+      op: and
+      left:
+        op: eq
+        left: { op: get, target: { op: ref, path: state.route_result }, key: status }
+        right: { op: literal, value: pass }
+      right:
+        op: and
+        left:
+          op: eq
+          left: { op: get, target: { op: ref, path: state.packet_result }, key: status }
+          right: { op: literal, value: pass }
+        right:
+          op: and
+          left:
+            op: eq
+            left: { op: get, target: { op: ref, path: state.sync_result }, key: status }
+            right: { op: literal, value: pass }
+          right:
+            op: eq
+            left: { op: get, target: { op: ref, path: state.audit_result }, key: status }
+            right: { op: literal, value: pass }
+    then: kaizen.record
+    else: correction.record
+  - id: kaizen.record
+    kind: emit
+    event: kaizen_review_required
+    payload: { op: literal, value: no_reusable_lessons_recorded_for_fixture }
+    next: return.accepted
+  - id: correction.record
+    kind: emit
+    event: correction_required
+    payload: { op: literal, value: failed_stage_must_route_to_owner }
+    next: return.blocked
+  - id: return.accepted
+    kind: return
+    values:
+      verdict: { op: literal, value: accepted }
+      next_action: { op: literal, value: retain_evidence_and_open_kaizen_if_needed }
+  - id: return.blocked
+    kind: return
+    values:
+      verdict: { op: literal, value: blocked }
+      next_action: { op: literal, value: correct_failed_stage_before_completion }
+entry: route.check
+error_routes:
+  - error: "*"
+    to: correction.record
+policies:
+  budgets:
+    max_steps: 64
+    max_depth: 8
+    max_iterations: 8
+    max_parallel: 4
+    max_duration_ms: 200
+  allowed_effects:
+    - pure
+  canonical_write_allowed: false
