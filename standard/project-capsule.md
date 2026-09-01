@@ -59,7 +59,10 @@ or canonical-write permission.
 `mirai/manifest.lock.json` is the deterministic machine contract. It contains
 the normalized manifest, resolved contracts, entrypoint digests, semantic
 source-reference digest and overall lock digest. YAML comments and formatting
-do not change it. Runtime must reject a missing or stale lock.
+do not change it. Portable UTF-8 text entrypoints use LF-normalized digest
+bytes so the same capsule has the same lock on Windows, macOS and Linux;
+binary entrypoints remain byte-exact. Runtime must reject a missing or stale
+lock.
 
 `mirai/START.md` is generated from the verified lock and
 `mirai/owner-notes.md`. Manual changes to generated content are detected as

@@ -52,6 +52,25 @@ test("equivalent YAML comments do not change lock or START", () => {
   } finally { cleanup(root); }
 });
 
+test("portable text entrypoint digests are stable across LF and CRLF checkouts", () => {
+  const root = temp("line-endings");
+  try {
+    fs.writeFileSync(path.join(root, "README.md"), "# Demo\n");
+    project.initProjectCapsule(root);
+    const objects = path.join(root, "mirai", "graph", "objects.json");
+    const notes = path.join(root, "mirai", "owner-notes.md");
+    const start = path.join(root, "mirai", "START.md");
+    const lockBefore = JSON.parse(fs.readFileSync(path.join(root, "mirai", "manifest.lock.json"), "utf8"));
+    fs.writeFileSync(objects, fs.readFileSync(objects, "utf8").replaceAll("\n", "\r\n"));
+    fs.writeFileSync(notes, fs.readFileSync(notes, "utf8").replaceAll("\n", "\r\n"));
+    fs.writeFileSync(start, fs.readFileSync(start, "utf8").replaceAll("\n", "\r\n"));
+    const lockAfter = project.createProjectLock(root);
+    assert.equal(lockAfter.entrypoint_digests["mirai/graph/objects.json"], lockBefore.entrypoint_digests["mirai/graph/objects.json"]);
+    assert.equal(lockAfter.digest, lockBefore.digest);
+    assert.equal(project.validateProjectCapsule(root).valid, true);
+  } finally { cleanup(root); }
+});
+
 test("stale lock and manually edited START block current status", () => {
   const root = temp("stale");
   try {

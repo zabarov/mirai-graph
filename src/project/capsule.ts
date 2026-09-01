@@ -14,6 +14,22 @@ const FORBIDDEN_MANIFEST_KEYS = new Set([
   "capability_grant", "capability_grants", "canonical_write_allowed"
 ]);
 
+const PORTABLE_TEXT_EXTENSIONS = new Set([
+  ".cjs", ".csv", ".js", ".json", ".jsonl", ".md", ".mjs", ".toml",
+  ".ts", ".txt", ".yaml", ".yml"
+]);
+
+function portableFileDigest(filename: string): string {
+  const bytes = fs.readFileSync(filename);
+  if (!PORTABLE_TEXT_EXTENSIONS.has(path.extname(filename).toLowerCase())) return sha256(bytes);
+  const normalized = bytes.toString("utf8").replaceAll("\r\n", "\n");
+  return sha256(Buffer.from(normalized, "utf8"));
+}
+
+function readPortableText(filename: string): string {
+  return fs.readFileSync(filename, "utf8").replaceAll("\r\n", "\n");
+}
+
 function assertInside(root: string, relative: string): string {
   if (!relative || path.isAbsolute(relative)) throw new Error(`unsafe_project_path:${relative}`);
   const normalized = path.normalize(relative).replaceAll("\\", "/");
@@ -114,7 +130,7 @@ function digestPath(projectRoot: string, relative: string): string {
   if (!fs.existsSync(target)) return digestValue({ missing: relative });
   const stat = fs.lstatSync(target);
   if (stat.isSymbolicLink()) throw new Error(`symlink_entrypoint_not_allowed:${relative}`);
-  if (stat.isFile()) return sha256(fs.readFileSync(target));
+  if (stat.isFile()) return portableFileDigest(target);
   if (!stat.isDirectory()) throw new Error(`unsupported_entrypoint_type:${relative}`);
   const entries: Array<{ path: string; digest: string }> = [];
   const walk = (dir: string): void => {
@@ -124,7 +140,7 @@ function digestPath(projectRoot: string, relative: string): string {
       const itemRelative = path.relative(projectRoot, absolute).replaceAll(path.sep, "/");
       if (item.isSymbolicLink()) throw new Error(`symlink_entrypoint_not_allowed:${itemRelative}`);
       if (item.isDirectory()) walk(absolute);
-      else if (item.isFile()) entries.push({ path: itemRelative, digest: sha256(fs.readFileSync(absolute)) });
+      else if (item.isFile()) entries.push({ path: itemRelative, digest: portableFileDigest(absolute) });
     }
   };
   walk(target);
@@ -200,7 +216,7 @@ export function compileProjectCapsule(projectRoot: string): { lock: MiraiProject
   }
   const lock = createProjectLock(root, manifest);
   const notesPath = assertInside(root, manifest.documentation.owner_notes);
-  const notes = fs.existsSync(notesPath) ? fs.readFileSync(notesPath, "utf8") : "";
+  const notes = fs.existsSync(notesPath) ? readPortableText(notesPath) : "";
   const start = generateProjectStart(lock, notes);
   const lockPath = assertInside(root, LOCK_PATH);
   const startPath = assertInside(root, manifest.documentation.start);
@@ -220,9 +236,9 @@ export function validateProjectCapsule(projectRoot: string): { valid: boolean; s
     const { digest: actualDigest, ...actualBody } = actual;
     if (actualDigest !== expected.digest || digestValue(actualBody) !== actualDigest) errors.push("stale_or_invalid_manifest_lock");
     const notesPath = path.join(root, expected.manifest.documentation.owner_notes);
-    const expectedStart = generateProjectStart(expected, fs.existsSync(notesPath) ? fs.readFileSync(notesPath, "utf8") : "");
+    const expectedStart = generateProjectStart(expected, fs.existsSync(notesPath) ? readPortableText(notesPath) : "");
     const startPath = path.join(root, expected.manifest.documentation.start);
-    if (!fs.existsSync(startPath) || fs.readFileSync(startPath, "utf8") !== expectedStart) errors.push("stale_or_modified_generated_start");
+    if (!fs.existsSync(startPath) || readPortableText(startPath) !== expectedStart) errors.push("stale_or_modified_generated_start");
     return errors.length ? { valid: false, status: "needs_compile", errors } : { valid: true, status: "current", errors: [], lock: actual };
   } catch (error) {
     return { valid: false, status: "invalid", errors: [error instanceof Error ? error.message : String(error)] };
