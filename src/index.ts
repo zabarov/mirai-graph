@@ -3,4 +3,8 @@ export * as program from "./program/index.js";
 export * as runtime from "./runtime/index.js";
 export * as adapters from "./adapters/index.js";
 export * as conformance from "./conformance/index.js";
+export * as assimilation from "./assimilation/index.js";
+export * as components from "./components/index.js";
+export * as technology from "./technology/index.js";
+export * as activation from "./activation/index.js";
 export { runCli } from "./cli/index.js";

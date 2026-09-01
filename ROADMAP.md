@@ -256,6 +256,31 @@ The existing `graph.json` manifest contract is already `2.0.0`; that number is
 not the product release number. New Mirai Program and Runtime contracts have
 their own versions.
 
+## Mirai 2.1 Graph-Native Intelligence Track
+
+This track starts as a development branch while Mirai 2.0 external release
+gates remain open. It is additive: Mirai Program `1.0.0` and Runtime contracts
+remain unchanged.
+
+1. `2.1.0-alpha.1`: source catalog, Files/Git scanning, fingerprints,
+   provenance, duplicate/conflict classification and proposal-only assimilation;
+2. `2.1.0-alpha.2`: interfaces, component types and instances, explicit
+   operation bindings and multidimensional relation facts;
+3. `2.1.0-alpha.3`: technology draft, source spans, ambiguity diagnostics and
+   deterministic compilation to Mirai Program;
+4. `2.1.0-alpha.4`: graph context resolver, immutable activation plans,
+   inhibitors, budgets, explanations and deterministic simulation;
+5. `2.1.0-beta.1`: durable parallel activation through the existing Mirai 2.0
+   Runtime plus the controlled Federation pilot;
+6. `2.1.0-rc.1`: independent checker extension, security review, contract
+   freeze and clean-room installation;
+7. `2.1.0`: stable only after all conformance, safety, pilot and scientific
+   gates pass.
+
+The development implementation currently covers the alpha contracts and
+deterministic no-effect reference path. It must not be promoted to a 2.1 npm
+release before stable 2.0 and the beta/RC gates.
+
 Current promotion truth is recorded in
 [`releases/2.0.0-readiness.json`](releases/2.0.0-readiness.json). This report is
 validated in `npm test`; non-passed mandatory gates keep the overall state

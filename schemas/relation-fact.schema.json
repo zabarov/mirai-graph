@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zabarov.github.io/mirai/schemas/relation-fact.schema.json",
+  "title": "Mirai Multidimensional Relation Fact",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract_version", "id", "type", "participants", "priority", "authority", "confidence", "provenance"],
+  "properties": {
+    "contract_version": { "const": "1.0.0" }, "id": { "type": "string" }, "type": { "type": "string" },
+    "participants": { "type": "array", "minItems": 2, "items": { "type": "object", "additionalProperties": false, "required": ["ref", "role"], "properties": { "ref": { "type": "string" }, "role": { "type": "string" } } } },
+    "qualifiers": { "type": "object" }, "scope": { "type": "string" }, "conditions": { "type": "object" },
+    "valid_from": { "type": "string", "format": "date-time" }, "valid_until": { "type": "string", "format": "date-time" },
+    "priority": { "type": "integer" }, "authority": { "enum": ["canonical", "owner_asserted", "derived", "proposal"] },
+    "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+    "provenance": { "type": "array", "minItems": 1, "items": { "type": "object", "additionalProperties": false, "required": ["source_ref"], "properties": { "source_ref": { "type": "string" }, "evidence_ref": { "type": "string" } } } },
+    "activation_rule": { "type": "object", "additionalProperties": false, "required": ["signal_type"], "properties": { "signal_type": { "type": "string" }, "operation": { "type": "string" } } }
+  }
+}

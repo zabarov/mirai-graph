@@ -47,6 +47,21 @@
       "import": "./dist/esm/conformance/index.js",
       "require": "./dist/cjs/conformance/index.js"
     },
+    "./assimilation": {
+      "types": "./dist/cjs/assimilation/index.d.ts",
+      "import": "./dist/esm/assimilation/index.js",
+      "require": "./dist/cjs/assimilation/index.js"
+    },
+    "./components": {
+      "types": "./dist/cjs/components/index.d.ts",
+      "import": "./dist/esm/components/index.js",
+      "require": "./dist/cjs/components/index.js"
+    },
+    "./activation": {
+      "types": "./dist/cjs/activation/index.d.ts",
+      "import": "./dist/esm/activation/index.js",
+      "require": "./dist/cjs/activation/index.js"
+    },
     "./project-technology": "./packages/project-technology/index.js"
   },
   "scripts": {
@@ -57,6 +72,8 @@
     "test:mirai-alpha1": "node --test test/program/compiler.test.cjs test/program/migration.test.cjs test/program/schema.test.cjs test/program/package-compat.test.cjs",
     "test:mirai-alpha2": "node --test test/runtime/pure-interpreter.test.cjs test/conformance/pure-corpus.test.cjs",
     "test:mirai-alpha3": "node --test test/runtime/governed-runtime.test.cjs test/runtime/governed-schema.test.cjs test/runtime/cli.test.cjs",
+    "test:mirai-2.1": "node --test test/assimilation/assimilation.test.cjs test/components/components.test.cjs test/technology/technology.test.cjs test/activation/activation.test.cjs test/contracts/graph-native-schemas.test.cjs",
+    "validate:mirai-2.1-cli": "node packages/cli/mirai.js source scan examples/mirai-assimilation-minimal/inputs --out /tmp/mirai-2.1-source-catalog.json --force && node packages/cli/mirai.js assimilate /tmp/mirai-2.1-source-catalog.json --out /tmp/mirai-2.1-assimilation-proposal.json --force && node packages/cli/mirai.js component validate examples/mirai-components-minimal/component-package.json && node packages/cli/mirai.js technology compile examples/mirai-technology-draft-minimal/technology-draft.json --out /tmp/mirai-2.1-program.mirai.json --force && node packages/cli/mirai.js activation plan --graph examples/mirai-activation-minimal/graph-snapshot.json --signal examples/mirai-activation-minimal/signal.json --out /tmp/mirai-2.1-activation-plan.json --force && node packages/cli/mirai.js activation simulate /tmp/mirai-2.1-activation-plan.json",
     "test:mirai-property-fuzz": "node --test test/program/property-fuzz.test.cjs test/runtime/security-fuzz.test.cjs",
     "validate:mirai-program": "node packages/cli/mirai.js program validate examples/mirai-program-minimal/program.mirai.yaml && node packages/cli/mirai.js compile examples/mirai-program-minimal/program.mirai.yaml --out /tmp/mirai-program-minimal.mirai.json --force",
     "validate:mirai-conformance": "node packages/cli/mirai.js conformance run conformance/corpus/pure/corpus.json",
@@ -68,7 +85,7 @@
     "validate:clean-room-install": "node packages/cli/validate-clean-room-install.js",
     "test:mirai-beta-pilot-negative": "node packages/cli/validate-mirai-beta-pilots.js --self-test",
     "test:mirai-program-negative": "node packages/cli/mirai.js program validate examples/mirai-program-invalid/unbounded-foreach.mirai.yaml >/tmp/mirai-invalid-loop.out 2>&1 && exit 1 || test $? -eq 1 && node packages/cli/mirai.js program validate examples/mirai-program-invalid/unknown-effect.mirai.yaml >/tmp/mirai-invalid-effect.out 2>&1 && exit 1 || test $? -eq 1",
-    "pretest": "npm run build && npm run test:mirai-alpha1 && npm run test:mirai-alpha2 && npm run test:mirai-alpha3 && npm run test:mirai-property-fuzz && npm run validate:mirai-program && npm run validate:mirai-conformance && npm run validate:independent-conformance && npm run validate:independent-runtime-conformance && npm run validate:mirai-beta-pilots && npm run validate:mirai-scientific-evaluation && npm run validate:mirai-release-readiness && npm run validate:clean-room-install && npm run test:mirai-beta-pilot-negative && npm run test:mirai-program-negative && npm run test:project-technology && npm run test:context-traversal && npm run test:project-continuity && npm run test:artifact-releases && npm run test:technology-courses && npm run validate:project-technology-schemas",
+    "pretest": "npm run build && npm run test:mirai-alpha1 && npm run test:mirai-alpha2 && npm run test:mirai-alpha3 && npm run test:mirai-2.1 && npm run validate:mirai-2.1-cli && npm run test:mirai-property-fuzz && npm run validate:mirai-program && npm run validate:mirai-conformance && npm run validate:independent-conformance && npm run validate:independent-runtime-conformance && npm run validate:mirai-beta-pilots && npm run validate:mirai-scientific-evaluation && npm run validate:mirai-release-readiness && npm run validate:clean-room-install && npm run test:mirai-beta-pilot-negative && npm run test:mirai-program-negative && npm run test:project-technology && npm run test:context-traversal && npm run test:project-continuity && npm run test:artifact-releases && npm run test:technology-courses && npm run validate:project-technology-schemas",
     "test:project-technology": "node packages/cli/validate-project-technology.js",
     "test:context-traversal": "node packages/cli/validate-context-traversal.js",
     "test:project-continuity": "node packages/cli/validate-project-continuity.js",

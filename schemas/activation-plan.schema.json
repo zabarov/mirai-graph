@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zabarov.github.io/mirai/schemas/activation-plan.schema.json",
+  "title": "Mirai Immutable Activation Plan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract_version", "id", "signal", "graph_snapshot_digest", "policy_digest", "selected_relation_fact_ids", "blocked_relation_facts", "activated_paths", "blocked_paths", "dependency_dag", "join", "budgets", "required_capabilities", "required_approvals", "decision_explanations", "canonical_write_allowed", "digest"],
+  "properties": {
+    "contract_version": { "const": "1.0.0" }, "id": { "type": "string" }, "signal": { "type": "object" },
+    "graph_snapshot_digest": { "$ref": "#/$defs/digest" }, "policy_digest": { "$ref": "#/$defs/digest" },
+    "selected_relation_fact_ids": { "type": "array", "items": { "type": "string" } }, "blocked_relation_facts": { "type": "array" },
+    "activated_paths": { "type": "array", "items": { "type": "object", "required": ["id", "component_instance", "component_type", "operation", "implementation", "program_ref", "program_digest", "priority", "dependencies"] } },
+    "blocked_paths": { "type": "array" }, "dependency_dag": { "type": "array", "items": { "type": "object", "required": ["from", "to"] } },
+    "join": { "type": "object", "required": ["policy", "deterministic_order"], "properties": { "policy": { "enum": ["all", "collect", "any_success_ordered", "quorum"] }, "quorum": { "type": "integer", "minimum": 1 }, "deterministic_order": { "type": "array", "items": { "type": "string" } } } },
+    "budgets": { "type": "object", "required": ["max_nodes", "max_depth", "max_fan_out", "max_iterations", "max_parallel", "max_duration_ms"], "additionalProperties": { "type": "integer", "minimum": 1 } },
+    "required_capabilities": { "type": "array", "items": { "type": "string" } }, "required_approvals": { "type": "array", "items": { "type": "string" } }, "decision_explanations": { "type": "array", "items": { "type": "string" } },
+    "canonical_write_allowed": { "const": false }, "digest": { "$ref": "#/$defs/digest" }
+  },
+  "$defs": { "digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" } }
+}

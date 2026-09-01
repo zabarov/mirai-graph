@@ -1,0 +1,10 @@
+{
+  "id": "signal.demo.1",
+  "type": "work_requested",
+  "goal": "Prepare and review evidence",
+  "scope": "demo",
+  "now": "2026-09-01T12:00:00Z",
+  "operation": "operation.execute",
+  "component_refs": ["worker.prepare", "worker.review"],
+  "values": { "risk": "normal" }
+}

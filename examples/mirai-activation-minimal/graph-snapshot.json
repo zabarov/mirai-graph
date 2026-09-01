@@ -1,0 +1,40 @@
+{
+  "id": "graph.demo.snapshot",
+  "graph_snapshot_digest": "sha256:46fa6124b59bce3de0a1974eebd545f72f2e9c1cb9d747a58e74f61152007c1c",
+  "policy_digest": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+  "components": {
+    "contract_version": "1.0.0",
+    "interfaces": [{ "id": "interface.work", "operations": ["operation.execute"] }],
+    "operation_contracts": [{ "id": "operation.execute", "inputs": [], "outputs": [{ "id": "result", "type": "string" }], "required_capabilities": ["pure"] }],
+    "component_types": [{ "id": "component.worker", "implements": ["interface.work"], "exposes": ["operation.execute"], "composes": [] }],
+    "component_instances": [
+      { "id": "worker.prepare", "instance_of": "component.worker", "scope": "demo" },
+      { "id": "worker.review", "instance_of": "component.worker", "scope": "demo" }
+    ],
+    "program_implementations": [{ "id": "implementation.execute", "operation": "operation.execute", "program_ref": "examples/mirai-program-minimal/program.mirai.yaml", "program_digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000" }],
+    "contextual_bindings": [{ "id": "binding.execute.demo", "component_type": "component.worker", "operation": "operation.execute", "implementation": "implementation.execute", "priority": 100, "scope": "demo" }],
+    "canonical_write_allowed": false
+  },
+  "relation_facts": [
+    {
+      "contract_version": "1.0.0",
+      "id": "relation.review_depends_on_prepare",
+      "type": "depends_on",
+      "participants": [
+        { "ref": "worker.review", "role": "dependent" },
+        { "ref": "worker.prepare", "role": "prerequisite" },
+        { "ref": "policy.review", "role": "governing_policy" }
+      ],
+      "qualifiers": { "reason": "review requires prepared evidence" },
+      "scope": "demo",
+      "conditions": { "risk": "normal" },
+      "valid_from": "2026-01-01T00:00:00Z",
+      "valid_until": "2030-01-01T00:00:00Z",
+      "priority": 100,
+      "authority": "owner_asserted",
+      "confidence": 1,
+      "provenance": [{ "source_ref": "source.process" }],
+      "activation_rule": { "signal_type": "work_requested", "operation": "operation.execute" }
+    }
+  ]
+}

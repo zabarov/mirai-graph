@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zabarov.github.io/mirai/schemas/assimilation-proposal.schema.json",
+  "title": "Mirai Assimilation Proposal",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract_version", "source_catalog_digest", "candidate_assertions", "exact_duplicates", "conflicts", "quality", "diagnostics", "canonical_write_allowed", "next_safe_action", "digest"],
+  "properties": {
+    "contract_version": { "const": "1.0.0" },
+    "source_catalog_digest": { "$ref": "#/$defs/digest" },
+    "candidate_assertions": { "type": "array", "items": { "type": "object", "required": ["id", "kind", "semantic_type", "label", "source_ref", "confidence", "provenance"], "properties": { "id": { "type": "string" }, "kind": { "enum": ["object", "relation"] }, "semantic_type": { "type": "string" }, "label": { "type": "string" }, "source_ref": { "type": "string" }, "confidence": { "type": "number", "minimum": 0, "maximum": 1 }, "provenance": { "type": "object" } } } },
+    "exact_duplicates": { "type": "array" },
+    "conflicts": { "type": "array", "items": { "type": "object", "required": ["identity_key", "source_refs", "resolution"], "properties": { "identity_key": { "type": "string" }, "source_refs": { "type": "array", "minItems": 2, "items": { "type": "string" } }, "resolution": { "const": "owner_review_required" } } } },
+    "quality": { "type": "object", "required": ["provenance_coverage", "blocking_diagnostic_count", "readiness"], "properties": { "provenance_coverage": { "type": "number", "minimum": 0, "maximum": 1 }, "blocking_diagnostic_count": { "type": "integer", "minimum": 0 }, "readiness": { "enum": ["ready_for_review", "blocked"] } } },
+    "diagnostics": { "type": "array" },
+    "canonical_write_allowed": { "const": false },
+    "next_safe_action": { "enum": ["owner_review", "resolve_blocking_diagnostics"] },
+    "digest": { "$ref": "#/$defs/digest" }
+  },
+  "$defs": { "digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" } }
+}

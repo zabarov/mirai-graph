@@ -1,0 +1,47 @@
+{
+  "contract_version": "1.0.0",
+  "id": "technology.review",
+  "version": "1.0.0",
+  "goal": "Produce an evidence-backed review result",
+  "roles": ["reviewer"],
+  "inputs": [],
+  "outputs": [{ "id": "result", "type": "string", "required": true }],
+  "state": [],
+  "imports": [],
+  "steps": [
+    {
+      "id": "step.inspect",
+      "kind": "action",
+      "operation": "identity",
+      "adapter": "pure",
+      "effects": ["pure"],
+      "next": "return.ok",
+      "on_error": "return.error",
+      "source_line": 1
+    },
+    {
+      "id": "return.ok",
+      "kind": "return",
+      "values": { "result": { "op": "literal", "value": "accepted" } },
+      "source_line": 2
+    },
+    {
+      "id": "return.error",
+      "kind": "return",
+      "values": { "result": { "op": "literal", "value": "failed" } },
+      "source_line": 3
+    }
+  ],
+  "entry": "step.inspect",
+  "gates": ["evidence_required"],
+  "policies": {
+    "budgets": { "max_steps": 20, "max_depth": 4, "max_iterations": 4, "max_parallel": 2, "max_duration_ms": 10000 },
+    "allowed_effects": ["pure"],
+    "canonical_write_allowed": false
+  },
+  "terminal_conditions": ["result is recorded with evidence"],
+  "diagnostics": [],
+  "source_ref": "technology-review.md",
+  "confidence": 1,
+  "canonical_write_allowed": false
+}

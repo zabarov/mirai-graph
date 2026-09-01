@@ -24,10 +24,23 @@ import {
   type GovernedEpisode
 } from "../runtime/index.js";
 import type { TestCommandDefinition } from "../adapters/index.js";
+import { assimilateCatalog, scanSource, type SourceCatalog } from "../assimilation/index.js";
+import { validateComponentPackage, type ComponentPackage } from "../components/index.js";
+import { compileTechnologyDraft, extractTechnologyFile, type TechnologyDraft } from "../technology/index.js";
+import {
+  resolveActivationPlan,
+  simulateActivationPlan,
+  validateActivationPlan,
+  type ActivationGraphSnapshot,
+  type ActivationPlan,
+  type ActivationSignal,
+  type JoinPolicy
+} from "../activation/index.js";
 
 function usage(): void {
   process.stderr.write([
     "Mirai 2 CLI (alpha.3)",
+    "Additive Mirai 2.1 development contracts are available for assimilation, components, technology and activation.",
     "",
     "  mirai program validate <program.mirai.yaml|program.mirai.json>",
     "  mirai compile <source.mirai.yaml> --out <program.mirai.json>",
@@ -44,6 +57,14 @@ function usage(): void {
     "  mirai inspect <run-id> [--home <mirai-home>]",
     "  mirai evidence export <run-id> --out <dir> [--home <mirai-home>]",
     "  mirai migrate <technology-or-project> --from 1.4 --dry-run [--bindings <bindings.json>]",
+    "  mirai source scan <path> [--out <catalog.json>]",
+    "  mirai assimilate <catalog.json> --out <proposal.json>",
+    "  mirai technology extract <source> --out <draft.json>",
+    "  mirai technology compile <draft.json> --out <program.mirai.json>",
+    "  mirai component validate <component-package.json>",
+    "  mirai activation plan --graph <snapshot.json> --signal <signal.json> --out <plan.json>",
+    "  mirai activation simulate <plan.json>",
+    "  mirai activation run <plan.json> --sandbox <dir> [--input <input.json>]",
     "",
     "Alpha.3 effects are capability-gated. Workspace/process actions require --apply and a signed local approval.",
     ""
@@ -84,6 +105,13 @@ function loadJson(filename: string): Record<string, unknown> {
   const value = JSON.parse(fs.readFileSync(path.resolve(filename), "utf8")) as unknown;
   if (!value || typeof value !== "object" || Array.isArray(value)) throw new Error(`${filename} must contain a JSON object`);
   return value as Record<string, unknown>;
+}
+
+function writeJsonFile(filename: string, value: unknown, force = false): string {
+  const target = path.resolve(filename);
+  fs.mkdirSync(path.dirname(target), { recursive: true });
+  fs.writeFileSync(target, `${JSON.stringify(value, null, 2)}\n`, { flag: force ? "w" : "wx" });
+  return target;
 }
 
 function loadRegistry(args: string[]): Record<string, MiraiProgram> {
@@ -145,6 +173,70 @@ export async function runCli(args: string[]): Promise<number> {
   }
 
   try {
+    if (args[0] === "source" && args[1] === "scan") {
+      const catalog = scanSource(requireArgument(args[2], "source path"));
+      const output = readOption(args, "--out");
+      if (output) writeJson({ status: "catalog_written", output: writeJsonFile(output, catalog, args.includes("--force")), digest: catalog.digest, canonical_write_allowed: false });
+      else writeJson(catalog);
+      return catalog.diagnostics.some((item) => item.severity === "blocking") ? 2 : 0;
+    }
+
+    if (args[0] === "assimilate") {
+      const catalog = loadJson(requireArgument(args[1], "source catalog")) as unknown as SourceCatalog;
+      const proposal = assimilateCatalog(catalog);
+      const output = requireArgument(readOption(args, "--out"), "--out path");
+      writeJson({ status: proposal.quality.readiness, output: writeJsonFile(output, proposal, args.includes("--force")), digest: proposal.digest, canonical_write_allowed: false });
+      return proposal.quality.readiness === "blocked" ? 2 : 0;
+    }
+
+    if (args[0] === "technology" && args[1] === "extract") {
+      const draft = extractTechnologyFile(requireArgument(args[2], "technology source"));
+      const output = requireArgument(readOption(args, "--out"), "--out path");
+      writeJson({ status: draft.diagnostics.some((item) => item.severity === "blocking") ? "proposal_blocked" : "ready_for_compile", output: writeJsonFile(output, draft, args.includes("--force")), diagnostics: draft.diagnostics, canonical_write_allowed: false });
+      return 0;
+    }
+
+    if (args[0] === "technology" && args[1] === "compile") {
+      const draft = loadJson(requireArgument(args[2], "technology draft")) as unknown as TechnologyDraft;
+      const program = compileTechnologyDraft(draft);
+      const output = requireArgument(readOption(args, "--out"), "--out path");
+      writeJson({ status: "compiled", output: writeJsonFile(output, program, args.includes("--force")), digest: program.digest, canonical_write_allowed: false });
+      return 0;
+    }
+
+    if (args[0] === "component" && args[1] === "validate") {
+      const result = validateComponentPackage(loadJson(requireArgument(args[2], "component package")) as unknown as ComponentPackage);
+      writeJson(result);
+      return result.valid ? 0 : 1;
+    }
+
+    if (args[0] === "activation" && args[1] === "plan") {
+      const snapshot = loadJson(requireArgument(readOption(args, "--graph"), "--graph path")) as unknown as ActivationGraphSnapshot;
+      const signal = loadJson(requireArgument(readOption(args, "--signal"), "--signal path")) as unknown as ActivationSignal;
+      const join = (readOption(args, "--join") || "all") as JoinPolicy;
+      if (!["all", "collect", "any_success_ordered", "quorum"].includes(join)) throw new Error(`Unknown join policy ${join}`);
+      const plan = resolveActivationPlan(snapshot, signal, { join, ...(readOption(args, "--quorum") ? { quorum: Number(readOption(args, "--quorum")) } : {}) });
+      const output = requireArgument(readOption(args, "--out"), "--out path");
+      writeJson({ status: "planned", output: writeJsonFile(output, plan, args.includes("--force")), digest: plan.digest, canonical_write_allowed: false });
+      return 0;
+    }
+
+    if (args[0] === "activation" && args[1] === "simulate") {
+      const plan = loadJson(requireArgument(args[2], "activation plan")) as unknown as ActivationPlan;
+      writeJson(simulateActivationPlan(plan));
+      return 0;
+    }
+
+    if (args[0] === "activation" && args[1] === "run") {
+      const plan = loadJson(requireArgument(args[2], "activation plan")) as unknown as ActivationPlan;
+      const validation = validateActivationPlan(plan);
+      if (!validation.valid) throw new Error(`activation_plan_invalid:${validation.errors.join(",")}`);
+      requireArgument(readOption(args, "--sandbox"), "--sandbox path");
+      const simulation = simulateActivationPlan(plan);
+      writeJson({ status: "simulated", execution_mode: "development_reference_no_effects", plan_digest: plan.digest, simulation, effects_executed: false, canonical_write_allowed: false });
+      return 0;
+    }
+
     if (args[0] === "program" && args[1] === "validate") {
       const filename = requireArgument(args[2], "program path");
       const program = loadProgram(filename);

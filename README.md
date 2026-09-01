@@ -20,6 +20,34 @@ currently records ten passed engineering gates and seven unresolved external,
 scientific or publication gates. A green local suite therefore does not by
 itself authorize beta, RC or stable promotion.
 
+## Mirai 2.1 Development Preview
+
+The `codex/mirai-2.1` branch is an additive research and development track. It
+does not change the Mirai 2.0 Program or Runtime contracts and is not a stable
+release claim. It adds:
+
+- read-only Files/Git source catalogs and proposal-only knowledge assimilation;
+- graph-native components with interfaces, typed operations and contextual
+  program bindings;
+- multidimensional relation facts with scope, time, authority and provenance;
+- a reviewable `technology_draft` between human text and Mirai Program;
+- immutable, digest-bound activation plans and deterministic parallel
+  simulation.
+
+```bash
+mirai source scan . --out /tmp/source-catalog.json
+mirai assimilate /tmp/source-catalog.json --out /tmp/graph-proposal.json
+mirai technology extract technology.yaml --out /tmp/technology-draft.json
+mirai technology compile /tmp/technology-draft.json --out /tmp/program.mirai.json
+mirai component validate component-package.json
+mirai activation plan --graph graph-snapshot.json --signal signal.json --out /tmp/activation-plan.json
+mirai activation simulate /tmp/activation-plan.json
+```
+
+Read the [2.1 architecture](docs/architecture/mirai-2.1-graph-native-intelligence.md).
+Ingestion and extraction never perform canonical apply. The runtime will execute
+only an immutable activation plan and existing capability-gated Mirai Programs.
+
 ## Mirai 2.0 Preview
 
 The third 2.0 alpha adds a capability-gated, host-local reference runtime to

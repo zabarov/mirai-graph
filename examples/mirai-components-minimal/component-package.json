@@ -1,0 +1,40 @@
+{
+  "contract_version": "1.0.0",
+  "interfaces": [
+    { "id": "interface.work", "operations": ["operation.execute"] }
+  ],
+  "operation_contracts": [
+    {
+      "id": "operation.execute",
+      "inputs": [],
+      "outputs": [{ "id": "result", "type": "string", "required": true }],
+      "required_capabilities": ["pure"]
+    }
+  ],
+  "component_types": [
+    { "id": "component.worker", "implements": ["interface.work"], "exposes": ["operation.execute"], "composes": [] }
+  ],
+  "component_instances": [
+    { "id": "worker.prepare", "instance_of": "component.worker", "scope": "demo" },
+    { "id": "worker.review", "instance_of": "component.worker", "scope": "demo" }
+  ],
+  "program_implementations": [
+    {
+      "id": "implementation.execute",
+      "operation": "operation.execute",
+      "program_ref": "examples/mirai-program-minimal/program.mirai.yaml",
+      "program_digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+    }
+  ],
+  "contextual_bindings": [
+    {
+      "id": "binding.execute.demo",
+      "component_type": "component.worker",
+      "operation": "operation.execute",
+      "implementation": "implementation.execute",
+      "priority": 100,
+      "scope": "demo"
+    }
+  ],
+  "canonical_write_allowed": false
+}

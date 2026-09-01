@@ -44,6 +44,15 @@ Mirai 2.0 execution:
 - [Runtime Operations Guide](operations/mirai-runtime-operations-guide.md)
 - [Runtime Threat Model](security/mirai-runtime-threat-model.md)
 
+Mirai 2.1 graph-native development:
+
+- [Graph-Native Intelligence Architecture](architecture/mirai-2.1-graph-native-intelligence.md)
+- [Knowledge Assimilation](../standard/knowledge-assimilation.md)
+- [Graph-Native Components](../standard/graph-native-components.md)
+- [Multidimensional Relation Facts](../standard/multidimensional-relations.md)
+- [Technology Draft And Compilation](../standard/technology-compilation.md)
+- [Immutable Activation Model](../standard/activation-model.md)
+
 Core model:
 
 - [Object Model](../standard/object-model.md)
