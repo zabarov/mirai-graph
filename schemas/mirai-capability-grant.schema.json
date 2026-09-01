@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zabarov.github.io/mirai/schemas/mirai-capability-grant.schema.json",
+  "title": "Mirai Capability Grant",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract_version", "grant_id", "request_id", "request_digest", "run_id", "program_digest", "node_id", "adapter", "action", "resource", "effects", "capability", "budget", "policy_digest", "issued_at", "expires_at", "opaque_token"],
+  "properties": {
+    "contract_version": { "const": "1.0.0" },
+    "grant_id": { "type": "string", "minLength": 1 },
+    "request_id": { "type": "string", "minLength": 1 },
+    "request_digest": { "$ref": "#/$defs/digest" },
+    "run_id": { "type": "string", "minLength": 1 },
+    "program_digest": { "$ref": "#/$defs/digest" },
+    "node_id": { "type": "string", "minLength": 1 },
+    "adapter": { "type": "string", "minLength": 1 },
+    "action": { "type": "string", "minLength": 1 },
+    "resource": { "type": "string", "minLength": 1 },
+    "effects": { "$ref": "#/$defs/effects" },
+    "capability": { "type": "string", "minLength": 1 },
+    "budget": { "type": "object", "required": ["max_calls"], "properties": { "max_calls": { "type": "integer", "minimum": 1 }, "max_bytes": { "type": "integer", "minimum": 1 }, "timeout_ms": { "type": "integer", "minimum": 1 } }, "additionalProperties": false },
+    "policy_digest": { "$ref": "#/$defs/digest" },
+    "approval_receipt_ref": { "type": "string", "minLength": 1 },
+    "issued_at": { "type": "string", "format": "date-time" },
+    "expires_at": { "type": "string", "format": "date-time" },
+    "opaque_token": { "type": "string", "minLength": 32 }
+  },
+  "$defs": {
+    "digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "effects": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "enum": ["repository_read", "git_read", "workspace_patch", "process_run", "human_approval"] } }
+  }
+}

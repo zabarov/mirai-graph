@@ -16,6 +16,8 @@ Release notes must separate:
 
 ## Release Notes
 
+- [v2.0.0-alpha.3](2.0.0-alpha.3.md) - capability-gated reference adapters,
+  durable execution, recovery, governed replay and sanitized evidence.
 - [v2.0.0-alpha.2](2.0.0-alpha.2.md) - deterministic pure interpreter,
   replay and portable language conformance corpus.
 - [v2.0.0-alpha.1](2.0.0-alpha.1.md) - typed Mirai Program contracts,

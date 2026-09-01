@@ -6,11 +6,16 @@ const path = require("path");
 const root = path.resolve(__dirname, "..", "..");
 const args = process.argv.slice(2);
 const newCommands = new Set([
-  "program", "compile", "simulate", "run", "resume", "cancel", "inspect",
-  "replay", "evidence", "conformance"
+  "program", "compile", "simulate", "approval", "run", "resume", "cancel",
+  "reconcile", "inspect", "replay", "evidence", "conformance"
 ]);
 
-if (newCommands.has(args[0]) || (args[0] === "migrate" && args.includes("--from"))) {
+if (args[0] === "--version" || args[0] === "-v") {
+  process.stdout.write(`${require(path.join(root, "package.json")).version}\n`);
+  process.exit(0);
+}
+
+if (!args.length || args.includes("--help") || args.includes("-h") || newCommands.has(args[0]) || (args[0] === "migrate" && args.includes("--from"))) {
   let cli;
   try {
     cli = require(path.join(root, "dist", "cjs", "cli", "index.js"));

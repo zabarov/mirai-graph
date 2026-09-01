@@ -1,0 +1,103 @@
+{
+  "contract_version": "1.0.0",
+  "entry": "repository.read",
+  "error_routes": [],
+  "id": "program.synthetic-repository-read",
+  "imports": [],
+  "inputs": [
+    {
+      "id": "requested_path",
+      "type": "string"
+    }
+  ],
+  "nodes": [
+    {
+      "args": {
+        "path": {
+          "op": "ref",
+          "path": "input.requested_path"
+        }
+      },
+      "capability": "capability.repository.read",
+      "effects": [
+        "repository_read"
+      ],
+      "id": "repository.read",
+      "kind": "call",
+      "next": "return.content",
+      "result": "read_result",
+      "target": {
+        "adapter": "repository",
+        "kind": "adapter",
+        "operation": "read_file"
+      }
+    },
+    {
+      "id": "return.content",
+      "kind": "return",
+      "values": {
+        "content": {
+          "key": "content",
+          "op": "get",
+          "target": {
+            "op": "ref",
+            "path": "state.read_result"
+          }
+        }
+      }
+    }
+  ],
+  "outputs": [
+    {
+      "id": "content",
+      "type": "string"
+    }
+  ],
+  "policies": {
+    "allowed_effects": [
+      "repository_read"
+    ],
+    "budgets": {
+      "max_depth": 8,
+      "max_duration_ms": 100,
+      "max_iterations": 8,
+      "max_parallel": 4,
+      "max_steps": 16
+    },
+    "canonical_write_allowed": false
+  },
+  "source_map": {
+    "repository.read": {
+      "file": "program.mirai.yaml",
+      "line": 28
+    },
+    "return.content": {
+      "file": "program.mirai.yaml",
+      "line": 43
+    }
+  },
+  "state": [
+    {
+      "default": {
+        "content": "",
+        "encoding": "utf8",
+        "path": "pending",
+        "sha256": "pending",
+        "size": 0
+      },
+      "id": "read_result",
+      "type": {
+        "fields": {
+          "content": "string",
+          "encoding": "string",
+          "path": "string",
+          "sha256": "string",
+          "size": "int64"
+        },
+        "kind": "record"
+      }
+    }
+  ],
+  "version": "1.0.0",
+  "digest": "sha256:c5db1ef0cfe028713aef26eeef27c54f32c3ae3f0cbad9154cbc362a65e87519"
+}

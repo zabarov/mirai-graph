@@ -1,0 +1,63 @@
+contract_version: 1.0.0
+id: program.synthetic-repository-read
+version: 1.0.0
+imports: []
+inputs:
+  - id: requested_path
+    type: string
+outputs:
+  - id: content
+    type: string
+state:
+  - id: read_result
+    type:
+      kind: record
+      fields:
+        path: string
+        encoding: string
+        content: string
+        size: int64
+        sha256: string
+    default:
+      path: pending
+      encoding: utf8
+      content: ""
+      size: 0
+      sha256: pending
+nodes:
+  - id: repository.read
+    kind: call
+    target:
+      kind: adapter
+      adapter: repository
+      operation: read_file
+    args:
+      path:
+        op: ref
+        path: input.requested_path
+    result: read_result
+    effects:
+      - repository_read
+    capability: capability.repository.read
+    next: return.content
+  - id: return.content
+    kind: return
+    values:
+      content:
+        op: get
+        target:
+          op: ref
+          path: state.read_result
+        key: content
+entry: repository.read
+error_routes: []
+policies:
+  budgets:
+    max_steps: 16
+    max_depth: 8
+    max_iterations: 8
+    max_parallel: 4
+    max_duration_ms: 100
+  allowed_effects:
+    - repository_read
+  canonical_write_allowed: false

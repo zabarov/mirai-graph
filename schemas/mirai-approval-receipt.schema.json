@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zabarov.github.io/mirai/schemas/mirai-approval-receipt.schema.json",
+  "title": "Mirai Local Approval Receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract_version", "approval_id", "approved", "program_digest", "sandbox_digest", "effects", "node_ids", "approver", "issued_at", "expires_at", "canonical_write_allowed", "signature_algorithm", "signature"],
+  "properties": {
+    "contract_version": { "const": "1.0.0" },
+    "approval_id": { "type": "string", "minLength": 1 },
+    "approved": { "const": true },
+    "program_digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "sandbox_digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "effects": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "enum": ["repository_read", "git_read", "workspace_patch", "process_run", "human_approval"] } },
+    "node_ids": { "type": "array", "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+    "approver": { "type": "string", "minLength": 1 },
+    "issued_at": { "type": "string", "format": "date-time" },
+    "expires_at": { "type": "string", "format": "date-time" },
+    "canonical_write_allowed": { "const": false },
+    "signature_algorithm": { "const": "hmac-sha256-local" },
+    "signature": { "type": "string", "pattern": "^hmac-sha256:[a-f0-9]{64}$" }
+  }
+}

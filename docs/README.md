@@ -34,6 +34,8 @@ Mirai 2.0 execution:
 
 - [Mirai Program](../standard/mirai-program.md)
 - [Mirai Runtime](../standard/mirai-runtime.md)
+- [Mirai Capabilities And Effects](../standard/mirai-capabilities-and-effects.md)
+- [Mirai Durable Execution](../standard/mirai-durable-execution.md)
 - [Mirai Conformance Corpus](../conformance/README.md)
 - [2.0 Architecture Decisions](architecture/mirai-2.0-decisions.md)
 - [Migrate 1.4 To 2.0](adoption/migrate-1.4-to-2.0.md)
@@ -100,6 +102,7 @@ Proposal or experimental profile:
 
 - [Templates](../templates/README.md)
 - [Minimal Graph](../examples/minimal-graph/README.md)
+- [Governed Runtime](../examples/mirai-governed-runtime-minimal/README.md)
 - [Implementation Control](../examples/implementation-control-minimal/README.md)
 - [Process Transition](../examples/process-transition-minimal/README.md)
 - [Technology Quality Feedback](../examples/technology-quality-feedback-minimal/README.md)

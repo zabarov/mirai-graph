@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zabarov.github.io/mirai/schemas/mirai-policy-decision.schema.json",
+  "title": "Mirai Policy Decision",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract_version", "decision_id", "request_id", "decision", "reasons", "policy_digest", "decided_at"],
+  "properties": {
+    "contract_version": { "const": "1.0.0" },
+    "decision_id": { "type": "string", "minLength": 1 },
+    "request_id": { "type": "string", "minLength": 1 },
+    "decision": { "enum": ["granted", "denied", "approval_required"] },
+    "reasons": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+    "policy_digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "approval_receipt_ref": { "type": "string", "minLength": 1 },
+    "decided_at": { "type": "string", "format": "date-time" }
+  }
+}

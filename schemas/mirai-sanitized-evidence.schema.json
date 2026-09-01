@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zabarov.github.io/mirai/schemas/mirai-sanitized-evidence.schema.json",
+  "title": "Mirai Sanitized Runtime Evidence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract_version", "run", "episode", "receipts", "exported_at", "canonical_write_allowed", "limitations"],
+  "properties": {
+    "contract_version": { "const": "1.0.0" },
+    "run": {
+      "type": "object",
+      "required": ["run_id", "program_digest", "status", "sandbox_ref"],
+      "properties": {
+        "sandbox_ref": { "const": "redacted-host-local" }
+      }
+    },
+    "episode": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["contract_version", "episode_id", "run_id", "program_id", "program_digest", "input_digest", "status", "output_digest", "trace_digest", "steps", "logical_duration_ms", "effects_executed", "replay_input_digest", "effect_summaries", "canonical_write_allowed", "learning_update_allowed", "limitations"],
+      "properties": {
+        "contract_version": { "const": "1.0.0" },
+        "episode_id": { "type": "string" }, "run_id": { "type": "string" }, "program_id": { "type": "string" },
+        "program_digest": { "$ref": "#/$defs/digest" }, "input_digest": { "$ref": "#/$defs/digest" },
+        "status": { "enum": ["completed", "cancelled"] }, "output_digest": { "$ref": "#/$defs/digest" },
+        "trace_digest": { "$ref": "#/$defs/digest" }, "steps": { "type": "integer", "minimum": 1 },
+        "logical_duration_ms": { "type": "integer", "minimum": 1 }, "effects_executed": { "type": "boolean" },
+        "replay_input_digest": { "$ref": "#/$defs/digest" }, "effect_summaries": { "type": "array", "items": { "type": "object" } },
+        "canonical_write_allowed": { "const": false }, "learning_update_allowed": { "const": false },
+        "limitations": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "receipts": { "type": "array", "items": { "type": "object", "not": { "required": ["result"] } } },
+    "exported_at": { "type": "string", "format": "date-time" },
+    "canonical_write_allowed": { "const": false },
+    "limitations": { "type": "array", "minItems": 1, "items": { "type": "string" } }
+  },
+  "$defs": { "digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" } }
+}

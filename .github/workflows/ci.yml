@@ -33,6 +33,12 @@ jobs:
       - name: Verify Mirai Program contracts
         run: npm run test:mirai-alpha1
 
+      - name: Verify deterministic pure runtime
+        run: npm run test:mirai-alpha2
+
+      - name: Verify governed runtime and recovery
+        run: npm run test:mirai-alpha3
+
   context-traversal:
     strategy:
       fail-fast: false

@@ -7,10 +7,26 @@ import type { MiraiProgram } from "../program/types.js";
 import { executePure, type PureEpisode } from "../runtime/pure-interpreter.js";
 import { replayPure } from "../runtime/replay.js";
 import { runPureCorpus } from "../conformance/pure-corpus.js";
+import {
+  RunStore,
+  cancelGovernedRun,
+  createApprovalReceipt,
+  exportSanitizedEvidence,
+  inspectGovernedRun,
+  reconcileGovernedRun,
+  replayGovernedEpisode,
+  resumeGovernedRun,
+  startGovernedRun,
+  type ApprovalReceipt,
+  type CapabilityPolicy,
+  type EffectName,
+  type GovernedEpisode
+} from "../runtime/index.js";
+import type { TestCommandDefinition } from "../adapters/index.js";
 
 function usage(): void {
   process.stderr.write([
-    "Mirai 2 CLI (alpha.2)",
+    "Mirai 2 CLI (alpha.3)",
     "",
     "  mirai program validate <program.mirai.yaml|program.mirai.json>",
     "  mirai compile <source.mirai.yaml> --out <program.mirai.json>",
@@ -18,9 +34,16 @@ function usage(): void {
     "  mirai simulate <program> [--input <input.json>] [--events <events.json>] [--import <alias=program>]",
     "  mirai replay <episode> --program <program> [--import <alias=program>]",
     "  mirai conformance run <corpus.json>",
+    "  mirai approval create <program.mirai.json> --sandbox <dir> --effects <list> --out <receipt.json>",
+    "  mirai run <program.mirai.json> --input <input.json> --sandbox <dir> [--apply --approval <receipt.json>]",
+    "  mirai resume <run-id> [--home <mirai-home>]",
+    "  mirai cancel <run-id> [--home <mirai-home>]",
+    "  mirai reconcile <run-id> [--home <mirai-home>]",
+    "  mirai inspect <run-id> [--home <mirai-home>]",
+    "  mirai evidence export <run-id> --out <dir> [--home <mirai-home>]",
     "  mirai migrate <technology-or-project> --from 1.4 --dry-run [--bindings <bindings.json>]",
     "",
-    "Alpha.2 executes deterministic pure programs only. External effects remain unavailable.",
+    "Alpha.3 effects are capability-gated. Workspace/process actions require --apply and a signed local approval.",
     ""
   ].join("\n"));
 }
@@ -50,6 +73,11 @@ function loadProgram(filename: string) {
   return compileProgramFile(path.resolve(filename)).program;
 }
 
+function loadRuntimeProgram(filename: string): MiraiProgram {
+  if (!filename.endsWith(".mirai.json")) throw new Error("Runtime accepts compiled .mirai.json IR only; run mirai compile first");
+  return loadProgram(filename);
+}
+
 function loadJson(filename: string): Record<string, unknown> {
   const value = JSON.parse(fs.readFileSync(path.resolve(filename), "utf8")) as unknown;
   if (!value || typeof value !== "object" || Array.isArray(value)) throw new Error(`${filename} must contain a JSON object`);
@@ -67,6 +95,45 @@ function loadRegistry(args: string[]): Record<string, MiraiProgram> {
     result[program.id] = program;
   }
   return result;
+}
+
+function loadRuntimeRegistry(args: string[]): Record<string, MiraiProgram> {
+  const result: Record<string, MiraiProgram> = {};
+  for (const spec of readOptions(args, "--import")) {
+    const separator = spec.indexOf("=");
+    if (separator < 1 || separator === spec.length - 1) throw new Error(`Invalid --import ${spec}; expected alias=path`);
+    const alias = spec.slice(0, separator);
+    const program = loadRuntimeProgram(spec.slice(separator + 1));
+    result[alias] = program;
+    result[program.id] = program;
+  }
+  return result;
+}
+
+function runtimeHome(args: string[]): string | undefined {
+  return readOption(args, "--home") || process.env.MIRAI_HOME;
+}
+
+function parseEffects(value: string): EffectName[] {
+  const known = new Set<EffectName>(["repository_read", "git_read", "workspace_patch", "process_run", "human_approval"]);
+  const effects = value.split(",").map((item) => item.trim()).filter(Boolean);
+  if (!effects.length || effects.some((item) => !known.has(item as EffectName))) throw new Error(`Invalid --effects ${value}`);
+  return [...new Set(effects)] as EffectName[];
+}
+
+function runtimeConfig(args: string[]): {
+  policy?: CapabilityPolicy;
+  test_commands?: Record<string, TestCommandDefinition>;
+  events?: Record<string, unknown>;
+} {
+  const filename = readOption(args, "--runtime-config");
+  if (!filename) return {};
+  const config = loadJson(filename);
+  return {
+    ...(config.policy ? { policy: config.policy as CapabilityPolicy } : {}),
+    ...(config.test_commands ? { test_commands: config.test_commands as Record<string, TestCommandDefinition> } : {}),
+    ...(config.events ? { events: config.events as Record<string, unknown> } : {})
+  };
 }
 
 export async function runCli(args: string[]): Promise<number> {
@@ -114,8 +181,10 @@ export async function runCli(args: string[]): Promise<number> {
     if (args[0] === "replay") {
       const episodeFile = requireArgument(args[1], "episode path");
       const programFile = requireArgument(readOption(args, "--program"), "--program path");
-      const episode = loadJson(episodeFile) as unknown as PureEpisode;
-      const result = await replayPure(episode, loadProgram(programFile), { programs: loadRegistry(args) });
+      const rawEpisode = loadJson(episodeFile);
+      const result = Array.isArray(rawEpisode.effect_stubs)
+        ? await replayGovernedEpisode(rawEpisode as unknown as GovernedEpisode, loadRuntimeProgram(programFile), { programs: loadRuntimeRegistry(args) })
+        : await replayPure(rawEpisode as unknown as PureEpisode, loadProgram(programFile), { programs: loadRegistry(args) });
       writeJson(result);
       return result.status === "match" ? 0 : 1;
     }
@@ -126,6 +195,78 @@ export async function runCli(args: string[]): Promise<number> {
       return result.status === "passed" ? 0 : 1;
     }
 
+    if (args[0] === "approval" && args[1] === "create") {
+      const program = loadRuntimeProgram(requireArgument(args[2], "program path"));
+      const sandbox = requireArgument(readOption(args, "--sandbox"), "--sandbox path");
+      const effects = parseEffects(requireArgument(readOption(args, "--effects"), "--effects list"));
+      const output = path.resolve(requireArgument(readOption(args, "--out"), "--out path"));
+      const receipt = createApprovalReceipt({
+        home: runtimeHome(args) || path.join(process.env.HOME || process.cwd(), ".mirai"),
+        program_digest: program.digest,
+        sandbox,
+        effects,
+        node_ids: readOption(args, "--nodes")?.split(",").filter(Boolean),
+        approver: readOption(args, "--approver") || process.env.USER || "local-owner",
+        ttl_ms: Number(readOption(args, "--ttl-ms") || 15 * 60 * 1000)
+      });
+      fs.mkdirSync(path.dirname(output), { recursive: true });
+      fs.writeFileSync(output, `${JSON.stringify(receipt, null, 2)}\n`, { flag: args.includes("--force") ? "w" : "wx", mode: 0o600 });
+      writeJson({ status: "approval_created", approval_id: receipt.approval_id, output, expires_at: receipt.expires_at });
+      return 0;
+    }
+
+    if (args[0] === "run") {
+      const program = loadRuntimeProgram(requireArgument(args[1], "program path"));
+      const inputFile = readOption(args, "--input");
+      const approvalFile = readOption(args, "--approval");
+      const config = runtimeConfig(args);
+      const result = await startGovernedRun(program, inputFile ? loadJson(inputFile) : {}, {
+        home: runtimeHome(args),
+        sandbox: requireArgument(readOption(args, "--sandbox"), "--sandbox path"),
+        apply: args.includes("--apply"),
+        approval: approvalFile ? loadJson(approvalFile) as unknown as ApprovalReceipt : undefined,
+        programs: loadRuntimeRegistry(args),
+        policy: config.policy,
+        test_commands: config.test_commands,
+        events: config.events,
+        run_id: readOption(args, "--run-id")
+      });
+      writeJson(result);
+      return result.run.status === "completed" ? 0 : 2;
+    }
+
+    if (args[0] === "resume") {
+      const result = await resumeGovernedRun(requireArgument(args[1], "run id"), { home: runtimeHome(args) });
+      writeJson(result);
+      return result.run.status === "completed" ? 0 : 2;
+    }
+
+    if (args[0] === "cancel") {
+      writeJson(cancelGovernedRun(requireArgument(args[1], "run id"), { home: runtimeHome(args) }));
+      return 0;
+    }
+
+    if (args[0] === "reconcile") {
+      const result = await reconcileGovernedRun(requireArgument(args[1], "run id"), { home: runtimeHome(args) });
+      writeJson(result);
+      return result.run.blockers.length ? 2 : 0;
+    }
+
+    if (args[0] === "inspect") {
+      writeJson(inspectGovernedRun(requireArgument(args[1], "run id"), { home: runtimeHome(args) }));
+      return 0;
+    }
+
+    if (args[0] === "evidence" && args[1] === "export") {
+      const filename = exportSanitizedEvidence(
+        requireArgument(args[2], "run id"),
+        requireArgument(readOption(args, "--out"), "--out path"),
+        { home: runtimeHome(args) }
+      );
+      writeJson({ status: "evidence_exported", output: filename, canonical_write_allowed: false });
+      return 0;
+    }
+
     if (args[0] === "migrate" && args.includes("--from")) {
       const target = requireArgument(args[1], "project or technology path");
       if (readOption(args, "--from") !== "1.4") throw new Error("Only --from 1.4 is supported");
@@ -133,10 +274,6 @@ export async function runCli(args: string[]): Promise<number> {
       const result = migrateTechnologyTarget(target, readOption(args, "--bindings"));
       writeJson(result);
       return result.status === "ready" ? 0 : 2;
-    }
-
-    if (["run", "resume", "cancel", "inspect", "evidence"].includes(args[0] as string)) {
-      throw new Error(`${args[0]} is not available in 2.0.0-alpha.2; only pure simulation is implemented`);
     }
 
     usage();

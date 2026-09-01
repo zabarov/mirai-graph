@@ -242,8 +242,9 @@ Release sequence and current status:
 2. `2.0.0-alpha.2`: implemented on the 2.0 development branch: pure
    deterministic interpreter, replay, execution budgets and portable language
    conformance corpus;
-3. `2.0.0-alpha.3`: capability-gated sandbox adapters, durable execution,
-   episodes, replay and recovery;
+3. `2.0.0-alpha.3`: implemented on the 2.0 development branch:
+   capability-gated reference adapters, durable receipts and checkpoints,
+   effect-stub replay, recovery, compensation and sanitized evidence export;
 4. `2.0.0-beta.1`: controlled Federation, Larena and AI Employee pilots plus
    an independent checker;
 5. `2.0.0-rc.1`: API freeze, security review and clean-room installation;

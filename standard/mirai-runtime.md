@@ -1,7 +1,6 @@
 # Mirai Runtime
 
-Status: pure reference interpreter available in `2.0.0-alpha.2`; governed
-external effects remain planned for `2.0.0-alpha.3`
+Status: capability-gated reference runtime available in `2.0.0-alpha.3`
 
 ## Purpose
 
@@ -39,7 +38,7 @@ The runtime must keep these states separate:
 An episode can produce evidence or a proposal. It cannot modify the canonical
 graph or authorize its own next effect.
 
-## Planned 2.0 Core Effects
+## Reference 2.0 Core Effects
 
 - pure computation;
 - repository read;
@@ -49,7 +48,8 @@ graph or authorize its own next effect.
 - human approval.
 
 Network, production, secret-changing, financial and public-publishing adapters
-remain outside core 2.0.
+remain outside core 2.0. Workspace writes and allowlisted process execution
+require both `--apply` and a signed host-local approval receipt.
 
 ## Durability Contract
 

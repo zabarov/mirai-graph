@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zabarov.github.io/mirai/schemas/mirai-runtime-run.schema.json",
+  "title": "Mirai Runtime Run",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract_version", "run_id", "graph_id", "program_id", "program_digest", "input_digest", "sandbox", "status", "revision", "event_sequence", "apply_requested", "created_at", "updated_at", "blockers", "limitations", "program_ref", "input_ref", "checkpoint_ref"],
+  "properties": {
+    "contract_version": { "const": "1.0.0" },
+    "run_id": { "type": "string", "minLength": 1 },
+    "graph_id": { "type": "string", "minLength": 1 },
+    "program_id": { "type": "string", "minLength": 1 },
+    "program_digest": { "$ref": "#/$defs/digest" },
+    "input_digest": { "$ref": "#/$defs/digest" },
+    "sandbox": { "type": "string", "minLength": 1 },
+    "status": { "enum": ["prepared", "running", "completed", "cancelled", "failed", "blocked"] },
+    "revision": { "type": "integer", "minimum": 1 },
+    "event_sequence": { "type": "integer", "minimum": 0 },
+    "apply_requested": { "type": "boolean" },
+    "approval_receipt_ref": { "type": "string", "minLength": 1 },
+    "created_at": { "type": "string", "format": "date-time" },
+    "updated_at": { "type": "string", "format": "date-time" },
+    "started_at": { "type": "string", "format": "date-time" },
+    "finished_at": { "type": "string", "format": "date-time" },
+    "blockers": { "type": "array", "items": { "type": "string" } },
+    "limitations": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+    "program_ref": { "const": "program.json" },
+    "input_ref": { "const": "input.json" },
+    "checkpoint_ref": { "const": "checkpoint.json" },
+    "episode_ref": { "const": "episode.json" }
+  },
+  "$defs": { "digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" } }
+}

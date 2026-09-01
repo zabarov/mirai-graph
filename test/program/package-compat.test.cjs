@@ -6,7 +6,12 @@ test("CommonJS subpath exports expose the alpha contracts", () => {
   const root = require("../../dist/cjs");
   const program = require("../../dist/cjs/program");
   assert.equal(program.PROGRAM_CONTRACT_VERSION, "1.0.0");
-  assert.equal(root.runtime.runtimeAvailability().executable_effects_enabled, false);
+  assert.equal(root.runtime.runtimeAvailability().status, "governed_reference_runtime_available");
+  assert.equal(root.runtime.runtimeAvailability().executable_effects_enabled, true);
+  assert.deepEqual(
+    root.adapters.referenceAdapterCatalog().adapters.map((item) => item.id),
+    ["repository", "git", "workspace", "test", "human"]
+  );
   assert.equal(typeof root.runCli, "function");
 });
 

@@ -4,6 +4,24 @@ All notable changes to Mirai Graph will be documented in this file.
 
 ## [Unreleased]
 
+### Mirai 2.0.0-alpha.3
+
+- Added a capability-gated reference runtime for repository and Git reads,
+  sandbox patches, allowlisted tests and explicit human approvals.
+- Added host-local run state, checkpoints, leases, compare-and-swap updates,
+  effect receipts, reconciliation and compensation.
+- Added governed episodes, effect-stub replay, sanitized evidence export and
+  CLI commands for the complete run lifecycle.
+- Added schemas, synthetic fixtures and negative safety, crash and recovery
+  tests for the governed runtime.
+
+### Safety Boundary
+
+- Program and graph content cannot mint capabilities or approval receipts.
+- Network, production, secret-changing, financial and public-publishing
+  adapters remain outside the core runtime.
+- Evidence and episodes do not authorize canonical graph updates.
+
 ### Mirai 2.0.0-alpha.2
 
 - Added the deterministic pure Mirai Program interpreter and safe expression

@@ -38,6 +38,25 @@ export interface PureEpisode {
   limitations: string[];
 }
 
+export interface ExecutionEpisode extends Omit<PureEpisode, "effects_executed"> {
+  effects_executed: boolean;
+}
+
+export interface EffectExecutionRequest {
+  program_id: string;
+  program_digest: string;
+  node_id: string;
+  invocation_id: string;
+  adapter: string;
+  operation: string;
+  args: Record<string, unknown>;
+  effects: string[];
+  capability: string;
+}
+
+export type EffectExecutor = (request: EffectExecutionRequest) => Promise<unknown>;
+export type CompensationExecutor = (receipt: unknown, context: { program_id: string; node_id: string }) => Promise<void>;
+
 export interface PureExecutionOptions {
   programs?: Record<string, MiraiProgram>;
   adapters?: PureAdapterRegistry;
@@ -60,6 +79,9 @@ interface ExecutionState {
   registry: Record<string, MiraiProgram>;
   adapters: PureAdapterRegistry;
   events: Record<string, unknown>;
+  effectExecutor?: EffectExecutor;
+  compensationExecutor?: CompensationExecutor;
+  externalEffectCount: number;
 }
 
 interface InternalResult {
@@ -123,10 +145,16 @@ function routeError(program: MiraiProgram, node: ProgramNode, error: unknown): s
   return program.error_routes.find((route) => route.error === code || route.error === "*")?.to;
 }
 
-async function executeProgram(program: MiraiProgram, rawInput: Record<string, unknown>, state: ExecutionState, depth: number): Promise<InternalResult> {
+async function executeProgram(
+  program: MiraiProgram,
+  rawInput: Record<string, unknown>,
+  state: ExecutionState,
+  depth: number,
+  invocationPath: string
+): Promise<InternalResult> {
   const validation = validateProgram(program);
   if (!validation.valid) throw new PureExecutionError("program_invalid", validation.errors.join(", "));
-  if (program.policies.allowed_effects.some((effect) => effect !== "pure")) throw new PureExecutionError("non_pure_effect_forbidden", "Pure interpreter accepts only pure effects");
+  if (!state.effectExecutor && program.policies.allowed_effects.some((effect) => effect !== "pure")) throw new PureExecutionError("non_pure_effect_forbidden", "Pure interpreter accepts only pure effects");
   const input = initializeSlots(program.inputs, rawInput, "input");
   const localState = initializeSlots(program.state, {}, "state");
   const scope: EvaluationScope = { input, state: localState, local: {} };
@@ -142,12 +170,34 @@ async function executeProgram(program: MiraiProgram, rawInput: Record<string, un
         const args = evaluateMap(node.args, scope);
         let result: unknown;
         if (node.target.kind === "program") {
-          result = (await executeProgram(resolveProgram(state, program, node.target.program), args, state, depth + 1)).outputs;
+          result = (await executeProgram(
+            resolveProgram(state, program, node.target.program),
+            args,
+            state,
+            depth + 1,
+            `${invocationPath}/call:${node.id}`
+          )).outputs;
         } else {
-          if ((node.effects || ["pure"]).some((effect) => effect !== "pure")) throw new PureExecutionError("non_pure_effect_forbidden", "Adapter call is not pure", node.id);
-          const operation = state.adapters[node.target.adapter]?.[node.target.operation];
-          if (!operation) throw new PureExecutionError("adapter_operation_not_found", `${node.target.adapter}.${node.target.operation}`, node.id);
-          result = await operation(args, { program_id: program.id, node_id: node.id, attempt: 1 });
+          const effects = node.effects || ["pure"];
+          if (effects.some((effect) => effect !== "pure")) {
+            if (!state.effectExecutor || !node.capability) throw new PureExecutionError("non_pure_effect_forbidden", "Adapter call is not authorized for governed execution", node.id);
+            state.externalEffectCount += 1;
+            result = await state.effectExecutor({
+              program_id: program.id,
+              program_digest: program.digest,
+              node_id: node.id,
+              invocation_id: `${invocationPath}/node:${node.id}`,
+              adapter: node.target.adapter,
+              operation: node.target.operation,
+              args,
+              effects,
+              capability: node.capability
+            });
+          } else {
+            const operation = state.adapters[node.target.adapter]?.[node.target.operation];
+            if (!operation) throw new PureExecutionError("adapter_operation_not_found", `${node.target.adapter}.${node.target.operation}`, node.id);
+            result = await operation(args, { program_id: program.id, node_id: node.id, attempt: 1 });
+          }
         }
         if (node.result) localState[node.result] = clone(result);
         record(state, program, node, depth, "completed", result);
@@ -169,9 +219,15 @@ async function executeProgram(program: MiraiProgram, rawInput: Record<string, un
         if (state.iterations > state.root.policies.budgets.max_iterations) throw new PureExecutionError("iteration_budget_exceeded", "Program exceeded max_iterations", node.id);
         const child = resolveProgram(state, program, node.program);
         const results: unknown[] = [];
-        for (const item of items) {
+        for (const [index, item] of items.entries()) {
           const childInput = { ...evaluateMap(node.input, scope), [node.item]: clone(item) };
-          results.push((await executeProgram(child, childInput, state, depth + 1)).outputs);
+          results.push((await executeProgram(
+            child,
+            childInput,
+            state,
+            depth + 1,
+            `${invocationPath}/foreach:${node.id}:${index}`
+          )).outputs);
         }
         if (node.result) localState[node.result] = results;
         record(state, program, node, depth, `iterations:${items.length}`, results);
@@ -181,7 +237,13 @@ async function executeProgram(program: MiraiProgram, rawInput: Record<string, un
         const branchResults: Array<{ id: string; value: Record<string, unknown> }> = [];
         for (const branch of node.branches) {
           const child = resolveProgram(state, program, branch.program);
-          const value = (await executeProgram(child, evaluateMap(branch.input, scope), state, depth + 1)).outputs;
+          const value = (await executeProgram(
+            child,
+            evaluateMap(branch.input, scope),
+            state,
+            depth + 1,
+            `${invocationPath}/parallel:${node.id}:${branch.id}`
+          )).outputs;
           branchResults.push({ id: branch.id, value });
         }
         let merged: unknown;
@@ -210,7 +272,13 @@ async function executeProgram(program: MiraiProgram, rawInput: Record<string, un
           if (state.iterations > state.root.policies.budgets.max_iterations) throw new PureExecutionError("iteration_budget_exceeded", "Program exceeded max_iterations", node.id);
           try {
             const startedAt = state.logicalTime;
-            result = await executeProgram(child, evaluateMap(node.input, scope), state, depth + 1);
+            result = await executeProgram(
+              child,
+              evaluateMap(node.input, scope),
+              state,
+              depth + 1,
+              `${invocationPath}/retry:${node.id}:${attempt}`
+            );
             const duration = state.logicalTime - startedAt;
             if (duration > node.timeout_ms) {
               result = undefined;
@@ -219,6 +287,7 @@ async function executeProgram(program: MiraiProgram, rawInput: Record<string, un
             record(state, program, node, depth, `succeeded_attempt:${attempt}`, result.outputs);
             break;
           } catch (error) {
+            if (error && typeof error === "object" && "retryable" in error && (error as { retryable?: boolean }).retryable === false) throw error;
             lastError = error;
             record(state, program, node, depth, `failed_attempt:${attempt}`);
           }
@@ -232,7 +301,13 @@ async function executeProgram(program: MiraiProgram, rawInput: Record<string, un
         }
       } else if (node.kind === "timeout") {
         const before = state.logicalTime;
-        const result = await executeProgram(resolveProgram(state, program, node.program), evaluateMap(node.input, scope), state, depth + 1);
+        const result = await executeProgram(
+          resolveProgram(state, program, node.program),
+          evaluateMap(node.input, scope),
+          state,
+          depth + 1,
+          `${invocationPath}/timeout:${node.id}`
+        );
         const duration = state.logicalTime - before;
         if (duration > node.timeout_ms) {
           record(state, program, node, depth, `timed_out:${duration}`);
@@ -248,7 +323,11 @@ async function executeProgram(program: MiraiProgram, rawInput: Record<string, un
         return { status: "cancelled", outputs: {}, state: localState };
       } else if (node.kind === "compensate") {
         const receipt = evaluateExpression(node.receipt, scope);
-        record(state, program, node, depth, "pure_compensation_recorded", receipt);
+        if (state.compensationExecutor) {
+          await state.compensationExecutor(receipt, { program_id: program.id, node_id: node.id });
+          state.externalEffectCount += 1;
+          record(state, program, node, depth, "compensated", receipt);
+        } else record(state, program, node, depth, "pure_compensation_recorded", receipt);
         current = node.next;
       } else if (node.kind === "emit") {
         const payload = node.payload === undefined ? null : evaluateExpression(node.payload, scope);
@@ -271,14 +350,23 @@ async function executeProgram(program: MiraiProgram, rawInput: Record<string, un
   throw new PureExecutionError("missing_terminal", `Program ${program.id} ended without return or cancel`);
 }
 
-export async function executePure(program: MiraiProgram, input: Record<string, unknown>, options: PureExecutionOptions = {}): Promise<PureEpisode> {
+async function executeInternal(
+  program: MiraiProgram,
+  input: Record<string, unknown>,
+  options: PureExecutionOptions,
+  effectExecutor?: EffectExecutor,
+  compensationExecutor?: CompensationExecutor
+): Promise<ExecutionEpisode> {
   const execution: ExecutionState = {
     trace: [], emitted: [], steps: 0, iterations: 0, logicalTime: 0, root: program,
     registry: { [program.id]: program, ...(options.programs || {}) },
     adapters: options.adapters || DEFAULT_PURE_ADAPTERS,
-    events: options.events || {}
+    events: options.events || {},
+    effectExecutor,
+    compensationExecutor,
+    externalEffectCount: 0
   };
-  const result = await executeProgram(program, clone(input), execution, 0);
+  const result = await executeProgram(program, clone(input), execution, 0, `root:${program.id}`);
   const inputDigest = digestValue(input);
   const outputDigest = digestValue(result.outputs);
   const traceDigest = digestValue(execution.trace);
@@ -298,8 +386,24 @@ export async function executePure(program: MiraiProgram, input: Record<string, u
     trace_digest: traceDigest,
     steps: execution.steps,
     logical_duration_ms: execution.logicalTime,
-    effects_executed: false,
+    effects_executed: execution.externalEffectCount > 0,
     canonical_write_allowed: false,
     limitations: ["Pure episodes contain no external effects or runtime authorization."]
   };
+}
+
+export async function executePure(program: MiraiProgram, input: Record<string, unknown>, options: PureExecutionOptions = {}): Promise<PureEpisode> {
+  const episode = await executeInternal(program, input, options);
+  if (episode.effects_executed) throw new PureExecutionError("pure_effect_boundary_broken", "Pure execution recorded an external effect");
+  return episode as PureEpisode;
+}
+
+export async function executeWithEffects(
+  program: MiraiProgram,
+  input: Record<string, unknown>,
+  effectExecutor: EffectExecutor,
+  options: PureExecutionOptions = {},
+  compensationExecutor?: CompensationExecutor
+): Promise<ExecutionEpisode> {
+  return executeInternal(program, input, options, effectExecutor, compensationExecutor);
 }

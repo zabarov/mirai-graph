@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zabarov.github.io/mirai/schemas/mirai-governed-episode.schema.json",
+  "title": "Mirai Governed Episode",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract_version", "episode_id", "run_id", "program_id", "program_digest", "input_digest", "replay_input", "status", "outputs", "output_digest", "final_state", "emitted_events", "trace", "trace_digest", "steps", "logical_duration_ms", "effects_executed", "effect_stubs", "receipt_refs", "policy_decision_refs", "checkpoint_ref", "canonical_write_allowed", "learning_update_allowed", "limitations"],
+  "properties": {
+    "contract_version": { "const": "1.0.0" },
+    "episode_id": { "type": "string", "minLength": 1 },
+    "run_id": { "type": "string", "minLength": 1 },
+    "program_id": { "type": "string", "minLength": 1 },
+    "program_digest": { "$ref": "#/$defs/digest" },
+    "input_digest": { "$ref": "#/$defs/digest" },
+    "replay_input": { "type": "object" },
+    "status": { "enum": ["completed", "cancelled"] },
+    "outputs": { "type": "object" },
+    "output_digest": { "$ref": "#/$defs/digest" },
+    "final_state": { "type": "object" },
+    "emitted_events": { "type": "array", "items": { "type": "object" } },
+    "trace": { "type": "array", "items": { "type": "object" } },
+    "trace_digest": { "$ref": "#/$defs/digest" },
+    "steps": { "type": "integer", "minimum": 1 },
+    "logical_duration_ms": { "type": "integer", "minimum": 1 },
+    "effects_executed": { "type": "boolean" },
+    "effect_stubs": { "type": "array", "items": { "$ref": "#/$defs/stub" } },
+    "receipt_refs": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+    "policy_decision_refs": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+    "checkpoint_ref": { "type": "string", "minLength": 1 },
+    "canonical_write_allowed": { "const": false },
+    "learning_update_allowed": { "const": false },
+    "limitations": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } }
+  },
+  "$defs": {
+    "digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "stub": {
+      "type": "object", "additionalProperties": false,
+      "required": ["sequence", "node_id", "invocation_id", "adapter", "operation", "args_digest", "status"],
+      "properties": {
+        "sequence": { "type": "integer", "minimum": 1 },
+        "receipt_id": { "type": "string", "minLength": 1 },
+        "node_id": { "type": "string", "minLength": 1 },
+        "invocation_id": { "type": "string", "minLength": 1 },
+        "adapter": { "type": "string", "minLength": 1 },
+        "operation": { "type": "string", "minLength": 1 },
+        "args_digest": { "$ref": "#/$defs/digest" },
+        "status": { "enum": ["verified", "compensated", "failed"] },
+        "result": true,
+        "result_digest": { "$ref": "#/$defs/digest" },
+        "error_code": { "type": "string", "minLength": 1 },
+        "error_message": { "type": "string", "minLength": 1 }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "status": { "const": "failed" } }, "required": ["status"] },
+          "then": { "required": ["error_code", "error_message"] },
+          "else": { "required": ["receipt_id", "result", "result_digest"] }
+        }
+      ]
+    }
+  }
+}
