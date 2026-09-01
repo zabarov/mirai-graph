@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zabarov.github.io/mirai/schemas/mirai-variance-pilot-result.schema.json",
+  "title": "Mirai Variance Pilot Result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract_version", "target_study_id", "pilot_study_id", "status", "source_revision", "source_artifact_digests", "design", "condition_results", "paired_effects", "review_status", "cost_usd", "claim_boundary"],
+  "properties": {
+    "contract_version": { "const": "1.0.0" },
+    "target_study_id": { "type": "string", "pattern": "^study\\.[a-z0-9._-]+$" },
+    "pilot_study_id": { "type": "string", "pattern": "^study\\.[a-z0-9._-]+$" },
+    "status": { "const": "exploratory_complete" },
+    "source_revision": { "type": "string", "pattern": "^[a-f0-9]{40}$" },
+    "source_artifact_digests": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["pilot_summary_sha256", "power_simulation_sha256"],
+      "properties": {
+        "pilot_summary_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "power_simulation_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+      }
+    },
+    "design": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["tasks", "domains", "model_snapshots", "conditions", "expected_cells", "observed_cells", "failed_cells", "model_substitutions"],
+      "properties": {
+        "tasks": { "const": 12 },
+        "domains": { "const": ["federation", "larena_code_generation", "ai_employee"] },
+        "model_snapshots": { "type": "array", "minItems": 2, "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+        "conditions": { "const": ["plain_instructions", "mirai_graph_1_4", "mirai_2_0"] },
+        "expected_cells": { "const": 144 },
+        "observed_cells": { "const": 144 },
+        "failed_cells": { "const": 0 },
+        "model_substitutions": { "const": 0 }
+      }
+    },
+    "condition_results": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["condition", "n", "technology_adherence_mean", "process_deviation_rate", "task_correctness_mean", "false_completion_claims", "skipped_mandatory_steps"],
+        "properties": {
+          "condition": { "enum": ["plain_instructions", "mirai_graph_1_4", "mirai_2_0"] },
+          "n": { "const": 48 },
+          "technology_adherence_mean": { "type": "number", "minimum": 0, "maximum": 1 },
+          "process_deviation_rate": { "type": "number", "minimum": 0, "maximum": 1 },
+          "task_correctness_mean": { "type": "number", "minimum": 0, "maximum": 1 },
+          "false_completion_claims": { "type": "integer", "minimum": 0 },
+          "skipped_mandatory_steps": { "type": "integer", "minimum": 0 }
+        }
+      }
+    },
+    "paired_effects": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["comparison", "mean_difference", "task_cluster_bootstrap_95", "task_cluster_count", "task_cluster_sample_variance", "iterations"],
+        "properties": {
+          "comparison": { "type": "string", "minLength": 1 },
+          "mean_difference": { "type": "number" },
+          "task_cluster_bootstrap_95": { "type": "array", "prefixItems": [{ "type": "number" }, { "type": "number" }], "minItems": 2, "maxItems": 2 },
+          "task_cluster_count": { "const": 12 },
+          "task_cluster_sample_variance": { "type": "number", "minimum": 0 },
+          "iterations": { "type": "integer", "minimum": 1000 }
+        }
+      }
+    },
+    "review_status": { "const": "independent_human_review_pending" },
+    "cost_usd": { "type": "number", "minimum": 0 },
+    "claim_boundary": { "type": "string", "minLength": 1 }
+  }
+}

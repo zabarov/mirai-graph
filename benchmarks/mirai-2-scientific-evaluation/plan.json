@@ -1,7 +1,7 @@
 {
   "contract_version": "1.0.0",
   "study_id": "study.mirai-2.technology-adherence.factorial-v1",
-  "status": "pilot_variance_pending",
+  "status": "pilot_variance_complete",
   "factors": {
     "model_class": ["strong_model", "weaker_model"],
     "control_system": ["plain_instructions", "mirai_graph_1_4", "mirai_2_0"]

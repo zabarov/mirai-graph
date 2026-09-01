@@ -1,0 +1,33 @@
+{
+  "contract_version": "1.0.0",
+  "target_study_id": "study.mirai-2.technology-adherence.factorial-v1",
+  "pilot_study_id": "study.mirai-2.domain-challenge.calibration-v2",
+  "status": "exploratory_complete",
+  "source_revision": "776949c6db8e7ecf684736627c840a52d5426c35",
+  "source_artifact_digests": {
+    "pilot_summary_sha256": "f530b4c46deb6a126f9392c0c149cff447336a2c43403d4801a702059613b165",
+    "power_simulation_sha256": "97a87853496e52d5817e9df0fd3ae65581c40378e965cf40791c35fc6af4042f"
+  },
+  "design": {
+    "tasks": 12,
+    "domains": ["federation", "larena_code_generation", "ai_employee"],
+    "model_snapshots": ["gpt-4o-2024-08-06", "gpt-5.6-luna", "gpt-5.6-terra", "gpt-5.6-sol"],
+    "conditions": ["plain_instructions", "mirai_graph_1_4", "mirai_2_0"],
+    "expected_cells": 144,
+    "observed_cells": 144,
+    "failed_cells": 0,
+    "model_substitutions": 0
+  },
+  "condition_results": [
+    {"condition": "plain_instructions", "n": 48, "technology_adherence_mean": 0.8776785714285714, "process_deviation_rate": 0.16666666666666666, "task_correctness_mean": 1, "false_completion_claims": 8, "skipped_mandatory_steps": 7},
+    {"condition": "mirai_graph_1_4", "n": 48, "technology_adherence_mean": 0.9770833333333333, "process_deviation_rate": 0.041666666666666664, "task_correctness_mean": 1, "false_completion_claims": 2, "skipped_mandatory_steps": 12},
+    {"condition": "mirai_2_0", "n": 48, "technology_adherence_mean": 1, "process_deviation_rate": 0, "task_correctness_mean": 1, "false_completion_claims": 0, "skipped_mandatory_steps": 0}
+  ],
+  "paired_effects": [
+    {"comparison": "mirai_2_0-minus-plain_instructions", "mean_difference": 0.12232142857142858, "task_cluster_bootstrap_95": [0.01220238095238102, 0.26851190476190395], "task_cluster_count": 12, "task_cluster_sample_variance": 0.05897988172541744, "iterations": 5000},
+    {"comparison": "mirai_2_0-minus-mirai_graph_1_4", "mean_difference": 0.022916666666666696, "task_cluster_bootstrap_95": [0, 0.06458333333333333], "task_cluster_count": 12, "task_cluster_sample_variance": 0.005165719696969697, "iterations": 5000}
+  ],
+  "review_status": "independent_human_review_pending",
+  "cost_usd": 0.8295299,
+  "claim_boundary": "Synthetic exploratory calibration with automated scoring. It supports variance and power planning only; independent human review and held-out confirmatory evaluation remain incomplete."
+}

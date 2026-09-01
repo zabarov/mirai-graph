@@ -22,7 +22,7 @@
   "properties": {
     "contract_version": { "const": "1.0.0" },
     "study_id": { "type": "string", "pattern": "^study\\.[a-z0-9._-]+$" },
-    "status": { "enum": ["pilot_variance_pending", "preregistered", "running", "analysis_locked", "complete"] },
+    "status": { "enum": ["pilot_variance_pending", "pilot_variance_complete", "preregistered", "running", "analysis_locked", "complete"] },
     "factors": {
       "type": "object",
       "additionalProperties": false,

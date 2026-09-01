@@ -104,18 +104,18 @@
     {
       "id": "gate.comparable_variance_pilot",
       "category": "science",
-      "status": "not_run",
-      "evidence_refs": ["benchmarks/mirai-2-scientific-evaluation/plan.json", "benchmarks/mirai-2-scientific-evaluation/power-analysis-readiness.json"],
-      "summary": "One engineering task per domain cannot estimate variance or compare the three control conditions.",
-      "blocker_reason": "Run comparable plain-instruction, Mirai Graph 1.4 and Mirai 2.0 conditions with strong and weaker models."
+      "status": "passed",
+      "evidence_refs": ["benchmarks/mirai-2-scientific-evaluation/plan.json", "benchmarks/mirai-2-scientific-evaluation/variance-pilot-result.json", "benchmarks/mirai-2-scientific-evaluation/power-analysis-readiness.json"],
+      "summary": "A 144-cell exploratory pilot compared plain instructions, Mirai Graph 1.4 and Mirai 2.0 across twelve tasks, three domains and four model snapshots, with task-cluster effect estimates.",
+      "limitations": ["The pilot was adaptively calibrated and automatically scored; it is suitable for variance planning, not confirmatory effectiveness claims."]
     },
     {
       "id": "gate.power_analysis",
       "category": "science",
-      "status": "blocked",
-      "evidence_refs": ["benchmarks/mirai-2-scientific-evaluation/power-analysis-readiness.json"],
-      "summary": "Power-analysis readiness is explicitly insufficient.",
-      "blocker_reason": "Variance estimates from the comparable pilot are required before freezing confirmatory sample size."
+      "status": "passed",
+      "evidence_refs": ["benchmarks/mirai-2-scientific-evaluation/variance-pilot-result.json", "benchmarks/mirai-2-scientific-evaluation/power-analysis-readiness.json"],
+      "summary": "A domain-stratified task-cluster simulation selected a conservative planning target of 30 held-out tasks per domain, 90 tasks and 1,080 cells total.",
+      "limitations": ["The sample-size decision remains provisional until independent calibration review is reconciled and the confirmatory protocol is frozen."]
     },
     {
       "id": "gate.confirmatory_factorial_evaluation",
@@ -152,13 +152,11 @@
   ],
   "blocking_gate_ids": [
     "gate.blinded_independent_human_review",
-    "gate.comparable_variance_pilot",
-    "gate.power_analysis",
     "gate.confirmatory_factorial_evaluation",
     "gate.independent_security_review",
     "gate.public_independent_checker",
     "gate.stable_release_metadata"
   ],
-  "next_safe_action": "Send the frozen security and blinded human-review packets to independent reviewers, publish the independent checker after its repository gate, and run the comparable variance pilot while keeping the package at 2.0.0-alpha.3.",
+  "next_safe_action": "Complete and reconcile the blinded calibration review, publish and verify the independent checker, obtain an independent security review, then freeze and execute the held-out confirmatory protocol while keeping the package at 2.0.0-alpha.3.",
   "claim_boundary": "This report supports current engineering conformance, safety-boundary and auditability claims only. It does not establish comparative effectiveness, model-independence or readiness for stable 2.0.0."
 }

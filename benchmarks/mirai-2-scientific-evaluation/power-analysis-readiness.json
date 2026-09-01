@@ -1,20 +1,16 @@
 {
   "contract_version": "1.0.0",
   "study_id": "study.mirai-2.technology-adherence.factorial-v1",
-  "status": "insufficient_evidence",
+  "status": "ready",
   "pilot_independent_task_counts": {
-    "federation": 1,
-    "larena_code_generation": 1,
-    "ai_employee": 1
+    "federation": 4,
+    "larena_code_generation": 4,
+    "ai_employee": 4
   },
   "variance_estimates": {
-    "technology_adherence": null
+    "technology_adherence": 0.05897988172541744
   },
-  "blockers": [
-    "One engineering fixture per domain cannot estimate within-domain outcome variance.",
-    "The current conditions are not randomized pairs and do not support an effect-size estimate.",
-    "Blinded independent human review has not been completed."
-  ],
-  "next_action": "Run a preregistered variance pilot with independent tasks and blinded scoring before fixing the confirmatory sample size.",
-  "claim_boundary": "No statistical power, model-quality improvement or comparative effectiveness claim is supported by the current engineering pilots."
+  "blockers": [],
+  "next_action": "Complete independent review of the calibration packet, then freeze and preregister the 30-task-per-domain held-out confirmatory design before collecting outcomes.",
+  "claim_boundary": "The task-cluster variance estimate and conservative power simulation support sample-size planning only. They do not constitute confirmatory effectiveness evidence."
 }
