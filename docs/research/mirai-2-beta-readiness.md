@@ -18,17 +18,16 @@ Status: engineering candidate; beta promotion blocked by external evidence
   allowlists and capability scope;
 - clean-room package installation passes for CommonJS, ESM and all CLI aliases;
   the 10-job development-branch CI matrix passed on Linux, macOS and Windows.
+- the independent Python checker is public at an exact revision; its Linux,
+  macOS and Windows jobs, package build and clean-clone corpus check pass.
 
 ## Promotion Blockers
 
 - blinded independent human review is pending for all three new pilot outputs;
-- Federation and AI Employee lack comparable prompt-only runs;
-- existing 1.4 evidence is historical rather than randomized alongside 2.0;
-- one independent task per domain cannot estimate variance;
-- power analysis and the confirmatory factorial experiment therefore remain
-  `insufficient_evidence`.
-- the independent checker is digest-bound and runs locally, but its intended
-  public repository and cross-platform CI evidence are not yet available;
+- the exploratory 144-cell variance pilot and power plan are complete, but
+  independent review of the calibration packet is still pending;
+- the held-out confirmatory factorial experiment has not been preregistered or
+  executed;
 - an independent security review has not been completed.
 
 ## Verdict

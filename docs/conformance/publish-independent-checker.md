@@ -1,12 +1,13 @@
 # Publish The Independent Checker
 
-Status: publication-ready local package; remote not configured
+Status: published and cross-platform verified
 
-The independent Python checker is implemented in a separate local repository
-and bound to revision `598621df0a181785805ff46cbfa1e98f2510615f`. It does not
-import the TypeScript Runtime. The intended public repository is
-`https://github.com/zabarov/mirai-conformance`, but no remote is currently
-configured, so the public-checker release gate remains blocked.
+The independent Python checker is published at
+`https://github.com/zabarov/mirai-conformance` and bound to revision
+`ca5ee98d6a3d83b41f6379a521f7f4c000e381c8`. It does not import the
+TypeScript Runtime. GitHub Actions run `33561590093` passed on Linux, macOS and
+Windows, built the Python distributions and reproduced all 13 shared corpus
+cases. A clean public clone also passed the checker tests and corpus locally.
 
 ## Publication Boundary
 
@@ -33,5 +34,6 @@ npm run validate:independent-graph-native-conformance
 npm run validate:independent-project-conformance
 ```
 
-`publication_status=local_only` is a valid honest state, but it does not close
-the public-independent-checker gate.
+`publication_status=published` closes only the public independent-conformance
+gate. It does not replace human scientific review, security review or
+production authorization.

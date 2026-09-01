@@ -136,10 +136,10 @@
     {
       "id": "gate.public_independent_checker",
       "category": "conformance",
-      "status": "blocked",
-      "evidence_refs": ["conformance/independent-checker.json"],
-      "summary": "The independent Python checker exists locally at a digest-bound revision but is not yet available from its intended public repository.",
-      "blocker_reason": "Publish the checker repository and run the same corpus from CI without importing the TypeScript implementation."
+      "status": "passed",
+      "evidence_refs": ["conformance/independent-checker.json", "https://github.com/zabarov/mirai-conformance/commit/ca5ee98d6a3d83b41f6379a521f7f4c000e381c8", "https://github.com/zabarov/mirai-conformance/actions/runs/33561590093"],
+      "summary": "The independent Python checker is public at an exact revision; Linux, macOS and Windows CI plus package build passed, and a clean public clone reproduced the shared corpus.",
+      "limitations": ["Independent conformance validates the declared contracts and public artifacts; it does not authorize production effects or establish scientific effectiveness."]
     },
     {
       "id": "gate.stable_release_metadata",
@@ -154,9 +154,8 @@
     "gate.blinded_independent_human_review",
     "gate.confirmatory_factorial_evaluation",
     "gate.independent_security_review",
-    "gate.public_independent_checker",
     "gate.stable_release_metadata"
   ],
-  "next_safe_action": "Complete and reconcile the blinded calibration review, publish and verify the independent checker, obtain an independent security review, then freeze and execute the held-out confirmatory protocol while keeping the package at 2.0.0-alpha.3.",
+  "next_safe_action": "Complete and reconcile the blinded calibration review, obtain an independent security review, then freeze and execute the held-out confirmatory protocol while keeping the package at 2.0.0-alpha.3.",
   "claim_boundary": "This report supports current engineering conformance, safety-boundary and auditability claims only. It does not establish comparative effectiveness, model-independence or readiness for stable 2.0.0."
 }

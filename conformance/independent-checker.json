@@ -2,14 +2,25 @@
   "contract_version": "1.0.0",
   "checker": {
     "repository": "https://github.com/zabarov/mirai-conformance",
-    "revision": "598621df0a181785805ff46cbfa1e98f2510615f",
+    "revision": "ca5ee98d6a3d83b41f6379a521f7f4c000e381c8",
     "language": "Python",
     "python_requires": ">=3.12",
     "imports_typescript_runtime": false,
     "publication": {
-      "status": "local_only",
-      "remote_verified": false,
+      "status": "published",
+      "remote_verified": true,
       "intended_remote": "https://github.com/zabarov/mirai-conformance",
+      "default_branch": "main",
+      "public_revision_url": "https://github.com/zabarov/mirai-conformance/commit/ca5ee98d6a3d83b41f6379a521f7f4c000e381c8",
+      "ci_run_url": "https://github.com/zabarov/mirai-conformance/actions/runs/33561590093",
+      "ci_conclusion": "success",
+      "ci_matrix": ["ubuntu-latest", "macos-latest", "windows-latest", "package"],
+      "clean_room": {
+        "status": "passed",
+        "tests_passed": 16,
+        "corpus_passed": 13,
+        "corpus_failed": 0
+      },
       "required_before_public_gate": [
         "configure_origin",
         "push_exact_revision",
