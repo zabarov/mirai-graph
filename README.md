@@ -15,6 +15,11 @@ machine-readable map that developers and AI assistants can validate and reuse.
 Status: `2.0.0-alpha.3` development branch. The stable compatibility line is
 `mirai-graph@1.4.1`.
 
+The machine-readable [2.0 release readiness report](releases/2.0.0-readiness.json)
+currently records nine passed engineering gates and eight unresolved external,
+scientific or publication gates. A green local suite therefore does not by
+itself authorize beta, RC or stable promotion.
+
 ## Mirai 2.0 Preview
 
 The third 2.0 alpha adds a capability-gated, host-local reference runtime to
@@ -34,6 +39,8 @@ node packages/cli/mirai.js conformance run conformance/corpus/pure/corpus.json
 node packages/cli/mirai.js run examples/mirai-governed-runtime-minimal/results/program.mirai.json \
   --input examples/mirai-governed-runtime-minimal/input.json \
   --sandbox examples/mirai-governed-runtime-minimal/sandbox
+npm run test:mirai-property-fuzz
+npm run validate:mirai-release-readiness
 ```
 
 Read [Mirai Program](standard/mirai-program.md), the

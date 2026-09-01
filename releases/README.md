@@ -16,6 +16,8 @@ Release notes must separate:
 
 ## Release Notes
 
+- [Mirai 2.0 stable readiness](2.0.0-readiness.json) - machine-readable passed,
+  blocked and not-run promotion gates for the development track.
 - [v2.0.0-alpha.3](2.0.0-alpha.3.md) - capability-gated reference adapters,
   durable execution, recovery, governed replay and sanitized evidence.
 - [v2.0.0-alpha.2](2.0.0-alpha.2.md) - deterministic pure interpreter,

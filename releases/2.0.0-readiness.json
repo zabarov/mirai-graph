@@ -1,0 +1,151 @@
+{
+  "contract_version": "1.0.0",
+  "release_id": "release.mirai.2.0.0",
+  "evaluated_version": "2.0.0-alpha.3",
+  "promotion_target": "2.0.0-beta.1",
+  "evaluated_at": "2026-09-01T05:26:00Z",
+  "overall_status": "blocked",
+  "gates": [
+    {
+      "id": "gate.automated_test_suite",
+      "category": "engineering",
+      "status": "passed",
+      "evidence_refs": ["package.json", "test/program", "test/runtime"],
+      "summary": "Schema, unit, integration, negative, crash, recovery and migration checks pass in the repository release suite."
+    },
+    {
+      "id": "gate.property_fuzz_suite",
+      "category": "safety",
+      "status": "passed",
+      "evidence_refs": ["test/program/property-fuzz.test.cjs", "test/runtime/security-fuzz.test.cjs"],
+      "summary": "A deterministic bounded property/fuzz corpus covers canonical digests, invalid Program mutations, expression boundaries, path escape, command allowlists and capability scope.",
+      "limitations": ["This bounded deterministic corpus is not a substitute for an independent security assessment or open-ended fuzz campaign."]
+    },
+    {
+      "id": "gate.cross_implementation_conformance",
+      "category": "conformance",
+      "status": "passed",
+      "evidence_refs": ["conformance/results/typescript-pure-result.json", "conformance/results/python-pure-result.json", "conformance/independent-checker.json"],
+      "summary": "TypeScript and independent Python implementations agree on the complete portable pure conformance corpus and three runtime evidence artifacts."
+    },
+    {
+      "id": "gate.controlled_engineering_pilots",
+      "category": "pilot",
+      "status": "passed",
+      "evidence_refs": ["pilots/mirai-2-beta-federation/results/pilot-result.json", "pilots/mirai-2-beta-larena/results/pilot-result.json", "pilots/mirai-2-beta-ai-employee/results/pilot-result.json"],
+      "summary": "Federation, Larena and AI Employee engineering pilots completed with public-safe episodes, replay and explicit limitations.",
+      "limitations": ["The pilots are engineering evidence and do not establish comparative effectiveness."]
+    },
+    {
+      "id": "gate.zero_unauthorized_effects",
+      "category": "safety",
+      "status": "passed",
+      "evidence_refs": ["packages/cli/validate-mirai-beta-pilots.js", "test/runtime/governed-runtime.test.cjs"],
+      "summary": "Controlled suites recorded zero unauthorized effects and verify capability, approval and sandbox boundaries."
+    },
+    {
+      "id": "gate.zero_false_acceptance",
+      "category": "safety",
+      "status": "passed",
+      "evidence_refs": ["test/runtime/governed-runtime.test.cjs", "standard/technology-quality-feedback.md"],
+      "summary": "Nonzero test results, uncertain receipts and missing required evidence block completion."
+    },
+    {
+      "id": "gate.zero_duplicate_verified_effects",
+      "category": "safety",
+      "status": "passed",
+      "evidence_refs": ["test/runtime/governed-runtime.test.cjs"],
+      "summary": "Crash and retry fixtures do not duplicate verified effects; uncertain effects fail closed and require reconciliation."
+    },
+    {
+      "id": "gate.migration_compatibility",
+      "category": "compatibility",
+      "status": "passed",
+      "evidence_refs": ["test/program/migration.test.cjs", "test/program/package-compat.test.cjs", "docs/adoption/migrate-1.4-to-2.0.md"],
+      "summary": "The 1.4 compatibility corpus and deterministic migration/proposal behavior pass locally."
+    },
+    {
+      "id": "gate.clean_room_local_install",
+      "category": "release",
+      "status": "passed",
+      "evidence_refs": ["packages/cli/validate-clean-room-install.js", ".github/workflows/ci.yml"],
+      "summary": "Local tarball installation passes for CommonJS, ESM, the primary CLI and compatibility aliases."
+    },
+    {
+      "id": "gate.cross_platform_ci_evidence",
+      "category": "release",
+      "status": "not_run",
+      "evidence_refs": [".github/workflows/ci.yml"],
+      "summary": "Linux, macOS and Windows jobs are defined but no remote run for this development revision is attached.",
+      "blocker_reason": "A pushed review branch and observed green CI matrix are required before release-candidate promotion."
+    },
+    {
+      "id": "gate.blinded_independent_human_review",
+      "category": "pilot",
+      "status": "not_run",
+      "evidence_refs": ["docs/research/mirai-2-blinded-review-guide.md", "docs/research/mirai-2-external-review-packet.md"],
+      "summary": "The review protocol exists, but independent blinded verdicts are not yet recorded.",
+      "blocker_reason": "All three domain outputs require review by people who did not produce the runs and cannot see the experimental condition."
+    },
+    {
+      "id": "gate.comparable_variance_pilot",
+      "category": "science",
+      "status": "not_run",
+      "evidence_refs": ["benchmarks/mirai-2-scientific-evaluation/plan.json", "benchmarks/mirai-2-scientific-evaluation/power-analysis-readiness.json"],
+      "summary": "One engineering task per domain cannot estimate variance or compare the three control conditions.",
+      "blocker_reason": "Run comparable plain-instruction, Mirai Graph 1.4 and Mirai 2.0 conditions with strong and weaker models."
+    },
+    {
+      "id": "gate.power_analysis",
+      "category": "science",
+      "status": "blocked",
+      "evidence_refs": ["benchmarks/mirai-2-scientific-evaluation/power-analysis-readiness.json"],
+      "summary": "Power-analysis readiness is explicitly insufficient.",
+      "blocker_reason": "Variance estimates from the comparable pilot are required before freezing confirmatory sample size."
+    },
+    {
+      "id": "gate.confirmatory_factorial_evaluation",
+      "category": "science",
+      "status": "not_run",
+      "evidence_refs": ["docs/research/mirai-2-scientific-evaluation-protocol.md"],
+      "summary": "The factorial protocol is specified but has not been executed.",
+      "blocker_reason": "A preregistered, blinded confirmatory study is required for comparative scientific claims."
+    },
+    {
+      "id": "gate.independent_security_review",
+      "category": "safety",
+      "status": "not_run",
+      "evidence_refs": ["docs/security/mirai-runtime-threat-model.md"],
+      "summary": "The threat model and internal adversarial tests exist, but an independent security review has not been completed.",
+      "blocker_reason": "An independent reviewer must assess command, path, capability, approval, archive and secret-leakage boundaries."
+    },
+    {
+      "id": "gate.public_independent_checker",
+      "category": "conformance",
+      "status": "blocked",
+      "evidence_refs": ["conformance/independent-checker.json"],
+      "summary": "The independent Python checker exists locally at a digest-bound revision but is not yet available from its intended public repository.",
+      "blocker_reason": "Publish the checker repository and run the same corpus from CI without importing the TypeScript implementation."
+    },
+    {
+      "id": "gate.stable_release_metadata",
+      "category": "release",
+      "status": "blocked",
+      "evidence_refs": ["package.json", "README.md", "ROADMAP.md"],
+      "summary": "Metadata intentionally identifies the current package as 2.0.0-alpha.3.",
+      "blocker_reason": "Version, release notes, tag, GitHub Release and npm metadata may change only after all promotion gates pass."
+    }
+  ],
+  "blocking_gate_ids": [
+    "gate.cross_platform_ci_evidence",
+    "gate.blinded_independent_human_review",
+    "gate.comparable_variance_pilot",
+    "gate.power_analysis",
+    "gate.confirmatory_factorial_evaluation",
+    "gate.independent_security_review",
+    "gate.public_independent_checker",
+    "gate.stable_release_metadata"
+  ],
+  "next_safe_action": "Prepare condition-blinded review bundles and run a comparable variance pilot while keeping the package at 2.0.0-alpha.3.",
+  "claim_boundary": "This report supports current engineering conformance, safety-boundary and auditability claims only. It does not establish comparative effectiveness, model-independence or readiness for stable 2.0.0."
+}

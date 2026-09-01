@@ -126,9 +126,11 @@ Proposal or experimental profile:
 - [Baseline Comparison Protocol](research/baseline-comparison-protocol.md)
 - [Limitations And Threats](research/limitations-and-threats.md)
 - [Mirai 2 Beta Readiness](research/mirai-2-beta-readiness.md)
+- [Mirai 2 Machine-Readable Release Readiness](../releases/2.0.0-readiness.json)
 - [Mirai 2 Scientific Evaluation Protocol](research/mirai-2-scientific-evaluation-protocol.md)
 - [Mirai 2 Metric Dictionary](research/mirai-2-metric-dictionary.md)
 - [Mirai 2 Blinded Review Guide](research/mirai-2-blinded-review-guide.md)
+- [Mirai 2 External Review Packet Contract](research/mirai-2-external-review-packet.md)
 - [Publications](../publications/README.md)
 
 ## Releases And Project Process

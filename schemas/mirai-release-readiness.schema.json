@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zabarov.github.io/mirai/schemas/mirai-release-readiness.schema.json",
+  "title": "Mirai Release Readiness",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "release_id",
+    "evaluated_version",
+    "promotion_target",
+    "evaluated_at",
+    "overall_status",
+    "gates",
+    "blocking_gate_ids",
+    "next_safe_action",
+    "claim_boundary"
+  ],
+  "properties": {
+    "contract_version": { "const": "1.0.0" },
+    "release_id": { "type": "string", "pattern": "^release\\.mirai\\.[a-z0-9._-]+$" },
+    "evaluated_version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(?:-[0-9A-Za-z.-]+)?$" },
+    "promotion_target": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(?:-[0-9A-Za-z.-]+)?$" },
+    "evaluated_at": { "type": "string", "format": "date-time" },
+    "overall_status": { "enum": ["ready", "blocked"] },
+    "gates": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "category", "status", "evidence_refs", "summary"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^gate\\.[a-z0-9._-]+$" },
+          "category": {
+            "enum": ["engineering", "conformance", "safety", "compatibility", "pilot", "science", "release"]
+          },
+          "status": { "enum": ["passed", "blocked", "not_run"] },
+          "evidence_refs": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "summary": { "type": "string", "minLength": 1 },
+          "blocker_reason": { "type": "string", "minLength": 1 },
+          "limitations": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": { "type": "string", "minLength": 1 }
+          }
+        },
+        "allOf": [
+          {
+            "if": { "properties": { "status": { "const": "passed" } }, "required": ["status"] },
+            "then": { "properties": { "evidence_refs": { "minItems": 1 } } }
+          },
+          {
+            "if": { "properties": { "status": { "enum": ["blocked", "not_run"] } }, "required": ["status"] },
+            "then": { "required": ["blocker_reason"] }
+          }
+        ]
+      }
+    },
+    "blocking_gate_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string", "pattern": "^gate\\.[a-z0-9._-]+$" }
+    },
+    "next_safe_action": { "type": "string", "minLength": 1 },
+    "claim_boundary": { "type": "string", "minLength": 1 }
+  }
+}

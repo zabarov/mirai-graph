@@ -13,6 +13,9 @@ Status: engineering candidate; beta promotion blocked by external evidence
 - independent Python corpus result: exact match;
 - independent Python episode/evidence checks: 3 passed, 0 failed;
 - full compatibility and release check passed;
+- deterministic bounded property/fuzz checks cover canonical digests, invalid
+  Program mutations, expression prototype boundaries, path escape, command
+  allowlists and capability scope;
 - clean-room package installation passes locally for CommonJS, ESM and all CLI
   aliases; CI defines the same check for Linux, macOS and Windows.
 
@@ -24,6 +27,9 @@ Status: engineering candidate; beta promotion blocked by external evidence
 - one independent task per domain cannot estimate variance;
 - power analysis and the confirmatory factorial experiment therefore remain
   `insufficient_evidence`.
+- the independent checker is digest-bound and runs locally, but its intended
+  public repository and cross-platform CI evidence are not yet available;
+- an independent security review has not been completed.
 
 ## Verdict
 
@@ -31,3 +37,9 @@ The implementation is technically ready for a controlled beta evidence round,
 but the package remains `2.0.0-alpha.3` until the external review and variance
 pilot gates are met. Current evidence supports executable conformance and
 auditability claims, not comparative effectiveness or stable release.
+
+The authoritative gate inventory is
+[`releases/2.0.0-readiness.json`](../../releases/2.0.0-readiness.json). The
+[external review packet contract](mirai-2-external-review-packet.md) defines
+how the next human evidence must be prepared without pretending that internal
+engineering review was blinded.

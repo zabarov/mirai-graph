@@ -246,13 +246,20 @@ Release sequence and current status:
    capability-gated reference adapters, durable receipts and checkpoints,
    effect-stub replay, recovery, compensation and sanitized evidence export;
 4. `2.0.0-beta.1`: engineering pilot and independent-checker package is
-   complete; promotion awaits blinded external review and a variance pilot;
-5. `2.0.0-rc.1`: API freeze, security review and clean-room installation;
+   complete; property/fuzz and machine-readable readiness gates are also in
+   place, while promotion awaits blinded external review and a variance pilot;
+5. `2.0.0-rc.1`: API freeze, independent security review, observed
+   cross-platform CI and clean-room installation;
 6. `2.0.0`: stable only after all conformance, safety and pilot gates pass.
 
 The existing `graph.json` manifest contract is already `2.0.0`; that number is
 not the product release number. New Mirai Program and Runtime contracts have
 their own versions.
+
+Current promotion truth is recorded in
+[`releases/2.0.0-readiness.json`](releases/2.0.0-readiness.json). This report is
+validated in `npm test`; non-passed mandatory gates keep the overall state
+blocked rather than being hidden behind a green engineering suite.
 
 ## Near-Term Work After 1.4
 

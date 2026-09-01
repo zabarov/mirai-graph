@@ -14,6 +14,11 @@ All notable changes to Mirai Graph will be documented in this file.
   CLI commands for the complete run lifecycle.
 - Added schemas, synthetic fixtures and negative safety, crash and recovery
   tests for the governed runtime.
+- Added deterministic bounded property/fuzz tests for canonical digests,
+  Program mutations, expression boundaries, sandbox paths, command allowlists
+  and capability scope.
+- Added a machine-readable stable-readiness report and external blinded-review
+  packaging contract; unresolved gates remain explicit and block promotion.
 
 ### Safety Boundary
 
