@@ -11,6 +11,10 @@ internal test result cannot close the independent-review gate.
 The current internal baseline is documented in
 [`mirai-internal-security-baseline-2026-09-01.md`](mirai-internal-security-baseline-2026-09-01.md).
 Reviewers should treat it as a map of tested claims, not as a trusted verdict.
+Repository-level CodeQL, dependency monitoring and the public disclosure
+boundary are supporting controls defined in `.github/workflows/codeql.yml`,
+`.github/dependabot.yml` and `SECURITY.md`. Automated results do not replace
+this review.
 
 ## Review Scope
 
