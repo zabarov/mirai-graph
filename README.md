@@ -16,9 +16,30 @@ Status: `2.0.0-alpha.3` development branch. The stable compatibility line is
 `mirai-graph@1.4.1`.
 
 The machine-readable [2.0 release readiness report](releases/2.0.0-readiness.json)
-currently records ten passed engineering gates and seven unresolved external,
+currently records twelve passed engineering gates and seven unresolved external,
 scientific or publication gates. A green local suite therefore does not by
 itself authorize beta, RC or stable promotion.
+
+### Production Readiness
+
+Mirai readiness is target-specific, not a single yes/no label:
+
+- `development` and `sandbox`: ready for local experimentation and controlled
+  no-effect runs;
+- `production_read`: eligible after the deployment-specific readiness profile
+  is completed and reviewed;
+- `production_write`: currently blocked until independent security review,
+  public conformance evidence, operator recovery evidence and deployment owner
+  approval are recorded;
+- live network, secret-changing, financial and public-publishing effects remain
+  outside the reference runtime.
+
+See the [production-readiness standard](standard/production-readiness.md),
+[operations contract](docs/operations/mirai-production-operations.md),
+[internal security baseline](docs/security/mirai-internal-security-baseline-2026-09-01.md)
+and [external review packet](docs/security/mirai-independent-security-review-packet.md).
+Passing repository tests is necessary engineering evidence, but is not by
+itself authorization to run against a production target.
 
 ## Mirai 2.1 Development Preview
 
@@ -128,13 +149,13 @@ Start with a normal repository and use Mirai to:
 ## Stable 1.4 Installation
 
 The published stable line remains `mirai-graph@1.4.1`. To verify that release
-from its tag, use:
+from a clean npm installation, use:
 
 ```bash
-git clone --branch v1.4.1 https://github.com/zabarov/mirai-graph.git
-cd mirai-graph
-npm install
-npm run release:check
+mkdir mirai-stable-check && cd mirai-stable-check
+npm init -y
+npm install mirai-graph@1.4.1
+npx mirai-graph --version
 ```
 
 Existing projects use:
@@ -440,8 +461,8 @@ The stable 1.0 release consolidates the validator-backed public standard
 across the core model, profiles, executable process control, instrumentation,
 Character Layer, adopter kit and evidence boundaries.
 
-`1.0.0-rc.6` specifically presents the anti-drift / quality-control contour as
-one coherent review surface:
+The final 1.0 release-candidate line presented the anti-drift and
+quality-control contour as one coherent review surface:
 
 ```text
 semantic intent
@@ -452,8 +473,7 @@ semantic intent
 -> Kaizen / replay / regression candidate
 ```
 
-See [v1.0.0-rc.6](releases/1.0.0-rc.6.md) and the
-[Release Process](releases/README.md).
+See the [release history and process](releases/README.md).
 
 ## What This Repository Is Not
 

@@ -20,6 +20,8 @@ const requiredGateIds = [
   "gate.migration_compatibility",
   "gate.clean_room_local_install",
   "gate.cross_platform_ci_evidence",
+  "gate.contract_freeze_candidate",
+  "gate.production_operations_contract",
   "gate.blinded_independent_human_review",
   "gate.comparable_variance_pilot",
   "gate.power_analysis",

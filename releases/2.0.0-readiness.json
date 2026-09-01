@@ -3,7 +3,7 @@
   "release_id": "release.mirai.2.0.0",
   "evaluated_version": "2.0.0-alpha.3",
   "promotion_target": "2.0.0-beta.1",
-  "evaluated_at": "2026-09-01T05:26:00Z",
+  "evaluated_at": "2026-09-01T20:30:00Z",
   "overall_status": "blocked",
   "gates": [
     {
@@ -79,6 +79,21 @@
       "summary": "The 10-job Node 20 matrix passed on Linux, macOS and Windows for Program, Runtime, property/fuzz, context traversal, clean-room packaging and the full release check."
     },
     {
+      "id": "gate.contract_freeze_candidate",
+      "category": "compatibility",
+      "status": "passed",
+      "evidence_refs": ["releases/2.0.0-contract-freeze-candidate.json", "packages/cli/validate-contract-freeze-candidate.js"],
+      "summary": "Program, Runtime and capability 1.0 surfaces have a machine-validated freeze candidate; additive Mirai 2.1 activation and project surfaces remain explicitly draft."
+    },
+    {
+      "id": "gate.production_operations_contract",
+      "category": "safety",
+      "status": "passed",
+      "evidence_refs": ["standard/production-readiness.md", "examples/production-readiness-minimal/production-readiness.json", "docs/operations/mirai-production-operations.md"],
+      "summary": "A validated tier contract distinguishes production-read from production-write and binds stop, backup, rollback, reconciliation, retention, monitoring and evidence controls.",
+      "limitations": ["The passed contract supports production-read readiness only; it does not authorize a live adapter or production write."]
+    },
+    {
       "id": "gate.blinded_independent_human_review",
       "category": "pilot",
       "status": "not_run",
@@ -144,6 +159,6 @@
     "gate.public_independent_checker",
     "gate.stable_release_metadata"
   ],
-  "next_safe_action": "Prepare condition-blinded review bundles and run a comparable variance pilot while keeping the package at 2.0.0-alpha.3.",
+  "next_safe_action": "Send the frozen security and blinded human-review packets to independent reviewers, publish the independent checker after its repository gate, and run the comparable variance pilot while keeping the package at 2.0.0-alpha.3.",
   "claim_boundary": "This report supports current engineering conformance, safety-boundary and auditability claims only. It does not establish comparative effectiveness, model-independence or readiness for stable 2.0.0."
 }

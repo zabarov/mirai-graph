@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zabarov.github.io/mirai/schemas/mirai-runtime-health.schema.json",
+  "title": "Mirai Runtime Health",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "status",
+    "host_state_ref",
+    "run_counts",
+    "receipt_counts",
+    "recovery_required_runs",
+    "active_run_ids",
+    "diagnostics",
+    "sensitive_data_exposed",
+    "canonical_write_allowed"
+  ],
+  "properties": {
+    "contract_version": { "const": "1.0.0" },
+    "status": { "enum": ["empty", "healthy", "degraded", "blocked"] },
+    "host_state_ref": { "const": "host-local://mirai-home" },
+    "run_counts": { "$ref": "#/$defs/counts" },
+    "receipt_counts": { "$ref": "#/$defs/counts" },
+    "recovery_required_runs": { "$ref": "#/$defs/ids" },
+    "active_run_ids": { "$ref": "#/$defs/ids" },
+    "diagnostics": { "$ref": "#/$defs/ids" },
+    "sensitive_data_exposed": { "const": false },
+    "canonical_write_allowed": { "const": false }
+  },
+  "$defs": {
+    "counts": {
+      "type": "object",
+      "additionalProperties": { "type": "integer", "minimum": 0 }
+    },
+    "ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    }
+  }
+}

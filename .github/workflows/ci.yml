@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - codex/mirai-2.0
+      - codex/mirai-2.1
   pull_request:
 
 jobs:
@@ -108,3 +109,34 @@ jobs:
 
       - name: Run release check
         run: npm run release:check
+
+  readiness-contracts:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install package dependencies
+        run: npm ci
+
+      - name: Build runtime contracts
+        run: npm run build
+
+      - name: Validate production-readiness tiers
+        run: npm run validate:production-readiness
+
+      - name: Reject unsafe production-write fixture
+        run: npm run test:production-readiness-negative
+
+      - name: Validate contract freeze candidate
+        run: npm run validate:contract-freeze-candidate
+
+      - name: Validate honest release status
+        run: npm run validate:mirai-release-readiness

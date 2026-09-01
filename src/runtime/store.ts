@@ -64,13 +64,33 @@ export class RunStore {
   readonly runsRoot: string;
   readonly indexRoot: string;
 
-  constructor(home = process.env.MIRAI_HOME || path.join(os.homedir(), ".mirai")) {
+  constructor(home = process.env.MIRAI_HOME || path.join(os.homedir(), ".mirai"), options: { create?: boolean } = {}) {
     this.home = path.resolve(home);
     this.runsRoot = path.join(this.home, "runs");
     this.indexRoot = path.join(this.home, "run-index");
+    if (options.create === false) {
+      for (const directory of [this.home, this.runsRoot, this.indexRoot]) {
+        if (fs.existsSync(directory) && fs.lstatSync(directory).isSymbolicLink()) throw new Error(`runtime_symlink_forbidden:${directory}`);
+      }
+      return;
+    }
     ensurePrivateDirectory(this.home);
     ensurePrivateDirectory(this.runsRoot);
     ensurePrivateDirectory(this.indexRoot);
+  }
+
+  listRunIds(): string[] {
+    if (!fs.existsSync(this.indexRoot)) return [];
+    if (fs.lstatSync(this.indexRoot).isSymbolicLink()) throw new Error(`runtime_symlink_forbidden:${this.indexRoot}`);
+    return fs.readdirSync(this.indexRoot)
+      .filter((file) => file.endsWith(".json"))
+      .sort()
+      .map((file) => {
+        const entry = readJson<RunIndexEntry>(path.join(this.indexRoot, file));
+        if (`${safeSegment(entry.run_id)}.json` !== file) throw new Error(`run_index_filename_mismatch:${file}`);
+        this.directory(entry.run_id);
+        return entry.run_id;
+      });
   }
 
   createRun(options: {

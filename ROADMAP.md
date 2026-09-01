@@ -285,9 +285,11 @@ not a new profile and does not change Program `1.0.0` or Runtime `1.0.0`.
 The development implementation currently covers the alpha contracts, durable
 no-effect activation, the synthetic Federation pilot and independent Python
 checks for activation plans and run evidence. Beta engineering work is present,
-but effectful pilot coverage, security review, contract freeze and external
-scientific evaluation remain open. It must not be promoted to a 2.1 npm release
-before stable 2.0 and the remaining beta/RC gates.
+and the repository now includes a machine-validated 2.0 contract-freeze
+candidate plus a production-read operations contract. Effectful pilot coverage,
+independent security review and external scientific evaluation remain open. It
+must not be promoted to a 2.1 npm release before stable 2.0 and the remaining
+beta/RC gates.
 
 Current promotion truth is recorded in
 [`releases/2.0.0-readiness.json`](releases/2.0.0-readiness.json). This report is

@@ -22,7 +22,11 @@ function approvalKey(home: string): Buffer {
   const filename = path.join(root, KEY_FILE);
   if (fs.existsSync(filename)) {
     if (fs.lstatSync(filename).isSymbolicLink()) throw new Error("approval_key_symlink_forbidden");
-    return fs.readFileSync(filename);
+    const stat = fs.statSync(filename);
+    if (process.platform !== "win32" && (stat.mode & 0o077) !== 0) throw new Error("approval_key_permissions_too_open");
+    const existing = fs.readFileSync(filename);
+    if (existing.byteLength !== 32) throw new Error("approval_key_length_invalid");
+    return existing;
   }
   const key = randomBytes(32);
   fs.writeFileSync(filename, key, { mode: 0o600, flag: "wx" });
@@ -53,6 +57,9 @@ export function createApprovalReceipt(options: {
   now?: Date;
 }): ApprovalReceipt {
   const now = options.now || new Date();
+  const ttlMs = options.ttl_ms ?? 15 * 60 * 1000;
+  if (!Number.isInteger(ttlMs) || ttlMs < 1 || ttlMs > 24 * 60 * 60 * 1000) throw new Error("approval_ttl_invalid");
+  if (!options.approver.trim()) throw new Error("approval_approver_required");
   const effects = [...new Set(options.effects)].sort();
   if (!effects.length) throw new Error("approval_effects_required");
   const payload = {
@@ -65,7 +72,7 @@ export function createApprovalReceipt(options: {
     node_ids: [...new Set(options.node_ids || [])].sort(),
     approver: options.approver,
     issued_at: now.toISOString(),
-    expires_at: new Date(now.getTime() + (options.ttl_ms || 15 * 60 * 1000)).toISOString(),
+    expires_at: new Date(now.getTime() + ttlMs).toISOString(),
     canonical_write_allowed: false as const,
     signature_algorithm: "hmac-sha256-local" as const
   };

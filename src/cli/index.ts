@@ -14,6 +14,7 @@ import {
   createApprovalReceipt,
   exportSanitizedEvidence,
   inspectGovernedRun,
+  inspectRuntimeHealth,
   reconcileGovernedRun,
   replayGovernedEpisode,
   resumeGovernedRun,
@@ -67,6 +68,7 @@ function usage(): void {
     "  mirai cancel <run-id> [--home <mirai-home>]",
     "  mirai reconcile <run-id> [--home <mirai-home>]",
     "  mirai inspect <run-id> [--home <mirai-home>]",
+    "  mirai operations status [--home <mirai-home>]",
     "  mirai evidence export <run-id> --out <dir> [--home <mirai-home>]",
     "  mirai migrate <technology-or-project> --from 1.4 --dry-run [--bindings <bindings.json>]",
     "  mirai source scan <path> [--out <catalog.json>]",
@@ -467,6 +469,12 @@ export async function runCli(args: string[]): Promise<number> {
     if (args[0] === "inspect") {
       writeJson(inspectGovernedRun(requireArgument(args[1], "run id"), { home: runtimeHome(args) }));
       return 0;
+    }
+
+    if (args[0] === "operations" && args[1] === "status") {
+      const result = inspectRuntimeHealth(runtimeHome(args));
+      writeJson(result);
+      return result.status === "blocked" ? 2 : 0;
     }
 
     if (args[0] === "evidence" && args[1] === "export") {

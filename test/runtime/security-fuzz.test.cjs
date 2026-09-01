@@ -90,3 +90,51 @@ test("generated cross-run and scope mutations invalidate capability grants", () 
     assert(validateGrant(wrongResource, request).includes("grant_operation_scope_mismatch"));
   }
 });
+
+test("custom capability path prefixes require a segment boundary", () => {
+  const { sandbox } = temporarySandbox();
+  const policy = {
+    contract_version: "1.0.0",
+    grant_ttl_ms: 60_000,
+    max_calls_per_grant: 1,
+    rules: [{
+      id: "capability.repository.safe",
+      adapters: ["repository"],
+      operations: ["read_file"],
+      effects: ["repository_read"],
+      resource_prefixes: ["./safe"],
+      approval_required: false
+    }]
+  };
+  const provider = new ReferenceCapabilityProvider(policy, { home: sandbox, sandbox, apply: false });
+  const requestFor = (resource) => buildCapabilityRequest({
+    run_id: "run.prefix",
+    program_digest: `sha256:${"b".repeat(64)}`,
+    node_id: "node.read",
+    adapter: "repository",
+    action: "read_file",
+    resource,
+    effects: ["repository_read"],
+    capability: "capability.repository.safe",
+    budget: { max_calls: 1, max_bytes: 4096 },
+    policy_digest: policyDigest(policy),
+    approval_required: false
+  });
+  assert.equal(provider.request(requestFor("./safe/file.txt")).decision.decision, "granted");
+  assert.equal(provider.request(requestFor("./safe-escape/file.txt")).decision.decision, "denied");
+});
+
+test("approval creation rejects invalid lifetime and empty approver", () => {
+  const { sandbox } = temporarySandbox();
+  const { createApprovalReceipt } = require("../../dist/cjs/runtime");
+  const base = {
+    home: path.join(sandbox, ".mirai"),
+    program_digest: `sha256:${"c".repeat(64)}`,
+    sandbox,
+    effects: ["workspace_patch"],
+    approver: "owner"
+  };
+  assert.throws(() => createApprovalReceipt({ ...base, ttl_ms: 0 }), /approval_ttl_invalid/);
+  assert.throws(() => createApprovalReceipt({ ...base, ttl_ms: 24 * 60 * 60 * 1000 + 1 }), /approval_ttl_invalid/);
+  assert.throws(() => createApprovalReceipt({ ...base, approver: "   " }), /approval_approver_required/);
+});

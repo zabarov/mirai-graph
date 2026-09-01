@@ -7,7 +7,7 @@ const Ajv2020 = require("ajv/dist/2020").default;
 const addFormats = require("ajv-formats").default;
 
 const { programDigest } = require("../../dist/cjs/program");
-const { RunStore, createApprovalReceipt, startGovernedRun, buildSanitizedEvidence } = require("../../dist/cjs/runtime");
+const { RunStore, createApprovalReceipt, startGovernedRun, buildSanitizedEvidence, inspectRuntimeHealth } = require("../../dist/cjs/runtime");
 
 function schema(name) {
   return JSON.parse(fs.readFileSync(path.resolve(__dirname, "../../schemas", name), "utf8"));
@@ -51,7 +51,8 @@ test("runtime contracts validate reference host-local artifacts", async () => {
     "mirai-capability-request.schema.json": JSON.parse(fs.readFileSync(path.join(directory, "capability-requests", fs.readdirSync(path.join(directory, "capability-requests"))[0]), "utf8")),
     "mirai-capability-grant.schema.json": JSON.parse(fs.readFileSync(path.join(directory, "capabilities", fs.readdirSync(path.join(directory, "capabilities"))[0]), "utf8")),
     "mirai-policy-decision.schema.json": JSON.parse(fs.readFileSync(path.join(directory, "policy-decisions", fs.readdirSync(path.join(directory, "policy-decisions"))[0]), "utf8")),
-    "mirai-sanitized-evidence.schema.json": buildSanitizedEvidence(result.run.run_id, store)
+    "mirai-sanitized-evidence.schema.json": buildSanitizedEvidence(result.run.run_id, store),
+    "mirai-runtime-health.schema.json": inspectRuntimeHealth(store.home)
   };
   for (const [name, artifact] of Object.entries(artifacts)) {
     const ajv = new Ajv2020({ allErrors: true, strict: false });

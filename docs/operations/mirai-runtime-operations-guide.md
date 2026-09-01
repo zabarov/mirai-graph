@@ -26,9 +26,15 @@ high-value run if recovery depends on retained receipts.
 7. Inspect the terminal status and export sanitized evidence separately.
 
 ```bash
+mirai operations status
 mirai inspect <run-id>
 mirai evidence export <run-id> --out evidence
 ```
+
+`operations status` is read-only. It aggregates run and receipt states, active
+runs and reconciliation needs without exposing sandbox paths, capability grants
+or effect payloads. A blocked report requires operator review before new
+effects are started.
 
 ## Recovery
 

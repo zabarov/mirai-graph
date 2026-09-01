@@ -52,6 +52,14 @@ function sameSet(left: string[], right: string[]): boolean {
   return [...new Set(left)].sort().join("\u0000") === [...new Set(right)].sort().join("\u0000");
 }
 
+function resourceMatchesPrefix(resource: string, prefix: string): boolean {
+  if (resource === prefix) return true;
+  if (prefix === ".") return resource.startsWith("./");
+  if (prefix.endsWith(":")) return resource.startsWith(prefix);
+  const boundary = prefix.endsWith("/") ? prefix : `${prefix}/`;
+  return resource.startsWith(boundary);
+}
+
 export class ReferenceCapabilityProvider {
   readonly digest: string;
 
@@ -76,7 +84,7 @@ export class ReferenceCapabilityProvider {
       if (!rule.adapters.includes(request.adapter)) reasons.push("capability_adapter_mismatch");
       if (!rule.operations.includes(request.action)) reasons.push("capability_action_mismatch");
       if (!sameSet(rule.effects, request.effects)) reasons.push("capability_effect_mismatch");
-      if (!rule.resource_prefixes.some((prefix) => request.resource === prefix || request.resource.startsWith(prefix))) reasons.push("capability_resource_mismatch");
+      if (!rule.resource_prefixes.some((prefix) => resourceMatchesPrefix(request.resource, prefix))) reasons.push("capability_resource_mismatch");
       if (request.budget.max_calls < 1 || request.budget.max_calls > this.policy.max_calls_per_grant) reasons.push("capability_call_budget_invalid");
       if (request.policy_digest !== this.digest) reasons.push("capability_policy_digest_mismatch");
       if (rule.approval_required && !this.context.apply) reasons.push("apply_flag_required");

@@ -25,3 +25,4 @@ export * from "./store.js";
 export * from "./effects.js";
 export * from "./governed-runtime.js";
 export * from "./evidence.js";
+export * from "./operations.js";

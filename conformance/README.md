@@ -39,3 +39,8 @@ Agent Execution Brief authority boundaries:
 ```bash
 npm run validate:independent-project-conformance
 ```
+
+Publication status and the clean public-clone procedure are documented in
+[`docs/conformance/publish-independent-checker.md`](../docs/conformance/publish-independent-checker.md).
+The current checker is revision-bound but remains `local_only`; this is valid
+conformance evidence and does not close the public-checker release gate.

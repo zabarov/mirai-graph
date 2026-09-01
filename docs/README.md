@@ -38,16 +38,21 @@ Mirai 2.0 execution:
 - [Mirai Capabilities And Effects](../standard/mirai-capabilities-and-effects.md)
 - [Mirai Durable Execution](../standard/mirai-durable-execution.md)
 - [Mirai Conformance Corpus](../conformance/README.md)
+- [Publish Independent Checker](conformance/publish-independent-checker.md)
 - [2.0 Architecture Decisions](architecture/mirai-2.0-decisions.md)
 - [Migrate 1.4 To 2.0](adoption/migrate-1.4-to-2.0.md)
 - [Governed Runtime Tutorial](adoption/mirai-2-governed-runtime-tutorial.md)
 - [Mirai 2 API Reference](reference/mirai-2-api.md)
 - [Runtime Operations Guide](operations/mirai-runtime-operations-guide.md)
+- [Production Operations](operations/mirai-production-operations.md)
+- [Independent Security Review Packet](security/mirai-independent-security-review-packet.md)
+- [Internal Security Baseline](security/mirai-internal-security-baseline-2026-09-01.md)
 - [Runtime Threat Model](security/mirai-runtime-threat-model.md)
 
 Mirai 2.1 graph-native development:
 
 - [Project Capsule](../standard/project-capsule.md)
+- [Production Readiness](../standard/production-readiness.md)
 - [Graph-Native Intelligence Architecture](architecture/mirai-2.1-graph-native-intelligence.md)
 - [Knowledge Assimilation](../standard/knowledge-assimilation.md)
 - [Graph-Native Components](../standard/graph-native-components.md)

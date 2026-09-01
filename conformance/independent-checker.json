@@ -5,7 +5,18 @@
     "revision": "598621df0a181785805ff46cbfa1e98f2510615f",
     "language": "Python",
     "python_requires": ">=3.12",
-    "imports_typescript_runtime": false
+    "imports_typescript_runtime": false,
+    "publication": {
+      "status": "local_only",
+      "remote_verified": false,
+      "intended_remote": "https://github.com/zabarov/mirai-conformance",
+      "required_before_public_gate": [
+        "configure_origin",
+        "push_exact_revision",
+        "run_checker_ci",
+        "verify_public_clone"
+      ]
+    }
   },
   "corpus_ref": "conformance/corpus/pure/corpus.json",
   "typescript_result_ref": "conformance/results/typescript-pure-result.json",

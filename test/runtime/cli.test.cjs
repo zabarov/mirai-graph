@@ -62,3 +62,50 @@ test("CLI refuses YAML as runtime input", () => {
   assert.equal(result.status, 1);
   assert.match(result.stderr, /compiled \.mirai\.json IR only/);
 });
+
+test("operations status is read-only for an absent home", () => {
+  const temp = fs.mkdtempSync(path.join(os.tmpdir(), "mirai-operations-empty-"));
+  const home = path.join(temp, "missing-home");
+  const result = command(["operations", "status", "--home", home]);
+  assert.equal(result.status, 0, result.stderr);
+  const report = JSON.parse(result.stdout);
+  assert.equal(report.status, "empty");
+  assert.equal(report.sensitive_data_exposed, false);
+  assert.equal(report.canonical_write_allowed, false);
+  assert.equal(fs.existsSync(home), false);
+});
+
+test("operations status exposes recovery need without sensitive runtime fields", () => {
+  const temp = fs.mkdtempSync(path.join(os.tmpdir(), "mirai-operations-blocked-"));
+  const home = path.join(temp, "home");
+  const { RunStore } = require("../../dist/cjs/runtime");
+  const program = JSON.parse(fs.readFileSync(path.join(fixture, "results/program.mirai.json"), "utf8"));
+  const store = new RunStore(home);
+  store.createRun({ program, input: {}, sandbox: path.join(temp, "sandbox"), apply: false, run_id: "run.operations-uncertain" });
+  store.writeReceipt("run.operations-uncertain", {
+    contract_version: "1.0.0",
+    receipt_id: "receipt.operations-uncertain",
+    sequence: 1,
+    idempotency_key: "idempotency.operations-uncertain",
+    run_id: "run.operations-uncertain",
+    program_id: program.id,
+    program_digest: program.digest,
+    node_id: "node.synthetic",
+    invocation_id: "invocation.synthetic",
+    adapter: "synthetic",
+    operation: "read",
+    effects: ["repository_read"],
+    capability_grant_ref: "host-local://capabilities/redacted",
+    args_digest: "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+    status: "uncertain",
+    attempt: 1,
+    prepared_at: "2026-09-01T00:00:00Z"
+  });
+  const result = command(["operations", "status", "--home", home]);
+  assert.equal(result.status, 2, result.stderr);
+  const report = JSON.parse(result.stdout);
+  assert.equal(report.status, "blocked");
+  assert.deepEqual(report.recovery_required_runs, ["run.operations-uncertain"]);
+  assert(!result.stdout.includes("capability_grant_ref"));
+  assert(!result.stdout.includes(path.join(temp, "sandbox")));
+});

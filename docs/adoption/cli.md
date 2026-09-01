@@ -8,6 +8,15 @@ reports.
 
 ## Commands
 
+Inspect host-local Runtime health without changing it:
+
+```bash
+npx mirai operations status
+```
+
+The report contains aggregate run and receipt counts plus recovery-required run
+ids. It does not expose grants, effect payloads or sandbox paths.
+
 Detect an existing project without writing files:
 
 ```bash
