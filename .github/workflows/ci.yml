@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - codex/mirai-2.0
   pull_request:
 
 jobs:
@@ -38,6 +39,9 @@ jobs:
 
       - name: Verify governed runtime and recovery
         run: npm run test:mirai-alpha3
+
+      - name: Verify bounded property and security fuzz corpus
+        run: npm run test:mirai-property-fuzz
 
   context-traversal:
     strategy:
