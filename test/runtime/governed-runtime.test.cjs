@@ -303,6 +303,36 @@ test("allowlisted test runner uses a fixed host command without shell", async ()
   assert.equal(env.store.listReceipts(result.run.run_id)[0].result.stdout, "ok");
 });
 
+test("non-zero allowlisted test result blocks completion", async () => {
+  const env = temporary();
+  const runId = "run.test-failure";
+  const subject = program("program.test-failure", [
+    {
+      id: "test.run", kind: "call", target: { kind: "adapter", adapter: "test", operation: "run" },
+      args: { command_id: { op: "literal", value: "failing-fixture" } },
+      effects: ["process_run"], capability: "capability.test.run", next: "return.done"
+    },
+    { id: "return.done", kind: "return", values: { status: { op: "literal", value: "done" } } }
+  ], { outputs: [{ id: "status", type: "string" }], allowed_effects: ["process_run"] });
+  const receipt = approval(env, subject, ["process_run"]);
+  await assert.rejects(
+    () => startGovernedRun(subject, {}, {
+      store: env.store,
+      sandbox: env.sandbox,
+      apply: true,
+      approval: receipt,
+      run_id: runId,
+      test_commands: {
+        "failing-fixture": { command: process.execPath, args: ["-e", "process.exit(7)"], timeout_ms: 5000, max_output_bytes: 4096 }
+      }
+    }),
+    /effect_verification_failed/
+  );
+  const run = env.store.readRun(runId);
+  assert.equal(run.status, "blocked");
+  assert.equal(env.store.listReceipts(run.run_id)[0].status, "uncertain");
+});
+
 test("test runner does not inherit arbitrary secret environment variables", async () => {
   const env = temporary();
   const subject = program("program.test-env", [

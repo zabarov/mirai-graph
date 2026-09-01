@@ -200,7 +200,11 @@ const testRun: AdapterOperation = {
   },
   async verify(receipt) {
     const result = receiptResult(receipt);
-    return { verified: Number.isInteger(result.exit_code), details: [`exit_code:${String(result.exit_code)}`] };
+    const exitCode = result.exit_code;
+    return {
+      verified: exitCode === 0,
+      details: [Number.isInteger(exitCode) ? `exit_code:${String(exitCode)}` : "exit_code:missing"]
+    };
   }
 };
 
