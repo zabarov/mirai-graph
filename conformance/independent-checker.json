@@ -2,7 +2,7 @@
   "contract_version": "1.0.0",
   "checker": {
     "repository": "https://github.com/zabarov/mirai-conformance",
-    "revision": "6f5253da1d216841c6a54888e916ed6d1a29cb5d",
+    "revision": "2ad57bfb5ede839aa1beec23b21099e43ee6572d",
     "language": "Python",
     "python_requires": ">=3.12",
     "imports_typescript_runtime": false
@@ -13,7 +13,9 @@
   "runtime_result_refs": [
     "conformance/results/python-federation-episode-result.json",
     "conformance/results/python-ai-employee-episode-result.json",
-    "conformance/results/python-larena-runtime-evidence-result.json"
+    "conformance/results/python-larena-runtime-evidence-result.json",
+    "conformance/results/python-mirai-2.1-activation-plan-result.json",
+    "conformance/results/python-mirai-2.1-activation-run-result.json"
   ],
   "supported_surfaces": [
     "program_ir",
@@ -21,11 +23,19 @@
     "pure_transition_traces",
     "pure_episodes",
     "sanitized_runtime_receipts",
-    "sanitized_runtime_evidence"
+    "sanitized_runtime_evidence",
+    "source_catalogs",
+    "assimilation_proposals",
+    "component_packages",
+    "multidimensional_relation_facts",
+    "technology_drafts",
+    "activation_plans",
+    "activation_run_results"
   ],
   "status": "matched",
   "limitations": [
     "The governed runtime check covers sanitized receipts and cannot attest to excluded host-local payloads or approval signatures.",
+    "Graph-native checks validate public artifacts and deterministic bindings, but do not independently execute external effects.",
     "A matching corpus is conformance evidence, not production authorization or broad correctness proof."
   ]
 }

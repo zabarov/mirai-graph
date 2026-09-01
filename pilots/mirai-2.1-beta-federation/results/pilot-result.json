@@ -1,0 +1,63 @@
+{
+  "contract_version": "1.0.0",
+  "pilot_id": "pilot.mirai-2.1.federation.graph-native",
+  "status": "engineering_evidence_complete",
+  "baseline": {
+    "id": "mirai_2_explicit_program",
+    "status": "completed",
+    "artifact_refs": [
+      "pilots/mirai-2-beta-federation/programs/program.mirai.yaml",
+      "pilots/mirai-2-beta-federation/results/episode.json"
+    ],
+    "trace_digest": "sha256:6d55675741012279486c1c6d35944111cbed52d03c5325c3815fdf075ccf58af",
+    "stage_ids": [
+      "route",
+      "technology_packet",
+      "skill_sync",
+      "reverse_audit",
+      "kaizen"
+    ]
+  },
+  "graph_resolved": {
+    "id": "mirai_2_1_graph_resolved",
+    "status": "completed",
+    "artifact_refs": [
+      "pilots/mirai-2.1-beta-federation/results/activation-plan.json",
+      "pilots/mirai-2.1-beta-federation/results/activation-run-result.json",
+      "conformance/results/python-mirai-2.1-activation-plan-result.json",
+      "conformance/results/python-mirai-2.1-activation-run-result.json"
+    ],
+    "trace_digest": "sha256:0c9382a1acb770ac432f5135cf44eaaaa14875f3415756f3261d4ef7b1d093a0",
+    "stage_ids": [
+      "stage.docs-owner",
+      "stage.graph-owner",
+      "stage.kaizen",
+      "stage.quality",
+      "stage.route"
+    ]
+  },
+  "metrics": {
+    "technology_adherence_percent": 100,
+    "unauthorized_effects": 0,
+    "false_completion_claims": 0,
+    "deterministic_trace_equality": true,
+    "activated_path_count": 5,
+    "parallel_frontier_width": 2,
+    "model_calls": 0,
+    "tokens": 0,
+    "cost_usd": 0
+  },
+  "safety": {
+    "production_effects": false,
+    "network_effects": false,
+    "canonical_graph_write": false,
+    "automatic_learning_update": false
+  },
+  "limitations": [
+    "This is one deterministic public-safe fixture, not a randomized comparative study.",
+    "The Mirai 2.0 and Mirai 2.1 traces represent different orchestration contracts and their digests are not expected to match.",
+    "No LLM, production Federation state or external effect is used in this engineering pilot.",
+    "Independent conformance and blinded human review remain required before scientific effectiveness claims."
+  ],
+  "claim_boundary": "The fixture shows that Mirai 2.1 can resolve a governed Federation process into digest-bound deterministic frontiers and execute them through the Mirai 2.0 runtime without effects or canonical learning."
+}

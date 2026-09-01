@@ -36,4 +36,4 @@ The resolver never sends a live mutable graph into the runtime. It produces an a
 
 ## Current implementation boundary
 
-The development implementation provides Files/Git scanning, assimilation proposals, component/relation validation, technology draft compilation, activation planning and deterministic no-effect simulation. Durable effectful activation remains a beta integration task that must reuse the existing Mirai 2.0 Runtime.
+The development implementation provides Files/Git scanning, assimilation proposals, component/relation validation, technology draft compilation, activation planning, deterministic simulation and durable activation through the existing Mirai 2.0 Runtime. The committed Federation pilot executes a four-frontier, five-path no-effect process and is checked by a separate Python implementation. Effectful pilot coverage, security review, contract freeze and external scientific evaluation remain release blockers.

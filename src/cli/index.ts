@@ -29,6 +29,7 @@ import { validateComponentPackage, type ComponentPackage } from "../components/i
 import { compileTechnologyDraft, extractTechnologyFile, type TechnologyDraft } from "../technology/index.js";
 import {
   resolveActivationPlan,
+  runActivationPlan,
   simulateActivationPlan,
   validateActivationPlan,
   type ActivationGraphSnapshot,
@@ -64,7 +65,7 @@ function usage(): void {
     "  mirai component validate <component-package.json>",
     "  mirai activation plan --graph <snapshot.json> --signal <signal.json> --out <plan.json>",
     "  mirai activation simulate <plan.json>",
-    "  mirai activation run <plan.json> --sandbox <dir> [--input <input.json>]",
+    "  mirai activation run <plan.json> --sandbox <dir> [--base-dir <dir>] [--input <input.json>] [--home <mirai-home>]",
     "",
     "Alpha.3 effects are capability-gated. Workspace/process actions require --apply and a signed local approval.",
     ""
@@ -231,10 +232,16 @@ export async function runCli(args: string[]): Promise<number> {
       const plan = loadJson(requireArgument(args[2], "activation plan")) as unknown as ActivationPlan;
       const validation = validateActivationPlan(plan);
       if (!validation.valid) throw new Error(`activation_plan_invalid:${validation.errors.join(",")}`);
-      requireArgument(readOption(args, "--sandbox"), "--sandbox path");
-      const simulation = simulateActivationPlan(plan);
-      writeJson({ status: "simulated", execution_mode: "development_reference_no_effects", plan_digest: plan.digest, simulation, effects_executed: false, canonical_write_allowed: false });
-      return 0;
+      const inputFile = readOption(args, "--input");
+      const result = await runActivationPlan(plan, {
+        sandbox: requireArgument(readOption(args, "--sandbox"), "--sandbox path"),
+        home: runtimeHome(args),
+        base_dir: readOption(args, "--base-dir") || process.cwd(),
+        input: inputFile ? loadJson(inputFile) : {},
+        apply: args.includes("--apply")
+      });
+      writeJson(result);
+      return result.status === "completed" ? 0 : 2;
     }
 
     if (args[0] === "program" && args[1] === "validate") {

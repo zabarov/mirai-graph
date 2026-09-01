@@ -1,0 +1,73 @@
+{
+  "contract_version": "1.0.0",
+  "plan_digest": "sha256:74c742acd1d2a09bad5567ba6d19de2549b5337d2e4aeb4f9cf12d02b6f7ad04",
+  "status": "completed",
+  "frontiers": [
+    [
+      "path.stage.route.operation.process"
+    ],
+    [
+      "path.stage.docs-owner.operation.process",
+      "path.stage.graph-owner.operation.process"
+    ],
+    [
+      "path.stage.quality.operation.process"
+    ],
+    [
+      "path.stage.kaizen.operation.process"
+    ]
+  ],
+  "path_results": [
+    {
+      "path_id": "path.stage.route.operation.process",
+      "status": "completed",
+      "program_digest": "sha256:c05fb437f9309e0bee010264273f55be472015283236657cc0cdc1c7937888d5",
+      "effects_executed": false,
+      "trace_digest": "sha256:605f39cebba732d0cd413220b349487635dd90359fa5120e8194283c649acbfb",
+      "output_digest": "sha256:5d32e840b63d38f65d80cd4e7c7c04f765d9e9a0759e8bada4ee679769747f1c"
+    },
+    {
+      "path_id": "path.stage.docs-owner.operation.process",
+      "status": "completed",
+      "program_digest": "sha256:47d6525e2d30dbed1aa03c264ee9ff0434ed7b7f0934f7394bf5e5199336d43d",
+      "effects_executed": false,
+      "trace_digest": "sha256:93b7bbe0c7b51ba7ddf5a9a4f5fe39b573d39b65a9ced1a0d426815eac5e921a",
+      "output_digest": "sha256:fecc20dc08ca4910b83063db1a44de600fc71a2ea942f90cb1b4058619dc7c30"
+    },
+    {
+      "path_id": "path.stage.graph-owner.operation.process",
+      "status": "completed",
+      "program_digest": "sha256:47d6525e2d30dbed1aa03c264ee9ff0434ed7b7f0934f7394bf5e5199336d43d",
+      "effects_executed": false,
+      "trace_digest": "sha256:93b7bbe0c7b51ba7ddf5a9a4f5fe39b573d39b65a9ced1a0d426815eac5e921a",
+      "output_digest": "sha256:fecc20dc08ca4910b83063db1a44de600fc71a2ea942f90cb1b4058619dc7c30"
+    },
+    {
+      "path_id": "path.stage.quality.operation.process",
+      "status": "completed",
+      "program_digest": "sha256:736e499c147154f697d7cffa97643609d51520bda724957b578781113f77e820",
+      "effects_executed": false,
+      "trace_digest": "sha256:a9a5f1be57a86116a1073707d8dfdc4014d29d79ef90017c68a8c21b1348a1c2",
+      "output_digest": "sha256:6e2d2202dd14747e4f61982cb912a10018ab99b83363821fb756339c6b0a5993"
+    },
+    {
+      "path_id": "path.stage.kaizen.operation.process",
+      "status": "completed",
+      "program_digest": "sha256:291792541646c4ba14795b3178bc76d0acfad8f4104ead4b3db61f7895c015c1",
+      "effects_executed": false,
+      "trace_digest": "sha256:2415ad1d54cfee2eb8e69e111de19dbe3324b871a4213e45aae19e4340066aaf",
+      "output_digest": "sha256:67990a2785a16a851107e2cda84bb239818303ec77fc0f2294a6a8c5a1c69695"
+    }
+  ],
+  "successful_path_ids": [
+    "path.stage.docs-owner.operation.process",
+    "path.stage.graph-owner.operation.process",
+    "path.stage.kaizen.operation.process",
+    "path.stage.quality.operation.process",
+    "path.stage.route.operation.process"
+  ],
+  "aggregate_trace_digest": "sha256:0c9382a1acb770ac432f5135cf44eaaaa14875f3415756f3261d4ef7b1d093a0",
+  "effects_executed": false,
+  "canonical_write_allowed": false,
+  "learning_update_allowed": false
+}

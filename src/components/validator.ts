@@ -80,7 +80,7 @@ export function validateRelationFact(fact: RelationFact): ComponentValidationRes
   return { valid: errors.length === 0, errors: errors.sort(), warnings: [] };
 }
 
-export function relationApplies(fact: RelationFact, context: { now: string; scope?: string; values?: Record<string, unknown>; signal_type?: string }): boolean {
+export function relationApplies(fact: RelationFact, context: { now: string; scope?: string; values?: Record<string, unknown>; signal_type?: string; operation?: string }): boolean {
   if (!validateRelationFact(fact).valid) return false;
   const now = Date.parse(context.now);
   if (!Number.isFinite(now)) return false;
@@ -88,6 +88,7 @@ export function relationApplies(fact: RelationFact, context: { now: string; scop
   if (fact.valid_until && now > Date.parse(fact.valid_until)) return false;
   if (fact.scope && fact.scope !== context.scope) return false;
   if (fact.activation_rule?.signal_type && fact.activation_rule.signal_type !== context.signal_type) return false;
+  if (fact.activation_rule?.operation && fact.activation_rule.operation !== context.operation) return false;
   for (const [key, expected] of Object.entries(fact.conditions || {})) if (context.values?.[key] !== expected) return false;
   return true;
 }

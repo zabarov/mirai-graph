@@ -32,3 +32,15 @@ test("multidimensional relation facts honor time, scope and conditions", () => {
   assert.equal(relationApplies(fact, { now: "2028-06-01T00:00:00Z", scope: "demo", values: { risk: "normal" } }), false);
   assert.equal(relationApplies(fact, { now: "2026-06-01T00:00:00Z", scope: "other", values: { risk: "normal" } }), false);
 });
+
+test("relation activation rules are operation-specific", () => {
+  const fact = {
+    contract_version: "1.0.0", id: "relation.operation-specific", type: "governed_by",
+    participants: [{ ref: "component.a", role: "subject" }, { ref: "policy.a", role: "policy" }],
+    priority: 100, authority: "owner_asserted", confidence: 1,
+    provenance: [{ source_ref: "source.policy" }],
+    activation_rule: { signal_type: "work_requested", operation: "operation.review" }
+  };
+  assert.equal(relationApplies(fact, { now: "2026-09-01T00:00:00Z", signal_type: "work_requested", operation: "operation.execute" }), false);
+  assert.equal(relationApplies(fact, { now: "2026-09-01T00:00:00Z", signal_type: "work_requested", operation: "operation.review" }), true);
+});

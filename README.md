@@ -31,8 +31,10 @@ release claim. It adds:
   program bindings;
 - multidimensional relation facts with scope, time, authority and provenance;
 - a reviewable `technology_draft` between human text and Mirai Program;
-- immutable, digest-bound activation plans and deterministic parallel
-  simulation.
+- immutable, digest-bound activation plans, deterministic parallel simulation
+  and durable no-effect execution through the Mirai 2.0 governed runtime;
+- a public-safe Federation pilot and an independent Python checker for
+  activation plans and run evidence.
 
 ```bash
 mirai source scan . --out /tmp/source-catalog.json
@@ -42,11 +44,12 @@ mirai technology compile /tmp/technology-draft.json --out /tmp/program.mirai.jso
 mirai component validate component-package.json
 mirai activation plan --graph graph-snapshot.json --signal signal.json --out /tmp/activation-plan.json
 mirai activation simulate /tmp/activation-plan.json
+mirai activation run /tmp/activation-plan.json --base-dir . --sandbox /tmp/mirai-sandbox
 ```
 
 Read the [2.1 architecture](docs/architecture/mirai-2.1-graph-native-intelligence.md).
-Ingestion and extraction never perform canonical apply. The runtime will execute
-only an immutable activation plan and existing capability-gated Mirai Programs.
+Ingestion and extraction never perform canonical apply. The runtime executes
+only immutable activation plans and existing capability-gated Mirai Programs.
 
 ## Mirai 2.0 Preview
 

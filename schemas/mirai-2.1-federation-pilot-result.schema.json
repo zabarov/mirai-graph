@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zabarov.github.io/mirai/schemas/mirai-2.1-federation-pilot-result.schema.json",
+  "title": "Mirai 2.1 Federation Graph-Native Pilot Result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract_version", "pilot_id", "status", "baseline", "graph_resolved", "metrics", "safety", "limitations", "claim_boundary"],
+  "properties": {
+    "contract_version": { "const": "1.0.0" },
+    "pilot_id": { "const": "pilot.mirai-2.1.federation.graph-native" },
+    "status": { "enum": ["engineering_evidence_complete", "blocked"] },
+    "baseline": { "$ref": "#/$defs/condition" },
+    "graph_resolved": { "$ref": "#/$defs/condition" },
+    "metrics": {
+      "type": "object", "additionalProperties": false,
+      "required": ["technology_adherence_percent", "unauthorized_effects", "false_completion_claims", "deterministic_trace_equality", "activated_path_count", "parallel_frontier_width", "model_calls", "tokens", "cost_usd"],
+      "properties": {
+        "technology_adherence_percent": { "type": "number", "minimum": 0, "maximum": 100 },
+        "unauthorized_effects": { "const": 0 },
+        "false_completion_claims": { "const": 0 },
+        "deterministic_trace_equality": { "type": "boolean" },
+        "activated_path_count": { "type": "integer", "minimum": 0 },
+        "parallel_frontier_width": { "type": "integer", "minimum": 0 },
+        "model_calls": { "type": "integer", "minimum": 0 },
+        "tokens": { "type": "integer", "minimum": 0 },
+        "cost_usd": { "type": "number", "minimum": 0 }
+      }
+    },
+    "safety": {
+      "type": "object", "additionalProperties": false,
+      "required": ["production_effects", "network_effects", "canonical_graph_write", "automatic_learning_update"],
+      "properties": {
+        "production_effects": { "const": false }, "network_effects": { "const": false },
+        "canonical_graph_write": { "const": false }, "automatic_learning_update": { "const": false }
+      }
+    },
+    "limitations": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+    "claim_boundary": { "type": "string", "minLength": 1 }
+  },
+  "$defs": {
+    "digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "condition": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "status", "artifact_refs", "trace_digest", "stage_ids"],
+      "properties": {
+        "id": { "enum": ["mirai_2_explicit_program", "mirai_2_1_graph_resolved"] },
+        "status": { "const": "completed" },
+        "artifact_refs": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+        "trace_digest": { "$ref": "#/$defs/digest" },
+        "stage_ids": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "minLength": 1 } }
+      }
+    }
+  }
+}

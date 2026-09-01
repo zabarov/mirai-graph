@@ -23,3 +23,11 @@ npm run validate:independent-runtime-conformance
 
 Runtime comparison excludes host-local effect payloads, capability grants and
 approval signatures. The public result checks consistency, not authority.
+
+Mirai 2.1 activation plans and run results are also checked by the independent
+Python implementation. It recomputes graph bindings, dependency frontiers and
+aggregate trace digests without importing the TypeScript runtime:
+
+```bash
+npm run validate:independent-graph-native-conformance
+```

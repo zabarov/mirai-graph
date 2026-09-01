@@ -1,0 +1,9 @@
+{
+  "id": "signal.federation.public-safe.1",
+  "type": "technology_requested",
+  "goal": "Route, execute, review and close a public-safe Federation technology",
+  "scope": "federation.public-safe",
+  "now": "2026-09-01T12:00:00Z",
+  "operation": "operation.process",
+  "values": { "risk": "normal", "quality_gate": true }
+}

@@ -1,6 +1,6 @@
 {
   "id": "graph.demo.snapshot",
-  "graph_snapshot_digest": "sha256:46fa6124b59bce3de0a1974eebd545f72f2e9c1cb9d747a58e74f61152007c1c",
+  "graph_snapshot_digest": "sha256:47b35c850ea475aba1abc190538a845295df27c6e09b1cba20e3e2e717ec270a",
   "policy_digest": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
   "components": {
     "contract_version": "1.0.0",
@@ -11,7 +11,7 @@
       { "id": "worker.prepare", "instance_of": "component.worker", "scope": "demo" },
       { "id": "worker.review", "instance_of": "component.worker", "scope": "demo" }
     ],
-    "program_implementations": [{ "id": "implementation.execute", "operation": "operation.execute", "program_ref": "examples/mirai-program-minimal/program.mirai.yaml", "program_digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000" }],
+    "program_implementations": [{ "id": "implementation.execute", "operation": "operation.execute", "program_ref": "examples/mirai-activation-minimal/worker.mirai.yaml", "program_digest": "sha256:55197ffd33b73154ad7a4a49745a281413b291088fa54c85f2adfdb66b3084a3" }],
     "contextual_bindings": [{ "id": "binding.execute.demo", "component_type": "component.worker", "operation": "operation.execute", "implementation": "implementation.execute", "priority": 100, "scope": "demo" }],
     "canonical_write_allowed": false
   },

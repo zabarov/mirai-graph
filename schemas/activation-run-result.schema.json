@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zabarov.github.io/mirai/schemas/activation-run-result.schema.json",
+  "title": "Mirai Activation Run Result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract_version", "plan_digest", "status", "frontiers", "path_results", "successful_path_ids", "aggregate_trace_digest", "effects_executed", "canonical_write_allowed", "learning_update_allowed"],
+  "properties": {
+    "contract_version": { "const": "1.0.0" },
+    "plan_digest": { "$ref": "#/$defs/digest" },
+    "status": { "enum": ["completed", "blocked"] },
+    "frontiers": {
+      "type": "array",
+      "items": { "type": "array", "items": { "type": "string", "minLength": 1 }, "minItems": 1 }
+    },
+    "path_results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path_id", "status", "program_digest", "effects_executed"],
+        "properties": {
+          "path_id": { "type": "string", "minLength": 1 },
+          "status": { "enum": ["completed", "failed", "blocked"] },
+          "run_id": { "type": "string", "minLength": 1 },
+          "program_digest": { "type": "string" },
+          "trace_digest": { "$ref": "#/$defs/digest" },
+          "output_digest": { "$ref": "#/$defs/digest" },
+          "effects_executed": { "type": "boolean" },
+          "blocker": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "successful_path_ids": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
+    "selected_success_path_id": { "type": "string", "minLength": 1 },
+    "aggregate_trace_digest": { "$ref": "#/$defs/digest" },
+    "effects_executed": { "type": "boolean" },
+    "canonical_write_allowed": { "const": false },
+    "learning_update_allowed": { "const": false }
+  },
+  "$defs": {
+    "digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" }
+  }
+}

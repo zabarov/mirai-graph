@@ -1,0 +1,34 @@
+{
+  "contract_version": "1.0.0",
+  "plan_digest": "sha256:74c742acd1d2a09bad5567ba6d19de2549b5337d2e4aeb4f9cf12d02b6f7ad04",
+  "frontiers": [
+    [
+      "path.stage.route.operation.process"
+    ],
+    [
+      "path.stage.docs-owner.operation.process",
+      "path.stage.graph-owner.operation.process"
+    ],
+    [
+      "path.stage.quality.operation.process"
+    ],
+    [
+      "path.stage.kaizen.operation.process"
+    ]
+  ],
+  "ordered_paths": [
+    "path.stage.route.operation.process",
+    "path.stage.docs-owner.operation.process",
+    "path.stage.graph-owner.operation.process",
+    "path.stage.quality.operation.process",
+    "path.stage.kaizen.operation.process"
+  ],
+  "join_result": {
+    "policy": "all",
+    "required_successes": 5
+  },
+  "decisions_reproduced": true,
+  "effects_executed": false,
+  "canonical_write_allowed": false,
+  "trace_digest": "sha256:6766220484a8bed645267bc82c98659af175e62925e794888ab7b2312cc2d227"
+}

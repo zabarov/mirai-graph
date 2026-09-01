@@ -1,0 +1,76 @@
+{
+  "id": "graph.federation.graph-native.public-safe",
+  "graph_snapshot_digest": "sha256:4fe0588134d1a8dee4976fcb5fa107c7e746f4bf4b13c6dfd3bb3c55286370c4",
+  "policy_digest": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+  "components": {
+    "contract_version": "1.0.0",
+    "interfaces": [{ "id": "interface.process-stage", "operations": ["operation.process"] }],
+    "operation_contracts": [{ "id": "operation.process", "inputs": [], "outputs": [{ "id": "result", "type": "string" }], "required_capabilities": ["pure"] }],
+    "component_types": [
+      { "id": "component.router", "implements": ["interface.process-stage"], "exposes": ["operation.process"], "composes": [] },
+      { "id": "component.owner", "implements": ["interface.process-stage"], "exposes": ["operation.process"], "composes": [] },
+      { "id": "component.quality-gate", "implements": ["interface.process-stage"], "exposes": ["operation.process"], "composes": [] },
+      { "id": "component.kaizen", "implements": ["interface.process-stage"], "exposes": ["operation.process"], "composes": [] }
+    ],
+    "component_instances": [
+      { "id": "stage.route", "instance_of": "component.router", "scope": "federation.public-safe" },
+      { "id": "stage.graph-owner", "instance_of": "component.owner", "scope": "federation.public-safe" },
+      { "id": "stage.docs-owner", "instance_of": "component.owner", "scope": "federation.public-safe" },
+      { "id": "stage.quality", "instance_of": "component.quality-gate", "scope": "federation.public-safe" },
+      { "id": "stage.kaizen", "instance_of": "component.kaizen", "scope": "federation.public-safe" }
+    ],
+    "program_implementations": [
+      { "id": "implementation.route", "operation": "operation.process", "program_ref": "pilots/mirai-2.1-beta-federation/programs/route.mirai.yaml", "program_digest": "sha256:c05fb437f9309e0bee010264273f55be472015283236657cc0cdc1c7937888d5" },
+      { "id": "implementation.owner", "operation": "operation.process", "program_ref": "pilots/mirai-2.1-beta-federation/programs/owner.mirai.yaml", "program_digest": "sha256:47d6525e2d30dbed1aa03c264ee9ff0434ed7b7f0934f7394bf5e5199336d43d" },
+      { "id": "implementation.quality", "operation": "operation.process", "program_ref": "pilots/mirai-2.1-beta-federation/programs/quality.mirai.yaml", "program_digest": "sha256:736e499c147154f697d7cffa97643609d51520bda724957b578781113f77e820" },
+      { "id": "implementation.kaizen", "operation": "operation.process", "program_ref": "pilots/mirai-2.1-beta-federation/programs/kaizen.mirai.yaml", "program_digest": "sha256:291792541646c4ba14795b3178bc76d0acfad8f4104ead4b3db61f7895c015c1" }
+    ],
+    "contextual_bindings": [
+      { "id": "binding.route", "component_type": "component.router", "operation": "operation.process", "implementation": "implementation.route", "priority": 100, "scope": "federation.public-safe" },
+      { "id": "binding.owner", "component_type": "component.owner", "operation": "operation.process", "implementation": "implementation.owner", "priority": 100, "scope": "federation.public-safe" },
+      { "id": "binding.quality", "component_type": "component.quality-gate", "operation": "operation.process", "implementation": "implementation.quality", "priority": 100, "scope": "federation.public-safe" },
+      { "id": "binding.kaizen", "component_type": "component.kaizen", "operation": "operation.process", "implementation": "implementation.kaizen", "priority": 100, "scope": "federation.public-safe" }
+    ],
+    "canonical_write_allowed": false
+  },
+  "relation_facts": [
+    {
+      "contract_version": "1.0.0", "id": "relation.owner_graph_depends_route", "type": "depends_on",
+      "participants": [{ "ref": "stage.graph-owner", "role": "dependent" }, { "ref": "stage.route", "role": "prerequisite" }],
+      "scope": "federation.public-safe", "priority": 100, "authority": "owner_asserted", "confidence": 1,
+      "provenance": [{ "source_ref": "synthetic://federation-technology" }], "activation_rule": { "signal_type": "technology_requested", "operation": "operation.process" }
+    },
+    {
+      "contract_version": "1.0.0", "id": "relation.owner_docs_depends_route", "type": "depends_on",
+      "participants": [{ "ref": "stage.docs-owner", "role": "dependent" }, { "ref": "stage.route", "role": "prerequisite" }],
+      "scope": "federation.public-safe", "priority": 100, "authority": "owner_asserted", "confidence": 1,
+      "provenance": [{ "source_ref": "synthetic://federation-technology" }], "activation_rule": { "signal_type": "technology_requested", "operation": "operation.process" }
+    },
+    {
+      "contract_version": "1.0.0", "id": "relation.quality_depends_owners", "type": "depends_on",
+      "participants": [{ "ref": "stage.quality", "role": "dependent" }, { "ref": "stage.graph-owner", "role": "prerequisite" }, { "ref": "stage.docs-owner", "role": "companion_prerequisite" }],
+      "qualifiers": { "gate": "technology_quality_feedback" }, "scope": "federation.public-safe", "conditions": { "quality_gate": true },
+      "priority": 100, "authority": "owner_asserted", "confidence": 1,
+      "provenance": [{ "source_ref": "synthetic://federation-technology", "evidence_ref": "synthetic://quality-policy" }],
+      "activation_rule": { "signal_type": "technology_requested", "operation": "operation.process" }
+    },
+    {
+      "contract_version": "1.0.0", "id": "relation.quality_depends_docs_owner", "type": "depends_on",
+      "participants": [{ "ref": "stage.quality", "role": "dependent" }, { "ref": "stage.docs-owner", "role": "prerequisite" }],
+      "scope": "federation.public-safe", "conditions": { "quality_gate": true }, "priority": 100, "authority": "owner_asserted", "confidence": 1,
+      "provenance": [{ "source_ref": "synthetic://federation-technology" }], "activation_rule": { "signal_type": "technology_requested", "operation": "operation.process" }
+    },
+    {
+      "contract_version": "1.0.0", "id": "relation.kaizen_depends_quality", "type": "depends_on",
+      "participants": [{ "ref": "stage.kaizen", "role": "dependent" }, { "ref": "stage.quality", "role": "prerequisite" }],
+      "scope": "federation.public-safe", "priority": 100, "authority": "owner_asserted", "confidence": 1,
+      "provenance": [{ "source_ref": "synthetic://federation-technology" }], "activation_rule": { "signal_type": "technology_requested", "operation": "operation.process" }
+    },
+    {
+      "contract_version": "1.0.0", "id": "relation.high_risk_inhibitor", "type": "inhibits",
+      "participants": [{ "ref": "stage.graph-owner", "role": "blocked_component" }, { "ref": "policy.high-risk", "role": "governing_policy" }, { "ref": "stage.quality", "role": "review_gate" }],
+      "scope": "federation.public-safe", "conditions": { "risk": "high" }, "priority": 200, "authority": "owner_asserted", "confidence": 1,
+      "provenance": [{ "source_ref": "synthetic://risk-policy" }], "activation_rule": { "signal_type": "technology_requested", "operation": "operation.process" }
+    }
+  ]
+}

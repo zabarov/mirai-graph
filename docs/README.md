@@ -52,6 +52,7 @@ Mirai 2.1 graph-native development:
 - [Multidimensional Relation Facts](../standard/multidimensional-relations.md)
 - [Technology Draft And Compilation](../standard/technology-compilation.md)
 - [Immutable Activation Model](../standard/activation-model.md)
+- [Synthetic Federation Activation Pilot](../pilots/mirai-2.1-beta-federation/README.md)
 
 Core model:
 

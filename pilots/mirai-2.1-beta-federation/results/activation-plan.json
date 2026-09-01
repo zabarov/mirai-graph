@@ -1,0 +1,149 @@
+{
+  "contract_version": "1.0.0",
+  "id": "activation.signal.federation.public-safe.1",
+  "signal": {
+    "id": "signal.federation.public-safe.1",
+    "type": "technology_requested",
+    "goal": "Route, execute, review and close a public-safe Federation technology",
+    "scope": "federation.public-safe",
+    "now": "2026-09-01T12:00:00Z",
+    "operation": "operation.process",
+    "values": {
+      "risk": "normal",
+      "quality_gate": true
+    }
+  },
+  "graph_snapshot_digest": "sha256:4fe0588134d1a8dee4976fcb5fa107c7e746f4bf4b13c6dfd3bb3c55286370c4",
+  "policy_digest": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+  "selected_relation_fact_ids": [
+    "relation.kaizen_depends_quality",
+    "relation.owner_docs_depends_route",
+    "relation.owner_graph_depends_route",
+    "relation.quality_depends_docs_owner",
+    "relation.quality_depends_owners"
+  ],
+  "blocked_relation_facts": [
+    {
+      "id": "relation.high_risk_inhibitor",
+      "reason": "context_not_applicable"
+    }
+  ],
+  "activated_paths": [
+    {
+      "id": "path.stage.docs-owner.operation.process",
+      "component_instance": "stage.docs-owner",
+      "component_type": "component.owner",
+      "operation": "operation.process",
+      "implementation": "implementation.owner",
+      "program_ref": "pilots/mirai-2.1-beta-federation/programs/owner.mirai.yaml",
+      "program_digest": "sha256:47d6525e2d30dbed1aa03c264ee9ff0434ed7b7f0934f7394bf5e5199336d43d",
+      "priority": 100,
+      "dependencies": [
+        "path.stage.route.operation.process"
+      ]
+    },
+    {
+      "id": "path.stage.graph-owner.operation.process",
+      "component_instance": "stage.graph-owner",
+      "component_type": "component.owner",
+      "operation": "operation.process",
+      "implementation": "implementation.owner",
+      "program_ref": "pilots/mirai-2.1-beta-federation/programs/owner.mirai.yaml",
+      "program_digest": "sha256:47d6525e2d30dbed1aa03c264ee9ff0434ed7b7f0934f7394bf5e5199336d43d",
+      "priority": 100,
+      "dependencies": [
+        "path.stage.route.operation.process"
+      ]
+    },
+    {
+      "id": "path.stage.kaizen.operation.process",
+      "component_instance": "stage.kaizen",
+      "component_type": "component.kaizen",
+      "operation": "operation.process",
+      "implementation": "implementation.kaizen",
+      "program_ref": "pilots/mirai-2.1-beta-federation/programs/kaizen.mirai.yaml",
+      "program_digest": "sha256:291792541646c4ba14795b3178bc76d0acfad8f4104ead4b3db61f7895c015c1",
+      "priority": 100,
+      "dependencies": [
+        "path.stage.quality.operation.process"
+      ]
+    },
+    {
+      "id": "path.stage.quality.operation.process",
+      "component_instance": "stage.quality",
+      "component_type": "component.quality-gate",
+      "operation": "operation.process",
+      "implementation": "implementation.quality",
+      "program_ref": "pilots/mirai-2.1-beta-federation/programs/quality.mirai.yaml",
+      "program_digest": "sha256:736e499c147154f697d7cffa97643609d51520bda724957b578781113f77e820",
+      "priority": 100,
+      "dependencies": [
+        "path.stage.docs-owner.operation.process",
+        "path.stage.graph-owner.operation.process"
+      ]
+    },
+    {
+      "id": "path.stage.route.operation.process",
+      "component_instance": "stage.route",
+      "component_type": "component.router",
+      "operation": "operation.process",
+      "implementation": "implementation.route",
+      "program_ref": "pilots/mirai-2.1-beta-federation/programs/route.mirai.yaml",
+      "program_digest": "sha256:c05fb437f9309e0bee010264273f55be472015283236657cc0cdc1c7937888d5",
+      "priority": 100,
+      "dependencies": []
+    }
+  ],
+  "blocked_paths": [],
+  "dependency_dag": [
+    {
+      "from": "path.stage.docs-owner.operation.process",
+      "to": "path.stage.quality.operation.process"
+    },
+    {
+      "from": "path.stage.graph-owner.operation.process",
+      "to": "path.stage.quality.operation.process"
+    },
+    {
+      "from": "path.stage.quality.operation.process",
+      "to": "path.stage.kaizen.operation.process"
+    },
+    {
+      "from": "path.stage.route.operation.process",
+      "to": "path.stage.docs-owner.operation.process"
+    },
+    {
+      "from": "path.stage.route.operation.process",
+      "to": "path.stage.graph-owner.operation.process"
+    }
+  ],
+  "join": {
+    "policy": "all",
+    "deterministic_order": [
+      "path.stage.docs-owner.operation.process",
+      "path.stage.graph-owner.operation.process",
+      "path.stage.kaizen.operation.process",
+      "path.stage.quality.operation.process",
+      "path.stage.route.operation.process"
+    ]
+  },
+  "budgets": {
+    "max_nodes": 1000,
+    "max_depth": 32,
+    "max_fan_out": 64,
+    "max_iterations": 1000,
+    "max_parallel": 16,
+    "max_duration_ms": 300000
+  },
+  "required_capabilities": [
+    "pure"
+  ],
+  "required_approvals": [],
+  "decision_explanations": [
+    "Selected 5 path(s) for operation operation.process in scope federation.public-safe.",
+    "Applied 5 of 6 relation fact(s).",
+    "Plan is bound to graph sha256:4fe0588134d1a8dee4976fcb5fa107c7e746f4bf4b13c6dfd3bb3c55286370c4 and policy sha256:3333333333333333333333333333333333333333333333333333333333333333."
+  ],
+  "canonical_write_allowed": false,
+  "digest": "sha256:74c742acd1d2a09bad5567ba6d19de2549b5337d2e4aeb4f9cf12d02b6f7ad04"
+}

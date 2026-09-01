@@ -56,7 +56,7 @@ export function resolveActivationPlan(snapshot: ActivationGraphSnapshot, signal:
   const selectedFacts: RelationFact[] = [];
   const blockedFacts: ActivationPlan["blocked_relation_facts"] = [];
   for (const fact of [...snapshot.relation_facts].sort((a, b) => a.id.localeCompare(b.id))) {
-    if (relationApplies(fact, { now: signal.now, scope: signal.scope, values: signal.values, signal_type: signal.type })) selectedFacts.push(fact);
+    if (relationApplies(fact, { now: signal.now, scope: signal.scope, values: signal.values, signal_type: signal.type, operation: signal.operation })) selectedFacts.push(fact);
     else blockedFacts.push({ id: fact.id, reason: "context_not_applicable" });
   }
 

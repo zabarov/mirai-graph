@@ -1,0 +1,17 @@
+contract_version: 1.0.0
+id: program.federation.graph-native.owner
+version: 1.0.0
+imports: []
+inputs: []
+outputs: [{ id: result, type: string }]
+state: []
+nodes:
+  - id: owner.return
+    kind: return
+    values: { result: { op: literal, value: owner_work_evidenced } }
+entry: owner.return
+error_routes: []
+policies:
+  budgets: { max_steps: 8, max_depth: 4, max_iterations: 4, max_parallel: 2, max_duration_ms: 10000 }
+  allowed_effects: [pure]
+  canonical_write_allowed: false
