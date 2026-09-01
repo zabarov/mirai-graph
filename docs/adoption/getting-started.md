@@ -1,6 +1,6 @@
 # Getting Started With Mirai Graph
 
-Status: 1.0 release-candidate adoption guide
+Status: Mirai 2.1 development adoption guide
 
 ## Goal
 
@@ -18,16 +18,17 @@ entry point, start with the [1.0 RC Adopter Kit](adopter-kit.md).
 From the project you want to connect:
 
 ```bash
-npm install -D mirai-graph
-npx mirai-graph detect . --markdown
-npx mirai-graph bootstrap . --mode suggest --markdown
-npx mirai-graph init . --profile software_specification
-npx mirai-graph validate .
+npm install -D @zabarov/mirai
+npx mirai project detect . --markdown
+npx mirai bootstrap . --mode suggest --profile software_specification
+npx mirai project init . --profile software_specification
+npx mirai project inspect . --for-agent --task "review this project"
+npx mirai project validate .
 ```
 
-Release-candidate note: `mirai-graph@1.0.0-rc.6` is not published on npm yet.
-Until npm publication is complete, use the repository checkout path and run the
-same commands through `node packages/cli/mirai-graph.js`.
+During 2.1 development, use a repository checkout when the requested build is
+not yet published. The `mirai-graph` package and binary remain compatibility
+wrappers during 2.x.
 
 Use `detect` first when you are unsure which profile to use. `detect` is
 read-only. `bootstrap --mode suggest` creates proposal/evidence only. `init`
@@ -71,19 +72,24 @@ Do not try to model everything at once.
 
 ## Step 3: Create Package Files
 
-Recommended minimal structure:
+Recommended Mirai 2.1 structure:
 
 ```text
 graph.json
-graph/
-  objects.json
-  relations.json
-gates/
-  results.json
+mirai/
+  manifest.yaml
+  manifest.lock.json
+  START.md
+  owner-notes.md
+  graph/
+    objects.json
+    relations.json
+  sources.yaml
+.mirai/ # local, ignored runtime state
 ```
 
-Use `examples/minimal-graph/` as a minimal reference or start from one of the
-starter templates in `templates/`.
+The root `graph.json` is a generated compatibility facade. Use a starter in
+`templates/` or the [Project Capsule tutorial](project-capsule.md).
 
 ## Step 4: Define Objects
 

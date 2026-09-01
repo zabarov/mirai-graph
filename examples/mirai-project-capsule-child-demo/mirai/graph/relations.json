@@ -1,0 +1,83 @@
+[
+  {
+    "id": "relation.task.check_weather.supports.goal.safe_walk",
+    "type": "supports",
+    "source": "task.check_weather",
+    "target": "goal.safe_walk",
+    "readiness": "accepted",
+    "evidence": ["evidence.synthetic_scenario"],
+    "profile": "project_management"
+  },
+  {
+    "id": "relation.task.check_permission.supports.goal.safe_walk",
+    "type": "supports",
+    "source": "task.check_permission",
+    "target": "goal.safe_walk",
+    "readiness": "accepted",
+    "evidence": ["evidence.synthetic_scenario"],
+    "profile": "project_management"
+  },
+  {
+    "id": "relation.decision.choose_clothes.depends_on.task.check_weather",
+    "type": "depends_on",
+    "source": "decision.choose_clothes",
+    "target": "task.check_weather",
+    "readiness": "accepted",
+    "evidence": ["evidence.synthetic_scenario"],
+    "profile": "project_management"
+  },
+  {
+    "id": "relation.gate.adult_and_safety.depends_on.task.check_permission",
+    "type": "depends_on",
+    "source": "gate.adult_and_safety",
+    "target": "task.check_permission",
+    "readiness": "accepted",
+    "evidence": ["evidence.synthetic_scenario"],
+    "profile": "project_management"
+  },
+  {
+    "id": "relation.gate.adult_and_safety.depends_on.decision.choose_clothes",
+    "type": "depends_on",
+    "source": "gate.adult_and_safety",
+    "target": "decision.choose_clothes",
+    "readiness": "accepted",
+    "evidence": ["evidence.synthetic_scenario"],
+    "profile": "project_management"
+  },
+  {
+    "id": "relation.gate.adult_and_safety.governs.goal.safe_walk",
+    "type": "governs",
+    "source": "gate.adult_and_safety",
+    "target": "goal.safe_walk",
+    "readiness": "accepted",
+    "evidence": ["evidence.synthetic_scenario"],
+    "profile": "project_management"
+  },
+  {
+    "id": "relation.risk.unsafe_departure.blocks.goal.safe_walk",
+    "type": "blocks",
+    "source": "risk.unsafe_departure",
+    "target": "goal.safe_walk",
+    "readiness": "accepted",
+    "evidence": ["evidence.synthetic_scenario"],
+    "profile": "project_management"
+  },
+  {
+    "id": "relation.method.parallel_context_checks.supports.task.check_weather",
+    "type": "supports",
+    "source": "method.parallel_context_checks",
+    "target": "task.check_weather",
+    "readiness": "accepted",
+    "evidence": ["evidence.synthetic_scenario"],
+    "profile": "project_management"
+  },
+  {
+    "id": "relation.method.parallel_context_checks.supports.task.check_permission",
+    "type": "supports",
+    "source": "method.parallel_context_checks",
+    "target": "task.check_permission",
+    "readiness": "accepted",
+    "evidence": ["evidence.synthetic_scenario"],
+    "profile": "project_management"
+  }
+]

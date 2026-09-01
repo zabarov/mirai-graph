@@ -138,17 +138,24 @@ function printPlan(input) {
 function templateReport(templateDir) {
   const absTemplate = path.resolve(root, templateDir);
   const manifestPath = path.join(absTemplate, "graph.json");
-  const objectsPath = path.join(absTemplate, "graph", "objects.json");
-  const relationsPath = path.join(absTemplate, "graph", "relations.json");
   const gatesPath = path.join(absTemplate, "gates", "results.json");
 
-  const missing = [manifestPath, objectsPath, relationsPath].filter((filePath) => !fs.existsSync(filePath));
+  const missing = [manifestPath].filter((filePath) => !fs.existsSync(filePath));
   if (missing.length > 0) {
     console.error(`Template is missing required files: ${missing.map((filePath) => path.relative(root, filePath)).join(", ")}`);
     process.exit(1);
   }
 
   const manifest = readJson(manifestPath);
+  const objectRef = manifest.graph && Array.isArray(manifest.graph.objects) ? manifest.graph.objects[0] : "graph/objects.json";
+  const relationRef = manifest.graph && Array.isArray(manifest.graph.relations) ? manifest.graph.relations[0] : "graph/relations.json";
+  const objectsPath = path.join(absTemplate, objectRef);
+  const relationsPath = path.join(absTemplate, relationRef);
+  const missingGraph = [objectsPath, relationsPath].filter((filePath) => !fs.existsSync(filePath));
+  if (missingGraph.length > 0) {
+    console.error(`Template is missing declared graph files: ${missingGraph.map((filePath) => path.relative(root, filePath)).join(", ")}`);
+    process.exit(1);
+  }
   const objects = readJson(objectsPath);
   const relations = readJson(relationsPath);
   const gates = fs.existsSync(gatesPath) ? readJson(gatesPath) : [];

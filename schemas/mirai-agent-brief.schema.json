@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zabarov.github.io/mirai/schemas/mirai-agent-brief.schema.json",
+  "title": "Mirai Agent Execution Brief",
+  "type": "object", "additionalProperties": false,
+  "required": ["contract_version", "project", "task", "versions", "lock", "profiles", "features", "required_sources", "available_programs", "policies_and_gates", "allowed_actions", "forbidden_actions", "missing_context", "blockers", "next_safe_action", "canonical_write_allowed", "digest"],
+  "properties": {
+    "contract_version": { "const": "1.0.0" }, "project": { "type": "object" }, "task": { "type": "string" }, "versions": { "type": "object" },
+    "lock": { "type": "object", "required": ["digest", "fresh"], "properties": { "digest": { "$ref": "#/$defs/digest" }, "fresh": { "const": true } } },
+    "profiles": { "$ref": "#/$defs/strings" }, "features": { "$ref": "#/$defs/strings" }, "required_sources": { "$ref": "#/$defs/strings" },
+    "available_programs": { "$ref": "#/$defs/strings" }, "policies_and_gates": { "$ref": "#/$defs/strings" }, "allowed_actions": { "$ref": "#/$defs/strings" },
+    "forbidden_actions": { "$ref": "#/$defs/strings" }, "missing_context": { "$ref": "#/$defs/strings" }, "blockers": { "$ref": "#/$defs/strings" },
+    "next_safe_action": { "type": "string" }, "canonical_write_allowed": { "const": false }, "digest": { "$ref": "#/$defs/digest" }
+  },
+  "$defs": { "digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" }, "strings": { "type": "array", "items": { "type": "string" } } }
+}

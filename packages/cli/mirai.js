@@ -8,7 +8,8 @@ const args = process.argv.slice(2);
 const newCommands = new Set([
   "program", "compile", "simulate", "approval", "run", "resume", "cancel",
   "reconcile", "inspect", "replay", "evidence", "conformance", "source",
-  "assimilate", "technology", "component", "activation"
+  "assimilate", "technology", "component", "activation",
+  "project", "init", "detect", "bootstrap"
 ]);
 
 if (args[0] === "--version" || args[0] === "-v") {

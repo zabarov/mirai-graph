@@ -1,0 +1,74 @@
+[
+  {
+    "id": "goal.safe_walk",
+    "kind": "goal",
+    "title": "Go outside safely",
+    "summary": "Prepare the child for a walk without ignoring weather or adult permission.",
+    "readiness": "accepted",
+    "evidence": ["evidence.synthetic_scenario"],
+    "profile": "project_management"
+  },
+  {
+    "id": "task.check_weather",
+    "kind": "task",
+    "title": "Check weather",
+    "summary": "Read rain and temperature context before choosing clothes.",
+    "readiness": "accepted",
+    "evidence": ["evidence.synthetic_scenario"],
+    "profile": "project_management"
+  },
+  {
+    "id": "task.check_permission",
+    "kind": "task",
+    "title": "Ask an adult",
+    "summary": "Obtain an explicit decision from the adult who owns the permission gate.",
+    "readiness": "accepted",
+    "evidence": ["evidence.synthetic_scenario"],
+    "profile": "project_management"
+  },
+  {
+    "id": "decision.choose_clothes",
+    "kind": "decision",
+    "title": "Choose clothes",
+    "summary": "Select a coat in cold weather, boots in rain and both when both conditions apply.",
+    "readiness": "accepted",
+    "evidence": ["evidence.synthetic_scenario"],
+    "profile": "project_management"
+  },
+  {
+    "id": "gate.adult_and_safety",
+    "kind": "governance_gate",
+    "title": "Adult permission and safe clothing",
+    "summary": "The walk remains blocked until permission is granted and clothing matches the observed weather.",
+    "readiness": "accepted",
+    "evidence": ["evidence.synthetic_scenario"],
+    "profile": "project_management"
+  },
+  {
+    "id": "risk.unsafe_departure",
+    "kind": "risk",
+    "title": "Unsafe departure",
+    "summary": "The child could leave without permission or suitable clothing.",
+    "readiness": "accepted",
+    "evidence": ["evidence.synthetic_scenario"],
+    "profile": "project_management"
+  },
+  {
+    "id": "method.parallel_context_checks",
+    "kind": "method",
+    "title": "Parallel context checks",
+    "summary": "Weather and permission are independent checks whose results join before the final gate.",
+    "readiness": "accepted",
+    "evidence": ["evidence.synthetic_scenario"],
+    "profile": "project_management"
+  },
+  {
+    "id": "evidence.synthetic_scenario",
+    "kind": "evidence",
+    "title": "Synthetic walk scenario",
+    "summary": "A public-safe teaching scenario; it is not evidence of a real child's permission.",
+    "readiness": "accepted",
+    "evidence": [],
+    "profile": "project_management"
+  }
+]

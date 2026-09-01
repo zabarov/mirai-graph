@@ -12,6 +12,7 @@ the whole repository.
 - General onboarding: [Getting Started](adoption/getting-started.md)
 - Role-oriented kit: [1.0 RC Adopter Kit](adoption/adopter-kit.md)
 - CLI usage: [Mirai Graph CLI](adoption/cli.md)
+- Mirai 2.1 Project Capsule: [Project Capsule Tutorial](adoption/project-capsule.md)
 - Project purpose: [Repository Purpose](repository-purpose.md)
 - Terminology: [Terminology](terminology.md)
 - Version compatibility: [Versioning](versioning.md)
@@ -46,6 +47,7 @@ Mirai 2.0 execution:
 
 Mirai 2.1 graph-native development:
 
+- [Project Capsule](../standard/project-capsule.md)
 - [Graph-Native Intelligence Architecture](architecture/mirai-2.1-graph-native-intelligence.md)
 - [Knowledge Assimilation](../standard/knowledge-assimilation.md)
 - [Graph-Native Components](../standard/graph-native-components.md)
@@ -125,6 +127,7 @@ Proposal or experimental profile:
 - [Goal Vector Quality Control](../examples/goal-vector-quality-control-minimal/README.md)
 - [Instrumentation Layer](../examples/instrumentation-layer-minimal/README.md)
 - [Organization Governance](../examples/organization-governance-minimal/README.md)
+- [Robot Prepares A Child For A Walk](../examples/mirai-project-capsule-child-demo/README.md)
 - [Societal Governance Proposal Example](../examples/societal-governance-minimal/README.md)
 - [Playground](../playground/README.md)
 

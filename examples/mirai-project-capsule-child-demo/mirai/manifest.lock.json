@@ -1,0 +1,77 @@
+{
+  "contract_version": "1.0.0",
+  "manifest": {
+    "boundaries": {
+      "canonical_writes": "owner_approval_required",
+      "evidence_authority": false,
+      "generated_authority": false,
+      "source_of_truth": "hybrid_sot"
+    },
+    "compatibility": {
+      "legacy_facade": "required_2_x"
+    },
+    "contract_version": "1.0.0",
+    "documentation": {
+      "owner_notes": "mirai/owner-notes.md",
+      "start": "mirai/START.md"
+    },
+    "entrypoints": {
+      "components": "mirai/components",
+      "context": "mirai/context",
+      "graph": {
+        "objects": [
+          "mirai/graph/objects.json"
+        ],
+        "relations": [
+          "mirai/graph/relations.json"
+        ],
+        "root": "mirai/graph"
+      },
+      "interfaces": "mirai/interfaces",
+      "policies": "mirai/policies",
+      "programs": "mirai/programs",
+      "sources": "mirai/sources.yaml"
+    },
+    "features": [
+      "project_self_description",
+      "graph_core",
+      "proposal_first_learning"
+    ],
+    "profiles": [
+      "project_management"
+    ],
+    "project": {
+      "id": "project.robot_walk_preparation",
+      "kind": "project",
+      "owner": "repository_owner",
+      "scope": "repository",
+      "title": "Robot prepares a child for a walk"
+    },
+    "requires": {
+      "graph_contract": "2.0.0",
+      "mirai": ">=2.1.0-alpha <3.0.0",
+      "program_contract": "1.0.0",
+      "runtime_contract": "1.0.0"
+    }
+  },
+  "resolved_contracts": {
+    "graph_contract": "2.0.0",
+    "mirai": ">=2.1.0-alpha <3.0.0",
+    "program_contract": "1.0.0",
+    "runtime_contract": "1.0.0"
+  },
+  "entrypoint_digests": {
+    "mirai/components": "sha256:0bcdf2e80057f6348dd29d4c6378308d1c60f894d6f3759694a2906d90f5e547",
+    "mirai/context": "sha256:21df775001eec7208a9710460d39ff3d8c5afb6385b89e66b9211f4154242e50",
+    "mirai/graph": "sha256:974fd22c94eed38b9ec45e86df41389689c8ea1b1ef3ed633134a80db558cf0b",
+    "mirai/graph/objects.json": "sha256:777d7d2b89544356e6f2dc16826ce59275dababa6e3ad66ebb995583e9ea3966",
+    "mirai/graph/relations.json": "sha256:9f4b6e83600d6a0c728e1468d2b40a705c71cbd7f4db6e26b0f274047ae97621",
+    "mirai/interfaces": "sha256:837b7ed929cc27bf432396e4a0e57112c35531e73214f9459d0919b08ebf7ea4",
+    "mirai/policies": "sha256:6b0d5b4e361387cc9f548f302fc5a6bbbc3b187136e3b268632681d0bbddc42a",
+    "mirai/programs": "sha256:59716889c97e2a0461f1a005e11fc00ce5aab42cabaeb566838213511939b0f7",
+    "mirai/sources.yaml": "sha256:bdaed72d051e9ab97c1cab35ab4ecbf748c7fd1eacb952efc9f3df8f519cea5a"
+  },
+  "source_reference_digest": "sha256:bdaed72d051e9ab97c1cab35ab4ecbf748c7fd1eacb952efc9f3df8f519cea5a",
+  "canonical_write_allowed": false,
+  "digest": "sha256:aa5bcf24e5d46b7ba15426715e1e15f62fd316385d99a5664982c9cc2c08f0b5"
+}

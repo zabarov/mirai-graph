@@ -18,9 +18,11 @@ npx mirai-graph init . --profile software_specification
 npx mirai-graph validate .
 ```
 
-`init` copies only starter graph package files. It does not overwrite project
-README files and refuses to replace existing graph files unless `--force` is
-passed.
+`init` creates a self-describing `mirai/` capsule. It does not overwrite
+project README files or an existing capsule. Each template includes its
+canonical manifest, deterministic lock, generated START, owner notes, source
+catalog and graph under `mirai/graph/`; root `graph.json` is only the 2.x
+compatibility facade.
 
 ## Starters
 

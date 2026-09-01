@@ -13,6 +13,16 @@ test("public CommonJS subpath exports expose graph-native contracts", () => {
   assert.equal(typeof require("@zabarov/mirai/assimilation").scanSource, "function");
   assert.equal(typeof require("@zabarov/mirai/components").validateComponentPackage, "function");
   assert.equal(typeof require("@zabarov/mirai/activation").resolveActivationPlan, "function");
+  assert.equal(typeof require("@zabarov/mirai/project").detectProjectCapsule, "function");
+});
+
+test("project capsule public schemas compile", () => {
+  for (const schemaName of ["mirai-project-manifest.schema.json", "mirai-project-lock.schema.json", "mirai-agent-brief.schema.json", "mirai-project-migration-result.schema.json"]) {
+    const ajv = new Ajv2020({ allErrors: true, strict: false });
+    addFormats(ajv);
+    const schema = JSON.parse(fs.readFileSync(path.resolve(__dirname, "../../schemas", schemaName), "utf8"));
+    assert.doesNotThrow(() => ajv.compile(schema), schemaName);
+  }
 });
 
 function validate(schemaName, value) {

@@ -9,6 +9,7 @@ const node = process.execPath;
 function usage() {
   console.error("Usage:");
   console.error("  mirai-graph validate <package-dir>");
+  console.error("  mirai-graph project <init|detect|compile|validate|inspect|status|migrate> [options]");
   console.error("  mirai-graph init [target-dir] --profile <profile> [--template <template>] [--force]");
   console.error("  mirai-graph migrate [target-dir] [--owner <owner>] [--apply]");
   console.error("  mirai-graph detect [target-dir] [--json|--markdown]");
@@ -56,9 +57,14 @@ if (command === "technology") {
   run("packages/cli/project-technology.js", [subcommand, ...rest], process.cwd());
 }
 
+if (command === "project") {
+  const forwarded = subcommand ? [subcommand, ...rest] : rest;
+  run("packages/cli/mirai.js", ["project", ...forwarded], process.cwd());
+}
+
 if (command === "init" || command === "detect" || command === "bootstrap") {
   const forwarded = subcommand ? [subcommand, ...rest] : rest;
-  run("packages/cli/self-service-onboarding.js", [command, ...forwarded]);
+  run("packages/cli/mirai.js", [command, ...forwarded], process.cwd());
 }
 
 if (command === "validate") {

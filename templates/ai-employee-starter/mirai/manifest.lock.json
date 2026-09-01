@@ -1,0 +1,78 @@
+{
+  "contract_version": "1.0.0",
+  "manifest": {
+    "boundaries": {
+      "canonical_writes": "owner_approval_required",
+      "evidence_authority": false,
+      "generated_authority": false,
+      "source_of_truth": "hybrid_sot"
+    },
+    "compatibility": {
+      "legacy_facade": "required_2_x"
+    },
+    "contract_version": "1.0.0",
+    "documentation": {
+      "owner_notes": "mirai/owner-notes.md",
+      "start": "mirai/START.md"
+    },
+    "entrypoints": {
+      "components": "mirai/components",
+      "context": "mirai/context",
+      "graph": {
+        "objects": [
+          "mirai/graph/objects.json"
+        ],
+        "relations": [
+          "mirai/graph/relations.json"
+        ],
+        "root": "mirai/graph"
+      },
+      "interfaces": "mirai/interfaces",
+      "policies": "mirai/policies",
+      "programs": "mirai/programs",
+      "sources": "mirai/sources.yaml"
+    },
+    "features": [
+      "project_self_description",
+      "graph_core",
+      "proposal_first_learning",
+      "legacy_graph_v2_compatibility"
+    ],
+    "profiles": [
+      "ai_employee"
+    ],
+    "project": {
+      "id": "package.template_ai_employee",
+      "kind": "project",
+      "owner": "mirai-graph",
+      "scope": "package",
+      "title": "AI Employee Starter"
+    },
+    "requires": {
+      "graph_contract": "2.0.0",
+      "mirai": ">=2.1.0-alpha <3.0.0",
+      "program_contract": "1.0.0",
+      "runtime_contract": "1.0.0"
+    }
+  },
+  "resolved_contracts": {
+    "graph_contract": "2.0.0",
+    "mirai": ">=2.1.0-alpha <3.0.0",
+    "program_contract": "1.0.0",
+    "runtime_contract": "1.0.0"
+  },
+  "entrypoint_digests": {
+    "mirai/components": "sha256:0bcdf2e80057f6348dd29d4c6378308d1c60f894d6f3759694a2906d90f5e547",
+    "mirai/context": "sha256:21df775001eec7208a9710460d39ff3d8c5afb6385b89e66b9211f4154242e50",
+    "mirai/graph": "sha256:037b585825b110b1ea49f57ae36e40aa0e81be08715de325f6ab028a25551c19",
+    "mirai/graph/objects.json": "sha256:5468b09ca5500c015e628000ff485ea6d510a8d78638a8ac9a569f3898ca19ab",
+    "mirai/graph/relations.json": "sha256:b8fc3c21ecf87151ea3f21afa507413d1bf87e371d8e0cd5ceae3033817fec13",
+    "mirai/interfaces": "sha256:837b7ed929cc27bf432396e4a0e57112c35531e73214f9459d0919b08ebf7ea4",
+    "mirai/policies": "sha256:6b0d5b4e361387cc9f548f302fc5a6bbbc3b187136e3b268632681d0bbddc42a",
+    "mirai/programs": "sha256:59716889c97e2a0461f1a005e11fc00ce5aab42cabaeb566838213511939b0f7",
+    "mirai/sources.yaml": "sha256:84139658c9841e223753c7d02745ce8b5febf242c489306dfa938a2f9601d75a"
+  },
+  "source_reference_digest": "sha256:84139658c9841e223753c7d02745ce8b5febf242c489306dfa938a2f9601d75a",
+  "canonical_write_allowed": false,
+  "digest": "sha256:4b0c9ae6ac2054fc90931d240982e7822728b6740bc115d4baac584c1c4a42ab"
+}

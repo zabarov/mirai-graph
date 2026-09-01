@@ -1,0 +1,32 @@
+{
+  "$schema": "https://mirai-graph.dev/schemas/graph-manifest.schema.json",
+  "format": "mirai-graph",
+  "schema_version": "2.0.0",
+  "id": "project.mirai-project-capsule-child-demo",
+  "aliases": [],
+  "title": "mirai-project-capsule-child-demo",
+  "scope": "repository",
+  "kind": "project_graph",
+  "owner": "repository_owner",
+  "profiles": [
+    "project_management"
+  ],
+  "graph": {
+    "root": "mirai/graph",
+    "source_of_truth": [
+      "mirai/graph"
+    ],
+    "objects": [
+      "mirai/graph/objects.json"
+    ],
+    "relations": [
+      "mirai/graph/relations.json"
+    ],
+    "schemas": [],
+    "generated": [],
+    "raw_sources": [
+      "mirai/sources.yaml"
+    ]
+  },
+  "imports": []
+}

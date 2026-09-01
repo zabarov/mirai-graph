@@ -68,15 +68,20 @@ package remains structurally usable.
 
 ## What You Get
 
-A starter software graph usually looks like this:
+A preferred Mirai 2.1 project capsule looks like this:
 
 ```text
-graph.json
-graph/
-  objects.json
-  relations.json
-gates/
-  results.json
+mirai/
+  manifest.yaml
+  manifest.lock.json
+  START.md
+  graph/
+    objects.json
+    relations.json
+  programs/
+  policies/
+  sources.yaml
+graph.json  # generated compatibility facade
 ```
 
 Example object:
@@ -110,11 +115,11 @@ Example relation:
 The intended npm workflow is:
 
 ```bash
-npm install -D mirai-graph
-npx mirai-graph detect . --markdown
-npx mirai-graph bootstrap . --mode suggest --markdown
-npx mirai-graph init . --profile software_specification
-npx mirai-graph validate .
+npm install -D @zabarov/mirai
+npx mirai project detect . --markdown
+npx mirai bootstrap . --mode suggest --profile software_specification
+npx mirai project init . --profile software_specification
+npx mirai project validate .
 ```
 
 Current release-candidate note: if the npm package is not published yet, use the
@@ -124,7 +129,7 @@ repository checkout path:
 git clone https://github.com/zabarov/mirai-graph.git
 cd mirai-graph
 npm install
-node packages/cli/mirai-graph.js validate examples/minimal-graph
+node packages/cli/mirai.js project validate examples/mirai-project-capsule-child-demo
 ```
 
 ## What The Commands Mean

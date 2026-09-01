@@ -1,0 +1,42 @@
+boundaries:
+  canonical_writes: owner_approval_required
+  evidence_authority: false
+  generated_authority: false
+  source_of_truth: hybrid_sot
+compatibility:
+  legacy_facade: required_2_x
+contract_version: 1.0.0
+documentation:
+  owner_notes: mirai/owner-notes.md
+  start: mirai/START.md
+entrypoints:
+  components: mirai/components
+  context: mirai/context
+  graph:
+    objects:
+      - mirai/graph/objects.json
+    relations:
+      - mirai/graph/relations.json
+    root: mirai/graph
+  interfaces: mirai/interfaces
+  policies: mirai/policies
+  programs: mirai/programs
+  sources: mirai/sources.yaml
+features:
+  - project_self_description
+  - graph_core
+  - proposal_first_learning
+  - legacy_graph_v2_compatibility
+profiles:
+  - organization_governance
+project:
+  id: package.template_organization_governance
+  kind: project
+  owner: mirai-graph
+  scope: package
+  title: Organization Governance Starter
+requires:
+  graph_contract: 2.0.0
+  mirai: ">=2.1.0-alpha <3.0.0"
+  program_contract: 1.0.0
+  runtime_contract: 1.0.0

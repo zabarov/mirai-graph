@@ -1,13 +1,15 @@
 # Project Technology
 
-Status: 1.4 stable standard; activation contract remains 1.0.0
+Status: Mirai 2.1 development integration; activation contract remains 1.0.0
 
 Project Technology is the shared executable mechanism of Mirai Graph. It is
 not a profile, a second graph or a source of domain methodology.
 
 ## One Mechanism, Different Graphs
 
-The root `graph.json` declares the repository scope and profiles. The same
+The verified `mirai/manifest.lock.json` declares the repository scope,
+profiles and graph entry points. The root `graph.json` remains a generated 2.x
+compatibility facade. The same
 Project Technology operations therefore work for:
 
 - an ordinary project;
@@ -32,8 +34,8 @@ Project Technology calculates prerequisite closure, so a course or executor
 cannot silently omit a required safety step.
 
 ```bash
-mirai-graph technology course compile . --technology graph/specs/technology.json
-mirai-graph technology course compile . --technology graph/specs/technology.json --scenario scenario.recovery
+mirai-graph technology course compile . --technology mirai/graph/specs/technology.json
+mirai-graph technology course compile . --technology mirai/graph/specs/technology.json --scenario scenario.recovery
 mirai-graph technology course verify . --course-pack course-pack.json
 mirai-graph technology course reconcile . --course-pack course-pack.json --projection edited-course.json
 ```
@@ -73,7 +75,7 @@ The programmatic API exposes `inspectArtifactBundle`,
 
 Each immutable release keeps the original input, a normalized package, a
 hash-bound manifest and a technical comparison. The portable registry at
-`graph/specs/artifact-releases.json` stores only opaque matter/release ids,
+`mirai/graph/specs/artifact-releases.json` stores only opaque matter/release ids,
 relative or provider refs, lineage, state and digests. Raw files, document
 contents, party names and private discussion remain in the protected artifact
 store.
@@ -93,11 +95,12 @@ Graph owns only generic identity, lineage, integrity and technical comparison.
 Project Technology preserves verified project experience at task boundaries:
 
 ```text
-task context -> verified outcome -> semantic candidate -> graph/specs
+task context -> verified outcome -> semantic candidate -> mirai/graph/specs
              -> next task context -> usage verification
 ```
 
-`graph/specs` is the portable authority. Chat history and local workflow files
+`mirai/graph/specs` is the preferred portable authority. Legacy `graph/specs`
+remains readable during 2.x migration. Chat history and local workflow files
 are not required by another person or installation. Mutable receipts and
 rollback data are stored outside the project in a host-local directory keyed by
 `graph.id`.
@@ -158,18 +161,19 @@ The only manifest extension key is `mirai.project_technology`:
 }
 ```
 
-Canonical graph objects remain in `graph/specs`. Exact external revisions
-remain in `graph.lock.json`. Mutable continuity state is host-local and keyed
+Canonical graph objects remain in `mirai/graph/specs`. Exact entrypoint and
+source-reference digests remain in `mirai/manifest.lock.json`. Mutable
+continuity state is host-local under `.mirai/` and keyed
 by graph identity; project-local runtime directories are not continuity
 authority.
 
 The only generated provider artifact is:
 
 ```text
-graph/generated/project-technology/target-provider-export.json
+.mirai/evidence/project-technology/target-provider-export.json
 ```
 
-It contains target identity, exact provider revision, decision and goal
+This host-local artifact contains target identity, exact provider revision, decision and goal
 references, Done When, requirements and acceptance references, constraints,
 non-goals, deferred boundaries, approved repository/owner/package/file/action
 scope, the accepted architecture boundary and a contract digest.

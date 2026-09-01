@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zabarov.github.io/mirai/schemas/mirai-project-manifest.schema.json",
+  "title": "Mirai Project Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract_version", "project", "requires", "profiles", "entrypoints", "features", "boundaries", "documentation", "compatibility"],
+  "properties": {
+    "contract_version": { "const": "1.0.0" },
+    "project": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "title", "kind", "scope", "owner"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 }, "title": { "type": "string", "minLength": 1 },
+        "kind": { "enum": ["project", "organization", "ai_system", "research_program", "software_system"] },
+        "scope": { "type": "string", "minLength": 1 }, "owner": { "type": "string", "minLength": 1 }
+      }
+    },
+    "requires": {
+      "type": "object", "additionalProperties": false,
+      "required": ["mirai", "graph_contract", "program_contract", "runtime_contract"],
+      "properties": { "mirai": { "type": "string" }, "graph_contract": { "type": "string" }, "program_contract": { "type": "string" }, "runtime_contract": { "type": "string" } }
+    },
+    "profiles": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+    "entrypoints": {
+      "type": "object", "additionalProperties": false, "required": ["graph", "sources"],
+      "properties": {
+        "graph": {
+          "type": "object", "additionalProperties": false, "required": ["root", "objects", "relations"],
+          "properties": {
+            "root": { "$ref": "#/$defs/path" },
+            "objects": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "$ref": "#/$defs/path" } },
+            "relations": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "$ref": "#/$defs/path" } }
+          }
+        },
+        "programs": { "$ref": "#/$defs/path" }, "components": { "$ref": "#/$defs/path" }, "policies": { "$ref": "#/$defs/path" },
+        "interfaces": { "$ref": "#/$defs/path" }, "context": { "$ref": "#/$defs/path" }, "sources": { "$ref": "#/$defs/path" }
+      }
+    },
+    "features": { "type": "array", "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+    "boundaries": {
+      "type": "object", "additionalProperties": false, "required": ["source_of_truth", "canonical_writes", "generated_authority", "evidence_authority"],
+      "properties": { "source_of_truth": { "const": "hybrid_sot" }, "canonical_writes": { "const": "owner_approval_required" }, "generated_authority": { "const": false }, "evidence_authority": { "const": false } }
+    },
+    "documentation": { "type": "object", "additionalProperties": false, "required": ["start", "owner_notes"], "properties": { "start": { "$ref": "#/$defs/path" }, "owner_notes": { "$ref": "#/$defs/path" } } },
+    "compatibility": { "type": "object", "additionalProperties": false, "required": ["legacy_facade"], "properties": { "legacy_facade": { "enum": ["required_2_x", "disabled"] } } }
+  },
+  "$defs": { "path": { "type": "string", "minLength": 1, "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+$" } }
+}

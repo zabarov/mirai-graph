@@ -112,12 +112,13 @@ npm run validate:adopter-workflow
 
 ## Acceptance Checklist
 
-A 1.0 release-candidate adopter package is ready for first internal use when:
+A Mirai 2.1 Project Capsule is ready for first internal use when:
 
-- root `graph.json` v2 exists and points to graph sources and profiles.
-- `graph/objects.json` has stable object ids, kinds, summaries and readiness.
-- `graph/relations.json` has directed relations with valid source/target ids.
-- `gates/results.json` records at least the initial validation gate.
+- `mirai/manifest.yaml` declares identity, contracts, profiles and boundaries.
+- `mirai/manifest.lock.json` is fresh and digest-bound to the entry points.
+- `mirai/graph/objects.json` has stable object ids, kinds, summaries and readiness.
+- `mirai/graph/relations.json` has directed relations with valid source/target ids.
+- root `graph.json` is a generated facade, not a second source of truth.
 - Private logs, credentials, customer data and internal handoffs are outside
   the public graph package.
 - Generated context is treated as derived output, not canonical state.
@@ -137,6 +138,7 @@ Use these examples as references before creating your own package:
 - `examples/technology-quality-feedback-minimal/`
 - `examples/instrumentation-layer-minimal/`
 - `examples/organization-governance-minimal/`
+- `examples/mirai-project-capsule-child-demo/`
 
 Use these starters for new work:
 

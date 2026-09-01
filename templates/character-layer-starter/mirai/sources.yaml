@@ -1,0 +1,8 @@
+contract_version: 1.0.0
+sources:
+  - authority: owner_source
+    confidentiality: project_internal
+    freshness: task_boundary
+    id: source.migrated_1
+    ref: README.md
+    scope: project

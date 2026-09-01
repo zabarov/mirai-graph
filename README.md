@@ -34,7 +34,9 @@ release claim. It adds:
 - immutable, digest-bound activation plans, deterministic parallel simulation
   and durable no-effect execution through the Mirai 2.0 governed runtime;
 - a public-safe Federation pilot and an independent Python checker for
-  activation plans and run evidence.
+  activation plans and run evidence;
+- a self-describing Project Capsule under `mirai/`, with deterministic lock,
+  generated START and task-scoped Agent Execution Brief.
 
 ```bash
 mirai source scan . --out /tmp/source-catalog.json
@@ -45,6 +47,8 @@ mirai component validate component-package.json
 mirai activation plan --graph graph-snapshot.json --signal signal.json --out /tmp/activation-plan.json
 mirai activation simulate /tmp/activation-plan.json
 mirai activation run /tmp/activation-plan.json --base-dir . --sandbox /tmp/mirai-sandbox
+mirai project detect . --markdown
+mirai project inspect . --for-agent --task "review the current change"
 ```
 
 Read the [2.1 architecture](docs/architecture/mirai-2.1-graph-native-intelligence.md).
@@ -109,11 +113,12 @@ evidenced and what needs approval.
 
 ## What Can A Developer Do With It?
 
-Start with a normal repository and use Mirai Graph to:
+Start with a normal repository and use Mirai to:
 
 - detect whether the project already has a graph package;
 - generate a bootstrap proposal without changing canonical graph files;
-- create a starter graph for features, requirements, risks and decisions;
+- create a self-describing Project Capsule and starter graph for features,
+  requirements, risks and decisions;
 - validate the graph locally or in CI;
 - give AI assistants a cleaner project map instead of dumping full docs into a
   prompt;
@@ -148,18 +153,20 @@ independently. See [Versioning](docs/versioning.md).
 From the project you want to connect, the intended workflow is:
 
 ```bash
-npx mirai-graph detect . --markdown
+npx mirai-graph project detect . --markdown
 npx mirai-graph bootstrap . --mode suggest --markdown
-npx mirai-graph init . --profile software_specification
+npx mirai-graph project init . --profile software_specification
+npx mirai-graph project inspect . --for-agent --task "review this project"
 npx mirai-graph validate .
-npx mirai-graph migrate .
+npx mirai-graph project migrate . --from graph-v2 --dry-run
 ```
 
 What each command does:
 
 - `detect` is read-only and reports what kind of project you have.
 - `bootstrap --mode suggest` creates proposal/evidence only.
-- `init` creates starter graph files after you choose a profile.
+- `init` creates `mirai/`, a verified lock and the 2.x compatibility facade.
+- `inspect --for-agent` returns a compact task-scoped execution brief.
 - `validate` checks the graph package structure and profile rules.
 - `migrate` shows a read-only plan; add `--apply` only after reviewing it.
 
@@ -223,9 +230,9 @@ mirai-graph technology sync . --boundary task_complete --evidence continuity-evi
 mirai-graph technology sync . --boundary task_complete --evidence continuity-evidence.json --apply
 ```
 
-Accepted facts and reusable cases live in `graph/specs`; mutable receipts and
-rollback data stay host-local. The same contract works in Git repositories and
-ordinary shared folders.
+Accepted facts and reusable cases live in `mirai/graph/specs`; mutable receipts
+and rollback data stay host-local under `.mirai/`. Legacy `graph/specs` remains
+readable during the 2.x compatibility window.
 
 Project Technology can also preserve immutable releases of file bundles:
 
@@ -245,8 +252,8 @@ Large operational methods can be described once as executable technologies and
 compiled into staff courses without maintaining a second semantic copy:
 
 ```bash
-mirai-graph technology course compile . --technology graph/specs/technology.json
-mirai-graph technology course compile . --technology graph/specs/technology.json --scenario scenario.recovery
+mirai-graph technology course compile . --technology mirai/graph/specs/technology.json
+mirai-graph technology course compile . --technology mirai/graph/specs/technology.json --scenario scenario.recovery
 mirai-graph technology course verify . --course-pack course-pack.json
 mirai-graph technology course reconcile . --course-pack course-pack.json --projection edited-course.json
 ```
@@ -268,22 +275,32 @@ For a typical software project, `init` creates:
 
 ```text
 graph.json
-graph/
-  objects.json      # features, requirements, risks, decisions, evidence
-  relations.json    # depends_on, implements, blocks, evidences, governs
-gates/
-  results.json      # validation and readiness checks
+mirai/
+  manifest.yaml
+  manifest.lock.json
+  START.md
+  owner-notes.md
+  graph/
+    objects.json
+    relations.json
+  programs/
+  policies/
+  sources.yaml
+.mirai/             # ignored local runs, receipts, evidence and backups
 ```
 
 `bootstrap --mode suggest` creates proposal/evidence separately:
 
 ```text
-mirai-graph/
-  bootstrap-proposal/
+.mirai/
+  proposals/
     bootstrap-proposal.json
 ```
 
 Generated proposals do not update canonical graph state by themselves.
+The root `graph.json` is a generated 2.x compatibility facade pointing to
+`mirai/graph/`; it is not a second source of truth. See the
+[Project Capsule standard](standard/project-capsule.md).
 
 For the guided path, use
 [Connect A Project In 15 Minutes](docs/adoption/connect-project-15-minutes.md)

@@ -1,0 +1,11 @@
+{
+  "contract_version": "1.0.0",
+  "implementation": "python_independent",
+  "kind": "mirai_project_capsule",
+  "status": "passed",
+  "errors": [],
+  "project_lock_digest": "sha256:446a4b11d89ab97a387e0c9d31d982e7bf6e9bebb617db53492e46c7575217d0",
+  "agent_brief_digest": "sha256:192696f864cfbb1d1b2b430ddee09cdc8a2ec5ecd1256a820d954eaa9a263b97",
+  "canonical_write_performed": false,
+  "effects_executed": false
+}

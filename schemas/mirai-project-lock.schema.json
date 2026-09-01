@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zabarov.github.io/mirai/schemas/mirai-project-lock.schema.json",
+  "title": "Mirai Project Lock",
+  "type": "object", "additionalProperties": false,
+  "required": ["contract_version", "manifest", "resolved_contracts", "entrypoint_digests", "source_reference_digest", "canonical_write_allowed", "digest"],
+  "properties": {
+    "contract_version": { "const": "1.0.0" },
+    "manifest": { "type": "object" },
+    "resolved_contracts": { "type": "object", "required": ["mirai", "graph_contract", "program_contract", "runtime_contract"] },
+    "entrypoint_digests": { "type": "object", "additionalProperties": { "$ref": "#/$defs/digest" } },
+    "source_reference_digest": { "$ref": "#/$defs/digest" },
+    "canonical_write_allowed": { "const": false },
+    "digest": { "$ref": "#/$defs/digest" }
+  },
+  "$defs": { "digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" } }
+}

@@ -31,3 +31,11 @@ aggregate trace digests without importing the TypeScript runtime:
 ```bash
 npm run validate:independent-graph-native-conformance
 ```
+
+Mirai 2.1 Project Capsules are independently checked for manifest/lock
+agreement, entrypoint digests, generated START content, facade identity and
+Agent Execution Brief authority boundaries:
+
+```bash
+npm run validate:independent-project-conformance
+```

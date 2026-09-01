@@ -37,6 +37,17 @@ import {
   type ActivationSignal,
   type JoinPolicy
 } from "../activation/index.js";
+import {
+  applyProjectMigration,
+  compileProjectCapsule,
+  createBootstrapProposal,
+  detectProjectCapsule,
+  initProjectCapsule,
+  inspectProjectForAgent,
+  planProjectMigration,
+  rollbackProjectMigration,
+  validateProjectCapsule
+} from "../project/index.js";
 
 function usage(): void {
   process.stderr.write([
@@ -66,6 +77,14 @@ function usage(): void {
     "  mirai activation plan --graph <snapshot.json> --signal <signal.json> --out <plan.json>",
     "  mirai activation simulate <plan.json>",
     "  mirai activation run <plan.json> --sandbox <dir> [--base-dir <dir>] [--input <input.json>] [--home <mirai-home>]",
+    "  mirai project init [path] --profile <profile>",
+    "  mirai project detect [path] [--json|--markdown]",
+    "  mirai project compile [path]",
+    "  mirai project validate [path]",
+    "  mirai project inspect [path] --for-agent --task <task>",
+    "  mirai project status [path]",
+    "  mirai project migrate [path] --from graph-v2 --dry-run",
+    "  mirai project migrate [path] --from graph-v2 --apply --approval <receipt>",
     "",
     "Alpha.3 effects are capability-gated. Workspace/process actions require --apply and a signed local approval.",
     ""
@@ -86,6 +105,17 @@ function readOptions(args: string[], name: string): string[] {
 
 function writeJson(value: unknown): void {
   process.stdout.write(`${JSON.stringify(value, null, 2)}\n`);
+}
+
+function writeProjectOutput(value: Record<string, unknown>, markdown: boolean): void {
+  if (!markdown) return writeJson(value);
+  const lines = ["# Mirai Project Report", ""];
+  for (const [key, item] of Object.entries(value)) {
+    if (Array.isArray(item)) lines.push(`- ${key}: ${item.length ? item.map((entry) => `\`${typeof entry === "string" ? entry : JSON.stringify(entry)}\``).join(", ") : "none"}`);
+    else if (item && typeof item === "object") lines.push(`- ${key}: \`${JSON.stringify(item)}\``);
+    else lines.push(`- ${key}: \`${String(item)}\``);
+  }
+  process.stdout.write(`${lines.join("\n")}\n`);
 }
 
 function requireArgument(value: string | undefined, label: string): string {
@@ -174,6 +204,74 @@ export async function runCli(args: string[]): Promise<number> {
   }
 
   try {
+    if (args[0] === "project") {
+      const command = requireArgument(args[1], "project command");
+      const target = path.resolve(args[2] && !args[2].startsWith("--") ? args[2] : ".");
+      if (command === "init") {
+        writeJson(initProjectCapsule(target, readOption(args, "--profile") || "project_management", { title: readOption(args, "--title") }));
+        return 0;
+      }
+      if (command === "detect" || command === "status") {
+        const result = detectProjectCapsule(target);
+        writeProjectOutput(result as unknown as Record<string, unknown>, args.includes("--markdown"));
+        return result.status === "invalid" || result.status === "dual_root_conflict" ? 2 : 0;
+      }
+      if (command === "compile") {
+        const result = compileProjectCapsule(target);
+        writeJson({ status: "compiled", project_root: target, lock_digest: result.lock.digest, lock_path: result.lock_path, start_path: result.start_path, canonical_write_allowed: false });
+        return 0;
+      }
+      if (command === "validate") {
+        const result = validateProjectCapsule(target);
+        writeJson(result);
+        return result.valid ? 0 : 1;
+      }
+      if (command === "inspect") {
+        if (!args.includes("--for-agent")) throw new Error("project inspect currently requires --for-agent");
+        writeProjectOutput(inspectProjectForAgent(target, requireArgument(readOption(args, "--task"), "--task")) as unknown as Record<string, unknown>, args.includes("--markdown"));
+        return 0;
+      }
+      if (command === "migrate") {
+        if (readOption(args, "--from") !== "graph-v2") throw new Error("project migration requires --from graph-v2");
+        if (args.includes("--rollback")) {
+          const result = rollbackProjectMigration(target, requireArgument(readOption(args, "--approval"), "--approval receipt"));
+          writeJson(result);
+          return result.status === "rolled_back" ? 0 : 2;
+        }
+        if (args.includes("--dry-run")) {
+          const result = planProjectMigration(target);
+          writeJson(result);
+          return result.status === "ready" || result.status === "already_current" ? 0 : 2;
+        }
+        if (!args.includes("--apply")) throw new Error("migration is dry-run by default; use --dry-run or explicit --apply --approval");
+        const result = applyProjectMigration(target, requireArgument(readOption(args, "--approval"), "--approval receipt"));
+        writeJson(result);
+        return result.status === "applied" || result.status === "already_current" ? 0 : 2;
+      }
+      throw new Error(`Unknown project command ${command}`);
+    }
+
+    if (args[0] === "init") {
+      const target = path.resolve(args[1] && !args[1].startsWith("--") ? args[1] : ".");
+      writeJson(initProjectCapsule(target, readOption(args, "--profile") || "project_management", { title: readOption(args, "--title") }));
+      return 0;
+    }
+
+    if (args[0] === "detect") {
+      const target = path.resolve(args[1] && !args[1].startsWith("--") ? args[1] : ".");
+      writeProjectOutput(detectProjectCapsule(target) as unknown as Record<string, unknown>, args.includes("--markdown"));
+      return 0;
+    }
+
+    if (args[0] === "bootstrap") {
+      const target = path.resolve(args[1] && !args[1].startsWith("--") ? args[1] : ".");
+      const mode = readOption(args, "--mode") || "detect";
+      if (mode === "detect") writeProjectOutput(detectProjectCapsule(target) as unknown as Record<string, unknown>, args.includes("--markdown"));
+      else if (mode === "suggest") writeProjectOutput(createBootstrapProposal(target, readOption(args, "--profile") || "project_management") as unknown as Record<string, unknown>, args.includes("--markdown"));
+      else throw new Error(`Unknown bootstrap mode ${mode}`);
+      return 0;
+    }
+
     if (args[0] === "source" && args[1] === "scan") {
       const catalog = scanSource(requireArgument(args[2], "source path"));
       const output = readOption(args, "--out");

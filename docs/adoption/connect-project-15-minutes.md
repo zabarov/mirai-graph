@@ -1,6 +1,6 @@
 # Connect A Project In 15 Minutes
 
-Status: 1.0 release-candidate tutorial
+Status: Mirai 2.1 development tutorial
 
 This tutorial starts from an existing project and creates a first validated
 Mirai Graph package. It is intentionally small: the goal is a reviewable
@@ -14,17 +14,17 @@ If you want the developer-facing rationale first, read
 From the project you want to connect:
 
 ```bash
-npm install -D mirai-graph
+npm install -D @zabarov/mirai
 ```
 
-Release-candidate note: `mirai-graph@1.0.0-rc.6` is not published on npm yet.
-Until npm publication is complete, use a repository checkout and run the same
-commands through `node packages/cli/mirai-graph.js`.
+During 2.1 development, use the repository checkout when the requested build
+is not yet published. The `mirai-graph` binary remains a 2.x compatibility
+alias, but new documentation uses `mirai`.
 
 You can also run without saving the dependency:
 
 ```bash
-npx mirai-graph detect . --markdown
+npx mirai project detect . --markdown
 ```
 
 ## 2. Detect The Project
@@ -32,7 +32,7 @@ npx mirai-graph detect . --markdown
 Run read-only detection:
 
 ```bash
-npx mirai-graph detect . --markdown
+npx mirai project detect . --markdown
 ```
 
 Detection reports whether a Mirai Graph package already exists, which profile
@@ -44,13 +44,13 @@ Detection does not write files.
 Create a proposal without changing canonical graph files:
 
 ```bash
-npx mirai-graph bootstrap . --mode suggest --markdown
+npx mirai bootstrap . --mode suggest --profile software_specification
 ```
 
 The proposal is written to:
 
 ```text
-mirai-graph/bootstrap-proposal/
+.mirai/proposals/bootstrap-proposal.json
 ```
 
 It keeps `canonical_write_allowed=false`.
@@ -60,41 +60,44 @@ It keeps `canonical_write_allowed=false`.
 After reviewing the recommendation, create a starter package:
 
 ```bash
-npx mirai-graph init . --profile software_specification
+npx mirai project init . --profile software_specification
 ```
 
 Use another profile when detection recommends it:
 
 ```bash
-npx mirai-graph init . --profile project_management
-npx mirai-graph init . --profile ai_employee
-npx mirai-graph init . --profile character_layer
-npx mirai-graph init . --profile organization_governance
+npx mirai project init . --profile project_management
+npx mirai project init . --profile ai_employee
+npx mirai project init . --profile character_layer
+npx mirai project init . --profile organization_governance
 ```
 
 `init` creates:
 
 ```text
-graph.json
-graph/objects.json
-graph/relations.json
-gates/results.json
+mirai/manifest.yaml
+mirai/manifest.lock.json
+mirai/START.md
+mirai/graph/objects.json
+mirai/graph/relations.json
+graph.json  # generated 2.x compatibility facade
 ```
 
-It refuses to overwrite existing graph files unless `--force` is passed.
+It refuses to overwrite an existing capsule. Canonical adoption remains an
+explicit action after proposal review.
 
 ## 5. Validate
 
 Run:
 
 ```bash
-npx mirai-graph validate .
+npx mirai project validate .
 ```
 
 For a human-readable report:
 
 ```bash
-npx mirai-graph report validation .
+npx mirai project inspect . --for-agent --task "review project readiness"
 ```
 
 ## 6. Add CI
@@ -108,14 +111,14 @@ Copy the GitHub Action starter from:
 Use this command in CI:
 
 ```bash
-npx mirai-graph validate .
+npx mirai project validate .
 ```
 
 Adjust `.` if your package root is somewhere else.
 
 ## Boundaries
 
-- A starter graph is not proof that the project is correct.
+- A Project Capsule is not proof that the project is correct.
 - Generated proposals do not update canonical graph state.
 - Evidence and feedback do not authorize production changes.
 - Private data, credentials and customer logs should stay outside public graph

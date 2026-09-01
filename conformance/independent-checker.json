@@ -2,7 +2,7 @@
   "contract_version": "1.0.0",
   "checker": {
     "repository": "https://github.com/zabarov/mirai-conformance",
-    "revision": "2ad57bfb5ede839aa1beec23b21099e43ee6572d",
+    "revision": "598621df0a181785805ff46cbfa1e98f2510615f",
     "language": "Python",
     "python_requires": ">=3.12",
     "imports_typescript_runtime": false
@@ -10,6 +10,7 @@
   "corpus_ref": "conformance/corpus/pure/corpus.json",
   "typescript_result_ref": "conformance/results/typescript-pure-result.json",
   "python_result_ref": "conformance/results/python-pure-result.json",
+  "project_result_ref": "conformance/results/python-mirai-2.1-project-capsule-result.json",
   "runtime_result_refs": [
     "conformance/results/python-federation-episode-result.json",
     "conformance/results/python-ai-employee-episode-result.json",
@@ -30,7 +31,11 @@
     "multidimensional_relation_facts",
     "technology_drafts",
     "activation_plans",
-    "activation_run_results"
+    "activation_run_results",
+    "project_manifests",
+    "project_locks",
+    "generated_start_pages",
+    "agent_execution_briefs"
   ],
   "status": "matched",
   "limitations": [

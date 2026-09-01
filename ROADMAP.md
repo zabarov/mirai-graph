@@ -277,6 +277,11 @@ remain unchanged.
 7. `2.1.0`: stable only after all conformance, safety, pilot and scientific
    gates pass.
 
+Project Capsule is an additive core-infrastructure track within 2.1: preferred
+`mirai/` layout, deterministic project lock, generated START, task-scoped Agent
+Execution Brief, graph-v2 migration and a 2.x root compatibility facade. It is
+not a new profile and does not change Program `1.0.0` or Runtime `1.0.0`.
+
 The development implementation currently covers the alpha contracts, durable
 no-effect activation, the synthetic Federation pilot and independent Python
 checks for activation plans and run evidence. Beta engineering work is present,

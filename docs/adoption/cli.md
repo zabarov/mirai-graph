@@ -11,7 +11,7 @@ reports.
 Detect an existing project without writing files:
 
 ```bash
-npx mirai-graph detect . --markdown
+npx mirai-graph project detect . --markdown
 ```
 
 Create a bootstrap proposal without canonical writes:
@@ -23,7 +23,11 @@ npx mirai-graph bootstrap . --mode suggest --markdown
 Initialize a starter package:
 
 ```bash
-npx mirai-graph init . --profile software_specification
+npx mirai-graph project init . --profile software_specification
+npx mirai-graph project compile .
+npx mirai-graph project validate .
+npx mirai-graph project inspect . --for-agent --task "prepare the change"
+npx mirai-graph project status .
 ```
 
 List profile choices:
@@ -114,7 +118,10 @@ inputs and outputs; the command never stores them itself.
 - Markdown output is intended for human review.
 - `detect` is read-only.
 - `bootstrap --mode suggest` writes proposal/evidence only.
-- `init` creates starter graph files and refuses to overwrite by default.
+- `init` creates the preferred `mirai/` capsule and refuses to overwrite it.
+- project execution requires a fresh deterministic lock.
+- `inspect --for-agent` exposes references and boundaries, not secret contents
+  or authority grants.
 - Adopter workflow output is a starting aid, not adoption proof.
 - Dynamic episode reports explain operational behavior. They do not expose
   hidden model reasoning and do not authorize canonical updates.
