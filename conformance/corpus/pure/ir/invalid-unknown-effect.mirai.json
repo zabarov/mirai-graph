@@ -1,0 +1,33 @@
+{
+  "contract_version": "1.0.0",
+  "id": "program.invalid-unknown-effect",
+  "version": "1.0.0",
+  "imports": [],
+  "inputs": [],
+  "outputs": [],
+  "state": [],
+  "nodes": [
+    {
+      "id": "publish",
+      "kind": "call",
+      "target": { "kind": "adapter", "adapter": "network", "operation": "publish" },
+      "effects": ["public_publish"],
+      "capability": "capability.publish",
+      "next": "done"
+    },
+    { "id": "done", "kind": "return" }
+  ],
+  "entry": "publish",
+  "error_routes": [],
+  "policies": {
+    "budgets": {
+      "max_steps": 16,
+      "max_depth": 8,
+      "max_iterations": 16,
+      "max_parallel": 4,
+      "max_duration_ms": 30000
+    },
+    "allowed_effects": ["public_publish"],
+    "canonical_write_allowed": false
+  }
+}

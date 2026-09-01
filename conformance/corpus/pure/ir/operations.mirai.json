@@ -1,0 +1,150 @@
+{
+  "contract_version": "1.0.0",
+  "entry": "calculate.total",
+  "error_routes": [],
+  "id": "program.conformance-operations",
+  "imports": [],
+  "inputs": [
+    {
+      "id": "left",
+      "type": "int64"
+    },
+    {
+      "id": "right",
+      "type": "int64"
+    }
+  ],
+  "nodes": [
+    {
+      "args": {
+        "left": {
+          "op": "ref",
+          "path": "input.left"
+        },
+        "right": {
+          "op": "ref",
+          "path": "input.right"
+        }
+      },
+      "effects": [
+        "pure"
+      ],
+      "id": "calculate.total",
+      "kind": "call",
+      "next": "match.total",
+      "result": "total",
+      "target": {
+        "adapter": "pure",
+        "kind": "adapter",
+        "operation": "add_int64"
+      }
+    },
+    {
+      "cases": [
+        {
+          "equals": 5,
+          "to": "emit.five"
+        }
+      ],
+      "default": "return.other",
+      "id": "match.total",
+      "kind": "match",
+      "value": {
+        "op": "ref",
+        "path": "state.total"
+      }
+    },
+    {
+      "event": "sum.five",
+      "id": "emit.five",
+      "kind": "emit",
+      "next": "return.five",
+      "payload": {
+        "op": "ref",
+        "path": "state.total"
+      }
+    },
+    {
+      "id": "return.five",
+      "kind": "return",
+      "values": {
+        "status": {
+          "op": "literal",
+          "value": "five"
+        },
+        "total": {
+          "op": "ref",
+          "path": "state.total"
+        }
+      }
+    },
+    {
+      "id": "return.other",
+      "kind": "return",
+      "values": {
+        "status": {
+          "op": "literal",
+          "value": "other"
+        },
+        "total": {
+          "op": "ref",
+          "path": "state.total"
+        }
+      }
+    }
+  ],
+  "outputs": [
+    {
+      "id": "status",
+      "type": "string"
+    },
+    {
+      "id": "total",
+      "type": "int64"
+    }
+  ],
+  "policies": {
+    "allowed_effects": [
+      "pure"
+    ],
+    "budgets": {
+      "max_depth": 8,
+      "max_duration_ms": 100,
+      "max_iterations": 16,
+      "max_parallel": 4,
+      "max_steps": 16
+    },
+    "canonical_write_allowed": false
+  },
+  "source_map": {
+    "calculate.total": {
+      "file": "operations.mirai.yaml",
+      "line": 20
+    },
+    "emit.five": {
+      "file": "operations.mirai.yaml",
+      "line": 46
+    },
+    "match.total": {
+      "file": "operations.mirai.yaml",
+      "line": 37
+    },
+    "return.five": {
+      "file": "operations.mirai.yaml",
+      "line": 53
+    },
+    "return.other": {
+      "file": "operations.mirai.yaml",
+      "line": 62
+    }
+  },
+  "state": [
+    {
+      "default": 0,
+      "id": "total",
+      "type": "int64"
+    }
+  ],
+  "version": "1.0.0",
+  "digest": "sha256:a21a2893582dd7c4786b3dfe975835e2da2263a6ba42e7b88dc0c6456e06b91d"
+}

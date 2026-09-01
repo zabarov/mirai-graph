@@ -1,0 +1,91 @@
+{
+  "contract_version": "1.0.0",
+  "entry": "calculate",
+  "error_routes": [],
+  "id": "program.conformance-add",
+  "imports": [],
+  "inputs": [
+    {
+      "id": "left",
+      "type": "int64"
+    },
+    {
+      "id": "right",
+      "type": "int64"
+    }
+  ],
+  "nodes": [
+    {
+      "args": {
+        "left": {
+          "op": "ref",
+          "path": "input.left"
+        },
+        "right": {
+          "op": "ref",
+          "path": "input.right"
+        }
+      },
+      "effects": [
+        "pure"
+      ],
+      "id": "calculate",
+      "kind": "call",
+      "next": "return",
+      "result": "total",
+      "target": {
+        "adapter": "pure",
+        "kind": "adapter",
+        "operation": "add_int64"
+      }
+    },
+    {
+      "id": "return",
+      "kind": "return",
+      "values": {
+        "total": {
+          "op": "ref",
+          "path": "state.total"
+        }
+      }
+    }
+  ],
+  "outputs": [
+    {
+      "id": "total",
+      "type": "int64"
+    }
+  ],
+  "policies": {
+    "allowed_effects": [
+      "pure"
+    ],
+    "budgets": {
+      "max_depth": 8,
+      "max_duration_ms": 30000,
+      "max_iterations": 16,
+      "max_parallel": 4,
+      "max_steps": 16
+    },
+    "canonical_write_allowed": false
+  },
+  "source_map": {
+    "calculate": {
+      "file": "add.mirai.yaml",
+      "line": 18
+    },
+    "return": {
+      "file": "add.mirai.yaml",
+      "line": 35
+    }
+  },
+  "state": [
+    {
+      "default": 0,
+      "id": "total",
+      "type": "int64"
+    }
+  ],
+  "version": "1.0.0",
+  "digest": "sha256:30c600a98436a29bedf19a975a4374dbbc9cb11419dc0667a8a992f5cb54ee85"
+}

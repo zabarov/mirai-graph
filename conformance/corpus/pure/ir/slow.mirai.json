@@ -1,0 +1,57 @@
+{
+  "contract_version": "1.0.0",
+  "entry": "emit.first",
+  "error_routes": [],
+  "id": "program.conformance-slow",
+  "imports": [],
+  "inputs": [],
+  "nodes": [
+    {
+      "event": "slow.first",
+      "id": "emit.first",
+      "kind": "emit",
+      "next": "emit.second"
+    },
+    {
+      "event": "slow.second",
+      "id": "emit.second",
+      "kind": "emit",
+      "next": "return.done"
+    },
+    {
+      "id": "return.done",
+      "kind": "return"
+    }
+  ],
+  "outputs": [],
+  "policies": {
+    "allowed_effects": [
+      "pure"
+    ],
+    "budgets": {
+      "max_depth": 8,
+      "max_duration_ms": 100,
+      "max_iterations": 8,
+      "max_parallel": 4,
+      "max_steps": 8
+    },
+    "canonical_write_allowed": false
+  },
+  "source_map": {
+    "emit.first": {
+      "file": "slow.mirai.yaml",
+      "line": 9
+    },
+    "emit.second": {
+      "file": "slow.mirai.yaml",
+      "line": 13
+    },
+    "return.done": {
+      "file": "slow.mirai.yaml",
+      "line": 17
+    }
+  },
+  "state": [],
+  "version": "1.0.0",
+  "digest": "sha256:84cbf15302a5345b15b0cc430187f702da41697ff7693916404618691cad7442"
+}

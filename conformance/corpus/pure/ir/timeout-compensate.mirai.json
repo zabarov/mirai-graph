@@ -1,0 +1,93 @@
+{
+  "contract_version": "1.0.0",
+  "entry": "timeout.slow",
+  "error_routes": [],
+  "id": "program.conformance-timeout-compensate",
+  "imports": [
+    {
+      "alias": "slow",
+      "digest": "sha256:84cbf15302a5345b15b0cc430187f702da41697ff7693916404618691cad7442",
+      "ref": "program.conformance-slow"
+    }
+  ],
+  "inputs": [],
+  "nodes": [
+    {
+      "id": "timeout.slow",
+      "kind": "timeout",
+      "next": "return.unexpected",
+      "on_timeout": "compensate.synthetic",
+      "program": "slow",
+      "timeout_ms": 1
+    },
+    {
+      "id": "compensate.synthetic",
+      "kind": "compensate",
+      "next": "return.timed-out",
+      "receipt": {
+        "op": "literal",
+        "value": "receipt.synthetic"
+      }
+    },
+    {
+      "id": "return.timed-out",
+      "kind": "return",
+      "values": {
+        "status": {
+          "op": "literal",
+          "value": "timed_out"
+        }
+      }
+    },
+    {
+      "id": "return.unexpected",
+      "kind": "return",
+      "values": {
+        "status": {
+          "op": "literal",
+          "value": "unexpected"
+        }
+      }
+    }
+  ],
+  "outputs": [
+    {
+      "id": "status",
+      "type": "string"
+    }
+  ],
+  "policies": {
+    "allowed_effects": [
+      "pure"
+    ],
+    "budgets": {
+      "max_depth": 8,
+      "max_duration_ms": 100,
+      "max_iterations": 8,
+      "max_parallel": 4,
+      "max_steps": 16
+    },
+    "canonical_write_allowed": false
+  },
+  "source_map": {
+    "compensate.synthetic": {
+      "file": "timeout-compensate.mirai.yaml",
+      "line": 20
+    },
+    "return.timed-out": {
+      "file": "timeout-compensate.mirai.yaml",
+      "line": 26
+    },
+    "return.unexpected": {
+      "file": "timeout-compensate.mirai.yaml",
+      "line": 32
+    },
+    "timeout.slow": {
+      "file": "timeout-compensate.mirai.yaml",
+      "line": 14
+    }
+  },
+  "state": [],
+  "version": "1.0.0",
+  "digest": "sha256:99423ab039e6396e6213d04a1bdcc2d17904546f89ce82cb2644fd14a3cac0ab"
+}

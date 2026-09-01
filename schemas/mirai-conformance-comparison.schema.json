@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zabarov.github.io/mirai/schemas/mirai-conformance-comparison.schema.json",
+  "title": "Mirai Conformance Comparison",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version", "corpus_id", "reference_implementation",
+    "candidate_implementation", "status", "differences"
+  ],
+  "properties": {
+    "contract_version": { "const": "1.0.0" },
+    "corpus_id": { "type": "string", "minLength": 1 },
+    "reference_implementation": { "type": "string", "minLength": 1 },
+    "candidate_implementation": { "type": "string", "minLength": 1 },
+    "status": { "enum": ["match", "mismatch"] },
+    "differences": { "type": "array", "items": { "type": "string", "minLength": 1 } }
+  }
+}

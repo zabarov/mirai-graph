@@ -1,0 +1,41 @@
+{
+  "contract_version": "1.0.0",
+  "entry": "cancel.run",
+  "error_routes": [],
+  "id": "program.conformance-cancel",
+  "imports": [],
+  "inputs": [],
+  "nodes": [
+    {
+      "id": "cancel.run",
+      "kind": "cancel",
+      "reason": {
+        "op": "literal",
+        "value": "operator_request"
+      }
+    }
+  ],
+  "outputs": [],
+  "policies": {
+    "allowed_effects": [
+      "pure"
+    ],
+    "budgets": {
+      "max_depth": 8,
+      "max_duration_ms": 100,
+      "max_iterations": 8,
+      "max_parallel": 4,
+      "max_steps": 8
+    },
+    "canonical_write_allowed": false
+  },
+  "source_map": {
+    "cancel.run": {
+      "file": "cancel.mirai.yaml",
+      "line": 9
+    }
+  },
+  "state": [],
+  "version": "1.0.0",
+  "digest": "sha256:417732a9598c89cea6e6130cdfb622575436dcbfbd77a031f6389cdecbf26997"
+}

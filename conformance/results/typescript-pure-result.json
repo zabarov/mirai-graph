@@ -1,0 +1,111 @@
+{
+  "contract_version": "1.0.0",
+  "corpus_id": "mirai.pure.language.v1",
+  "corpus_digest": "sha256:d78eddd364e95feeb99a377702f1ac92f0c5aa72124ff84826c0433de13df5cc",
+  "implementation": "typescript_reference",
+  "status": "passed",
+  "passed": 13,
+  "failed": 0,
+  "cases": [
+    {
+      "id": "decision.accepted.100x",
+      "passed": true,
+      "status": "passed",
+      "trace_digest": "sha256:d67727d7ba097c2afbc6240055c1d103a1ee9f028726494fc4b5800ecdda4199",
+      "output_digest": "sha256:6deeea65d0a0b2dfc5666b09cf9678795d8b6ab732e92bdaaa277e9046bf3faa",
+      "errors": []
+    },
+    {
+      "id": "decision.blocked",
+      "passed": true,
+      "status": "passed",
+      "trace_digest": "sha256:5b7121b42dd3cbeafc54ac4c569e0721e487d20e6d096069cf1880d2df2a7d20",
+      "output_digest": "sha256:a64f14dbad11d95b26792747165cdbcb1f8cc1f199becb91992ebd83d738af12",
+      "errors": []
+    },
+    {
+      "id": "adapter.add-int64",
+      "passed": true,
+      "status": "passed",
+      "trace_digest": "sha256:d86d7de55f3a33f58a5376f05e6038831a1029aea01a24cfc0215ca0c53f33cb",
+      "output_digest": "sha256:bb1453c7fec8dfc7c9d2c40136205f7cef6a1d9bb63e1ee85c038f04e730baa8",
+      "errors": []
+    },
+    {
+      "id": "operations.call-match-emit",
+      "passed": true,
+      "status": "passed",
+      "trace_digest": "sha256:166b8b52ce9a482e4a6c49da0359d97712b21aa5276756aac0206b2532f5874f",
+      "output_digest": "sha256:45e97d5d97c9258839deba4f3294a8f0eb90dd7dbee96620b7d50672f98a559f",
+      "errors": []
+    },
+    {
+      "id": "collections.foreach-parallel",
+      "passed": true,
+      "status": "passed",
+      "trace_digest": "sha256:11f2c73343bd25f26a2e0422baf5f17c7a9920c05cb7a3961f22793b3644be4f",
+      "output_digest": "sha256:105a99a9ccdebc753ddf1e0c4233fb0fcc9f4598d0fbee5f07953b26d4d6b30f",
+      "errors": []
+    },
+    {
+      "id": "call.imported-program",
+      "passed": true,
+      "status": "passed",
+      "trace_digest": "sha256:ec4791bffce93116f9af749d02aace348089e45ae65e544f54a9678e0f807a06",
+      "output_digest": "sha256:cccc39aa75b566301debf610a777ac220e9f51692f41ddd39da0a1dd72022e9a",
+      "errors": []
+    },
+    {
+      "id": "await.event-received",
+      "passed": true,
+      "status": "passed",
+      "trace_digest": "sha256:2f8f5a23dd018e5164daf3b22d942c2f13bfc8c9f9623a8b2ea53204b77a9ca0",
+      "output_digest": "sha256:0ba7c0356149946bf0642fab4ef85b95e7090f6f785d0fb84323d0c442e5190a",
+      "errors": []
+    },
+    {
+      "id": "await.deadline-route",
+      "passed": true,
+      "status": "passed",
+      "trace_digest": "sha256:566659145b03354b1fc70b84c60a1a127374dcee3192debf5689d129da32228f",
+      "output_digest": "sha256:e21e9bdaa91443d22b486f56750b3a70e80767770da63886723ac1b6719a4d0b",
+      "errors": []
+    },
+    {
+      "id": "retry.exhausted",
+      "passed": true,
+      "status": "passed",
+      "trace_digest": "sha256:45e1b94243a4cc95bab5af53f9dd53c501248ef4d9e83be92d422fb4480b49a5",
+      "output_digest": "sha256:759315d5ae8c31136d2a7bc803e591554894987559325cdf7e0b5965bec0eaca",
+      "errors": []
+    },
+    {
+      "id": "timeout.compensation-route",
+      "passed": true,
+      "status": "passed",
+      "trace_digest": "sha256:e9e525e6596fcd324772364bb839de29c6eb379e49640a4c25aa94b5c8035622",
+      "output_digest": "sha256:56910b8e5b18c6059da3f942bf2f62e3f3c2f0ee7ccc8bb44eb53e861ecffed8",
+      "errors": []
+    },
+    {
+      "id": "cancel.terminal",
+      "passed": true,
+      "status": "passed",
+      "trace_digest": "sha256:67cdacddbe6d5f89f905fea6befe94343c09500a373d3ef9994d606c24b5ef48",
+      "output_digest": "sha256:44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "errors": []
+    },
+    {
+      "id": "invalid.unbounded-foreach",
+      "passed": true,
+      "status": "expected_validation_failure",
+      "errors": []
+    },
+    {
+      "id": "invalid.unknown-effect",
+      "passed": true,
+      "status": "expected_validation_failure",
+      "errors": []
+    }
+  ]
+}

@@ -7,6 +7,7 @@ import type { MiraiProgram } from "../program/types.js";
 import { executePure, type PureEpisode } from "../runtime/pure-interpreter.js";
 import { replayPure } from "../runtime/replay.js";
 import { runPureCorpus } from "../conformance/pure-corpus.js";
+import { compareConformanceResults, type ImplementationConformanceResult } from "../conformance/compare.js";
 import {
   RunStore,
   cancelGovernedRun,
@@ -34,6 +35,7 @@ function usage(): void {
     "  mirai simulate <program> [--input <input.json>] [--events <events.json>] [--import <alias=program>]",
     "  mirai replay <episode> --program <program> [--import <alias=program>]",
     "  mirai conformance run <corpus.json>",
+    "  mirai conformance compare <reference-result.json> <candidate-result.json>",
     "  mirai approval create <program.mirai.json> --sandbox <dir> --effects <list> --out <receipt.json>",
     "  mirai run <program.mirai.json> --input <input.json> --sandbox <dir> [--apply --approval <receipt.json>]",
     "  mirai resume <run-id> [--home <mirai-home>]",
@@ -193,6 +195,14 @@ export async function runCli(args: string[]): Promise<number> {
       const result = await runPureCorpus(requireArgument(args[2], "corpus path"));
       writeJson(result);
       return result.status === "passed" ? 0 : 1;
+    }
+
+    if (args[0] === "conformance" && args[1] === "compare") {
+      const reference = loadJson(requireArgument(args[2], "reference result")) as unknown as ImplementationConformanceResult;
+      const candidate = loadJson(requireArgument(args[3], "candidate result")) as unknown as ImplementationConformanceResult;
+      const result = compareConformanceResults(reference, candidate);
+      writeJson(result);
+      return result.status === "match" ? 0 : 1;
     }
 
     if (args[0] === "approval" && args[1] === "create") {

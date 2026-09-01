@@ -1,0 +1,53 @@
+{
+  "contract_version": "1.0.0",
+  "entry": "return.value",
+  "error_routes": [],
+  "id": "program.conformance-worker",
+  "imports": [],
+  "inputs": [
+    {
+      "id": "item",
+      "type": "string"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "return.value",
+      "kind": "return",
+      "values": {
+        "value": {
+          "op": "ref",
+          "path": "input.item"
+        }
+      }
+    }
+  ],
+  "outputs": [
+    {
+      "id": "value",
+      "type": "string"
+    }
+  ],
+  "policies": {
+    "allowed_effects": [
+      "pure"
+    ],
+    "budgets": {
+      "max_depth": 8,
+      "max_duration_ms": 100,
+      "max_iterations": 8,
+      "max_parallel": 4,
+      "max_steps": 8
+    },
+    "canonical_write_allowed": false
+  },
+  "source_map": {
+    "return.value": {
+      "file": "worker.mirai.yaml",
+      "line": 13
+    }
+  },
+  "state": [],
+  "version": "1.0.0",
+  "digest": "sha256:b79e42065385e3a82b9e5c41281ac5098398ee645bf9983332ea4678bb9c0317"
+}

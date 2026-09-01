@@ -1,0 +1,83 @@
+{
+  "contract_version": "1.0.0",
+  "entry": "decision.route",
+  "error_routes": [],
+  "id": "program.review-decision",
+  "imports": [],
+  "inputs": [
+    {
+      "id": "approved",
+      "required": true,
+      "type": "boolean"
+    }
+  ],
+  "nodes": [
+    {
+      "condition": {
+        "op": "ref",
+        "path": "input.approved"
+      },
+      "else": "decision.blocked",
+      "id": "decision.route",
+      "kind": "branch",
+      "then": "decision.accepted"
+    },
+    {
+      "id": "decision.accepted",
+      "kind": "return",
+      "values": {
+        "decision": {
+          "op": "literal",
+          "value": "accepted"
+        }
+      }
+    },
+    {
+      "id": "decision.blocked",
+      "kind": "return",
+      "values": {
+        "decision": {
+          "op": "literal",
+          "value": "blocked"
+        }
+      }
+    }
+  ],
+  "outputs": [
+    {
+      "id": "decision",
+      "required": true,
+      "type": "string"
+    }
+  ],
+  "policies": {
+    "allowed_effects": [
+      "pure"
+    ],
+    "budgets": {
+      "max_depth": 8,
+      "max_duration_ms": 30000,
+      "max_iterations": 16,
+      "max_parallel": 4,
+      "max_steps": 16
+    },
+    "canonical_write_allowed": false
+  },
+  "source_map": {
+    "decision.accepted": {
+      "file": "program.mirai.yaml",
+      "line": 22
+    },
+    "decision.blocked": {
+      "file": "program.mirai.yaml",
+      "line": 28
+    },
+    "decision.route": {
+      "file": "program.mirai.yaml",
+      "line": 15
+    }
+  },
+  "state": [],
+  "version": "1.0.0",
+  "digest": "sha256:e41baab35042a269c51cecabe133966ee71559dd9a9b3d8285293bf2a398de5a"
+}

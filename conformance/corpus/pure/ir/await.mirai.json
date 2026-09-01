@@ -1,0 +1,81 @@
+{
+  "contract_version": "1.0.0",
+  "entry": "await.review",
+  "error_routes": [],
+  "id": "program.conformance-await",
+  "imports": [],
+  "inputs": [],
+  "nodes": [
+    {
+      "deadline_ms": 100,
+      "event": "review.completed",
+      "id": "await.review",
+      "kind": "await",
+      "next": "return.received",
+      "on_timeout": "return.timeout",
+      "result": "review"
+    },
+    {
+      "id": "return.received",
+      "kind": "return",
+      "values": {
+        "status": {
+          "op": "ref",
+          "path": "state.review"
+        }
+      }
+    },
+    {
+      "id": "return.timeout",
+      "kind": "return",
+      "values": {
+        "status": {
+          "op": "literal",
+          "value": "timeout"
+        }
+      }
+    }
+  ],
+  "outputs": [
+    {
+      "id": "status",
+      "type": "string"
+    }
+  ],
+  "policies": {
+    "allowed_effects": [
+      "pure"
+    ],
+    "budgets": {
+      "max_depth": 8,
+      "max_duration_ms": 100,
+      "max_iterations": 8,
+      "max_parallel": 4,
+      "max_steps": 8
+    },
+    "canonical_write_allowed": false
+  },
+  "source_map": {
+    "await.review": {
+      "file": "await.mirai.yaml",
+      "line": 14
+    },
+    "return.received": {
+      "file": "await.mirai.yaml",
+      "line": 21
+    },
+    "return.timeout": {
+      "file": "await.mirai.yaml",
+      "line": 27
+    }
+  },
+  "state": [
+    {
+      "default": "pending",
+      "id": "review",
+      "type": "string"
+    }
+  ],
+  "version": "1.0.0",
+  "digest": "sha256:df7b7fc2a405f3cfdcccebdea7d5af3d9cdd6caa7a77f8ad4657892e4b6e9cf9"
+}

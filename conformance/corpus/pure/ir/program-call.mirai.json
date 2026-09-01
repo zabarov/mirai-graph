@@ -1,0 +1,91 @@
+{
+  "contract_version": "1.0.0",
+  "entry": "call.worker",
+  "error_routes": [],
+  "id": "program.conformance-program-call",
+  "imports": [
+    {
+      "alias": "worker",
+      "digest": "sha256:b79e42065385e3a82b9e5c41281ac5098398ee645bf9983332ea4678bb9c0317",
+      "ref": "program.conformance-worker"
+    }
+  ],
+  "inputs": [],
+  "nodes": [
+    {
+      "args": {
+        "item": {
+          "op": "literal",
+          "value": "called"
+        }
+      },
+      "id": "call.worker",
+      "kind": "call",
+      "next": "return.result",
+      "result": "child_result",
+      "target": {
+        "kind": "program",
+        "program": "worker"
+      }
+    },
+    {
+      "id": "return.result",
+      "kind": "return",
+      "values": {
+        "value": {
+          "key": "value",
+          "op": "get",
+          "target": {
+            "op": "ref",
+            "path": "state.child_result"
+          }
+        }
+      }
+    }
+  ],
+  "outputs": [
+    {
+      "id": "value",
+      "type": "string"
+    }
+  ],
+  "policies": {
+    "allowed_effects": [
+      "pure"
+    ],
+    "budgets": {
+      "max_depth": 8,
+      "max_duration_ms": 100,
+      "max_iterations": 8,
+      "max_parallel": 4,
+      "max_steps": 16
+    },
+    "canonical_write_allowed": false
+  },
+  "source_map": {
+    "call.worker": {
+      "file": "program-call.mirai.yaml",
+      "line": 21
+    },
+    "return.result": {
+      "file": "program-call.mirai.yaml",
+      "line": 32
+    }
+  },
+  "state": [
+    {
+      "default": {
+        "value": "pending"
+      },
+      "id": "child_result",
+      "type": {
+        "fields": {
+          "value": "string"
+        },
+        "kind": "record"
+      }
+    }
+  ],
+  "version": "1.0.0",
+  "digest": "sha256:b11e3bd5d64b8f513ca7c5311bb5308e3a0d03292d339a85bb652ad4545d57c0"
+}

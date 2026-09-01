@@ -22,3 +22,4 @@ export function checkProgramConformance(program: MiraiProgram): ProgramConforman
 }
 
 export * from "./pure-corpus.js";
+export * from "./compare.js";

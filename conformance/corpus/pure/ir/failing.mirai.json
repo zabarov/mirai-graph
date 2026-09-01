@@ -1,0 +1,60 @@
+{
+  "contract_version": "1.0.0",
+  "entry": "fail.expected",
+  "error_routes": [],
+  "id": "program.conformance-failing",
+  "imports": [],
+  "inputs": [],
+  "nodes": [
+    {
+      "args": {
+        "code": {
+          "op": "literal",
+          "value": "expected_failure"
+        }
+      },
+      "effects": [
+        "pure"
+      ],
+      "id": "fail.expected",
+      "kind": "call",
+      "next": "return.unreachable",
+      "target": {
+        "adapter": "pure",
+        "kind": "adapter",
+        "operation": "fail"
+      }
+    },
+    {
+      "id": "return.unreachable",
+      "kind": "return"
+    }
+  ],
+  "outputs": [],
+  "policies": {
+    "allowed_effects": [
+      "pure"
+    ],
+    "budgets": {
+      "max_depth": 8,
+      "max_duration_ms": 100,
+      "max_iterations": 8,
+      "max_parallel": 4,
+      "max_steps": 8
+    },
+    "canonical_write_allowed": false
+  },
+  "source_map": {
+    "fail.expected": {
+      "file": "failing.mirai.yaml",
+      "line": 9
+    },
+    "return.unreachable": {
+      "file": "failing.mirai.yaml",
+      "line": 22
+    }
+  },
+  "state": [],
+  "version": "1.0.0",
+  "digest": "sha256:89b85e1687023764677079891366fe3f93abd109e119aa3f95935913dadde3d7"
+}

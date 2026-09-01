@@ -4,7 +4,7 @@
   "cases": [
     {
       "id": "decision.accepted.100x",
-      "program": "../../../examples/mirai-program-minimal/program.mirai.yaml",
+      "program": "ir/review-decision.mirai.json",
       "input": { "approved": true },
       "expected_status": "completed",
       "expected_outputs": { "decision": "accepted" },
@@ -12,14 +12,14 @@
     },
     {
       "id": "decision.blocked",
-      "program": "../../../examples/mirai-program-minimal/program.mirai.yaml",
+      "program": "ir/review-decision.mirai.json",
       "input": { "approved": false },
       "expected_status": "completed",
       "expected_outputs": { "decision": "blocked" }
     },
     {
       "id": "adapter.add-int64",
-      "program": "add.mirai.yaml",
+      "program": "ir/add.mirai.json",
       "input": { "left": 20, "right": 22 },
       "expected_status": "completed",
       "expected_outputs": { "total": 42 },
@@ -27,7 +27,7 @@
     },
     {
       "id": "operations.call-match-emit",
-      "program": "operations.mirai.yaml",
+      "program": "ir/operations.mirai.json",
       "input": { "left": 2, "right": 3 },
       "expected_status": "completed",
       "expected_outputs": { "status": "five", "total": 5 },
@@ -37,8 +37,8 @@
     },
     {
       "id": "collections.foreach-parallel",
-      "program": "collection-flow.mirai.yaml",
-      "imports": { "worker": "worker.mirai.yaml" },
+      "program": "ir/collection-flow.mirai.json",
+      "imports": { "worker": "ir/worker.mirai.json" },
       "input": { "items": ["x", "y"] },
       "expected_status": "completed",
       "expected_outputs": {
@@ -50,15 +50,15 @@
     },
     {
       "id": "call.imported-program",
-      "program": "program-call.mirai.yaml",
-      "imports": { "worker": "worker.mirai.yaml" },
+      "program": "ir/program-call.mirai.json",
+      "imports": { "worker": "ir/worker.mirai.json" },
       "expected_status": "completed",
       "expected_outputs": { "value": "called" },
       "repetitions": 10
     },
     {
       "id": "await.event-received",
-      "program": "await.mirai.yaml",
+      "program": "ir/await.mirai.json",
       "events": { "review.completed": "accepted" },
       "expected_status": "completed",
       "expected_outputs": { "status": "accepted" },
@@ -66,42 +66,42 @@
     },
     {
       "id": "await.deadline-route",
-      "program": "await.mirai.yaml",
+      "program": "ir/await.mirai.json",
       "expected_status": "completed",
       "expected_outputs": { "status": "timeout" },
       "expected_decisions": ["deadline_elapsed"]
     },
     {
       "id": "retry.exhausted",
-      "program": "retry.mirai.yaml",
-      "imports": { "failing": "failing.mirai.yaml" },
+      "program": "ir/retry.mirai.json",
+      "imports": { "failing": "ir/failing.mirai.json" },
       "expected_status": "completed",
       "expected_outputs": { "status": "failed" },
       "expected_decisions": ["failed_attempt:1", "failed_attempt:2", "failed_attempt:3"]
     },
     {
       "id": "timeout.compensation-route",
-      "program": "timeout-compensate.mirai.yaml",
-      "imports": { "slow": "slow.mirai.yaml" },
+      "program": "ir/timeout-compensate.mirai.json",
+      "imports": { "slow": "ir/slow.mirai.json" },
       "expected_status": "completed",
       "expected_outputs": { "status": "timed_out" },
       "expected_decisions": ["timed_out:3", "pure_compensation_recorded"]
     },
     {
       "id": "cancel.terminal",
-      "program": "cancel.mirai.yaml",
+      "program": "ir/cancel.mirai.json",
       "expected_status": "cancelled",
       "expected_outputs": {},
       "expected_decisions": ["cancelled:operator_request"]
     },
     {
       "id": "invalid.unbounded-foreach",
-      "program": "../../../examples/mirai-program-invalid/unbounded-foreach.mirai.yaml",
+      "program": "ir/invalid-unbounded-foreach.mirai.json",
       "expected_validation_error": "unbounded_foreach"
     },
     {
       "id": "invalid.unknown-effect",
-      "program": "../../../examples/mirai-program-invalid/unknown-effect.mirai.yaml",
+      "program": "ir/invalid-unknown-effect.mirai.json",
       "expected_validation_error": "unknown_effect"
     }
   ]

@@ -6,7 +6,7 @@ const Ajv2020 = require("ajv/dist/2020").default;
 
 const { compileProgramFile } = require("../../dist/cjs/program");
 const { executePure } = require("../../dist/cjs/runtime");
-const { runPureCorpus } = require("../../dist/cjs/conformance");
+const { compareConformanceResults, runPureCorpus } = require("../../dist/cjs/conformance");
 
 function schema(name) {
   return JSON.parse(fs.readFileSync(path.resolve(__dirname, "../../schemas", name), "utf8"));
@@ -18,6 +18,14 @@ test("pure language corpus passes with deterministic repetitions", async () => {
   assert.equal(result.failed, 0);
   assert(result.passed >= 5);
   assert(result.cases.some((item) => item.status === "expected_validation_failure"));
+});
+
+test("independent Python result matches the TypeScript result case by case", () => {
+  const reference = JSON.parse(fs.readFileSync(path.resolve(__dirname, "../../conformance/results/typescript-pure-result.json"), "utf8"));
+  const candidate = JSON.parse(fs.readFileSync(path.resolve(__dirname, "../../conformance/results/python-pure-result.json"), "utf8"));
+  const result = compareConformanceResults(reference, candidate);
+  assert.equal(result.status, "match", JSON.stringify(result));
+  assert.deepEqual(result.differences, []);
 });
 
 test("public pure episode and conformance result schemas accept reference output", async () => {
