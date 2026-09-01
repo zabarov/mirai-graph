@@ -58,6 +58,18 @@ reproduction steps, unresolved risks and one verdict:
 Only a real independent reviewer may change the security review gate to
 `passed`. A clean internal suite is supporting evidence, not that verdict.
 
+The reviewer should copy
+`mirai-independent-security-review-result.template.json`, replace every
+placeholder, set `status=complete` and `evidence_class=external_review`, then
+run:
+
+```bash
+npm run validate:security-review-contract -- path/to/review-result.json
+```
+
+`release_gate_eligible=true` means the structured result is complete enough to
+enter owner review. It does not apply the gate automatically.
+
 ## Secrets And Private Evidence
 
 Do not include `.env`, tokens, grants, approval signatures, private paths or raw

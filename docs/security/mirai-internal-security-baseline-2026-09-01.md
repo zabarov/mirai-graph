@@ -59,6 +59,12 @@ See `src/runtime/approval.ts:49`.
 across 10 dependencies: zero critical, high, moderate, low or informational
 findings. This is a point-in-time registry result, not a future guarantee.
 
+The audit was repeated after public checker integration with the same result:
+zero known vulnerabilities across 10 dependencies. CodeQL run `33563480293`
+and the full CI run `33563480175` completed successfully for commit `f9c906b`.
+Dependabot now monitors npm and GitHub Actions dependencies weekly. These are
+automated controls, not an independent security verdict.
+
 ## Verification
 
 - 27 focused governed-runtime and security-fuzz tests passed;

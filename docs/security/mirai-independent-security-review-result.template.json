@@ -1,0 +1,23 @@
+{
+  "contract_version": "1.0.0",
+  "review_id": "security-review.replace-me",
+  "status": "draft",
+  "evidence_class": "template",
+  "reviewed_repository": "https://github.com/zabarov/mirai-graph",
+  "reviewed_revision": "0000000000000000000000000000000000000000",
+  "reviewer": {
+    "alias": "replace-me",
+    "independent": false,
+    "implemented_reviewed_changes": false,
+    "conflict_declaration": "Replace with the reviewer's conflict declaration."
+  },
+  "scope": ["program_parsing", "path_and_symlink_boundary", "command_execution", "capability_scope", "approval_integrity", "crash_and_idempotency", "compensation", "evidence_redaction", "manifest_authority", "activation_budgets"],
+  "methods": ["Replace with reproducible review methods."],
+  "findings": [],
+  "unresolved_risks": ["Independent review has not been performed."],
+  "verdict": "not_reviewable",
+  "adapter_scope": [],
+  "reviewed_at": "2026-09-02T00:00:00Z",
+  "attestation": "Template only; not a security verdict.",
+  "claim_boundary": "This template cannot close a release or production-write gate."
+}
