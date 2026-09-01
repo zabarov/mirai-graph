@@ -10,7 +10,7 @@ Use it when a software project has useful knowledge spread across README files,
 docs, issues, chats, code comments and AI prompts, and you need a small
 machine-readable map that developers and AI assistants can validate and reuse.
 
-Status: stable public `1.3.0` release.
+Status: stable public `1.4.1` maintenance baseline.
 
 ## What Problem Does It Solve?
 
@@ -42,7 +42,7 @@ Start with a normal repository and use Mirai Graph to:
 
 ## Current Installation Status
 
-The repository provides the stable `mirai-graph@1.3.0` package. To verify a
+The repository provides the stable `mirai-graph@1.4.1` package. To verify a
 repository checkout directly, use:
 
 ```bash
@@ -57,6 +57,10 @@ External projects use:
 ```bash
 npm install -D mirai-graph
 ```
+
+The package version, `graph.json` manifest contract and extension contracts
+are versioned independently. See [Versioning](docs/versioning.md) before
+planning migrations or comparing release numbers.
 
 ## Connect A Project In 10 Minutes
 

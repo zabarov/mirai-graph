@@ -15,6 +15,10 @@ Release notes must separate:
 
 ## Release Notes
 
+- [v1.4.1](1.4.1.md) - maintenance and versioning baseline for Mirai 2.0
+  development.
+- [v1.4.0](1.4.0.md) - executable technology and deterministic Course Pack
+  projection.
 - [v1.2.0](1.2.0.md) - portable task-boundary project continuity in Project
   Technology.
 - [v1.1.0](1.1.0.md) - universal sequential context traversal and usage
@@ -119,6 +123,9 @@ their own release checklist, but local filesystem paths and exact credential
 patterns should not be embedded in public release notes.
 
 ## Version Policy
+
+Product/package, graph manifest and extension contract versions are
+independent. See [Versioning](../docs/versioning.md).
 
 During alpha:
 

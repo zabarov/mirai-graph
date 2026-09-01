@@ -14,6 +14,7 @@ the whole repository.
 - CLI usage: [Mirai Graph CLI](adoption/cli.md)
 - Project purpose: [Repository Purpose](repository-purpose.md)
 - Terminology: [Terminology](terminology.md)
+- Version compatibility: [Versioning](versioning.md)
 
 ## Adoption
 
@@ -116,6 +117,7 @@ Proposal or experimental profile:
 - [Roadmap](../ROADMAP.md)
 - [Changelog](../CHANGELOG.md)
 - [Release Process](../releases/README.md)
+- [v1.4.1](../releases/1.4.1.md)
 - [v1.0.0-rc.6](../releases/1.0.0-rc.6.md)
 - [v1.0.0-rc.5](../releases/1.0.0-rc.5.md)
 - [v1.0.0-rc.4](../releases/1.0.0-rc.4.md)

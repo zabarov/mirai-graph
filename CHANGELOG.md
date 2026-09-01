@@ -4,6 +4,21 @@ All notable changes to Mirai Graph will be documented in this file.
 
 ## [Unreleased]
 
+## [1.4.1] - 2026-09-01
+
+### Changed
+
+- Aligned README, roadmap and release notes with the published 1.4 line.
+- Pinned the supported development/runtime range to Node.js 20 through 24.
+- Documented independent product, manifest and extension contract versions as
+  the compatibility baseline for Mirai 2.0 development.
+
+### Safety Boundary
+
+- No graph, Project Technology, validator, CLI or runtime semantics changed.
+- The public `graph.json` manifest contract remains `2.0.0`.
+- Mirai 2.0 execution work remains a separate development track.
+
 ## [1.4.0] - 2026-08-29
 
 ### Added

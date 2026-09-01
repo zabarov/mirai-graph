@@ -1,6 +1,6 @@
 # Mirai Graph Roadmap
 
-Status: stable 1.1 roadmap
+Status: stable 1.4 baseline and Mirai 2.0 development roadmap
 
 ## Phase 0: Public Foundation
 
@@ -228,7 +228,29 @@ Planned artifacts:
 - release process;
 - public examples from approved external adopters.
 
-## Near-Term Work After 1.1
+## Mirai 2.0 Development Track
+
+The stable `1.4.1` line remains the declarative compatibility baseline. Mirai
+2.0 develops a separate governed execution layer without replacing Hybrid SOT
+or treating graph content as runtime authorization.
+
+Planned release sequence:
+
+1. `2.0.0-alpha.1`: typed Mirai Program contracts, deterministic compiler and
+   migration reports;
+2. `2.0.0-alpha.2`: pure deterministic interpreter and conformance corpus;
+3. `2.0.0-alpha.3`: capability-gated sandbox adapters, durable execution,
+   episodes, replay and recovery;
+4. `2.0.0-beta.1`: controlled Federation, Larena and AI Employee pilots plus
+   an independent checker;
+5. `2.0.0-rc.1`: API freeze, security review and clean-room installation;
+6. `2.0.0`: stable only after all conformance, safety and pilot gates pass.
+
+The existing `graph.json` manifest contract is already `2.0.0`; that number is
+not the product release number. New Mirai Program and Runtime contracts have
+their own versions.
+
+## Near-Term Work After 1.4
 
 1. Validate sequential context traversal in independent adopter projects and
    collect public-safe compatibility evidence.
