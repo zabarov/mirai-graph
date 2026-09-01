@@ -16,8 +16,8 @@ Status: engineering candidate; beta promotion blocked by external evidence
 - deterministic bounded property/fuzz checks cover canonical digests, invalid
   Program mutations, expression prototype boundaries, path escape, command
   allowlists and capability scope;
-- clean-room package installation passes locally for CommonJS, ESM and all CLI
-  aliases; CI defines the same check for Linux, macOS and Windows.
+- clean-room package installation passes for CommonJS, ESM and all CLI aliases;
+  the 10-job development-branch CI matrix passed on Linux, macOS and Windows.
 
 ## Promotion Blockers
 

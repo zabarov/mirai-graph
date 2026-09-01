@@ -74,10 +74,9 @@
     {
       "id": "gate.cross_platform_ci_evidence",
       "category": "release",
-      "status": "not_run",
-      "evidence_refs": [".github/workflows/ci.yml"],
-      "summary": "Linux, macOS and Windows jobs are defined but no remote run for this development revision is attached.",
-      "blocker_reason": "A pushed review branch and observed green CI matrix are required before release-candidate promotion."
+      "status": "passed",
+      "evidence_refs": [".github/workflows/ci.yml", "https://github.com/zabarov/mirai-graph/actions/runs/33474063100"],
+      "summary": "The 10-job Node 20 matrix passed on Linux, macOS and Windows for Program, Runtime, property/fuzz, context traversal, clean-room packaging and the full release check."
     },
     {
       "id": "gate.blinded_independent_human_review",
@@ -137,7 +136,6 @@
     }
   ],
   "blocking_gate_ids": [
-    "gate.cross_platform_ci_evidence",
     "gate.blinded_independent_human_review",
     "gate.comparable_variance_pilot",
     "gate.power_analysis",

@@ -16,7 +16,7 @@ Status: `2.0.0-alpha.3` development branch. The stable compatibility line is
 `mirai-graph@1.4.1`.
 
 The machine-readable [2.0 release readiness report](releases/2.0.0-readiness.json)
-currently records nine passed engineering gates and eight unresolved external,
+currently records ten passed engineering gates and seven unresolved external,
 scientific or publication gates. A green local suite therefore does not by
 itself authorize beta, RC or stable promotion.
 
