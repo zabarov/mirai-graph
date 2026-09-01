@@ -38,6 +38,7 @@ export interface GovernedRunOptions {
   adapters?: AdapterRegistry;
   run_id?: string;
   fault_injection?: FaultInjectionStage;
+  deadline_at_ms?: number;
 }
 
 export interface GovernedRunResult {
@@ -63,6 +64,7 @@ function coordinatorFor(options: {
   approval?: ApprovalReceipt;
   adapters?: AdapterRegistry;
   fault_injection?: FaultInjectionStage;
+  deadline_at_ms?: number;
 }): EffectCoordinator {
   const provider = new ReferenceCapabilityProvider(options.config.policy, {
     home: options.store.home,
@@ -75,13 +77,15 @@ function coordinatorFor(options: {
     run_id: options.run.run_id,
     program_id: options.run.program_id,
     program_digest: options.run.program_digest,
+    input_digest: options.run.input_digest,
     sandbox: options.run.sandbox,
     store: options.store,
     provider,
     approval: options.approval,
     adapters: options.adapters,
     test_commands: options.config.test_commands,
-    fault_injection: options.fault_injection
+    fault_injection: options.fault_injection,
+    deadline_at_ms: options.deadline_at_ms
   });
 }
 
@@ -90,6 +94,7 @@ async function executeExisting(options: {
   run_id: string;
   adapters?: AdapterRegistry;
   fault_injection?: FaultInjectionStage;
+  deadline_at_ms?: number;
 }): Promise<GovernedRunResult> {
   const lease = options.store.acquireLease(options.run_id);
   try {
@@ -110,7 +115,7 @@ async function executeExisting(options: {
     const approval = options.store.readApproval(run.run_id);
     assertProgram(program);
     if (program.digest !== run.program_digest || digestValue(input) !== run.input_digest) throw new Error("runtime_artifact_digest_mismatch");
-    const coordinator = coordinatorFor({ store: options.store, run, config, approval, adapters: options.adapters, fault_injection: options.fault_injection });
+    const coordinator = coordinatorFor({ store: options.store, run, config, approval, adapters: options.adapters, fault_injection: options.fault_injection, deadline_at_ms: options.deadline_at_ms });
     const reconciliationBlockers = await coordinator.reconcile();
     if (reconciliationBlockers.length) {
       run = updateStatus(options.store, run.run_id, "blocked", { blockers: reconciliationBlockers });
@@ -205,17 +210,24 @@ export async function startGovernedRun(program: MiraiProgram, input: Record<stri
     sandbox: path.resolve(options.sandbox),
     apply: options.apply === true,
     approval_receipt_ref: options.approval ? "approval.json" : undefined,
-    run_id: options.run_id,
+    run_id: options.run_id || options.approval?.run_id,
     runtime_config: config as unknown as Record<string, unknown>
   });
   if (options.approval) store.writeApproval(run.run_id, options.approval);
   store.appendEvent(run.run_id, { type: "run_prepared", program_digest: program.digest });
   store.writeCheckpoint(run.run_id);
-  return executeExisting({ store, run_id: run.run_id, adapters: options.adapters, fault_injection: options.fault_injection });
+  return executeExisting({ store, run_id: run.run_id, adapters: options.adapters, fault_injection: options.fault_injection, deadline_at_ms: options.deadline_at_ms });
 }
 
-export async function resumeGovernedRun(runId: string, options: { store?: RunStore; home?: string; adapters?: AdapterRegistry } = {}): Promise<GovernedRunResult> {
-  return executeExisting({ store: options.store || new RunStore(options.home), run_id: runId, adapters: options.adapters });
+export async function resumeGovernedRun(runId: string, options: { store?: RunStore; home?: string; adapters?: AdapterRegistry; approval?: ApprovalReceipt } = {}): Promise<GovernedRunResult> {
+  const store = options.store || new RunStore(options.home);
+  if (options.approval) {
+    if (options.approval.run_id !== runId) throw new Error("approval_run_id_mismatch");
+    store.writeApproval(runId, options.approval);
+    const current = store.readRun(runId);
+    store.updateRun(runId, current.revision, (record) => ({ ...record, approval_receipt_ref: "approval.json" }));
+  }
+  return executeExisting({ store, run_id: runId, adapters: options.adapters });
 }
 
 export function inspectGovernedRun(runId: string, options: { store?: RunStore; home?: string } = {}): Record<string, unknown> {

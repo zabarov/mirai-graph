@@ -96,6 +96,34 @@ test("manifest rejects duplicate keys, aliases and authority minting", () => {
   } finally { cleanup(root); }
 });
 
+test("manifest rejects unknown top-level and nested fields", () => {
+  const root = temp("unknown-fields");
+  try {
+    fs.writeFileSync(path.join(root, "README.md"), "# Demo\n");
+    project.initProjectCapsule(root);
+    const valid = project.readProjectManifest(root);
+    assert.throws(() => project.validateProjectManifest({ ...valid, mystery: true }), /manifest_unknown_field:manifest\.mystery/);
+    assert.throws(() => project.validateProjectManifest({ ...valid, project: { ...valid.project, hidden_mode: "unsafe" } }), /manifest_unknown_field:manifest\.project\.hidden_mode/);
+  } finally { cleanup(root); }
+});
+
+test("capsule rejects symlinked source entrypoints", (context) => {
+  if (process.platform === "win32") return context.skip("symlink fixture is POSIX-specific");
+  const root = temp("symlink-entrypoint");
+  try {
+    fs.writeFileSync(path.join(root, "README.md"), "# Demo\n");
+    project.initProjectCapsule(root);
+    const sources = path.join(root, "mirai", "sources.yaml");
+    const outside = path.join(root, "outside-sources.yaml");
+    fs.writeFileSync(outside, "contract_version: 1.0.0\nsources: []\n");
+    fs.unlinkSync(sources);
+    fs.symlinkSync(outside, sources);
+    const validation = project.validateProjectCapsule(root);
+    assert.equal(validation.valid, false);
+    assert.match(validation.errors.join(","), /project_entrypoint_symlink_forbidden/);
+  } finally { cleanup(root); }
+});
+
 test("incompatible root graph is a fail-closed dual-root conflict", () => {
   const root = temp("dual");
   try {

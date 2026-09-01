@@ -13,6 +13,9 @@ export interface AdapterExecutionContext {
   sandbox: string;
   idempotency_key: string;
   max_bytes: number;
+  deadline_at_ms?: number;
+  remaining_ms?: number;
+  signal?: AbortSignal;
   store: RunStore;
   approval?: ApprovalReceipt;
   test_commands: Record<string, TestCommandDefinition>;

@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { digestValue } from "../core/canonical.js";
+import { resolveConfinedPath } from "../core/path-boundary.js";
 import { compileProgramFile } from "../program/compiler.js";
 import { startGovernedRun, type ApprovalReceipt, type CapabilityPolicy } from "../runtime/index.js";
 import { simulateActivationPlan } from "./simulator.js";
@@ -46,13 +47,6 @@ function safeSegment(value: string): string {
   return value.replace(/[^A-Za-z0-9._-]+/g, "_").slice(0, 120);
 }
 
-function resolveWithinBase(baseDir: string, reference: string): string {
-  const resolved = path.resolve(baseDir, reference);
-  const relative = path.relative(baseDir, resolved);
-  if (!relative || (!relative.startsWith("..") && !path.isAbsolute(relative))) return resolved;
-  throw new Error(`activation_program_ref_outside_base:${reference}`);
-}
-
 function requiredSuccesses(plan: ActivationPlan): number {
   if (plan.join.policy === "quorum") return plan.join.quorum as number;
   if (plan.join.policy === "any_success_ordered") return Math.min(1, plan.activated_paths.length);
@@ -69,8 +63,11 @@ export async function runActivationPlan(plan: ActivationPlan, options: Activatio
   fs.mkdirSync(sandboxRoot, { recursive: true });
   const results: ActivationPathRunResult[] = [];
   const startedAt = Date.now();
+  const deadlineAt = startedAt + plan.budgets.max_duration_ms;
+  let durationExceeded = false;
 
-  for (const frontier of schedule.frontiers) {
+  for (let frontierIndex = 0; frontierIndex < schedule.frontiers.length; frontierIndex += 1) {
+    const frontier = schedule.frontiers[frontierIndex] as string[];
     if (Date.now() - startedAt >= plan.budgets.max_duration_ms) {
       for (const pathId of frontier) {
         const activationPath = byId.get(pathId);
@@ -82,6 +79,7 @@ export async function runActivationPlan(plan: ActivationPlan, options: Activatio
           blocker: "activation_duration_budget_exceeded"
         });
       }
+      durationExceeded = true;
       break;
     }
     const frontierResults = await Promise.all(frontier.map(async (pathId): Promise<ActivationPathRunResult> => {
@@ -98,7 +96,7 @@ export async function runActivationPlan(plan: ActivationPlan, options: Activatio
         };
       }
       try {
-        const programPath = resolveWithinBase(baseDir, activationPath.program_ref);
+        const programPath = resolveConfinedPath(baseDir, activationPath.program_ref, { label: "activation_program_ref" });
         const program = compileProgramFile(programPath).program;
         if (program.digest !== activationPath.program_digest) throw new Error(`activation_program_digest_mismatch:${pathId}`);
         const sandbox = path.join(sandboxRoot, safeSegment(pathId));
@@ -108,7 +106,8 @@ export async function runActivationPlan(plan: ActivationPlan, options: Activatio
           sandbox,
           apply: options.apply === true,
           approval: options.approvals?.[pathId],
-          policy: options.policy
+          policy: options.policy,
+          deadline_at_ms: deadlineAt
         });
         return {
           path_id: pathId,
@@ -124,12 +123,20 @@ export async function runActivationPlan(plan: ActivationPlan, options: Activatio
       }
     }));
     results.push(...frontierResults.sort((a, b) => a.path_id.localeCompare(b.path_id)));
+    if (Date.now() - startedAt >= plan.budgets.max_duration_ms) {
+      durationExceeded = true;
+      for (const pending of schedule.frontiers.slice(frontierIndex + 1).flat()) {
+        const activationPath = byId.get(pending);
+        results.push({ path_id: pending, status: "blocked", program_digest: activationPath?.program_digest || "", effects_executed: false, blocker: "activation_duration_budget_exceeded" });
+      }
+      break;
+    }
   }
 
   const successful = plan.join.deterministic_order.filter((id) => results.some((item) => item.path_id === id && item.status === "completed"));
   const required = requiredSuccesses(plan);
   const allPathsReachedTerminal = results.length === plan.activated_paths.length;
-  const status = plan.join.policy === "collect"
+  const status = durationExceeded ? "blocked" as const : plan.join.policy === "collect"
     ? (allPathsReachedTerminal ? "completed" as const : "blocked" as const)
     : (successful.length >= required ? "completed" as const : "blocked" as const);
   const effectsExecuted = results.some((item) => item.effects_executed);

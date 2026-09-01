@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { parseDocument, stringify } from "yaml";
-import { canonicalize, digestValue, sha256 } from "../core/index.js";
+import { canonicalize, digestValue, resolveConfinedPath, sha256 } from "../core/index.js";
 import type { AgentExecutionBrief, MiraiProjectLock, MiraiProjectManifest, ProjectDetectionResult, ProjectKind } from "./types.js";
 
 export const CAPSULE_DIR = "mirai";
@@ -31,12 +31,7 @@ function readPortableText(filename: string): string {
 }
 
 function assertInside(root: string, relative: string): string {
-  if (!relative || path.isAbsolute(relative)) throw new Error(`unsafe_project_path:${relative}`);
-  const normalized = path.normalize(relative).replaceAll("\\", "/");
-  if (normalized === ".." || normalized.startsWith("../") || normalized.includes("/../")) throw new Error(`unsafe_project_path:${relative}`);
-  const target = path.resolve(root, normalized);
-  if (target !== root && !target.startsWith(`${root}${path.sep}`)) throw new Error(`path_escape:${relative}`);
-  return target;
+  return resolveConfinedPath(root, relative, { allow_missing: true, label: "project_entrypoint" });
 }
 
 function assertNoAuthorityKeys(value: unknown, pointer = "manifest"): void {
@@ -48,6 +43,13 @@ function assertNoAuthorityKeys(value: unknown, pointer = "manifest"): void {
   for (const [key, child] of Object.entries(value as Record<string, unknown>)) {
     if (FORBIDDEN_MANIFEST_KEYS.has(key)) throw new Error(`manifest_cannot_mint_authority:${pointer}.${key}`);
     assertNoAuthorityKeys(child, `${pointer}.${key}`);
+  }
+}
+
+function assertExactKeys(value: unknown, allowed: readonly string[], pointer: string): void {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return;
+  for (const key of Object.keys(value as Record<string, unknown>)) {
+    if (!allowed.includes(key)) throw new Error(`manifest_unknown_field:${pointer}.${key}`);
   }
 }
 
@@ -75,6 +77,7 @@ export function validateProjectManifest(value: unknown, projectRoot?: string): M
   if (!value || typeof value !== "object" || Array.isArray(value)) throw new Error("manifest_must_be_object");
   assertNoAuthorityKeys(value);
   const record = value as Record<string, unknown>;
+  assertExactKeys(record, ["contract_version", "project", "requires", "profiles", "entrypoints", "features", "boundaries", "documentation", "compatibility"], "manifest");
   if (record.contract_version !== "1.0.0") throw new Error("unsupported_project_manifest_contract");
   const project = record.project as Record<string, unknown>;
   const requires = record.requires as Record<string, unknown>;
@@ -83,6 +86,13 @@ export function validateProjectManifest(value: unknown, projectRoot?: string): M
   const boundaries = record.boundaries as Record<string, unknown>;
   const documentation = record.documentation as Record<string, unknown>;
   const compatibility = record.compatibility as Record<string, unknown>;
+  assertExactKeys(project, ["id", "title", "kind", "scope", "owner"], "manifest.project");
+  assertExactKeys(requires, ["mirai", "graph_contract", "program_contract", "runtime_contract"], "manifest.requires");
+  assertExactKeys(entrypoints, ["graph", "programs", "components", "policies", "interfaces", "context", "sources"], "manifest.entrypoints");
+  assertExactKeys(graph, ["root", "objects", "relations"], "manifest.entrypoints.graph");
+  assertExactKeys(boundaries, ["source_of_truth", "canonical_writes", "generated_authority", "evidence_authority"], "manifest.boundaries");
+  assertExactKeys(documentation, ["start", "owner_notes"], "manifest.documentation");
+  assertExactKeys(compatibility, ["legacy_facade"], "manifest.compatibility");
   const kind = asString(project?.kind, "project.kind") as ProjectKind;
   if (!["project", "organization", "ai_system", "research_program", "software_system"].includes(kind)) throw new Error(`invalid_project_kind:${kind}`);
   if (boundaries?.source_of_truth !== "hybrid_sot" || boundaries?.canonical_writes !== "owner_approval_required" || boundaries?.generated_authority !== false || boundaries?.evidence_authority !== false) throw new Error("unsafe_or_missing_project_boundaries");
@@ -126,6 +136,7 @@ function projectEntrypointPaths(manifest: MiraiProjectManifest): string[] {
 }
 
 function digestPath(projectRoot: string, relative: string): string {
+  const canonicalRoot = fs.realpathSync(projectRoot);
   const target = assertInside(projectRoot, relative);
   if (!fs.existsSync(target)) return digestValue({ missing: relative });
   const stat = fs.lstatSync(target);
@@ -137,7 +148,7 @@ function digestPath(projectRoot: string, relative: string): string {
     for (const name of fs.readdirSync(dir).sort()) {
       const absolute = path.join(dir, name);
       const item = fs.lstatSync(absolute);
-      const itemRelative = path.relative(projectRoot, absolute).replaceAll(path.sep, "/");
+      const itemRelative = path.relative(canonicalRoot, absolute).replaceAll(path.sep, "/");
       if (item.isSymbolicLink()) throw new Error(`symlink_entrypoint_not_allowed:${itemRelative}`);
       if (item.isDirectory()) walk(absolute);
       else if (item.isFile()) entries.push({ path: itemRelative, digest: portableFileDigest(absolute) });

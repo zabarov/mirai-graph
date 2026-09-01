@@ -29,6 +29,21 @@ test("tampered plans and budget overflow fail closed", () => {
   assert.equal(result.errors.includes("activation_node_budget_exceeded"), true);
 });
 
+test("all activation budgets are enforced during plan validation", () => {
+  const base = resolveActivationPlan(snapshot, signal);
+  const validateBudget = (key, value, expected) => {
+    const plan = JSON.parse(JSON.stringify(base));
+    plan.budgets[key] = value;
+    const { digest: _oldDigest, ...body } = plan;
+    plan.digest = digestValue(body);
+    assert(validateActivationPlan(plan).errors.includes(expected), `${key} should produce ${expected}`);
+  };
+  validateBudget("max_depth", 1, "activation_depth_budget_exceeded");
+  validateBudget("max_fan_out", 0, "activation_budget_invalid");
+  validateBudget("max_iterations", 1, "activation_iteration_budget_exceeded");
+  validateBudget("max_parallel", 0, "activation_budget_invalid");
+});
+
 test("resolver rejects a snapshot whose content does not match its digest", () => {
   const changed = JSON.parse(JSON.stringify(snapshot));
   changed.components.component_instances[0].scope = "changed";
@@ -108,5 +123,40 @@ test("activation runner rejects program references outside its base directory", 
     home: path.join(root, "home")
   });
   assert.equal(result.status, "blocked");
-  assert.match(result.path_results[0].blocker, /activation_program_ref_outside_base/);
+  assert.match(result.path_results[0].blocker, /activation_program_ref_outside_root/);
+});
+
+test("activation runner rejects symlinked program references", async (context) => {
+  if (process.platform === "win32") return context.skip("symlink fixture is POSIX-specific");
+  const plan = resolveActivationPlan(snapshot, signal);
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "mirai-activation-symlink-"));
+  const outside = path.join(root, "outside.mirai.yaml");
+  fs.copyFileSync(path.resolve(__dirname, "../../examples/mirai-activation-minimal/worker.mirai.yaml"), outside);
+  const base = path.join(root, "base");
+  fs.mkdirSync(base);
+  fs.symlinkSync(outside, path.join(base, "linked.mirai.yaml"));
+  plan.activated_paths[0].program_ref = "linked.mirai.yaml";
+  const { digest: _oldDigest, ...body } = plan;
+  plan.digest = digestValue(body);
+  const result = await runActivationPlan(plan, { base_dir: base, sandbox: path.join(root, "sandbox"), home: path.join(root, "home") });
+  assert.equal(result.status, "blocked");
+  assert.match(result.path_results[0].blocker, /activation_program_ref_symlink_forbidden/);
+});
+
+test("activation runner rejects a program below a symlinked parent directory", async (context) => {
+  if (process.platform === "win32") return context.skip("symlink fixture is POSIX-specific");
+  const plan = resolveActivationPlan(snapshot, signal);
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "mirai-activation-parent-symlink-"));
+  const outside = path.join(root, "outside");
+  fs.mkdirSync(outside);
+  fs.copyFileSync(path.resolve(__dirname, "../../examples/mirai-activation-minimal/worker.mirai.yaml"), path.join(outside, "worker.mirai.yaml"));
+  const base = path.join(root, "base");
+  fs.mkdirSync(base);
+  fs.symlinkSync(outside, path.join(base, "linked-directory"));
+  plan.activated_paths[0].program_ref = "linked-directory/worker.mirai.yaml";
+  const { digest: _oldDigest, ...body } = plan;
+  plan.digest = digestValue(body);
+  const result = await runActivationPlan(plan, { base_dir: base, sandbox: path.join(root, "sandbox"), home: path.join(root, "home") });
+  assert.equal(result.status, "blocked");
+  assert.match(result.path_results[0].blocker, /activation_program_ref_symlink_forbidden/);
 });

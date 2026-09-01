@@ -1,7 +1,7 @@
 import type { PureTraceEvent } from "./pure-interpreter.js";
 
-export const CAPABILITY_CONTRACT_VERSION = "1.0.0" as const;
-export const APPROVAL_CONTRACT_VERSION = "1.0.0" as const;
+export const CAPABILITY_CONTRACT_VERSION = "1.1.0" as const;
+export const APPROVAL_CONTRACT_VERSION = "1.1.0" as const;
 export const RECEIPT_CONTRACT_VERSION = "1.0.0" as const;
 export const CHECKPOINT_CONTRACT_VERSION = "1.0.0" as const;
 export const RUN_CONTRACT_VERSION = "1.0.0" as const;
@@ -16,6 +16,8 @@ export interface CapabilityRequest {
   request_id: string;
   run_id: string;
   program_digest: string;
+  input_digest: string;
+  args_digest: string;
   node_id: string;
   adapter: string;
   action: string;
@@ -46,6 +48,8 @@ export interface CapabilityGrant {
   request_digest: string;
   run_id: string;
   program_digest: string;
+  input_digest: string;
+  args_digest: string;
   node_id: string;
   adapter: string;
   action: string;
@@ -60,14 +64,20 @@ export interface CapabilityGrant {
   opaque_token: string;
 }
 
+export type ApprovalRequestScope = Omit<CapabilityRequest, "contract_version" | "request_id" | "request_digest" | "approval_required">;
+
 export interface ApprovalReceipt {
   contract_version: typeof APPROVAL_CONTRACT_VERSION;
   approval_id: string;
   approved: true;
+  run_id: string;
   program_digest: string;
+  input_digest: string;
+  policy_digest: string;
   sandbox_digest: string;
   effects: EffectName[];
   node_ids: string[];
+  request_scopes: ApprovalRequestScope[];
   approver: string;
   issued_at: string;
   expires_at: string;
@@ -162,6 +172,37 @@ export type RuntimeEffectSummary = Omit<RuntimeEffectStub, "result" | "error_mes
   error_message_digest?: string;
 };
 
+export interface SanitizedEffectReceipt {
+  contract_version: typeof RECEIPT_CONTRACT_VERSION;
+  receipt_id: string;
+  sequence: number;
+  idempotency_key: string;
+  run_id: string;
+  program_id: string;
+  program_digest: string;
+  node_id: string;
+  invocation_id: string;
+  adapter: string;
+  operation: string;
+  effects: EffectName[];
+  args_digest: string;
+  status: ReceiptStatus;
+  attempt: number;
+  prepared_at: string;
+  executed_at?: string;
+  verified_at?: string;
+  failed_at?: string;
+  reconciled_at?: string;
+  compensated_at?: string;
+  result_digest?: string;
+  verification_status?: "verified" | "not_verified" | "unsupported";
+  failure_code?: string;
+  failure_code_digest?: string;
+  retry_safe?: boolean;
+  compensation_status?: "available" | "not_available" | "completed";
+  backup_ref?: "redacted-host-local";
+}
+
 export interface GovernedEpisode {
   contract_version: typeof EPISODE_CONTRACT_VERSION;
   episode_id: string;
@@ -191,7 +232,29 @@ export interface GovernedEpisode {
 
 export interface SanitizedEvidencePackage {
   contract_version: "1.0.0";
-  run: Omit<RuntimeRunRecord, "sandbox" | "approval_receipt_ref"> & { sandbox_ref: "redacted-host-local" };
+  run: {
+    contract_version: "1.0.0";
+    run_id: string;
+    graph_id: string;
+    program_id: string;
+    program_digest: string;
+    input_digest: string;
+    status: RunStatus;
+    revision: number;
+    event_sequence: number;
+    apply_requested: boolean;
+    created_at: string;
+    updated_at: string;
+    started_at?: string;
+    finished_at?: string;
+    blocker_codes: string[];
+    limitations: string[];
+    program_ref: "program.json";
+    input_ref: "input.json";
+    checkpoint_ref: "checkpoint.json";
+    episode_ref?: "episode.json";
+    sandbox_ref: "redacted-host-local";
+  };
   episode: {
     contract_version: "1.0.0";
     episode_id: string;
@@ -211,7 +274,7 @@ export interface SanitizedEvidencePackage {
     learning_update_allowed: false;
     limitations: string[];
   };
-  receipts: Array<Omit<EffectReceipt, "result" | "capability_grant_ref">>;
+  receipts: SanitizedEffectReceipt[];
   exported_at: string;
   canonical_write_allowed: false;
   limitations: string[];

@@ -93,10 +93,8 @@ export class ReferenceCapabilityProvider {
         else {
           const verified = verifyApprovalReceipt(this.context.approval, {
             home: this.context.home,
-            program_digest: request.program_digest,
             sandbox: this.context.sandbox,
-            effects: request.effects,
-            node_id: request.node_id,
+            request,
             now
           });
           reasons.push(...verified.errors);
@@ -123,6 +121,8 @@ export class ReferenceCapabilityProvider {
       request_digest: request.request_digest,
       run_id: request.run_id,
       program_digest: request.program_digest,
+      input_digest: request.input_digest,
+      args_digest: request.args_digest,
       node_id: request.node_id,
       adapter: request.adapter,
       action: request.action,
@@ -145,9 +145,12 @@ export function validateGrant(grant: CapabilityGrant, request: CapabilityRequest
   if (grant.contract_version !== CAPABILITY_CONTRACT_VERSION) errors.push("grant_contract_invalid");
   if (grant.run_id !== request.run_id) errors.push("grant_cross_run_reuse");
   if (grant.request_id !== request.request_id || grant.request_digest !== request.request_digest) errors.push("grant_request_mismatch");
-  if (grant.program_digest !== request.program_digest || grant.node_id !== request.node_id) errors.push("grant_program_scope_mismatch");
+  if (grant.program_digest !== request.program_digest || grant.input_digest !== request.input_digest || grant.node_id !== request.node_id) errors.push("grant_program_scope_mismatch");
+  if (grant.args_digest !== request.args_digest) errors.push("grant_material_scope_mismatch");
   if (grant.adapter !== request.adapter || grant.action !== request.action || grant.resource !== request.resource) errors.push("grant_operation_scope_mismatch");
   if (!sameSet(grant.effects, request.effects) || grant.capability !== request.capability) errors.push("grant_effect_scope_mismatch");
+  if (digestValue(grant.budget) !== digestValue(request.budget)) errors.push("grant_budget_scope_mismatch");
+  if (grant.policy_digest !== request.policy_digest) errors.push("grant_policy_scope_mismatch");
   if (!grant.opaque_token || grant.opaque_token.length < 32) errors.push("grant_token_invalid");
   if (Date.parse(grant.expires_at) <= now.getTime()) errors.push("grant_expired");
   return [...new Set(errors)].sort();

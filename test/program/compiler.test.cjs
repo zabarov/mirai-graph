@@ -39,3 +39,14 @@ test("unbounded foreach and unknown effects fail before execution", () => {
     );
   }
 });
+
+test("JSON duplicate members and unknown node fields fail closed", () => {
+  assert.throws(() => compileProgramSource('{"contract_version":"1.0.0","id":"first","id":"second"}', "duplicate.mirai.json"), /Map keys must be unique|unique/);
+  const program = compileProgramFile(fixture).program;
+  delete program.digest;
+  program.nodes[0].undeclared_runtime_switch = true;
+  assert.throws(
+    () => compileProgramSource(JSON.stringify(program), "unknown-field.mirai.json"),
+    (error) => error instanceof ProgramCompilationError && error.validation.errors.some((item) => item.includes("unknown_field:undeclared_runtime_switch") || item.includes("additional properties"))
+  );
+});

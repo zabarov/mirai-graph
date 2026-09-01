@@ -7,7 +7,8 @@ const Ajv2020 = require("ajv/dist/2020").default;
 const addFormats = require("ajv-formats").default;
 
 const { programDigest } = require("../../dist/cjs/program");
-const { RunStore, createApprovalReceipt, startGovernedRun, buildSanitizedEvidence, inspectRuntimeHealth } = require("../../dist/cjs/runtime");
+const { digestValue } = require("../../dist/cjs/core");
+const { DEFAULT_CAPABILITY_POLICY, RunStore, createApprovalReceipt, policyDigest, startGovernedRun, buildSanitizedEvidence, inspectRuntimeHealth } = require("../../dist/cjs/runtime");
 
 function schema(name) {
   return JSON.parse(fs.readFileSync(path.resolve(__dirname, "../../schemas", name), "utf8"));
@@ -63,9 +64,17 @@ test("runtime contracts validate reference host-local artifacts", async () => {
 
   const approval = createApprovalReceipt({
     home: store.home,
+    run_id: "run.schema-approval",
     program_digest: program.digest,
+    input_digest: digestValue({}),
+    policy_digest: policyDigest(DEFAULT_CAPABILITY_POLICY),
     sandbox,
     effects: ["workspace_patch"],
+    request_scopes: [{
+      run_id: "run.schema-approval", program_digest: program.digest, input_digest: digestValue({}), args_digest: digestValue({ path: "output.txt" }),
+      node_id: "write.file", adapter: "workspace", action: "write_file", resource: "./output.txt", effects: ["workspace_patch"],
+      capability: "capability.workspace.patch", budget: { max_calls: 1, max_bytes: 4096, timeout_ms: 1000 }, policy_digest: policyDigest(DEFAULT_CAPABILITY_POLICY)
+    }],
     approver: "schema.owner"
   });
   const ajv = new Ajv2020({ allErrors: true, strict: false });

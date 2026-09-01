@@ -6,6 +6,15 @@ All notable changes to Mirai Graph will be documented in this file.
 
 ### Mirai 2.0.0-alpha.3
 
+- Hardened production invariants after focused review: symlink-confined
+  activation/project/evidence paths, complete activation budget enforcement,
+  strict manifest and Program parsing, allowlisted evidence export and exact
+  request-scoped approvals.
+- Raised capability and approval artifact contracts to `1.1.0`; approvals now
+  bind run, Program, input, policy, evaluated arguments, resource, operation,
+  effects and budget, and a blocked named run can resume with the reviewed
+  receipt.
+
 - Added a capability-gated reference runtime for repository and Git reads,
   sandbox patches, allowlisted tests and explicit human approvals.
 - Added host-local run state, checkpoints, leases, compare-and-swap updates,

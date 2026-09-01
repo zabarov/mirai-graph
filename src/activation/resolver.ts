@@ -156,9 +156,26 @@ export function validateActivationPlan(plan: ActivationPlan): { valid: boolean; 
   if (plan.canonical_write_allowed !== false) errors.push("canonical_write_must_be_false");
   if (digestValue(withoutDigest(plan as unknown as Record<string, unknown>)) !== plan.digest) errors.push("activation_plan_digest_mismatch");
   const ids = new Set(plan.activated_paths.map((item) => item.id));
+  if (Object.values(plan.budgets).some((value) => !Number.isInteger(value) || value < 1)) errors.push("activation_budget_invalid");
   for (const edge of plan.dependency_dag) if (!ids.has(edge.from) || !ids.has(edge.to)) errors.push(`activation_unknown_dependency:${edge.from}:${edge.to}`);
-  try { depthOf([...ids], plan.dependency_dag); } catch (error) { errors.push(error instanceof Error ? error.message : String(error)); }
+  try {
+    const depth = depthOf([...ids], plan.dependency_dag);
+    if (depth > plan.budgets.max_depth) errors.push("activation_depth_budget_exceeded");
+  } catch (error) { errors.push(error instanceof Error ? error.message : String(error)); }
   if (plan.activated_paths.length > plan.budgets.max_nodes) errors.push("activation_node_budget_exceeded");
+  const fanOut = Math.max(0, ...plan.activated_paths.map((item) => plan.dependency_dag.filter((edge) => edge.from === item.id).length));
+  if (fanOut > plan.budgets.max_fan_out) errors.push("activation_fan_out_budget_exceeded");
+  const remaining = new Set(plan.activated_paths.map((item) => item.id));
+  const completed = new Set<string>();
+  let iterations = 0;
+  while (remaining.size) {
+    const frontier = [...remaining].filter((id) => plan.dependency_dag.filter((edge) => edge.to === id).every((edge) => completed.has(edge.from)));
+    if (!frontier.length) break;
+    iterations += 1;
+    if (frontier.length > plan.budgets.max_parallel) errors.push("activation_parallel_budget_exceeded");
+    for (const id of frontier) { remaining.delete(id); completed.add(id); }
+  }
+  if (iterations > plan.budgets.max_iterations) errors.push("activation_iteration_budget_exceeded");
   if (plan.join.policy === "quorum" && (!plan.join.quorum || plan.join.quorum > plan.activated_paths.length)) errors.push("activation_quorum_invalid");
-  return { valid: errors.length === 0, errors: errors.sort() };
+  return { valid: errors.length === 0, errors: [...new Set(errors)].sort() };
 }

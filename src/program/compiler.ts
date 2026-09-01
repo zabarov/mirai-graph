@@ -30,7 +30,11 @@ function sourceLine(source: string, id: string): number | undefined {
 }
 
 export function parseProgramSource(source: string, filename = "program.mirai.yaml"): Record<string, unknown> {
-  if (filename.endsWith(".json")) return JSON.parse(source) as Record<string, unknown>;
+  if (filename.endsWith(".json")) {
+    const duplicateCheck = YAML.parseDocument(source, { uniqueKeys: true, prettyErrors: true });
+    if (duplicateCheck.errors.length) throw new Error(duplicateCheck.errors.map((error) => error.message).join("\n"));
+    return JSON.parse(source) as Record<string, unknown>;
+  }
   const document = YAML.parseDocument(source, { uniqueKeys: true, prettyErrors: true });
   if (document.errors.length) throw new Error(document.errors.map((error) => error.message).join("\n"));
   const value = document.toJS() as unknown;

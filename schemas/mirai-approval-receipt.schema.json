@@ -4,15 +4,39 @@
   "title": "Mirai Local Approval Receipt",
   "type": "object",
   "additionalProperties": false,
-  "required": ["contract_version", "approval_id", "approved", "program_digest", "sandbox_digest", "effects", "node_ids", "approver", "issued_at", "expires_at", "canonical_write_allowed", "signature_algorithm", "signature"],
+  "required": ["contract_version", "approval_id", "approved", "run_id", "program_digest", "input_digest", "policy_digest", "sandbox_digest", "effects", "node_ids", "request_scopes", "approver", "issued_at", "expires_at", "canonical_write_allowed", "signature_algorithm", "signature"],
   "properties": {
-    "contract_version": { "const": "1.0.0" },
+    "contract_version": { "const": "1.1.0" },
     "approval_id": { "type": "string", "minLength": 1 },
     "approved": { "const": true },
+    "run_id": { "type": "string", "minLength": 1 },
     "program_digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "input_digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "policy_digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
     "sandbox_digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
     "effects": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "enum": ["repository_read", "git_read", "workspace_patch", "process_run", "human_approval"] } },
     "node_ids": { "type": "array", "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+    "request_scopes": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["run_id", "program_digest", "input_digest", "args_digest", "node_id", "adapter", "action", "resource", "effects", "capability", "budget", "policy_digest"],
+        "properties": {
+          "run_id": { "type": "string", "minLength": 1 },
+          "program_digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+          "input_digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+          "args_digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+          "node_id": { "type": "string", "minLength": 1 },
+          "adapter": { "type": "string", "minLength": 1 },
+          "action": { "type": "string", "minLength": 1 },
+          "resource": { "type": "string", "minLength": 1 },
+          "effects": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "enum": ["repository_read", "git_read", "workspace_patch", "process_run", "human_approval"] } },
+          "capability": { "type": "string", "minLength": 1 },
+          "budget": { "type": "object", "additionalProperties": false, "required": ["max_calls"], "properties": { "max_calls": { "type": "integer", "minimum": 1 }, "max_bytes": { "type": "integer", "minimum": 1 }, "timeout_ms": { "type": "integer", "minimum": 1 } } },
+          "policy_digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" }
+        }
+      }
+    },
     "approver": { "type": "string", "minLength": 1 },
     "issued_at": { "type": "string", "format": "date-time" },
     "expires_at": { "type": "string", "format": "date-time" },

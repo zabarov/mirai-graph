@@ -24,6 +24,16 @@ function boundedOutput(value: string, maxBytes: number): { value: string; trunca
   return { value: buffer.subarray(0, maxBytes).toString("utf8"), truncated: true };
 }
 
+function assertWithinDeadline(context: AdapterExecutionContext): void {
+  if (
+    context.signal?.aborted
+    || (context.deadline_at_ms !== undefined && Date.now() >= context.deadline_at_ms)
+    || (context.remaining_ms !== undefined && context.remaining_ms <= 0)
+  ) {
+    throw new Error("effect_deadline_exceeded");
+  }
+}
+
 export function resolveSandboxPath(sandbox: string, requested: string, allowMissing = false): string {
   if (path.isAbsolute(requested)) throw new Error("absolute_path_forbidden");
   const root = path.resolve(sandbox);
@@ -50,6 +60,7 @@ function receiptResult(receipt: EffectReceipt): Record<string, unknown> {
 const repositoryReadFile: AdapterOperation = {
   effect: "repository_read",
   async execute(args, context) {
+    assertWithinDeadline(context);
     const requested = asString(args.path, "repository_path");
     const filename = resolveSandboxPath(context.sandbox, requested);
     const stat = fs.statSync(filename);
@@ -69,6 +80,7 @@ const repositoryReadFile: AdapterOperation = {
 const repositoryListFiles: AdapterOperation = {
   effect: "repository_read",
   async execute(args, context) {
+    assertWithinDeadline(context);
     const requested = typeof args.path === "string" ? args.path : ".";
     const directory = resolveSandboxPath(context.sandbox, requested);
     if (!fs.statSync(directory).isDirectory()) throw new Error("repository_path_not_directory");
@@ -93,10 +105,11 @@ const repositoryListFiles: AdapterOperation = {
 };
 
 function runGit(args: string[], context: AdapterExecutionContext): Record<string, unknown> {
+  assertWithinDeadline(context);
   const execution = spawnSync("git", args, {
     cwd: context.sandbox,
     encoding: "utf8",
-    timeout: 30_000,
+    timeout: Math.max(1, Math.min(30_000, context.remaining_ms ?? 30_000)),
     maxBuffer: context.max_bytes,
     env: { PATH: process.env.PATH || "", HOME: process.env.HOME || "", LANG: "C" }
   });
@@ -126,6 +139,7 @@ const gitDiff: AdapterOperation = {
 const workspaceWriteFile: AdapterOperation = {
   effect: "workspace_patch",
   async execute(args, context) {
+    assertWithinDeadline(context);
     const requested = asString(args.path, "workspace_path");
     const content = asText(args.content, "workspace_content");
     if (Buffer.byteLength(content) > context.max_bytes) throw new Error("workspace_write_budget_exceeded");
@@ -144,6 +158,7 @@ const workspaceWriteFile: AdapterOperation = {
     fs.mkdirSync(path.dirname(target), { recursive: true });
     const temporary = `${target}.mirai-${randomBytes(6).toString("hex")}.tmp`;
     fs.writeFileSync(temporary, content, { flag: "wx" });
+    assertWithinDeadline(context);
     fs.renameSync(temporary, target);
     const readback = fs.readFileSync(target);
     if (!readback.equals(Buffer.from(content))) throw new Error("workspace_write_readback_mismatch");
@@ -173,13 +188,14 @@ const workspaceWriteFile: AdapterOperation = {
 const testRun: AdapterOperation = {
   effect: "process_run",
   async execute(args, context) {
+    assertWithinDeadline(context);
     const commandId = asString(args.command_id, "command_id");
     const definition = context.test_commands[commandId];
     if (!definition) throw new Error(`test_command_not_allowlisted:${commandId}`);
     const execution = spawnSync(definition.command, definition.args, {
       cwd: context.sandbox,
       encoding: "utf8",
-      timeout: definition.timeout_ms,
+      timeout: Math.max(1, Math.min(definition.timeout_ms, context.remaining_ms ?? definition.timeout_ms)),
       maxBuffer: definition.max_output_bytes,
       shell: false,
       env: { PATH: process.env.PATH || "", HOME: process.env.HOME || "", TMPDIR: process.env.TMPDIR || "/tmp", CI: "1" }
@@ -211,6 +227,7 @@ const testRun: AdapterOperation = {
 const humanApproval: AdapterOperation = {
   effect: "human_approval",
   async execute(_args, context) {
+    assertWithinDeadline(context);
     const receipt = context.approval as ApprovalReceipt | undefined;
     if (!receipt) throw new Error("approval_receipt_required");
     return { approval_id: receipt.approval_id, approver: receipt.approver, issued_at: receipt.issued_at, expires_at: receipt.expires_at };

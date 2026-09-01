@@ -56,6 +56,7 @@ export class EffectCoordinator {
     run_id: string;
     program_id: string;
     program_digest: string;
+    input_digest: string;
     sandbox: string;
     store: RunStore;
     provider: ReferenceCapabilityProvider;
@@ -63,24 +64,51 @@ export class EffectCoordinator {
     adapters?: AdapterRegistry;
     test_commands?: Record<string, TestCommandDefinition>;
     fault_injection?: FaultInjectionStage;
+    deadline_at_ms?: number;
   }) {}
 
-  private context(idempotencyKey: string, maxBytes = 1_000_000): AdapterExecutionContext {
+  private context(idempotencyKey: string, maxBytes = 1_000_000, signal?: AbortSignal, effectiveDeadlineAtMs?: number): AdapterExecutionContext {
+    const deadline = effectiveDeadlineAtMs ?? this.options.deadline_at_ms;
+    const remaining = deadline === undefined ? undefined : Math.max(0, deadline - Date.now());
     return {
       run_id: this.options.run_id,
       sandbox: this.options.sandbox,
       idempotency_key: idempotencyKey,
       max_bytes: maxBytes,
+      ...(deadline !== undefined ? { deadline_at_ms: deadline, remaining_ms: remaining } : {}),
+      ...(signal ? { signal } : {}),
       store: this.options.store,
       approval: this.options.approval,
       test_commands: this.options.test_commands || {}
     };
   }
 
+  private async withinDeadline<T>(phase: string, operation: (signal: AbortSignal, effectiveDeadlineAtMs: number) => Promise<T>, timeoutMs = 30_000): Promise<T> {
+    const localDeadline = Date.now() + timeoutMs;
+    const effectiveDeadline = this.options.deadline_at_ms === undefined ? localDeadline : Math.min(localDeadline, this.options.deadline_at_ms);
+    const remaining = effectiveDeadline - Date.now();
+    if (remaining <= 0) throw new Error(`effect_deadline_exceeded:${phase}`);
+    const controller = new AbortController();
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const timeout = new Promise<never>((_resolve, reject) => {
+      timer = setTimeout(() => {
+        controller.abort(new Error(`effect_deadline_exceeded:${phase}`));
+        reject(new Error(`effect_deadline_exceeded:${phase}`));
+      }, remaining);
+    });
+    try {
+      return await Promise.race([operation(controller.signal, effectiveDeadline), timeout]);
+    } finally {
+      if (timer) clearTimeout(timer);
+    }
+  }
+
   private idempotencyKey(request: EffectExecutionRequest): string {
     return digestValue({
       run_id: this.options.run_id,
       program_digest: request.program_digest,
+      input_digest: this.options.input_digest,
+      args_digest: digestValue(request.args),
       program_id: request.program_id,
       node_id: request.node_id,
       adapter: request.adapter,
@@ -111,6 +139,9 @@ export class EffectCoordinator {
       return result;
     };
     try {
+      if (this.options.deadline_at_ms !== undefined && Date.now() >= this.options.deadline_at_ms) {
+        throw new EffectExecutionBlocked("effect_deadline_exceeded", "Activation deadline elapsed before effect start");
+      }
       const effects = effectNames(request);
       const operation = getAdapterOperation(this.options.adapters || REFERENCE_ADAPTERS, request.adapter, request.operation);
       if (effects.length !== 1 || effects[0] !== operation.effect) throw new EffectExecutionBlocked("adapter_effect_mismatch", `${request.adapter}.${request.operation} does not match declared effects`);
@@ -119,7 +150,7 @@ export class EffectCoordinator {
       if (existing.status === "verified") return recordSuccess(existing.result, existing);
       if (existing.status === "compensated") throw new EffectExecutionBlocked("effect_already_compensated", `Effect ${receiptId} was compensated`, receiptId);
       if (existing.status === "executed" || (existing.status === "uncertain" && existing.result !== undefined)) {
-        const verification = await operation.verify(existing, this.context(idempotencyKey));
+        const verification = await this.withinDeadline("reconcile", (signal, deadline) => operation.verify(existing, this.context(idempotencyKey, 1_000_000, signal, deadline)));
         const reconciled: EffectReceipt = verification.verified ? {
           ...existing,
           status: "verified",
@@ -146,6 +177,8 @@ export class EffectCoordinator {
     const capabilityRequest = buildCapabilityRequest({
       run_id: this.options.run_id,
       program_digest: request.program_digest,
+      input_digest: this.options.input_digest,
+      args_digest: digestValue(request.args),
       node_id: request.node_id,
       adapter: request.adapter,
       action: request.operation,
@@ -160,9 +193,10 @@ export class EffectCoordinator {
     this.options.store.writeCapabilityRequest(this.options.run_id, capabilityRequest);
     this.options.store.writePolicyDecision(this.options.run_id, capability.decision);
     if (!capability.grant) throw new EffectExecutionBlocked(`capability_${capability.decision.decision}`, capability.decision.reasons.join(", "));
-    const grantErrors = validateGrant(capability.grant, capabilityRequest);
+    const grant = capability.grant;
+    const grantErrors = validateGrant(grant, capabilityRequest);
     if (grantErrors.length) throw new EffectExecutionBlocked("capability_grant_invalid", grantErrors.join(", "));
-    const grantRef = this.options.store.writeCapability(this.options.run_id, capability.grant);
+    const grantRef = this.options.store.writeCapability(this.options.run_id, grant);
     const now = new Date().toISOString();
     const prepared: EffectReceipt = {
       contract_version: RECEIPT_CONTRACT_VERSION,
@@ -198,7 +232,7 @@ export class EffectCoordinator {
     }
     let result: unknown;
     try {
-      result = await operation.execute(request.args, this.context(idempotencyKey, capability.grant.budget.max_bytes));
+      result = await this.withinDeadline("execute", (signal, deadline) => operation.execute(request.args, this.context(idempotencyKey, grant.budget.max_bytes, signal, deadline)), grant.budget.timeout_ms);
     } catch (error) {
       const retrySafe = operation.effect === "repository_read" || operation.effect === "git_read";
       const failed: EffectReceipt = {
@@ -223,7 +257,7 @@ export class EffectCoordinator {
     this.options.store.writeReceipt(this.options.run_id, executed);
     this.options.store.appendEvent(this.options.run_id, { type: "effect_executed", receipt_id: receiptId, result_digest: executed.result_digest });
     if (this.options.fault_injection === "after_execute_before_verify") throw new EffectExecutionBlocked("fault_injected_after_execute", "Fault injected after adapter result was durably recorded", receiptId);
-    const verification = await operation.verify(executed, this.context(idempotencyKey, capability.grant.budget.max_bytes));
+    const verification = await this.withinDeadline("verify", (signal, deadline) => operation.verify(executed, this.context(idempotencyKey, grant.budget.max_bytes, signal, deadline)), grant.budget.timeout_ms);
     if (!verification.verified) {
       const uncertain: EffectReceipt = {
         ...executed,
@@ -270,7 +304,20 @@ export class EffectCoordinator {
     if (receipt.status !== "verified") throw new EffectExecutionBlocked("compensation_requires_verified_receipt", receipt.status, receiptId);
     const operation = getAdapterOperation(this.options.adapters || REFERENCE_ADAPTERS, receipt.adapter, receipt.operation);
     if (!operation.compensate) throw new EffectExecutionBlocked("compensation_not_supported", `${receipt.adapter}.${receipt.operation}`, receiptId);
-    const result = await operation.compensate(receipt, this.context(receipt.idempotency_key));
+    let result: Awaited<ReturnType<NonNullable<typeof operation.compensate>>>;
+    try {
+      result = await this.withinDeadline("compensate", (signal, deadline) => operation.compensate!(receipt, this.context(receipt.idempotency_key, 1_000_000, signal, deadline)));
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      const uncertain: EffectReceipt = {
+        ...receipt,
+        status: "uncertain",
+        reconciled_at: new Date().toISOString(),
+        failure: { code: "compensation_uncertain", message, retry_safe: false }
+      };
+      this.options.store.writeReceipt(this.options.run_id, uncertain);
+      throw new EffectExecutionBlocked("compensation_uncertain", message, receiptId);
+    }
     if (!result.compensated) throw new EffectExecutionBlocked("compensation_failed", result.details.join(", "), receiptId);
     this.options.store.writeReceipt(this.options.run_id, {
       ...receipt,
@@ -285,9 +332,13 @@ export class EffectCoordinator {
     const blockers: string[] = [];
     for (const receipt of this.options.store.listReceipts(this.options.run_id)) {
       if (receipt.status === "verified" || receipt.status === "compensated" || receipt.status === "failed") continue;
+      if (receipt.failure?.code === "compensation_uncertain") {
+        blockers.push(`compensation_reconciliation_required:${receipt.receipt_id}`);
+        continue;
+      }
       if (receipt.result !== undefined) {
         const operation = getAdapterOperation(this.options.adapters || REFERENCE_ADAPTERS, receipt.adapter, receipt.operation);
-        const verification = await operation.verify(receipt, this.context(receipt.idempotency_key));
+        const verification = await this.withinDeadline("reconcile", (signal, deadline) => operation.verify(receipt, this.context(receipt.idempotency_key, 1_000_000, signal, deadline)));
         const next: EffectReceipt = verification.verified ? {
           ...receipt,
           status: "verified",

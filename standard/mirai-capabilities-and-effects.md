@@ -24,9 +24,10 @@ the Program itself cannot mint a grant.
 
 ## Capability Binding
 
-A grant is bound to:
+A grant and any required approval are bound to:
 
-- run, Program digest and node;
+- run, Program digest, input digest and node;
+- evaluated argument digest;
 - adapter, operation, resource and declared effect;
 - call, byte and time budgets;
 - policy digest and expiry;
@@ -62,7 +63,8 @@ boundaries before it can enter conformance review.
   symbolic link;
 - effects must match the Program declaration and adapter contract;
 - host policy may deny an otherwise valid Program;
-- approval is scoped to the Program digest, sandbox digest and allowed effects;
+- approval is scoped to the exact run, Program, input, policy, evaluated arguments,
+  node, adapter, operation, resource, effects and budgets;
 - adapter results do not authorize another effect;
 - canonical graph updates require a separate approved proposal path.
 

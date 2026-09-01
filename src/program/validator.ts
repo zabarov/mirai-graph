@@ -12,6 +12,12 @@ const NODE_KINDS = new Set([
   "call", "branch", "match", "foreach", "parallel", "await", "retry",
   "timeout", "cancel", "compensate", "emit", "return"
 ]);
+const NODE_FIELDS = new Set([
+  "id", "kind", "next", "target", "args", "result", "effects", "capability", "on_error",
+  "condition", "then", "else", "value", "cases", "default", "items", "item", "program", "input",
+  "max_iterations", "branches", "max_parallel", "merge", "event", "deadline_ms", "on_timeout",
+  "max_attempts", "backoff_ms", "timeout_ms", "target_run", "reason", "receipt", "payload", "values"
+]);
 
 const ajv = new Ajv2020({ allErrors: true, strict: false });
 addFormats(ajv);
@@ -137,6 +143,7 @@ function requireProgramRef(value: unknown, program: MiraiProgram, label: string,
 
 function validateNode(node: ProgramNode, refs: Set<string>, env: Map<string, TypeSpec>, program: MiraiProgram, errors: string[]): void {
   const label = `node:${node.id}`;
+  for (const key of Object.keys(node)) if (!NODE_FIELDS.has(key)) errors.push(`${label}:unknown_field:${key}`);
   if (!NODE_KINDS.has(node.kind)) { errors.push(`${label}:unknown_kind:${node.kind}`); return; }
   if (node.next !== undefined) requireRef(node.next, refs, `${label}.next`, errors);
 

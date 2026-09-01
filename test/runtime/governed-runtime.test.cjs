@@ -6,15 +6,21 @@ const { spawnSync } = require("node:child_process");
 const test = require("node:test");
 
 const { programDigest } = require("../../dist/cjs/program");
+const { digestValue } = require("../../dist/cjs/core");
 const {
+  DEFAULT_CAPABILITY_POLICY,
   RunStore,
   createApprovalReceipt,
+  buildCapabilityRequest,
+  buildSanitizedEvidence,
+  policyDigest,
   startGovernedRun,
   resumeGovernedRun,
   replayGovernedEpisode,
   inspectGovernedRun,
   exportSanitizedEvidence,
-  validateGrant
+  validateGrant,
+  verifyApprovalReceipt
 } = require("../../dist/cjs/runtime");
 
 function temporary() {
@@ -91,11 +97,35 @@ function writeProgram(options = {}) {
 }
 
 function approval(environment, subject, effects, overrides = {}) {
+  const runId = overrides.run_id || `run.approval-${digestValue({ root: environment.root, program: subject.id }).slice(7, 23)}`;
+  const inputDigest = digestValue({});
+  const policy = policyDigest(DEFAULT_CAPABILITY_POLICY);
+  const requestScopes = subject.nodes.filter((node) => node.kind === "call" && node.target?.kind === "adapter" && (node.effects || []).some((effect) => effects.includes(effect))).map((node) => {
+    const args = Object.fromEntries(Object.entries(node.args || {}).map(([key, expression]) => {
+      if (!expression || expression.op !== "literal") throw new Error(`test_approval_requires_literal_arg:${node.id}:${key}`);
+      return [key, expression.value];
+    }));
+    const resource = node.target.adapter === "repository" || node.target.adapter === "workspace"
+      ? (args.path === undefined || args.path === "." ? "." : `./${String(args.path).replace(/^\.\//, "")}`)
+      : node.target.adapter === "git" ? "."
+        : node.target.adapter === "test" ? `command:${String(args.command_id || "unknown")}`
+          : node.target.adapter === "human" ? `approval:${node.id}` : `${node.target.adapter}:${node.target.operation}`;
+    return {
+      run_id: runId, program_digest: subject.digest, input_digest: inputDigest, args_digest: digestValue(args),
+      node_id: node.id, adapter: node.target.adapter, action: node.target.operation, resource,
+      effects: node.effects, capability: node.capability,
+      budget: { max_calls: 1, max_bytes: 1_000_000, timeout_ms: 30_000 }, policy_digest: policy
+    };
+  });
   return createApprovalReceipt({
     home: environment.home,
+    run_id: runId,
     program_digest: subject.digest,
+    input_digest: inputDigest,
+    policy_digest: policy,
     sandbox: environment.sandbox,
     effects,
+    request_scopes: requestScopes,
     approver: "test.owner",
     ttl_ms: 60_000,
     ...overrides
@@ -118,6 +148,57 @@ test("repository read is capability-gated, verified and export-safe", async () =
   assert(!exported.includes("private fixture content"));
   assert(!exported.includes(env.sandbox));
   assert(!exported.includes("opaque_token"));
+});
+
+test("sanitized evidence excludes adapter-controlled verification text", async () => {
+  const env = temporary();
+  const subject = readProgram();
+  const privateText = "customer-private-verification-detail";
+  const adapters = {
+    repository: {
+      read_file: {
+        effect: "repository_read",
+        async execute() { return { path: "note.txt", encoding: "utf8", content: "content", size: 7, sha256: `sha256:${"a".repeat(64)}` }; },
+        async verify() { return { verified: true, details: [privateText] }; }
+      }
+    }
+  };
+  const result = await startGovernedRun(subject, {}, { store: env.store, sandbox: env.sandbox, adapters });
+  const evidence = JSON.stringify(buildSanitizedEvidence(result.run.run_id, env.store));
+  assert(!evidence.includes(privateText));
+  assert(!evidence.includes("details"));
+});
+
+test("sanitized evidence constructs run metadata from an allowlist", async () => {
+  const env = temporary();
+  fs.writeFileSync(path.join(env.sandbox, "note.txt"), "content");
+  const result = await startGovernedRun(readProgram(), {}, { store: env.store, sandbox: env.sandbox });
+  const privateText = "customer-private-adapter-failure-message";
+  const current = env.store.readRun(result.run.run_id);
+  env.store.updateRun(result.run.run_id, current.revision, (run) => ({ ...run, blockers: [privateText] }));
+  const evidence = buildSanitizedEvidence(result.run.run_id, env.store);
+  const serialized = JSON.stringify(evidence);
+  assert(!serialized.includes(privateText));
+  assert.equal(Array.isArray(evidence.run.blocker_codes), true);
+  assert.match(evidence.run.blocker_codes[0], /^untrusted:sha256:/);
+  assert.equal("sandbox" in evidence.run, false);
+  assert.equal("approval_receipt_ref" in evidence.run, false);
+});
+
+test("evidence export rejects a destination below a symlinked parent", async (context) => {
+  if (process.platform === "win32") return context.skip("symlink fixture is POSIX-specific");
+  const env = temporary();
+  fs.writeFileSync(path.join(env.sandbox, "note.txt"), "content");
+  const result = await startGovernedRun(readProgram(), {}, { store: env.store, sandbox: env.sandbox });
+  const base = path.join(env.root, "evidence-base");
+  const outside = path.join(env.root, "outside-evidence");
+  fs.mkdirSync(base);
+  fs.mkdirSync(outside);
+  fs.symlinkSync(outside, path.join(base, "linked"));
+  assert.throws(
+    () => exportSanitizedEvidence(result.run.run_id, path.join(base, "linked", "export"), { store: env.store }),
+    /evidence_output_symlink_forbidden/
+  );
 });
 
 test("git status and diff remain read-only capability-gated effects", async () => {
@@ -217,6 +298,136 @@ test("workspace write fails without apply and signed approval", async () => {
   assert.equal(fs.existsSync(path.join(env.sandbox, "generated.txt")), false);
 });
 
+test("a denied named run can resume only with an exact request-scoped approval", async () => {
+  const env = temporary();
+  const subject = writeProgram({ path: "reviewed.txt", content: "approved content" });
+  const runId = "run.request-scoped-approval";
+  await assert.rejects(
+    () => startGovernedRun(subject, {}, { store: env.store, sandbox: env.sandbox, apply: true, run_id: runId }),
+    /approval_receipt_required/
+  );
+  const requestsDir = path.join(env.store.directory(runId), "capability-requests");
+  const request = JSON.parse(fs.readFileSync(path.join(requestsDir, fs.readdirSync(requestsDir)[0]), "utf8"));
+  const { contract_version: _contract, request_id: _requestId, request_digest: _requestDigest, approval_required: _approvalRequired, ...scope } = request;
+  const receipt = createApprovalReceipt({
+    home: env.home, run_id: runId, program_digest: subject.digest, input_digest: request.input_digest,
+    policy_digest: request.policy_digest, sandbox: env.sandbox, effects: request.effects,
+    request_scopes: [scope], approver: "test.owner", ttl_ms: 60_000
+  });
+  const changedRequest = buildCapabilityRequest({
+    ...scope,
+    args_digest: digestValue({ path: "different.txt" }),
+    approval_required: true
+  });
+  assert(verifyApprovalReceipt(receipt, { home: env.home, sandbox: env.sandbox, request: changedRequest }).errors.includes("approval_request_scope_mismatch"));
+  const resumed = await resumeGovernedRun(runId, { store: env.store, approval: receipt });
+  assert.equal(resumed.run.status, "completed");
+  assert.equal(fs.readFileSync(path.join(env.sandbox, "reviewed.txt"), "utf8"), "approved content");
+});
+
+test("runtime deadline aborts an in-flight adapter and refuses completion", async () => {
+  const env = temporary();
+  fs.writeFileSync(path.join(env.sandbox, "note.txt"), "content");
+  const adapters = {
+    repository: {
+      read_file: {
+        effect: "repository_read",
+        async execute(_args, context) {
+          return new Promise((resolve, reject) => {
+            const timer = setTimeout(() => resolve({ content: "late" }), 100);
+            context.signal.addEventListener("abort", () => { clearTimeout(timer); reject(context.signal.reason); }, { once: true });
+          });
+        },
+        async verify() { return { verified: true, details: ["should_not_verify"] }; }
+      }
+    }
+  };
+  const runId = "run.activation-deadline";
+  await assert.rejects(
+    () => startGovernedRun(readProgram(), {}, { store: env.store, sandbox: env.sandbox, adapters, run_id: runId, deadline_at_ms: Date.now() + 10 }),
+    /adapter_execution_failed|effect_deadline_exceeded/
+  );
+  const run = env.store.readRun(runId);
+  assert.notEqual(run.status, "completed");
+});
+
+test("ordinary governed effects receive the capability timeout signal", async () => {
+  const env = temporary();
+  const adapters = {
+    repository: {
+      read_file: {
+        effect: "repository_read",
+        async execute(_args, context) {
+          const bounded = context.signal instanceof AbortSignal && Number.isInteger(context.remaining_ms) && context.remaining_ms > 0 && context.remaining_ms <= 30_000;
+          return { path: "note.txt", encoding: "utf8", content: String(bounded), size: 4, sha256: `sha256:${"a".repeat(64)}` };
+        },
+        async verify() { return { verified: true, details: ["verified"] }; }
+      }
+    }
+  };
+  const result = await startGovernedRun(readProgram(), {}, { store: env.store, sandbox: env.sandbox, adapters });
+  assert.equal(result.episode.outputs.content, "true");
+});
+
+test("runtime deadline covers verification and leaves the effect unsettled", async () => {
+  const env = temporary();
+  fs.writeFileSync(path.join(env.sandbox, "note.txt"), "content");
+  const adapters = {
+    repository: {
+      read_file: {
+        effect: "repository_read",
+        async execute() { return { content: "read" }; },
+        async verify(_receipt, context) {
+          return new Promise((resolve, reject) => {
+            const timer = setTimeout(() => resolve({ verified: true, details: ["late"] }), 100);
+            context.signal.addEventListener("abort", () => { clearTimeout(timer); reject(context.signal.reason); }, { once: true });
+          });
+        }
+      }
+    }
+  };
+  const runId = "run.verification-deadline";
+  const started = Date.now();
+  await assert.rejects(
+    () => startGovernedRun(readProgram(), {}, { store: env.store, sandbox: env.sandbox, adapters, run_id: runId, deadline_at_ms: Date.now() + 10 }),
+    /effect_deadline_exceeded:verify/
+  );
+  assert(Date.now() - started < 90);
+  assert.equal(env.store.readRun(runId).status, "blocked");
+  assert.equal(env.store.listReceipts(runId)[0].status, "executed");
+});
+
+test("compensation timeout becomes uncertain and blocks automatic resume", async () => {
+  const env = temporary();
+  const subject = writeProgram({ path: "compensation-timeout.txt", compensate: true });
+  const runId = "run.compensation-deadline";
+  const receipt = approval(env, subject, ["workspace_patch"], { run_id: runId });
+  const adapters = {
+    workspace: {
+      write_file: {
+        effect: "workspace_patch",
+        async execute() { return { backup_ref: "host-local://fixture" }; },
+        async verify() { return { verified: true, details: ["verified"] }; },
+        async compensate(_receipt, context) {
+          return new Promise((resolve, reject) => {
+            const timer = setTimeout(() => resolve({ compensated: true, details: ["late"] }), 100);
+            context.signal.addEventListener("abort", () => { clearTimeout(timer); reject(context.signal.reason); }, { once: true });
+          });
+        }
+      }
+    }
+  };
+  await assert.rejects(
+    () => startGovernedRun(subject, {}, { store: env.store, sandbox: env.sandbox, adapters, apply: true, approval: receipt, run_id: runId, deadline_at_ms: Date.now() + 20 }),
+    /compensation_uncertain/
+  );
+  const effectReceipt = env.store.listReceipts(runId)[0];
+  assert.equal(effectReceipt.status, "uncertain");
+  assert.equal(effectReceipt.failure.code, "compensation_uncertain");
+  assert.equal(env.store.readRun(runId).status, "blocked");
+  await assert.rejects(() => resumeGovernedRun(runId, { store: env.store, adapters }), /compensation_reconciliation_required/);
+});
+
 test("forged approval fails closed before workspace write", async () => {
   const env = temporary();
   const subject = writeProgram();
@@ -231,7 +442,7 @@ test("forged approval fails closed before workspace write", async () => {
 test("crash after effect is reconciled without duplicate workspace write", async () => {
   const env = temporary();
   const subject = writeProgram();
-  const receipt = approval(env, subject, ["workspace_patch"]);
+  const receipt = approval(env, subject, ["workspace_patch"], { run_id: "run.crash-after-effect" });
   let runId;
   await assert.rejects(async () => {
     try {
@@ -253,7 +464,7 @@ test("crash after effect is reconciled without duplicate workspace write", async
 test("fault before adapter invocation retries safely on resume", async () => {
   const env = temporary();
   const subject = writeProgram({ path: "retry.txt", content: "single write" });
-  const receipt = approval(env, subject, ["workspace_patch"]);
+  const receipt = approval(env, subject, ["workspace_patch"], { run_id: "run.crash-before-effect" });
   await assert.rejects(
     () => startGovernedRun(subject, {}, {
       store: env.store, sandbox: env.sandbox, apply: true, approval: receipt,
@@ -314,7 +525,7 @@ test("non-zero allowlisted test result blocks completion", async () => {
     },
     { id: "return.done", kind: "return", values: { status: { op: "literal", value: "done" } } }
   ], { outputs: [{ id: "status", type: "string" }], allowed_effects: ["process_run"] });
-  const receipt = approval(env, subject, ["process_run"]);
+  const receipt = approval(env, subject, ["process_run"], { run_id: runId });
   await assert.rejects(
     () => startGovernedRun(subject, {}, {
       store: env.store,
@@ -419,7 +630,7 @@ test("expired lease is replaced but malformed or active state remains fail-close
 test("corrupted checkpoint blocks resume and is not silently replaced", async () => {
   const env = temporary();
   const subject = writeProgram({ path: "checkpoint.txt" });
-  const receipt = approval(env, subject, ["workspace_patch"]);
+  const receipt = approval(env, subject, ["workspace_patch"], { run_id: "run.corrupt-checkpoint" });
   await assert.rejects(
     () => startGovernedRun(subject, {}, {
       store: env.store, sandbox: env.sandbox, apply: true, approval: receipt,
@@ -437,7 +648,7 @@ test("corrupted checkpoint blocks resume and is not silently replaced", async ()
 test("uncertain write without a result blocks automatic resume", async () => {
   const env = temporary();
   const subject = writeProgram({ path: "uncertain.txt", content: "possibly written" });
-  const receipt = approval(env, subject, ["workspace_patch"]);
+  const receipt = approval(env, subject, ["workspace_patch"], { run_id: "run.uncertain" });
   const uncertainAdapters = {
     workspace: {
       write_file: {
@@ -504,8 +715,8 @@ test("expired approval fails before effect execution", async () => {
 
 test("grant validation rejects cross-run reuse", () => {
   const request = {
-    contract_version: "1.0.0", request_id: "request.fixture", request_digest: "sha256:" + "a".repeat(64),
-    run_id: "run.one", program_digest: "sha256:" + "b".repeat(64), node_id: "node.one",
+    contract_version: "1.1.0", request_id: "request.fixture", request_digest: "sha256:" + "a".repeat(64),
+    run_id: "run.one", program_digest: "sha256:" + "b".repeat(64), input_digest: "sha256:" + "d".repeat(64), args_digest: "sha256:" + "e".repeat(64), node_id: "node.one",
     adapter: "repository", action: "read_file", resource: "./note.txt", effects: ["repository_read"],
     capability: "capability.repository.read", budget: { max_calls: 1 }, policy_digest: "sha256:" + "c".repeat(64), approval_required: false
   };

@@ -70,6 +70,7 @@
     "./project-technology": "./packages/project-technology/index.js"
   },
   "scripts": {
+    "prebuild": "node packages/build/generate-program-schema.js",
     "build:cjs": "tsc -p tsconfig.cjs.json",
     "build:esm": "tsc -p tsconfig.esm.json && node packages/build/finalize-esm.js",
     "build": "npm run build:cjs && npm run build:esm",

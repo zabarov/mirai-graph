@@ -5,6 +5,7 @@ const path = require("node:path");
 const test = require("node:test");
 
 const { REFERENCE_ADAPTERS, resolveSandboxPath } = require("../../dist/cjs/adapters");
+const { digestValue } = require("../../dist/cjs/core");
 const {
   DEFAULT_CAPABILITY_POLICY,
   ReferenceCapabilityProvider,
@@ -58,11 +59,29 @@ test("generated command identifiers cannot escape the host allowlist", async () 
   }
 });
 
+test("reference process adapters reject an exhausted direct-call budget", async () => {
+  const context = {
+    run_id: "run.expired",
+    sandbox: process.cwd(),
+    idempotency_key: "idempotency.expired",
+    max_bytes: 4096,
+    remaining_ms: 0,
+    test_commands: {},
+    store: {}
+  };
+  await assert.rejects(
+    () => REFERENCE_ADAPTERS.git.status.execute({}, context),
+    /effect_deadline_exceeded/
+  );
+});
+
 test("generated cross-run and scope mutations invalidate capability grants", () => {
   const { sandbox } = temporarySandbox();
   const request = buildCapabilityRequest({
     run_id: "run.expected",
     program_digest: `sha256:${"a".repeat(64)}`,
+    input_digest: digestValue({}),
+    args_digest: digestValue({ path: "inside.txt" }),
     node_id: "node.read",
     adapter: "repository",
     action: "read_file",
@@ -88,6 +107,10 @@ test("generated cross-run and scope mutations invalidate capability grants", () 
     assert(validateGrant(wrongNode, request).includes("grant_program_scope_mismatch"));
     const wrongResource = { ...decision.grant, resource: `../outside-${index}` };
     assert(validateGrant(wrongResource, request).includes("grant_operation_scope_mismatch"));
+    const wrongBudget = { ...decision.grant, budget: { ...decision.grant.budget, max_bytes: 8192 + index } };
+    assert(validateGrant(wrongBudget, request).includes("grant_budget_scope_mismatch"));
+    const wrongPolicy = { ...decision.grant, policy_digest: `sha256:${String(index % 10).repeat(64)}` };
+    assert(validateGrant(wrongPolicy, request).includes("grant_policy_scope_mismatch"));
   }
 });
 
@@ -110,6 +133,8 @@ test("custom capability path prefixes require a segment boundary", () => {
   const requestFor = (resource) => buildCapabilityRequest({
     run_id: "run.prefix",
     program_digest: `sha256:${"b".repeat(64)}`,
+    input_digest: digestValue({}),
+    args_digest: digestValue({ path: resource }),
     node_id: "node.read",
     adapter: "repository",
     action: "read_file",
@@ -129,9 +154,17 @@ test("approval creation rejects invalid lifetime and empty approver", () => {
   const { createApprovalReceipt } = require("../../dist/cjs/runtime");
   const base = {
     home: path.join(sandbox, ".mirai"),
+    run_id: "run.approval-fuzz",
     program_digest: `sha256:${"c".repeat(64)}`,
+    input_digest: digestValue({}),
+    policy_digest: policyDigest(DEFAULT_CAPABILITY_POLICY),
     sandbox,
     effects: ["workspace_patch"],
+    request_scopes: [{
+      run_id: "run.approval-fuzz", program_digest: `sha256:${"c".repeat(64)}`, input_digest: digestValue({}), args_digest: digestValue({}),
+      node_id: "node.write", adapter: "workspace", action: "write_file", resource: "./output.txt", effects: ["workspace_patch"],
+      capability: "capability.workspace.patch", budget: { max_calls: 1, max_bytes: 4096, timeout_ms: 1000 }, policy_digest: policyDigest(DEFAULT_CAPABILITY_POLICY)
+    }],
     approver: "owner"
   };
   assert.throws(() => createApprovalReceipt({ ...base, ttl_ms: 0 }), /approval_ttl_invalid/);

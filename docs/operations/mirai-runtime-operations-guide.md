@@ -20,12 +20,22 @@ high-value run if recovery depends on retained receipts.
 1. Validate and compile the Program.
 2. Simulate pure control flow and inspect requested effects.
 3. Select an isolated sandbox.
-4. Create any required host approval after reviewing Program and sandbox digests.
-5. Run without `--apply` first where the adapter permits it.
-6. Use `--apply --approval <receipt>` only at the approved write boundary.
-7. Inspect the terminal status and export sanitized evidence separately.
+4. Start a named apply run without approval to materialize the exact denied
+   capability requests, then review their Program, input, argument, resource,
+   policy and sandbox bindings.
+5. Create the host approval from those exact request artifacts.
+6. Resume or restart that same run with `--apply --approval <receipt>` only at
+   the approved write boundary. A receipt cannot authorize a different run or
+   changed material inputs.
+7. Run without `--apply` first where the adapter permits it.
+8. Inspect the terminal status and export sanitized evidence separately.
 
 ```bash
+mirai run program.mirai.json --input input.json --sandbox ./sandbox --apply --run-id run.review-001
+mirai approval create program.mirai.json --sandbox ./sandbox \
+  --requests "$MIRAI_HOME/runs/<program-id>/run.review-001/capability-requests" \
+  --out approval.json
+mirai resume run.review-001 --approval approval.json
 mirai operations status
 mirai inspect <run-id>
 mirai evidence export <run-id> --out evidence

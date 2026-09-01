@@ -20,6 +20,8 @@ import {
   resumeGovernedRun,
   startGovernedRun,
   type ApprovalReceipt,
+  type ApprovalRequestScope,
+  type CapabilityRequest,
   type CapabilityPolicy,
   type EffectName,
   type GovernedEpisode
@@ -62,9 +64,9 @@ function usage(): void {
     "  mirai replay <episode|run-id> --program <program> [--home <mirai-home>] [--import <alias=program>]",
     "  mirai conformance run <corpus.json>",
     "  mirai conformance compare <reference-result.json> <candidate-result.json>",
-    "  mirai approval create <program.mirai.json> --sandbox <dir> --effects <list> --out <receipt.json>",
+    "  mirai approval create <program.mirai.json> --sandbox <dir> --requests <requests.json> --out <receipt.json>",
     "  mirai run <program.mirai.json> --input <input.json> --sandbox <dir> [--apply --approval <receipt.json>]",
-    "  mirai resume <run-id> [--home <mirai-home>]",
+    "  mirai resume <run-id> [--approval <receipt.json>] [--home <mirai-home>]",
     "  mirai cancel <run-id> [--home <mirai-home>]",
     "  mirai reconcile <run-id> [--home <mirai-home>]",
     "  mirai inspect <run-id> [--home <mirai-home>]",
@@ -412,14 +414,29 @@ export async function runCli(args: string[]): Promise<number> {
     if (args[0] === "approval" && args[1] === "create") {
       const program = loadRuntimeProgram(requireArgument(args[2], "program path"));
       const sandbox = requireArgument(readOption(args, "--sandbox"), "--sandbox path");
-      const effects = parseEffects(requireArgument(readOption(args, "--effects"), "--effects list"));
+      const requestsPath = path.resolve(requireArgument(readOption(args, "--requests"), "--requests path"));
+      const rawRequests = fs.statSync(requestsPath).isDirectory()
+        ? fs.readdirSync(requestsPath).filter((name) => name.endsWith(".json")).sort().map((name) => loadJson(path.join(requestsPath, name)))
+        : loadJson(requestsPath);
+      const requests = (Array.isArray(rawRequests) ? rawRequests : [rawRequests]) as unknown as CapabilityRequest[];
+      if (!requests.length) throw new Error("approval_requests_required");
+      const requestScopes: ApprovalRequestScope[] = requests.map((request) => {
+        const { contract_version: _contract, request_id: _requestId, request_digest: _requestDigest, approval_required: _approvalRequired, ...scope } = request;
+        return scope;
+      });
+      const first = requests[0] as CapabilityRequest;
+      if (requests.some((request) => request.program_digest !== program.digest)) throw new Error("approval_request_program_mismatch");
+      const effects = [...new Set(requests.flatMap((request) => request.effects))];
       const output = path.resolve(requireArgument(readOption(args, "--out"), "--out path"));
       const receipt = createApprovalReceipt({
         home: runtimeHome(args) || path.join(process.env.HOME || process.cwd(), ".mirai"),
+        run_id: first.run_id,
         program_digest: program.digest,
+        input_digest: first.input_digest,
+        policy_digest: first.policy_digest,
         sandbox,
         effects,
-        node_ids: readOption(args, "--nodes")?.split(",").filter(Boolean),
+        request_scopes: requestScopes,
         approver: readOption(args, "--approver") || process.env.USER || "local-owner",
         ttl_ms: Number(readOption(args, "--ttl-ms") || 15 * 60 * 1000)
       });
@@ -450,7 +467,11 @@ export async function runCli(args: string[]): Promise<number> {
     }
 
     if (args[0] === "resume") {
-      const result = await resumeGovernedRun(requireArgument(args[1], "run id"), { home: runtimeHome(args) });
+      const approvalFile = readOption(args, "--approval");
+      const result = await resumeGovernedRun(requireArgument(args[1], "run id"), {
+        home: runtimeHome(args),
+        approval: approvalFile ? loadJson(approvalFile) as unknown as ApprovalReceipt : undefined
+      });
       writeJson(result);
       return result.run.status === "completed" ? 0 : 2;
     }

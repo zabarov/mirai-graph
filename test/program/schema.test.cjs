@@ -4,7 +4,7 @@ const path = require("node:path");
 const test = require("node:test");
 const Ajv2020 = require("ajv/dist/2020").default;
 
-const { compileProgramFile } = require("../../dist/cjs/program");
+const { compileProgramFile, MIRAI_PROGRAM_SCHEMA } = require("../../dist/cjs/program");
 
 function schema(name) {
   return JSON.parse(fs.readFileSync(path.resolve(__dirname, "../../schemas", name), "utf8"));
@@ -19,6 +19,11 @@ test("public Program and migration schemas compile", () => {
   const validate = ajv.getSchema(programSchema.$id);
   const program = compileProgramFile(path.resolve(__dirname, "../../examples/mirai-program-minimal/program.mirai.yaml")).program;
   assert.equal(validate(program), true, JSON.stringify(validate.errors));
+});
+
+test("runtime and public Program schemas are identical", () => {
+  const publicSchema = schema("mirai-program.schema.json");
+  assert.deepEqual(MIRAI_PROGRAM_SCHEMA, publicSchema);
 });
 
 test("manifest extension cannot authorize a canonical write", () => {

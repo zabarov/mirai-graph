@@ -13,7 +13,7 @@
     "apply_requested": true,
     "created_at": "2026-09-01T04:57:22.185Z",
     "updated_at": "2026-09-01T04:57:22.464Z",
-    "blockers": [],
+    "blocker_codes": [],
     "limitations": [
       "Runtime state is host-local and does not authorize canonical graph updates."
     ],
@@ -123,19 +123,12 @@
       "sequence": 1,
       "attempt": 1,
       "prepared_at": "2026-09-01T04:57:22.199Z",
-      "compensation": {
-        "status": "available",
-        "backup_ref": "redacted-host-local"
-      },
+      "compensation_status": "available",
+      "backup_ref": "redacted-host-local",
       "executed_at": "2026-09-01T04:57:22.200Z",
       "result_digest": "sha256:af790290f48ec0d5c615d95f4b4be60b1e1316c8aa2210f6874b1b062bd5a4dd",
       "verified_at": "2026-09-01T04:57:22.201Z",
-      "verification": {
-        "status": "verified",
-        "details": [
-          "current_digest:sha256:17b22bd90966b077818ea9f83eb1d3d9f0cc0c9703bc4a3a81f8d250c0cbe395"
-        ]
-      }
+      "verification_status": "verified"
     },
     {
       "contract_version": "1.0.0",
@@ -156,19 +149,12 @@
       "sequence": 2,
       "attempt": 1,
       "prepared_at": "2026-09-01T04:57:22.202Z",
-      "compensation": {
-        "status": "available",
-        "backup_ref": "redacted-host-local"
-      },
+      "compensation_status": "available",
+      "backup_ref": "redacted-host-local",
       "executed_at": "2026-09-01T04:57:22.204Z",
       "result_digest": "sha256:beba338d07a96ebd2d5f82ee4872f85c9a264aba8d55db5cf312f0053a204eff",
       "verified_at": "2026-09-01T04:57:22.204Z",
-      "verification": {
-        "status": "verified",
-        "details": [
-          "current_digest:sha256:eafbb735273fb315c57b00df035670c3d87e3acda7a3cec69233539b0a6c3dc5"
-        ]
-      }
+      "verification_status": "verified"
     },
     {
       "contract_version": "1.0.0",
@@ -189,18 +175,11 @@
       "sequence": 3,
       "attempt": 1,
       "prepared_at": "2026-09-01T04:57:22.206Z",
-      "compensation": {
-        "status": "not_available"
-      },
+      "compensation_status": "not_available",
       "executed_at": "2026-09-01T04:57:22.300Z",
       "result_digest": "sha256:3a6ab054c8a1576684da1463aaf8134c0a536aeab755786012fecfba419f4686",
       "verified_at": "2026-09-01T04:57:22.301Z",
-      "verification": {
-        "status": "verified",
-        "details": [
-          "exit_code:0"
-        ]
-      }
+      "verification_status": "verified"
     },
     {
       "contract_version": "1.0.0",
@@ -221,18 +200,11 @@
       "sequence": 4,
       "attempt": 1,
       "prepared_at": "2026-09-01T04:57:22.303Z",
-      "compensation": {
-        "status": "not_available"
-      },
+      "compensation_status": "not_available",
       "executed_at": "2026-09-01T04:57:22.383Z",
       "result_digest": "sha256:a1ba7b5604b19a508df8c532dbe95cedc165e8b24c6d0f3141b62a9354b70abc",
       "verified_at": "2026-09-01T04:57:22.384Z",
-      "verification": {
-        "status": "verified",
-        "details": [
-          "exit_code:0"
-        ]
-      }
+      "verification_status": "verified"
     },
     {
       "contract_version": "1.0.0",
@@ -253,18 +225,11 @@
       "sequence": 5,
       "attempt": 1,
       "prepared_at": "2026-09-01T04:57:22.386Z",
-      "compensation": {
-        "status": "not_available"
-      },
+      "compensation_status": "not_available",
       "executed_at": "2026-09-01T04:57:22.461Z",
       "result_digest": "sha256:2d43c16021900a1d01396a85356ca623618df133396bc41eba2766bc0e28b893",
       "verified_at": "2026-09-01T04:57:22.462Z",
-      "verification": {
-        "status": "verified",
-        "details": [
-          "exit_code:0"
-        ]
-      }
+      "verification_status": "verified"
     }
   ],
   "exported_at": "2026-09-01T04:57:36.749Z",
