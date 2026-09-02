@@ -13,6 +13,7 @@ function usage() {
   console.error("Options: --apply --task <text> --source <file> --target-id <id>");
   console.error("         --semantic-digest <sha256:...> --provider-revision <sha>");
   console.error("         --refresh-binding --significant-work --max-objects <count>");
+  console.error("Archive connect: --provider-archive-trust <verified-release-anchor.json>");
   console.error("Continuity: sync --boundary task_start|stage_complete|task_complete [--evidence <json>] [--expected-graph-digest <sha256:...>]");
   console.error("            verify --significant-work [--receipt-digest <sha256:...>]");
   console.error("Context: --phase discover --task <text>");
@@ -46,7 +47,9 @@ function parse(argv) {
   const options = {};
   const values = new Set(["--task", "--source", "--target-id", "--semantic-digest", "--provider-revision", "--max-objects", "--phase", "--input", "--select", "--selection", "--packet", "--evidence", "--selector", "--reason", "--confidence", "--context-budget", "--boundary", "--expected-graph-digest", "--receipt-digest", "--state-root", "--matter-id", "--direction", "--artifact-root", "--release-date", "--release-id", "--parent-release", "--base-release", "--target-release", "--client-note", "--technology", "--scenario", "--audience", "--course-pack", "--projection"]);
   const flags = new Set(["--apply", "--refresh-binding", "--significant-work", "--create-export"]);
+  values.add("--provider-archive-trust");
   const names = {
+    "--provider-archive-trust": "providerArchiveTrustFile",
     "--task": "task", "--source": "source", "--target-id": "targetId",
     "--semantic-digest": "semanticDigest", "--provider-revision": "providerRevision",
     "--max-objects": "maxObjects", "--apply": "apply",
@@ -89,6 +92,10 @@ function readJsonFile(file) {
 }
 
 function hydrateContextOptions(request) {
+  if (request.options.providerArchiveTrustFile) {
+    if (request.operation !== "connect") throw new Error("archive trust is only supported by connect");
+    request.options.providerArchive = readJsonFile(request.options.providerArchiveTrustFile);
+  }
   if (request.operation === "sync" && request.options.boundary) {
     if (request.options.boundary !== "task_start" && !request.options.evidenceFile) throw new Error(`${request.options.boundary} requires --evidence`);
     if (request.options.evidenceFile) request.options.continuityEvidence = readJsonFile(request.options.evidenceFile);

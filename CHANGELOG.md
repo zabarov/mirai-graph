@@ -4,6 +4,11 @@ All notable changes to Mirai Graph will be documented in this file.
 
 ## [Unreleased]
 
+- Project Technology can connect and refresh a bounded provider export without
+  Git using explicit authenticated-release trust supplied by the consumer.
+  Exact export bytes, graph identity, revision and forward ancestry are checked;
+  target/architecture/permission gates are unchanged. No automatic trust discovery.
+
 ## [1.4.0] - 2026-08-29
 
 ### Added

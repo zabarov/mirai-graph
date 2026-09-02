@@ -36,7 +36,7 @@ const TARGET_EXPORT_KEYS = new Set([
   "schema_version", "target_id", "semantic_digest", "provider_revision",
   "decision_refs", "goal_binding", "requirement_bindings", "constraint_ids",
   "non_goal_ids", "deferred_boundary_ids", "allowed_change_scope",
-  "architecture_contract", "execution_contract_digest",
+  "architecture_contract", "execution_contract_digest", "provider_graph_id",
 ]);
 const SECRET_PARTS = [".env", "credential", "secret", "token", "password", "private-key", "id_rsa", ".pem", ".p12"];
 const EXCLUDED_PARTS = new Set([".git", ".mirai-graph", ".simai", "node_modules", "vendor", "dist", "build", "coverage", "generated"]);
@@ -425,6 +425,7 @@ function readExport(filePath) {
   try { payload = JSON.parse(bytes.toString("utf8").replace(/^\uFEFF/, "")); } catch (_) { return { export: {}, blockers: ["provider_export_invalid"] }; }
   if (!payload || typeof payload !== "object" || Array.isArray(payload)) return { export: {}, blockers: ["provider_export_invalid"] };
   if (Object.keys(payload).some((key) => !TARGET_EXPORT_KEYS.has(key))) blockers.push("provider_export_not_bounded");
+  if (Object.hasOwn(payload, "provider_graph_id") && (typeof payload.provider_graph_id !== "string" || !REF_RE.test(payload.provider_graph_id))) blockers.push("provider_graph_id_invalid");
   const identity = bindingValues(payload); blockers.push(...identity.blockers);
   const executionFields = [
     "decision_refs", "goal_binding", "requirement_bindings", "constraint_ids",
@@ -435,7 +436,7 @@ function readExport(filePath) {
   const digest = sha256(canonicalBytes(normalized.contract));
   if (!payload.execution_contract_digest) blockers.push("provider_execution_contract_digest_missing");
   else if (payload.execution_contract_digest !== digest) blockers.push("provider_execution_contract_digest_mismatch");
-  return { export: { schema_version: "1.0.0", ...identity.values, ...normalized.contract, execution_contract_digest: digest }, blockers: [...new Set(blockers)].sort(), raw_sha256: sha256(bytes) };
+  return { export: { schema_version: "1.0.0", ...identity.values, ...normalized.contract, execution_contract_digest: digest, ...(payload.provider_graph_id ? { provider_graph_id: payload.provider_graph_id } : {}) }, blockers: [...new Set(blockers)].sort(), raw_sha256: sha256(bytes) };
 }
 
 function trackedFiles(repo) {
@@ -521,6 +522,7 @@ function targetBindingStatus(repo, options = {}) {
     provider_export_sha256: binding.provider_export_sha256 || null,
     execution_contract: Object.fromEntries(["decision_refs", "goal_binding", "requirement_bindings", "constraint_ids", "non_goal_ids", "deferred_boundary_ids", "allowed_change_scope", "architecture_contract"].map((key) => [key, exported.export[key]])),
     execution_contract_digest: exported.export.execution_contract_digest || null,
+    provider_graph_id: exported.export.provider_graph_id || null,
     blockers: [...new Set(blockers)].sort(),
     next_action: blockers.length ? "refresh or repair the exact provider binding" : "none",
   };
@@ -661,7 +663,7 @@ function provide(repoArg, options = {}) {
   blockers.push(...target.blockers);
   if (blockers.length) return result("provide", "transactional", "fail", { blockers: [...new Set(blockers)].sort(), next_action: "repair the accepted target contract" });
   const executionContractDigest = sha256(canonicalBytes(target.contract));
-  const payload = { schema_version: "1.0.0", ...identity.values, ...target.contract, execution_contract_digest: executionContractDigest };
+  const payload = { schema_version: "1.0.0", ...identity.values, ...target.contract, execution_contract_digest: executionContractDigest, provider_graph_id: manifestState.manifest.id };
   const changed = atomicWrite(path.join(repo, EXPORT_FILE), canonicalBytes(payload));
   return result("provide", "transactional", "success", { changed, export_ref: EXPORT_FILE, target_binding: payload });
 }
@@ -669,6 +671,32 @@ function provide(repoArg, options = {}) {
 function providerRootFor(exportPath) {
   const completed = spawnSync("git", ["-C", path.dirname(exportPath), "rev-parse", "--show-toplevel"], { encoding: "utf8" });
   return completed.status === 0 ? completed.stdout.trim() : null;
+}
+
+// This is explicit consumer trust, NOT an assertion read from the provider.
+// The caller must obtain it from authenticated, checksum-bound release metadata.
+// Keeping it out of the export prevents an archive from authenticating itself.
+function archiveProviderIdentity(source, exported, anchor) {
+  const fail = code => ({ blockers: [code], ancestors: [] });
+  if (!anchor || typeof anchor !== "object" || Array.isArray(anchor)) return fail("provider_archive_trust_invalid");
+  const keys = ["exportSha256", "graphId", "providerRevision", "ancestorRevisions"];
+  if (Object.keys(anchor).some(key => !keys.includes(key)) || keys.some(key => !Object.hasOwn(anchor, key))) return fail("provider_archive_trust_invalid");
+  if (!/^[0-9a-f]{64}$/.test(anchor.exportSha256 || "") ||
+      typeof anchor.graphId !== "string" || !REF_RE.test(anchor.graphId) ||
+      !REVISION_RE.test(anchor.providerRevision || "") ||
+      !Array.isArray(anchor.ancestorRevisions) || anchor.ancestorRevisions.length > 4096 ||
+      anchor.ancestorRevisions.some(rev => typeof rev !== "string" || !REVISION_RE.test(rev) || rev === anchor.providerRevision) ||
+      new Set(anchor.ancestorRevisions).size !== anchor.ancestorRevisions.length) return fail("provider_archive_trust_invalid");
+  try {
+    // Parent aliases such as macOS /var are allowed; the exact bytes are pinned.
+    if (fs.lstatSync(source).isSymbolicLink()) return fail("provider_archive_source_unsafe");
+    if (!fs.statSync(source).isFile() || fs.statSync(source).size > 1024 * 1024) return fail("provider_archive_source_unsafe");
+    const bytes = fs.readFileSync(source);
+    if (sha256(bytes) !== anchor.exportSha256 || canonicalBytes(JSON.parse(bytes)) !== canonicalBytes(exported)) return fail("provider_archive_export_digest_mismatch");
+  } catch (_) { return fail("provider_archive_source_unsafe"); }
+  if (exported.provider_graph_id !== anchor.graphId) return fail("provider_archive_graph_mismatch");
+  if (exported.provider_revision !== anchor.providerRevision) return fail("provider_archive_revision_mismatch");
+  return { blockers: [], ancestors: anchor.ancestorRevisions };
 }
 
 function connect(repoArg, options = {}) {
@@ -681,14 +709,20 @@ function connect(repoArg, options = {}) {
   const blockers = [...identity.blockers, ...read.blockers, ...manifestState.blockers, ...ext.blockers];
   if (!ext.contract || ext.legacy || ext.contract.enabled !== true) blockers.push("project_technology_not_enabled");
   for (const key of Object.keys(identity.values)) if (read.export[key] !== identity.values[key]) blockers.push(`${key}_mismatch`);
-  const providerRoot = providerRootFor(source);
-  if (!providerRoot) blockers.push("provider_revision_order_unverifiable");
+  const archiveRequested = Object.hasOwn(options, "providerArchive");
+  const archive = archiveRequested ? archiveProviderIdentity(source, read.export, options.providerArchive) : null;
+  const providerRoot = archiveRequested ? null : providerRootFor(source);
+  if (archive) blockers.push(...archive.blockers);
+  else if (!providerRoot) blockers.push("provider_revision_order_unverifiable");
   else if (git(providerRoot, "rev-parse", "HEAD").toLowerCase() !== identity.values.provider_revision) blockers.push("provider_revision_does_not_match_head");
   const root = runtimeRoot(repo, manifestState.manifest, options);
   const currentPath = path.join(root, BINDING_FILE);
   let current = null;
   try { if (fs.existsSync(currentPath)) current = readJson(currentPath); } catch (_) { blockers.push("current_target_binding_invalid"); }
   if (current) {
+    const currentExport = targetBindingStatus(repo, options);
+    const existingGraphId = currentExport.provider_graph_id;
+    if (existingGraphId && existingGraphId !== read.export.provider_graph_id) blockers.push("target_provider_graph_conflict");
     if (!options.refreshBinding) {
       const same = Object.keys(identity.values).every((key) => current[key] === identity.values[key]);
       if (!same) blockers.push("target_provider_conflict", "target_provider_refresh_required");
@@ -703,7 +737,9 @@ function connect(repoArg, options = {}) {
       const currentState = targetBindingStatus(repo, options);
       if (currentState.status !== "ready") blockers.push(...currentState.blockers);
       if (currentState.execution_contract_digest !== read.export.execution_contract_digest) blockers.push("provider_execution_contract_refresh_mismatch");
-      if (!providerRoot) blockers.push("provider_revision_order_unverifiable");
+      if (archive) {
+        if (current.provider_revision !== identity.values.provider_revision && !archive.ancestors.includes(current.provider_revision)) blockers.push("provider_revision_not_forward");
+      } else if (!providerRoot) blockers.push("provider_revision_order_unverifiable");
       else {
         if (current.provider_revision !== identity.values.provider_revision) {
           const ancestry = spawnSync("git", ["-C", providerRoot, "merge-base", "--is-ancestor", current.provider_revision, identity.values.provider_revision]);

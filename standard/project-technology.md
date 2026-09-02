@@ -7,6 +7,45 @@ not a profile, a second graph or a source of domain methodology.
 
 ## One Mechanism, Different Graphs
 
+### Archived providers (unreleased compatibility extension)
+
+The normal source provider path continues to verify Git HEAD and ancestry.
+For an immutable distribution, `connect` also accepts `providerArchive` in the
+JavaScript options, or `--provider-archive-trust <file>` in the CLI:
+
+```json
+{
+  "exportSha256": "<SHA-256 of the exact bounded export bytes>",
+  "graphId": "example.provider",
+  "providerRevision": "<exact 40-character source revision>",
+  "ancestorRevisions": ["<previous supported revision, proven during release build>"]
+}
+```
+
+This is a **consumer trust input**, not provider self-authentication. The caller
+must derive it from an authenticated release lock/manifest after checking its
+integrity and issuer. Never calculate a hash from an untrusted download and
+call that authentication. Mirai does not discover, download or trust adjacent
+metadata automatically. Packaging must verify the export against the accepted
+source target and the declared source revision before publishing its digest.
+Ancestor entries must be proven by the source Git history during that build;
+they are not inferred from version numbers, dates or commit hash ordering.
+
+Exports produced by `provide` now include `provider_graph_id`. Old Git-backed
+exports remain readable; archive import requires the graph identity. `connect`
+uses the same full accepted execution contract validation and atomic import.
+`--refresh-binding` still requires the same target and semantic/architecture
+contract; a changed revision must explicitly descend from the current binding
+in the authenticated release metadata. A wrong or incomplete anchor fails,
+even when a working Git checkout happens to be available. The caller cannot
+use archive trust to authorize work, change owners, expand scope or bypass
+acceptance. `provide` continues to require the canonical Git source; archive
+consumers import its immutable output, never regenerate acceptance from copies.
+
+Status/verify use the hash-bound local import and remain read-only. Repository
+snapshot inventory, raw-source access and release authenticity policy remain
+separate responsibilities; archive import does not claim to solve them.
+
 The root `graph.json` declares the repository scope and profiles. The same
 Project Technology operations therefore work for:
 
