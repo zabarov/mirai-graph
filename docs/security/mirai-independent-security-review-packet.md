@@ -3,7 +3,7 @@
 Status: ready for external review; no independent verdict recorded
 
 Current review request: `mirai-independent-security-review-request-2026-09-02.json`,
-fixed to revision `5d001f5ead6d9856f634f203481d52030cec8b92`.
+fixed to revision `9507a9cb11487de25e9a2e905a4f2f2084ab7c6e`.
 
 ## Purpose
 
@@ -33,6 +33,11 @@ The reviewer should assess:
 - evidence/archive redaction and secret leakage;
 - project manifest attempts to mint authority;
 - graph explosion, activation budgets and denial of service.
+- ancestor symlinks for host-local runtime, approval and mandate roots;
+- monotonic fencing generations across lease release and process restart;
+- stale mutation-lock recovery, owner checks and quarantine evidence;
+- concrete runtime composition for production-readiness claims;
+- exclusion of host-local `.mirai` state from the packed npm artifact.
 
 ## Reproducible Commands
 
@@ -40,9 +45,11 @@ The reviewer should assess:
 npm ci
 npm run test:mirai-property-fuzz
 npm run test:mirai-alpha3
+npm run test:mirai-2.1
 npm run validate:shadow-differential
 npm run validate:bounded-production-write-candidate
 npm run validate:production-readiness
+npm run validate:clean-room-install
 npm run release:check
 ```
 

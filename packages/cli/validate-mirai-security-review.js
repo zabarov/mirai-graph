@@ -22,7 +22,11 @@ const requiredScope = [
   "activation_budgets", "activation_policy_binding",
   "activation_host_budget_ceilings", "process_run_production_exclusion",
   "renewable_lease_and_generation_fencing",
-  "cross_process_mutation_serialization"
+  "cross_process_mutation_serialization",
+  "runtime_private_root_ancestor_symlinks",
+  "stale_mutation_lock_recovery",
+  "production_runtime_composition",
+  "npm_host_local_state_exclusion"
 ];
 function assess(candidate) {
   const errors = [];
@@ -51,8 +55,21 @@ if (selfTest) {
   invalid.verdict = "pass_for_production_read";
   invalid.findings = [{ id: "SEC-001", severity: "high", status: "accepted_risk", summary: "Blocking risk", reproduction: "Synthetic self-test", evidence_refs: [] }];
   const result = assess(invalid);
-  const passed = result.errors.includes("passing_verdict_with_unresolved_critical_or_high_finding") && result.releaseGateEligible === false;
-  process.stdout.write(`${JSON.stringify({ valid: passed, self_test: "high_accepted_risk_blocks_release_gate", errors: result.errors }, null, 2)}\n`);
+  const incompleteScope = structuredClone(value);
+  incompleteScope.scope = incompleteScope.scope.filter((item) => item !== "stale_mutation_lock_recovery");
+  const incompleteScopeResult = assess(incompleteScope);
+  const passed = result.errors.includes("passing_verdict_with_unresolved_critical_or_high_finding")
+    && result.releaseGateEligible === false
+    && incompleteScopeResult.errors.includes("required_scope_missing:stale_mutation_lock_recovery");
+  process.stdout.write(`${JSON.stringify({
+    valid: passed,
+    self_tests: [
+      "high_accepted_risk_blocks_release_gate",
+      "missing_runtime_recovery_scope_fails_closed"
+    ],
+    errors: result.errors,
+    incomplete_scope_errors: incompleteScopeResult.errors
+  }, null, 2)}\n`);
   process.exitCode = passed ? 0 : 1;
   return;
 }

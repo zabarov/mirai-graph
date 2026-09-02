@@ -11,7 +11,7 @@
     "implemented_reviewed_changes": false,
     "conflict_declaration": "Replace with the reviewer's conflict declaration."
   },
-  "scope": ["program_parsing", "path_and_symlink_boundary", "command_execution", "capability_scope", "approval_integrity", "crash_and_idempotency", "compensation", "evidence_redaction", "manifest_authority", "activation_budgets", "activation_policy_binding", "activation_host_budget_ceilings", "process_run_production_exclusion", "renewable_lease_and_generation_fencing", "cross_process_mutation_serialization"],
+  "scope": ["program_parsing", "path_and_symlink_boundary", "command_execution", "capability_scope", "approval_integrity", "crash_and_idempotency", "compensation", "evidence_redaction", "manifest_authority", "activation_budgets", "activation_policy_binding", "activation_host_budget_ceilings", "process_run_production_exclusion", "renewable_lease_and_generation_fencing", "cross_process_mutation_serialization", "runtime_private_root_ancestor_symlinks", "stale_mutation_lock_recovery", "production_runtime_composition", "npm_host_local_state_exclusion"],
   "methods": ["Replace with reproducible review methods."],
   "findings": [],
   "unresolved_risks": ["Independent review has not been performed."],
