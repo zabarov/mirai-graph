@@ -1,0 +1,41 @@
+{
+  "contract_version": "1.0.0",
+  "review_id": "security-review.mirai-2-hardening-2026-09-02",
+  "status": "draft",
+  "evidence_class": "template",
+  "reviewed_repository": "https://github.com/zabarov/mirai-graph",
+  "reviewed_revision": "5d001f5ead6d9856f634f203481d52030cec8b92",
+  "reviewer": {
+    "alias": "independent-reviewer-pending",
+    "independent": false,
+    "implemented_reviewed_changes": false,
+    "conflict_declaration": "The assigned reviewer must replace this declaration and confirm independence."
+  },
+  "scope": [
+    "program_parsing",
+    "path_and_symlink_boundary",
+    "command_execution",
+    "capability_scope",
+    "approval_integrity",
+    "crash_and_idempotency",
+    "compensation",
+    "evidence_redaction",
+    "manifest_authority",
+    "activation_budgets"
+  ],
+  "methods": [
+    "Reproduce the documented test and fuzz suites on the reviewed revision.",
+    "Add adversarial cases for capability, approval, path, archive and recovery boundaries.",
+    "Review the bounded workspace write candidate without enabling a live adapter."
+  ],
+  "findings": [],
+  "unresolved_risks": [
+    "Independent review has not yet been assigned or completed.",
+    "No production-write adapter is authorized."
+  ],
+  "verdict": "not_reviewable",
+  "adapter_scope": [],
+  "reviewed_at": "2026-09-02T08:20:00Z",
+  "attestation": "Prepared review request only; the reviewer must replace this field with an attributable attestation.",
+  "claim_boundary": "This request records scope and revision but cannot close the independent security or production-write gate."
+}

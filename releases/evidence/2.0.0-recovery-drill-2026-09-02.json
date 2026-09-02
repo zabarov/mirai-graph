@@ -1,0 +1,38 @@
+{
+  "contract_version": "1.0.0",
+  "id": "recovery-drill.mirai.2.0.2026-09-02",
+  "evaluated_revision": "5d001f5ead6d9856f634f203481d52030cec8b92",
+  "runtime": {
+    "node": "24.20.0",
+    "platform": "darwin-arm64"
+  },
+  "status": "passed",
+  "cases": [
+    { "id": "forged_approval", "expected": "fail_before_effect", "result": "passed" },
+    { "id": "crash_after_effect", "expected": "reconcile_without_duplicate_write", "result": "passed" },
+    { "id": "fault_before_adapter", "expected": "safe_retry_on_resume", "result": "passed" },
+    { "id": "compensation", "expected": "restore_pre_effect_state", "result": "passed" },
+    { "id": "corrupted_checkpoint", "expected": "block_resume", "result": "passed" },
+    { "id": "uncertain_write", "expected": "block_automatic_resume", "result": "passed" },
+    { "id": "expired_approval", "expected": "fail_before_effect", "result": "passed" },
+    { "id": "cross_run_grant_reuse", "expected": "reject_grant", "result": "passed" }
+  ],
+  "summary": {
+    "tests": 8,
+    "passed": 8,
+    "failed": 0,
+    "duplicate_verified_effects": 0,
+    "unauthorized_effects": 0
+  },
+  "command": "node --test --test-name-pattern=<recovery-cases> test/runtime/governed-runtime.test.cjs",
+  "source_refs": [
+    "test/runtime/governed-runtime.test.cjs",
+    "standard/mirai-durable-execution.md",
+    "docs/operations/mirai-production-operations.md"
+  ],
+  "limitations": [
+    "The drill uses synthetic filesystem effects in temporary directories.",
+    "It does not exercise a production service, network adapter or external backup system."
+  ],
+  "canonical_write_allowed": false
+}

@@ -12,11 +12,12 @@ Use it when a software project has useful knowledge spread across README files,
 docs, issues, chats, code comments and AI prompts, and you need a small
 machine-readable map that developers and AI assistants can validate and reuse.
 
-Status: `2.0.0-alpha.3` development branch. The stable compatibility line is
-`mirai-graph@1.4.1`.
+Status: `2.0.0-alpha.3` development branch. The published compatibility line is
+`mirai-graph@1.4.0`; `1.4.1` is a repository maintenance baseline that has not
+been published to npm.
 
 The machine-readable [2.0 release readiness report](releases/2.0.0-readiness.json)
-currently records fifteen passed engineering and planning gates and four unresolved external,
+currently records eighteen passed engineering and planning gates and four unresolved external,
 scientific or publication gates. A green local suite therefore does not by
 itself authorize beta, RC or stable promotion.
 
@@ -148,13 +149,13 @@ Start with a normal repository and use Mirai to:
 
 ## Stable 1.4 Installation
 
-The published stable line remains `mirai-graph@1.4.1`. To verify that release
+The published stable line remains `mirai-graph@1.4.0`. To verify that release
 from a clean npm installation, use:
 
 ```bash
 mkdir mirai-stable-check && cd mirai-stable-check
 npm init -y
-npm install mirai-graph@1.4.1
+npm install mirai-graph@1.4.0
 npx mirai-graph --version
 ```
 

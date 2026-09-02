@@ -2,6 +2,9 @@
 
 Status: ready for external review; no independent verdict recorded
 
+Current review request: `mirai-independent-security-review-request-2026-09-02.json`,
+fixed to revision `5d001f5ead6d9856f634f203481d52030cec8b92`.
+
 ## Purpose
 
 This packet lets a reviewer who did not implement the Runtime evaluate the
@@ -37,6 +40,8 @@ The reviewer should assess:
 npm ci
 npm run test:mirai-property-fuzz
 npm run test:mirai-alpha3
+npm run validate:shadow-differential
+npm run validate:bounded-production-write-candidate
 npm run validate:production-readiness
 npm run release:check
 ```
@@ -59,8 +64,9 @@ Only a real independent reviewer may change the security review gate to
 `passed`. A clean internal suite is supporting evidence, not that verdict.
 
 The reviewer should copy
-`mirai-independent-security-review-result.template.json`, replace every
-placeholder, set `status=complete` and `evidence_class=external_review`, then
+`mirai-independent-security-review-request-2026-09-02.json`, replace the
+pending reviewer fields, set `status=complete` and
+`evidence_class=external_review`, then
 run:
 
 ```bash

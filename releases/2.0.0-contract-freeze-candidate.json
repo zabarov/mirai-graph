@@ -2,7 +2,7 @@
   "contract_version": "1.0.0",
   "id": "freeze.mirai.2.0.rc1-candidate",
   "status": "candidate",
-  "baseline_commit": "fd53b6a05afa2d60d1e54d404f9cfed0018a4f5e",
+  "baseline_commit": "5d001f5ead6d9856f634f203481d52030cec8b92",
   "base_product_line": "2.0",
   "additive_product_line": "2.1",
   "surfaces": [
@@ -33,11 +33,42 @@
       "schema_refs": ["schemas/mirai-capability-request.schema.json"]
     },
     {
+      "id": "mirai.assimilation",
+      "contract_version": "1.0.0",
+      "product_line": "2.1",
+      "stability": "draft",
+      "schema_refs": ["schemas/assimilation-proposal.schema.json"]
+    },
+    {
+      "id": "mirai.components",
+      "contract_version": "1.0.0",
+      "product_line": "2.1",
+      "stability": "draft",
+      "schema_refs": ["schemas/component-package.schema.json"]
+    },
+    {
+      "id": "mirai.technology",
+      "contract_version": "1.0.0",
+      "product_line": "2.1",
+      "stability": "draft",
+      "schema_refs": ["schemas/technology-draft.schema.json"]
+    },
+    {
       "id": "mirai.activation",
       "contract_version": "1.0.0",
       "product_line": "2.1",
       "stability": "draft",
       "schema_refs": ["schemas/activation-plan.schema.json"]
+    },
+    {
+      "id": "mirai.shadow_differential",
+      "contract_version": "1.0.0",
+      "product_line": "2.1",
+      "stability": "draft",
+      "schema_refs": [
+        "schemas/shadow-accepted-baseline.schema.json",
+        "schemas/shadow-differential-result.schema.json"
+      ]
     },
     {
       "id": "mirai.project",

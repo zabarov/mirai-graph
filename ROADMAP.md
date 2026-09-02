@@ -1,6 +1,7 @@
 # Mirai Graph Roadmap
 
-Status: stable 1.4 baseline and Mirai 2.0 development roadmap
+Status: published 1.4.0 compatibility line, local 1.4.1 maintenance baseline,
+and Mirai 2.0 development roadmap
 
 ## Phase 0: Public Foundation
 
@@ -230,7 +231,8 @@ Planned artifacts:
 
 ## Mirai 2.0 Development Track
 
-The stable `1.4.1` line remains the declarative compatibility baseline. Mirai
+The repository `1.4.1` maintenance line remains the declarative compatibility
+baseline; npm currently publishes `mirai-graph@1.4.0`. Mirai
 2.0 develops a separate governed execution layer without replacing Hybrid SOT
 or treating graph content as runtime authorization.
 

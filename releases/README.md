@@ -17,15 +17,16 @@ Release notes must separate:
 ## Release Notes
 
 - [Mirai 2.0 stable readiness](2.0.0-readiness.json) - machine-readable passed,
-  blocked and not-run promotion gates for the development track.
+  blocked and not-run promotion gates; the overall `2.0.0` verdict remains
+  blocked.
 - [v2.0.0-alpha.3](2.0.0-alpha.3.md) - capability-gated reference adapters,
   durable execution, recovery, governed replay and sanitized evidence.
 - [v2.0.0-alpha.2](2.0.0-alpha.2.md) - deterministic pure interpreter,
   replay and portable language conformance corpus.
 - [v2.0.0-alpha.1](2.0.0-alpha.1.md) - typed Mirai Program contracts,
   deterministic compiler and proposal-only 1.4 migration.
-- [v1.4.1](1.4.1.md) - maintenance and versioning baseline for Mirai 2.0
-  development.
+- [v1.4.1](1.4.1.md) - repository maintenance and versioning baseline for
+  Mirai 2.0 development; not currently published to npm.
 - [v1.4.0](1.4.0.md) - executable technology and deterministic Course Pack
   projection.
 - [v1.2.0](1.2.0.md) - portable task-boundary project continuity in Project

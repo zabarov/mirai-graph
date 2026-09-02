@@ -1,0 +1,43 @@
+{
+  "contract_version": "1.0.0",
+  "id": "pilot.mirai.2.0.production-read.self-hosting.2026-09-02",
+  "evaluated_revision": "5d001f5ead6d9856f634f203481d52030cec8b92",
+  "target": "Mirai repository self-hosting capsule",
+  "tier": "production_read",
+  "status": "passed",
+  "checks": [
+    {
+      "id": "project_capsule_validation",
+      "result": "passed",
+      "evidence": "fresh lock sha256:446a4b11d89ab97a387e0c9d31d982e7bf6e9bebb617db53492e46c7575217d0"
+    },
+    {
+      "id": "agent_execution_brief",
+      "result": "passed",
+      "evidence": "brief sha256:f0daf31b412f7f1d535a30bb43e2260e375bcaa56bcd2720e5767562a59daa33"
+    },
+    {
+      "id": "shadow_differential",
+      "result": "passed",
+      "evidence": "result sha256:b77f1ab1a46063d738e9fcefd88af3e26131deeee73f61769347450875e40b4f"
+    }
+  ],
+  "safety": {
+    "read_only": true,
+    "network_effects": 0,
+    "workspace_effects": 0,
+    "activation_allowed": false,
+    "canonical_write_allowed": false,
+    "zero_write_proven": true
+  },
+  "source_refs": [
+    "mirai/manifest.yaml",
+    "mirai/manifest.lock.json",
+    "examples/mirai-shadow-differential-minimal/activation-plan.json",
+    "examples/mirai-shadow-differential-minimal/accepted-baseline.json"
+  ],
+  "limitations": [
+    "This is a self-hosting read-only pilot, not an independent external deployment.",
+    "It does not authorize a production-write adapter or stable release."
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "contract_version": "1.0.0",
+  "id": "readiness.mirai.workspace-patch.bounded-candidate",
+  "target": "Single-file workspace.write_file adapter inside an approved sandbox",
+  "evaluated_tier": "production_write",
+  "verdict": "blocked",
+  "contracts": [
+    {
+      "id": "mirai.program",
+      "version": "1.0.0",
+      "status": "freeze_candidate",
+      "evidence_refs": ["schemas/mirai-program.schema.json"]
+    },
+    {
+      "id": "mirai.runtime",
+      "version": "1.0.0",
+      "status": "freeze_candidate",
+      "evidence_refs": ["schemas/mirai-runtime-run.schema.json"]
+    }
+  ],
+  "controls": {
+    "capability_policy_ref": "docs/security/mirai-runtime-threat-model.md",
+    "approval_policy_ref": "standard/mirai-durable-execution.md",
+    "sandbox_policy_ref": "docs/security/mirai-runtime-threat-model.md",
+    "backup_plan_ref": "docs/operations/mirai-production-operations.md",
+    "rollback_plan_ref": "docs/operations/mirai-production-operations.md",
+    "incident_runbook_ref": "docs/operations/mirai-production-operations.md",
+    "retention_policy_ref": "docs/operations/mirai-runtime-operations-guide.md",
+    "monitoring_ref": "docs/operations/mirai-production-operations.md",
+    "sanitized_evidence_only": true
+  },
+  "recovery": {
+    "uncertain_effect_action": "block_and_reconcile",
+    "duplicate_resume_action": "reject_or_reuse_verified_receipt",
+    "failed_compensation_action": "block_and_escalate"
+  },
+  "external_reviews": {
+    "security": {
+      "status": "pending",
+      "evidence_refs": ["docs/security/mirai-independent-security-review-request-2026-09-02.json"],
+      "reviewer_independent": false
+    },
+    "human": {
+      "status": "pending",
+      "evidence_refs": ["docs/research/mirai-2-external-review-packet.md"],
+      "reviewer_independent": false
+    }
+  },
+  "stop_conditions": [
+    "contract_not_stable",
+    "independent_security_review_missing",
+    "independent_human_review_missing",
+    "backup_or_rollback_evidence_missing",
+    "approval_not_bound_to_exact_run_node_resource_and_digest",
+    "uncertain_receipt"
+  ],
+  "canonical_write_allowed": false,
+  "claim_boundary": "This is a blocked candidate profile. It documents the narrowest future write scope and does not authorize any live or canonical write."
+}

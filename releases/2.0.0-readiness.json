@@ -3,7 +3,7 @@
   "release_id": "release.mirai.2.0.0",
   "evaluated_version": "2.0.0-alpha.3",
   "promotion_target": "2.0.0-beta.1",
-  "evaluated_at": "2026-09-01T20:30:00Z",
+  "evaluated_at": "2026-09-02T08:12:00Z",
   "overall_status": "blocked",
   "gates": [
     {
@@ -94,6 +94,30 @@
       "limitations": ["The passed contract supports production-read readiness only; it does not authorize a live adapter or production write."]
     },
     {
+      "id": "gate.shadow_differential_execution",
+      "category": "safety",
+      "status": "passed",
+      "evidence_refs": ["standard/shadow-differential-execution.md", "test/activation/shadow.test.cjs", "examples/mirai-shadow-differential-minimal/accepted-baseline.json"],
+      "summary": "A candidate activation can be compared with an accepted baseline under zero-write simulation; scope expansion, missing mandatory work, unknown effects and missing rollback coverage fail closed.",
+      "limitations": ["Shadow comparison is supporting evidence and never authorizes activation or canonical writes."]
+    },
+    {
+      "id": "gate.recovery_drill",
+      "category": "safety",
+      "status": "passed",
+      "evidence_refs": ["releases/evidence/2.0.0-recovery-drill-2026-09-02.json", "test/runtime/governed-runtime.test.cjs"],
+      "summary": "Eight bounded recovery and authorization cases passed on Node 24, including crash reconciliation, uncertain-effect blocking, compensation, corrupted checkpoint handling and approval/grant rejection.",
+      "limitations": ["The drill uses temporary local filesystem effects and does not replace an operation-specific disaster-recovery exercise."]
+    },
+    {
+      "id": "gate.production_read_pilot",
+      "category": "pilot",
+      "status": "passed",
+      "evidence_refs": ["releases/evidence/2.0.0-production-read-pilot-2026-09-02.json", "examples/production-readiness-minimal/production-readiness.json"],
+      "summary": "The Mirai repository completed a self-hosting production-read pilot with a fresh capsule lock, task-scoped agent brief and zero-write shadow comparison.",
+      "limitations": ["The pilot is self-hosted and read-only; external deployment and production-write remain unproven."]
+    },
+    {
       "id": "gate.blinded_independent_human_review",
       "category": "pilot",
       "status": "not_run",
@@ -156,6 +180,6 @@
     "gate.independent_security_review",
     "gate.stable_release_metadata"
   ],
-  "next_safe_action": "Complete and reconcile the blinded calibration review, obtain an independent security review, then freeze and execute the held-out confirmatory protocol while keeping the package at 2.0.0-alpha.3.",
+  "next_safe_action": "Obtain an independent security review against the exact hardening revision and an independent human review. Keep production-write, stable metadata and publication blocked; the confirmatory study is additionally required before comparative scientific claims.",
   "claim_boundary": "This report supports current engineering conformance, safety-boundary and auditability claims only. It does not establish comparative effectiveness, model-independence or readiness for stable 2.0.0."
 }
