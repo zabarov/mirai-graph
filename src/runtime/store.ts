@@ -52,21 +52,55 @@ function safeSegment(value: string): string {
 function ensurePrivateDirectory(directory: string): void {
   assertNoSymlinkComponents(directory, true, "runtime");
   fs.mkdirSync(directory, { recursive: true, mode: 0o700 });
+  assertNoSymlinkComponents(directory, false, "runtime");
   fs.chmodSync(directory, 0o700);
+}
+
+function noFollowFlag(): number {
+  return typeof fs.constants.O_NOFOLLOW === "number" ? fs.constants.O_NOFOLLOW : 0;
+}
+
+function writeExclusive(filename: string, body: string): void {
+  ensurePrivateDirectory(path.dirname(filename));
+  assertNoSymlinkComponents(filename, true, "runtime");
+  const descriptor = fs.openSync(filename, fs.constants.O_WRONLY | fs.constants.O_CREAT | fs.constants.O_EXCL | noFollowFlag(), 0o600);
+  try {
+    fs.writeFileSync(descriptor, body);
+  } finally {
+    fs.closeSync(descriptor);
+  }
+  assertNoSymlinkComponents(filename, false, "runtime");
+}
+
+function appendExclusive(filename: string, body: string): void {
+  ensurePrivateDirectory(path.dirname(filename));
+  assertNoSymlinkComponents(filename, true, "runtime");
+  const descriptor = fs.openSync(filename, fs.constants.O_WRONLY | fs.constants.O_CREAT | fs.constants.O_APPEND | noFollowFlag(), 0o600);
+  try {
+    fs.writeFileSync(descriptor, body);
+  } finally {
+    fs.closeSync(descriptor);
+  }
+  assertNoSymlinkComponents(filename, false, "runtime");
 }
 
 function writeAtomic(filename: string, value: unknown): void {
   ensurePrivateDirectory(path.dirname(filename));
+  assertNoSymlinkComponents(filename, true, "runtime");
   if (fs.existsSync(filename) && fs.lstatSync(filename).isSymbolicLink()) throw new Error(`runtime_symlink_forbidden:${filename}`);
   const body = `${JSON.stringify(value, null, 2)}\n`;
   const temporary = `${filename}.tmp-${process.pid}-${randomBytes(6).toString("hex")}`;
-  fs.writeFileSync(temporary, body, { mode: 0o600, flag: "wx" });
+  writeExclusive(temporary, body);
+  ensurePrivateDirectory(path.dirname(filename));
+  assertNoSymlinkComponents(filename, true, "runtime");
   fs.renameSync(temporary, filename);
+  assertNoSymlinkComponents(filename, false, "runtime");
   fs.chmodSync(filename, 0o600);
   if (fs.readFileSync(filename, "utf8") !== body) throw new Error(`runtime_readback_mismatch:${filename}`);
 }
 
 function readJson<T>(filename: string): T {
+  assertNoSymlinkComponents(filename, false, "runtime");
   if (!fs.existsSync(filename)) throw new Error(`runtime_file_missing:${filename}`);
   if (fs.lstatSync(filename).isSymbolicLink()) throw new Error(`runtime_symlink_forbidden:${filename}`);
   return JSON.parse(fs.readFileSync(filename, "utf8")) as T;
@@ -96,7 +130,7 @@ export class RunStore {
 
   listRunIds(): string[] {
     if (!fs.existsSync(this.indexRoot)) return [];
-    if (fs.lstatSync(this.indexRoot).isSymbolicLink()) throw new Error(`runtime_symlink_forbidden:${this.indexRoot}`);
+    assertNoSymlinkComponents(this.indexRoot, false, "runtime");
     return fs.readdirSync(this.indexRoot)
       .filter((file) => file.endsWith(".json"))
       .sort()
@@ -160,8 +194,13 @@ export class RunStore {
     const index = readJson<RunIndexEntry>(path.join(this.indexRoot, `${safeSegment(runId)}.json`));
     if (index.run_id !== runId) throw new Error("run_index_id_mismatch");
     const directory = path.resolve(index.run_dir);
-    if (!directory.startsWith(`${this.runsRoot}${path.sep}`)) throw new Error("run_index_boundary_violation");
-    if (fs.lstatSync(directory).isSymbolicLink()) throw new Error("run_directory_symlink_forbidden");
+    const expected = path.join(this.runsRoot, safeSegment(index.graph_id), safeSegment(runId));
+    if (directory !== expected) throw new Error("run_index_boundary_violation");
+    assertNoSymlinkComponents(this.runsRoot, false, "runtime");
+    assertNoSymlinkComponents(directory, false, "runtime");
+    const canonicalRoot = fs.realpathSync(this.runsRoot);
+    const canonicalDirectory = fs.realpathSync(directory);
+    if (!canonicalDirectory.startsWith(`${canonicalRoot}${path.sep}`)) throw new Error("run_index_boundary_violation");
     return directory;
   }
 
@@ -193,6 +232,7 @@ export class RunStore {
     }
 
     const lockDirectory = path.join(this.directory(runId), "mutation.lock");
+    assertNoSymlinkComponents(lockDirectory, true, "runtime");
     if (fs.existsSync(lockDirectory) && fs.lstatSync(lockDirectory).isSymbolicLink()) {
       throw new Error("run_mutation_lock_symlink_forbidden");
     }
@@ -205,10 +245,7 @@ export class RunStore {
 
     const token = randomBytes(24).toString("hex");
     const ownerFile = path.join(lockDirectory, "owner.json");
-    fs.writeFileSync(ownerFile, `${JSON.stringify({ token, pid: process.pid, acquired_at: new Date().toISOString() } satisfies MutationLockOwner, null, 2)}\n`, {
-      mode: 0o600,
-      flag: "wx"
-    });
+    writeExclusive(ownerFile, `${JSON.stringify({ token, pid: process.pid, acquired_at: new Date().toISOString() } satisfies MutationLockOwner, null, 2)}\n`);
     this.mutationLocks.set(runId, { token, depth: 1 });
     try {
       return operation();
@@ -218,6 +255,7 @@ export class RunStore {
       if (!owned || owned.token !== token) throw new Error("run_mutation_lock_fenced");
       const owner = readJson<{ token: string }>(ownerFile);
       if (owner.token !== token) throw new Error("run_mutation_lock_fenced");
+      assertNoSymlinkComponents(lockDirectory, false, "runtime");
       fs.unlinkSync(ownerFile);
       fs.rmdirSync(lockDirectory);
     }
@@ -246,6 +284,7 @@ export class RunStore {
     }
     const recoveryId = `mutation-lock-recovery.${digestValue({ run_id: runId, owner, recovered_at: now.toISOString() }).slice(7, 23)}`;
     const quarantine = path.join(runDirectory, `${recoveryId}.quarantine`);
+    assertNoSymlinkComponents(runDirectory, false, "runtime");
     fs.renameSync(lockDirectory, quarantine);
     writeAtomic(path.join(runDirectory, `${recoveryId}.json`), {
       contract_version: "1.0.0",
@@ -288,7 +327,7 @@ export class RunStore {
       const line = `${canonicalJson({ sequence, recorded_at: new Date().toISOString(), ...event })}\n`;
       const filename = path.join(this.directory(runId), "events.ndjson");
       if (fs.existsSync(filename) && fs.lstatSync(filename).isSymbolicLink()) throw new Error("runtime_events_symlink_forbidden");
-      fs.appendFileSync(filename, line, { mode: 0o600 });
+      appendExclusive(filename, line);
       return this.updateRun(runId, current.revision, (record) => ({ ...record, event_sequence: sequence }));
     });
   }
@@ -320,7 +359,7 @@ export class RunStore {
         expires_at: new Date(now.getTime() + ttlMs).toISOString()
       };
       writeAtomic(generationFilename, { generation: lease.generation, updated_at: now.toISOString() } satisfies LeaseGenerationRecord);
-      fs.writeFileSync(filename, `${JSON.stringify(lease, null, 2)}\n`, { mode: 0o600, flag: "wx" });
+      writeExclusive(filename, `${JSON.stringify(lease, null, 2)}\n`);
       this.ownedLeases.set(runId, { token: lease.token, generation: lease.generation });
       return lease;
     });
@@ -408,6 +447,7 @@ export class RunStore {
 
   listPolicyDecisionRefs(runId: string): string[] {
     const directory = path.join(this.directory(runId), "policy-decisions");
+    assertNoSymlinkComponents(directory, false, "runtime");
     return fs.readdirSync(directory).filter((file) => file.endsWith(".json")).sort().map((file) => `policy-decisions/${file}`);
   }
 
@@ -426,6 +466,7 @@ export class RunStore {
 
   listReceipts(runId: string): EffectReceipt[] {
     const directory = path.join(this.directory(runId), "receipts");
+    assertNoSymlinkComponents(directory, false, "runtime");
     return fs.readdirSync(directory)
       .filter((file) => file.endsWith(".json"))
       .map((file) => readJson<EffectReceipt>(path.join(directory, file)))

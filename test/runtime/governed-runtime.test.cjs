@@ -692,6 +692,24 @@ test("repository adapters reject a symlinked sandbox root", async (context) => {
   );
 });
 
+test("run store rejects a runtime directory symlink inserted after initialization before any outside write", (context) => {
+  if (process.platform === "win32") return context.skip("symlink fixture is POSIX-specific");
+  const env = temporary();
+  const subject = readProgram();
+  const runId = "run.runtime-symlink-swap";
+  env.store.createRun({ program: subject, input: {}, sandbox: env.sandbox, apply: false, run_id: runId });
+  const runDirectory = env.store.directory(runId);
+  const graphDirectory = path.dirname(runDirectory);
+  const outsideGraphDirectory = path.join(env.root, "outside-runtime-graph");
+  fs.renameSync(graphDirectory, outsideGraphDirectory);
+  fs.symlinkSync(outsideGraphDirectory, graphDirectory, "dir");
+
+  assert.throws(() => env.store.readRun(runId), /runtime_symlink_forbidden/);
+  assert.throws(() => env.store.appendEvent(runId, { type: "must_not_escape" }), /runtime_symlink_forbidden/);
+  assert.equal(fs.existsSync(path.join(outsideGraphDirectory, path.basename(runDirectory), "events.ndjson")), false);
+  assert.equal(fs.existsSync(path.join(outsideGraphDirectory, path.basename(runDirectory), "mutation.lock")), false);
+});
+
 test("runtime and approval homes reject an ancestor symlink", () => {
   if (process.platform === "win32") return;
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "mirai-runtime-home-boundary-"));
