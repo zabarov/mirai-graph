@@ -453,7 +453,7 @@ test("compensation timeout becomes uncertain and blocks automatic resume", async
         async verify() { return { verified: true, details: ["verified"] }; },
         async compensate(_receipt, context) {
           return new Promise((resolve, reject) => {
-            const timer = setTimeout(() => resolve({ compensated: true, details: ["late"] }), 1000);
+            const timer = setTimeout(() => resolve({ compensated: true, details: ["late"] }), 5000);
             context.signal.addEventListener("abort", () => { clearTimeout(timer); reject(context.signal.reason); }, { once: true });
           });
         }
@@ -461,7 +461,7 @@ test("compensation timeout becomes uncertain and blocks automatic resume", async
     }
   };
   await assert.rejects(
-    () => startGovernedRun(subject, {}, { store: env.store, sandbox: env.sandbox, adapters, apply: true, approval: receipt, run_id: runId, deadline_at_ms: Date.now() + 200 }),
+    () => startGovernedRun(subject, {}, { store: env.store, sandbox: env.sandbox, adapters, apply: true, approval: receipt, run_id: runId, deadline_at_ms: Date.now() + 2500 }),
     /compensation_uncertain/
   );
   const effectReceipt = env.store.listReceipts(runId)[0];
