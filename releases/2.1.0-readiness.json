@@ -10,8 +10,8 @@
       "id": "gate.2_0_core_security_freeze",
       "category": "safety",
       "status": "passed",
-      "evidence_refs": ["releases/2.1.0-contract-freeze-candidate.json", "test/runtime/governed-runtime.test.cjs", "standard/mirai-durable-execution.md"],
-      "summary": "The Program, Runtime and authorization core is inventoried at an exact revision; cross-process mutation serialization closes the known lease check/write race.",
+      "evidence_refs": ["releases/2.1.0-contract-freeze-candidate.json", "test/runtime/governed-runtime.test.cjs", "standard/mirai-durable-execution.md", "docs/security/mirai-internal-security-followup-2026-09-02.md"],
+      "summary": "The Program, Runtime and authorization core is inventoried at an exact revision; serialized mutations, durable fencing generations, explicit stale-lock recovery and private-root guards close the known internal findings.",
       "limitations": ["Independent security review remains a separate required gate."]
     },
     {
@@ -33,7 +33,7 @@
       "category": "conformance",
       "status": "blocked",
       "evidence_refs": ["conformance/independent-checker.json", "packages/cli/validate-independent-graph-native-conformance.js"],
-      "summary": "The independent Python checker has local candidate coverage for qualification, hybrid plans and shadow differentials, but that revision is not yet published and bound into this repository.",
+      "summary": "The independent Python checker candidate passes 20 of 20 checks from a clean local clone, including qualification, hybrid plans and shadow differentials, but that exact revision is not yet public and release-eligible.",
       "blocker_reason": "Publish and clean-room verify the exact independent checker revision, then bind generated results for every frozen 2.1 surface."
     },
     {
@@ -48,8 +48,8 @@
       "id": "gate.independent_security_review",
       "category": "safety",
       "status": "not_run",
-      "evidence_refs": ["docs/security/mirai-independent-security-review-request-2026-09-02.json", "docs/security/mirai-independent-security-review-packet.md"],
-      "summary": "The exact-scope review packet exists, including the cross-process lease boundary, but no attributable independent verdict is recorded.",
+      "evidence_refs": ["docs/security/mirai-independent-security-review-request-2026-09-02.json", "docs/security/mirai-independent-security-review-packet.md", "docs/security/mirai-internal-security-followup-2026-09-02.md"],
+      "summary": "An exact-scope internal follow-up passes with no unresolved critical, high or medium findings, but no attributable external independent verdict is recorded.",
       "blocker_reason": "An independent reviewer who did not implement the changes must review the exact freeze revision and close all critical/high findings."
     },
     {

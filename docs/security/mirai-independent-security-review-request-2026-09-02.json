@@ -4,7 +4,7 @@
   "status": "draft",
   "evidence_class": "template",
   "reviewed_repository": "https://github.com/zabarov/mirai-graph",
-  "reviewed_revision": "95915799bf03fc6a1086cbb4a390fbc31cb8a613",
+  "reviewed_revision": "9507a9cb11487de25e9a2e905a4f2f2084ab7c6e",
   "reviewer": {
     "alias": "independent-reviewer-pending",
     "independent": false,
@@ -26,13 +26,22 @@
     "activation_host_budget_ceilings",
     "process_run_production_exclusion",
     "renewable_lease_and_generation_fencing",
-    "cross_process_mutation_serialization"
+    "cross_process_mutation_serialization",
+    "runtime_private_root_ancestor_symlinks",
+    "stale_mutation_lock_recovery",
+    "production_runtime_composition",
+    "npm_host_local_state_exclusion"
   ],
   "methods": [
     "Reproduce the documented test and fuzz suites on the reviewed revision.",
     "Add adversarial cases for capability, approval, path, archive, activation policy, budget and recovery boundaries.",
     "Stress cross-process lease renewal and takeover near the expiry boundary, including the mutation-lock critical section.",
+    "Verify that fencing generations remain monotonic across ordinary lease release and process restart.",
+    "Verify explicit stale mutation-lock recovery, quarantine evidence and refusal to recover a live or unknown owner.",
+    "Test ancestor symlink rejection for runtime, approval and mandate private roots.",
     "Confirm that process_run remains excluded from production profiles and is not represented as an OS or network sandbox.",
+    "Confirm that production readiness requires a concrete runtime composition and cannot be satisfied by a test or process_run adapter.",
+    "Inspect the packed npm artifact and confirm that host-local .mirai state is absent.",
     "Review the bounded workspace write candidate without enabling a live adapter."
   ],
   "findings": [],
