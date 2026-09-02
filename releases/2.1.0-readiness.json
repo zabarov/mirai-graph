@@ -9,7 +9,7 @@
     {
       "id": "gate.2_0_core_security_freeze",
       "category": "safety",
-      "status": "passed",
+      "status": "blocked",
       "evidence_refs": ["releases/2.1.0-contract-freeze-candidate.json", "test/runtime/governed-runtime.test.cjs", "standard/mirai-durable-execution.md", "docs/security/mirai-internal-security-followup-2026-09-02.md"],
       "summary": "The Program, Runtime and authorization core is inventoried at an exact revision; serialized mutations, durable fencing generations, explicit stale-lock recovery and private-root guards close the known internal findings.",
       "limitations": ["Independent security review remains a separate required gate."]
@@ -31,10 +31,11 @@
     {
       "id": "gate.2_1_cross_implementation_conformance",
       "category": "conformance",
-      "status": "blocked",
-      "evidence_refs": ["conformance/independent-checker.json", "packages/cli/validate-independent-graph-native-conformance.js"],
-      "summary": "The independent Python checker candidate passes 20 of 20 checks from a clean local clone, including qualification, hybrid plans and shadow differentials, but that exact revision is not yet public and release-eligible.",
-      "blocker_reason": "Publish and clean-room verify the exact independent checker revision, then bind generated results for every frozen 2.1 surface."
+      "status": "passed",
+      "evidence_refs": ["conformance/independent-checker-2.1-candidate.json", "conformance/independent-checker-2.1-publication.json", "packages/cli/validate-independent-2.1-candidate-conformance.js"],
+      "summary": "The independent Python checker revision 841ddc6 is public and locally agrees with Mirai candidate d5265c5, but its public cross-platform run was pinned to an older Mirai revision and failed the OS matrix.",
+      "blocker_reason": "Pin checker CI to the exact Mirai release candidate and obtain a green Linux/macOS/Windows matrix before promotion.",
+      "limitations": ["The checker consumes an exact Mirai corpus checkout through MIRAI_REPO; the corpus is not duplicated into the checker package."]
     },
     {
       "id": "gate.2_1_controlled_pilots",
@@ -90,6 +91,6 @@
     "gate.2_1_clean_room_cross_platform",
     "gate.2_1_stable_release_metadata"
   ],
-  "next_safe_action": "Publish and clean-room verify the independent checker candidate, obtain an attributable exact-revision security verdict, then create 2.1.0-rc.1 and run cross-platform clean-room gates.",
+  "next_safe_action": "Integrate the owner-authorized isolated AI-assisted security review without representing it as an external human audit, then create 2.1.0-rc.1 and run cross-platform clean-room gates.",
   "claim_boundary": "This readiness report supports contract inventory and targeted engineering evidence only. It does not authorize production writes or establish comparative scientific effectiveness."
 }

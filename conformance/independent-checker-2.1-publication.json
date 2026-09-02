@@ -1,0 +1,32 @@
+{
+  "contract_version": "1.0.0",
+  "checker_repository": "https://github.com/zabarov/mirai-conformance",
+  "checker_branch": "codex/mirai-2.1-conformance",
+  "checker_revision": "841ddc69421899445a84b882bc47537d9e028cb6",
+  "mirai_candidate_revision": "d5265c5ecf3d13adc2ef859ab9037f3586b23984",
+  "publication_status": "published_branch",
+  "remote_tracking_verified": true,
+  "clean_room": {
+    "installation": "editable_install_from_public_clean_clone",
+    "python_suite_passed": 20,
+    "python_suite_failed": 0,
+    "mirai_repo_binding": "explicit_MIRAI_REPO",
+    "status": "passed"
+  },
+  "public_ci": {
+    "run_url": "https://github.com/zabarov/mirai-conformance/actions/runs/33620245171",
+    "status": "blocked",
+    "package_jobs_passed": 1,
+    "operating_system_jobs_passed": 0,
+    "operating_system_jobs_required": 3,
+    "blocker_reason": "The workflow was pinned to an older Mirai revision and must be rerun against the exact release candidate."
+  },
+  "limitations": [
+    "The checker corpus is intentionally supplied by an exact Mirai checkout and is not bundled into the checker package.",
+    "An inherited stale MIRAI_REPO can make the suite fail before semantic checks; clean-room commands must bind the candidate checkout explicitly.",
+    "Publication on a branch proves public reproducibility of the exact revision but is not a PyPI release or external human endorsement."
+  ],
+  "canonical_write_performed": false,
+  "effects_executed": false,
+  "verified_at": "2026-09-02T12:00:00Z"
+}

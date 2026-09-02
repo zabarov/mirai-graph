@@ -9,7 +9,7 @@
     "contract_version": { "const": "1.0.0" },
     "review_id": { "type": "string", "pattern": "^security-review\\.[a-z0-9._-]+$" },
     "status": { "enum": ["draft", "complete"] },
-    "evidence_class": { "enum": ["template", "external_review"] },
+    "evidence_class": { "enum": ["template", "external_review", "independent_ai_assisted_review"] },
     "reviewed_repository": { "const": "https://github.com/zabarov/mirai-graph" },
     "reviewed_revision": { "type": "string", "pattern": "^[a-f0-9]{40}$" },
     "reviewer": {

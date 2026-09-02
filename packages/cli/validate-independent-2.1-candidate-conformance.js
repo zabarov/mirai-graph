@@ -7,6 +7,7 @@ const { digestValue } = require("../../dist/cjs/core");
 
 const root = path.resolve(__dirname, "../..");
 const candidate = JSON.parse(fs.readFileSync(path.join(root, "conformance/independent-checker-2.1-candidate.json"), "utf8"));
+const publication = JSON.parse(fs.readFileSync(path.join(root, candidate.publication_evidence_ref), "utf8"));
 const mappings = [
   ["technology-qualification", "examples/mirai-technology-qualification-minimal/qualification-result.json", "conformance/results/python-mirai-2.1-technology-qualification-result.json"],
   ["hybrid-technology-plan", "examples/mirai-technology-qualification-minimal/hybrid-technology-plan.json", "conformance/results/python-mirai-2.1-hybrid-technology-plan-result.json"],
@@ -17,7 +18,14 @@ const mappings = [
 const errors = [];
 if (!/^[a-f0-9]{40}$/.test(candidate.revision || "")) errors.push("checker_revision_invalid");
 if (candidate.imports_typescript_runtime !== false) errors.push("checker_must_not_import_typescript_runtime");
-if (candidate.publication_status !== "local_candidate" || candidate.release_gate_eligible !== false) errors.push("candidate_must_not_claim_public_release_gate");
+if (candidate.publication_status !== "published_branch" || candidate.release_gate_eligible !== false) errors.push("candidate_must_remain_blocked_until_public_ci");
+if (publication.checker_revision !== candidate.revision) errors.push("publication_checker_revision_mismatch");
+if (publication.publication_status !== candidate.publication_status) errors.push("publication_status_mismatch");
+if (publication.remote_tracking_verified !== true) errors.push("publication_remote_not_verified");
+if (publication.clean_room?.status !== "passed" || publication.clean_room?.python_suite_failed !== 0 || publication.clean_room?.python_suite_passed !== 20) errors.push("publication_clean_room_not_passed");
+if (publication.clean_room?.mirai_repo_binding !== "explicit_MIRAI_REPO") errors.push("publication_candidate_binding_not_explicit");
+if (publication.public_ci?.status !== "blocked" || publication.public_ci?.operating_system_jobs_passed !== 0 || publication.public_ci?.operating_system_jobs_required !== 3) errors.push("publication_public_ci_blocker_not_recorded");
+if (publication.canonical_write_performed !== false || publication.effects_executed !== false) errors.push("publication_safety_boundary_broken");
 for (const [kind, artifactRef, resultRef] of mappings) {
   const artifact = JSON.parse(fs.readFileSync(path.join(root, artifactRef), "utf8"));
   const result = JSON.parse(fs.readFileSync(path.join(root, resultRef), "utf8"));

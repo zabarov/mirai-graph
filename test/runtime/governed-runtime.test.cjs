@@ -232,6 +232,49 @@ test("git status and diff remain read-only capability-gated effects", async () =
   assert.equal(replay.effects_executed, false);
 });
 
+test("git read adapters disable repository-controlled fsmonitor and external diff execution", async (context) => {
+  if (process.platform === "win32") return context.skip("executable shell fixtures are POSIX-specific");
+  const env = temporary();
+  const runGit = (...args) => {
+    const result = spawnSync("git", args, { cwd: env.sandbox, encoding: "utf8" });
+    assert.equal(result.status, 0, result.stderr);
+  };
+  runGit("init", "--quiet");
+  fs.writeFileSync(path.join(env.sandbox, "tracked.txt"), "before\n");
+  runGit("add", "tracked.txt");
+  runGit("-c", "user.name=Mirai Test", "-c", "user.email=test@example.invalid", "commit", "--quiet", "-m", "fixture");
+  fs.writeFileSync(path.join(env.sandbox, "tracked.txt"), "after\n");
+
+  const fsmonitorMarker = path.join(env.root, "fsmonitor-invoked.txt");
+  const fsmonitor = path.join(env.root, "fsmonitor.sh");
+  fs.writeFileSync(fsmonitor, `#!/bin/sh\nprintf invoked > '${fsmonitorMarker}'\nprintf token\n`);
+  fs.chmodSync(fsmonitor, 0o700);
+  runGit("config", "core.fsmonitor", fsmonitor);
+
+  const diffMarker = path.join(env.root, "external-diff-invoked.txt");
+  const externalDiff = path.join(env.root, "external-diff.sh");
+  fs.writeFileSync(externalDiff, `#!/bin/sh\nprintf invoked > '${diffMarker}'\n`);
+  fs.chmodSync(externalDiff, 0o700);
+  runGit("config", "diff.external", externalDiff);
+
+  const subject = program("program.git-untrusted-config", [
+    {
+      id: "git.status", kind: "call", target: { kind: "adapter", adapter: "git", operation: "status" },
+      args: {}, effects: ["git_read"], capability: "capability.git.read", next: "git.diff"
+    },
+    {
+      id: "git.diff", kind: "call", target: { kind: "adapter", adapter: "git", operation: "diff" },
+      args: { paths: { op: "literal", value: ["tracked.txt"] } }, effects: ["git_read"],
+      capability: "capability.git.read", next: "return.done"
+    },
+    { id: "return.done", kind: "return" }
+  ], { allowed_effects: ["git_read"] });
+  const result = await startGovernedRun(subject, {}, { store: env.store, sandbox: env.sandbox });
+  assert.equal(result.run.status, "completed");
+  assert.equal(fs.existsSync(fsmonitorMarker), false);
+  assert.equal(fs.existsSync(diffMarker), false);
+});
+
 test("human approval adapter requires and records a host-signed receipt", async () => {
   const env = temporary();
   const subject = program("program.human-approval", [
@@ -632,6 +675,20 @@ test("path traversal and symlink escape fail closed", async () => {
   await assert.rejects(
     () => startGovernedRun(readProgram("linked.txt"), {}, { store: env.store, sandbox: env.sandbox }),
     /symlink_path_forbidden/
+  );
+});
+
+test("repository adapters reject a symlinked sandbox root", async (context) => {
+  if (process.platform === "win32") return context.skip("symlink fixture is POSIX-specific");
+  const env = temporary();
+  const outside = path.join(env.root, "outside-sandbox");
+  const linkedSandbox = path.join(env.root, "linked-sandbox");
+  fs.mkdirSync(outside);
+  fs.writeFileSync(path.join(outside, "proof.txt"), "outside");
+  fs.symlinkSync(outside, linkedSandbox, "dir");
+  await assert.rejects(
+    () => startGovernedRun(readProgram("proof.txt"), {}, { store: env.store, sandbox: linkedSandbox }),
+    /sandbox_symlink_forbidden/
   );
 });
 

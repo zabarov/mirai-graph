@@ -67,13 +67,20 @@ reproduction steps, unresolved risks and one verdict:
 - `changes_required`;
 - `not_reviewable`.
 
-Only a real independent reviewer may change the security review gate to
-`passed`. A clean internal suite is supporting evidence, not that verdict.
+The preferred release evidence remains an attributable external independent
+review. For production-read only, the project owner may explicitly approve an
+isolated AI-assisted reviewer who did not implement the reviewed changes. That
+exception must be recorded in a machine-readable owner decision, must use
+`evidence_class=independent_ai_assisted_review`, and must state that it is not
+an external human audit. It cannot authorize any production-write adapter.
+A clean internal suite without this isolation and owner decision remains
+supporting evidence only.
 
 The reviewer should copy
 `mirai-independent-security-review-request-2026-09-02.json`, replace the
-pending reviewer fields, set `status=complete` and
-`evidence_class=external_review`, then
+pending reviewer fields, set `status=complete` and use either
+`evidence_class=external_review` or the explicitly owner-approved
+`evidence_class=independent_ai_assisted_review`, then
 run:
 
 ```bash
@@ -81,7 +88,8 @@ npm run validate:security-review-contract -- path/to/review-result.json
 ```
 
 `release_gate_eligible=true` means the structured result is complete enough to
-enter owner review. It does not apply the gate automatically.
+enter owner review. It does not apply the gate automatically, grant a runtime
+capability or authorize production writes.
 
 ## Secrets And Private Evidence
 

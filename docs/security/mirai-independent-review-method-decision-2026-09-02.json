@@ -1,0 +1,23 @@
+{
+  "contract_version": "1.0.0",
+  "decision_id": "security-review-method.mirai-2.1-2026-09-02",
+  "status": "approved",
+  "owner_role": "project_owner",
+  "accepted_evidence_class": "independent_ai_assisted_review",
+  "reviewed_revision": "9507a9cb11487de25e9a2e905a4f2f2084ab7c6e",
+  "reviewer_constraints": {
+    "isolated_from_implementation_context": true,
+    "implemented_reviewed_changes": false,
+    "read_only": true,
+    "exact_revision_required": true
+  },
+  "release_gate_scope": "production_read_only",
+  "external_human_review_completed": false,
+  "production_write_authorized": false,
+  "limitations": [
+    "This substitution is an owner decision for the Mirai 2.1 production-read release gate; it is not evidence of an external human audit.",
+    "The reviewer may reproduce tests and report findings but cannot grant capabilities, approvals or release authority.",
+    "Any bounded production-write adapter still requires a separate exact-scope security review and owner approval."
+  ],
+  "approved_at": "2026-09-02T12:30:00Z"
+}

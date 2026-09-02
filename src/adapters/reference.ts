@@ -1,8 +1,10 @@
 import fs from "node:fs";
+import os from "node:os";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 import { randomBytes } from "node:crypto";
 import { sha256 } from "../core/canonical.js";
+import { assertNoSymlinkComponents } from "../core/path-boundary.js";
 import type { ApprovalReceipt, EffectReceipt } from "../runtime/contracts.js";
 import type { AdapterExecutionContext, AdapterOperation, AdapterRegistry } from "./types.js";
 
@@ -36,6 +38,7 @@ function assertWithinDeadline(context: AdapterExecutionContext): void {
 
 export function resolveSandboxPath(sandbox: string, requested: string, allowMissing = false): string {
   if (path.isAbsolute(requested)) throw new Error("absolute_path_forbidden");
+  assertNoSymlinkComponents(sandbox, false, "sandbox");
   const root = path.resolve(sandbox);
   const target = path.resolve(root, requested);
   if (target !== root && !target.startsWith(`${root}${path.sep}`)) throw new Error("path_traversal_forbidden");
@@ -83,6 +86,7 @@ const repositoryListFiles: AdapterOperation = {
     assertWithinDeadline(context);
     const requested = typeof args.path === "string" ? args.path : ".";
     const directory = resolveSandboxPath(context.sandbox, requested);
+    const sandboxRoot = resolveSandboxPath(context.sandbox, ".");
     if (!fs.statSync(directory).isDirectory()) throw new Error("repository_path_not_directory");
     const maxEntries = Number.isInteger(args.max_entries) ? Math.min(Number(args.max_entries), 1000) : 200;
     const files: string[] = [];
@@ -93,7 +97,7 @@ const repositoryListFiles: AdapterOperation = {
         if (entry.name === ".git" || entry.isSymbolicLink()) continue;
         const absolute = path.join(current, entry.name);
         if (entry.isDirectory()) queue.push(absolute);
-        else if (entry.isFile()) files.push(path.relative(context.sandbox, absolute));
+        else if (entry.isFile()) files.push(path.relative(sandboxRoot, absolute));
         if (files.length >= maxEntries) break;
       }
     }
@@ -106,12 +110,24 @@ const repositoryListFiles: AdapterOperation = {
 
 function runGit(args: string[], context: AdapterExecutionContext): Record<string, unknown> {
   assertWithinDeadline(context);
-  const execution = spawnSync("git", args, {
-    cwd: context.sandbox,
+  const sandboxRoot = resolveSandboxPath(context.sandbox, ".");
+  const safeGlobalConfig = path.join(os.tmpdir(), "mirai-disabled-global-gitconfig");
+  const execution = spawnSync("git", ["--no-optional-locks", "-c", "core.fsmonitor=false", ...args], {
+    cwd: sandboxRoot,
     encoding: "utf8",
     timeout: Math.max(1, Math.min(30_000, context.remaining_ms ?? 30_000)),
     maxBuffer: context.max_bytes,
-    env: { PATH: process.env.PATH || "", HOME: process.env.HOME || "", LANG: "C" }
+    env: {
+      PATH: process.env.PATH || "",
+      HOME: "",
+      XDG_CONFIG_HOME: "",
+      LANG: "C",
+      GIT_CONFIG_NOSYSTEM: "1",
+      GIT_CONFIG_GLOBAL: safeGlobalConfig,
+      GIT_TERMINAL_PROMPT: "0",
+      GIT_OPTIONAL_LOCKS: "0",
+      GIT_PAGER: "cat"
+    }
   });
   if (execution.error) throw execution.error;
   const stdout = boundedOutput(execution.stdout || "", context.max_bytes);
@@ -131,7 +147,7 @@ const gitDiff: AdapterOperation = {
   async execute(args, context) {
     const paths = Array.isArray(args.paths) ? args.paths.map((item) => asString(item, "git_path")) : [];
     for (const item of paths) resolveSandboxPath(context.sandbox, item, true);
-    return runGit(["diff", "--", ...paths], context);
+    return runGit(["diff", "--no-ext-diff", "--no-textconv", "--", ...paths], context);
   },
   async verify(receipt) { return { verified: typeof receiptResult(receipt).stdout === "string", details: ["recorded_git_diff_verified"] }; }
 };

@@ -4,7 +4,9 @@
   "revision": "841ddc69421899445a84b882bc47537d9e028cb6",
   "implementation": "python_independent",
   "imports_typescript_runtime": false,
-  "publication_status": "local_candidate",
+  "publication_status": "published_branch",
+  "publication_ref": "https://github.com/zabarov/mirai-conformance/tree/codex/mirai-2.1-conformance",
+  "publication_evidence_ref": "conformance/independent-checker-2.1-publication.json",
   "supported_surfaces": [
     "source_catalogs",
     "assimilation_proposals",
@@ -30,5 +32,5 @@
     "conformance/results/python-mirai-2.1-project-capsule-result.json"
   ],
   "release_gate_eligible": false,
-  "next_safe_action": "Publish and clean-room verify this exact checker revision before promoting the 2.1 cross-implementation gate."
+  "next_safe_action": "Pin the public checker CI to the exact Mirai release candidate, obtain a green Linux/macOS/Windows matrix, then promote this gate."
 }

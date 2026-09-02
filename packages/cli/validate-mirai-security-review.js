@@ -11,6 +11,8 @@ const target = process.argv[2] || "docs/security/mirai-independent-security-revi
 const selfTest = target === "--self-test";
 const sourceTarget = selfTest ? "docs/security/mirai-independent-security-review-result.template.json" : target;
 const value = JSON.parse(fs.readFileSync(path.resolve(root, sourceTarget), "utf8"));
+const ownerDecisionRef = "docs/security/mirai-independent-review-method-decision-2026-09-02.json";
+const ownerDecision = JSON.parse(fs.readFileSync(path.join(root, ownerDecisionRef), "utf8"));
 const schema = JSON.parse(fs.readFileSync(path.join(root, "schemas/mirai-security-review-result.schema.json"), "utf8"));
 const ajv = new Ajv2020({ allErrors: true, strict: false });
 addFormats(ajv);
@@ -28,7 +30,7 @@ const requiredScope = [
   "production_runtime_composition",
   "npm_host_local_state_exclusion"
 ];
-function assess(candidate) {
+function assess(candidate, decision = ownerDecision) {
   const errors = [];
   if (!validate(candidate)) errors.push(...(validate.errors || []).map((error) => `schema:${error.instancePath || "/"}:${error.message}`));
   for (const item of requiredScope) if (!(candidate.scope || []).includes(item)) errors.push(`required_scope_missing:${item}`);
@@ -41,9 +43,25 @@ function assess(candidate) {
   const passing = ["pass_for_production_read", "pass_for_bounded_production_write"].includes(candidate.verdict);
   if (passing && unresolvedBlocking.length) errors.push("passing_verdict_with_unresolved_critical_or_high_finding");
   if (candidate.verdict === "pass_for_bounded_production_write" && !(candidate.adapter_scope || []).length) errors.push("bounded_write_verdict_requires_adapter_scope");
+  if (candidate.evidence_class === "independent_ai_assisted_review") {
+    if (!decision || decision.status !== "approved" || decision.accepted_evidence_class !== candidate.evidence_class) errors.push("ai_assisted_review_requires_owner_decision");
+    if (decision?.reviewed_revision !== candidate.reviewed_revision) errors.push("ai_assisted_review_revision_not_approved");
+    if (decision?.release_gate_scope !== "production_read_only" || decision?.production_write_authorized !== false) errors.push("ai_assisted_review_owner_scope_invalid");
+    if (candidate.verdict === "pass_for_bounded_production_write") errors.push("ai_assisted_review_cannot_authorize_production_write");
+    if (!/AI-assisted|AI assisted/i.test(candidate.attestation || "")) errors.push("ai_assisted_review_attestation_missing");
+    if (!/not an external human|not external human|не является внешним человеческим/i.test(candidate.claim_boundary || "")) errors.push("ai_assisted_review_claim_boundary_missing");
+  }
   if (/guarantees|unrestricted production|scientifically proven/i.test(candidate.claim_boundary || "")) errors.push("claim_boundary_overclaim");
   if (/\/Users\/|BEGIN PRIVATE KEY|ghp_[A-Za-z0-9]+|xoxb-|raw \.env/.test(JSON.stringify(candidate))) errors.push("public_safety_violation");
-  const releaseGateEligible = candidate.status === "complete" && candidate.evidence_class === "external_review" && candidate.reviewer?.independent === true && candidate.reviewer?.implemented_reviewed_changes === false && passing && !unresolvedBlocking.length;
+  const evidenceEligible = candidate.evidence_class === "external_review"
+    || (candidate.evidence_class === "independent_ai_assisted_review"
+      && decision?.status === "approved"
+      && decision?.accepted_evidence_class === candidate.evidence_class
+      && decision?.reviewed_revision === candidate.reviewed_revision
+      && decision?.release_gate_scope === "production_read_only"
+      && decision?.production_write_authorized === false
+      && candidate.verdict === "pass_for_production_read");
+  const releaseGateEligible = candidate.status === "complete" && evidenceEligible && candidate.reviewer?.independent === true && candidate.reviewer?.implemented_reviewed_changes === false && passing && !unresolvedBlocking.length;
   return { errors, releaseGateEligible };
 }
 
@@ -58,17 +76,38 @@ if (selfTest) {
   const incompleteScope = structuredClone(value);
   incompleteScope.scope = incompleteScope.scope.filter((item) => item !== "stale_mutation_lock_recovery");
   const incompleteScopeResult = assess(incompleteScope);
+  const aiWithoutDecision = structuredClone(value);
+  aiWithoutDecision.status = "complete";
+  aiWithoutDecision.evidence_class = "independent_ai_assisted_review";
+  aiWithoutDecision.reviewed_revision = ownerDecision.reviewed_revision;
+  aiWithoutDecision.reviewer.independent = true;
+  aiWithoutDecision.verdict = "pass_for_production_read";
+  aiWithoutDecision.attestation = "AI-assisted isolated review.";
+  aiWithoutDecision.claim_boundary = "This is not an external human audit.";
+  const aiWithoutDecisionResult = assess(aiWithoutDecision, null);
+  const aiWrite = structuredClone(aiWithoutDecision);
+  aiWrite.verdict = "pass_for_bounded_production_write";
+  aiWrite.adapter_scope = ["workspace_patch"];
+  const aiWriteResult = assess(aiWrite);
   const passed = result.errors.includes("passing_verdict_with_unresolved_critical_or_high_finding")
     && result.releaseGateEligible === false
-    && incompleteScopeResult.errors.includes("required_scope_missing:stale_mutation_lock_recovery");
+    && incompleteScopeResult.errors.includes("required_scope_missing:stale_mutation_lock_recovery")
+    && aiWithoutDecisionResult.errors.includes("ai_assisted_review_requires_owner_decision")
+    && aiWithoutDecisionResult.releaseGateEligible === false
+    && aiWriteResult.errors.includes("ai_assisted_review_cannot_authorize_production_write")
+    && aiWriteResult.releaseGateEligible === false;
   process.stdout.write(`${JSON.stringify({
     valid: passed,
     self_tests: [
       "high_accepted_risk_blocks_release_gate",
-      "missing_runtime_recovery_scope_fails_closed"
+      "missing_runtime_recovery_scope_fails_closed",
+      "ai_assisted_review_without_owner_decision_fails_closed",
+      "ai_assisted_review_cannot_authorize_production_write"
     ],
     errors: result.errors,
-    incomplete_scope_errors: incompleteScopeResult.errors
+    incomplete_scope_errors: incompleteScopeResult.errors,
+    ai_without_decision_errors: aiWithoutDecisionResult.errors,
+    ai_write_errors: aiWriteResult.errors
   }, null, 2)}\n`);
   process.exitCode = passed ? 0 : 1;
   return;
