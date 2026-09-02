@@ -111,32 +111,37 @@ const repositoryListFiles: AdapterOperation = {
 function runGit(args: string[], context: AdapterExecutionContext): Record<string, unknown> {
   assertWithinDeadline(context);
   const sandboxRoot = resolveSandboxPath(context.sandbox, ".");
-  const safeHome = path.join(os.tmpdir(), "mirai-disabled-git-home");
+  const safeHome = fs.mkdtempSync(path.join(os.tmpdir(), "mirai-git-home-"));
   const safeGlobalConfig = path.join(safeHome, "global.gitconfig");
-  fs.mkdirSync(safeHome, { recursive: true, mode: 0o700 });
-  const execution = spawnSync("git", ["--no-optional-locks", "-c", "core.fsmonitor=false", ...args], {
-    cwd: sandboxRoot,
-    encoding: "utf8",
-    timeout: Math.max(1, Math.min(30_000, context.remaining_ms ?? 30_000)),
-    maxBuffer: context.max_bytes,
-    env: {
-      PATH: process.env.PATH || "",
-      HOME: safeHome,
-      USERPROFILE: safeHome,
-      XDG_CONFIG_HOME: safeHome,
-      LANG: "C",
-      GIT_CONFIG_NOSYSTEM: "1",
-      GIT_CONFIG_GLOBAL: safeGlobalConfig,
-      GIT_TERMINAL_PROMPT: "0",
-      GIT_OPTIONAL_LOCKS: "0",
-      GIT_PAGER: "cat"
-    }
-  });
-  if (execution.error) throw execution.error;
-  const stdout = boundedOutput(execution.stdout || "", context.max_bytes);
-  const stderr = boundedOutput(execution.stderr || "", context.max_bytes);
-  if ((execution.status ?? 1) !== 0) throw new Error(`git_command_failed:${execution.status}:${stderr.value}`);
-  return { exit_code: execution.status, stdout: stdout.value, stderr: stderr.value, truncated: stdout.truncated || stderr.truncated };
+  fs.chmodSync(safeHome, 0o700);
+  fs.writeFileSync(safeGlobalConfig, "", { flag: "wx", mode: 0o600 });
+  try {
+    const execution = spawnSync("git", ["--no-optional-locks", "-c", "core.fsmonitor=false", ...args], {
+      cwd: sandboxRoot,
+      encoding: "utf8",
+      timeout: Math.max(1, Math.min(30_000, context.remaining_ms ?? 30_000)),
+      maxBuffer: context.max_bytes,
+      env: {
+        PATH: process.env.PATH || "",
+        HOME: safeHome,
+        USERPROFILE: safeHome,
+        XDG_CONFIG_HOME: safeHome,
+        LANG: "C",
+        GIT_CONFIG_NOSYSTEM: "1",
+        GIT_CONFIG_GLOBAL: safeGlobalConfig,
+        GIT_TERMINAL_PROMPT: "0",
+        GIT_OPTIONAL_LOCKS: "0",
+        GIT_PAGER: "cat"
+      }
+    });
+    if (execution.error) throw execution.error;
+    const stdout = boundedOutput(execution.stdout || "", context.max_bytes);
+    const stderr = boundedOutput(execution.stderr || "", context.max_bytes);
+    if ((execution.status ?? 1) !== 0) throw new Error(`git_command_failed:${execution.status}:${stderr.value}`);
+    return { exit_code: execution.status, stdout: stdout.value, stderr: stderr.value, truncated: stdout.truncated || stderr.truncated };
+  } finally {
+    fs.rmSync(safeHome, { recursive: true, force: true });
+  }
 }
 
 const gitStatus: AdapterOperation = {
