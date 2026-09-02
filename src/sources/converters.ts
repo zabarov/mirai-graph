@@ -48,6 +48,10 @@ function assertConversionBudget(budget: SourceBudget): void {
   }
 }
 
+function assertConversionDeadline(deadline: number): void {
+  if (Date.now() > deadline) throw new Error("conversion_timeout");
+}
+
 function unit(item: SourceSnapshotItem, payload: SourcePayload, ordinal: number, kind: NormalizedUnit["kind"], content: NormalizedUnit["content"], span?: NormalizedUnit["source_span"]): NormalizedUnit {
   const contentDigest = digestValue(content);
   return {
@@ -68,16 +72,38 @@ function unit(item: SourceSnapshotItem, payload: SourcePayload, ordinal: number,
   };
 }
 
-function textUnits(item: SourceSnapshotItem, payload: SourcePayload, text: string, section = "document"): NormalizedUnit[] {
-  const parts = text.replace(/\r\n/g, "\n").split(/\n{2,}/).map((value) => value.trim()).filter(Boolean);
-  return (parts.length ? parts : [""]).map((value, index) => unit(item, payload, index + 1, "document_fragment", value, { section: `${section}.${index + 1}` }));
+function textUnits(item: SourceSnapshotItem, payload: SourcePayload, text: string, budget: SourceBudget, section = "document"): NormalizedUnit[] {
+  const normalized = text.replace(/\r\n/g, "\n");
+  const units: NormalizedUnit[] = [];
+  const separator = /\n{2,}/g;
+  const deadline = Date.now() + budget.timeout_ms;
+  let cursor = 0;
+  let normalizedBytes = 0;
+  const append = (value: string): void => {
+    const content = value.trim();
+    if (!content) return;
+    if (units.length >= budget.max_items) throw new Error("normalized_unit_budget_exceeded");
+    const bytes = Buffer.byteLength(JSON.stringify(content));
+    if (bytes > budget.max_item_bytes) throw new Error("normalized_unit_bytes_exceeded");
+    normalizedBytes += bytes;
+    if (normalizedBytes > budget.max_total_bytes) throw new Error("normalized_total_bytes_exceeded");
+    units.push(unit(item, payload, units.length + 1, "document_fragment", content, { section: `${section}.${units.length + 1}` }));
+  };
+  for (let match = separator.exec(normalized); match; match = separator.exec(normalized)) {
+    assertConversionDeadline(deadline);
+    append(normalized.slice(cursor, match.index));
+    cursor = match.index + match[0].length;
+  }
+  append(normalized.slice(cursor));
+  if (!units.length) units.push(unit(item, payload, 1, "document_fragment", "", { section: `${section}.1` }));
+  return units;
 }
 
 const textConverter: ContentConverter = {
   id: "mirai.converter.text",
   version: "1.0.0",
   supports(mediaType, key) { return mediaType.startsWith("text/") && !/html|csv/.test(mediaType) || /\.(?:md|txt)$/i.test(key); },
-  async convert(payload, item) { return textUnits(item, payload, Buffer.from(payload.content).toString("utf8")); }
+  async convert(payload, item, budget) { return textUnits(item, payload, Buffer.from(payload.content).toString("utf8"), budget); }
 };
 
 const structuredConverter: ContentConverter = {
@@ -95,12 +121,13 @@ const csvConverter: ContentConverter = {
   id: "mirai.converter.csv",
   version: "1.0.0",
   supports(mediaType, key) { return mediaType === "text/csv" || /\.csv$/i.test(key); },
-  async convert(payload, item) {
-    const lines = Buffer.from(payload.content).toString("utf8").replace(/\r\n/g, "\n").split("\n").filter(Boolean);
-    if (!lines.length) return [];
+  async convert(payload, item, budget) {
+    const text = Buffer.from(payload.content).toString("utf8").replace(/\r\n/g, "\n");
+    const deadline = Date.now() + budget.timeout_ms;
     const parse = (line: string): string[] => {
       const result: string[] = []; let value = ""; let quoted = false;
       for (let index = 0; index < line.length; index += 1) {
+        if (index % 1024 === 0) assertConversionDeadline(deadline);
         const char = line[index] as string;
         if (char === '"' && line[index + 1] === '"' && quoted) { value += '"'; index += 1; }
         else if (char === '"') quoted = !quoted;
@@ -110,8 +137,25 @@ const csvConverter: ContentConverter = {
       if (quoted) throw new Error("csv_unclosed_quote");
       result.push(value); return result;
     };
-    const headers = parse(lines[0] as string);
-    const rows = lines.slice(1).map((line) => Object.fromEntries(headers.map((header, index) => [header, parse(line)[index] ?? ""])));
+    let headers: string[] | undefined;
+    const rows: Record<string, string>[] = [];
+    let normalizedBytes = 0;
+    let cursor = 0;
+    for (let index = 0; index <= text.length; index += 1) {
+      if (index < text.length && text[index] !== "\n") continue;
+      assertConversionDeadline(deadline);
+      const line = text.slice(cursor, index);
+      cursor = index + 1;
+      if (!line) continue;
+      if (!headers) { headers = parse(line); continue; }
+      if (rows.length >= budget.max_items) throw new Error("csv_row_budget_exceeded");
+      const values = parse(line);
+      const row = Object.fromEntries(headers.map((header, column) => [header, values[column] ?? ""]));
+      normalizedBytes += Buffer.byteLength(JSON.stringify(row));
+      if (normalizedBytes > budget.max_item_bytes || normalizedBytes > budget.max_total_bytes) throw new Error("normalized_unit_bytes_exceeded");
+      rows.push(row);
+    }
+    if (!headers) return [];
     return [unit(item, payload, 1, "table", rows)];
   }
 };
@@ -120,9 +164,9 @@ const htmlConverter: ContentConverter = {
   id: "mirai.converter.html",
   version: "1.0.0",
   supports(mediaType, key) { return mediaType === "text/html" || /\.html?$/i.test(key); },
-  async convert(payload, item) {
+  async convert(payload, item, budget) {
     const document = parseDocument(Buffer.from(payload.content).toString("utf8"), { decodeEntities: true });
-    return textUnits(item, payload, DomUtils.textContent(document).replace(/\s+/g, " ").trim(), "html");
+    return textUnits(item, payload, DomUtils.textContent(document).replace(/\s+/g, " ").trim(), budget, "html");
   }
 };
 
@@ -218,12 +262,21 @@ function unzipBounded(content: Uint8Array, budget: SourceBudget): Promise<Record
 
 const xmlParser = new XMLParser({ ignoreAttributes: false, processEntities: false, allowBooleanAttributes: false, parseTagValue: false, trimValues: false });
 
-function collectXmlValues(value: unknown, keys: Set<string>, output: string[]): void {
-  if (Array.isArray(value)) return value.forEach((item) => collectXmlValues(item, keys, output));
+function collectXmlValues(value: unknown, keys: Set<string>, output: string[], budget: SourceBudget, state: { bytes: number; deadline: number }, depth = 0): void {
+  assertConversionDeadline(state.deadline);
+  if (depth > 256) throw new Error("xml_depth_budget_exceeded");
+  if (Array.isArray(value)) {
+    for (const item of value) collectXmlValues(item, keys, output, budget, state, depth + 1);
+    return;
+  }
   if (!value || typeof value !== "object") return;
   for (const [key, child] of Object.entries(value as Record<string, unknown>)) {
-    if (keys.has(key) && typeof child === "string") output.push(child);
-    else collectXmlValues(child, keys, output);
+    if (keys.has(key) && typeof child === "string") {
+      if (output.length >= budget.max_items) throw new Error("xml_value_budget_exceeded");
+      state.bytes += Buffer.byteLength(child);
+      if (state.bytes > budget.max_item_bytes || state.bytes > budget.max_total_bytes) throw new Error("xml_value_bytes_exceeded");
+      output.push(child);
+    } else collectXmlValues(child, keys, output, budget, state, depth + 1);
   }
 }
 
@@ -236,8 +289,8 @@ const docxConverter: ContentConverter = {
     const document = files["word/document.xml"];
     if (!document) throw new Error("docx_document_xml_missing");
     const values: string[] = [];
-    collectXmlValues(xmlParser.parse(Buffer.from(document).toString("utf8")), new Set(["w:t"]), values);
-    return textUnits(item, payload, values.join(" "), "docx");
+    collectXmlValues(xmlParser.parse(Buffer.from(document).toString("utf8")), new Set(["w:t"]), values, budget, { bytes: 0, deadline: Date.now() + budget.timeout_ms });
+    return textUnits(item, payload, values.join(" "), budget, "docx");
   }
 };
 
@@ -250,9 +303,11 @@ const xlsxConverter: ContentConverter = {
     const units: NormalizedUnit[] = [];
     const worksheets = Object.entries(files).filter(([name]) => /^xl\/worksheets\/sheet\d+\.xml$/.test(name)).sort(([a], [b]) => a.localeCompare(b));
     if (!worksheets.length) throw new Error("xlsx_worksheet_missing");
+    const state = { bytes: 0, deadline: Date.now() + budget.timeout_ms };
     for (const [name, content] of worksheets) {
+      if (units.length >= budget.max_items) throw new Error("normalized_unit_budget_exceeded");
       const values: string[] = [];
-      collectXmlValues(xmlParser.parse(Buffer.from(content).toString("utf8")), new Set(["v", "t"]), values);
+      collectXmlValues(xmlParser.parse(Buffer.from(content).toString("utf8")), new Set(["v", "t"]), values, budget, state);
       units.push(unit(item, payload, units.length + 1, "table", values, { sheet: path.basename(name, ".xml") }));
     }
     return units;
@@ -286,9 +341,14 @@ export async function convertPayloads(snapshot: SourceSnapshot, payloads: Source
     try {
       const remainingMs = deadline - Date.now();
       if (remainingMs < 1) throw new Error("conversion_timeout");
+      const remainingItems = budget.max_items - units.length;
+      const remainingBytes = budget.max_total_bytes - normalizedBytes;
+      if (remainingItems < 1) throw new Error("normalized_unit_budget_exceeded");
+      if (remainingBytes < 1) throw new Error("normalized_total_bytes_exceeded");
+      const converterBudget = { ...budget, max_items: remainingItems, max_total_bytes: remainingBytes, timeout_ms: remainingMs };
       let timer: ReturnType<typeof setTimeout> | undefined;
       const converted = await Promise.race([
-        converter.convert(payload, item, budget),
+        converter.convert(payload, item, converterBudget),
         new Promise<NormalizedUnit[]>((_resolve, reject) => { timer = setTimeout(() => reject(new Error("conversion_timeout")), remainingMs); })
       ]).finally(() => { if (timer) clearTimeout(timer); });
       if (Date.now() > deadline) throw new Error("conversion_timeout");

@@ -88,7 +88,7 @@ export function evaluateEvolutionProposal(proposal: EvolutionProposal, envelope:
   const envelopeErrors = validateAutonomyEnvelope(envelope, now);
   const proposalErrors = validateEvolutionProposal(proposal);
   const changes = Array.isArray(proposal.changes) ? proposal.changes : [];
-  const payloadBytes = Buffer.byteLength(JSON.stringify(changes.map((item) => item.payload)));
+  const payloadBytes = Buffer.byteLength(JSON.stringify(withoutDigest(proposal as unknown as Record<string, unknown>)));
   const decisions = changes.map((change) => decideChange(change, proposal, envelope));
   const budgetErrors: string[] = [];
   if (changes.length > Number(envelope.change_budget?.max_changes || 0)) budgetErrors.push("change_count_budget_exceeded");

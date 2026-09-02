@@ -31,6 +31,14 @@ test("lossy punctuation and unapproved aliases cannot silently merge identities"
   const alias = { alias: "Legacy Name", canonical_identity: "demo:canonical", scope: "demo", reviewed: true, approval_ref: "" };
   const unapproved = organizeKnowledge({ units: [unit("alias", { title: "Legacy Name", value: 1 })], aliases: [alias] });
   assert.equal(unapproved.identity_resolutions[0].resolution, "new_identity");
+
+  const claimedApproval = { ...alias, approval_ref: "approval.unverified" };
+  const unverified = organizeKnowledge({ units: [unit("alias-unverified", { title: "Legacy Name", value: 1 })], aliases: [claimedApproval] });
+  assert.equal(unverified.identity_resolutions[0].resolution, "new_identity");
+
+  const verified = organizeKnowledge({ units: [unit("alias-verified", { title: "Legacy Name", value: 1 })], aliases: [claimedApproval], verify_alias_approval: (candidate) => candidate.approval_ref === "approval.unverified" && candidate.scope === "demo" });
+  assert.equal(verified.identity_resolutions[0].resolution, "reviewed_alias");
+  assert.equal(verified.identity_resolutions[0].canonical_identity, "demo:canonical");
 });
 
 test("graph-growth limits return a proposal-only partition route instead of expanding unboundedly", () => {

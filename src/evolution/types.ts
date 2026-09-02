@@ -13,6 +13,7 @@ export interface AutonomicCycleInput {
   units: NormalizedUnit[];
   observations: ProcessObservation[];
   aliases?: AliasRule[];
+  verify_alias_approval?: (alias: AliasRule) => boolean;
   previous_assertions?: KnowledgeAssertion[];
   known_identities?: string[];
   knowledge_budgets?: Partial<KnowledgeBudgets>;

@@ -68,6 +68,7 @@ export function planAutonomicCycle(input: AutonomicCycleInput): AutonomicCycleRe
   const knowledge = organizeKnowledge({
     units: input.units,
     aliases: input.aliases,
+    verify_alias_approval: input.verify_alias_approval,
     previous_assertions: input.previous_assertions,
     known_identities: input.known_identities,
     budgets: input.knowledge_budgets
@@ -105,6 +106,7 @@ export function runAutonomicReconcileOnce(input: AutonomicCycleInput, options: {
 } = {}): AutonomicCycleResult {
   const planned = planAutonomicCycle(input);
   if (!options.apply || !planned.evolution_proposal.changes.length) return planned;
+  if (planned.status !== "planned") throw new Error("autonomic_apply_requires_planned_cycle");
   if (!input.envelope || !planned.evolution_decision) throw new Error("autonomic_apply_requires_envelope_decision");
   const receipt: PromotionReceipt = applyAdaptiveEvolution({
     root: options.root || process.cwd(),

@@ -113,6 +113,7 @@ export interface KnowledgeProposal {
 export interface KnowledgeOrganizationInput {
   units: NormalizedUnit[];
   aliases?: AliasRule[];
+  verify_alias_approval?: (alias: AliasRule) => boolean;
   previous_assertions?: KnowledgeAssertion[];
   known_identities?: string[];
   budgets?: Partial<KnowledgeBudgets>;

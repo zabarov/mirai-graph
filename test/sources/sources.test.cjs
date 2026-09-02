@@ -155,6 +155,18 @@ test("provider and normalization budgets fail before unbounded materialization",
   const limited = await convertPayloads(paragraphSnapshot, [paragraphPayload], { ...DEFAULT_SOURCE_BUDGET, max_items: 2 });
   assert.equal(limited.units.length, 0);
   assert.equal(limited.diagnostics.some((item) => item.message === "normalized_unit_budget_exceeded"), true);
+
+  const manyParagraphs = { key: "many-paragraphs.md", media_type: "text/markdown", content: Buffer.from(Array.from({ length: 20_000 }, (_, index) => `paragraph-${index}`).join("\n\n")) };
+  const manyParagraphSnapshot = buildSourceSnapshot(source, [manyParagraphs]);
+  const boundedParagraphs = await convertPayloads(manyParagraphSnapshot, [manyParagraphs], { ...DEFAULT_SOURCE_BUDGET, max_items: 1 });
+  assert.equal(boundedParagraphs.units.length, 0);
+  assert.equal(boundedParagraphs.diagnostics.some((item) => item.message === "normalized_unit_budget_exceeded"), true);
+
+  const manyRows = { key: "many.csv", media_type: "text/csv", content: Buffer.from(`id\n${Array.from({ length: 20_000 }, (_, index) => index).join("\n")}`) };
+  const manyRowsSnapshot = buildSourceSnapshot(source, [manyRows]);
+  const boundedRows = await convertPayloads(manyRowsSnapshot, [manyRows], { ...DEFAULT_SOURCE_BUDGET, max_items: 2 });
+  assert.equal(boundedRows.units.length, 0);
+  assert.equal(boundedRows.diagnostics.some((item) => item.message === "csv_row_budget_exceeded"), true);
 });
 
 test("official S3 client rejects invalid budgets and stalled pagination", async () => {

@@ -97,9 +97,9 @@ function budgetProposal(
   return { ...candidate, growth_control: { ...candidate.growth_control, suggested_actions: [...candidate.growth_control.suggested_actions] }, digest: digestValue(candidate) };
 }
 
-function resolveIdentity(identity: string, scope: string, aliases: AliasRule[], known: Set<string>): IdentityResolution {
+function resolveIdentity(identity: string, scope: string, aliases: AliasRule[], known: Set<string>, verifyAliasApproval: ((alias: AliasRule) => boolean) | undefined): IdentityResolution {
   if (known.has(identity)) return { candidate_identity: identity, resolution: "exact", canonical_identity: identity, candidate_matches: [identity], owner_review_required: false };
-  const alias = aliases.find((item) => item.reviewed === true && typeof item.approval_ref === "string" && item.approval_ref.trim().length > 0 && item.scope === scope && normalizeIdentity(item.alias) === identity.split(":").at(-1));
+  const alias = aliases.find((item) => item.reviewed === true && typeof item.approval_ref === "string" && item.approval_ref.trim().length > 0 && item.scope === scope && normalizeIdentity(item.alias) === identity.split(":").at(-1) && verifyAliasApproval?.(item) === true);
   if (alias) return { candidate_identity: identity, resolution: "reviewed_alias", canonical_identity: alias.canonical_identity, candidate_matches: [alias.canonical_identity], owner_review_required: false };
   const suffix = identity.split(":").at(-1) as string;
   const matches = [...known].filter((item) => item.endsWith(`:${suffix}`)).sort();
@@ -145,7 +145,7 @@ export function organizeKnowledge(input: KnowledgeOrganizationInput): KnowledgeP
   const known = new Set([...(input.known_identities || []), ...(input.previous_assertions || []).map((item) => item.identity_key)]);
   const identityResolutions = [...new Set(assertions.map((item) => item.identity_key))].sort().map((identity) => {
     const scope = identity.split(":")[0] as string;
-    return resolveIdentity(identity, scope, aliases, known);
+    return resolveIdentity(identity, scope, aliases, known, input.verify_alias_approval);
   });
   const resolutionMap = new Map(identityResolutions.map((item) => [item.candidate_identity, item]));
   for (const assertion of assertions) {
