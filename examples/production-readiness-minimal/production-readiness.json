@@ -30,6 +30,10 @@
     "sanitized_evidence_only": true,
     "host_process_run_allowed": false
   },
+  "runtime_composition": {
+    "registered_adapters": ["repository", "git"],
+    "registered_effects": ["repository_read", "git_read"]
+  },
   "recovery": {
     "uncertain_effect_action": "block_and_reconcile",
     "duplicate_resume_action": "reject_or_reuse_verified_receipt",

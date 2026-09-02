@@ -101,7 +101,7 @@
     "validate:security-review-request": "node packages/cli/validate-mirai-security-review.js docs/security/mirai-independent-security-review-request-2026-09-02.json",
     "validate:security-review-contract": "node packages/cli/validate-mirai-security-review.js",
     "test:security-review-contract-negative": "node packages/cli/validate-mirai-security-review.js --self-test",
-    "test:production-readiness-negative": "node packages/cli/validate-production-readiness.js examples/production-readiness-minimal/invalid-production-write-without-review.json >/tmp/mirai-production-readiness-negative.out 2>&1 && exit 1 || test $? -eq 1",
+    "test:production-readiness-negative": "node packages/cli/validate-production-readiness.js examples/production-readiness-minimal/invalid-production-write-without-review.json >/tmp/mirai-production-readiness-negative.out 2>&1 && exit 1 || test $? -eq 1 && node packages/cli/validate-production-readiness.js examples/production-readiness-minimal/invalid-production-process-run-composition.json >/tmp/mirai-production-process-run-negative.out 2>&1 && exit 1 || test $? -eq 1",
     "validate:contract-freeze-candidate": "node packages/cli/validate-contract-freeze-candidate.js",
     "validate:mirai-2.1-contract-freeze": "node packages/cli/validate-mirai-2-1-contract-freeze.js",
     "validate:mirai-2.1-release-readiness": "node packages/cli/validate-mirai-2-1-release-readiness.js",

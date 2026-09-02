@@ -635,6 +635,24 @@ test("path traversal and symlink escape fail closed", async () => {
   );
 });
 
+test("runtime and approval homes reject an ancestor symlink", () => {
+  if (process.platform === "win32") return;
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "mirai-runtime-home-boundary-"));
+  const realParent = path.join(root, "real-parent");
+  const linkedParent = path.join(root, "linked-parent");
+  const sandbox = path.join(root, "sandbox");
+  fs.mkdirSync(realParent);
+  fs.mkdirSync(sandbox);
+  fs.symlinkSync(realParent, linkedParent, "dir");
+  const home = path.join(linkedParent, "home");
+  assert.throws(() => new RunStore(home), /runtime_symlink_forbidden/);
+  const subject = readProgram();
+  assert.throws(
+    () => approval({ root, home, sandbox }, subject, ["repository_read"]),
+    /approval_home_symlink_forbidden/
+  );
+});
+
 test("run store rejects active leases and stale compare-and-swap revisions", () => {
   const env = temporary();
   const subject = readProgram();
@@ -676,6 +694,43 @@ test("lease renewal preserves generation and stale owners are fenced from writes
   successorStore.releaseLease(run.run_id, successor.token);
 });
 
+test("lease generation remains monotonic after normal release and process restart", () => {
+  const env = temporary();
+  const run = env.store.createRun({ program: readProgram(), input: {}, sandbox: env.sandbox, apply: false, run_id: "run.lease-generation" });
+  const first = env.store.acquireLease(run.run_id, 60_000);
+  env.store.releaseLease(run.run_id, first.token);
+  const restarted = new RunStore(env.home);
+  const second = restarted.acquireLease(run.run_id, 60_000);
+  assert.equal(second.generation, first.generation + 1);
+  restarted.releaseLease(run.run_id, second.token);
+  const counter = JSON.parse(fs.readFileSync(path.join(env.store.directory(run.run_id), "lease-generation.json"), "utf8"));
+  assert.equal(counter.generation, second.generation);
+});
+
+test("dead mutation-lock owner requires explicit quarantined recovery", () => {
+  const env = temporary();
+  const run = env.store.createRun({ program: readProgram(), input: {}, sandbox: env.sandbox, apply: false, run_id: "run.mutation-recovery" });
+  const lockDirectory = path.join(env.store.directory(run.run_id), "mutation.lock");
+  const childScript = [
+    'const fs = require("node:fs");',
+    'const lock = process.argv[1];',
+    'fs.mkdirSync(lock, { mode: 0o700 });',
+    'fs.writeFileSync(require("node:path").join(lock, "owner.json"), JSON.stringify({ token: "crashed-owner", pid: process.pid, acquired_at: "2000-01-01T00:00:00.000Z" }));'
+  ].join(" ");
+  const crashed = spawnSync(process.execPath, ["-e", childScript, lockDirectory], { encoding: "utf8" });
+  assert.equal(crashed.status, 0, crashed.stderr);
+  assert.throws(() => env.store.acquireLease(run.run_id), /run_mutation_lock_active/);
+  const recoveryId = env.store.recoverStaleMutationLock(run.run_id, { minimum_age_ms: 1, now: new Date("2030-01-01T00:00:00.000Z") });
+  assert.match(recoveryId, /^mutation-lock-recovery\./);
+  assert.equal(fs.existsSync(lockDirectory), false);
+  assert.equal(fs.existsSync(path.join(env.store.directory(run.run_id), `${recoveryId}.quarantine`, "owner.json")), true);
+  const evidence = JSON.parse(fs.readFileSync(path.join(env.store.directory(run.run_id), `${recoveryId}.json`), "utf8"));
+  assert.equal(evidence.reason, "dead_owner_after_minimum_age");
+  assert.equal(evidence.canonical_write_allowed, false);
+  const lease = env.store.acquireLease(run.run_id);
+  env.store.releaseLease(run.run_id, lease.token);
+});
+
 test("cross-process lease takeover cannot pass an active mutation fence", () => {
   const env = temporary();
   const subject = readProgram();
@@ -691,7 +746,7 @@ test("cross-process lease takeover cannot pass an active mutation fence", () => 
 
   const mutationLock = path.join(env.store.directory(run.run_id), "mutation.lock");
   fs.mkdirSync(mutationLock, { mode: 0o700 });
-  fs.writeFileSync(path.join(mutationLock, "owner.json"), `${JSON.stringify({ token: "active-writer", pid: process.pid })}\n`);
+  fs.writeFileSync(path.join(mutationLock, "owner.json"), `${JSON.stringify({ token: "active-writer", pid: process.pid, acquired_at: "2000-01-01T00:00:00.000Z" })}\n`);
   const childScript = [
     'const { RunStore } = require("./dist/cjs/runtime");',
     'const store = new RunStore(process.argv[1]);',
@@ -705,6 +760,10 @@ test("cross-process lease takeover cannot pass an active mutation fence", () => 
   assert.equal(blocked.status, 23);
   assert.match(blocked.stderr, /run_mutation_lock_active/);
   assert.equal(JSON.parse(fs.readFileSync(leaseFile, "utf8")).generation, 8);
+  assert.throws(
+    () => env.store.recoverStaleMutationLock(run.run_id, { minimum_age_ms: 1, now: new Date("2030-01-01T00:00:00.000Z") }),
+    /run_mutation_lock_owner_alive/
+  );
 
   fs.unlinkSync(path.join(mutationLock, "owner.json"));
   fs.rmdirSync(mutationLock);

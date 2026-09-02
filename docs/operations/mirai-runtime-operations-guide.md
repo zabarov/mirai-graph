@@ -55,6 +55,18 @@ effects are started.
   undo verified effects.
 - If compensation fails, preserve the run directory and treat the run as
   blocked until an owner reviews external state.
+- If `operations status` or a write reports `run_mutation_lock_active`, first
+  verify that no process still owns the run. Recovery is explicit and keeps the
+  old lock in quarantine with a host-local receipt:
+
+```bash
+mirai operations recover-mutation-lock <run-id> \
+  --minimum-age-ms 30000 \
+  --confirm-stale-lock-recovery
+```
+
+The command refuses a live PID, a recent lock, malformed owner evidence or an
+unknown owner status. Do not delete `mutation.lock` manually.
 
 ## Evidence And Retention
 
@@ -77,6 +89,7 @@ still change before `2.0.0-rc.1`.
 
 - stop new effects for the affected run;
 - preserve `run.json`, events, checkpoint and receipts;
+- preserve mutation-lock quarantine and recovery receipts;
 - inspect status without exposing grants or raw result content;
 - reconcile external state using the owning adapter;
 - record verified, failed, uncertain or compensated outcome;

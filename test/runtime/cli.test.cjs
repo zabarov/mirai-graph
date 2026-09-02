@@ -109,3 +109,28 @@ test("operations status exposes recovery need without sensitive runtime fields",
   assert(!result.stdout.includes("capability_grant_ref"));
   assert(!result.stdout.includes(path.join(temp, "sandbox")));
 });
+
+test("operations mutation-lock recovery requires confirmation and preserves quarantine", () => {
+  const temp = fs.mkdtempSync(path.join(os.tmpdir(), "mirai-operations-lock-recovery-"));
+  const home = path.join(temp, "home");
+  const { RunStore } = require("../../dist/cjs/runtime");
+  const program = JSON.parse(fs.readFileSync(path.join(fixture, "results/program.mirai.json"), "utf8"));
+  const store = new RunStore(home);
+  store.createRun({ program, input: {}, sandbox: path.join(temp, "sandbox"), apply: false, run_id: "run.operations-lock" });
+  const lock = path.join(store.directory("run.operations-lock"), "mutation.lock");
+  fs.mkdirSync(lock, { mode: 0o700 });
+  const exited = spawnSync(process.execPath, ["-e", "process.stdout.write(String(process.pid))"], { encoding: "utf8" });
+  assert.equal(exited.status, 0, exited.stderr);
+  fs.writeFileSync(path.join(lock, "owner.json"), JSON.stringify({ token: "dead-owner", pid: Number(exited.stdout), acquired_at: "2000-01-01T00:00:00.000Z" }));
+
+  const unconfirmed = command(["operations", "recover-mutation-lock", "run.operations-lock", "--minimum-age-ms", "1", "--home", home]);
+  assert.equal(unconfirmed.status, 1);
+  assert.match(unconfirmed.stderr, /mutation_lock_recovery_confirmation_required/);
+  const recovered = command(["operations", "recover-mutation-lock", "run.operations-lock", "--minimum-age-ms", "1", "--confirm-stale-lock-recovery", "--home", home]);
+  assert.equal(recovered.status, 0, recovered.stderr);
+  const result = JSON.parse(recovered.stdout);
+  assert.equal(result.status, "mutation_lock_recovered");
+  assert.equal(result.canonical_write_allowed, false);
+  assert.equal(fs.existsSync(lock), false);
+  assert.equal(fs.existsSync(path.join(store.directory("run.operations-lock"), `${result.recovery_id}.quarantine`, "owner.json")), true);
+});

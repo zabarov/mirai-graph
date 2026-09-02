@@ -9,7 +9,8 @@ export interface ConfinedPathOptions {
 
 export function assertNoSymlinkComponents(targetInput: string, allowMissing = false, label = "path"): string {
   const target = path.resolve(targetInput);
-  const anchors = [process.cwd(), os.tmpdir(), os.homedir()].map((value) => path.resolve(value));
+  const systemTempAnchors = process.platform === "win32" ? [] : ["/tmp", "/var", "/private/tmp", "/private/var"];
+  const anchors = [process.cwd(), os.tmpdir(), os.homedir(), ...systemTempAnchors].map((value) => path.resolve(value));
   const anchor = anchors
     .filter((value) => target === value || target.startsWith(`${value}${path.sep}`))
     .sort((left, right) => right.length - left.length)[0] || path.parse(target).root;

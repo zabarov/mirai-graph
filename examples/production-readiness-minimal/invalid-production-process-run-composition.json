@@ -1,8 +1,8 @@
 {
   "contract_version": "1.0.0",
-  "id": "readiness.invalid.production-write",
-  "target": "Unreviewed live writer",
-  "evaluated_tier": "production_write",
+  "id": "readiness.invalid.production-process-run",
+  "target": "Production runtime with a local-development process adapter",
+  "evaluated_tier": "production_read",
   "verdict": "ready",
   "contracts": [{
     "id": "mirai.runtime",
@@ -23,8 +23,8 @@
     "host_process_run_allowed": false
   },
   "runtime_composition": {
-    "registered_adapters": ["repository", "git", "workspace"],
-    "registered_effects": ["repository_read", "git_read", "workspace_patch"]
+    "registered_adapters": ["repository", "test"],
+    "registered_effects": ["repository_read", "process_run"]
   },
   "recovery": {
     "uncertain_effect_action": "block_and_reconcile",
@@ -35,7 +35,7 @@
     "security": { "status": "pending", "evidence_refs": [], "reviewer_independent": false },
     "human": { "status": "pending", "evidence_refs": [], "reviewer_independent": false }
   },
-  "stop_conditions": ["uncertain_receipt"],
+  "stop_conditions": ["process_run_registered"],
   "canonical_write_allowed": false,
-  "claim_boundary": "Invalid fixture."
+  "claim_boundary": "Invalid fixture: local-development process execution cannot be part of a production composition."
 }

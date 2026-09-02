@@ -81,6 +81,7 @@ function usage(): void {
     "  mirai reconcile <run-id> [--home <mirai-home>]",
     "  mirai inspect <run-id> [--home <mirai-home>]",
     "  mirai operations status [--home <mirai-home>]",
+    "  mirai operations recover-mutation-lock <run-id> --confirm-stale-lock-recovery [--minimum-age-ms <ms>] [--home <mirai-home>]",
     "  mirai evidence export <run-id> --out <dir> [--home <mirai-home>]",
     "  mirai migrate <technology-or-project> --from 1.4 --dry-run [--bindings <bindings.json>]",
     "  mirai source scan <path> [--out <catalog.json>]",
@@ -537,6 +538,15 @@ export async function runCli(args: string[]): Promise<number> {
       const result = inspectRuntimeHealth(runtimeHome(args));
       writeJson(result);
       return result.status === "blocked" ? 2 : 0;
+    }
+
+    if (args[0] === "operations" && args[1] === "recover-mutation-lock") {
+      if (!args.includes("--confirm-stale-lock-recovery")) throw new Error("mutation_lock_recovery_confirmation_required");
+      const minimumAge = Number(readOption(args, "--minimum-age-ms") || "30000");
+      const store = new RunStore(runtimeHome(args));
+      const recoveryId = store.recoverStaleMutationLock(requireArgument(args[2], "run id"), { minimum_age_ms: minimumAge });
+      writeJson({ status: "mutation_lock_recovered", run_id: args[2], recovery_id: recoveryId, canonical_write_allowed: false });
+      return 0;
     }
 
     if (args[0] === "evidence" && args[1] === "export") {

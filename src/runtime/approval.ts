@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { createHmac, randomBytes, timingSafeEqual } from "node:crypto";
 import { canonicalJson, digestValue } from "../core/canonical.js";
+import { assertNoSymlinkComponents } from "../core/path-boundary.js";
 import {
   APPROVAL_CONTRACT_VERSION,
   type ApprovalReceipt,
@@ -13,8 +14,8 @@ import {
 const KEY_FILE = "approval.key";
 
 function ensureDirectory(directory: string): void {
+  assertNoSymlinkComponents(directory, true, "approval_home");
   fs.mkdirSync(directory, { recursive: true, mode: 0o700 });
-  if (fs.lstatSync(directory).isSymbolicLink()) throw new Error("approval_home_symlink_forbidden");
   fs.chmodSync(directory, 0o700);
 }
 

@@ -60,6 +60,15 @@ if (value.evaluated_tier === "production_write" && value.verdict === "ready") {
   }
 }
 
+if (["production_read", "production_write"].includes(value.evaluated_tier)) {
+  if ((value.runtime_composition?.registered_effects || []).includes("process_run")) {
+    errors.push("production_composition_cannot_register_process_run");
+  }
+  if ((value.runtime_composition?.registered_adapters || []).includes("test")) {
+    errors.push("production_composition_cannot_register_test_adapter");
+  }
+}
+
 if (value.canonical_write_allowed !== false) errors.push("readiness_profile_cannot_authorize_canonical_write");
 if (/guarantees|scientifically proven|unrestricted production/i.test(value.claim_boundary || "")) {
   errors.push("claim_boundary_overclaim");

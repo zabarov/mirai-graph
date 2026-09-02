@@ -3,6 +3,7 @@ import os from "node:os";
 import path from "node:path";
 import { randomBytes } from "node:crypto";
 import { canonicalJson, digestValue } from "../core/canonical.js";
+import { assertNoSymlinkComponents } from "../core/path-boundary.js";
 import type { MiraiProgram } from "../program/types.js";
 import {
   CHECKPOINT_CONTRACT_VERSION,
@@ -31,6 +32,17 @@ export interface LeaseRecord {
   expires_at: string;
 }
 
+interface LeaseGenerationRecord {
+  generation: number;
+  updated_at: string;
+}
+
+interface MutationLockOwner {
+  token: string;
+  pid: number;
+  acquired_at: string;
+}
+
 function safeSegment(value: string): string {
   const cleaned = value.replace(/[^A-Za-z0-9._-]+/g, "_").replace(/^\.+/, "").slice(0, 100);
   if (!cleaned || cleaned === "." || cleaned === "..") throw new Error("invalid_runtime_identifier");
@@ -38,7 +50,7 @@ function safeSegment(value: string): string {
 }
 
 function ensurePrivateDirectory(directory: string): void {
-  if (fs.existsSync(directory) && fs.lstatSync(directory).isSymbolicLink()) throw new Error(`runtime_symlink_forbidden:${directory}`);
+  assertNoSymlinkComponents(directory, true, "runtime");
   fs.mkdirSync(directory, { recursive: true, mode: 0o700 });
   fs.chmodSync(directory, 0o700);
 }
@@ -73,7 +85,7 @@ export class RunStore {
     this.indexRoot = path.join(this.home, "run-index");
     if (options.create === false) {
       for (const directory of [this.home, this.runsRoot, this.indexRoot]) {
-        if (fs.existsSync(directory) && fs.lstatSync(directory).isSymbolicLink()) throw new Error(`runtime_symlink_forbidden:${directory}`);
+        assertNoSymlinkComponents(directory, true, "runtime");
       }
       return;
     }
@@ -193,7 +205,7 @@ export class RunStore {
 
     const token = randomBytes(24).toString("hex");
     const ownerFile = path.join(lockDirectory, "owner.json");
-    fs.writeFileSync(ownerFile, `${JSON.stringify({ token, pid: process.pid, acquired_at: new Date().toISOString() }, null, 2)}\n`, {
+    fs.writeFileSync(ownerFile, `${JSON.stringify({ token, pid: process.pid, acquired_at: new Date().toISOString() } satisfies MutationLockOwner, null, 2)}\n`, {
       mode: 0o600,
       flag: "wx"
     });
@@ -209,6 +221,43 @@ export class RunStore {
       fs.unlinkSync(ownerFile);
       fs.rmdirSync(lockDirectory);
     }
+  }
+
+  recoverStaleMutationLock(runId: string, options: { minimum_age_ms?: number; now?: Date } = {}): string {
+    const minimumAgeMs = options.minimum_age_ms ?? 30_000;
+    if (!Number.isSafeInteger(minimumAgeMs) || minimumAgeMs < 1) throw new Error("run_mutation_lock_recovery_age_invalid");
+    const runDirectory = this.directory(runId);
+    const lockDirectory = path.join(runDirectory, "mutation.lock");
+    if (!fs.existsSync(lockDirectory)) throw new Error(`run_mutation_lock_missing:${runId}`);
+    if (fs.lstatSync(lockDirectory).isSymbolicLink()) throw new Error("run_mutation_lock_symlink_forbidden");
+    const owner = readJson<MutationLockOwner>(path.join(lockDirectory, "owner.json"));
+    if (!owner.token || !Number.isSafeInteger(owner.pid) || owner.pid < 1 || !Number.isFinite(Date.parse(owner.acquired_at))) {
+      throw new Error("run_mutation_lock_owner_invalid");
+    }
+    const now = options.now || new Date();
+    if (now.getTime() - Date.parse(owner.acquired_at) < minimumAgeMs) throw new Error("run_mutation_lock_recovery_too_early");
+    try {
+      process.kill(owner.pid, 0);
+      throw new Error("run_mutation_lock_owner_alive");
+    } catch (error) {
+      if (error instanceof Error && error.message === "run_mutation_lock_owner_alive") throw error;
+      const code = (error as NodeJS.ErrnoException).code;
+      if (code !== "ESRCH") throw new Error("run_mutation_lock_owner_status_unknown");
+    }
+    const recoveryId = `mutation-lock-recovery.${digestValue({ run_id: runId, owner, recovered_at: now.toISOString() }).slice(7, 23)}`;
+    const quarantine = path.join(runDirectory, `${recoveryId}.quarantine`);
+    fs.renameSync(lockDirectory, quarantine);
+    writeAtomic(path.join(runDirectory, `${recoveryId}.json`), {
+      contract_version: "1.0.0",
+      recovery_id: recoveryId,
+      run_id: runId,
+      recovered_at: now.toISOString(),
+      reason: "dead_owner_after_minimum_age",
+      owner: { pid: owner.pid, acquired_at: owner.acquired_at, token_digest: digestValue(owner.token) },
+      quarantine_ref: path.basename(quarantine),
+      canonical_write_allowed: false
+    });
+    return recoveryId;
   }
 
   private withFencedMutation<T>(runId: string, operation: () => T): T {
@@ -248,12 +297,19 @@ export class RunStore {
     return this.withMutationLock(runId, () => {
       if (!Number.isFinite(ttlMs) || ttlMs < 1) throw new Error("run_lease_ttl_invalid");
       const filename = path.join(this.directory(runId), "lease.json");
+      const generationFilename = path.join(this.directory(runId), "lease-generation.json");
       const now = new Date();
       let previousGeneration = 0;
+      if (fs.existsSync(generationFilename)) {
+        const counter = readJson<LeaseGenerationRecord>(generationFilename);
+        if (!Number.isSafeInteger(counter.generation) || counter.generation < 0) throw new Error("run_lease_generation_invalid");
+        previousGeneration = counter.generation;
+      }
       if (fs.existsSync(filename)) {
         const current = readJson<LeaseRecord>(filename);
         if (Date.parse(current.expires_at) > now.getTime()) throw new Error(`run_lease_active:${runId}`);
-        previousGeneration = Number.isSafeInteger(current.generation) && current.generation >= 0 ? current.generation : 0;
+        if (!Number.isSafeInteger(current.generation) || current.generation < 1) throw new Error("run_lease_generation_invalid");
+        previousGeneration = Math.max(previousGeneration, current.generation);
         fs.unlinkSync(filename);
       }
       const lease: LeaseRecord = {
@@ -263,6 +319,7 @@ export class RunStore {
         acquired_at: now.toISOString(),
         expires_at: new Date(now.getTime() + ttlMs).toISOString()
       };
+      writeAtomic(generationFilename, { generation: lease.generation, updated_at: now.toISOString() } satisfies LeaseGenerationRecord);
       fs.writeFileSync(filename, `${JSON.stringify(lease, null, 2)}\n`, { mode: 0o600, flag: "wx" });
       this.ownedLeases.set(runId, { token: lease.token, generation: lease.generation });
       return lease;

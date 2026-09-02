@@ -12,6 +12,7 @@
     "verdict",
     "contracts",
     "controls",
+    "runtime_composition",
     "recovery",
     "external_reviews",
     "stop_conditions",
@@ -72,6 +73,23 @@
         "monitoring_ref": { "type": "string", "minLength": 1 },
         "sanitized_evidence_only": { "const": true },
         "host_process_run_allowed": { "const": false }
+      }
+    },
+    "runtime_composition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["registered_adapters", "registered_effects"],
+      "properties": {
+        "registered_adapters": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "registered_effects": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "enum": ["repository_read", "git_read", "workspace_patch", "process_run", "human_approval"] }
+        }
       }
     },
     "recovery": {

@@ -108,6 +108,16 @@ test("capability issuance requires an exact active mandate when enabled", () => 
   assert(denied.decision.reasons.includes("mandate_revoked"));
 });
 
+test("mandate signing home rejects an ancestor symlink", () => {
+  if (process.platform === "win32") return;
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "mirai-mandate-home-boundary-"));
+  const realParent = path.join(root, "real-parent");
+  const linkedParent = path.join(root, "linked-parent");
+  fs.mkdirSync(realParent);
+  fs.symlinkSync(realParent, linkedParent, "dir");
+  assert.throws(() => mandate(path.join(linkedParent, "home"), request()), /mandate_home_symlink_forbidden/);
+});
+
 test("mandate is exact, expiring and host-signed", () => {
   const home = fs.mkdtempSync(path.join(os.tmpdir(), "mirai-mandate-exact-"));
   const value = request();

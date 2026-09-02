@@ -49,3 +49,6 @@ accidental host inheritance, but they do not provide OS or network isolation.
 Production-read and production-write profiles therefore require
 `host_process_run_allowed=false`; a future production command adapter needs a
 separate sandbox/container boundary and security review.
+The readiness artifact also declares the concrete runtime composition.
+Registering the `test` adapter or `process_run` effect in either production
+tier fails validation even when the descriptive host flag is false.
