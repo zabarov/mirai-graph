@@ -3,8 +3,8 @@
   "release_id": "release.mirai.2.1.0",
   "evaluated_version": "2.1.0",
   "promotion_target": "2.1.0",
-  "evaluated_at": "2026-09-02T15:13:00Z",
-  "overall_status": "blocked",
+  "evaluated_at": "2026-09-02T15:21:00Z",
+  "overall_status": "ready",
   "gates": [
     {
       "id": "gate.2_0_core_security_freeze",
@@ -77,15 +77,13 @@
     {
       "id": "gate.2_1_stable_release_metadata",
       "category": "release",
-      "status": "blocked",
-      "evidence_refs": ["package.json", "README.md", "ROADMAP.md", "releases/2.1.0.md", "https://github.com/zabarov/mirai-graph/tree/v2.1.0", "https://github.com/zabarov/mirai-graph/releases/tag/v2.1.0"],
-      "summary": "Stable 2.1.0 metadata, annotated tag and GitHub Release are published at exact revision 86796e7 after its green public CI matrix. npm registry publication remains incomplete.",
-      "blocker_reason": "Publish @zabarov/mirai and then the mirai-graph compatibility package after a token authorized to create the scoped package is available."
+      "status": "passed",
+      "evidence_refs": ["package.json", "README.md", "ROADMAP.md", "releases/2.1.0.md", "releases/evidence/2.1.0-publication-2026-09-02.json", "https://github.com/zabarov/mirai-graph/tree/v2.1.0", "https://github.com/zabarov/mirai-graph/releases/tag/v2.1.0", "https://www.npmjs.com/package/@zabarov/mirai/v/2.1.0", "https://www.npmjs.com/package/mirai-graph/v/2.1.0"],
+      "summary": "Stable 2.1.0 metadata, annotated tag, GitHub Release and both npm packages are public at exact revision 86796e7 after its green public CI matrix and a clean registry installation smoke test.",
+      "limitations": ["Historical rc and next dist-tags on mirai-graph remain available; the stable latest tag resolves to 2.1.0."]
     }
   ],
-  "blocking_gate_ids": [
-    "gate.2_1_stable_release_metadata"
-  ],
-  "next_safe_action": "Create an npm token authorized for new scoped-package publication, publish @zabarov/mirai before mirai-graph, and verify both exact registry versions before passing the final gate.",
+  "blocking_gate_ids": [],
+  "next_safe_action": "Adopt Mirai 2.1.0 for production-read workloads through a deployment-specific readiness profile; keep production-write capabilities blocked until their separate approval and evidence gates pass.",
   "claim_boundary": "This readiness report supports contract inventory and targeted engineering evidence only. It does not authorize production writes or establish comparative scientific effectiveness."
 }

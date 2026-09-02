@@ -28,9 +28,9 @@ Mirai readiness is target-specific, not a single yes/no label:
   no-effect runs;
 - `production_read`: eligible after the deployment-specific readiness profile
   is completed and reviewed;
-- `production_write`: currently blocked until independent security review,
-  public conformance evidence, operator recovery evidence and deployment owner
-  approval are recorded;
+- `production_write`: remains deployment-specific and blocked until the target
+  has an approved security profile, operator recovery evidence, bounded
+  capabilities and deployment-owner approval;
 - live network, secret-changing, financial and public-publishing effects remain
   outside the reference runtime.
 
@@ -145,28 +145,29 @@ Start with a normal repository and use Mirai to:
 - grow the graph later into process control, AI employee workflows or
   organization governance.
 
-## Stable 1.4 Installation
+## Stable 2.1 Installation
 
-The published stable line remains `mirai-graph@1.4.0`. To verify that release
-from a clean npm installation, use:
+Install the primary stable package:
 
 ```bash
 mkdir mirai-stable-check && cd mirai-stable-check
 npm init -y
-npm install mirai-graph@1.4.0
+npm install @zabarov/mirai@2.1.0
+npx mirai --version
+```
+
+Existing Mirai Graph projects may use the compatibility package. It resolves
+to the same 2.1 runtime and preserves the `mirai-graph` CLI aliases:
+
+```bash
+npm install -D mirai-graph@2.1.0
 npx mirai-graph --version
 ```
 
-Existing projects use:
-
-```bash
-npm install -D mirai-graph
-```
-
-Mirai 2.0 will publish the primary package as `@zabarov/mirai`; the
-`mirai-graph` package and CLI names remain compatibility wrappers throughout
-the 2.x line. Product, manifest, Program and Runtime contracts are versioned
-independently. See [Versioning](docs/versioning.md).
+The primary package is `@zabarov/mirai`; the `mirai-graph` package and CLI
+names remain compatibility wrappers throughout the 2.x line. Product,
+manifest, Program and Runtime contracts are versioned independently. See
+[Versioning](docs/versioning.md).
 
 ## Connect A Project In 10 Minutes
 
@@ -396,7 +397,7 @@ listed in the [Documentation Map](docs/README.md).
 
 ## Profiles
 
-Current release-candidate profiles:
+Current stable profiles:
 
 - [Software Specification](profiles/software-specification/README.md)
 - [Project Management](profiles/project-management/README.md)
@@ -454,14 +455,13 @@ graph stores governable meaning: object ids, relations, summaries, source refs,
 evidence refs, owners, readiness, gates, decisions, episode metadata and Kaizen
 routes. See [Profile Boundaries](standard/profile-boundaries.md).
 
-## Release Candidate
+## Release History
 
-The stable 1.0 release consolidates the validator-backed public standard
-across the core model, profiles, executable process control, instrumentation,
-Character Layer, adopter kit and evidence boundaries.
+Mirai 2.1 is the current stable release. It combines the security-frozen Mirai
+2.0 Program and Runtime core with the graph-native 2.1 contracts, Project
+Capsule and compatibility package.
 
-The final 1.0 release-candidate line presented the anti-drift and
-quality-control contour as one coherent review surface:
+The earlier 1.0 line established the anti-drift and quality-control contour:
 
 ```text
 semantic intent

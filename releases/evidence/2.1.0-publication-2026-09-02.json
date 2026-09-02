@@ -1,0 +1,41 @@
+{
+  "contract_version": "1.0.0",
+  "id": "publication.mirai.2.1.0.2026-09-02",
+  "released_revision": "86796e7d4bec1000445cc1bb4f7227f32f6c7db1",
+  "published_at": "2026-09-02T15:21:00Z",
+  "status": "passed",
+  "github": {
+    "tag": "v2.1.0",
+    "release_url": "https://github.com/zabarov/mirai-graph/releases/tag/v2.1.0",
+    "ci_run_url": "https://github.com/zabarov/mirai-graph/actions/runs/33634761421"
+  },
+  "npm": {
+    "primary": {
+      "name": "@zabarov/mirai",
+      "version": "2.1.0",
+      "dist_tag": "latest",
+      "package_url": "https://www.npmjs.com/package/@zabarov/mirai/v/2.1.0",
+      "shasum": "c52cab6180c492aad51f8c7a3ae929f3a39ae67d"
+    },
+    "compatibility": {
+      "name": "mirai-graph",
+      "version": "2.1.0",
+      "dist_tag": "latest",
+      "package_url": "https://www.npmjs.com/package/mirai-graph/v/2.1.0",
+      "shasum": "69e6d1dc8134612a9259c6be9d9c64ba67282ddf",
+      "dependency": "@zabarov/mirai@2.1.0"
+    }
+  },
+  "clean_room_smoke": {
+    "node_version": "20.20.1",
+    "primary_cli_version": "2.1.0",
+    "compatibility_cli_version": "2.1.0",
+    "npm_audit_vulnerabilities": 0,
+    "result": "passed"
+  },
+  "limitations": [
+    "This release is production-read eligible; production-write remains deployment-specific and separately gated.",
+    "Historical rc and next dist-tags on mirai-graph remain visible but latest resolves to 2.1.0.",
+    "The security review is independent AI-assisted evidence, not an external human audit."
+  ]
+}
