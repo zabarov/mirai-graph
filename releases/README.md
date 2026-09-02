@@ -16,7 +16,11 @@ Release notes must separate:
 
 ## Release Notes
 
-- [v2.2.0-alpha.1](2.2.0-alpha.1.md) - local development release preparation
+- [v2.2.0-rc.1](2.2.0-rc.1.md) - unpublished local release candidate; public
+  conformance, cross-platform CI and stable publication remain gated.
+- [Mirai 2.2 candidate readiness](2.2.0-rc.1-readiness.json) - current
+  revision-bound preparation state and explicit remaining gates.
+- [v2.2.0-alpha.1](2.2.0-alpha.1.md) - historical local development preparation
   for the Autonomic Fabric; not tagged, published or stable.
 - [Mirai 2.2 alpha readiness](2.2.0-alpha.1-readiness.json) - explicit passed,
   blocked and not-run gates for eventual `2.2.0` promotion.

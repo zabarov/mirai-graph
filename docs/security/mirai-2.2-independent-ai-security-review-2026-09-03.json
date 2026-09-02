@@ -1,0 +1,102 @@
+{
+  "contract_version": "1.0.0",
+  "review_id": "security-review.mirai-2.2-source-safety-2026-09-03",
+  "status": "complete",
+  "evidence_class": "independent_ai_assisted_review",
+  "reviewed_repository": "https://github.com/zabarov/mirai-graph",
+  "reviewed_revision": "2d4a32e00e860f22502cee94efb541257b92e5c3",
+  "reviewer": {
+    "alias": "isolated-ai-security-reviewer",
+    "independent": true,
+    "implemented_reviewed_changes": false,
+    "conflict_declaration": "The reviewer did not implement the corrections and verified an immutable clean checkout read-only."
+  },
+  "scope": [
+    "source_provider_boundaries",
+    "converter_resource_budgets",
+    "path_and_symlink_boundary",
+    "cancellation_and_connection_retirement",
+    "source_secret_redaction",
+    "knowledge_identity_and_conflicts",
+    "autonomy_authority",
+    "protected_targets",
+    "promotion_crash_recovery",
+    "payload_budgets",
+    "blocked_cycle_prohibition"
+  ],
+  "methods": [
+    "Verified exact HEAD and clean state before and after review.",
+    "Ran 26 source, knowledge, autonomy and controller tests: all passed, zero skipped.",
+    "Ran 16 pilot-report negative tests and 10 independent in-memory adversarial probes.",
+    "Validated 13 schemas and 15 fixtures plus five stored independent conformance results.",
+    "Verified the 100000-column CSV rejection occurred before Object.fromEntries; the 4096-column boundary passed.",
+    "Recorded the checked-in stale pilot report and local-only conformance as remaining release blockers, separate from source-security findings."
+  ],
+  "findings": [
+    {
+      "id": "SEC-201",
+      "severity": "high",
+      "status": "fixed",
+      "summary": "A wide CSV row could be materialized before the column budget was enforced.",
+      "reproduction": "A 100000-column input is now rejected before row-object construction; 4096 columns remain supported.",
+      "evidence_refs": [
+        "src/sources/converters.ts",
+        "test/sources/sources.test.cjs"
+      ]
+    },
+    {
+      "id": "SEC-202",
+      "severity": "medium",
+      "status": "fixed",
+      "summary": "The source read did not recheck an ancestor change after opening.",
+      "reproduction": "The replacement fixture fails before source bytes are accepted after opening.",
+      "evidence_refs": [
+        "src/sources/providers.ts",
+        "test/sources/sources.test.cjs"
+      ]
+    },
+    {
+      "id": "SEC-203",
+      "severity": "medium",
+      "status": "fixed",
+      "summary": "Source deadlines did not consistently cancel transport work or retire database connections.",
+      "reproduction": "HTTP body cancellation, SQL connection retirement/destruction and S3 AbortSignal propagation pass regression and independent in-memory probes.",
+      "evidence_refs": [
+        "src/sources/providers.ts",
+        "packages/source-postgres/index.js",
+        "packages/source-mysql/index.js",
+        "packages/source-s3/index.js",
+        "test/sources/sources.test.cjs"
+      ]
+    },
+    {
+      "id": "SEC-204",
+      "severity": "medium",
+      "status": "open",
+      "summary": "Post-open realpath and stat are separate operations, not atomic confinement against repeated concurrent path replacement.",
+      "reproduction": "No remaining disclosure was reproduced in this bounded review; an adversarial local race campaign was not performed.",
+      "evidence_refs": [
+        "src/sources/providers.ts",
+        "docs/security/mirai-autonomic-fabric-threat-model.md"
+      ]
+    }
+  ],
+  "unresolved_risks": [
+    "Source trees should be access-controlled or snapshotted; the review does not prove confinement against an actively racing local filesystem attacker.",
+    "The reviewer did not use real database/S3 services, perform a fresh network dependency audit or replay private pilot sources.",
+    "The reviewed commit still had a stale committed pilot report and local-only independent conformance; those remain separate release gates.",
+    "No external human audit or production-write review was performed."
+  ],
+  "verdict": "pass_for_production_read",
+  "adapter_scope": [
+    "filesystem_read",
+    "git_read",
+    "http_read",
+    "postgresql_read",
+    "mysql_read",
+    "s3_read"
+  ],
+  "reviewed_at": "2026-09-02T21:15:00Z",
+  "attestation": "An isolated AI-assisted reviewer reported security_verdict=pass_with_nonblocking_findings and zero unresolved Critical/High findings in the stated scope; its overall release verdict remained blocked by evidence gates.",
+  "claim_boundary": "This is an owner-authorized AI-assisted source-security review, not an external human audit. The schema verdict supports bounded production-read preparation only. It does not authorize stable publication, production deployment, writes or managed autonomy."
+}

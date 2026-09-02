@@ -87,7 +87,7 @@ if (!/^[a-f0-9]{40}$/.test(String(report.execution_provenance?.runner_revision |
 for (const key of ["runner_source_sha256", "runtime_dist_digest", "dependency_lock_sha256", "public_config_digest", "private_config_digest", "runner_worktree_status_digest_before", "runner_worktree_status_digest_after"]) digest(report.execution_provenance?.[key], `execution_provenance.${key}`);
 if (report.execution_provenance?.runner_worktree_unchanged !== true || report.execution_provenance?.runner_worktree_status_digest_before !== report.execution_provenance?.runner_worktree_status_digest_after) errors.push("runner_worktree_changed");
 if (typeof report.execution_provenance?.runner_worktree_clean_before !== "boolean" || typeof report.execution_provenance?.runner_worktree_clean_after !== "boolean") errors.push("runner_worktree_clean_state_invalid");
-if (!/^v(20|21|22|23|24)\./.test(String(report.execution_provenance?.runtime?.node || ""))) errors.push("runner_node_version_outside_package_engine");
+if (typeof report.execution_provenance?.runtime?.node !== "string" || !/^v(?:20|21|22|23|24)\.(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)$/.test(report.execution_provenance.runtime.node)) errors.push("runner_node_version_outside_package_engine");
 if (!allowedPlatforms.has(report.execution_provenance?.runtime?.platform) || !allowedArchitectures.has(report.execution_provenance?.runtime?.arch)) errors.push("runner_runtime_identity_invalid");
 
 exactKeys(report.effect_audit, auditKeys, "effect_audit");

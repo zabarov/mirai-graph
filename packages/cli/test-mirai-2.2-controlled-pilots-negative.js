@@ -113,7 +113,22 @@ try {
   assert.notEqual(invalidRuntimeIdentityResult.status, 0);
   assert.match(invalidRuntimeIdentityResult.stderr, /runner_runtime_identity_invalid/);
 
-  process.stdout.write(`${JSON.stringify({ status: "passed", negative_case_count: 16 }, null, 2)}\n`);
+  for (const [index, nodeVersion] of [
+    "v20.20.1/custom/private/repository",
+    "v20.20.1./custom/private/repository",
+    "v20.20.1C:\\private\\repository"
+  ].entries()) {
+    const invalidNodeVersion = validReport();
+    invalidNodeVersion.execution_provenance.runtime.node = nodeVersion;
+    invalidNodeVersion.digest = digestValue(withoutDigest(invalidNodeVersion));
+    const invalidNodeVersionFile = path.join(temporary, `invalid-node-version-${index}.json`);
+    fs.writeFileSync(invalidNodeVersionFile, `${JSON.stringify(invalidNodeVersion, null, 2)}\n`);
+    const invalidNodeVersionResult = run(validator, ["--input", invalidNodeVersionFile]);
+    assert.notEqual(invalidNodeVersionResult.status, 0);
+    assert.match(invalidNodeVersionResult.stderr, /runner_node_version_outside_package_engine/);
+  }
+
+  process.stdout.write(`${JSON.stringify({ status: "passed", negative_case_count: 19 }, null, 2)}\n`);
 } finally {
   fs.rmSync(temporary, { recursive: true, force: true });
 }

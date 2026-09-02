@@ -1,0 +1,172 @@
+{
+  "contract_version": "1.0.0",
+  "release_id": "release.mirai.2.2.0-rc.1",
+  "evaluated_version": "2.2.0-rc.1",
+  "promotion_target": "2.2.0",
+  "evaluated_at": "2026-09-02T21:22:56Z",
+  "overall_status": "blocked",
+  "gates": [
+    {
+      "id": "gate.2_1_backward_compatibility",
+      "category": "compatibility",
+      "status": "passed",
+      "evidence_refs": [
+        "package.json",
+        "test/project/project-capsule.test.cjs",
+        "test/runtime/governed-runtime.test.cjs"
+      ],
+      "summary": "Mirai Program 1.0.0, Runtime 1.0.0, Project Capsule and 2.x CLI compatibility remain in the automated suite."
+    },
+    {
+      "id": "gate.2_2_source_converter_contracts",
+      "category": "engineering",
+      "status": "passed",
+      "evidence_refs": [
+        "src/sources",
+        "test/sources/sources.test.cjs",
+        "schemas/source-descriptor.schema.json",
+        "schemas/source-snapshot.schema.json"
+      ],
+      "summary": "Read-only source contracts, deterministic snapshots, supported converters and fail-closed source safety fixtures are implemented."
+    },
+    {
+      "id": "gate.2_2_semantic_process_contracts",
+      "category": "engineering",
+      "status": "passed",
+      "evidence_refs": [
+        "src/knowledge",
+        "src/technology/discovery.ts",
+        "test/knowledge/knowledge.test.cjs",
+        "test/technology/process-discovery.test.cjs"
+      ],
+      "summary": "Knowledge quality, identity/conflict handling and intended-versus-observed process induction are implemented as proposal-only contracts."
+    },
+    {
+      "id": "gate.2_2_governed_evolution_contracts",
+      "category": "safety",
+      "status": "passed",
+      "evidence_refs": [
+        "src/autonomy",
+        "src/evolution",
+        "test/autonomy/autonomy.test.cjs",
+        "test/evolution/controller.test.cjs"
+      ],
+      "summary": "Protected targets, self-authorization and effectful promotion fail closed; bounded adaptive promotion is CAS-bound, receipted and reversible."
+    },
+    {
+      "id": "gate.2_2_local_independent_conformance",
+      "category": "conformance",
+      "status": "passed",
+      "evidence_refs": [
+        "conformance/independent-checker-2.2-candidate.json",
+        "conformance/results/python-mirai-2.2-source-snapshot-result.json",
+        "conformance/results/python-mirai-2.2-autonomic-cycle-result.json"
+      ],
+      "summary": "A separately implemented Python candidate agrees with the committed TypeScript fixture verdicts locally.",
+      "limitations": [
+        "The checker revision remains local-only and is not a stable external release gate."
+      ]
+    },
+    {
+      "id": "gate.2_2_synthetic_pilots",
+      "category": "pilot",
+      "status": "passed",
+      "evidence_refs": [
+        "pilots/mirai-2.2-self-hosting-autonomic",
+        "pilots/mirai-2.2-federation-autonomic",
+        "pilots/mirai-2.2-modular-software-autonomic",
+        "pilots/mirai-2.2-ai-employee-autonomic"
+      ],
+      "summary": "Four public-safe synthetic pilots exercise the expected observe/suggest boundaries without production effects.",
+      "limitations": [
+        "Synthetic pilot validation is engineering evidence, not independent field evidence."
+      ]
+    },
+    {
+      "id": "gate.scientific_claim_boundary",
+      "category": "science",
+      "status": "passed",
+      "evidence_refs": [
+        "standard/mirai-autonomic-fabric.md",
+        "docs/security/mirai-autonomic-fabric-threat-model.md",
+        "releases/2.2.0-rc.1.md"
+      ],
+      "summary": "The release distinguishes contract conformance from extraction correctness, productivity effects and scientific proof."
+    },
+    {
+      "id": "gate.2_2_public_independent_conformance",
+      "category": "conformance",
+      "status": "blocked",
+      "evidence_refs": [
+        "conformance/independent-checker-2.2-candidate.json"
+      ],
+      "summary": "The independent checker candidate exists but is not yet public and cross-platform verified.",
+      "blocker_reason": "Publish and run the independently implemented checker against the exact frozen corpus before RC promotion."
+    },
+    {
+      "id": "gate.2_2_connector_integration",
+      "category": "engineering",
+      "status": "blocked",
+      "evidence_refs": [
+        "releases/evidence/2.2.0-connector-integration-2026-09-02.json",
+        "test/integration/source-connectors.integration.test.cjs"
+      ],
+      "summary": "Controlled reads passed before the final candidate; the expanded service-boundary suite needs a fresh revision-bound run.",
+      "blocker_reason": "Re-run positive and forbidden/over-budget connector cases on the candidate with synthetic isolated services."
+    },
+    {
+      "id": "gate.2_2_independent_security_review",
+      "category": "safety",
+      "status": "blocked",
+      "evidence_refs": [
+        "docs/security/mirai-2.2-independent-ai-security-review-2026-09-03.json",
+        "docs/security/mirai-autonomic-fabric-threat-model.md"
+      ],
+      "summary": "The reviewed source implementation has no unresolved Critical/High finding. Final candidate evidence and validator corrections require an isolated delta recheck.",
+      "blocker_reason": "Obtain the final exact-revision security delta verdict; retain the residual concurrent-filesystem limitation."
+    },
+    {
+      "id": "gate.2_2_cross_platform_clean_room",
+      "category": "release",
+      "status": "not_run",
+      "evidence_refs": [
+        ".github/workflows/ci.yml"
+      ],
+      "summary": "The CI contract includes 2.2 checks, but no public Linux, macOS and Windows run exists for this revision.",
+      "blocker_reason": "Run the complete matrix and clean-room package installation on the frozen release candidate."
+    },
+    {
+      "id": "gate.2_2_controlled_real_pilots",
+      "category": "pilot",
+      "status": "blocked",
+      "evidence_refs": [
+        "pilots/mirai-2.2-controlled-observe/pilot-result.json",
+        "pilots/mirai-2.2-controlled-observe/independent-review.json"
+      ],
+      "summary": "Four real-project observe/suggest runs exist; the final candidate report and path-validation correction await independent recheck.",
+      "blocker_reason": "Generate and independently validate the final candidate report; no source or production writes are permitted."
+    },
+    {
+      "id": "gate.2_2_stable_release_metadata",
+      "category": "release",
+      "status": "not_run",
+      "evidence_refs": [
+        "package.json",
+        "compat/mirai-graph/package.json",
+        "releases/2.2.0-rc.1.md"
+      ],
+      "summary": "All local packages identify 2.2.0-rc.1. No stable tag, GitHub Release or npm artifact has been created.",
+      "blocker_reason": "Create stable metadata, tag, GitHub Release and npm artifacts only after every prior gate passes."
+    }
+  ],
+  "blocking_gate_ids": [
+    "gate.2_2_public_independent_conformance",
+    "gate.2_2_connector_integration",
+    "gate.2_2_independent_security_review",
+    "gate.2_2_cross_platform_clean_room",
+    "gate.2_2_controlled_real_pilots",
+    "gate.2_2_stable_release_metadata"
+  ],
+  "next_safe_action": "Complete the exact local candidate rechecks, then obtain explicit permission to push the product and independent-checker branches for public CI. Stable publication remains separate.",
+  "claim_boundary": "This report separates local engineering and owner-authorized AI-assisted review evidence from public CI, external human review, scientific proof and production-write authority. A locally validated candidate is not a stable release."
+}

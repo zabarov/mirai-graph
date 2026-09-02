@@ -5,6 +5,7 @@ const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const os = require("node:os");
 const path = require("node:path");
+const { createRequire } = require("node:module");
 const { spawnSync } = require("node:child_process");
 
 const root = path.resolve(__dirname, "../..");
@@ -36,10 +37,12 @@ try {
     pack("packages/source-http"),
     pack("packages/source-postgres"),
     pack("packages/source-mysql"),
-    pack("packages/source-s3")
+    pack("packages/source-s3"),
+    pack("compat/mirai-graph")
   ];
   fs.writeFileSync(path.join(consumer, "package.json"), `${JSON.stringify({ private: true }, null, 2)}\n`);
   npm(["install", "--ignore-scripts", "--no-audit", "--no-fund", ...tarballs], consumer);
+  const consume = createRequire(path.join(consumer, "package.json"));
   const factories = {
     "@zabarov/mirai-source-http": ["createHttpSourceProvider"],
     "@zabarov/mirai-source-postgres": ["createPostgresReadClient", "createPostgresSourceProvider"],
@@ -47,9 +50,12 @@ try {
     "@zabarov/mirai-source-s3": ["createS3ReadClient", "createS3SourceProvider"]
   };
   for (const [packageName, names] of Object.entries(factories)) {
-    const implementation = require(require.resolve(packageName, { paths: [consumer] }));
+    const implementation = consume(packageName);
     for (const name of names) assert.equal(typeof implementation[name], "function", `${packageName}:${name}`);
   }
+  const compatibility = consume("mirai-graph");
+  const primary = consume("@zabarov/mirai/project-technology");
+  assert.equal(compatibility, primary);
   process.stdout.write(`${JSON.stringify({ status: "passed", package_count: tarballs.length, clean_room_install: true }, null, 2)}\n`);
 } finally {
   fs.rmSync(temporaryRoot, { recursive: true, force: true });

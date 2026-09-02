@@ -1,6 +1,6 @@
 # Mirai Graph Roadmap
 
-Status: Mirai 2.1.0 stable with Mirai 2.2.0-alpha.1 Autonomic Fabric development
+Status: Mirai 2.1.0 stable with local Mirai 2.2.0-rc.1 release preparation
 
 ## Phase 0: Public Foundation
 
@@ -319,10 +319,12 @@ This track adds managed, proposal-first self-organization while preserving the
 7. `2.2.0`: stable only after all readiness gates pass. Publication and live
    deployment remain separate owner-approved actions.
 
-The current alpha implementation covers the contracts and synthetic
-engineering contour across all four modules. It does not yet satisfy the RC or
-stable gates. The exact state is recorded in
-[`releases/2.2.0-alpha.1-readiness.json`](releases/2.2.0-alpha.1-readiness.json).
+The local `2.2.0-rc.1` candidate includes the implemented contracts, source
+security corrections, optional connector packages and controlled observe/suggest
+pilot tooling. Its version label does not mean public RC or stable gates have
+passed. Public independent conformance and the cross-platform matrix remain
+separate gates. The exact state is recorded in
+[`releases/2.2.0-rc.1-readiness.json`](releases/2.2.0-rc.1-readiness.json).
 
 Managed auto-apply remains limited to reversible `adaptive_canonical` changes
 allowed by an unexpired, host-authorized envelope. Protected invariants,

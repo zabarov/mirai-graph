@@ -1,0 +1,22 @@
+{
+  "contract_version": "1.0.0",
+  "decision_id": "security-review-method.mirai-2.2-2026-09-03",
+  "status": "approved",
+  "owner_role": "project_owner",
+  "accepted_evidence_class": "independent_ai_assisted_review",
+  "reviewed_revision": "2d4a32e00e860f22502cee94efb541257b92e5c3",
+  "reviewer_constraints": {
+    "isolated_from_implementation_context": true,
+    "implemented_reviewed_changes": false,
+    "read_only": true,
+    "exact_revision_required": true
+  },
+  "release_gate_scope": "production_read_only",
+  "external_human_review_completed": false,
+  "production_write_authorized": false,
+  "limitations": [
+    "The owner authorized using an isolated AI-assisted executor instead of an external human specialist for this release-preparation track.",
+    "This record accepts a review method at the recorded revision; it does not authorize publication, capability grants, managed autonomy or deployment.",
+    "All remaining conformance, pilot, platform and publication gates remain independent."
+  ]
+}

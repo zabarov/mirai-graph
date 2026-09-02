@@ -36,9 +36,9 @@ function descriptor(provider, locator, configuration, connectionRef) {
 }
 
 test("official HTTP, PostgreSQL, MySQL and S3 connectors read bounded synthetic sources", {
-  skip: missingEnvironment.length ? `missing integration environment: ${missingEnvironment.join(",")}` : false,
   timeout: 90_000
 }, async () => {
+  assert.deepEqual(missingEnvironment, [], "Integration services are required; a skipped suite is not release evidence.");
   const httpUrl = new URL(process.env.MIRAI_TEST_HTTP_URL);
   const httpProvider = createHttpSourceProvider();
   const httpPayloads = await httpProvider.scan(
@@ -47,10 +47,21 @@ test("official HTTP, PostgreSQL, MySQL and S3 connectors read bounded synthetic 
   );
   assert.equal(httpPayloads.length, 1);
   assert.equal(httpPayloads[0].content.byteLength > 0, true);
+  await assert.rejects(() => httpProvider.scan(
+    descriptor("http", httpUrl.origin, { allowed_hosts: ["not-authorized.invalid"], paths: ["/"] }),
+    DEFAULT_SOURCE_BUDGET
+  ), /http_host_not_allowed/);
+  await assert.rejects(() => httpProvider.scan(
+    descriptor("http", httpUrl.origin, { allowed_hosts: [httpUrl.hostname], paths: [httpUrl.pathname || "/"] }),
+    { ...DEFAULT_SOURCE_BUDGET, max_item_bytes: 1, max_total_bytes: 1 }
+  ), /bytes_exceeded|budget_exceeded/);
 
   const postgresProvider = createPostgresSourceProvider(
     { connectionString: process.env.MIRAI_TEST_POSTGRES_URL, maxConnections: 1 },
-    { records: "SELECT id, name FROM source_records WHERE id >= $1 ORDER BY id" }
+    {
+      records: "SELECT id, name FROM source_records WHERE id >= $1 ORDER BY id",
+      forbidden: "DELETE FROM source_records"
+    }
   );
   try {
     const payloads = await postgresProvider.scan(
@@ -59,13 +70,24 @@ test("official HTTP, PostgreSQL, MySQL and S3 connectors read bounded synthetic 
     );
     assert.deepEqual(payloads.map((item) => JSON.parse(item.content.toString()).name), ["alpha", "beta"]);
     assert.equal(buildSourceSnapshot(descriptor("postgres", "connection-alias:mirai-integration-postgres", { query_id: "records", params: [1] }, "mirai_integration_postgres"), payloads).canonical_write_allowed, false);
+    await assert.rejects(() => postgresProvider.scan(
+      descriptor("postgres", "connection-alias:mirai-integration-postgres", { query_id: "records", params: [1] }, "mirai_integration_postgres"),
+      { ...DEFAULT_SOURCE_BUDGET, max_items: 1 }
+    ), /sql_row_budget_exceeded/);
+    await assert.rejects(() => postgresProvider.scan(
+      descriptor("postgres", "connection-alias:mirai-integration-postgres", { query_id: "forbidden" }, "mirai_integration_postgres"),
+      DEFAULT_SOURCE_BUDGET
+    ), /sql_read_query_required/);
   } finally {
     await postgresProvider.close();
   }
 
   const mysqlProvider = createMysqlSourceProvider(
     { connectionUri: process.env.MIRAI_TEST_MYSQL_URL, maxConnections: 1 },
-    { records: "SELECT id, name FROM source_records WHERE id >= ? ORDER BY id" }
+    {
+      records: "SELECT id, name FROM source_records WHERE id >= ? ORDER BY id",
+      forbidden: "DELETE FROM source_records"
+    }
   );
   try {
     const payloads = await mysqlProvider.scan(
@@ -73,6 +95,14 @@ test("official HTTP, PostgreSQL, MySQL and S3 connectors read bounded synthetic 
       { ...DEFAULT_SOURCE_BUDGET, max_items: 10 }
     );
     assert.deepEqual(payloads.map((item) => JSON.parse(item.content.toString()).name), ["alpha", "beta"]);
+    await assert.rejects(() => mysqlProvider.scan(
+      descriptor("mysql", "connection-alias:mirai-integration-mysql", { query_id: "records", params: [1] }, "mirai_integration_mysql"),
+      { ...DEFAULT_SOURCE_BUDGET, max_items: 1 }
+    ), /sql_row_budget_exceeded/);
+    await assert.rejects(() => mysqlProvider.scan(
+      descriptor("mysql", "connection-alias:mirai-integration-mysql", { query_id: "forbidden" }, "mirai_integration_mysql"),
+      DEFAULT_SOURCE_BUDGET
+    ), /sql_read_query_required/);
   } finally {
     await mysqlProvider.close();
   }
@@ -105,6 +135,14 @@ test("official HTTP, PostgreSQL, MySQL and S3 connectors read bounded synthetic 
     );
     assert.deepEqual(payloads.map((item) => item.key), ["allowed/sample.json"]);
     assert.equal(JSON.parse(Buffer.from(payloads[0].content).toString("utf8")).name, "alpha");
+    await assert.rejects(() => s3Provider.scan(
+      descriptor("s3", "connection-alias:mirai-integration-s3", { bucket, allowed_bucket: bucket, prefix: "outside/", allowed_prefix: "allowed/" }, "mirai_integration_s3"),
+      DEFAULT_SOURCE_BUDGET
+    ), /s3_scope_not_allowed/);
+    await assert.rejects(() => s3Provider.scan(
+      descriptor("s3", "connection-alias:mirai-integration-s3", { bucket, allowed_bucket: bucket, prefix: "allowed/", allowed_prefix: "allowed/" }, "mirai_integration_s3"),
+      { ...DEFAULT_SOURCE_BUDGET, max_item_bytes: 1, max_total_bytes: 1 }
+    ), /bytes_exceeded|budget_exceeded/);
   } finally {
     await s3Provider.close();
   }

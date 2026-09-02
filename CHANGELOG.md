@@ -4,7 +4,7 @@ All notable changes to Mirai Graph will be documented in this file.
 
 ## [Unreleased]
 
-### Mirai 2.2.0-alpha.1 Development
+### Mirai 2.2.0-rc.1 Preparation
 
 - Added the Autonomic Fabric Source/Converter SDK with bounded, read-only
   Files, Git, HTTP, PostgreSQL, MySQL and S3-compatible providers.
@@ -16,6 +16,13 @@ All notable changes to Mirai Graph will be documented in this file.
   promotion, rollback and a deterministic `reconcile --once` controller.
 - Added public schemas, CLI commands, synthetic fixtures and pilots, plus a
   local independent Python conformance candidate.
+- Bounded CSV expansion before object materialization; tightened file identity
+  checks and propagated source deadlines into HTTP, SQL and S3 clients.
+- Hardened promotion recovery, proposal budgets and host-verified aliases.
+- Added strict pilot evidence claims, runtime identities and path-disclosure
+  regression tests, plus real connector limit and access-boundary checks.
+- Aligned the primary package, four adapters and compatibility wrapper at the
+  same local candidate version; no candidate publication is implied.
 
 ### 2.2 Safety Boundary
 

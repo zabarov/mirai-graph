@@ -11,13 +11,24 @@ const target = process.argv[2] || "docs/security/mirai-independent-security-revi
 const selfTest = target === "--self-test";
 const sourceTarget = selfTest ? "docs/security/mirai-independent-security-review-result.template.json" : target;
 const value = JSON.parse(fs.readFileSync(path.resolve(root, sourceTarget), "utf8"));
-const ownerDecisionRef = "docs/security/mirai-independent-review-method-decision-2026-09-02.json";
+const profileIndex = process.argv.indexOf("--profile");
+const profile = profileIndex >= 0 ? process.argv[profileIndex + 1] : "core_2_1";
+if (!["core_2_1", "autonomic_fabric_2_2"].includes(profile)) throw new Error("unknown_security_review_profile");
+const ownerDecisionRef = profile === "autonomic_fabric_2_2"
+  ? "docs/security/mirai-2.2-independent-review-method-decision-2026-09-03.json"
+  : "docs/security/mirai-independent-review-method-decision-2026-09-02.json";
 const ownerDecision = JSON.parse(fs.readFileSync(path.join(root, ownerDecisionRef), "utf8"));
 const schema = JSON.parse(fs.readFileSync(path.join(root, "schemas/mirai-security-review-result.schema.json"), "utf8"));
 const ajv = new Ajv2020({ allErrors: true, strict: false });
 addFormats(ajv);
 const validate = ajv.compile(schema);
-const requiredScope = [
+const requiredScope = profile === "autonomic_fabric_2_2" ? [
+  "source_provider_boundaries", "converter_resource_budgets",
+  "path_and_symlink_boundary", "cancellation_and_connection_retirement",
+  "source_secret_redaction", "knowledge_identity_and_conflicts",
+  "autonomy_authority", "protected_targets", "promotion_crash_recovery",
+  "payload_budgets", "blocked_cycle_prohibition"
+] : [
   "program_parsing", "path_and_symlink_boundary", "command_execution",
   "capability_scope", "approval_integrity", "crash_and_idempotency",
   "compensation", "evidence_redaction", "manifest_authority",
@@ -61,22 +72,25 @@ function assess(candidate, decision = ownerDecision) {
       && decision?.release_gate_scope === "production_read_only"
       && decision?.production_write_authorized === false
       && candidate.verdict === "pass_for_production_read");
-  const releaseGateEligible = candidate.status === "complete" && evidenceEligible && candidate.reviewer?.independent === true && candidate.reviewer?.implemented_reviewed_changes === false && passing && !unresolvedBlocking.length;
+  const releaseGateEligible = errors.length === 0 && candidate.status === "complete" && evidenceEligible && candidate.reviewer?.independent === true && candidate.reviewer?.implemented_reviewed_changes === false && passing && !unresolvedBlocking.length;
   return { errors, releaseGateEligible };
 }
 
 if (selfTest) {
-  const invalid = structuredClone(value);
+  const baseline = structuredClone(value);
+  baseline.scope = [...requiredScope];
+  const invalid = structuredClone(baseline);
   invalid.status = "complete";
   invalid.evidence_class = "external_review";
   invalid.reviewer.independent = true;
   invalid.verdict = "pass_for_production_read";
   invalid.findings = [{ id: "SEC-001", severity: "high", status: "accepted_risk", summary: "Blocking risk", reproduction: "Synthetic self-test", evidence_refs: [] }];
   const result = assess(invalid);
-  const incompleteScope = structuredClone(value);
-  incompleteScope.scope = incompleteScope.scope.filter((item) => item !== "stale_mutation_lock_recovery");
+  const incompleteScope = structuredClone(baseline);
+  const missingScope = profile === "autonomic_fabric_2_2" ? "promotion_crash_recovery" : "stale_mutation_lock_recovery";
+  incompleteScope.scope = incompleteScope.scope.filter((item) => item !== missingScope);
   const incompleteScopeResult = assess(incompleteScope);
-  const aiWithoutDecision = structuredClone(value);
+  const aiWithoutDecision = structuredClone(baseline);
   aiWithoutDecision.status = "complete";
   aiWithoutDecision.evidence_class = "independent_ai_assisted_review";
   aiWithoutDecision.reviewed_revision = ownerDecision.reviewed_revision;
@@ -85,15 +99,18 @@ if (selfTest) {
   aiWithoutDecision.attestation = "AI-assisted isolated review.";
   aiWithoutDecision.claim_boundary = "This is not an external human audit.";
   const aiWithoutDecisionResult = assess(aiWithoutDecision, null);
+  const approvedAiResult = assess(aiWithoutDecision);
   const aiWrite = structuredClone(aiWithoutDecision);
   aiWrite.verdict = "pass_for_bounded_production_write";
   aiWrite.adapter_scope = ["workspace_patch"];
   const aiWriteResult = assess(aiWrite);
   const passed = result.errors.includes("passing_verdict_with_unresolved_critical_or_high_finding")
     && result.releaseGateEligible === false
-    && incompleteScopeResult.errors.includes("required_scope_missing:stale_mutation_lock_recovery")
+    && incompleteScopeResult.errors.includes(`required_scope_missing:${missingScope}`)
     && aiWithoutDecisionResult.errors.includes("ai_assisted_review_requires_owner_decision")
     && aiWithoutDecisionResult.releaseGateEligible === false
+    && approvedAiResult.errors.length === 0
+    && approvedAiResult.releaseGateEligible === true
     && aiWriteResult.errors.includes("ai_assisted_review_cannot_authorize_production_write")
     && aiWriteResult.releaseGateEligible === false;
   process.stdout.write(`${JSON.stringify({
@@ -102,6 +119,7 @@ if (selfTest) {
       "high_accepted_risk_blocks_release_gate",
       "missing_runtime_recovery_scope_fails_closed",
       "ai_assisted_review_without_owner_decision_fails_closed",
+      "approved_ai_assisted_read_review_is_eligible",
       "ai_assisted_review_cannot_authorize_production_write"
     ],
     errors: result.errors,

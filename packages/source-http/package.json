@@ -1,6 +1,6 @@
 {
   "name": "@zabarov/mirai-source-http",
-  "version": "2.2.0-alpha.1",
+  "version": "2.2.0-rc.1",
   "description": "Governed read-only HTTP source adapter for Mirai Autonomic Fabric.",
   "license": "MIT",
   "main": "index.js",

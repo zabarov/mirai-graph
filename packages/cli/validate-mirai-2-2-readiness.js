@@ -7,7 +7,8 @@ const Ajv2020 = require("ajv/dist/2020").default;
 const addFormats = require("ajv-formats");
 
 const root = path.resolve(__dirname, "../..");
-const reportRef = "releases/2.2.0-alpha.1-readiness.json";
+const packageVersion = require("../../package.json").version;
+const reportRef = `releases/${packageVersion}-readiness.json`;
 const report = JSON.parse(fs.readFileSync(path.join(root, reportRef), "utf8"));
 const schema = JSON.parse(fs.readFileSync(path.join(root, "schemas/mirai-release-readiness.schema.json"), "utf8"));
 const candidate = JSON.parse(fs.readFileSync(path.join(root, "conformance/independent-checker-2.2-candidate.json"), "utf8"));
@@ -49,8 +50,8 @@ const expectedBlocking = [...gates.values()].filter((gate) => gate.status !== "p
 const declaredBlocking = [...(report.blocking_gate_ids || [])].sort();
 if (JSON.stringify(expectedBlocking) !== JSON.stringify(declaredBlocking)) errors.push("blocking_gate_ids_do_not_match_gate_statuses");
 if ((expectedBlocking.length ? "blocked" : "ready") !== report.overall_status) errors.push("overall_status_mismatch");
-if (report.evaluated_version !== require("../../package.json").version) errors.push("evaluated_version_package_mismatch");
-if (report.promotion_target === report.evaluated_version || report.promotion_target.includes("alpha")) errors.push("stable_promotion_target_required");
+if (report.evaluated_version !== packageVersion) errors.push("evaluated_version_package_mismatch");
+if (report.promotion_target !== "2.2.0" || !/^2\.2\.0(?:-[0-9A-Za-z.-]+)?$/.test(report.evaluated_version)) errors.push("stable_promotion_target_required");
 if (candidate.release_gate_eligible !== false) errors.push("local_checker_candidate_must_not_be_release_gate_eligible");
 if (gates.get("gate.2_2_public_independent_conformance")?.status === "passed") errors.push("public_conformance_cannot_pass_for_local_candidate");
 if (gates.get("gate.scientific_claim_boundary")?.status !== "passed") errors.push("scientific_claim_boundary_must_be_explicit");
