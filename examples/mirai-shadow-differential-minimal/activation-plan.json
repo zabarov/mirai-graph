@@ -1,0 +1,73 @@
+{
+  "contract_version": "1.0.0",
+  "id": "activation.signal.demo.1",
+  "signal": {
+    "id": "signal.demo.1",
+    "type": "work_requested",
+    "goal": "Prepare and review evidence",
+    "scope": "demo",
+    "now": "2026-09-01T12:00:00Z",
+    "operation": "operation.execute",
+    "component_refs": ["worker.prepare", "worker.review"],
+    "values": { "risk": "normal" }
+  },
+  "graph_snapshot_digest": "sha256:47b35c850ea475aba1abc190538a845295df27c6e09b1cba20e3e2e717ec270a",
+  "policy_digest": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+  "selected_relation_fact_ids": ["relation.review_depends_on_prepare"],
+  "blocked_relation_facts": [],
+  "activated_paths": [
+    {
+      "id": "path.worker.prepare.operation.execute",
+      "component_instance": "worker.prepare",
+      "component_type": "component.worker",
+      "operation": "operation.execute",
+      "implementation": "implementation.execute",
+      "program_ref": "examples/mirai-activation-minimal/worker.mirai.yaml",
+      "program_digest": "sha256:55197ffd33b73154ad7a4a49745a281413b291088fa54c85f2adfdb66b3084a3",
+      "priority": 100,
+      "dependencies": []
+    },
+    {
+      "id": "path.worker.review.operation.execute",
+      "component_instance": "worker.review",
+      "component_type": "component.worker",
+      "operation": "operation.execute",
+      "implementation": "implementation.execute",
+      "program_ref": "examples/mirai-activation-minimal/worker.mirai.yaml",
+      "program_digest": "sha256:55197ffd33b73154ad7a4a49745a281413b291088fa54c85f2adfdb66b3084a3",
+      "priority": 100,
+      "dependencies": ["path.worker.prepare.operation.execute"]
+    }
+  ],
+  "blocked_paths": [],
+  "dependency_dag": [
+    {
+      "from": "path.worker.prepare.operation.execute",
+      "to": "path.worker.review.operation.execute"
+    }
+  ],
+  "join": {
+    "policy": "all",
+    "deterministic_order": [
+      "path.worker.prepare.operation.execute",
+      "path.worker.review.operation.execute"
+    ]
+  },
+  "budgets": {
+    "max_nodes": 1000,
+    "max_depth": 32,
+    "max_fan_out": 64,
+    "max_iterations": 1000,
+    "max_parallel": 16,
+    "max_duration_ms": 300000
+  },
+  "required_capabilities": ["pure"],
+  "required_approvals": [],
+  "decision_explanations": [
+    "Selected 2 path(s) for operation operation.execute in scope demo.",
+    "Applied 1 of 1 relation fact(s).",
+    "Plan is bound to graph sha256:47b35c850ea475aba1abc190538a845295df27c6e09b1cba20e3e2e717ec270a and policy sha256:2222222222222222222222222222222222222222222222222222222222222222."
+  ],
+  "canonical_write_allowed": false,
+  "digest": "sha256:f1fa83be10c7f920f2c869809960b39f0fb2eb5ff0a44057b48784155a3eae4f"
+}

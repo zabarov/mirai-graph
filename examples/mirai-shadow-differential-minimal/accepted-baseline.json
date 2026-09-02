@@ -1,0 +1,35 @@
+{
+  "contract_version": "1.0.0",
+  "id": "baseline.demo.prepare-review",
+  "version": "1.0.0",
+  "source_ref": "source://accepted/prepare-review",
+  "acceptance": {
+    "status": "owner_accepted",
+    "evidence_ref": "evidence://owner-review/prepare-review"
+  },
+  "mandatory_steps": [
+    {
+      "id": "step.prepare",
+      "operation": "operation.execute",
+      "component_instance": "worker.prepare",
+      "required_effects": [],
+      "rollback_required": false
+    },
+    {
+      "id": "step.review",
+      "operation": "operation.execute",
+      "component_instance": "worker.review",
+      "required_effects": [],
+      "rollback_required": false
+    }
+  ],
+  "allowed_scope": {
+    "component_instances": ["worker.prepare", "worker.review"],
+    "operations": ["operation.execute"],
+    "capabilities": ["pure"],
+    "effects": []
+  },
+  "rollback_coverage": [],
+  "canonical_write_allowed": false,
+  "digest": "sha256:5f28f637fd1b7012d6865b2adde80a3b4e52515f6ecea8f3aabb56b88174866e"
+}

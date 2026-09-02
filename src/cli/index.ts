@@ -42,11 +42,13 @@ import {
   resolveActivationPlan,
   runActivationPlan,
   simulateActivationPlan,
+  evaluateShadowDifferential,
   validateActivationPlan,
   type ActivationGraphSnapshot,
   type ActivationPlan,
   type ActivationSignal,
-  type JoinPolicy
+  type JoinPolicy,
+  type ShadowAcceptedBaseline
 } from "../activation/index.js";
 import {
   applyProjectMigration,
@@ -90,6 +92,7 @@ function usage(): void {
     "  mirai component validate <component-package.json>",
     "  mirai activation plan --graph <snapshot.json> --signal <signal.json> --out <plan.json>",
     "  mirai activation simulate <plan.json>",
+    "  mirai activation shadow <plan.json> --baseline <accepted-baseline.json> [--base-dir <dir>] --out <result.json>",
     "  mirai activation run <plan.json> --sandbox <dir> [--base-dir <dir>] [--input <input.json>] [--home <mirai-home>]",
     "  mirai project init [path] --profile <profile>",
     "  mirai project detect [path] [--json|--markdown]",
@@ -357,6 +360,15 @@ export async function runCli(args: string[]): Promise<number> {
       const plan = loadJson(requireArgument(args[2], "activation plan")) as unknown as ActivationPlan;
       writeJson(simulateActivationPlan(plan));
       return 0;
+    }
+
+    if (args[0] === "activation" && args[1] === "shadow") {
+      const plan = loadJson(requireArgument(args[2], "activation plan")) as unknown as ActivationPlan;
+      const baseline = loadJson(requireArgument(readOption(args, "--baseline"), "--baseline path")) as unknown as ShadowAcceptedBaseline;
+      const result = evaluateShadowDifferential(baseline, plan, { base_dir: readOption(args, "--base-dir") || process.cwd() });
+      const output = requireArgument(readOption(args, "--out"), "--out path");
+      writeJson({ verdict: result.verdict, output: writeJsonFile(output, result, args.includes("--force")), digest: result.digest, zero_write_proven: true, activation_allowed: false, canonical_write_allowed: false });
+      return result.verdict === "passed" ? 0 : 2;
     }
 
     if (args[0] === "activation" && args[1] === "run") {

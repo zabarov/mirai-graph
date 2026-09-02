@@ -7,7 +7,7 @@ const Ajv2020 = require("ajv/dist/2020").default;
 const addFormats = require("ajv-formats").default;
 
 const { scanSource, assimilateCatalog } = require("../../dist/cjs/assimilation");
-const { resolveActivationPlan, runActivationPlan } = require("../../dist/cjs/activation");
+const { evaluateShadowDifferential, resolveActivationPlan, runActivationPlan } = require("../../dist/cjs/activation");
 const { compileHybridTechnologyPlan, qualifyTechnologyDraft } = require("../../dist/cjs/technology");
 
 test("public CommonJS subpath exports expose graph-native contracts", () => {
@@ -58,6 +58,10 @@ test("graph-native public schemas accept reference artifacts", () => {
   validate("hybrid-technology-plan.schema.json", compileHybridTechnologyPlan(qualifiedDraft, qualification));
   const signal = JSON.parse(fs.readFileSync(path.resolve(__dirname, "../../examples/mirai-activation-minimal/signal.json"), "utf8"));
   validate("activation-plan.schema.json", resolveActivationPlan(snapshot, signal));
+  const shadowBaseline = JSON.parse(fs.readFileSync(path.resolve(__dirname, "../../examples/mirai-shadow-differential-minimal/accepted-baseline.json"), "utf8"));
+  const shadowPlan = resolveActivationPlan(snapshot, signal);
+  validate("shadow-accepted-baseline.schema.json", shadowBaseline);
+  validate("shadow-differential-result.schema.json", evaluateShadowDifferential(shadowBaseline, shadowPlan, { base_dir: path.resolve(__dirname, "../..") }));
 });
 
 test("activation run results conform to the public evidence schema", async () => {

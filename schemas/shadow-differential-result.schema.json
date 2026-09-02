@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zabarov.github.io/mirai/schemas/shadow-differential-result.schema.json",
+  "title": "Mirai Shadow Differential Result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract_version", "id", "baseline_digest", "plan_digest", "simulation_trace_digest", "zero_write_proven", "mandatory_closure", "scope_delta", "effect_analysis", "rollback_coverage", "verdict", "blockers", "activation_allowed", "canonical_write_allowed", "digest"],
+  "properties": {
+    "contract_version": { "const": "1.0.0" }, "id": { "type": "string" },
+    "baseline_digest": { "$ref": "#/$defs/digest" }, "plan_digest": { "$ref": "#/$defs/digest" }, "simulation_trace_digest": { "$ref": "#/$defs/digest" },
+    "zero_write_proven": { "const": true },
+    "mandatory_closure": { "$ref": "#/$defs/coverage" },
+    "scope_delta": {
+      "type": "object", "additionalProperties": false,
+      "required": ["unexpected_component_instances", "unexpected_operations", "unexpected_capabilities"],
+      "properties": {
+        "unexpected_component_instances": { "$ref": "#/$defs/strings" },
+        "unexpected_operations": { "$ref": "#/$defs/strings" },
+        "unexpected_capabilities": { "$ref": "#/$defs/strings" }
+      }
+    },
+    "effect_analysis": {
+      "type": "object", "additionalProperties": false,
+      "required": ["declared_effects", "unknown_effects", "program_digests"],
+      "properties": { "declared_effects": { "$ref": "#/$defs/strings" }, "unknown_effects": { "$ref": "#/$defs/strings" }, "program_digests": { "$ref": "#/$defs/strings" } }
+    },
+    "rollback_coverage": { "$ref": "#/$defs/rollbackCoverage" },
+    "verdict": { "enum": ["passed", "blocked"] }, "blockers": { "$ref": "#/$defs/strings" },
+    "activation_allowed": { "const": false }, "canonical_write_allowed": { "const": false }, "digest": { "$ref": "#/$defs/digest" }
+  },
+  "$defs": {
+    "digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "strings": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+    "coverage": {
+      "type": "object", "additionalProperties": false,
+      "required": ["required_step_ids", "matched_step_ids", "missing_step_ids"],
+      "properties": { "required_step_ids": { "$ref": "#/$defs/strings" }, "matched_step_ids": { "$ref": "#/$defs/strings" }, "missing_step_ids": { "$ref": "#/$defs/strings" } }
+    },
+    "rollbackCoverage": {
+      "type": "object", "additionalProperties": false,
+      "required": ["required_step_ids", "covered_step_ids", "missing_step_ids"],
+      "properties": { "required_step_ids": { "$ref": "#/$defs/strings" }, "covered_step_ids": { "$ref": "#/$defs/strings" }, "missing_step_ids": { "$ref": "#/$defs/strings" } }
+    }
+  }
+}
