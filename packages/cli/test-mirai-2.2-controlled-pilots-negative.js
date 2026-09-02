@@ -73,6 +73,16 @@ try {
   assert.notEqual(forgedReviewResult.status, 0);
   assert.match(forgedReviewResult.stderr, /controlled_pilot_review_claim_invalid/);
 
+  const invalidAlias = validReport();
+  invalidAlias.results[0].source_alias = "unregistered-source";
+  invalidAlias.results[0].digest = digestValue(withoutDigest(invalidAlias.results[0]));
+  invalidAlias.digest = digestValue(withoutDigest(invalidAlias));
+  const invalidAliasFile = path.join(temporary, "invalid-source-alias.json");
+  fs.writeFileSync(invalidAliasFile, `${JSON.stringify(invalidAlias, null, 2)}\n`);
+  const invalidAliasResult = run(validator, ["--input", invalidAliasFile]);
+  assert.notEqual(invalidAliasResult.status, 0);
+  assert.match(invalidAliasResult.stderr, /source_alias_invalid/);
+
   for (const [name, privatePath] of [
     ["unix-private-path", "/custom/private/repository"],
     ["windows-private-path", "C:\\private\\repository"],
@@ -85,8 +95,7 @@ try {
     ["bracket-unc-private-path", "source]\\\\private\\repository"]
   ]) {
     const disclosedPath = validReport();
-    disclosedPath.results[0].source_alias = privatePath;
-    disclosedPath.results[0].digest = digestValue(withoutDigest(disclosedPath.results[0]));
+    disclosedPath.execution_provenance.runtime.arch = privatePath;
     disclosedPath.digest = digestValue(withoutDigest(disclosedPath));
     const disclosedPathFile = path.join(temporary, `${name}.json`);
     fs.writeFileSync(disclosedPathFile, `${JSON.stringify(disclosedPath, null, 2)}\n`);
@@ -95,7 +104,16 @@ try {
     assert.match(disclosedPathResult.stderr, /controlled_pilot_private_path_disclosed/);
   }
 
-  process.stdout.write(`${JSON.stringify({ status: "passed", negative_case_count: 14 }, null, 2)}\n`);
+  const invalidRuntimeIdentity = validReport();
+  invalidRuntimeIdentity.execution_provenance.runtime.arch = "source/custom/private/repository";
+  invalidRuntimeIdentity.digest = digestValue(withoutDigest(invalidRuntimeIdentity));
+  const invalidRuntimeIdentityFile = path.join(temporary, "invalid-runtime-identity.json");
+  fs.writeFileSync(invalidRuntimeIdentityFile, `${JSON.stringify(invalidRuntimeIdentity, null, 2)}\n`);
+  const invalidRuntimeIdentityResult = run(validator, ["--input", invalidRuntimeIdentityFile]);
+  assert.notEqual(invalidRuntimeIdentityResult.status, 0);
+  assert.match(invalidRuntimeIdentityResult.stderr, /runner_runtime_identity_invalid/);
+
+  process.stdout.write(`${JSON.stringify({ status: "passed", negative_case_count: 16 }, null, 2)}\n`);
 } finally {
   fs.rmSync(temporary, { recursive: true, force: true });
 }

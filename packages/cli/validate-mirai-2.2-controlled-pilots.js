@@ -23,6 +23,9 @@ const provenanceKeys = ["dependency_lock_sha256", "private_config_digest", "publ
 const runtimeKeys = ["arch", "node", "platform"];
 const auditKeys = ["allowed_write_count", "canonical_write_attempted", "external_effect_adapters_invoked", "output_existed_before", "output_policy", "source_git_states_unchanged", "source_snapshots_unchanged"];
 const allowedOperations = ["filesystem.scan", "source.snapshot", "source.convert", "knowledge.organize", "technology.observe", "evolution.plan"];
+const allowedPlatforms = new Set(["aix", "darwin", "freebsd", "linux", "openbsd", "sunos", "win32"]);
+const allowedArchitectures = new Set(["arm", "arm64", "ia32", "loong64", "mips", "mipsel", "ppc", "ppc64", "riscv64", "s390", "s390x", "x64"]);
+const allowedCycleStatuses = new Set(["planned", "manual_review_required", "denied", "applied", "no_changes"]);
 const expectedSourceAliases = new Map([
   ["pilot.controlled.ai-employee", "ai-employee"],
   ["pilot.controlled.federation", "federation"],
@@ -71,6 +74,7 @@ function containsPrivatePath(value) {
 exactKeys(report, rootKeys, "report");
 if (report.contract_version !== "1.0.0" || report.release_target !== "2.2.0") errors.push("controlled_pilot_contract_invalid");
 if (report.status !== "controlled_observe_complete" || report.case_count !== 4) errors.push("controlled_pilot_suite_incomplete");
+if (typeof report.observed_at !== "string" || !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})?Z$/.test(report.observed_at) || !Number.isFinite(Date.parse(report.observed_at))) errors.push("controlled_pilot_observed_at_invalid");
 if (!Array.isArray(report.results) || report.results.map((item) => item.id).sort().join(",") !== expectedIds.join(",")) errors.push("controlled_pilot_case_set_invalid");
 if (report.production_effects !== false || report.canonical_write_allowed !== false) errors.push("controlled_pilot_boundary_invalid");
 if (report.independent_review !== INDEPENDENT_REVIEW || report.owner_decision !== OWNER_DECISION || report.claim_boundary !== CLAIM_BOUNDARY || JSON.stringify(report.limitations) !== JSON.stringify(LIMITATIONS)) errors.push("controlled_pilot_review_claim_invalid");
@@ -84,6 +88,7 @@ for (const key of ["runner_source_sha256", "runtime_dist_digest", "dependency_lo
 if (report.execution_provenance?.runner_worktree_unchanged !== true || report.execution_provenance?.runner_worktree_status_digest_before !== report.execution_provenance?.runner_worktree_status_digest_after) errors.push("runner_worktree_changed");
 if (typeof report.execution_provenance?.runner_worktree_clean_before !== "boolean" || typeof report.execution_provenance?.runner_worktree_clean_after !== "boolean") errors.push("runner_worktree_clean_state_invalid");
 if (!/^v(20|21|22|23|24)\./.test(String(report.execution_provenance?.runtime?.node || ""))) errors.push("runner_node_version_outside_package_engine");
+if (!allowedPlatforms.has(report.execution_provenance?.runtime?.platform) || !allowedArchitectures.has(report.execution_provenance?.runtime?.arch)) errors.push("runner_runtime_identity_invalid");
 
 exactKeys(report.effect_audit, auditKeys, "effect_audit");
 if (report.effect_audit?.output_policy !== "new_json_file_in_os_temporary_directory" || report.effect_audit?.output_existed_before !== false || report.effect_audit?.allowed_write_count !== 1) errors.push("controlled_pilot_output_policy_invalid");
@@ -93,6 +98,8 @@ for (const result of report.results || []) {
   exactKeys(result, resultKeys, result.id || "result");
   if (result.source_kind !== "real_repository_subset" || result.mode !== "observe_suggest") errors.push(`${result.id}:not_real_observe_pilot`);
   if (expectedSourceAliases.get(result.id) !== result.source_alias) errors.push(`${result.id}:source_alias_invalid`);
+  if (!allowedCycleStatuses.has(result.cycle_status)) errors.push(`${result.id}:cycle_status_invalid`);
+  if (typeof result.source_git_clean_before !== "boolean") errors.push(`${result.id}:source_git_clean_state_invalid`);
   count(result.source_item_count, `${result.id}:source_item_count`);
   count(result.normalized_unit_count, `${result.id}:normalized_unit_count`);
   for (const key of ["blocking_conversion_diagnostic_count", "assertion_count", "relation_count", "conflict_count", "process_observation_count", "process_candidate_count", "technology_draft_allowed_count", "evolution_change_proposal_count"]) count(result[key], `${result.id}:${key}`);
