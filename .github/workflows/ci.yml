@@ -9,6 +9,9 @@ on:
       - codex/mirai-2.2
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
   mirai-program:
     strategy:
@@ -183,7 +186,8 @@ jobs:
           docker run -d --name mirai-22-mysql -e MYSQL_ROOT_PASSWORD=mirai-ci-root-password -e MYSQL_DATABASE=mirai_test -p 53306:3306 mysql:8.4
           docker run -d --name mirai-22-minio -e MINIO_ROOT_USER=mirai_ci -e MINIO_ROOT_PASSWORD=mirai-ci-minio-password -p 59000:9000 minio/minio server /data
           for attempt in {1..60}; do docker exec mirai-22-postgres pg_isready -U postgres -d mirai_test && break; sleep 2; done
-          for attempt in {1..60}; do docker exec mirai-22-mysql mysqladmin ping -uroot -pmirai-ci-root-password --silent && break; sleep 2; done
+          for attempt in {1..60}; do docker exec -e MYSQL_PWD=mirai-ci-root-password mirai-22-mysql mysql --host=127.0.0.1 --protocol=TCP -uroot mirai_test --skip-column-names --execute="SELECT 1" && break; sleep 2; done
+          docker exec -e MYSQL_PWD=mirai-ci-root-password mirai-22-mysql mysql --host=127.0.0.1 --protocol=TCP -uroot mirai_test --skip-column-names --execute="SELECT 1"
 
       - name: Seed read-only database fixtures
         shell: bash

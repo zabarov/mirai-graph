@@ -1,44 +1,39 @@
 # Mirai 2.2 Controlled Observe Pilot Review
 
-Status: passed with nonblocking limitations
+Status: pilot gate passed with explicit limitations; not release authorization.
 
-Reviewed revision: `dd3e2bcfed8045226fdf833dec606794c022b64c`
+Reviewed revision: `eeb048121da54123566bc73f9024f37f8ddd688e`.
 
 ## Decision
 
-An isolated AI-assisted reviewer who did not implement the runner or its
-corrections reviewed the committed controlled-pilot evidence. The initial
-review blocked the gate. One bounded correction round closed the output-path,
-provenance and validator findings, after which the reviewer returned
-`pass_with_nonblocking_findings`.
+An isolated AI-assisted reviewer verified the fresh candidate report after the
+output, provenance, claim and private-path corrections. The official validator,
+19 negative fixtures and 13 source tests passed. All 57 independently mutated
+invalid reports were rejected. No unresolved Critical, High or Medium finding
+remained in this bounded pilot-review scope.
 
-This is owner-authorized independent AI-assisted review. It is not external
-human peer review and does not authorize release or production writes.
+The report is preserved byte-for-byte. Its `independent_review: pending` field
+records generation time; the later review is this separately bound
+[review artifact](independent-review.json), not a mutation of execution evidence.
 
-## What Was Verified
+## Verified Boundaries
 
-- The runner can create only one new JSON evidence file in an allowed temporary
-  root and cannot overwrite an existing file.
-- The output cannot overlap a scanned source directory.
-- Git state and deterministic source snapshots are measured before and after
-  every case; any change blocks the run.
-- Runner source, Git revision, runtime modules, dependency lock, configuration
-  and runtime identity are represented by revision data or digests.
-- The validator rejects unknown fields, altered effect claims, changed source
-  state, changed snapshots, unknown operations and observed-practice promotion.
-- Four negative fixtures pass and are part of `npm run release:check`.
-- All four committed cases remained `observe_suggest`, performed no production
-  effect and allowed no technology draft.
+- The exact revision and clean review worktree were unchanged before and after.
+- Runner, dependency lock, runtime build, all cases and report digests matched.
+- All four source before/after Git-state and snapshot receipts matched.
+- Runs stayed in `observe_suggest` with zero allowed technology drafts,
+  canonical writes, protected changes or production effects.
+- Previous Node-version path suffixes are rejected by whole-string validation.
+- No private source content or path was disclosed in the reviewed report.
 
 ## Limits
 
-- Three private source trees were dirty at observation time, although their
-  measured state did not change during the run.
-- Private source inputs cannot be publicly reconstructed from digests.
-- The pilot evidence does not prove extraction correctness, benefit, external
-  validity or scientific effectiveness.
-- The effect audit is application-level rather than an independent syscall
-  trace.
+Three private inputs were initially dirty, and their original content cannot be
+independently replayed from public digests. The application-level mutation audit
+is not an OS syscall trace. Three cases retain 42, 39 and 50 conversion
+diagnostics. This supports controlled read/proposal integration, not complete
+source assimilation, correct extraction, productivity improvement or scientific
+proof. The adversarial corpus is bounded, not exhaustive.
 
-The machine-readable result is
-[`independent-review.json`](independent-review.json).
+This is owner-authorized AI-assisted review, not external human peer review.
+Public conformance, cross-platform CI and stable publication are separate gates.

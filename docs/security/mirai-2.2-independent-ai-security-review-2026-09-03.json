@@ -4,7 +4,7 @@
   "status": "complete",
   "evidence_class": "independent_ai_assisted_review",
   "reviewed_repository": "https://github.com/zabarov/mirai-graph",
-  "reviewed_revision": "2d4a32e00e860f22502cee94efb541257b92e5c3",
+  "reviewed_revision": "eeb048121da54123566bc73f9024f37f8ddd688e",
   "reviewer": {
     "alias": "isolated-ai-security-reviewer",
     "independent": true,
@@ -22,15 +22,17 @@
     "protected_targets",
     "promotion_crash_recovery",
     "payload_budgets",
-    "blocked_cycle_prohibition"
+    "blocked_cycle_prohibition",
+    "intended_observed_process_separation",
+    "inherited_core_2_1_unchanged"
   ],
   "methods": [
-    "Verified exact HEAD and clean state before and after review.",
-    "Ran 26 source, knowledge, autonomy and controller tests: all passed, zero skipped.",
-    "Ran 16 pilot-report negative tests and 10 independent in-memory adversarial probes.",
-    "Validated 13 schemas and 15 fixtures plus five stored independent conformance results.",
-    "Verified the 100000-column CSV rejection occurred before Object.fromEntries; the 4096-column boundary passed.",
-    "Recorded the checked-in stale pilot report and local-only conformance as remaining release blockers, separate from source-security findings."
+    "Retained the 2d4a32e source-security review only after proving all source modules, adapter implementations and schemas unchanged at the candidate.",
+    "Inspected the complete 22-file candidate delta, verified exact HEAD and a clean detached worktree before and after.",
+    "Verified the Mirai 2.1 Program/Runtime/adapters/activation/project/components/assimilation trees are unchanged from the independently reviewed c946d7306099ae03f71cc46f72bcba981e8da03a baseline.",
+    "Ran both security-review validator profiles and all five self-tests for each profile.",
+    "Ran all 19 pilot-report negative cases, the official validator on the fresh four-case candidate report and six process-discovery/qualification tests.",
+    "Rejected the three Node-version private-path suffixes; observed process conversion and unqualified effectful draft probes remained blocked."
   ],
   "findings": [
     {
@@ -79,13 +81,26 @@
         "src/sources/providers.ts",
         "docs/security/mirai-autonomic-fabric-threat-model.md"
       ]
+    },
+    {
+      "id": "SEC-205",
+      "severity": "low",
+      "status": "open",
+      "summary": "The direct compiler does not interpret the discovery diagnostic operation_bindings_require_qualification itself.",
+      "reproduction": "Current qualification and effect guards still reject the generated unprepared draft; no authority bypass was reproduced.",
+      "evidence_refs": [
+        "src/technology/discovery.ts",
+        "src/technology/compiler.ts",
+        "src/technology/qualification.ts",
+        "test/technology/qualification.test.cjs"
+      ]
     }
   ],
   "unresolved_risks": [
-    "Source trees should be access-controlled or snapshotted; the review does not prove confinement against an actively racing local filesystem attacker.",
-    "The reviewer did not use real database/S3 services, perform a fresh network dependency audit or replay private pilot sources.",
-    "The reviewed commit still had a stale committed pilot report and local-only independent conformance; those remain separate release gates.",
-    "No external human audit or production-write review was performed."
+    "SEC-204: separate post-open realpath/stat checks do not prove atomic confinement against repeated concurrent local path replacement; use access-controlled trees or immutable snapshots.",
+    "SEC-205: the direct compiler does not enforce one discovery-specific qualification diagnostic; existing qualification/effect guards still reject the probed drafts.",
+    "The reviewer did not rerun the full suite, live connector services, public CI or a network dependency audit; those have separate evidence.",
+    "AI-assisted review is not an external human audit, production-write review or release authorization."
   ],
   "verdict": "pass_for_production_read",
   "adapter_scope": [
@@ -96,7 +111,7 @@
     "mysql_read",
     "s3_read"
   ],
-  "reviewed_at": "2026-09-02T21:15:00Z",
-  "attestation": "An isolated AI-assisted reviewer reported security_verdict=pass_with_nonblocking_findings and zero unresolved Critical/High findings in the stated scope; its overall release verdict remained blocked by evidence gates.",
+  "reviewed_at": "2026-09-02T21:44:01Z",
+  "attestation": "An isolated AI-assisted reviewer returned security_verdict=pass_with_nonblocking_findings at the exact candidate, with zero unresolved Critical/High, one Medium observation and one Low defense-in-depth finding. Overall release eligibility remains separate and blocked by public gates.",
   "claim_boundary": "This is an owner-authorized AI-assisted source-security review, not an external human audit. The schema verdict supports bounded production-read preparation only. It does not authorize stable publication, production deployment, writes or managed autonomy."
 }

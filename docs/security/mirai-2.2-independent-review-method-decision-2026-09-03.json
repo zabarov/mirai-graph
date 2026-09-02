@@ -4,7 +4,7 @@
   "status": "approved",
   "owner_role": "project_owner",
   "accepted_evidence_class": "independent_ai_assisted_review",
-  "reviewed_revision": "2d4a32e00e860f22502cee94efb541257b92e5c3",
+  "reviewed_revision": "eeb048121da54123566bc73f9024f37f8ddd688e",
   "reviewer_constraints": {
     "isolated_from_implementation_context": true,
     "implemented_reviewed_changes": false,

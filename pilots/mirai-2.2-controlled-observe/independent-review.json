@@ -4,14 +4,13 @@
   "status": "complete",
   "evidence_class": "owner_authorized_ai_assisted_independent_review",
   "reviewed_repository": "https://github.com/zabarov/mirai-graph",
-  "reviewed_revision": "dd3e2bcfed8045226fdf833dec606794c022b64c",
-  "reviewed_runner_revision": "35c6374d153f218206779ad2307de53ddd302cf7",
-  "reviewed_pilot_report_digest": "sha256:c8f48e949bcf17f32c15e4a0616d6ad969035d25147c5a345c36b39b79aa40dc",
+  "reviewed_revision": "eeb048121da54123566bc73f9024f37f8ddd688e",
+  "reviewed_runner_revision": "eeb048121da54123566bc73f9024f37f8ddd688e",
+  "reviewed_pilot_report_digest": "sha256:97dbd1d31ae319cf08d3098efd8c2a210ba39e8c65bf8375b6398f1c13128a12",
   "reviewer": {
     "alias": "isolated-ai-pilot-reviewer",
     "independent": true,
     "implemented_reviewed_changes": false,
-    "correction_rounds": 1,
     "conflict_declaration": "The reviewer did not implement the runner or evidence corrections and performed a read-only review of the exact committed delta."
   },
   "scope": [
@@ -25,12 +24,11 @@
     "claim_boundary"
   ],
   "methods": [
-    "Verified the exact reviewed revision and clean working tree before and after review.",
-    "Reviewed only the correction delta and the committed controlled-pilot report.",
-    "Ran the official validator and all four negative fixtures.",
-    "Independently recomputed the four case digests and the report digest.",
-    "Matched the recorded runner hash to the reviewed runner and verified revision ancestry.",
-    "Checked all source Git-state and snapshot before/after pairs and the effect audit."
+    "Verified exact HEAD and a clean worktree before and after reviewing the new candidate report.",
+    "Ran the official validator, 19 negative fixtures, 13 source tests and syntax checks for the runner, validator and negative suite.",
+    "Independently mutated 57 candidate inputs, recomputing digests; all 57 invalid inputs were rejected.",
+    "Recomputed runner, dependency-lock, runtime-dist, all four case and report digests; all matched.",
+    "Verified source Git-state and source-snapshot before/after receipt equality; private input authenticity was not independently replayed."
   ],
   "resolved_findings": [
     {
@@ -62,26 +60,44 @@
         "packages/cli/validate-mirai-2.2-controlled-pilots.js",
         "packages/cli/test-mirai-2.2-controlled-pilots-negative.js"
       ]
+    },
+    {
+      "id": "PILOT-004",
+      "severity": "high",
+      "status": "fixed",
+      "summary": "A version-prefix check allowed private path suffixes in the runtime Node version. Whole-string validation rejects all three reproduced bypasses.",
+      "evidence_refs": [
+        "packages/cli/validate-mirai-2.2-controlled-pilots.js",
+        "packages/cli/test-mirai-2.2-controlled-pilots-negative.js"
+      ]
     }
   ],
   "verified_evidence": [
-    "Four real-repository subsets were observed in read-only mode under public-safe aliases.",
-    "All source Git-state and snapshot digests were unchanged before and after each run.",
-    "All four cases remained observe_suggest and produced zero allowed technology drafts.",
-    "The only runner write was creation of one new mode-0600 JSON file in an allowed temporary root.",
-    "The committed report contains no raw source path or raw source content."
+    "Four real-repository subsets remain observe_suggest with zero canonical writes, production effects or allowed technology drafts.",
+    "The original report and source worktree remained unchanged during the independent review.",
+    "All recorded before/after source state and snapshot digests match.",
+    "No raw private path or raw source content was found in the reviewed report.",
+    "The 57-case adversarial corpus includes prior output, claim-boundary, alias, path and runtime identity regressions."
   ],
   "unresolved_nonblocking_limits": [
-    "Three private source trees were dirty but remained unchanged during observation.",
-    "Private input authenticity cannot be independently replayed from the public artifact.",
-    "The evidence does not establish extraction correctness, organizational benefit or scientific effectiveness.",
-    "The effect audit is application-level rather than an external operating-system syscall trace.",
+    "Three private source trees were initially dirty but the recorded before/after state is unchanged.",
+    "Private source/config authenticity was not independently replayed from the public artifact.",
+    "The source immutability audit is application-level receipt consistency, not an external operating-system syscall trace.",
+    "Three cases retain 42, 39 and 50 conversion diagnostics; operational safety evidence does not imply extraction correctness.",
+    "This bounded adversarial corpus does not cover every possible validator input.",
     "No external human peer review was performed."
   ],
-  "verdict": "pass_with_nonblocking_findings",
+  "verdict": "pass",
   "release_authorization": false,
   "production_write_authorization": false,
-  "reviewed_at": "2026-09-02T18:50:00Z",
-  "attestation": "An isolated AI-assisted reviewer who did not implement the reviewed changes verified the exact correction revision and found no remaining release-blocking pilot-evidence defect.",
-  "claim_boundary": "This owner-authorized AI-assisted review supports the controlled observe/suggest pilot gate only. It is not external human peer review, production-write authorization, proof of extraction correctness or a release decision."
+  "reviewed_at": "2026-09-02T21:37:40Z",
+  "attestation": "An isolated AI-assisted reviewer verified the exact candidate, rejected all 57 adversarial mutations and reported zero unresolved Critical/High/Medium findings within this bounded pilot-only scope.",
+  "claim_boundary": "This owner-authorized AI-assisted review supports the controlled observe/suggest pilot gate only. It is not external human peer review, production-write authorization, proof of extraction correctness or a release decision.",
+  "reviewed_pilot_report_sha256": "sha256:f36334864ebec2b2b10ffaed882a71f280240bcdca16bd4ccd9507690384de36",
+  "unresolved_finding_counts": {
+    "critical": 0,
+    "high": 0,
+    "medium": 0
+  },
+  "pilot_gate_eligible": true
 }

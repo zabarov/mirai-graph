@@ -3,7 +3,7 @@
   "release_id": "release.mirai.2.2.0-rc.1",
   "evaluated_version": "2.2.0-rc.1",
   "promotion_target": "2.2.0",
-  "evaluated_at": "2026-09-02T21:22:56Z",
+  "evaluated_at": "2026-09-02T21:44:01Z",
   "overall_status": "blocked",
   "gates": [
     {
@@ -106,45 +106,54 @@
     {
       "id": "gate.2_2_connector_integration",
       "category": "engineering",
-      "status": "blocked",
+      "status": "passed",
       "evidence_refs": [
         "releases/evidence/2.2.0-connector-integration-2026-09-02.json",
         "test/integration/source-connectors.integration.test.cjs"
       ],
-      "summary": "Controlled reads passed before the final candidate; the expanded service-boundary suite needs a fresh revision-bound run.",
-      "blocker_reason": "Re-run positive and forbidden/over-budget connector cases on the candidate with synthetic isolated services."
+      "summary": "The exact candidate passed controlled HTTP/PostgreSQL/MySQL/S3 reads and forbidden/over-budget cases; isolated services were removed.",
+      "limitations": [
+        "Local controlled-service interoperability is not public cross-platform CI or deployment authorization."
+      ]
     },
     {
       "id": "gate.2_2_independent_security_review",
       "category": "safety",
-      "status": "blocked",
+      "status": "passed",
       "evidence_refs": [
         "docs/security/mirai-2.2-independent-ai-security-review-2026-09-03.json",
-        "docs/security/mirai-autonomic-fabric-threat-model.md"
+        "docs/security/mirai-2.2-independent-ai-security-review-2026-09-03.md",
+        "docs/security/mirai-2.2-independent-review-method-decision-2026-09-03.json"
       ],
-      "summary": "The reviewed source implementation has no unresolved Critical/High finding. Final candidate evidence and validator corrections require an isolated delta recheck.",
-      "blocker_reason": "Obtain the final exact-revision security delta verdict; retain the residual concurrent-filesystem limitation."
+      "summary": "Isolated exact-candidate review found zero unresolved Critical/High; the unchanged 2.1 core was verified against its reviewed baseline.",
+      "limitations": [
+        "One Medium concurrent-filesystem observation and one Low compiler-diagnostic observation remain, without a reproduced authority bypass.",
+        "This is owner-authorized AI-assisted review, not an external human audit or production-write approval."
+      ]
     },
     {
       "id": "gate.2_2_cross_platform_clean_room",
       "category": "release",
-      "status": "not_run",
+      "status": "blocked",
       "evidence_refs": [
         ".github/workflows/ci.yml"
       ],
-      "summary": "The CI contract includes 2.2 checks, but no public Linux, macOS and Windows run exists for this revision.",
-      "blocker_reason": "Run the complete matrix and clean-room package installation on the frozen release candidate."
+      "summary": "The full local macOS release suite and six-package clean-room install passed; public Linux/macOS/Windows CI is not run.",
+      "blocker_reason": "Complete local Linux verification, then run the public matrix at the publication-approved revision. Windows has not been tested in this local environment."
     },
     {
       "id": "gate.2_2_controlled_real_pilots",
       "category": "pilot",
-      "status": "blocked",
+      "status": "passed",
       "evidence_refs": [
         "pilots/mirai-2.2-controlled-observe/pilot-result.json",
         "pilots/mirai-2.2-controlled-observe/independent-review.json"
       ],
-      "summary": "Four real-project observe/suggest runs exist; the final candidate report and path-validation correction await independent recheck.",
-      "blocker_reason": "Generate and independently validate the final candidate report; no source or production writes are permitted."
+      "summary": "Four real-repository observe/suggest runs passed isolated owner-authorized AI-assisted review; 57 adversarial report mutations were rejected.",
+      "limitations": [
+        "Private source authenticity is not publicly replayable.",
+        "Conversion diagnostics remain; this gate does not claim semantic correctness, external human review or autonomous production use."
+      ]
     },
     {
       "id": "gate.2_2_stable_release_metadata",
@@ -161,10 +170,7 @@
   ],
   "blocking_gate_ids": [
     "gate.2_2_public_independent_conformance",
-    "gate.2_2_connector_integration",
-    "gate.2_2_independent_security_review",
     "gate.2_2_cross_platform_clean_room",
-    "gate.2_2_controlled_real_pilots",
     "gate.2_2_stable_release_metadata"
   ],
   "next_safe_action": "Complete the exact local candidate rechecks, then obtain explicit permission to push the product and independent-checker branches for public CI. Stable publication remains separate.",

@@ -3,7 +3,7 @@
   "evidence_id": "connector-integration.mirai-2.2.2026-09-02",
   "status": "passed",
   "evidence_class": "controlled_local_integration",
-  "implementation_revision": "1ab6480d49283580a6ab6dcd221227553dccb102",
+  "implementation_revision": "eeb048121da54123566bc73f9024f37f8ddd688e",
   "execution_environment": {
     "host_os": "macos",
     "node": "20.20.1",
@@ -41,22 +41,13 @@
     {
       "command": "npm run test:mirai-2.2-connectors-integration",
       "status": "passed",
-      "evidence_ref": "test/integration/source-connectors.integration.test.cjs"
+      "evidence_ref": "test/integration/source-connectors.integration.test.cjs",
+      "summary": "Real reads plus HTTP allowlist/byte, SQL row/mutation and S3 prefix/byte failures passed; no test was skipped and both database row counts remained two."
     },
     {
       "command": "npm run validate:mirai-2.2-adapter-clean-room",
       "status": "passed",
-      "summary": "The primary package and four optional adapter packages were packed and installed into a clean temporary consumer."
-    },
-    {
-      "command": "npm audit --audit-level=high",
-      "status": "passed",
-      "summary": "Zero known vulnerabilities were reported after dependency correction."
-    },
-    {
-      "command": "npm run release:check",
-      "status": "passed",
-      "summary": "The complete local release suite passed after connector integration."
+      "summary": "The primary package, four optional source adapters and compatibility wrapper were packed and installed into one clean temporary consumer."
     }
   ],
   "cleanup": {
@@ -69,7 +60,25 @@
     "This local run does not replace the public Linux, macOS and Windows CI matrix.",
     "The integration test establishes bounded connector interoperability with controlled services, not correctness of arbitrary source data.",
     "The pinned AWS SDK supports Node 20 for this release candidate and warns that versions published after early January 2027 will require Node 22; the Node runtime baseline must be reviewed before dependency upgrades after that date.",
-    "Source connectors remain read-only; external writes are outside this evidence."
+    "Source connectors remain read-only; external writes are outside this evidence.",
+    "An initial service setup attempt stopped before the suite because mysqladmin ping did not prove authentication readiness; the rerun used a successful authenticated TCP SELECT before seeding."
   ],
-  "claim_boundary": "This evidence closes the controlled connector-integration gate only. It does not authorize a production connection, managed autonomy, external write or stable publication."
+  "claim_boundary": "This evidence closes the controlled connector-integration gate only. It does not authorize a production connection, managed autonomy, external write or stable publication.",
+  "started_at": "2026-09-02T21:35:45.016Z",
+  "finished_at": "2026-09-02T21:36:02.899Z",
+  "duration_ms": 17883,
+  "test_file_sha256": "d6b209b2b933f727b7f628b8cb4945b40f83368510df38d0823e3aeefe895cb1",
+  "dependency_lock_sha256": "39edf92dc0d91458a4b3c7c79ae6dc20e2f5567bb03b591dc83ac6ba745e67e6",
+  "suite_log_sha256": "3320fbe7f3e7b0f7f399b4f09e71b6154204b55255d8d5ee3d08917f38c8212b",
+  "boundaries": [
+    "http_allowlist",
+    "http_response_bytes",
+    "postgres_read_and_row_limit",
+    "postgres_mutation_rejected",
+    "mysql_read_and_row_limit",
+    "mysql_mutation_rejected",
+    "s3_bucket_prefix",
+    "s3_object_bytes",
+    "database_rows_unchanged"
+  ]
 }
