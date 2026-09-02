@@ -3,7 +3,7 @@
   "release_id": "release.mirai.2.1.0",
   "evaluated_version": "2.1.0-rc.1",
   "promotion_target": "2.1.0",
-  "evaluated_at": "2026-09-02T12:42:04Z",
+  "evaluated_at": "2026-09-02T13:00:45Z",
   "overall_status": "blocked",
   "gates": [
     {
@@ -62,10 +62,9 @@
     {
       "id": "gate.2_1_clean_room_cross_platform",
       "category": "release",
-      "status": "not_run",
-      "evidence_refs": [".github/workflows/ci.yml", "packages/cli/validate-clean-room-install.js", "packages/cli/validate-mirai-2-1-ci-gate.js"],
-      "summary": "The checked CI contract requires Mirai 2.1 tests and clean-room package installation on Linux, macOS and Windows, but it has not run against a 2.1 release-candidate package.",
-      "blocker_reason": "Create the RC package and run clean-room installation on Linux, macOS and Windows."
+      "status": "passed",
+      "evidence_refs": [".github/workflows/ci.yml", "packages/cli/validate-clean-room-install.js", "packages/cli/validate-mirai-2-1-ci-gate.js", "https://github.com/zabarov/mirai-graph/actions/runs/33633025272"],
+      "summary": "Exact release-candidate revision 8b14c43 passed all 11 public CI jobs, including clean-room installation and Mirai Program checks on Linux, macOS and Windows, plus release-check and readiness-contract validation."
     },
     {
       "id": "gate.scientific_claim_boundary",
@@ -85,9 +84,8 @@
     }
   ],
   "blocking_gate_ids": [
-    "gate.2_1_clean_room_cross_platform",
     "gate.2_1_stable_release_metadata"
   ],
-  "next_safe_action": "Create 2.1.0-rc.1, run the exact RC package through Linux, macOS and Windows clean-room gates, then consolidate stable metadata only after the RC matrix passes.",
+  "next_safe_action": "Consolidate stable 2.1.0 metadata, run the exact stable candidate through the full release matrix, then publish only through fresh live action gates.",
   "claim_boundary": "This readiness report supports contract inventory and targeted engineering evidence only. It does not authorize production writes or establish comparative scientific effectiveness."
 }
