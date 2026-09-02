@@ -78,7 +78,11 @@ try {
     ["windows-private-path", "C:\\private\\repository"],
     ["file-uri", "file:///private/repository"],
     ["embedded-unix-private-path", "source:/custom/private/repository"],
-    ["embedded-file-uri", "source file:///private/repository"]
+    ["embedded-file-uri", "source file:///private/repository"],
+    ["semicolon-unix-private-path", "source;/custom/private/repository"],
+    ["parenthesis-unix-private-path", "source)/custom/private/repository"],
+    ["semicolon-unc-private-path", "source;\\\\private\\repository"],
+    ["bracket-unc-private-path", "source]\\\\private\\repository"]
   ]) {
     const disclosedPath = validReport();
     disclosedPath.results[0].source_alias = privatePath;
@@ -91,7 +95,7 @@ try {
     assert.match(disclosedPathResult.stderr, /controlled_pilot_private_path_disclosed/);
   }
 
-  process.stdout.write(`${JSON.stringify({ status: "passed", negative_case_count: 10 }, null, 2)}\n`);
+  process.stdout.write(`${JSON.stringify({ status: "passed", negative_case_count: 14 }, null, 2)}\n`);
 } finally {
   fs.rmSync(temporary, { recursive: true, force: true });
 }

@@ -58,9 +58,13 @@ function containsPrivatePath(value) {
   const text = value.trim();
   if (/file:\/\//i.test(text)) return true;
   if (/(?:^|[^A-Za-z0-9])[a-z]:[\\/]/i.test(text)) return true;
-  if (/(?:^|[\s"'`(=:[,{])\\\\[^\s"'`]+[\\/]/.test(value)) return true;
-  if (/^\/(?!\/)/.test(text)) return true;
-  if (/(?:^|[\s"'`(=:[,{])\/(?!\/)[^\s"'`]+/.test(value)) return true;
+  if (value.includes("\\\\")) return true;
+  for (let index = 0; index < value.length - 1; index += 1) {
+    if (value[index] !== "/" || value[index + 1] === "/") continue;
+    const previous = index > 0 ? value[index - 1] : "";
+    if (previous && /[A-Za-z0-9_./]/.test(previous)) continue;
+    if (/[A-Za-z0-9._~$%+-]/.test(value[index + 1])) return true;
+  }
   return false;
 }
 
