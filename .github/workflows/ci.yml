@@ -41,6 +41,9 @@ jobs:
       - name: Verify governed runtime and recovery
         run: npm run test:mirai-alpha3
 
+      - name: Verify Mirai 2.1 graph-native contracts
+        run: npm run test:mirai-2.1
+
       - name: Verify bounded property and security fuzz corpus
         run: npm run test:mirai-property-fuzz
 
@@ -140,3 +143,6 @@ jobs:
 
       - name: Validate honest release status
         run: npm run validate:mirai-release-readiness
+
+      - name: Validate Mirai 2.1 cross-platform CI contract
+        run: npm run validate:mirai-2.1-ci-gate

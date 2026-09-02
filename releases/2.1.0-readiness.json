@@ -63,8 +63,8 @@
       "id": "gate.2_1_clean_room_cross_platform",
       "category": "release",
       "status": "not_run",
-      "evidence_refs": [".github/workflows/ci.yml", "packages/cli/validate-clean-room-install.js"],
-      "summary": "The infrastructure exists but has not run against a 2.1 release-candidate package.",
+      "evidence_refs": [".github/workflows/ci.yml", "packages/cli/validate-clean-room-install.js", "packages/cli/validate-mirai-2-1-ci-gate.js"],
+      "summary": "The checked CI contract requires Mirai 2.1 tests and clean-room package installation on Linux, macOS and Windows, but it has not run against a 2.1 release-candidate package.",
       "blocker_reason": "Create the RC package and run clean-room installation on Linux, macOS and Windows."
     },
     {
