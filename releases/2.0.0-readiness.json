@@ -3,7 +3,7 @@
   "release_id": "release.mirai.2.0.0",
   "evaluated_version": "2.0.0-alpha.3",
   "promotion_target": "2.0.0-beta.1",
-  "evaluated_at": "2026-09-02T08:12:00Z",
+  "evaluated_at": "2026-09-02T12:42:04Z",
   "overall_status": "blocked",
   "gates": [
     {
@@ -152,10 +152,10 @@
     {
       "id": "gate.independent_security_review",
       "category": "safety",
-      "status": "not_run",
-      "evidence_refs": ["docs/security/mirai-runtime-threat-model.md", "docs/security/mirai-independent-security-review-request-2026-09-02.json", "docs/security/mirai-security-pre-audit-corrections-2026-09-02.md"],
-      "summary": "The threat model, internal adversarial tests and pre-audit correction disposition exist at an exact revision, but an independent security review has not been completed.",
-      "blocker_reason": "An independent reviewer must assess command, path, capability, approval, archive, secret-leakage, activation policy/budget and lease expiry-boundary behavior."
+      "status": "passed",
+      "evidence_refs": ["docs/security/mirai-runtime-threat-model.md", "docs/security/mirai-independent-ai-security-review-2026-09-02.json", "docs/security/mirai-independent-review-method-decision-2026-09-02.json", "https://github.com/zabarov/mirai-graph/actions/runs/33630896877"],
+      "summary": "The owner-authorized isolated AI-assisted review of exact revision c946d73 found no unresolved critical or high finding and the complete public cross-platform CI matrix passed.",
+      "limitations": ["This is not an external human audit and does not authorize production writes."]
     },
     {
       "id": "gate.public_independent_checker",
@@ -177,9 +177,8 @@
   "blocking_gate_ids": [
     "gate.blinded_independent_human_review",
     "gate.confirmatory_factorial_evaluation",
-    "gate.independent_security_review",
     "gate.stable_release_metadata"
   ],
-  "next_safe_action": "Obtain an independent security review against the exact hardening revision and an independent human review. Keep production-write, stable metadata and publication blocked; the confirmatory study is additionally required before comparative scientific claims.",
+  "next_safe_action": "Keep production-write and comparative scientific claims blocked; complete blinded human evaluation before those claims while using the security-frozen core for the Mirai 2.1 release-candidate track.",
   "claim_boundary": "This report supports current engineering conformance, safety-boundary and auditability claims only. It does not establish comparative effectiveness, model-independence or readiness for stable 2.0.0."
 }

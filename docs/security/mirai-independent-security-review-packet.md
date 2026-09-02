@@ -1,15 +1,21 @@
 # Mirai Independent Security Review Packet
 
-Status: ready for external review; no independent verdict recorded
+Status: owner-authorized isolated AI-assisted review completed for production-read
 
 Current review request: `mirai-independent-security-review-request-2026-09-02.json`,
-fixed to revision `9507a9cb11487de25e9a2e905a4f2f2084ab7c6e`.
+fixed to revision `c946d7306099ae03f71cc46f72bcba981e8da03a`.
+
+The structured result is recorded in
+`mirai-independent-ai-security-review-2026-09-02.json`. The owner-authorized
+substitution is sufficient only for the production-read release gate. It is
+not an external human audit and cannot authorize production writes.
 
 ## Purpose
 
 This packet lets a reviewer who did not implement the Runtime evaluate the
 security boundary without access to private credentials or customer data. An
-internal test result cannot close the independent-review gate.
+internal test result without reviewer isolation and an exact-revision owner
+decision cannot close the independent-review gate.
 
 The current internal baseline is documented in
 [`mirai-internal-security-baseline-2026-09-01.md`](mirai-internal-security-baseline-2026-09-01.md).

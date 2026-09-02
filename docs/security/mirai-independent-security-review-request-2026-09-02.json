@@ -4,7 +4,7 @@
   "status": "draft",
   "evidence_class": "template",
   "reviewed_repository": "https://github.com/zabarov/mirai-graph",
-  "reviewed_revision": "9507a9cb11487de25e9a2e905a4f2f2084ab7c6e",
+  "reviewed_revision": "c946d7306099ae03f71cc46f72bcba981e8da03a",
   "reviewer": {
     "alias": "independent-reviewer-pending",
     "independent": false,
@@ -51,7 +51,7 @@
   ],
   "verdict": "not_reviewable",
   "adapter_scope": [],
-  "reviewed_at": "2026-09-02T08:36:29Z",
+  "reviewed_at": "2026-09-02T12:42:04Z",
   "attestation": "Prepared review request only; the reviewer must replace this field with an attributable attestation.",
   "claim_boundary": "This request records scope and revision but cannot close the independent security or production-write gate."
 }

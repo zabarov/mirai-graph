@@ -3,17 +3,16 @@
   "release_id": "release.mirai.2.1.0",
   "evaluated_version": "2.0.0-alpha.3",
   "promotion_target": "2.1.0",
-  "evaluated_at": "2026-09-02T09:05:00Z",
+  "evaluated_at": "2026-09-02T12:42:04Z",
   "overall_status": "blocked",
   "gates": [
     {
       "id": "gate.2_0_core_security_freeze",
       "category": "safety",
-      "status": "blocked",
-      "evidence_refs": ["releases/2.1.0-contract-freeze-candidate.json", "test/runtime/governed-runtime.test.cjs", "standard/mirai-durable-execution.md", "docs/security/mirai-internal-security-followup-2026-09-02.md"],
-      "summary": "The Program, Runtime and authorization core is inventoried at an exact revision; serialized mutations, durable fencing generations, explicit stale-lock recovery and private-root guards close the known internal findings.",
-      "blocker_reason": "The owner-authorized independent AI-assisted follow-up must review the exact security candidate revision and close all critical and high findings.",
-      "limitations": ["Independent security review remains a separate required gate."]
+      "status": "passed",
+      "evidence_refs": ["releases/2.1.0-contract-freeze-candidate.json", "test/runtime/governed-runtime.test.cjs", "standard/mirai-durable-execution.md", "docs/security/mirai-independent-ai-security-review-2026-09-02.json"],
+      "summary": "The Program, Runtime and authorization core is frozen at exact revision c946d73 after path-swap, Git configuration, lease, recovery and private-root corrections passed isolated review and the full public CI matrix.",
+      "limitations": ["The freeze supports production-read release preparation; production-write adapters remain separately gated."]
     },
     {
       "id": "gate.2_1_contract_inventory",
@@ -48,10 +47,10 @@
     {
       "id": "gate.independent_security_review",
       "category": "safety",
-      "status": "not_run",
-      "evidence_refs": ["docs/security/mirai-independent-security-review-request-2026-09-02.json", "docs/security/mirai-independent-security-review-packet.md", "docs/security/mirai-internal-security-followup-2026-09-02.md"],
-      "summary": "An exact-scope internal follow-up passes with no unresolved critical, high or medium findings, but no attributable external independent verdict is recorded.",
-      "blocker_reason": "An independent reviewer who did not implement the changes must review the exact freeze revision and close all critical/high findings."
+      "status": "passed",
+      "evidence_refs": ["docs/security/mirai-independent-review-method-decision-2026-09-02.json", "docs/security/mirai-independent-ai-security-review-2026-09-02.json", "docs/security/mirai-independent-ai-security-review-2026-09-02.md", "https://github.com/zabarov/mirai-graph/actions/runs/33630896877"],
+      "summary": "Two isolated AI-assisted executors who did not implement the changes reviewed exact public revision c946d73, reproduced the corrected attack paths and found no unresolved critical or high finding.",
+      "limitations": ["This is an owner-authorized AI-assisted review, not an external human audit, and it cannot authorize production writes."]
     },
     {
       "id": "gate.2_1_migration_compatibility",
@@ -86,11 +85,9 @@
     }
   ],
   "blocking_gate_ids": [
-    "gate.2_0_core_security_freeze",
-    "gate.independent_security_review",
     "gate.2_1_clean_room_cross_platform",
     "gate.2_1_stable_release_metadata"
   ],
-  "next_safe_action": "Integrate the owner-authorized isolated AI-assisted security review without representing it as an external human audit, then create 2.1.0-rc.1 and run cross-platform clean-room gates.",
+  "next_safe_action": "Create 2.1.0-rc.1, run the exact RC package through Linux, macOS and Windows clean-room gates, then consolidate stable metadata only after the RC matrix passes.",
   "claim_boundary": "This readiness report supports contract inventory and targeted engineering evidence only. It does not authorize production writes or establish comparative scientific effectiveness."
 }

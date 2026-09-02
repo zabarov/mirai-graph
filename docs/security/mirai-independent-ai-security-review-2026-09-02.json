@@ -1,0 +1,101 @@
+{
+  "contract_version": "1.0.0",
+  "review_id": "security-review.mirai-2.1-production-read-2026-09-02",
+  "status": "complete",
+  "evidence_class": "independent_ai_assisted_review",
+  "reviewed_repository": "https://github.com/zabarov/mirai-graph",
+  "reviewed_revision": "c946d7306099ae03f71cc46f72bcba981e8da03a",
+  "reviewer": {
+    "alias": "isolated-review-executors",
+    "independent": true,
+    "implemented_reviewed_changes": false,
+    "conflict_declaration": "The isolated executors did not implement the reviewed changes and performed read-only verification from fresh public checkouts."
+  },
+  "scope": [
+    "program_parsing",
+    "path_and_symlink_boundary",
+    "command_execution",
+    "capability_scope",
+    "approval_integrity",
+    "crash_and_idempotency",
+    "compensation",
+    "evidence_redaction",
+    "manifest_authority",
+    "activation_budgets",
+    "activation_policy_binding",
+    "activation_host_budget_ceilings",
+    "process_run_production_exclusion",
+    "renewable_lease_and_generation_fencing",
+    "cross_process_mutation_serialization",
+    "runtime_private_root_ancestor_symlinks",
+    "stale_mutation_lock_recovery",
+    "production_runtime_composition",
+    "npm_host_local_state_exclusion"
+  ],
+  "methods": [
+    "Reviewed the broad security baseline and every security-relevant delta through the exact public revision.",
+    "Reproduced the post-initialization runtime path-swap attack and verified rejection before any outside write.",
+    "Verified repository-controlled fsmonitor and external diff suppression plus per-invocation Git configuration isolation and cleanup.",
+    "Ran the complete governed-runtime suite and inspected the public Linux, macOS and Windows CI matrix at the exact revision.",
+    "Checked public CodeQL, clean-room package, conformance, migration, capability, approval, recovery and evidence-boundary results.",
+    "Recorded unresolved coverage limits separately from release or production authority."
+  ],
+  "findings": [
+    {
+      "id": "SEC-101",
+      "severity": "high",
+      "status": "fixed",
+      "summary": "A symlinked sandbox root could cross the repository boundary.",
+      "reproduction": "The original adversarial fixture used a symbolic-link sandbox root; the reviewed revision rejects it before adapter access.",
+      "evidence_refs": [
+        "src/adapters/reference.ts",
+        "test/runtime/governed-runtime.test.cjs"
+      ]
+    },
+    {
+      "id": "SEC-102",
+      "severity": "high",
+      "status": "fixed",
+      "summary": "Repository Git configuration could invoke fsmonitor or external diff helpers.",
+      "reproduction": "The adversarial repository config points both helpers at marker commands; the reviewed Git adapter disables them and creates no marker.",
+      "evidence_refs": [
+        "src/adapters/reference.ts",
+        "test/runtime/governed-runtime.test.cjs",
+        "https://github.com/zabarov/mirai-graph/actions/runs/33630896877"
+      ]
+    },
+    {
+      "id": "SEC-103",
+      "severity": "high",
+      "status": "fixed",
+      "summary": "A runtime directory replaced by an intermediate symbolic link after initialization allowed an outside read and partial write.",
+      "reproduction": "The exact attack moves the run subtree outside the runtime home, inserts a symbolic link and calls readRun and appendEvent; both now fail before events or locks are created outside.",
+      "evidence_refs": [
+        "src/runtime/store.ts",
+        "test/runtime/governed-runtime.test.cjs"
+      ]
+    },
+    {
+      "id": "SEC-104",
+      "severity": "low",
+      "status": "fixed",
+      "summary": "Git reads reused one predictable temporary HOME and global configuration path.",
+      "reproduction": "Instrumentation observed distinct temporary HOME directories for status and diff, exclusive empty configs and cleanup of both directories.",
+      "evidence_refs": [
+        "src/adapters/reference.ts",
+        "test/runtime/governed-runtime.test.cjs"
+      ]
+    }
+  ],
+  "unresolved_risks": [
+    "The symbolic-link attack probes are POSIX-specific; Windows passed the complete governed-runtime and ordinary Git-read suites but skips those exact fixtures.",
+    "The bounded review did not run an open-ended concurrent race campaign between path validation and filesystem calls.",
+    "No external human security audit was performed.",
+    "No production-write adapter was reviewed or authorized."
+  ],
+  "verdict": "pass_for_production_read",
+  "adapter_scope": [],
+  "reviewed_at": "2026-09-02T12:42:04Z",
+  "attestation": "Two isolated AI-assisted executors reviewed the exact public revision, reproduced the corrected attack paths and reported no unresolved critical or high finding.",
+  "claim_boundary": "This is an owner-authorized isolated AI-assisted review, not an external human audit. It supports production-read release preparation only and cannot authorize production writes, live effects or general production deployment."
+}
