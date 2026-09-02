@@ -1,0 +1,27 @@
+{
+  "contract_version": "1.0.0",
+  "id": "evolution.invalid-protected",
+  "scope": "autonomic-demo",
+  "base_state_digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+  "changes": [
+    {
+      "id": "change.protected",
+      "kind": "protected_invariant",
+      "target_ref": "system/protected/safety",
+      "stratum": "system_protected",
+      "operation": "upsert",
+      "payload": { "self_grant": true },
+      "payload_digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "risk": "critical",
+      "confidence": 1,
+      "reversible": false,
+      "effectful": true,
+      "evidence_refs": [],
+      "successful_replay_refs": [],
+      "conflict_refs": []
+    }
+  ],
+  "created_from_cycle_ref": "cycle.invalid",
+  "canonical_write_allowed": false,
+  "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+}

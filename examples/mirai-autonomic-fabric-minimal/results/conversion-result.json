@@ -1,0 +1,43 @@
+{
+  "units": [
+    {
+      "contract_version": "1.0.0",
+      "id": "unit.3638e3aac76cfc27.2",
+      "source_ref": "source.autonomic-demo#release-process.md",
+      "source_fingerprint": "sha256:7d836e3b550ae9ff353e5303d7e5ed08d45faaf6b3123bc720cdf9eb5cc4f924",
+      "kind": "document_fragment",
+      "media_type": "text/markdown",
+      "ordinal": 2,
+      "content": "1. Inspect the bounded change and declared outcome.\n2. Run the required validation suite.\n3. If validation passes, request owner approval.\n4. Publish only after the approval receipt is verified.\n5. Record evidence and open a Kaizen proposal for reusable lessons.",
+      "content_digest": "sha256:3638e3aac76cfc277b425e9d6b98a65de23ed59d904165c5e5522e01cb932b4c",
+      "source_span": {
+        "section": "document.2"
+      },
+      "authority": "owner_asserted",
+      "scope": "autonomic-demo",
+      "confidentiality": "public",
+      "instructions_authorized": false
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "unit.7a518d9b03c8a282.1",
+      "source_ref": "source.autonomic-demo#release-process.md",
+      "source_fingerprint": "sha256:7d836e3b550ae9ff353e5303d7e5ed08d45faaf6b3123bc720cdf9eb5cc4f924",
+      "kind": "document_fragment",
+      "media_type": "text/markdown",
+      "ordinal": 1,
+      "content": "# Governed release process",
+      "content_digest": "sha256:7a518d9b03c8a282d88ab2533c4fa7cf8c9c2d66f327d2c29ffcd68ef6fa2810",
+      "source_span": {
+        "section": "document.1"
+      },
+      "authority": "owner_asserted",
+      "scope": "autonomic-demo",
+      "confidentiality": "public",
+      "instructions_authorized": false
+    }
+  ],
+  "diagnostics": [],
+  "raw_source_persisted": false,
+  "canonical_write_allowed": false
+}

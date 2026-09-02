@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zabarov.github.io/mirai/schemas/process-observation.schema.json",
+  "title": "Mirai Process Observation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract_version", "id", "source_ref", "source_digest", "mode", "process_hint", "sequence", "confidence", "authority", "canonical_write_allowed"],
+  "properties": {
+    "contract_version": { "const": "1.0.0" }, "id": { "type": "string" }, "process_hint": { "type": "string" },
+    "source_ref": { "type": "string" }, "source_digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" }, "mode": { "enum": ["intended", "observed"] }, "process_hint": { "type": "string" }, "actor_ref": { "type": "string" },
+    "sequence": { "type": "array", "items": { "type": "object", "additionalProperties": false, "required": ["id", "operation", "effects"], "properties": { "id": { "type": "string" }, "operation": { "type": "string" }, "condition": { "type": "string" }, "effects": { "type": "array", "items": { "type": "string" } }, "outcome": { "enum": ["success", "failure", "unknown"] } } } },
+    "terminal_outcome": { "type": "string" }, "confidence": { "type": "number", "minimum": 0, "maximum": 1 }, "authority": { "enum": ["informational", "supporting", "owner_asserted", "canonical_external"] }, "canonical_write_allowed": { "const": false }
+  }
+}

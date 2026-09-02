@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zabarov.github.io/mirai/schemas/source-descriptor.schema.json",
+  "title": "Mirai Source Descriptor",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract_version", "id", "provider", "locator", "authority", "scope", "confidentiality", "freshness", "read_only", "configuration"],
+  "properties": {
+    "contract_version": { "const": "1.0.0" },
+    "id": { "type": "string", "minLength": 1 },
+    "provider": { "enum": ["filesystem", "git", "http", "postgres", "mysql", "s3", "mcp", "custom"] },
+    "locator": { "type": "string", "minLength": 1, "not": { "pattern": "(password|PASSWORD|token|TOKEN|secret|SECRET|api[_-]?key|API[_-]?KEY)=" } },
+    "connection_ref": { "type": "string", "pattern": "^[A-Za-z0-9._/-]+$" },
+    "authority": { "enum": ["informational", "supporting", "owner_asserted", "canonical_external"] },
+    "scope": { "type": "string", "minLength": 1 },
+    "confidentiality": { "enum": ["public", "internal", "confidential", "restricted"] },
+    "freshness": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "max_age_ms": { "type": "integer", "minimum": 1 },
+        "valid_until": { "type": "string", "format": "date-time" }
+      }
+    },
+    "read_only": { "const": true },
+    "configuration": { "type": "object" }
+  }
+}

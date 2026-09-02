@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zabarov.github.io/mirai/schemas/data-placement-policy.schema.json",
+  "title": "Mirai Data Placement Policy",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract_version", "id", "source_scope", "placement", "retention", "contains_bulk_content", "contains_secrets", "canonical_write_allowed"],
+  "properties": {
+    "contract_version": { "const": "1.0.0" },
+    "id": { "type": "string", "minLength": 1 },
+    "source_scope": { "type": "string", "minLength": 1 },
+    "placement": { "enum": ["external_sot", "canonical_reference", "adaptive_metadata", "host_cache", "runtime_state", "evidence"] },
+    "retention": { "enum": ["source_owned", "versioned", "bounded", "ephemeral"] },
+    "contains_bulk_content": { "type": "boolean" },
+    "contains_secrets": { "const": false },
+    "canonical_write_allowed": { "const": false }
+  }
+}

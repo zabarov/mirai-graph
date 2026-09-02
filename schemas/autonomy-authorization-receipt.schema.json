@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zabarov.github.io/mirai/schemas/autonomy-authorization-receipt.schema.json",
+  "title": "Mirai Host-Local Autonomy Authorization Receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract_version", "id", "approved", "envelope_id", "envelope_digest", "scope", "policy_digest", "approved_by", "issued_at", "expires_at", "canonical_write_allowed", "signature_algorithm", "signature"],
+  "properties": {
+    "contract_version": { "const": "1.0.0" }, "id": { "type": "string" }, "approved": { "const": true }, "envelope_id": { "type": "string" },
+    "envelope_digest": { "$ref": "#/$defs/digest" }, "scope": { "type": "string" }, "policy_digest": { "$ref": "#/$defs/digest" }, "approved_by": { "type": "string", "minLength": 1 },
+    "issued_at": { "type": "string", "format": "date-time" }, "expires_at": { "type": "string", "format": "date-time" }, "canonical_write_allowed": { "const": false },
+    "signature_algorithm": { "const": "hmac-sha256-local" }, "signature": { "type": "string", "pattern": "^hmac-sha256:[a-f0-9]{64}$" }
+  },
+  "$defs": { "digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" } }
+}

@@ -1,0 +1,178 @@
+{
+  "id": "cycle.pilot.self-hosting",
+  "scope": "pilot.self-hosting",
+  "observed_at": "2026-09-02T12:00:00.000Z",
+  "source_snapshot_refs": [
+    {
+      "source_id": "synthetic.self-hosting",
+      "snapshot_digest": "sha256:820a7bd1055fdb5e67e72997b5adb004f89d9b09f84e4e6dd917fc932331cc7c"
+    }
+  ],
+  "units": [
+    {
+      "contract_version": "1.0.0",
+      "id": "unit.self-hosting.1",
+      "source_ref": "synthetic:self-hosting:1",
+      "source_fingerprint": "sha256:dc5e785b226fb33168618b217b1bf4a4b2115ffce8bd94c61b15df66b688cab9",
+      "kind": "record",
+      "media_type": "application/json",
+      "ordinal": 1,
+      "content": {
+        "title": "Schema release",
+        "owner_ref": "maintainers",
+        "depends_on": [
+          "contract validation",
+          "security review"
+        ]
+      },
+      "content_digest": "sha256:40b45dfaed8fec658c7f49d4dc10472f1d86db104501a2b5c756082109e63bc6",
+      "authority": "owner_asserted",
+      "scope": "pilot.self-hosting",
+      "confidentiality": "public",
+      "instructions_authorized": false
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "unit.self-hosting.100",
+      "source_ref": "synthetic:self-hosting:100",
+      "source_fingerprint": "sha256:cc87b8c1fcfaf896ec87703d8a55932ced480eb8202df0ec3dd16f8f877f752d",
+      "kind": "text",
+      "media_type": "text/markdown",
+      "ordinal": 1,
+      "content": "1. Inspect the bounded request.\n2. Validate required evidence.\n3. If a protected action is needed, request approval.\n4. Record the outcome and Kaizen proposal.",
+      "content_digest": "sha256:356cddd63629a7ae8f7a2201e0c2abdb4267f4f995d4c057aac9bf5a54a2729f",
+      "authority": "owner_asserted",
+      "scope": "pilot.self-hosting",
+      "confidentiality": "public",
+      "instructions_authorized": false
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "unit.self-hosting.101",
+      "source_ref": "synthetic:self-hosting:101",
+      "source_fingerprint": "sha256:e8376f3f5452081c4ef7e62713ab800f69cc8c224540a407f6a4b0d174e1188e",
+      "kind": "text",
+      "media_type": "text/markdown",
+      "ordinal": 1,
+      "content": "1. Inspect the request.\n2. Skip directly to completion.",
+      "content_digest": "sha256:985f042425b1d0c04ca58ac79a661eaaebccd1e77c2662849741505830e2202b",
+      "authority": "supporting",
+      "scope": "pilot.self-hosting",
+      "confidentiality": "public",
+      "instructions_authorized": false
+    }
+  ],
+  "observations": [
+    {
+      "contract_version": "1.0.0",
+      "id": "observation.12facdbb861a49ae",
+      "source_ref": "synthetic:self-hosting:100",
+      "source_digest": "sha256:356cddd63629a7ae8f7a2201e0c2abdb4267f4f995d4c057aac9bf5a54a2729f",
+      "mode": "intended",
+      "process_hint": "self-hosting_work",
+      "sequence": [
+        {
+          "id": "step.1",
+          "operation": "unknown_operation",
+          "effects": [],
+          "outcome": "unknown"
+        },
+        {
+          "id": "step.2",
+          "operation": "unknown_operation",
+          "effects": [],
+          "outcome": "unknown"
+        },
+        {
+          "id": "step.3",
+          "operation": "unknown_operation",
+          "effects": [],
+          "outcome": "unknown"
+        },
+        {
+          "id": "step.4",
+          "operation": "unknown_operation",
+          "effects": [],
+          "outcome": "unknown"
+        }
+      ],
+      "confidence": 0.75,
+      "authority": "owner_asserted",
+      "canonical_write_allowed": false
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "observation.5537f32c10c6b665",
+      "source_ref": "synthetic:self-hosting:101",
+      "source_digest": "sha256:985f042425b1d0c04ca58ac79a661eaaebccd1e77c2662849741505830e2202b",
+      "mode": "observed",
+      "process_hint": "self-hosting_work",
+      "sequence": [
+        {
+          "id": "step.1",
+          "operation": "unknown_operation",
+          "effects": [],
+          "outcome": "unknown"
+        },
+        {
+          "id": "step.2",
+          "operation": "unknown_operation",
+          "effects": [],
+          "outcome": "unknown"
+        }
+      ],
+      "confidence": 0.75,
+      "authority": "supporting",
+      "canonical_write_allowed": false
+    }
+  ],
+  "base_state_digest": "sha256:00ae71ef4afa22914fdbc0fc18e34536973594a705f03fa92e0c6dcd1c16b175",
+  "evolution_evidence_refs": [
+    "evidence:synthetic-pilot"
+  ],
+  "envelope": {
+    "contract_version": "1.0.0",
+    "id": "envelope.pilot.self-hosting",
+    "scope": "pilot.self-hosting",
+    "allowed_change_kinds": [
+      "derived_navigation",
+      "source_freshness"
+    ],
+    "forbidden_targets": [
+      "adaptive/protected/**"
+    ],
+    "risk_ceiling": "low",
+    "confidence_floor": 0.7,
+    "evidence_requirements": [
+      "evidence:synthetic-pilot"
+    ],
+    "replay_requirements": {
+      "required_for": [],
+      "minimum_successful_replays": 0
+    },
+    "resource_patterns": [
+      "adaptive/**"
+    ],
+    "change_budget": {
+      "max_changes": 50,
+      "max_payload_bytes": 1048576
+    },
+    "issued_at": "2026-01-01T00:00:00.000Z",
+    "expires_at": "2099-01-01T00:00:00.000Z",
+    "rollback_contract": {
+      "required": true,
+      "retention_ms": 2592000000,
+      "verify_readback": true
+    },
+    "policy_digest": "sha256:928e9aebdf13592f16e8d977fede0a186bc5f2e52ab7ed01b04ed549231b0597",
+    "approver_signatures": [
+      {
+        "signer_ref": "pilot.owner",
+        "signature_ref": "synthetic:owner-reviewed",
+        "signature_digest": "sha256:3490bc3cf1789db3654d0542e8fd9f9627f7e3f8bdcdf3acf1bb76a37f828319"
+      }
+    ],
+    "canonical_write_allowed": false,
+    "digest": "sha256:5d475a6b5c8240a9afba7031ed45e967fc19497b69f9bd5111d873c9fa5a375c"
+  }
+}

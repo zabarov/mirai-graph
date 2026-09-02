@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zabarov.github.io/mirai/schemas/promotion-receipt.schema.json",
+  "title": "Mirai Adaptive Promotion Receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract_version", "id", "proposal_id", "proposal_digest", "decision_digest", "envelope_digest", "state_ref", "before_digest", "after_digest", "revision", "status", "applied_change_ids", "applied_at", "readback_verified", "canonical_write_allowed", "digest"],
+  "properties": {
+    "contract_version": { "const": "1.0.0" }, "id": { "type": "string" }, "proposal_id": { "type": "string" }, "proposal_digest": { "$ref": "#/$defs/digest" }, "decision_digest": { "$ref": "#/$defs/digest" }, "envelope_digest": { "$ref": "#/$defs/digest" },
+    "state_ref": { "type": "string", "pattern": "^\\.mirai/" }, "before_digest": { "$ref": "#/$defs/digest" }, "after_digest": { "$ref": "#/$defs/digest" }, "revision": { "type": "integer", "minimum": 0 },
+    "status": { "enum": ["applied", "already_applied", "rolled_back"] }, "rollback_ref": { "type": "string", "pattern": "^\\.mirai/migration-backups/" }, "applied_change_ids": { "type": "array", "items": { "type": "string" } },
+    "applied_at": { "type": "string", "format": "date-time" }, "readback_verified": { "const": true }, "canonical_write_allowed": { "const": false }, "digest": { "$ref": "#/$defs/digest" }
+  },
+  "$defs": { "digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" } }
+}

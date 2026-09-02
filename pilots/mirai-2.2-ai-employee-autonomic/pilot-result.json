@@ -1,0 +1,33 @@
+{
+  "contract_version": "1.0.0",
+  "id": "pilot.mirai-2.2.ai-employee",
+  "title": "AI employee governed work",
+  "status": "instrumentation_ready",
+  "conditions": {
+    "manual": "not_run",
+    "mirai_2_1_proposal_only": "represented_by_proposal_boundary",
+    "mirai_2_2_managed": "represented_by_envelope_decision"
+  },
+  "metrics": {
+    "assertion_count": 5,
+    "relation_count": 4,
+    "conflict_count": 0,
+    "intended_process_count": 1,
+    "observed_process_count": 1,
+    "managed_change_count": 4,
+    "managed_decision": "automatic_promotion_allowed"
+  },
+  "evidence": {
+    "cycle_digest": "sha256:b5ace973a538a13deea59ff033c7c15ff575930a062951a77a1f244d9a6e50ec",
+    "knowledge_digest": "sha256:465c7e7bfb63d8643b0a805677a3f8e357df21b84968a09c453bf207af78d278"
+  },
+  "internal_review": "passed_fixture_consistency",
+  "independent_human_review": "pending",
+  "production_effects": false,
+  "limitations": [
+    "Synthetic pilot; it does not establish external validity.",
+    "Model comparison, blind human review and production-read observation remain pending."
+  ],
+  "canonical_write_allowed": false,
+  "digest": "sha256:1a22df735176b58e430a8a27311ffd84420f26d643afac6e2d29383ccfe176b9"
+}

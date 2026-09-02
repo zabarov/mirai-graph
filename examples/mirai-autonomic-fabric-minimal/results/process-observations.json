@@ -1,0 +1,110 @@
+{
+  "observations": [
+    {
+      "contract_version": "1.0.0",
+      "id": "observation.01ca42a17944026d",
+      "source_ref": "source.autonomic-demo#release-process.md",
+      "source_digest": "sha256:3638e3aac76cfc277b425e9d6b98a65de23ed59d904165c5e5522e01cb932b4c",
+      "mode": "intended",
+      "process_hint": "governed_release",
+      "sequence": [
+        {
+          "id": "step.1",
+          "operation": "unknown_operation",
+          "effects": [],
+          "outcome": "unknown"
+        },
+        {
+          "id": "step.2",
+          "operation": "unknown_operation",
+          "effects": [],
+          "outcome": "unknown"
+        },
+        {
+          "id": "step.3",
+          "operation": "unknown_operation",
+          "effects": [],
+          "outcome": "unknown"
+        },
+        {
+          "id": "step.4",
+          "operation": "unknown_operation",
+          "effects": [],
+          "outcome": "unknown"
+        },
+        {
+          "id": "step.5",
+          "operation": "unknown_operation",
+          "effects": [],
+          "outcome": "unknown"
+        }
+      ],
+      "confidence": 0.75,
+      "authority": "owner_asserted",
+      "canonical_write_allowed": false
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "observation.f6cc8b86c471add9",
+      "source_ref": "source.autonomic-demo#release-process.md",
+      "source_digest": "sha256:7a518d9b03c8a282d88ab2533c4fa7cf8c9c2d66f327d2c29ffcd68ef6fa2810",
+      "mode": "intended",
+      "process_hint": "governed_release",
+      "sequence": [
+        {
+          "id": "step.1",
+          "operation": "governed_release_process",
+          "effects": [],
+          "outcome": "unknown"
+        }
+      ],
+      "confidence": 0.25,
+      "authority": "owner_asserted",
+      "canonical_write_allowed": false
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "observation.858c465801d50bb3.observed",
+      "source_ref": "source.autonomic-demo#release-process.md",
+      "source_digest": "sha256:3638e3aac76cfc277b425e9d6b98a65de23ed59d904165c5e5522e01cb932b4c",
+      "mode": "observed",
+      "process_hint": "governed_release",
+      "sequence": [
+        {
+          "id": "step.1",
+          "operation": "unknown_operation",
+          "effects": [],
+          "outcome": "unknown"
+        },
+        {
+          "id": "step.2",
+          "operation": "unknown_operation",
+          "effects": [],
+          "outcome": "unknown"
+        }
+      ],
+      "confidence": 0.5,
+      "authority": "owner_asserted",
+      "canonical_write_allowed": false
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "observation.0dec0b78870bfbfa.observed",
+      "source_ref": "source.autonomic-demo#release-process.md",
+      "source_digest": "sha256:7a518d9b03c8a282d88ab2533c4fa7cf8c9c2d66f327d2c29ffcd68ef6fa2810",
+      "mode": "observed",
+      "process_hint": "governed_release",
+      "sequence": [
+        {
+          "id": "step.1",
+          "operation": "governed_release_process",
+          "effects": [],
+          "outcome": "unknown"
+        }
+      ],
+      "confidence": 0.5,
+      "authority": "owner_asserted",
+      "canonical_write_allowed": false
+    }
+  ]
+}

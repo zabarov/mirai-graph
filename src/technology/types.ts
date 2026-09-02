@@ -3,6 +3,8 @@ import type { Expression, TypeSpec } from "../program/types.js";
 export const TECHNOLOGY_DRAFT_CONTRACT_VERSION = "1.0.0" as const;
 export const TECHNOLOGY_QUALIFICATION_CONTRACT_VERSION = "1.0.0" as const;
 export const HYBRID_TECHNOLOGY_PLAN_CONTRACT_VERSION = "1.0.0" as const;
+export const PROCESS_OBSERVATION_CONTRACT_VERSION = "1.0.0" as const;
+export const PROCESS_CANDIDATE_CONTRACT_VERSION = "1.0.0" as const;
 
 export type OperationClass = "executable" | "verifiable" | "advisory" | "decision" | "unsupported";
 export type QualificationAcceptance = "unreviewed" | "owner_accepted" | "tester_accepted";
@@ -119,6 +121,52 @@ export interface HybridTechnologyPlan {
   runtime_program_digest?: string;
   requires_human_coordination: boolean;
   activation_allowed: boolean;
+  canonical_write_allowed: false;
+  digest: string;
+}
+
+export type ProcessEvidenceMode = "intended" | "observed";
+
+export interface ProcessObservation {
+  contract_version: typeof PROCESS_OBSERVATION_CONTRACT_VERSION;
+  id: string;
+  source_ref: string;
+  source_digest: string;
+  mode: ProcessEvidenceMode;
+  process_hint: string;
+  actor_ref?: string;
+  sequence: Array<{
+    id: string;
+    operation: string;
+    condition?: string;
+    effects: string[];
+    outcome?: "success" | "failure" | "unknown";
+  }>;
+  terminal_outcome?: string;
+  confidence: number;
+  authority: "informational" | "supporting" | "owner_asserted" | "canonical_external";
+  canonical_write_allowed: false;
+}
+
+export interface ProcessCandidate {
+  contract_version: typeof PROCESS_CANDIDATE_CONTRACT_VERSION;
+  id: string;
+  process_hint: string;
+  mode: ProcessEvidenceMode;
+  observation_refs: string[];
+  support_count: number;
+  control_flow: Array<{
+    ordinal: number;
+    operation: string;
+    next?: number;
+    conditions: string[];
+    observed_outcomes: string[];
+    effects: string[];
+  }>;
+  confidence: number;
+  normative_authority_present: boolean;
+  technology_draft_allowed: boolean;
+  diagnostics: TechnologyDiagnostic[];
   canonical_write_allowed: false;
   digest: string;
 }

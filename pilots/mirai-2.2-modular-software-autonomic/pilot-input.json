@@ -1,0 +1,179 @@
+{
+  "id": "cycle.pilot.modular-software",
+  "scope": "pilot.modular-software",
+  "observed_at": "2026-09-02T12:00:00.000Z",
+  "source_snapshot_refs": [
+    {
+      "source_id": "synthetic.modular-software",
+      "snapshot_digest": "sha256:1fd74d4e9aa05ea5af0ef08165e45cf619ddd46007d4f19becfc8cb241faaaf9"
+    }
+  ],
+  "units": [
+    {
+      "contract_version": "1.0.0",
+      "id": "unit.modular-software.1",
+      "source_ref": "synthetic:modular-software:1",
+      "source_fingerprint": "sha256:97f9ea372a7302b3284b18751f092652e11043df0987635f95ec5dc1eacb7ad4",
+      "kind": "record",
+      "media_type": "application/json",
+      "ordinal": 1,
+      "content": {
+        "title": "Package feature",
+        "owner_ref": "package owner",
+        "depends_on": [
+          "specification",
+          "tests",
+          "review"
+        ]
+      },
+      "content_digest": "sha256:b89103edfebafa7fe2a9d75dafc9208c56cbfbd51c7914522f102d3a62532d4d",
+      "authority": "owner_asserted",
+      "scope": "pilot.modular-software",
+      "confidentiality": "public",
+      "instructions_authorized": false
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "unit.modular-software.100",
+      "source_ref": "synthetic:modular-software:100",
+      "source_fingerprint": "sha256:12fb3143856b843d7f3ca75379128eab0ef9ef02779354545a3f480d8004519a",
+      "kind": "text",
+      "media_type": "text/markdown",
+      "ordinal": 1,
+      "content": "1. Inspect the bounded request.\n2. Validate required evidence.\n3. If a protected action is needed, request approval.\n4. Record the outcome and Kaizen proposal.",
+      "content_digest": "sha256:356cddd63629a7ae8f7a2201e0c2abdb4267f4f995d4c057aac9bf5a54a2729f",
+      "authority": "owner_asserted",
+      "scope": "pilot.modular-software",
+      "confidentiality": "public",
+      "instructions_authorized": false
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "unit.modular-software.101",
+      "source_ref": "synthetic:modular-software:101",
+      "source_fingerprint": "sha256:bce0b506c458c7274c6b809e79778ec5954a0e26a94a8a0359fd2d5459ae4f5e",
+      "kind": "text",
+      "media_type": "text/markdown",
+      "ordinal": 1,
+      "content": "1. Inspect the request.\n2. Skip directly to completion.",
+      "content_digest": "sha256:985f042425b1d0c04ca58ac79a661eaaebccd1e77c2662849741505830e2202b",
+      "authority": "supporting",
+      "scope": "pilot.modular-software",
+      "confidentiality": "public",
+      "instructions_authorized": false
+    }
+  ],
+  "observations": [
+    {
+      "contract_version": "1.0.0",
+      "id": "observation.54a522398b92cc44",
+      "source_ref": "synthetic:modular-software:100",
+      "source_digest": "sha256:356cddd63629a7ae8f7a2201e0c2abdb4267f4f995d4c057aac9bf5a54a2729f",
+      "mode": "intended",
+      "process_hint": "modular-software_work",
+      "sequence": [
+        {
+          "id": "step.1",
+          "operation": "unknown_operation",
+          "effects": [],
+          "outcome": "unknown"
+        },
+        {
+          "id": "step.2",
+          "operation": "unknown_operation",
+          "effects": [],
+          "outcome": "unknown"
+        },
+        {
+          "id": "step.3",
+          "operation": "unknown_operation",
+          "effects": [],
+          "outcome": "unknown"
+        },
+        {
+          "id": "step.4",
+          "operation": "unknown_operation",
+          "effects": [],
+          "outcome": "unknown"
+        }
+      ],
+      "confidence": 0.75,
+      "authority": "owner_asserted",
+      "canonical_write_allowed": false
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "observation.c42e9b1abef863d5",
+      "source_ref": "synthetic:modular-software:101",
+      "source_digest": "sha256:985f042425b1d0c04ca58ac79a661eaaebccd1e77c2662849741505830e2202b",
+      "mode": "observed",
+      "process_hint": "modular-software_work",
+      "sequence": [
+        {
+          "id": "step.1",
+          "operation": "unknown_operation",
+          "effects": [],
+          "outcome": "unknown"
+        },
+        {
+          "id": "step.2",
+          "operation": "unknown_operation",
+          "effects": [],
+          "outcome": "unknown"
+        }
+      ],
+      "confidence": 0.75,
+      "authority": "supporting",
+      "canonical_write_allowed": false
+    }
+  ],
+  "base_state_digest": "sha256:0a47a905422d81e5c8932d49e764428bd60b65a340346bdffedd7be976201e2c",
+  "evolution_evidence_refs": [
+    "evidence:synthetic-pilot"
+  ],
+  "envelope": {
+    "contract_version": "1.0.0",
+    "id": "envelope.pilot.modular-software",
+    "scope": "pilot.modular-software",
+    "allowed_change_kinds": [
+      "derived_navigation",
+      "source_freshness"
+    ],
+    "forbidden_targets": [
+      "adaptive/protected/**"
+    ],
+    "risk_ceiling": "low",
+    "confidence_floor": 0.7,
+    "evidence_requirements": [
+      "evidence:synthetic-pilot"
+    ],
+    "replay_requirements": {
+      "required_for": [],
+      "minimum_successful_replays": 0
+    },
+    "resource_patterns": [
+      "adaptive/**"
+    ],
+    "change_budget": {
+      "max_changes": 50,
+      "max_payload_bytes": 1048576
+    },
+    "issued_at": "2026-01-01T00:00:00.000Z",
+    "expires_at": "2099-01-01T00:00:00.000Z",
+    "rollback_contract": {
+      "required": true,
+      "retention_ms": 2592000000,
+      "verify_readback": true
+    },
+    "policy_digest": "sha256:928e9aebdf13592f16e8d977fede0a186bc5f2e52ab7ed01b04ed549231b0597",
+    "approver_signatures": [
+      {
+        "signer_ref": "pilot.owner",
+        "signature_ref": "synthetic:owner-reviewed",
+        "signature_digest": "sha256:49ad2aa8956d79d5b050c510fc8afc0ec0df4273a243cd44915c6d8d2ff0d768"
+      }
+    ],
+    "canonical_write_allowed": false,
+    "digest": "sha256:cbc05752a408f4056f96b82ffd6fd52c9ad8cc6a8c6643e86ef5e7afaa9528e0"
+  }
+}

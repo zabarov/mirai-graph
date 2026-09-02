@@ -38,7 +38,11 @@ for (const id of required) if (!gates.has(id)) errors.push(`required_gate_missin
 const expectedBlocking = [...gates.values()].filter((gate) => gate.status !== "passed").map((gate) => gate.id).sort();
 if (JSON.stringify(expectedBlocking) !== JSON.stringify([...(report.blocking_gate_ids || [])].sort())) errors.push("blocking_gate_ids_do_not_match_gate_statuses");
 if ((expectedBlocking.length ? "blocked" : "ready") !== report.overall_status) errors.push("overall_status_mismatch");
-if (report.evaluated_version !== require("../../package.json").version) errors.push("evaluated_version_package_mismatch");
+const packageVersion = require("../../package.json").version;
+const numericVersion = (value) => value.split("-")[0].split(".").map(Number);
+const [reportMajor, reportMinor, reportPatch] = numericVersion(report.evaluated_version);
+const [packageMajor, packageMinor, packagePatch] = numericVersion(packageVersion);
+if (packageMajor !== reportMajor || packageMinor < reportMinor || (packageMinor === reportMinor && packagePatch < reportPatch)) errors.push("evaluated_version_newer_than_package");
 if (gates.get("gate.scientific_claim_boundary")?.status !== "passed") errors.push("scientific_claim_boundary_must_be_explicit");
 if (/scientifically proven|guarantees model independence|unrestricted production/i.test(report.claim_boundary || "")) errors.push("claim_boundary_overclaim");
 

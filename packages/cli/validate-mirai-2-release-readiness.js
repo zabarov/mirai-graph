@@ -73,7 +73,11 @@ const declaredBlocking = [...(report.blocking_gate_ids || [])].sort();
 if (JSON.stringify(expectedBlocking) !== JSON.stringify(declaredBlocking)) errors.push("blocking_gate_ids_do_not_match_gate_statuses");
 if (expectedBlocking.length > 0 && report.overall_status !== "blocked") errors.push("overall_status_must_be_blocked");
 if (expectedBlocking.length === 0 && report.overall_status !== "ready") errors.push("overall_status_must_be_ready");
-if (report.evaluated_version !== require("../../package.json").version) errors.push("evaluated_version_package_mismatch");
+const packageVersion = require("../../package.json").version;
+const numericVersion = (value) => value.split("-")[0].split(".").map(Number);
+const [reportMajor, reportMinor, reportPatch] = numericVersion(report.evaluated_version);
+const [packageMajor, packageMinor, packagePatch] = numericVersion(packageVersion);
+if (packageMajor !== reportMajor || packageMinor < reportMinor || (packageMinor === reportMinor && packagePatch < reportPatch)) errors.push("evaluated_version_newer_than_package");
 if (/proves|scientifically proven|guarantees model independence/i.test(report.claim_boundary || "")) errors.push("claim_boundary_overclaim");
 
 const serialized = JSON.stringify(report);

@@ -1,0 +1,14 @@
+{
+  "contract_version": "1.0.0",
+  "id": "source.autonomic-demo",
+  "provider": "filesystem",
+  "locator": "examples/mirai-autonomic-fabric-minimal/inputs",
+  "authority": "owner_asserted",
+  "scope": "autonomic-demo",
+  "confidentiality": "public",
+  "freshness": {
+    "max_age_ms": 86400000
+  },
+  "read_only": true,
+  "configuration": {}
+}

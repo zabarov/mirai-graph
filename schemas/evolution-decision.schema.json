@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zabarov.github.io/mirai/schemas/evolution-decision.schema.json",
+  "title": "Mirai Evolution Decision",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract_version", "proposal_id", "proposal_digest", "envelope_id", "envelope_digest", "evaluated_at", "change_decisions", "verdict", "canonical_write_allowed", "digest"],
+  "properties": {
+    "contract_version": { "const": "1.0.0" }, "proposal_id": { "type": "string" }, "proposal_digest": { "$ref": "#/$defs/digest" }, "envelope_id": { "type": "string" }, "envelope_digest": { "$ref": "#/$defs/digest" },
+    "evaluated_at": { "type": "string", "format": "date-time" }, "change_decisions": { "type": "array", "items": { "type": "object", "required": ["change_id", "verdict", "reason_codes"], "properties": { "verdict": { "enum": ["allow_automatic", "manual_review", "deny"] } } } },
+    "verdict": { "enum": ["automatic_promotion_allowed", "manual_review_required", "denied"] }, "canonical_write_allowed": { "const": false }, "digest": { "$ref": "#/$defs/digest" }
+  },
+  "$defs": { "digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" } }
+}

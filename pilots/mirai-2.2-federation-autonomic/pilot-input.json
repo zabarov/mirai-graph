@@ -1,0 +1,178 @@
+{
+  "id": "cycle.pilot.federation",
+  "scope": "pilot.federation",
+  "observed_at": "2026-09-02T12:00:00.000Z",
+  "source_snapshot_refs": [
+    {
+      "source_id": "synthetic.federation",
+      "snapshot_digest": "sha256:dccc92aa7795121d5b1d641ad0b61aa4ae0c484a3d69e7165008c6b684b027d7"
+    }
+  ],
+  "units": [
+    {
+      "contract_version": "1.0.0",
+      "id": "unit.federation.1",
+      "source_ref": "synthetic:federation:1",
+      "source_fingerprint": "sha256:f28900b65d5cd5eae246cf12eb105ba90f19c436f73979e6bfc8c67863a72bd4",
+      "kind": "record",
+      "media_type": "application/json",
+      "ordinal": 1,
+      "content": {
+        "title": "Capability route",
+        "owner_ref": "routing owner",
+        "requires": [
+          "evidence gate",
+          "quality gate"
+        ]
+      },
+      "content_digest": "sha256:3d8bd721a324ab44edb12004189cf3d12458b1fe028792f1304718fa96adbf8b",
+      "authority": "owner_asserted",
+      "scope": "pilot.federation",
+      "confidentiality": "public",
+      "instructions_authorized": false
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "unit.federation.100",
+      "source_ref": "synthetic:federation:100",
+      "source_fingerprint": "sha256:92dad28b354d0584e2c53675e692f1a7c497025ddbb9117cb64aa0709393f289",
+      "kind": "text",
+      "media_type": "text/markdown",
+      "ordinal": 1,
+      "content": "1. Inspect the bounded request.\n2. Validate required evidence.\n3. If a protected action is needed, request approval.\n4. Record the outcome and Kaizen proposal.",
+      "content_digest": "sha256:356cddd63629a7ae8f7a2201e0c2abdb4267f4f995d4c057aac9bf5a54a2729f",
+      "authority": "owner_asserted",
+      "scope": "pilot.federation",
+      "confidentiality": "public",
+      "instructions_authorized": false
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "unit.federation.101",
+      "source_ref": "synthetic:federation:101",
+      "source_fingerprint": "sha256:15af28eb58ac1ee83200fe1a53987af5f249d28f2711b23b6da07945a3c0515b",
+      "kind": "text",
+      "media_type": "text/markdown",
+      "ordinal": 1,
+      "content": "1. Inspect the request.\n2. Skip directly to completion.",
+      "content_digest": "sha256:985f042425b1d0c04ca58ac79a661eaaebccd1e77c2662849741505830e2202b",
+      "authority": "supporting",
+      "scope": "pilot.federation",
+      "confidentiality": "public",
+      "instructions_authorized": false
+    }
+  ],
+  "observations": [
+    {
+      "contract_version": "1.0.0",
+      "id": "observation.6ecfa877a871c71e",
+      "source_ref": "synthetic:federation:100",
+      "source_digest": "sha256:356cddd63629a7ae8f7a2201e0c2abdb4267f4f995d4c057aac9bf5a54a2729f",
+      "mode": "intended",
+      "process_hint": "federation_work",
+      "sequence": [
+        {
+          "id": "step.1",
+          "operation": "unknown_operation",
+          "effects": [],
+          "outcome": "unknown"
+        },
+        {
+          "id": "step.2",
+          "operation": "unknown_operation",
+          "effects": [],
+          "outcome": "unknown"
+        },
+        {
+          "id": "step.3",
+          "operation": "unknown_operation",
+          "effects": [],
+          "outcome": "unknown"
+        },
+        {
+          "id": "step.4",
+          "operation": "unknown_operation",
+          "effects": [],
+          "outcome": "unknown"
+        }
+      ],
+      "confidence": 0.75,
+      "authority": "owner_asserted",
+      "canonical_write_allowed": false
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "observation.d76f38a77c4b8012",
+      "source_ref": "synthetic:federation:101",
+      "source_digest": "sha256:985f042425b1d0c04ca58ac79a661eaaebccd1e77c2662849741505830e2202b",
+      "mode": "observed",
+      "process_hint": "federation_work",
+      "sequence": [
+        {
+          "id": "step.1",
+          "operation": "unknown_operation",
+          "effects": [],
+          "outcome": "unknown"
+        },
+        {
+          "id": "step.2",
+          "operation": "unknown_operation",
+          "effects": [],
+          "outcome": "unknown"
+        }
+      ],
+      "confidence": 0.75,
+      "authority": "supporting",
+      "canonical_write_allowed": false
+    }
+  ],
+  "base_state_digest": "sha256:d936fa7757848776740be26e74c391ff1ce1a4c60c3e1b2ba8117b86205ab079",
+  "evolution_evidence_refs": [
+    "evidence:synthetic-pilot"
+  ],
+  "envelope": {
+    "contract_version": "1.0.0",
+    "id": "envelope.pilot.federation",
+    "scope": "pilot.federation",
+    "allowed_change_kinds": [
+      "derived_navigation",
+      "source_freshness"
+    ],
+    "forbidden_targets": [
+      "adaptive/protected/**"
+    ],
+    "risk_ceiling": "low",
+    "confidence_floor": 0.7,
+    "evidence_requirements": [
+      "evidence:synthetic-pilot"
+    ],
+    "replay_requirements": {
+      "required_for": [],
+      "minimum_successful_replays": 0
+    },
+    "resource_patterns": [
+      "adaptive/**"
+    ],
+    "change_budget": {
+      "max_changes": 50,
+      "max_payload_bytes": 1048576
+    },
+    "issued_at": "2026-01-01T00:00:00.000Z",
+    "expires_at": "2099-01-01T00:00:00.000Z",
+    "rollback_contract": {
+      "required": true,
+      "retention_ms": 2592000000,
+      "verify_readback": true
+    },
+    "policy_digest": "sha256:928e9aebdf13592f16e8d977fede0a186bc5f2e52ab7ed01b04ed549231b0597",
+    "approver_signatures": [
+      {
+        "signer_ref": "pilot.owner",
+        "signature_ref": "synthetic:owner-reviewed",
+        "signature_digest": "sha256:ff8255c5b1f57664a90c6f8ade42e974e02318dc4473cbefb42647b3beeee7cd"
+      }
+    ],
+    "canonical_write_allowed": false,
+    "digest": "sha256:ec7609cf6fd4626d732f27febdb7d4cfb24051bbb93a9d1e999842d8e3fd7d73"
+  }
+}

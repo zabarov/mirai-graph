@@ -1,0 +1,10 @@
+{
+  "contract_version": "1.0.0",
+  "id": "placement.autonomic-demo.external-sot",
+  "source_scope": "autonomic-demo",
+  "placement": "external_sot",
+  "retention": "source_owned",
+  "contains_bulk_content": false,
+  "contains_secrets": false,
+  "canonical_write_allowed": false
+}

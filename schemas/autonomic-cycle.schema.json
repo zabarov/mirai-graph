@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zabarov.github.io/mirai/schemas/autonomic-cycle.schema.json",
+  "title": "Mirai Bounded Autonomic Cycle",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract_version", "id", "scope", "observed_at", "source_snapshot_refs", "knowledge", "processes", "evolution_proposal", "status", "canonical_write_allowed", "digest"],
+  "properties": {
+    "contract_version": { "const": "1.0.0" }, "id": { "type": "string" }, "scope": { "type": "string" }, "observed_at": { "type": "string", "format": "date-time" },
+    "source_snapshot_refs": { "type": "array", "items": { "type": "object", "required": ["source_id", "snapshot_digest"] } },
+    "knowledge": { "type": "object", "required": ["proposal_digest", "assertion_count", "relation_count", "conflict_count", "readiness"] },
+    "processes": { "type": "object", "required": ["candidates", "intended_count", "observed_count", "draft_allowed_count"] },
+    "evolution_proposal": { "type": "object", "required": ["contract_version", "id", "scope", "base_state_digest", "changes", "created_from_cycle_ref", "canonical_write_allowed", "digest"] },
+    "evolution_decision": { "type": "object", "required": ["contract_version", "proposal_id", "proposal_digest", "envelope_id", "envelope_digest", "change_decisions", "verdict", "canonical_write_allowed", "digest"] },
+    "promotion_receipt": { "type": "object", "required": ["contract_version", "id", "proposal_id", "status", "state_ref", "readback_verified", "canonical_write_allowed", "digest"] },
+    "status": { "enum": ["planned", "manual_review_required", "denied", "applied", "no_changes"] }, "canonical_write_allowed": { "const": false }, "digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" }
+  }
+}

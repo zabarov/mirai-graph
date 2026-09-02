@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zabarov.github.io/mirai/schemas/normalized-unit.schema.json",
+  "title": "Mirai Normalized Unit",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract_version", "id", "source_ref", "source_fingerprint", "kind", "media_type", "ordinal", "content", "content_digest", "authority", "scope", "confidentiality", "instructions_authorized"],
+  "properties": {
+    "contract_version": { "const": "1.0.0" }, "id": { "type": "string" }, "source_ref": { "type": "string" },
+    "source_fingerprint": { "$ref": "#/$defs/digest" }, "kind": { "enum": ["text", "record", "table", "document_fragment"] },
+    "media_type": { "type": "string" }, "ordinal": { "type": "integer", "minimum": 1 }, "content": {}, "content_digest": { "$ref": "#/$defs/digest" },
+    "source_span": { "type": "object" }, "authority": { "enum": ["informational", "supporting", "owner_asserted", "canonical_external"] },
+    "scope": { "type": "string" }, "confidentiality": { "enum": ["public", "internal", "confidential", "restricted"] }, "instructions_authorized": { "const": false }
+  },
+  "$defs": { "digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" } }
+}

@@ -26,6 +26,11 @@ features:
   - project_self_description
   - graph_core
   - proposal_first_learning
+  - source_fabric
+  - semantic_organization
+  - process_induction
+  - governed_evolution
+  - bounded_autonomic_cycle
   - legacy_graph_v2_compatibility
 profiles:
   - project_management
@@ -38,6 +43,6 @@ project:
   title: Mirai
 requires:
   graph_contract: 2.0.0
-  mirai: ">=2.1.0-alpha <3.0.0"
+  mirai: ">=2.2.0-alpha.1 <3.0.0"
   program_contract: 1.0.0
   runtime_contract: 1.0.0

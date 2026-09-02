@@ -1,0 +1,163 @@
+{
+  "contract_version": "1.0.0",
+  "id": "cycle.autonomic-demo.001",
+  "scope": "autonomic-demo",
+  "observed_at": "2026-09-02T12:00:00.000Z",
+  "source_snapshot_refs": [
+    {
+      "source_id": "source.autonomic-demo",
+      "snapshot_digest": "sha256:9bf160ddb6d6f3abd89fb0a5c2a44a34490adb8f7cff7d5773e2b62f31cc8dd1"
+    }
+  ],
+  "knowledge": {
+    "proposal_digest": "sha256:70b647bc2635d91642b73279c3242dc730402f26ec3acb6ac16d4f954a879415",
+    "assertion_count": 2,
+    "relation_count": 0,
+    "conflict_count": 0,
+    "readiness": "ready_for_review"
+  },
+  "processes": {
+    "candidates": [
+      {
+        "contract_version": "1.0.0",
+        "id": "process_candidate.8f1c1011131a9b1c",
+        "process_hint": "governed_release",
+        "mode": "intended",
+        "observation_refs": [
+          "observation.01ca42a17944026d",
+          "observation.f6cc8b86c471add9"
+        ],
+        "support_count": 2,
+        "control_flow": [
+          {
+            "ordinal": 1,
+            "operation": "governed_release_process",
+            "next": 2,
+            "conditions": [],
+            "observed_outcomes": [
+              "unknown"
+            ],
+            "effects": []
+          },
+          {
+            "ordinal": 2,
+            "operation": "unknown_operation",
+            "next": 3,
+            "conditions": [],
+            "observed_outcomes": [
+              "unknown"
+            ],
+            "effects": []
+          },
+          {
+            "ordinal": 3,
+            "operation": "unknown_operation",
+            "next": 4,
+            "conditions": [],
+            "observed_outcomes": [
+              "unknown"
+            ],
+            "effects": []
+          },
+          {
+            "ordinal": 4,
+            "operation": "unknown_operation",
+            "next": 5,
+            "conditions": [],
+            "observed_outcomes": [
+              "unknown"
+            ],
+            "effects": []
+          },
+          {
+            "ordinal": 5,
+            "operation": "unknown_operation",
+            "conditions": [],
+            "observed_outcomes": [
+              "unknown"
+            ],
+            "effects": []
+          }
+        ],
+        "confidence": 0.5,
+        "normative_authority_present": true,
+        "technology_draft_allowed": true,
+        "diagnostics": [],
+        "canonical_write_allowed": false,
+        "digest": "sha256:441720095c2425ba44f6e7760e18054f6b4d4b61afd052a6c4131d23495c5cdb"
+      },
+      {
+        "contract_version": "1.0.0",
+        "id": "process_candidate.4c70f7a84079616b",
+        "process_hint": "governed_release",
+        "mode": "observed",
+        "observation_refs": [
+          "observation.0dec0b78870bfbfa.observed",
+          "observation.858c465801d50bb3.observed"
+        ],
+        "support_count": 2,
+        "control_flow": [
+          {
+            "ordinal": 1,
+            "operation": "governed_release_process",
+            "next": 2,
+            "conditions": [],
+            "observed_outcomes": [
+              "unknown"
+            ],
+            "effects": []
+          },
+          {
+            "ordinal": 2,
+            "operation": "unknown_operation",
+            "conditions": [],
+            "observed_outcomes": [
+              "unknown"
+            ],
+            "effects": []
+          }
+        ],
+        "confidence": 0.5,
+        "normative_authority_present": false,
+        "technology_draft_allowed": false,
+        "diagnostics": [
+          {
+            "code": "observed_practice_not_normative",
+            "severity": "blocking",
+            "message": "Observed repetition cannot become intended technology without an owner decision."
+          }
+        ],
+        "canonical_write_allowed": false,
+        "digest": "sha256:4cc090812a40c991ac4ea18ce93d8dd3f82e30b3b36061ab56b0352c93a54c7f"
+      }
+    ],
+    "intended_count": 1,
+    "observed_count": 1,
+    "draft_allowed_count": 1
+  },
+  "evolution_proposal": {
+    "contract_version": "1.0.0",
+    "id": "evolution.8691227457224c5a",
+    "scope": "autonomic-demo",
+    "base_state_digest": "sha256:741c22a2c057f58ecc66f559d6989adb2c3cd6036920c2f139488290840b9e25",
+    "changes": [],
+    "created_from_cycle_ref": "cycle.autonomic-demo.001",
+    "canonical_write_allowed": false,
+    "digest": "sha256:d9b1d8f36f88ee5b9b9d5b97d0b1fe7739d4aa59c916c1c7c22b3cf26dd0d1ed"
+  },
+  "evolution_decision": {
+    "contract_version": "1.0.0",
+    "proposal_id": "evolution.8691227457224c5a",
+    "proposal_digest": "sha256:d9b1d8f36f88ee5b9b9d5b97d0b1fe7739d4aa59c916c1c7c22b3cf26dd0d1ed",
+    "envelope_id": "autonomy.autonomic-demo.low-risk",
+    "envelope_digest": "sha256:ba79bc38676e86c1a6d4e16d51331183d34c8bd72beeb17281143deecb5a9458",
+    "evaluated_at": "2026-09-02T12:00:00.000Z",
+    "change_decisions": [],
+    "verdict": "automatic_promotion_allowed",
+    "canonical_write_allowed": false,
+    "digest": "sha256:d21dedd81ab992e17f5cb839b1da36cea10ed3e51dec26efb3c017749cb8a831"
+  },
+  "status": "no_changes",
+  "canonical_write_allowed": false,
+  "digest": "sha256:b6ceb314923e5a9961e2051ffc84ae452724d8cbf56b1950726a8d31ab8e823b"
+}

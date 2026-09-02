@@ -1,0 +1,214 @@
+{
+  "id": "cycle.autonomic-demo.001",
+  "scope": "autonomic-demo",
+  "observed_at": "2026-09-02T12:00:00.000Z",
+  "source_snapshot_refs": [
+    {
+      "source_id": "source.autonomic-demo",
+      "snapshot_digest": "sha256:9bf160ddb6d6f3abd89fb0a5c2a44a34490adb8f7cff7d5773e2b62f31cc8dd1"
+    }
+  ],
+  "units": [
+    {
+      "contract_version": "1.0.0",
+      "id": "unit.3638e3aac76cfc27.2",
+      "source_ref": "source.autonomic-demo#release-process.md",
+      "source_fingerprint": "sha256:7d836e3b550ae9ff353e5303d7e5ed08d45faaf6b3123bc720cdf9eb5cc4f924",
+      "kind": "document_fragment",
+      "media_type": "text/markdown",
+      "ordinal": 2,
+      "content": "1. Inspect the bounded change and declared outcome.\n2. Run the required validation suite.\n3. If validation passes, request owner approval.\n4. Publish only after the approval receipt is verified.\n5. Record evidence and open a Kaizen proposal for reusable lessons.",
+      "content_digest": "sha256:3638e3aac76cfc277b425e9d6b98a65de23ed59d904165c5e5522e01cb932b4c",
+      "source_span": {
+        "section": "document.2"
+      },
+      "authority": "owner_asserted",
+      "scope": "autonomic-demo",
+      "confidentiality": "public",
+      "instructions_authorized": false
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "unit.7a518d9b03c8a282.1",
+      "source_ref": "source.autonomic-demo#release-process.md",
+      "source_fingerprint": "sha256:7d836e3b550ae9ff353e5303d7e5ed08d45faaf6b3123bc720cdf9eb5cc4f924",
+      "kind": "document_fragment",
+      "media_type": "text/markdown",
+      "ordinal": 1,
+      "content": "# Governed release process",
+      "content_digest": "sha256:7a518d9b03c8a282d88ab2533c4fa7cf8c9c2d66f327d2c29ffcd68ef6fa2810",
+      "source_span": {
+        "section": "document.1"
+      },
+      "authority": "owner_asserted",
+      "scope": "autonomic-demo",
+      "confidentiality": "public",
+      "instructions_authorized": false
+    }
+  ],
+  "observations": [
+    {
+      "contract_version": "1.0.0",
+      "id": "observation.01ca42a17944026d",
+      "source_ref": "source.autonomic-demo#release-process.md",
+      "source_digest": "sha256:3638e3aac76cfc277b425e9d6b98a65de23ed59d904165c5e5522e01cb932b4c",
+      "mode": "intended",
+      "process_hint": "governed_release",
+      "sequence": [
+        {
+          "id": "step.1",
+          "operation": "unknown_operation",
+          "effects": [],
+          "outcome": "unknown"
+        },
+        {
+          "id": "step.2",
+          "operation": "unknown_operation",
+          "effects": [],
+          "outcome": "unknown"
+        },
+        {
+          "id": "step.3",
+          "operation": "unknown_operation",
+          "effects": [],
+          "outcome": "unknown"
+        },
+        {
+          "id": "step.4",
+          "operation": "unknown_operation",
+          "effects": [],
+          "outcome": "unknown"
+        },
+        {
+          "id": "step.5",
+          "operation": "unknown_operation",
+          "effects": [],
+          "outcome": "unknown"
+        }
+      ],
+      "confidence": 0.75,
+      "authority": "owner_asserted",
+      "canonical_write_allowed": false
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "observation.f6cc8b86c471add9",
+      "source_ref": "source.autonomic-demo#release-process.md",
+      "source_digest": "sha256:7a518d9b03c8a282d88ab2533c4fa7cf8c9c2d66f327d2c29ffcd68ef6fa2810",
+      "mode": "intended",
+      "process_hint": "governed_release",
+      "sequence": [
+        {
+          "id": "step.1",
+          "operation": "governed_release_process",
+          "effects": [],
+          "outcome": "unknown"
+        }
+      ],
+      "confidence": 0.25,
+      "authority": "owner_asserted",
+      "canonical_write_allowed": false
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "observation.858c465801d50bb3.observed",
+      "source_ref": "source.autonomic-demo#release-process.md",
+      "source_digest": "sha256:3638e3aac76cfc277b425e9d6b98a65de23ed59d904165c5e5522e01cb932b4c",
+      "mode": "observed",
+      "process_hint": "governed_release",
+      "sequence": [
+        {
+          "id": "step.1",
+          "operation": "unknown_operation",
+          "effects": [],
+          "outcome": "unknown"
+        },
+        {
+          "id": "step.2",
+          "operation": "unknown_operation",
+          "effects": [],
+          "outcome": "unknown"
+        }
+      ],
+      "confidence": 0.5,
+      "authority": "owner_asserted",
+      "canonical_write_allowed": false
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "observation.0dec0b78870bfbfa.observed",
+      "source_ref": "source.autonomic-demo#release-process.md",
+      "source_digest": "sha256:7a518d9b03c8a282d88ab2533c4fa7cf8c9c2d66f327d2c29ffcd68ef6fa2810",
+      "mode": "observed",
+      "process_hint": "governed_release",
+      "sequence": [
+        {
+          "id": "step.1",
+          "operation": "governed_release_process",
+          "effects": [],
+          "outcome": "unknown"
+        }
+      ],
+      "confidence": 0.5,
+      "authority": "owner_asserted",
+      "canonical_write_allowed": false
+    }
+  ],
+  "known_identities": [
+    "autonomic-demo:release_process"
+  ],
+  "base_state_digest": "sha256:741c22a2c057f58ecc66f559d6989adb2c3cd6036920c2f139488290840b9e25",
+  "evolution_evidence_refs": [
+    "evidence:fixture"
+  ],
+  "envelope": {
+    "contract_version": "1.0.0",
+    "id": "autonomy.autonomic-demo.low-risk",
+    "scope": "autonomic-demo",
+    "allowed_change_kinds": [
+      "source_freshness",
+      "derived_navigation",
+      "reviewed_alias",
+      "adaptive_statistic",
+      "effect_free_program"
+    ],
+    "forbidden_targets": [
+      "adaptive/protected/**"
+    ],
+    "risk_ceiling": "low",
+    "confidence_floor": 0.7,
+    "evidence_requirements": [
+      "evidence:fixture"
+    ],
+    "replay_requirements": {
+      "required_for": [
+        "effect_free_program"
+      ],
+      "minimum_successful_replays": 3
+    },
+    "resource_patterns": [
+      "adaptive/**"
+    ],
+    "change_budget": {
+      "max_changes": 100,
+      "max_payload_bytes": 1048576
+    },
+    "issued_at": "2026-01-01T00:00:00.000Z",
+    "expires_at": "2099-01-01T00:00:00.000Z",
+    "rollback_contract": {
+      "required": true,
+      "retention_ms": 2592000000,
+      "verify_readback": true
+    },
+    "policy_digest": "sha256:7961755a2143149d35ac81d23c18a1fb890a7a456fe3caa32a1a7c5d8ac86041",
+    "approver_signatures": [
+      {
+        "signer_ref": "owner.fixture",
+        "signature_ref": "host-local:fixture",
+        "signature_digest": "sha256:77c2cd31830ca6dab3349b5b07a27fefce4277795918aae38fb7d004562dcefc"
+      }
+    ],
+    "canonical_write_allowed": false,
+    "digest": "sha256:ba79bc38676e86c1a6d4e16d51331183d34c8bd72beeb17281143deecb5a9458"
+  }
+}

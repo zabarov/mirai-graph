@@ -4,8 +4,8 @@
   "kind": "mirai_project_capsule",
   "status": "passed",
   "errors": [],
-  "project_lock_digest": "sha256:446a4b11d89ab97a387e0c9d31d982e7bf6e9bebb617db53492e46c7575217d0",
-  "agent_brief_digest": "sha256:192696f864cfbb1d1b2b430ddee09cdc8a2ec5ecd1256a820d954eaa9a263b97",
+  "project_lock_digest": "sha256:7e0e5f594b52bc3f990a5d4b161b19423c3005923ba61c42a8c9105b412d70ca",
+  "agent_brief_digest": "sha256:defe838be1dbab25da8be58688abaf5e0026ce26963f0dd5d64da557a60ebf59",
   "canonical_write_performed": false,
   "effects_executed": false
 }

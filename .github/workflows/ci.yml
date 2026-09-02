@@ -6,6 +6,7 @@ on:
       - main
       - codex/mirai-2.0
       - codex/mirai-2.1
+      - codex/mirai-2.2
   pull_request:
 
 jobs:
@@ -43,6 +44,12 @@ jobs:
 
       - name: Verify Mirai 2.1 graph-native contracts
         run: npm run test:mirai-2.1
+
+      - name: Verify Mirai 2.2 Autonomic Fabric contracts
+        run: npm run test:mirai-2.2
+
+      - name: Verify Mirai 2.2 schemas and CLI
+        run: npm run validate:mirai-2.2-contracts && npm run validate:mirai-2.2-cli && npm run validate:mirai-2.2-adapter-packages
 
       - name: Verify bounded property and security fuzz corpus
         run: npm run test:mirai-property-fuzz
@@ -146,3 +153,9 @@ jobs:
 
       - name: Validate Mirai 2.1 cross-platform CI contract
         run: npm run validate:mirai-2.1-ci-gate
+
+      - name: Validate honest Mirai 2.2 readiness
+        run: npm run validate:mirai-2.2-readiness
+
+      - name: Validate independent autonomic conformance candidate
+        run: npm run validate:independent-autonomic-conformance

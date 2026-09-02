@@ -16,6 +16,10 @@ Release notes must separate:
 
 ## Release Notes
 
+- [v2.2.0-alpha.1](2.2.0-alpha.1.md) - local development release preparation
+  for the Autonomic Fabric; not tagged, published or stable.
+- [Mirai 2.2 alpha readiness](2.2.0-alpha.1-readiness.json) - explicit passed,
+  blocked and not-run gates for eventual `2.2.0` promotion.
 - [v2.1.0](2.1.0.md) - stable production-read software release combining the
   frozen execution core, graph-native 2.1 contracts, Project Capsule,
   independent conformance and compatibility wrappers.

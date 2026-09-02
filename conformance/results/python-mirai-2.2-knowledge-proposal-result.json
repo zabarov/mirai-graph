@@ -1,0 +1,10 @@
+{
+  "contract_version": "1.0.0",
+  "implementation": "python_independent",
+  "kind": "knowledge-proposal",
+  "status": "passed",
+  "artifact_digest": "sha256:b5450745ace8b582cd9390bca755710974adfb0f16a249d9bb41924eaac73749",
+  "errors": [],
+  "canonical_write_performed": false,
+  "effects_executed": false
+}

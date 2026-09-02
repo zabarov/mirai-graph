@@ -3,9 +3,9 @@
 
 - Project: `project.mirai`
 - Kind: `project`
-- Mirai: `>=2.1.0-alpha <3.0.0`
+- Mirai: `>=2.2.0-alpha.1 <3.0.0`
 - Project manifest contract: `1.0.0`
-- Lock digest: `sha256:446a4b11d89ab97a387e0c9d31d982e7bf6e9bebb617db53492e46c7575217d0`
+- Lock digest: `sha256:7e0e5f594b52bc3f990a5d4b161b19423c3005923ba61c42a8c9105b412d70ca`
 - Profiles: `project_management`, `implementation_control`
 
 ## Boundaries

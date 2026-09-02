@@ -1,0 +1,10 @@
+{
+  "name": "@zabarov/mirai-source-s3",
+  "version": "2.2.0-alpha.1",
+  "description": "Governed read-only S3-compatible source adapter contract for Mirai Autonomic Fabric.",
+  "license": "MIT",
+  "main": "index.js",
+  "files": ["index.js"],
+  "engines": { "node": ">=20 <25" },
+  "peerDependencies": { "@zabarov/mirai": ">=2.2.0-alpha.1 <3" }
+}

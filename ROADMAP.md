@@ -1,6 +1,6 @@
 # Mirai Graph Roadmap
 
-Status: Mirai 2.1.0 stable release consolidation with 1.4 compatibility
+Status: Mirai 2.1.0 stable with Mirai 2.2.0-alpha.1 Autonomic Fabric development
 
 ## Phase 0: Public Foundation
 
@@ -297,7 +297,39 @@ Current promotion truth is recorded in
 validated in `npm test`; non-passed mandatory gates keep the overall state
 blocked rather than being hidden behind a green engineering suite.
 
-## Near-Term Work After 1.4
+## Mirai 2.2 Autonomic Fabric Track
+
+This track adds managed, proposal-first self-organization while preserving the
+2.1 Project Capsule and Program/Runtime `1.0.0` contracts.
+
+1. `2.2.0-alpha.1`: Source/Converter SDK; read-only Files, Git, HTTP, SQL and
+   S3-compatible providers; HTML/PDF/DOCX/XLSX converters; incremental
+   snapshots and source diffs.
+2. `2.2.0-alpha.2`: assertion quality vectors, identity/alias resolution,
+   conflict families, temporal relation facts, lifecycle and growth budgets.
+3. `2.2.0-alpha.3`: intended/observed process observations, bounded control-flow
+   hypotheses, ambiguity diagnostics and proposal-only technology drafts.
+4. `2.2.0-alpha.4`: trust strata, host-authorized autonomy envelopes,
+   reversible adaptive promotion, CAS/leases, receipts and rollback.
+5. `2.2.0-beta.1`: bounded `reconcile --once` controller and controlled
+   self-hosting, Federation, modular-software and AI Employee pilots.
+6. `2.2.0-rc.1`: contract freeze, public independent conformance, connector and
+   autonomy security review, cross-platform clean-room installation and
+   external pilot review.
+7. `2.2.0`: stable only after all readiness gates pass. Publication and live
+   deployment remain separate owner-approved actions.
+
+The current alpha implementation covers the contracts and synthetic
+engineering contour across all four modules. It does not yet satisfy the RC or
+stable gates. The exact state is recorded in
+[`releases/2.2.0-alpha.1-readiness.json`](releases/2.2.0-alpha.1-readiness.json).
+
+Managed auto-apply remains limited to reversible `adaptive_canonical` changes
+allowed by an unexpired, host-authorized envelope. Protected invariants,
+authority, capabilities, conflicts and effectful technologies cannot be
+promoted automatically.
+
+## Long-Term Evidence And Adoption Work
 
 1. Validate sequential context traversal in independent adopter projects and
    collect public-safe compatibility evidence.

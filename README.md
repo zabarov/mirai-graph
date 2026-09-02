@@ -12,8 +12,10 @@ Use it when a software project has useful knowledge spread across README files,
 docs, issues, chats, code comments and AI prompts, and you need a small
 machine-readable map that developers and AI assistants can validate and reuse.
 
-Status: Mirai 2.1 stable software release prepared for production-read use.
-Production-write authority remains deployment-specific and separately gated.
+Current stable release: Mirai `2.1.0`, prepared for production-read use.
+This branch/package is Mirai `2.2.0-alpha.1`, a development build of the
+Autonomic Fabric. It is not a stable release and does not authorize production
+writes or managed autonomy on a deployment target.
 
 The machine-readable [2.1 release readiness report](releases/2.1.0-readiness.json)
 separates engineering release gates from scientific claims and production-write
@@ -40,6 +42,49 @@ See the [production-readiness standard](standard/production-readiness.md),
 and [external review packet](docs/security/mirai-independent-security-review-packet.md).
 Passing repository tests is necessary engineering evidence, but is not by
 itself authorization to run against a production target.
+
+## Mirai 2.2 Development
+
+Mirai 2.2 adds an opt-in **Autonomic Fabric** around the stable 2.1 Project
+Capsule, Program and Runtime contracts. It can read bounded external sources,
+normalize supported formats, organize provenance-bound assertions, discover
+process candidates and evaluate reversible adaptive changes against a signed
+autonomy envelope.
+
+```text
+source snapshot -> normalized units -> knowledge proposal
+-> intended/observed process candidates -> evolution proposal
+-> envelope decision -> optional adaptive promotion -> receipt
+```
+
+The alpha includes read-only Files, Git, HTTP, PostgreSQL, MySQL and
+S3-compatible provider contracts; HTML, PDF, DOCX and XLSX conversion;
+semantic organization; process induction; bounded reconciliation; rollback;
+synthetic pilots; and a local independent Python conformance candidate.
+
+```bash
+npm install
+npm run build
+node packages/cli/mirai.js source snapshot \
+  examples/mirai-autonomic-fabric-minimal/source-descriptor.json \
+  --out /tmp/mirai-source-snapshot.json \
+  --units-out /tmp/mirai-normalized-units.json
+node packages/cli/mirai.js autonomic reconcile --once \
+  --input examples/mirai-autonomic-fabric-minimal/results/autonomic-cycle-input.json
+npm run validate:mirai-2.2-contracts
+```
+
+Source content is always treated as data, never as an instruction or grant.
+Connectors do not write to external systems. Automatic promotion is limited to
+adaptive metadata inside a host-authorized envelope; protected state,
+authority, conflicts, capabilities and effectful Programs remain manual.
+
+Read the [Autonomic Fabric standard](standard/mirai-autonomic-fabric.md),
+[architecture decision](docs/architecture/mirai-2-2-autonomic-fabric-adr.md),
+[threat model](docs/security/mirai-autonomic-fabric-threat-model.md) and
+[alpha readiness report](releases/2.2.0-alpha.1-readiness.json). The readiness
+report intentionally keeps stable promotion blocked until external review,
+cross-platform CI and controlled real-project pilots exist.
 
 ## Mirai 2.1 Stable
 
@@ -460,6 +505,10 @@ routes. See [Profile Boundaries](standard/profile-boundaries.md).
 Mirai 2.1 is the current stable release. It combines the security-frozen Mirai
 2.0 Program and Runtime core with the graph-native 2.1 contracts, Project
 Capsule and compatibility package.
+
+Mirai 2.2 is an unreleased development line. Its alpha contracts add governed
+source assimilation and bounded evolution without changing Program `1.0.0`,
+Runtime `1.0.0` or the 2.1 Project Capsule compatibility boundary.
 
 The earlier 1.0 line established the anti-drift and quality-control contour:
 

@@ -61,11 +61,43 @@ import {
   rollbackProjectMigration,
   validateProjectCapsule
 } from "../project/index.js";
+import {
+  buildSourceSnapshot,
+  convertPayloads,
+  createFilesystemSourceProvider,
+  createGitSourceProvider,
+  createHttpSourceProvider,
+  diffSourceSnapshots,
+  validateSourceDescriptor,
+  type SourceDescriptor,
+  type SourceProvider,
+  type SourceSnapshot
+} from "../sources/index.js";
+import { organizeKnowledge, type KnowledgeOrganizationInput } from "../knowledge/index.js";
+import {
+  discoverProcessCandidates,
+  observationsFromUnits,
+  type ProcessObservation
+} from "../technology/index.js";
+import {
+  applyAdaptiveEvolution,
+  createAutonomyAuthorizationReceipt,
+  evaluateEvolutionProposal,
+  rollbackAdaptiveEvolution,
+  validateAutonomyEnvelope,
+  verifyAutonomyAuthorizationReceipt,
+  type AutonomyAuthorizationReceipt,
+  type AutonomyEnvelope,
+  type EvolutionDecision,
+  type EvolutionProposal,
+  type PromotionReceipt
+} from "../autonomy/index.js";
+import { planAutonomicCycle, runAutonomicReconcileOnce, type AutonomicCycleInput } from "../evolution/index.js";
 
 function usage(): void {
   process.stderr.write([
     "Mirai 2.1 CLI (stable)",
-    "Mirai 2.1 contracts are available for assimilation, components, technology, activation and Project Capsule.",
+    "Mirai 2.2 Autonomic Fabric commands are in development, bounded, proposal-first and never grant their own authority.",
     "",
     "  mirai program validate <program.mirai.yaml|program.mirai.json>",
     "  mirai compile <source.mirai.yaml> --out <program.mirai.json>",
@@ -85,11 +117,24 @@ function usage(): void {
     "  mirai evidence export <run-id> --out <dir> [--home <mirai-home>]",
     "  mirai migrate <technology-or-project> --from 1.4 --dry-run [--bindings <bindings.json>]",
     "  mirai source scan <path> [--out <catalog.json>]",
+    "  mirai source connect <descriptor.json>",
+    "  mirai source snapshot <descriptor.json> --out <snapshot.json> [--previous <snapshot.json>] [--units-out <units.json>]",
+    "  mirai source diff <previous.json> <current.json>",
     "  mirai assimilate <catalog.json> --out <proposal.json>",
+    "  mirai assimilate reconcile <organization-input.json> --out <proposal.json>",
+    "  mirai identity resolve <organization-input.json>",
     "  mirai technology extract <source> --out <draft.json>",
     "  mirai technology qualify <draft.json> --bindings <bindings.json> --out <qualification.json>",
     "  mirai technology hybrid-compile <draft.json> --qualification <qualification.json> --out <plan.json>",
     "  mirai technology compile <draft.json> --out <program.mirai.json>",
+    "  mirai technology discover <observations-or-units.json> --out <candidates.json>",
+    "  mirai autonomy validate <envelope.json> [--at <iso-time>]",
+    "  mirai autonomy authorize <envelope.json> --approve --approved-by <owner> --out <receipt.json>",
+    "  mirai evolution evaluate <proposal.json> --envelope <envelope.json> --out <decision.json>",
+    "  mirai evolution apply <proposal.json> --decision <decision.json> --envelope <envelope.json> --authorization <receipt.json> --root <dir> --apply",
+    "  mirai evolution rollback <promotion-receipt.json> --root <dir> --state-ref <path>",
+    "  mirai autonomic reconcile --once --input <cycle-input.json> [--apply --authorization <receipt.json>]",
+    "  mirai autonomic status [--root <dir>]",
     "  mirai component validate <component-package.json>",
     "  mirai activation plan --graph <snapshot.json> --signal <signal.json> --out <plan.json>",
     "  mirai activation simulate <plan.json>",
@@ -154,6 +199,21 @@ function loadJson(filename: string): Record<string, unknown> {
   const value = JSON.parse(fs.readFileSync(path.resolve(filename), "utf8")) as unknown;
   if (!value || typeof value !== "object" || Array.isArray(value)) throw new Error(`${filename} must contain a JSON object`);
   return value as Record<string, unknown>;
+}
+
+function loadJsonValue(filename: string): unknown {
+  return JSON.parse(fs.readFileSync(path.resolve(filename), "utf8")) as unknown;
+}
+
+function sourceProvider(descriptor: SourceDescriptor): SourceProvider {
+  if (descriptor.provider === "filesystem") return createFilesystemSourceProvider();
+  if (descriptor.provider === "git") return createGitSourceProvider();
+  if (descriptor.provider === "http") return createHttpSourceProvider();
+  throw new Error(`source_provider_requires_optional_adapter:${descriptor.provider}`);
+}
+
+function autonomyHome(args: string[]): string {
+  return path.resolve(runtimeHome(args) || path.join(process.env.HOME || process.cwd(), ".mirai"));
 }
 
 function writeJsonFile(filename: string, value: unknown, force = false): string {
@@ -290,12 +350,68 @@ export async function runCli(args: string[]): Promise<number> {
       return 0;
     }
 
+    if (args[0] === "source" && args[1] === "connect") {
+      const descriptor = loadJson(requireArgument(args[2], "source descriptor")) as unknown as SourceDescriptor;
+      const errors = validateSourceDescriptor(descriptor);
+      writeJson({ valid: errors.length === 0, errors, source_id: descriptor.id, provider: descriptor.provider, connection_ref: descriptor.connection_ref || null, read_only: descriptor.read_only === true, credentials_persisted: false, canonical_write_allowed: false });
+      return errors.length ? 1 : 0;
+    }
+
+    if (args[0] === "source" && args[1] === "snapshot") {
+      const descriptor = loadJson(requireArgument(args[2], "source descriptor")) as unknown as SourceDescriptor;
+      const errors = validateSourceDescriptor(descriptor);
+      if (errors.length) throw new Error(`source_descriptor_invalid:${errors.join(",")}`);
+      const provider = sourceProvider(descriptor);
+      const payloads = await provider.scan(descriptor, {
+        max_items: Number(readOption(args, "--max-items") || 10_000),
+        max_item_bytes: Number(readOption(args, "--max-item-bytes") || 8 * 1024 * 1024),
+        max_total_bytes: Number(readOption(args, "--max-total-bytes") || 128 * 1024 * 1024),
+        timeout_ms: Number(readOption(args, "--timeout-ms") || 30_000)
+      });
+      const previousRef = readOption(args, "--previous");
+      const previous = previousRef ? loadJson(previousRef) as unknown as SourceSnapshot : undefined;
+      const snapshot = buildSourceSnapshot(descriptor, payloads, previous);
+      const output = requireArgument(readOption(args, "--out"), "--out path");
+      const unitsOutput = readOption(args, "--units-out");
+      const conversion = unitsOutput ? await convertPayloads(snapshot, payloads, snapshot.budgets) : undefined;
+      writeJson({
+        status: conversion?.diagnostics.some((item) => item.severity === "blocking") ? "conversion_blocked" : "snapshotted",
+        output: writeJsonFile(output, snapshot, args.includes("--force")),
+        ...(unitsOutput && conversion ? { units_output: writeJsonFile(unitsOutput, conversion, args.includes("--force")), unit_count: conversion.units.length, diagnostics: conversion.diagnostics } : {}),
+        digest: snapshot.digest,
+        canonical_write_allowed: false
+      });
+      return conversion?.diagnostics.some((item) => item.severity === "blocking") ? 2 : 0;
+    }
+
+    if (args[0] === "source" && args[1] === "diff") {
+      const previous = loadJson(requireArgument(args[2], "previous source snapshot")) as unknown as SourceSnapshot;
+      const current = loadJson(requireArgument(args[3], "current source snapshot")) as unknown as SourceSnapshot;
+      writeJson({ source_id: current.source.id, changes: diffSourceSnapshots(previous, current), canonical_write_allowed: false });
+      return 0;
+    }
+
     if (args[0] === "source" && args[1] === "scan") {
       const catalog = scanSource(requireArgument(args[2], "source path"));
       const output = readOption(args, "--out");
       if (output) writeJson({ status: "catalog_written", output: writeJsonFile(output, catalog, args.includes("--force")), digest: catalog.digest, canonical_write_allowed: false });
       else writeJson(catalog);
       return catalog.diagnostics.some((item) => item.severity === "blocking") ? 2 : 0;
+    }
+
+    if (args[0] === "assimilate" && args[1] === "reconcile") {
+      const input = loadJson(requireArgument(args[2], "knowledge organization input")) as unknown as KnowledgeOrganizationInput;
+      const proposal = organizeKnowledge(input);
+      const output = requireArgument(readOption(args, "--out"), "--out path");
+      writeJson({ status: proposal.quality.readiness, output: writeJsonFile(output, proposal, args.includes("--force")), digest: proposal.digest, next_safe_action: proposal.next_safe_action, canonical_write_allowed: false });
+      return proposal.quality.readiness === "blocked" ? 2 : 0;
+    }
+
+    if (args[0] === "identity" && args[1] === "resolve") {
+      const input = loadJson(requireArgument(args[2], "knowledge organization input")) as unknown as KnowledgeOrganizationInput;
+      const proposal = organizeKnowledge(input);
+      writeJson({ identity_resolutions: proposal.identity_resolutions, conflicts: proposal.conflicts, owner_review_required: proposal.identity_resolutions.some((item) => item.owner_review_required), canonical_write_allowed: false });
+      return proposal.identity_resolutions.some((item) => item.resolution === "ambiguous") ? 2 : 0;
     }
 
     if (args[0] === "assimilate") {
@@ -310,6 +426,111 @@ export async function runCli(args: string[]): Promise<number> {
       const draft = extractTechnologyFile(requireArgument(args[2], "technology source"));
       const output = requireArgument(readOption(args, "--out"), "--out path");
       writeJson({ status: draft.diagnostics.some((item) => item.severity === "blocking") ? "proposal_blocked" : "ready_for_compile", output: writeJsonFile(output, draft, args.includes("--force")), diagnostics: draft.diagnostics, canonical_write_allowed: false });
+      return 0;
+    }
+
+    if (args[0] === "technology" && args[1] === "discover") {
+      const value = loadJsonValue(requireArgument(args[2], "observations or normalized units"));
+      const observations = Array.isArray(value)
+        ? value as ProcessObservation[]
+        : value && typeof value === "object" && Array.isArray((value as Record<string, unknown>).observations)
+          ? (value as { observations: ProcessObservation[] }).observations
+          : value && typeof value === "object" && Array.isArray((value as Record<string, unknown>).units)
+            ? observationsFromUnits((value as { units: Parameters<typeof observationsFromUnits>[0] }).units, { mode: (readOption(args, "--mode") || "observed") as "intended" | "observed", process_hint: readOption(args, "--process-hint") })
+            : (() => { throw new Error("technology_discovery_input_invalid"); })();
+      const candidates = discoverProcessCandidates(observations);
+      const result = { contract_version: "1.0.0", observations, candidates, intended_and_observed_separated: true, canonical_write_allowed: false };
+      const output = requireArgument(readOption(args, "--out"), "--out path");
+      writeJson({ status: candidates.some((item) => item.diagnostics.some((diagnostic) => diagnostic.severity === "blocking")) ? "review_required" : "candidates_ready", output: writeJsonFile(output, result, args.includes("--force")), candidate_count: candidates.length, canonical_write_allowed: false });
+      return 0;
+    }
+
+    if (args[0] === "autonomy" && args[1] === "validate") {
+      const envelope = loadJson(requireArgument(args[2], "autonomy envelope")) as unknown as AutonomyEnvelope;
+      const errors = validateAutonomyEnvelope(envelope, readOption(args, "--at") || new Date().toISOString());
+      writeJson({ valid: errors.length === 0, errors, envelope_id: envelope.id, digest: envelope.digest, canonical_write_allowed: false });
+      return errors.length ? 1 : 0;
+    }
+
+    if (args[0] === "autonomy" && args[1] === "authorize") {
+      if (!args.includes("--approve")) throw new Error("autonomy_authorization_requires_explicit_--approve");
+      const envelope = loadJson(requireArgument(args[2], "autonomy envelope")) as unknown as AutonomyEnvelope;
+      const errors = validateAutonomyEnvelope(envelope, new Date().toISOString());
+      if (errors.length) throw new Error(`autonomy_envelope_invalid:${errors.join(",")}`);
+      const receipt = createAutonomyAuthorizationReceipt({ home: autonomyHome(args), envelope, approved_by: requireArgument(readOption(args, "--approved-by"), "--approved-by"), ttl_ms: Number(readOption(args, "--ttl-ms") || 24 * 60 * 60 * 1000) });
+      const output = requireArgument(readOption(args, "--out"), "--out path");
+      writeJson({ status: "authorized", output: writeJsonFile(output, receipt, args.includes("--force")), authorization_id: receipt.id, expires_at: receipt.expires_at, canonical_write_allowed: false });
+      return 0;
+    }
+
+    if (args[0] === "evolution" && args[1] === "evaluate") {
+      const proposal = loadJson(requireArgument(args[2], "evolution proposal")) as unknown as EvolutionProposal;
+      const envelope = loadJson(requireArgument(readOption(args, "--envelope"), "--envelope path")) as unknown as AutonomyEnvelope;
+      const decision = evaluateEvolutionProposal(proposal, envelope, readOption(args, "--at") || new Date().toISOString());
+      const output = requireArgument(readOption(args, "--out"), "--out path");
+      writeJson({ verdict: decision.verdict, output: writeJsonFile(output, decision, args.includes("--force")), digest: decision.digest, canonical_write_allowed: false });
+      return decision.verdict === "denied" ? 2 : 0;
+    }
+
+    if (args[0] === "evolution" && args[1] === "apply") {
+      if (!args.includes("--apply")) throw new Error("evolution_apply_requires_explicit_--apply");
+      const proposal = loadJson(requireArgument(args[2], "evolution proposal")) as unknown as EvolutionProposal;
+      const decision = loadJson(requireArgument(readOption(args, "--decision"), "--decision path")) as unknown as EvolutionDecision;
+      const envelope = loadJson(requireArgument(readOption(args, "--envelope"), "--envelope path")) as unknown as AutonomyEnvelope;
+      const receipt = loadJson(requireArgument(readOption(args, "--authorization"), "--authorization path")) as unknown as AutonomyAuthorizationReceipt;
+      const home = autonomyHome(args);
+      const root = path.resolve(requireArgument(readOption(args, "--root"), "--root path"));
+      const promotion = applyAdaptiveEvolution({
+        root,
+        state_ref: readOption(args, "--state-ref") || ".mirai/adaptive/state.json",
+        proposal,
+        decision,
+        envelope,
+        authorization_ref: receipt.id,
+        verify_authorization: () => verifyAutonomyAuthorizationReceipt(receipt, { home, envelope }).valid,
+        applied_at: readOption(args, "--at") || new Date().toISOString()
+      });
+      const output = readOption(args, "--out");
+      writeJson({ ...promotion, ...(output ? { receipt_output: writeJsonFile(output, promotion, args.includes("--force")) } : {}) });
+      return 0;
+    }
+
+    if (args[0] === "evolution" && args[1] === "rollback") {
+      if (!args.includes("--apply")) throw new Error("evolution_rollback_requires_explicit_--apply");
+      const receipt = loadJson(requireArgument(args[2], "promotion receipt")) as unknown as PromotionReceipt;
+      const result = rollbackAdaptiveEvolution({ root: path.resolve(requireArgument(readOption(args, "--root"), "--root path")), state_ref: requireArgument(readOption(args, "--state-ref"), "--state-ref"), receipt, rolled_back_at: readOption(args, "--at") || new Date().toISOString() });
+      writeJson(result);
+      return 0;
+    }
+
+    if (args[0] === "autonomic" && args[1] === "reconcile") {
+      if (!args.includes("--once")) throw new Error("autonomic_reconcile_requires_--once");
+      const input = loadJson(requireArgument(readOption(args, "--input"), "--input path")) as unknown as AutonomicCycleInput;
+      if (!args.includes("--apply")) {
+        writeJson(planAutonomicCycle(input));
+        return 0;
+      }
+      const envelope = input.envelope;
+      if (!envelope) throw new Error("autonomic_apply_requires_envelope");
+      const authorization = loadJson(requireArgument(readOption(args, "--authorization"), "--authorization path")) as unknown as AutonomyAuthorizationReceipt;
+      const home = autonomyHome(args);
+      const result = runAutonomicReconcileOnce(input, {
+        apply: true,
+        root: path.resolve(readOption(args, "--root") || "."),
+        state_ref: readOption(args, "--state-ref") || ".mirai/adaptive/state.json",
+        authorization_ref: authorization.id,
+        verify_authorization: () => verifyAutonomyAuthorizationReceipt(authorization, { home, envelope }).valid
+      });
+      writeJson(result);
+      return result.status === "applied" ? 0 : 2;
+    }
+
+    if (args[0] === "autonomic" && args[1] === "status") {
+      const root = path.resolve(readOption(args, "--root") || ".");
+      const stateRef = readOption(args, "--state-ref") || ".mirai/adaptive/state.json";
+      const filename = path.resolve(root, stateRef);
+      if (!filename.startsWith(`${root}${path.sep}`)) throw new Error("autonomic_state_outside_root");
+      writeJson(fs.existsSync(filename) ? { status: "available", state_ref: stateRef, state: loadJson(filename), canonical_write_allowed: false } : { status: "not_initialized", state_ref: stateRef, canonical_write_allowed: false });
       return 0;
     }
 

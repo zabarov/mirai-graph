@@ -4,6 +4,28 @@ All notable changes to Mirai Graph will be documented in this file.
 
 ## [Unreleased]
 
+### Mirai 2.2.0-alpha.1 Development
+
+- Added the Autonomic Fabric Source/Converter SDK with bounded, read-only
+  Files, Git, HTTP, PostgreSQL, MySQL and S3-compatible providers.
+- Added HTML, PDF, DOCX and XLSX normalization with secret, path, archive and
+  expansion safeguards.
+- Added provenance-bound knowledge assertions, identity and conflict handling,
+  intended/observed process induction and proposal-only technology drafts.
+- Added trust strata, host-authorized autonomy envelopes, reversible adaptive
+  promotion, rollback and a deterministic `reconcile --once` controller.
+- Added public schemas, CLI commands, synthetic fixtures and pilots, plus a
+  local independent Python conformance candidate.
+
+### 2.2 Safety Boundary
+
+- Source content is data and cannot issue instructions, approvals or
+  capabilities.
+- Source connectors are read-only; external writes remain governed Runtime
+  effects.
+- Stable promotion remains blocked pending public independent conformance,
+  security review, cross-platform CI and controlled real-project pilots.
+
 ## [2.1.0] - 2026-09-02
 
 ### Stable Release

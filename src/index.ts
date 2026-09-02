@@ -8,4 +8,8 @@ export * as components from "./components/index.js";
 export * as technology from "./technology/index.js";
 export * as activation from "./activation/index.js";
 export * as project from "./project/index.js";
+export * as sources from "./sources/index.js";
+export * as knowledge from "./knowledge/index.js";
+export * as autonomy from "./autonomy/index.js";
+export * as evolution from "./evolution/index.js";
 export { runCli } from "./cli/index.js";

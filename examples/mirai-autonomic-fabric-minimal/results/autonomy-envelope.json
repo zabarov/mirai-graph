@@ -1,0 +1,50 @@
+{
+  "contract_version": "1.0.0",
+  "id": "autonomy.autonomic-demo.low-risk",
+  "scope": "autonomic-demo",
+  "allowed_change_kinds": [
+    "source_freshness",
+    "derived_navigation",
+    "reviewed_alias",
+    "adaptive_statistic",
+    "effect_free_program"
+  ],
+  "forbidden_targets": [
+    "adaptive/protected/**"
+  ],
+  "risk_ceiling": "low",
+  "confidence_floor": 0.7,
+  "evidence_requirements": [
+    "evidence:fixture"
+  ],
+  "replay_requirements": {
+    "required_for": [
+      "effect_free_program"
+    ],
+    "minimum_successful_replays": 3
+  },
+  "resource_patterns": [
+    "adaptive/**"
+  ],
+  "change_budget": {
+    "max_changes": 100,
+    "max_payload_bytes": 1048576
+  },
+  "issued_at": "2026-01-01T00:00:00.000Z",
+  "expires_at": "2099-01-01T00:00:00.000Z",
+  "rollback_contract": {
+    "required": true,
+    "retention_ms": 2592000000,
+    "verify_readback": true
+  },
+  "policy_digest": "sha256:7961755a2143149d35ac81d23c18a1fb890a7a456fe3caa32a1a7c5d8ac86041",
+  "approver_signatures": [
+    {
+      "signer_ref": "owner.fixture",
+      "signature_ref": "host-local:fixture",
+      "signature_digest": "sha256:77c2cd31830ca6dab3349b5b07a27fefce4277795918aae38fb7d004562dcefc"
+    }
+  ],
+  "canonical_write_allowed": false,
+  "digest": "sha256:ba79bc38676e86c1a6d4e16d51331183d34c8bd72beeb17281143deecb5a9458"
+}

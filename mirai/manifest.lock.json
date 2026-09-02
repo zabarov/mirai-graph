@@ -36,6 +36,11 @@
       "project_self_description",
       "graph_core",
       "proposal_first_learning",
+      "source_fabric",
+      "semantic_organization",
+      "process_induction",
+      "governed_evolution",
+      "bounded_autonomic_cycle",
       "legacy_graph_v2_compatibility"
     ],
     "profiles": [
@@ -51,14 +56,14 @@
     },
     "requires": {
       "graph_contract": "2.0.0",
-      "mirai": ">=2.1.0-alpha <3.0.0",
+      "mirai": ">=2.2.0-alpha.1 <3.0.0",
       "program_contract": "1.0.0",
       "runtime_contract": "1.0.0"
     }
   },
   "resolved_contracts": {
     "graph_contract": "2.0.0",
-    "mirai": ">=2.1.0-alpha <3.0.0",
+    "mirai": ">=2.2.0-alpha.1 <3.0.0",
     "program_contract": "1.0.0",
     "runtime_contract": "1.0.0"
   },
@@ -75,5 +80,5 @@
   },
   "source_reference_digest": "sha256:599573fc1f6bb6c03ad350205f132f03c1ccc37905bc3219cd142766fe5b20dd",
   "canonical_write_allowed": false,
-  "digest": "sha256:446a4b11d89ab97a387e0c9d31d982e7bf6e9bebb617db53492e46c7575217d0"
+  "digest": "sha256:7e0e5f594b52bc3f990a5d4b161b19423c3005923ba61c42a8c9105b412d70ca"
 }

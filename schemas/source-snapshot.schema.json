@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zabarov.github.io/mirai/schemas/source-snapshot.schema.json",
+  "title": "Mirai Source Snapshot",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract_version", "source", "items", "changes", "budgets", "canonical_write_allowed", "digest"],
+  "properties": {
+    "contract_version": { "const": "1.0.0" },
+    "source": { "type": "object", "required": ["id", "provider", "locator", "authority", "scope", "confidentiality", "read_only", "configuration_digest"] },
+    "items": { "type": "array", "items": { "$ref": "#/$defs/item" } },
+    "changes": { "type": "array", "items": { "$ref": "#/$defs/change" } },
+    "budgets": { "$ref": "#/$defs/budgets" },
+    "canonical_write_allowed": { "const": false },
+    "digest": { "$ref": "#/$defs/digest" }
+  },
+  "$defs": {
+    "digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "item": {
+      "type": "object",
+      "required": ["source_id", "key", "media_type", "bytes", "fingerprint", "authority", "scope", "confidentiality", "provenance"],
+      "properties": {
+        "source_id": { "type": "string" }, "key": { "type": "string" }, "media_type": { "type": "string" }, "bytes": { "type": "integer", "minimum": 0 },
+        "fingerprint": { "$ref": "#/$defs/digest" }, "modified_at": { "type": "string", "format": "date-time" }, "etag": { "type": "string" }, "version": { "type": "string" },
+        "authority": { "enum": ["informational", "supporting", "owner_asserted", "canonical_external"] }, "scope": { "type": "string" },
+        "confidentiality": { "enum": ["public", "internal", "confidential", "restricted"] }, "provenance": { "type": "object" }
+      }
+    },
+    "change": { "type": "object", "required": ["key", "state"], "properties": { "key": { "type": "string" }, "state": { "enum": ["added", "changed", "unchanged", "source_missing"] }, "previous_fingerprint": { "$ref": "#/$defs/digest" }, "current_fingerprint": { "$ref": "#/$defs/digest" } } },
+    "budgets": { "type": "object", "required": ["max_items", "max_item_bytes", "max_total_bytes", "timeout_ms"], "additionalProperties": { "type": "integer", "minimum": 1 } }
+  }
+}

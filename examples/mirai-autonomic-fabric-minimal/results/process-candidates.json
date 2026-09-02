@@ -1,0 +1,116 @@
+{
+  "candidates": [
+    {
+      "contract_version": "1.0.0",
+      "id": "process_candidate.8f1c1011131a9b1c",
+      "process_hint": "governed_release",
+      "mode": "intended",
+      "observation_refs": [
+        "observation.01ca42a17944026d",
+        "observation.f6cc8b86c471add9"
+      ],
+      "support_count": 2,
+      "control_flow": [
+        {
+          "ordinal": 1,
+          "operation": "governed_release_process",
+          "next": 2,
+          "conditions": [],
+          "observed_outcomes": [
+            "unknown"
+          ],
+          "effects": []
+        },
+        {
+          "ordinal": 2,
+          "operation": "unknown_operation",
+          "next": 3,
+          "conditions": [],
+          "observed_outcomes": [
+            "unknown"
+          ],
+          "effects": []
+        },
+        {
+          "ordinal": 3,
+          "operation": "unknown_operation",
+          "next": 4,
+          "conditions": [],
+          "observed_outcomes": [
+            "unknown"
+          ],
+          "effects": []
+        },
+        {
+          "ordinal": 4,
+          "operation": "unknown_operation",
+          "next": 5,
+          "conditions": [],
+          "observed_outcomes": [
+            "unknown"
+          ],
+          "effects": []
+        },
+        {
+          "ordinal": 5,
+          "operation": "unknown_operation",
+          "conditions": [],
+          "observed_outcomes": [
+            "unknown"
+          ],
+          "effects": []
+        }
+      ],
+      "confidence": 0.5,
+      "normative_authority_present": true,
+      "technology_draft_allowed": true,
+      "diagnostics": [],
+      "canonical_write_allowed": false,
+      "digest": "sha256:441720095c2425ba44f6e7760e18054f6b4d4b61afd052a6c4131d23495c5cdb"
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "process_candidate.4c70f7a84079616b",
+      "process_hint": "governed_release",
+      "mode": "observed",
+      "observation_refs": [
+        "observation.0dec0b78870bfbfa.observed",
+        "observation.858c465801d50bb3.observed"
+      ],
+      "support_count": 2,
+      "control_flow": [
+        {
+          "ordinal": 1,
+          "operation": "governed_release_process",
+          "next": 2,
+          "conditions": [],
+          "observed_outcomes": [
+            "unknown"
+          ],
+          "effects": []
+        },
+        {
+          "ordinal": 2,
+          "operation": "unknown_operation",
+          "conditions": [],
+          "observed_outcomes": [
+            "unknown"
+          ],
+          "effects": []
+        }
+      ],
+      "confidence": 0.5,
+      "normative_authority_present": false,
+      "technology_draft_allowed": false,
+      "diagnostics": [
+        {
+          "code": "observed_practice_not_normative",
+          "severity": "blocking",
+          "message": "Observed repetition cannot become intended technology without an owner decision."
+        }
+      ],
+      "canonical_write_allowed": false,
+      "digest": "sha256:4cc090812a40c991ac4ea18ce93d8dd3f82e30b3b36061ab56b0352c93a54c7f"
+    }
+  ]
+}

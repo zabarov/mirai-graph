@@ -1,0 +1,49 @@
+{
+  "contract_version": "1.0.0",
+  "source": {
+    "contract_version": "1.0.0",
+    "id": "source.autonomic-demo",
+    "provider": "filesystem",
+    "locator": "examples/mirai-autonomic-fabric-minimal/inputs",
+    "authority": "owner_asserted",
+    "scope": "autonomic-demo",
+    "confidentiality": "public",
+    "freshness": {
+      "max_age_ms": 86400000
+    },
+    "read_only": true,
+    "configuration_digest": "sha256:44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+  },
+  "items": [
+    {
+      "source_id": "source.autonomic-demo",
+      "key": "release-process.md",
+      "media_type": "text/markdown",
+      "bytes": 291,
+      "fingerprint": "sha256:7d836e3b550ae9ff353e5303d7e5ed08d45faaf6b3123bc720cdf9eb5cc4f924",
+      "version": "sha256:7d836e3b550ae9ff353e5303d7e5ed08d45faaf6b3123bc720cdf9eb5cc4f924",
+      "authority": "owner_asserted",
+      "scope": "autonomic-demo",
+      "confidentiality": "public",
+      "provenance": {
+        "provider": "filesystem",
+        "locator_digest": "sha256:82dec49beec481dc700fe72c713b17a81b3cfd60e6ddff262a73313db1086b9f"
+      }
+    }
+  ],
+  "changes": [
+    {
+      "key": "release-process.md",
+      "state": "added",
+      "current_fingerprint": "sha256:7d836e3b550ae9ff353e5303d7e5ed08d45faaf6b3123bc720cdf9eb5cc4f924"
+    }
+  ],
+  "budgets": {
+    "max_items": 10000,
+    "max_item_bytes": 8388608,
+    "max_total_bytes": 134217728,
+    "timeout_ms": 30000
+  },
+  "canonical_write_allowed": false,
+  "digest": "sha256:9bf160ddb6d6f3abd89fb0a5c2a44a34490adb8f7cff7d5773e2b62f31cc8dd1"
+}

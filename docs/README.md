@@ -1,6 +1,6 @@
 # Mirai Documentation Map
 
-Status: Mirai 2.1 stable documentation map with 1.4 compatibility
+Status: Mirai 2.1 stable documentation map with Mirai 2.2 alpha development
 
 This page helps readers choose the right Mirai Graph documents without reading
 the whole repository.
@@ -60,6 +60,19 @@ Mirai 2.1 graph-native development:
 - [Technology Draft And Compilation](../standard/technology-compilation.md)
 - [Immutable Activation Model](../standard/activation-model.md)
 - [Synthetic Federation Activation Pilot](../pilots/mirai-2.1-beta-federation/README.md)
+
+Mirai 2.2 managed-autonomy development:
+
+- [Autonomic Fabric Standard](../standard/mirai-autonomic-fabric.md)
+- [Autonomic Fabric Architecture Decision](architecture/mirai-2-2-autonomic-fabric-adr.md)
+- [Autonomic Fabric Threat Model](security/mirai-autonomic-fabric-threat-model.md)
+- [Minimal Autonomic Fabric Example](../examples/mirai-autonomic-fabric-minimal/README.md)
+- [2.2 Alpha Release Note](../releases/2.2.0-alpha.1.md)
+- [2.2 Alpha Readiness](../releases/2.2.0-alpha.1-readiness.json)
+- [Self-Hosting Pilot](../pilots/mirai-2.2-self-hosting-autonomic/README.md)
+- [Federation Pilot](../pilots/mirai-2.2-federation-autonomic/README.md)
+- [Modular Software Pilot](../pilots/mirai-2.2-modular-software-autonomic/README.md)
+- [AI Employee Pilot](../pilots/mirai-2.2-ai-employee-autonomic/README.md)
 
 Core model:
 
