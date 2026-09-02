@@ -1,0 +1,87 @@
+{
+  "contract_version": "1.0.0",
+  "review_id": "pilot-review.mirai-2.2-controlled-observe-2026-09-02",
+  "status": "complete",
+  "evidence_class": "owner_authorized_ai_assisted_independent_review",
+  "reviewed_repository": "https://github.com/zabarov/mirai-graph",
+  "reviewed_revision": "dd3e2bcfed8045226fdf833dec606794c022b64c",
+  "reviewed_runner_revision": "35c6374d153f218206779ad2307de53ddd302cf7",
+  "reviewed_pilot_report_digest": "sha256:c8f48e949bcf17f32c15e4a0616d6ad969035d25147c5a345c36b39b79aa40dc",
+  "reviewer": {
+    "alias": "isolated-ai-pilot-reviewer",
+    "independent": true,
+    "implemented_reviewed_changes": false,
+    "correction_rounds": 1,
+    "conflict_declaration": "The reviewer did not implement the runner or evidence corrections and performed a read-only review of the exact committed delta."
+  },
+  "scope": [
+    "output_path_containment",
+    "source_mutation_detection",
+    "execution_provenance",
+    "report_shape_and_digest",
+    "observe_suggest_boundary",
+    "technology_promotion_boundary",
+    "private_data_sanitization",
+    "claim_boundary"
+  ],
+  "methods": [
+    "Verified the exact reviewed revision and clean working tree before and after review.",
+    "Reviewed only the correction delta and the committed controlled-pilot report.",
+    "Ran the official validator and all four negative fixtures.",
+    "Independently recomputed the four case digests and the report digest.",
+    "Matched the recorded runner hash to the reviewed runner and verified revision ancestry.",
+    "Checked all source Git-state and snapshot before/after pairs and the effect audit."
+  ],
+  "resolved_findings": [
+    {
+      "id": "PILOT-001",
+      "severity": "high",
+      "status": "fixed",
+      "summary": "The original runner accepted an arbitrary output path.",
+      "evidence_refs": [
+        "packages/cli/run-mirai-2.2-controlled-pilots.js",
+        "packages/cli/test-mirai-2.2-controlled-pilots-negative.js"
+      ]
+    },
+    {
+      "id": "PILOT-002",
+      "severity": "high",
+      "status": "fixed_with_public_replay_limitation",
+      "summary": "The original evidence did not record enough provenance or source mutation checks.",
+      "evidence_refs": [
+        "packages/cli/run-mirai-2.2-controlled-pilots.js",
+        "pilots/mirai-2.2-controlled-observe/pilot-result.json"
+      ]
+    },
+    {
+      "id": "PILOT-003",
+      "severity": "medium",
+      "status": "fixed",
+      "summary": "The original validator accepted self-attested fields without strict shape and effect-audit checks.",
+      "evidence_refs": [
+        "packages/cli/validate-mirai-2.2-controlled-pilots.js",
+        "packages/cli/test-mirai-2.2-controlled-pilots-negative.js"
+      ]
+    }
+  ],
+  "verified_evidence": [
+    "Four real-repository subsets were observed in read-only mode under public-safe aliases.",
+    "All source Git-state and snapshot digests were unchanged before and after each run.",
+    "All four cases remained observe_suggest and produced zero allowed technology drafts.",
+    "The only runner write was creation of one new mode-0600 JSON file in an allowed temporary root.",
+    "The committed report contains no raw source path or raw source content."
+  ],
+  "unresolved_nonblocking_limits": [
+    "Three private source trees were dirty but remained unchanged during observation.",
+    "Private input authenticity cannot be independently replayed from the public artifact.",
+    "The evidence does not establish extraction correctness, organizational benefit or scientific effectiveness.",
+    "The effect audit is application-level rather than an external operating-system syscall trace.",
+    "No external human peer review was performed."
+  ],
+  "verdict": "pass_with_nonblocking_findings",
+  "release_authorization": false,
+  "production_write_authorization": false,
+  "reviewed_at": "2026-09-02T18:50:00Z",
+  "attestation": "An isolated AI-assisted reviewer who did not implement the reviewed changes verified the exact correction revision and found no remaining release-blocking pilot-evidence defect.",
+  "claim_boundary": "This owner-authorized AI-assisted review supports the controlled observe/suggest pilot gate only. It is not external human peer review, production-write authorization, proof of extraction correctness or a release decision."
+}

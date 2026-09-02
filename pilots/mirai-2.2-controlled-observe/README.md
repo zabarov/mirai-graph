@@ -15,3 +15,7 @@ The evidence demonstrates operational integration and safety boundaries. It
 does not prove extraction correctness, organizational benefit or scientific
 effectiveness. Owner-authorized AI-assisted review is documented separately
 and is not represented as external human peer review.
+
+The bounded review and its explicit limitations are recorded in
+[`independent-review.md`](independent-review.md) and
+[`independent-review.json`](independent-review.json).
