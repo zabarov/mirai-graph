@@ -2,8 +2,8 @@
   "contract_version": "1.0.0",
   "checker_repository": "https://github.com/zabarov/mirai-conformance",
   "checker_branch": "codex/mirai-2.1-conformance",
-  "checker_revision": "841ddc69421899445a84b882bc47537d9e028cb6",
-  "mirai_candidate_revision": "d5265c5ecf3d13adc2ef859ab9037f3586b23984",
+  "checker_revision": "abe2b2d65d34df2b4f04ee117dd6d0d31b40016b",
+  "mirai_candidate_revision": "0243b86626588a1758843f1cc127b70eb4c22efe",
   "publication_status": "published_branch",
   "remote_tracking_verified": true,
   "clean_room": {
@@ -14,12 +14,12 @@
     "status": "passed"
   },
   "public_ci": {
-    "run_url": "https://github.com/zabarov/mirai-conformance/actions/runs/33620245171",
-    "status": "blocked",
+    "run_url": "https://github.com/zabarov/mirai-conformance/actions/runs/33622541224",
+    "status": "passed",
     "package_jobs_passed": 1,
-    "operating_system_jobs_passed": 0,
+    "operating_system_jobs_passed": 3,
     "operating_system_jobs_required": 3,
-    "blocker_reason": "The workflow was pinned to an older Mirai revision and must be rerun against the exact release candidate."
+    "operating_systems": ["ubuntu-latest", "macos-latest", "windows-latest"]
   },
   "limitations": [
     "The checker corpus is intentionally supplied by an exact Mirai checkout and is not bundled into the checker package.",
@@ -28,5 +28,5 @@
   ],
   "canonical_write_performed": false,
   "effects_executed": false,
-  "verified_at": "2026-09-02T12:00:00Z"
+  "verified_at": "2026-09-02T14:10:00Z"
 }

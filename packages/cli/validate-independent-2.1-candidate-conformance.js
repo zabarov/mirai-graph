@@ -18,13 +18,14 @@ const mappings = [
 const errors = [];
 if (!/^[a-f0-9]{40}$/.test(candidate.revision || "")) errors.push("checker_revision_invalid");
 if (candidate.imports_typescript_runtime !== false) errors.push("checker_must_not_import_typescript_runtime");
-if (candidate.publication_status !== "published_branch" || candidate.release_gate_eligible !== false) errors.push("candidate_must_remain_blocked_until_public_ci");
+if (candidate.publication_status !== "published_branch" || candidate.release_gate_eligible !== true) errors.push("candidate_public_ci_gate_not_promoted");
 if (publication.checker_revision !== candidate.revision) errors.push("publication_checker_revision_mismatch");
 if (publication.publication_status !== candidate.publication_status) errors.push("publication_status_mismatch");
 if (publication.remote_tracking_verified !== true) errors.push("publication_remote_not_verified");
 if (publication.clean_room?.status !== "passed" || publication.clean_room?.python_suite_failed !== 0 || publication.clean_room?.python_suite_passed !== 20) errors.push("publication_clean_room_not_passed");
 if (publication.clean_room?.mirai_repo_binding !== "explicit_MIRAI_REPO") errors.push("publication_candidate_binding_not_explicit");
-if (publication.public_ci?.status !== "blocked" || publication.public_ci?.operating_system_jobs_passed !== 0 || publication.public_ci?.operating_system_jobs_required !== 3) errors.push("publication_public_ci_blocker_not_recorded");
+if (publication.public_ci?.status !== "passed" || publication.public_ci?.operating_system_jobs_passed !== 3 || publication.public_ci?.operating_system_jobs_required !== 3 || publication.public_ci?.package_jobs_passed !== 1) errors.push("publication_public_ci_not_passed");
+if (!Array.isArray(publication.public_ci?.operating_systems) || !["ubuntu-latest", "macos-latest", "windows-latest"].every((name) => publication.public_ci.operating_systems.includes(name))) errors.push("publication_public_ci_matrix_incomplete");
 if (publication.canonical_write_performed !== false || publication.effects_executed !== false) errors.push("publication_safety_boundary_broken");
 for (const [kind, artifactRef, resultRef] of mappings) {
   const artifact = JSON.parse(fs.readFileSync(path.join(root, artifactRef), "utf8"));
@@ -37,5 +38,5 @@ for (const surface of ["technology_qualifications", "hybrid_technology_plans", "
   if (!candidate.supported_surfaces.includes(surface)) errors.push(`supported_surface_missing:${surface}`);
 }
 const valid = errors.length === 0;
-process.stdout.write(`${JSON.stringify({ valid, revision: candidate.revision, publication_status: candidate.publication_status, result_count: mappings.length, release_gate_eligible: false, errors }, null, 2)}\n`);
+process.stdout.write(`${JSON.stringify({ valid, revision: candidate.revision, publication_status: candidate.publication_status, result_count: mappings.length, release_gate_eligible: valid && candidate.release_gate_eligible === true, errors }, null, 2)}\n`);
 process.exitCode = valid ? 0 : 1;

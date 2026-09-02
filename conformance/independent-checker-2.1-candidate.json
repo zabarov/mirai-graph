@@ -1,7 +1,7 @@
 {
   "contract_version": "1.0.0",
   "repository": "https://github.com/zabarov/mirai-conformance",
-  "revision": "841ddc69421899445a84b882bc47537d9e028cb6",
+  "revision": "abe2b2d65d34df2b4f04ee117dd6d0d31b40016b",
   "implementation": "python_independent",
   "imports_typescript_runtime": false,
   "publication_status": "published_branch",
@@ -31,6 +31,6 @@
     "conformance/results/python-mirai-2.1-activation-run-result.json",
     "conformance/results/python-mirai-2.1-project-capsule-result.json"
   ],
-  "release_gate_eligible": false,
-  "next_safe_action": "Pin the public checker CI to the exact Mirai release candidate, obtain a green Linux/macOS/Windows matrix, then promote this gate."
+  "release_gate_eligible": true,
+  "next_safe_action": "Keep the checker pinned to the exact Mirai release revision and rerun the public matrix for every release-candidate change."
 }

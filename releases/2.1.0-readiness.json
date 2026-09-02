@@ -12,6 +12,7 @@
       "status": "blocked",
       "evidence_refs": ["releases/2.1.0-contract-freeze-candidate.json", "test/runtime/governed-runtime.test.cjs", "standard/mirai-durable-execution.md", "docs/security/mirai-internal-security-followup-2026-09-02.md"],
       "summary": "The Program, Runtime and authorization core is inventoried at an exact revision; serialized mutations, durable fencing generations, explicit stale-lock recovery and private-root guards close the known internal findings.",
+      "blocker_reason": "The owner-authorized independent AI-assisted follow-up must review the exact security candidate revision and close all critical and high findings.",
       "limitations": ["Independent security review remains a separate required gate."]
     },
     {
@@ -33,8 +34,7 @@
       "category": "conformance",
       "status": "passed",
       "evidence_refs": ["conformance/independent-checker-2.1-candidate.json", "conformance/independent-checker-2.1-publication.json", "packages/cli/validate-independent-2.1-candidate-conformance.js"],
-      "summary": "The independent Python checker revision 841ddc6 is public and locally agrees with Mirai candidate d5265c5, but its public cross-platform run was pinned to an older Mirai revision and failed the OS matrix.",
-      "blocker_reason": "Pin checker CI to the exact Mirai release candidate and obtain a green Linux/macOS/Windows matrix before promotion.",
+      "summary": "The independent Python checker revision abe2b2d is public, pinned to Mirai security candidate 0243b86, and passes its package job plus Linux, macOS and Windows jobs in public CI run 33622541224.",
       "limitations": ["The checker consumes an exact Mirai corpus checkout through MIRAI_REPO; the corpus is not duplicated into the checker package."]
     },
     {
@@ -86,7 +86,7 @@
     }
   ],
   "blocking_gate_ids": [
-    "gate.2_1_cross_implementation_conformance",
+    "gate.2_0_core_security_freeze",
     "gate.independent_security_review",
     "gate.2_1_clean_room_cross_platform",
     "gate.2_1_stable_release_metadata"

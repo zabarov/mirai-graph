@@ -111,7 +111,9 @@ const repositoryListFiles: AdapterOperation = {
 function runGit(args: string[], context: AdapterExecutionContext): Record<string, unknown> {
   assertWithinDeadline(context);
   const sandboxRoot = resolveSandboxPath(context.sandbox, ".");
-  const safeGlobalConfig = path.join(os.tmpdir(), "mirai-disabled-global-gitconfig");
+  const safeHome = path.join(os.tmpdir(), "mirai-disabled-git-home");
+  const safeGlobalConfig = path.join(safeHome, "global.gitconfig");
+  fs.mkdirSync(safeHome, { recursive: true, mode: 0o700 });
   const execution = spawnSync("git", ["--no-optional-locks", "-c", "core.fsmonitor=false", ...args], {
     cwd: sandboxRoot,
     encoding: "utf8",
@@ -119,8 +121,9 @@ function runGit(args: string[], context: AdapterExecutionContext): Record<string
     maxBuffer: context.max_bytes,
     env: {
       PATH: process.env.PATH || "",
-      HOME: "",
-      XDG_CONFIG_HOME: "",
+      HOME: safeHome,
+      USERPROFILE: safeHome,
+      XDG_CONFIG_HOME: safeHome,
       LANG: "C",
       GIT_CONFIG_NOSYSTEM: "1",
       GIT_CONFIG_GLOBAL: safeGlobalConfig,
