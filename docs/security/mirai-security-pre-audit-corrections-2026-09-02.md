@@ -17,7 +17,7 @@ closed or bounded as follows.
 | Activation path and duplicate-key parsing | Closed before this batch through confined path resolution and duplicate-key rejection. |
 | Evidence redaction | Closed before this batch through explicit output allowlists. |
 | Host process execution | Bounded, not promoted: `process_run` is explicitly local-development-only, uses a minimal synthetic environment and is forbidden in production profiles. It is not an OS or network sandbox. |
-| Runtime lease ownership | Strengthened: leases renew, carry monotonic generations and fence stale RunStore owners from writes. Exact cross-process expiry-boundary behavior remains an independent stress-test target. |
+| Runtime lease ownership | Strengthened: leases renew, carry monotonic generations and serialize lease transitions with fenced mutations through a cross-process mutation lock. Adversarial expiry-boundary behavior remains an independent review target. |
 
 ## Verification
 

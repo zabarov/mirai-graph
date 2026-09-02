@@ -25,12 +25,13 @@
     "activation_policy_binding",
     "activation_host_budget_ceilings",
     "process_run_production_exclusion",
-    "renewable_lease_and_generation_fencing"
+    "renewable_lease_and_generation_fencing",
+    "cross_process_mutation_serialization"
   ],
   "methods": [
     "Reproduce the documented test and fuzz suites on the reviewed revision.",
     "Add adversarial cases for capability, approval, path, archive, activation policy, budget and recovery boundaries.",
-    "Stress cross-process lease renewal and takeover near the expiry boundary.",
+    "Stress cross-process lease renewal and takeover near the expiry boundary, including the mutation-lock critical section.",
     "Confirm that process_run remains excluded from production profiles and is not represented as an OS or network sandbox.",
     "Review the bounded workspace write candidate without enabling a live adapter."
   ],

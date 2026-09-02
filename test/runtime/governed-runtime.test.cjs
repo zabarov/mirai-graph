@@ -410,7 +410,7 @@ test("compensation timeout becomes uncertain and blocks automatic resume", async
         async verify() { return { verified: true, details: ["verified"] }; },
         async compensate(_receipt, context) {
           return new Promise((resolve, reject) => {
-            const timer = setTimeout(() => resolve({ compensated: true, details: ["late"] }), 100);
+            const timer = setTimeout(() => resolve({ compensated: true, details: ["late"] }), 1000);
             context.signal.addEventListener("abort", () => { clearTimeout(timer); reject(context.signal.reason); }, { once: true });
           });
         }
@@ -418,7 +418,7 @@ test("compensation timeout becomes uncertain and blocks automatic resume", async
     }
   };
   await assert.rejects(
-    () => startGovernedRun(subject, {}, { store: env.store, sandbox: env.sandbox, adapters, apply: true, approval: receipt, run_id: runId, deadline_at_ms: Date.now() + 20 }),
+    () => startGovernedRun(subject, {}, { store: env.store, sandbox: env.sandbox, adapters, apply: true, approval: receipt, run_id: runId, deadline_at_ms: Date.now() + 200 }),
     /compensation_uncertain/
   );
   const effectReceipt = env.store.listReceipts(runId)[0];
@@ -674,6 +674,46 @@ test("lease renewal preserves generation and stale owners are fenced from writes
   assert.equal(successor.generation, first.generation + 1);
   assert.throws(() => env.store.updateRun(run.run_id, run.revision, (value) => value), /run_lease_fenced/);
   successorStore.releaseLease(run.run_id, successor.token);
+});
+
+test("cross-process lease takeover cannot pass an active mutation fence", () => {
+  const env = temporary();
+  const subject = readProgram();
+  const run = env.store.createRun({ program: subject, input: {}, sandbox: env.sandbox, apply: false, run_id: "run.cross-process-fence" });
+  const leaseFile = path.join(env.store.directory(run.run_id), "lease.json");
+  fs.writeFileSync(leaseFile, `${JSON.stringify({
+    token: "expired-owner",
+    generation: 8,
+    pid: process.pid,
+    acquired_at: "2000-01-01T00:00:00.000Z",
+    expires_at: "2000-01-01T00:00:01.000Z"
+  }, null, 2)}\n`);
+
+  const mutationLock = path.join(env.store.directory(run.run_id), "mutation.lock");
+  fs.mkdirSync(mutationLock, { mode: 0o700 });
+  fs.writeFileSync(path.join(mutationLock, "owner.json"), `${JSON.stringify({ token: "active-writer", pid: process.pid })}\n`);
+  const childScript = [
+    'const { RunStore } = require("./dist/cjs/runtime");',
+    'const store = new RunStore(process.argv[1]);',
+    'try { const lease = store.acquireLease(process.argv[2], 60000); process.stdout.write(JSON.stringify(lease)); }',
+    'catch (error) { process.stderr.write(String(error.message)); process.exit(23); }'
+  ].join(" ");
+  const blocked = spawnSync(process.execPath, ["-e", childScript, env.home, run.run_id], {
+    cwd: path.resolve(__dirname, "../.."),
+    encoding: "utf8"
+  });
+  assert.equal(blocked.status, 23);
+  assert.match(blocked.stderr, /run_mutation_lock_active/);
+  assert.equal(JSON.parse(fs.readFileSync(leaseFile, "utf8")).generation, 8);
+
+  fs.unlinkSync(path.join(mutationLock, "owner.json"));
+  fs.rmdirSync(mutationLock);
+  const acquired = spawnSync(process.execPath, ["-e", childScript, env.home, run.run_id], {
+    cwd: path.resolve(__dirname, "../.."),
+    encoding: "utf8"
+  });
+  assert.equal(acquired.status, 0, acquired.stderr);
+  assert.equal(JSON.parse(acquired.stdout).generation, 9);
 });
 
 test("corrupted checkpoint blocks resume and is not silently replaced", async () => {

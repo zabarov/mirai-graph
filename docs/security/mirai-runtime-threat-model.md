@@ -21,7 +21,7 @@ sandbox paths or secrets.
 | Program requests an undeclared effect | Static validation and policy rejection before adapter invocation. |
 | Program forges or reuses authority | Opaque run/node/resource-bound capability with expiry and policy digest. |
 | Activation plan names an untrusted policy or excessive budget | Runtime recomputes the effective host policy digest and enforces trusted host ceilings before creating run state. |
-| Stale runtime owner continues after takeover | Renewable lease token plus monotonic generation fencing on RunStore writes; expiry-boundary races remain an explicit independent-review target. |
+| Stale runtime owner continues after takeover | Renewable lease token, monotonic generation fencing and a cross-process mutation lock serialize lease transitions with fenced RunStore writes; adversarial expiry-boundary stress remains an independent-review target. |
 | Approval is forged or reused | Host signature verification bound to Program and sandbox digests and allowed effects. |
 | Path traversal or symlink escape | Canonical sandbox resolution, symlink rejection and readback verification. |
 | Command injection | Host-defined command IDs, argument policy, no shell and sanitized environment. |

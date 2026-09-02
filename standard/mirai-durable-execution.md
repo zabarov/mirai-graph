@@ -37,11 +37,13 @@ blocks automatic retry until adapter-specific reconciliation proves the
 external state.
 
 Writes use a renewable run lease, monotonically increasing lease generation,
-owner fencing checks, compare-and-swap revisions, temporary files, atomic
-rename and readback verification. A process that loses the current
-token/generation cannot continue through the RunStore write API. The reference
-filesystem lease is a single-host mechanism; cross-process expiry-boundary
-behavior remains in scope for independent security and recovery review.
+cross-process mutation serialization, owner fencing checks, compare-and-swap
+revisions, temporary files, atomic rename and readback verification. Lease
+acquisition, renewal, release and every fenced RunStore mutation share the same
+critical section. A process that loses the current token/generation cannot
+continue through the RunStore write API. The reference filesystem lease is a
+single-host mechanism; adversarial cross-process expiry-boundary behavior
+remains in scope for independent security and recovery review.
 Compensation is explicit and can itself fail; failed compensation is a blocker,
 not a successful completion.
 

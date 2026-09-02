@@ -65,6 +65,7 @@ export class RunStore {
   readonly runsRoot: string;
   readonly indexRoot: string;
   private readonly ownedLeases = new Map<string, { token: string; generation: number }>();
+  private readonly mutationLocks = new Map<string, { token: string; depth: number }>();
 
   constructor(home = process.env.MIRAI_HOME || path.join(os.homedir(), ".mirai"), options: { create?: boolean } = {}) {
     this.home = path.resolve(home);
@@ -168,62 +169,119 @@ export class RunStore {
     return readJson<Record<string, unknown>>(path.join(this.directory(runId), "runtime-config.json"));
   }
 
+  private withMutationLock<T>(runId: string, operation: () => T): T {
+    const reentrant = this.mutationLocks.get(runId);
+    if (reentrant) {
+      reentrant.depth += 1;
+      try {
+        return operation();
+      } finally {
+        reentrant.depth -= 1;
+      }
+    }
+
+    const lockDirectory = path.join(this.directory(runId), "mutation.lock");
+    if (fs.existsSync(lockDirectory) && fs.lstatSync(lockDirectory).isSymbolicLink()) {
+      throw new Error("run_mutation_lock_symlink_forbidden");
+    }
+    try {
+      fs.mkdirSync(lockDirectory, { mode: 0o700 });
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code === "EEXIST") throw new Error(`run_mutation_lock_active:${runId}`);
+      throw error;
+    }
+
+    const token = randomBytes(24).toString("hex");
+    const ownerFile = path.join(lockDirectory, "owner.json");
+    fs.writeFileSync(ownerFile, `${JSON.stringify({ token, pid: process.pid, acquired_at: new Date().toISOString() }, null, 2)}\n`, {
+      mode: 0o600,
+      flag: "wx"
+    });
+    this.mutationLocks.set(runId, { token, depth: 1 });
+    try {
+      return operation();
+    } finally {
+      const owned = this.mutationLocks.get(runId);
+      this.mutationLocks.delete(runId);
+      if (!owned || owned.token !== token) throw new Error("run_mutation_lock_fenced");
+      const owner = readJson<{ token: string }>(ownerFile);
+      if (owner.token !== token) throw new Error("run_mutation_lock_fenced");
+      fs.unlinkSync(ownerFile);
+      fs.rmdirSync(lockDirectory);
+    }
+  }
+
+  private withFencedMutation<T>(runId: string, operation: () => T): T {
+    return this.withMutationLock(runId, () => {
+      this.assertWriteFence(runId);
+      return operation();
+    });
+  }
+
   updateRun(runId: string, expectedRevision: number, update: (record: RuntimeRunRecord) => RuntimeRunRecord): RuntimeRunRecord {
-    this.assertWriteFence(runId);
-    const current = this.readRun(runId);
-    if (current.revision !== expectedRevision) throw new Error(`run_compare_and_swap_failed:${expectedRevision}:${current.revision}`);
-    const next = update(structuredClone(current));
-    next.revision = current.revision + 1;
-    next.updated_at = new Date().toISOString();
-    writeAtomic(path.join(this.directory(runId), "run.json"), next);
-    return next;
+    return this.withMutationLock(runId, () => {
+      this.assertWriteFence(runId);
+      const current = this.readRun(runId);
+      if (current.revision !== expectedRevision) throw new Error(`run_compare_and_swap_failed:${expectedRevision}:${current.revision}`);
+      const next = update(structuredClone(current));
+      next.revision = current.revision + 1;
+      next.updated_at = new Date().toISOString();
+      writeAtomic(path.join(this.directory(runId), "run.json"), next);
+      return next;
+    });
   }
 
   appendEvent(runId: string, event: Record<string, unknown>): RuntimeRunRecord {
-    this.assertWriteFence(runId);
-    const current = this.readRun(runId);
-    const sequence = current.event_sequence + 1;
-    const line = `${canonicalJson({ sequence, recorded_at: new Date().toISOString(), ...event })}\n`;
-    const filename = path.join(this.directory(runId), "events.ndjson");
-    if (fs.existsSync(filename) && fs.lstatSync(filename).isSymbolicLink()) throw new Error("runtime_events_symlink_forbidden");
-    fs.appendFileSync(filename, line, { mode: 0o600 });
-    return this.updateRun(runId, current.revision, (record) => ({ ...record, event_sequence: sequence }));
+    return this.withMutationLock(runId, () => {
+      this.assertWriteFence(runId);
+      const current = this.readRun(runId);
+      const sequence = current.event_sequence + 1;
+      const line = `${canonicalJson({ sequence, recorded_at: new Date().toISOString(), ...event })}\n`;
+      const filename = path.join(this.directory(runId), "events.ndjson");
+      if (fs.existsSync(filename) && fs.lstatSync(filename).isSymbolicLink()) throw new Error("runtime_events_symlink_forbidden");
+      fs.appendFileSync(filename, line, { mode: 0o600 });
+      return this.updateRun(runId, current.revision, (record) => ({ ...record, event_sequence: sequence }));
+    });
   }
 
   acquireLease(runId: string, ttlMs = 30_000): LeaseRecord {
-    if (!Number.isFinite(ttlMs) || ttlMs < 1) throw new Error("run_lease_ttl_invalid");
-    const filename = path.join(this.directory(runId), "lease.json");
-    const now = new Date();
-    let previousGeneration = 0;
-    if (fs.existsSync(filename)) {
-      const current = readJson<LeaseRecord>(filename);
-      if (Date.parse(current.expires_at) > now.getTime()) throw new Error(`run_lease_active:${runId}`);
-      previousGeneration = Number.isSafeInteger(current.generation) && current.generation >= 0 ? current.generation : 0;
-      fs.unlinkSync(filename);
-    }
-    const lease: LeaseRecord = {
-      token: randomBytes(24).toString("hex"),
-      generation: previousGeneration + 1,
-      pid: process.pid,
-      acquired_at: now.toISOString(),
-      expires_at: new Date(now.getTime() + ttlMs).toISOString()
-    };
-    fs.writeFileSync(filename, `${JSON.stringify(lease, null, 2)}\n`, { mode: 0o600, flag: "wx" });
-    this.ownedLeases.set(runId, { token: lease.token, generation: lease.generation });
-    return lease;
+    return this.withMutationLock(runId, () => {
+      if (!Number.isFinite(ttlMs) || ttlMs < 1) throw new Error("run_lease_ttl_invalid");
+      const filename = path.join(this.directory(runId), "lease.json");
+      const now = new Date();
+      let previousGeneration = 0;
+      if (fs.existsSync(filename)) {
+        const current = readJson<LeaseRecord>(filename);
+        if (Date.parse(current.expires_at) > now.getTime()) throw new Error(`run_lease_active:${runId}`);
+        previousGeneration = Number.isSafeInteger(current.generation) && current.generation >= 0 ? current.generation : 0;
+        fs.unlinkSync(filename);
+      }
+      const lease: LeaseRecord = {
+        token: randomBytes(24).toString("hex"),
+        generation: previousGeneration + 1,
+        pid: process.pid,
+        acquired_at: now.toISOString(),
+        expires_at: new Date(now.getTime() + ttlMs).toISOString()
+      };
+      fs.writeFileSync(filename, `${JSON.stringify(lease, null, 2)}\n`, { mode: 0o600, flag: "wx" });
+      this.ownedLeases.set(runId, { token: lease.token, generation: lease.generation });
+      return lease;
+    });
   }
 
   renewLease(runId: string, token: string, ttlMs = 30_000): LeaseRecord {
-    if (!Number.isFinite(ttlMs) || ttlMs < 1) throw new Error("run_lease_ttl_invalid");
-    const filename = path.join(this.directory(runId), "lease.json");
-    const current = readJson<LeaseRecord>(filename);
-    const owned = this.ownedLeases.get(runId);
-    if (!owned || owned.token !== token || current.token !== token || current.generation !== owned.generation) throw new Error("run_lease_fenced");
-    const now = new Date();
-    if (Date.parse(current.expires_at) <= now.getTime()) throw new Error("run_lease_expired");
-    const renewed: LeaseRecord = { ...current, expires_at: new Date(now.getTime() + ttlMs).toISOString() };
-    writeAtomic(filename, renewed);
-    return renewed;
+    return this.withMutationLock(runId, () => {
+      if (!Number.isFinite(ttlMs) || ttlMs < 1) throw new Error("run_lease_ttl_invalid");
+      const filename = path.join(this.directory(runId), "lease.json");
+      const current = readJson<LeaseRecord>(filename);
+      const owned = this.ownedLeases.get(runId);
+      if (!owned || owned.token !== token || current.token !== token || current.generation !== owned.generation) throw new Error("run_lease_fenced");
+      const now = new Date();
+      if (Date.parse(current.expires_at) <= now.getTime()) throw new Error("run_lease_expired");
+      const renewed: LeaseRecord = { ...current, expires_at: new Date(now.getTime() + ttlMs).toISOString() };
+      writeAtomic(filename, renewed);
+      return renewed;
+    });
   }
 
   assertLeaseOwnership(runId: string, token: string): void {
@@ -243,34 +301,39 @@ export class RunStore {
   }
 
   releaseLease(runId: string, token: string): void {
-    const filename = path.join(this.directory(runId), "lease.json");
-    if (!fs.existsSync(filename)) return;
-    const lease = readJson<LeaseRecord>(filename);
-    const owned = this.ownedLeases.get(runId);
-    if (!owned || lease.token !== token || lease.generation !== owned.generation) throw new Error("run_lease_fenced");
-    fs.unlinkSync(filename);
-    this.ownedLeases.delete(runId);
+    this.withMutationLock(runId, () => {
+      const filename = path.join(this.directory(runId), "lease.json");
+      if (!fs.existsSync(filename)) return;
+      const lease = readJson<LeaseRecord>(filename);
+      const owned = this.ownedLeases.get(runId);
+      if (!owned || lease.token !== token || lease.generation !== owned.generation) throw new Error("run_lease_fenced");
+      fs.unlinkSync(filename);
+      this.ownedLeases.delete(runId);
+    });
   }
 
   writeCapability(runId: string, grant: CapabilityGrant): string {
-    this.assertWriteFence(runId);
-    const ref = `capabilities/${safeSegment(grant.grant_id)}.json`;
-    writeAtomic(path.join(this.directory(runId), ref), grant);
-    return ref;
+    return this.withFencedMutation(runId, () => {
+      const ref = `capabilities/${safeSegment(grant.grant_id)}.json`;
+      writeAtomic(path.join(this.directory(runId), ref), grant);
+      return ref;
+    });
   }
 
   writeCapabilityRequest(runId: string, request: CapabilityRequest): string {
-    this.assertWriteFence(runId);
-    const ref = `capability-requests/${safeSegment(request.request_id)}.json`;
-    writeAtomic(path.join(this.directory(runId), ref), request);
-    return ref;
+    return this.withFencedMutation(runId, () => {
+      const ref = `capability-requests/${safeSegment(request.request_id)}.json`;
+      writeAtomic(path.join(this.directory(runId), ref), request);
+      return ref;
+    });
   }
 
   writeApproval(runId: string, approval: ApprovalReceipt): string {
-    this.assertWriteFence(runId);
-    const ref = "approval.json";
-    writeAtomic(path.join(this.directory(runId), ref), approval);
-    return ref;
+    return this.withFencedMutation(runId, () => {
+      const ref = "approval.json";
+      writeAtomic(path.join(this.directory(runId), ref), approval);
+      return ref;
+    });
   }
 
   readApproval(runId: string): ApprovalReceipt | undefined {
@@ -279,10 +342,11 @@ export class RunStore {
   }
 
   writePolicyDecision(runId: string, decision: PolicyDecisionRecord): string {
-    this.assertWriteFence(runId);
-    const ref = `policy-decisions/${safeSegment(decision.decision_id)}.json`;
-    writeAtomic(path.join(this.directory(runId), ref), decision);
-    return ref;
+    return this.withFencedMutation(runId, () => {
+      const ref = `policy-decisions/${safeSegment(decision.decision_id)}.json`;
+      writeAtomic(path.join(this.directory(runId), ref), decision);
+      return ref;
+    });
   }
 
   listPolicyDecisionRefs(runId: string): string[] {
@@ -291,10 +355,11 @@ export class RunStore {
   }
 
   writeReceipt(runId: string, receipt: EffectReceipt): string {
-    this.assertWriteFence(runId);
-    const ref = `receipts/${safeSegment(receipt.receipt_id)}.json`;
-    writeAtomic(path.join(this.directory(runId), ref), receipt);
-    return ref;
+    return this.withFencedMutation(runId, () => {
+      const ref = `receipts/${safeSegment(receipt.receipt_id)}.json`;
+      writeAtomic(path.join(this.directory(runId), ref), receipt);
+      return ref;
+    });
   }
 
   readReceipt(runId: string, receiptId: string): EffectReceipt | undefined {
@@ -311,21 +376,22 @@ export class RunStore {
   }
 
   writeCheckpoint(runId: string, run = this.readRun(runId)): RuntimeCheckpoint {
-    this.assertWriteFence(runId);
-    const receipts = this.listReceipts(runId);
-    const checkpoint: RuntimeCheckpoint = {
-      contract_version: CHECKPOINT_CONTRACT_VERSION,
-      run_id: runId,
-      revision: run.revision,
-      status: run.status,
-      event_sequence: run.event_sequence,
-      verified_receipt_ids: receipts.filter((item) => item.status === "verified" || item.status === "compensated").map((item) => item.receipt_id).sort(),
-      uncertain_receipt_ids: receipts.filter((item) => item.status === "uncertain" || item.status === "prepared" || item.status === "executed").map((item) => item.receipt_id).sort(),
-      updated_at: new Date().toISOString(),
-      resume_strategy: "deterministic_restart_with_receipt_deduplication"
-    };
-    writeAtomic(path.join(this.directory(runId), "checkpoint.json"), checkpoint);
-    return checkpoint;
+    return this.withFencedMutation(runId, () => {
+      const receipts = this.listReceipts(runId);
+      const checkpoint: RuntimeCheckpoint = {
+        contract_version: CHECKPOINT_CONTRACT_VERSION,
+        run_id: runId,
+        revision: run.revision,
+        status: run.status,
+        event_sequence: run.event_sequence,
+        verified_receipt_ids: receipts.filter((item) => item.status === "verified" || item.status === "compensated").map((item) => item.receipt_id).sort(),
+        uncertain_receipt_ids: receipts.filter((item) => item.status === "uncertain" || item.status === "prepared" || item.status === "executed").map((item) => item.receipt_id).sort(),
+        updated_at: new Date().toISOString(),
+        resume_strategy: "deterministic_restart_with_receipt_deduplication"
+      };
+      writeAtomic(path.join(this.directory(runId), "checkpoint.json"), checkpoint);
+      return checkpoint;
+    });
   }
 
   readCheckpoint(runId: string): RuntimeCheckpoint {
@@ -333,8 +399,7 @@ export class RunStore {
   }
 
   writeEpisode(runId: string, episode: GovernedEpisode): void {
-    this.assertWriteFence(runId);
-    writeAtomic(path.join(this.directory(runId), "episode.json"), episode);
+    this.withFencedMutation(runId, () => writeAtomic(path.join(this.directory(runId), "episode.json"), episode));
   }
 
   readEpisode(runId: string): GovernedEpisode {
@@ -342,10 +407,11 @@ export class RunStore {
   }
 
   writeBackup(runId: string, idempotencyKey: string, value: unknown): string {
-    this.assertWriteFence(runId);
-    const ref = `backups/${safeSegment(idempotencyKey)}.json`;
-    writeAtomic(path.join(this.directory(runId), ref), value);
-    return ref;
+    return this.withFencedMutation(runId, () => {
+      const ref = `backups/${safeSegment(idempotencyKey)}.json`;
+      writeAtomic(path.join(this.directory(runId), ref), value);
+      return ref;
+    });
   }
 
   readArtifact<T>(runId: string, ref: string): T {

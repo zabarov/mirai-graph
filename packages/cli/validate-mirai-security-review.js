@@ -15,7 +15,15 @@ const schema = JSON.parse(fs.readFileSync(path.join(root, "schemas/mirai-securit
 const ajv = new Ajv2020({ allErrors: true, strict: false });
 addFormats(ajv);
 const validate = ajv.compile(schema);
-const requiredScope = ["program_parsing", "path_and_symlink_boundary", "command_execution", "capability_scope", "approval_integrity", "crash_and_idempotency", "compensation", "evidence_redaction", "manifest_authority", "activation_budgets"];
+const requiredScope = [
+  "program_parsing", "path_and_symlink_boundary", "command_execution",
+  "capability_scope", "approval_integrity", "crash_and_idempotency",
+  "compensation", "evidence_redaction", "manifest_authority",
+  "activation_budgets", "activation_policy_binding",
+  "activation_host_budget_ceilings", "process_run_production_exclusion",
+  "renewable_lease_and_generation_fencing",
+  "cross_process_mutation_serialization"
+];
 function assess(candidate) {
   const errors = [];
   if (!validate(candidate)) errors.push(...(validate.errors || []).map((error) => `schema:${error.instancePath || "/"}:${error.message}`));
