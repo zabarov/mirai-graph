@@ -2,8 +2,8 @@
   "contract_version": "1.0.0",
   "repository": "zabarov/mirai-conformance",
   "branch": "codex/mirai-2.2-conformance",
-  "revision": "1c0d9d2597c36fc1f7e6d9bdac468f533909d91e",
-  "version": "0.4.0a1",
+  "revision": "415b7c967203060db4be5fe634b10bb6ce6e6d83",
+  "version": "0.4.0a2",
   "implementation": "python_independent",
   "imports_typescript_runtime": false,
   "supported_surfaces": [
@@ -18,7 +18,7 @@
     "promotion_receipts",
     "autonomic_cycles"
   ],
-  "local_test_status": "passed_22",
+  "local_test_status": "passed_23",
   "publication_status": "local_branch_only",
   "public_ci_status": "not_run",
   "release_gate_eligible": false,

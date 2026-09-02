@@ -91,6 +91,7 @@ export interface AdaptiveState {
   revision: number;
   records: Record<string, AdaptiveRecord>;
   applied_proposal_ids: string[];
+  applied_proposal_digests?: Record<string, string>;
   digest: string;
 }
 

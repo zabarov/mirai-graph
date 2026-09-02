@@ -1,8 +1,11 @@
 import fs from "node:fs";
 import path from "node:path";
-import net from "node:net";
+import net, { type LookupFunction } from "node:net";
+import http from "node:http";
+import https from "node:https";
 import { promises as dns } from "node:dns";
 import { spawnSync } from "node:child_process";
+import { Readable } from "node:stream";
 import { digestValue, sha256 } from "../core/canonical.js";
 import {
   DEFAULT_SOURCE_BUDGET,
@@ -15,7 +18,7 @@ import {
   type SourceSnapshot
 } from "./types.js";
 
-const SECRET_PATH = /(^|\/)(?:\.env(?:\..*)?|id_(?:rsa|ed25519)|.*\.(?:pem|key|p12|pfx)|credentials(?:\..*)?|secrets?(?:\..*)?)$/i;
+const SECRET_PATH = /(^|\/)(?:\.env(?:\..*)?|\.npmrc|\.pypirc|\.netrc|id_(?:rsa|ed25519)|.*\.(?:pem|key|p12|pfx)|credentials(?:\..*)?|secrets?(?:\..*)?|service-account[^/]*\.json)$/i;
 const EXCLUDED_DIRS = new Set([".git", "node_modules", "dist", "vendor", ".idea", ".vscode", ".mirai"]);
 const MEDIA_TYPES: Record<string, string> = {
   ".txt": "text/plain", ".md": "text/markdown", ".json": "application/json", ".yaml": "application/yaml", ".yml": "application/yaml",
@@ -23,6 +26,38 @@ const MEDIA_TYPES: Record<string, string> = {
   ".docx": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
   ".xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
 };
+
+const BLOCKED_IPS = new net.BlockList();
+const GLOBAL_IPV6 = new net.BlockList();
+GLOBAL_IPV6.addSubnet("2000::", 3, "ipv6");
+for (const [network, prefix] of [
+  ["0.0.0.0", 8], ["10.0.0.0", 8], ["100.64.0.0", 10], ["127.0.0.0", 8],
+  ["169.254.0.0", 16], ["172.16.0.0", 12], ["192.0.0.0", 24], ["192.0.2.0", 24],
+  ["192.168.0.0", 16], ["198.18.0.0", 15], ["198.51.100.0", 24], ["203.0.113.0", 24],
+  ["224.0.0.0", 4], ["240.0.0.0", 4]
+] as Array<[string, number]>) BLOCKED_IPS.addSubnet(network, prefix, "ipv4");
+for (const [network, prefix] of [
+  ["::", 128], ["::1", 128], ["64:ff9b:1::", 48], ["100::", 64],
+  ["2001::", 32], ["2001:2::", 48], ["2001:10::", 28], ["2001:20::", 28],
+  ["2001:db8::", 32], ["2002::", 16], ["fc00::", 7], ["fe80::", 10], ["ff00::", 8]
+] as Array<[string, number]>) BLOCKED_IPS.addSubnet(network, prefix, "ipv6");
+
+function normalizedSecretKey(key: string): string {
+  return key.replace(/([a-z0-9])([A-Z])/g, "$1_$2").replace(/[-.]/g, "_").toLowerCase();
+}
+
+function isSecretConfigurationKey(key: string): boolean {
+  const normalized = normalizedSecretKey(key);
+  return /(?:^|_)(?:password|passwd|secret|token)$/.test(normalized)
+    || /(?:^|_)(?:api|access|refresh|private|client|auth)_(?:key|token|secret)$/.test(normalized)
+    || /^(?:authorization|cookie|bearer|session_id|session_token)$/.test(normalized);
+}
+
+function assertBudget(budget: SourceBudget): void {
+  for (const [name, value] of Object.entries(budget)) {
+    if (!Number.isSafeInteger(value) || value < 1) throw new Error(`source_budget_invalid:${name}`);
+  }
+}
 
 function withinBudget(payloads: SourcePayload[], budget: SourceBudget): SourcePayload[] {
   if (payloads.length > budget.max_items) throw new Error("source_item_budget_exceeded");
@@ -41,16 +76,15 @@ export function validateSourceDescriptor(descriptor: SourceDescriptor, expectedK
   if (!descriptor.id || !descriptor.locator || !descriptor.scope) errors.push("source_descriptor_required_field_missing");
   if (descriptor.read_only !== true) errors.push("source_provider_must_be_read_only");
   if (expectedKind && descriptor.provider !== expectedKind) errors.push(`source_provider_kind_mismatch:${expectedKind}`);
-  if (/(?:password|token|secret|apikey|api_key)=/i.test(descriptor.locator)) errors.push("source_locator_contains_secret_material");
+  if (/(?:^|[?&;\s])[^=&\s]*(?:password|passwd|secret|token|api[_-]?key|access[_-]?key|private[_-]?key)[^=&\s]*=/i.test(descriptor.locator)) errors.push("source_locator_contains_secret_material");
   if (/^[a-z][a-z0-9+.-]*:\/\/[^/\s]+:[^@\s]+@/i.test(descriptor.locator)) errors.push("source_locator_contains_credentials");
   if (descriptor.connection_ref && /[:=@]/.test(descriptor.connection_ref)) errors.push("connection_ref_must_be_secret_alias_only");
-  const secretKey = /^(?:password|passwd|secret|token|api[_-]?key|access[_-]?key|private[_-]?key)$/i;
   const secretValue = /-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----|\bghp_[A-Za-z0-9]{20,}\b|\bxoxb-[A-Za-z0-9-]{20,}\b|\bAKIA[0-9A-Z]{16}\b/;
   const inspect = (value: unknown): boolean => {
     if (typeof value === "string") return secretValue.test(value);
     if (Array.isArray(value)) return value.some(inspect);
     if (!value || typeof value !== "object") return false;
-    return Object.entries(value as Record<string, unknown>).some(([key, child]) => secretKey.test(key) || inspect(child));
+    return Object.entries(value as Record<string, unknown>).some(([key, child]) => isSecretConfigurationKey(key) || inspect(child));
   };
   if (inspect(descriptor.configuration)) errors.push("source_configuration_contains_secret_material");
   return errors;
@@ -74,20 +108,39 @@ function collectFiles(root: string, current: string, output: string[], budget: S
 }
 
 function filePayloads(rootInput: string, budget: SourceBudget): SourcePayload[] {
+  assertBudget(budget);
   const root = fs.realpathSync(path.resolve(rootInput));
   if (!fs.statSync(root).isDirectory()) throw new Error("source_root_must_be_directory");
   const files: string[] = [];
   collectFiles(root, root, files, budget);
-  return withinBudget(files.map((filename) => {
+  const payloads: SourcePayload[] = [];
+  let totalBytes = 0;
+  for (const filename of files) {
     const key = path.relative(root, filename).split(path.sep).join("/");
-    const content = fs.readFileSync(filename);
-    return {
+    const resolved = fs.realpathSync(filename);
+    const relative = path.relative(root, resolved);
+    if (relative === ".." || relative.startsWith(`..${path.sep}`) || path.isAbsolute(relative)) throw new Error(`source_file_scope_escape:${key}`);
+    const noFollow = typeof fs.constants.O_NOFOLLOW === "number" ? fs.constants.O_NOFOLLOW : 0;
+    const fileDescriptor = fs.openSync(resolved, fs.constants.O_RDONLY | noFollow);
+    let content: Buffer;
+    try {
+      const stat = fs.fstatSync(fileDescriptor);
+      if (!stat.isFile()) throw new Error(`source_file_not_regular:${key}`);
+      if (stat.size > budget.max_item_bytes) throw new Error(`source_item_bytes_exceeded:${key}`);
+      totalBytes += stat.size;
+      if (totalBytes > budget.max_total_bytes) throw new Error("source_total_bytes_exceeded");
+      content = fs.readFileSync(fileDescriptor);
+    } finally {
+      fs.closeSync(fileDescriptor);
+    }
+    payloads.push({
       key,
       media_type: MEDIA_TYPES[path.extname(filename).toLowerCase()] as string,
       content,
       version: sha256(content)
-    };
-  }), budget);
+    });
+  }
+  return withinBudget(payloads, budget);
 }
 
 export function createFilesystemSourceProvider(): SourceProvider {
@@ -123,18 +176,50 @@ export function createGitSourceProvider(): SourceProvider {
 
 function isPrivateIp(address: string): boolean {
   const normalized = address.toLowerCase().replace(/^\[|\]$/g, "");
-  const mapped = normalized.match(/^::ffff:(\d+\.\d+\.\d+\.\d+)$/);
-  if (mapped) return isPrivateIp(mapped[1] as string);
-  if (net.isIPv4(normalized)) {
-    const [a = 0, b = 0] = normalized.split(".").map(Number);
-    return a === 10 || a === 127 || a === 0 || (a === 169 && b === 254) || (a === 172 && b >= 16 && b <= 31) || (a === 192 && b === 168) || a >= 224;
-  }
-  const value = normalized;
-  return value === "::1" || value === "::" || value.startsWith("fc") || value.startsWith("fd") || value.startsWith("fe8") || value.startsWith("fe9") || value.startsWith("fea") || value.startsWith("feb");
+  if (normalized.startsWith("::ffff:")) return true;
+  const family = net.isIP(normalized);
+  if (!family) return true;
+  if (family === 6 && !GLOBAL_IPV6.check(normalized, "ipv6")) return true;
+  return BLOCKED_IPS.check(normalized, family === 4 ? "ipv4" : "ipv6");
 }
 
-type FetchLike = (input: string | URL, init?: RequestInit) => Promise<Response>;
+async function discardResponseBody(response: Response): Promise<void> {
+  try { await response.body?.cancel(); } catch { /* The response is being rejected anyway. */ }
+}
+
+export interface HttpFetchContext {
+  hostname: string;
+  approved_addresses: string[];
+}
+
+type FetchLike = (input: string | URL, init: RequestInit, context: HttpFetchContext) => Promise<Response>;
 type ResolveLike = (hostname: string) => Promise<string[]>;
+
+function pinnedFetch(input: string | URL, init: RequestInit, context: HttpFetchContext): Promise<Response> {
+  const url = new URL(input);
+  const approved = context.approved_addresses.map((address) => ({ address, family: net.isIP(address) }));
+  if (!approved.length || context.hostname !== url.hostname || approved.some((entry) => !entry.family)) return Promise.reject(new Error("http_pinned_addresses_required"));
+  const lookup = ((_hostname: string, options: unknown, callback: (...args: unknown[]) => void) => {
+    if (options && typeof options === "object" && "all" in options && (options as { all?: boolean }).all) callback(null, approved);
+    else callback(null, approved[0]?.address, approved[0]?.family);
+  }) as LookupFunction;
+  const headers = Object.fromEntries(new Headers(init.headers || {}).entries());
+  const transport = url.protocol === "https:" ? https : http;
+  return new Promise((resolve, reject) => {
+    const request = transport.request(url, { method: init.method || "GET", headers, lookup, agent: false, signal: init.signal as AbortSignal }, (response) => {
+      const responseHeaders = new Headers();
+      for (const [name, value] of Object.entries(response.headers)) {
+        if (Array.isArray(value)) value.forEach((item) => responseHeaders.append(name, item));
+        else if (value !== undefined) responseHeaders.set(name, String(value));
+      }
+      const status = response.statusCode || 500;
+      const body = status === 204 || status === 205 || status === 304 ? null : Readable.toWeb(response);
+      resolve(new Response(body as BodyInit | null, { status, statusText: response.statusMessage, headers: responseHeaders }));
+    });
+    request.once("error", reject);
+    request.end();
+  });
+}
 
 async function defaultResolve(hostname: string): Promise<string[]> {
   if (net.isIP(hostname)) return [hostname];
@@ -184,7 +269,7 @@ async function readResponseBounded(response: Response, maxBytes: number): Promis
 }
 
 export function createHttpSourceProvider(options: { fetcher?: FetchLike; resolver?: ResolveLike } = {}): SourceProvider {
-  const fetcher = options.fetcher || fetch;
+  const fetcher = options.fetcher || pinnedFetch;
   const resolver = options.resolver || defaultResolve;
   return {
     id: "mirai.source.http",
@@ -193,33 +278,50 @@ export function createHttpSourceProvider(options: { fetcher?: FetchLike; resolve
     operations: ["read", "snapshot"],
     async scan(descriptor, budget) {
       assertDescriptor(descriptor, "http");
+      assertBudget(budget);
       const config = descriptor.configuration;
       const allowed = Array.isArray(config.allowed_hosts) ? config.allowed_hosts.map(String) : [];
       if (!allowed.length) throw new Error("http_allowed_hosts_required");
       const paths = Array.isArray(config.paths) && config.paths.length ? config.paths.map(String) : [""];
+      if (paths.length > budget.max_items) throw new Error("source_item_budget_exceeded");
       const maxRedirects = Math.min(Number(config.max_redirects ?? 3), 5);
       const payloads: SourcePayload[] = [];
+      const deadline = Date.now() + budget.timeout_ms;
+      let totalBytes = 0;
       for (const suffix of paths) {
         let url = new URL(suffix, descriptor.locator);
         let response: Response | undefined;
         for (let redirect = 0; redirect <= maxRedirects; redirect += 1) {
           if (!['http:', 'https:'].includes(url.protocol) || url.username || url.password) throw new Error("http_locator_unsafe");
           if (!allowed.includes(url.hostname)) throw new Error(`http_host_not_allowed:${url.hostname}`);
-          const addresses = await resolver(url.hostname);
+          const remainingMs = deadline - Date.now();
+          if (remainingMs < 1) throw new Error("http_source_timeout");
+          const addresses = [...new Set(await withTimeout(resolver(url.hostname), remainingMs, "http_dns_timeout"))].sort();
           if (!addresses.length || addresses.some(isPrivateIp)) throw new Error(`http_private_address_forbidden:${url.hostname}`);
-          response = await fetcher(url, { method: "GET", redirect: "manual", signal: AbortSignal.timeout(budget.timeout_ms), headers: { accept: "text/html,text/plain,application/json,application/pdf,*/*;q=0.1" } });
+          response = await withTimeout(fetcher(url, { method: "GET", redirect: "manual", signal: AbortSignal.timeout(remainingMs), headers: { accept: "text/html,text/plain,application/json,application/pdf,*/*;q=0.1" } }, { hostname: url.hostname, approved_addresses: addresses }), remainingMs, "http_source_timeout");
           if (response.status >= 300 && response.status < 400) {
             const location = response.headers.get("location");
-            if (!location || redirect === maxRedirects) throw new Error("http_redirect_budget_exceeded");
+            if (!location || redirect === maxRedirects) {
+              await discardResponseBody(response);
+              throw new Error("http_redirect_budget_exceeded");
+            }
+            await discardResponseBody(response);
             url = new URL(location, url);
             continue;
           }
           break;
         }
-        if (!response?.ok) throw new Error(`http_source_failed:${response?.status ?? "no_response"}`);
+        if (!response?.ok) {
+          if (response) await discardResponseBody(response);
+          throw new Error(`http_source_failed:${response?.status ?? "no_response"}`);
+        }
+        const remainingBytes = budget.max_total_bytes - totalBytes;
+        if (remainingBytes < 1) throw new Error("source_total_bytes_exceeded");
+        const itemLimit = Math.min(budget.max_item_bytes, remainingBytes);
         const declared = Number(response.headers.get("content-length") || 0);
-        if (declared > budget.max_item_bytes) throw new Error("http_content_length_exceeded");
-        const content = await readResponseBounded(response, budget.max_item_bytes);
+        if (declared > itemLimit) throw new Error("http_content_length_exceeded");
+        const content = await readResponseBounded(response, itemLimit);
+        totalBytes += content.byteLength;
         const mediaType = (response.headers.get("content-type") || "application/octet-stream").split(";")[0] as string;
         payloads.push({ key: url.toString(), media_type: mediaType, content, etag: response.headers.get("etag") || undefined, modified_at: response.headers.get("last-modified") || undefined });
       }
@@ -249,25 +351,39 @@ export function createSqlSourceProvider(kind: "postgres" | "mysql", client: SqlR
     operations: ["query", "snapshot"],
     async scan(descriptor, budget) {
       assertDescriptor(descriptor, kind);
+      assertBudget(budget);
       const queryId = String(descriptor.configuration.query_id || "");
       const statement = templates[queryId];
       if (!statement) throw new Error(`sql_query_template_unknown:${queryId}`);
       assertReadQuery(statement);
       const params = Array.isArray(descriptor.configuration.params) ? descriptor.configuration.params : [];
-      const rows = await client.query(statement, params, { max_rows: budget.max_items, timeout_ms: budget.timeout_ms });
+      const rowLimit = budget.max_items === Number.MAX_SAFE_INTEGER ? budget.max_items : budget.max_items + 1;
+      const rows = await withTimeout(client.query(statement, params, { max_rows: rowLimit, timeout_ms: budget.timeout_ms }), budget.timeout_ms, "sql_query_timeout");
       if (rows.length > budget.max_items) throw new Error("sql_row_budget_exceeded");
-      return withinBudget(rows.map((row, index) => {
+      const payloads: SourcePayload[] = [];
+      let totalBytes = 0;
+      rows.forEach((row, index) => {
         const content = Buffer.from(JSON.stringify(row));
-        return { key: `${queryId}/row-${index + 1}`, media_type: "application/json", content, version: sha256(content) };
-      }), budget);
+        if (content.byteLength > budget.max_item_bytes) throw new Error(`source_item_bytes_exceeded:${queryId}/row-${index + 1}`);
+        totalBytes += content.byteLength;
+        if (totalBytes > budget.max_total_bytes) throw new Error("source_total_bytes_exceeded");
+        payloads.push({ key: `${queryId}/row-${index + 1}`, media_type: "application/json", content, version: sha256(content) });
+      });
+      return withinBudget(payloads, budget);
     }
   };
+}
+
+export interface S3ReadObject {
+  content: Uint8Array;
+  etag?: string;
+  version?: string;
 }
 
 export interface S3ReadClient {
   readonly read_only: true;
   list(bucket: string, prefix: string, limit: number): Promise<Array<{ key: string; etag?: string; version?: string; bytes?: number }>>;
-  get(bucket: string, key: string, version?: string): Promise<Uint8Array>;
+  get(bucket: string, key: string, version?: string, limits?: { max_bytes: number }): Promise<Uint8Array | S3ReadObject>;
 }
 
 export function createS3SourceProvider(client: S3ReadClient): SourceProvider {
@@ -279,18 +395,31 @@ export function createS3SourceProvider(client: S3ReadClient): SourceProvider {
     operations: ["discover", "read", "snapshot"],
     async scan(descriptor, budget) {
       assertDescriptor(descriptor, "s3");
+      assertBudget(budget);
       const bucket = String(descriptor.configuration.bucket || "");
       const prefix = String(descriptor.configuration.prefix || "");
       const allowedBucket = String(descriptor.configuration.allowed_bucket || "");
       const allowedPrefix = String(descriptor.configuration.allowed_prefix || "");
       if (!bucket || bucket !== allowedBucket || !prefix.startsWith(allowedPrefix) || prefix.includes("..")) throw new Error("s3_scope_not_allowed");
-      const objects = await withTimeout(client.list(bucket, prefix, budget.max_items), budget.timeout_ms, "s3_list_timeout");
+      const deadline = Date.now() + budget.timeout_ms;
+      const objectLimit = budget.max_items === Number.MAX_SAFE_INTEGER ? budget.max_items : budget.max_items + 1;
+      const objects = await withTimeout(client.list(bucket, prefix, objectLimit), Math.max(1, deadline - Date.now()), "s3_list_timeout");
       if (objects.length > budget.max_items) throw new Error("source_item_budget_exceeded");
       const payloads: SourcePayload[] = [];
+      let totalBytes = 0;
       for (const object of objects) {
         if (!object.key.startsWith(allowedPrefix) || object.key.includes("..")) throw new Error("s3_object_scope_escape");
         if (object.bytes && object.bytes > budget.max_item_bytes) throw new Error(`source_item_bytes_exceeded:${object.key}`);
-        payloads.push({ key: object.key, media_type: MEDIA_TYPES[path.extname(object.key).toLowerCase()] || "application/octet-stream", content: await withTimeout(client.get(bucket, object.key, object.version), budget.timeout_ms, "s3_get_timeout"), etag: object.etag, version: object.version });
+        const remainingBytes = budget.max_total_bytes - totalBytes;
+        if (remainingBytes < 1) throw new Error("source_total_bytes_exceeded");
+        const maxBytes = Math.min(budget.max_item_bytes, remainingBytes);
+        const remainingMs = deadline - Date.now();
+        if (remainingMs < 1) throw new Error("s3_source_timeout");
+        const fetched = await withTimeout(client.get(bucket, object.key, object.version, { max_bytes: maxBytes }), remainingMs, "s3_get_timeout");
+        const result: S3ReadObject = fetched instanceof Uint8Array ? { content: fetched } : fetched;
+        if (result.content.byteLength > maxBytes) throw new Error(`source_item_bytes_exceeded:${object.key}`);
+        totalBytes += result.content.byteLength;
+        payloads.push({ key: object.key, media_type: MEDIA_TYPES[path.extname(object.key).toLowerCase()] || "application/octet-stream", content: result.content, etag: result.etag || object.etag, version: result.version || object.version });
       }
       return withinBudget(payloads, budget);
     }
@@ -298,6 +427,10 @@ export function createS3SourceProvider(client: S3ReadClient): SourceProvider {
 }
 
 export function buildSourceSnapshot(descriptor: SourceDescriptor, payloads: SourcePayload[], previous?: SourceSnapshot, budget: SourceBudget = DEFAULT_SOURCE_BUDGET): SourceSnapshot {
+  const descriptorErrors = validateSourceDescriptor(descriptor);
+  if (descriptorErrors.length) throw new Error(descriptorErrors.join(","));
+  assertBudget(budget);
+  withinBudget(payloads, budget);
   const locatorDigest = digestValue(descriptor.locator);
   const items = payloads.map((payload) => ({
     source_id: descriptor.id,

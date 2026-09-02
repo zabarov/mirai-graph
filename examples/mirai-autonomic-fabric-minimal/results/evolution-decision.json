@@ -1,12 +1,12 @@
 {
   "contract_version": "1.0.0",
-  "proposal_id": "evolution.8691227457224c5a",
-  "proposal_digest": "sha256:d9b1d8f36f88ee5b9b9d5b97d0b1fe7739d4aa59c916c1c7c22b3cf26dd0d1ed",
+  "proposal_id": "evolution.3bddffc1b2fe3a34",
+  "proposal_digest": "sha256:a4242b73523f1d561b12fb7ca0fdf9e0dcbe9331c256b50f61e669fdc8ec4082",
   "envelope_id": "autonomy.autonomic-demo.low-risk",
   "envelope_digest": "sha256:ba79bc38676e86c1a6d4e16d51331183d34c8bd72beeb17281143deecb5a9458",
   "evaluated_at": "2026-09-02T12:00:00.000Z",
   "change_decisions": [],
   "verdict": "automatic_promotion_allowed",
   "canonical_write_allowed": false,
-  "digest": "sha256:d21dedd81ab992e17f5cb839b1da36cea10ed3e51dec26efb3c017749cb8a831"
+  "digest": "sha256:405575175efc9fe3f8273159e922bc9cc28f3ec872206ff5708f2d1230eaf221"
 }

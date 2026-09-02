@@ -3,38 +3,8 @@
   "assertions": [
     {
       "contract_version": "1.0.0",
-      "id": "assertion.73edd889b6fad2d2.1",
-      "identity_key": "autonomic-demo:1_inspect_the_bounded_change_and_declared_outcome",
-      "semantic_type": "source_concept",
-      "label": "1. Inspect the bounded change and declared outcome.",
-      "predicate": "content",
-      "value": "1. Inspect the bounded change and declared outcome.\n2. Run the required validation suite.\n3. If validation passes, request owner approval.\n4. Publish only after the approval receipt is verified.\n5. Record evidence and open a Kaizen proposal for reusable lessons.",
-      "value_digest": "sha256:3638e3aac76cfc277b425e9d6b98a65de23ed59d904165c5e5522e01cb932b4c",
-      "scope": "autonomic-demo",
-      "confidentiality": "public",
-      "quality": {
-        "extraction_confidence": 1,
-        "source_authority": "owner_asserted",
-        "corroboration_count": 1,
-        "freshness": "unknown",
-        "conflict_state": "none"
-      },
-      "provenance": [
-        {
-          "source_ref": "source.autonomic-demo#release-process.md",
-          "source_fingerprint": "sha256:7d836e3b550ae9ff353e5303d7e5ed08d45faaf6b3123bc720cdf9eb5cc4f924",
-          "content_digest": "sha256:3638e3aac76cfc277b425e9d6b98a65de23ed59d904165c5e5522e01cb932b4c"
-        }
-      ],
-      "lifecycle": "candidate",
-      "source_state": "available",
-      "authority_decision_required": false,
-      "canonical_write_allowed": false
-    },
-    {
-      "contract_version": "1.0.0",
-      "id": "assertion.bd74f60c5cb8540e.1",
-      "identity_key": "autonomic-demo:governed_release_process",
+      "id": "assertion.ae12fabef0b55102.1",
+      "identity_key": "autonomic-demo:~23~_governed_release_process",
       "semantic_type": "source_concept",
       "label": "# Governed release process",
       "predicate": "content",
@@ -60,20 +30,50 @@
       "source_state": "available",
       "authority_decision_required": false,
       "canonical_write_allowed": false
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "assertion.f8b1c5382f3fe88e.1",
+      "identity_key": "autonomic-demo:1._inspect_the_bounded_change_and_declared_outcome.",
+      "semantic_type": "source_concept",
+      "label": "1. Inspect the bounded change and declared outcome.",
+      "predicate": "content",
+      "value": "1. Inspect the bounded change and declared outcome.\n2. Run the required validation suite.\n3. If validation passes, request owner approval.\n4. Publish only after the approval receipt is verified.\n5. Record evidence and open a Kaizen proposal for reusable lessons.",
+      "value_digest": "sha256:3638e3aac76cfc277b425e9d6b98a65de23ed59d904165c5e5522e01cb932b4c",
+      "scope": "autonomic-demo",
+      "confidentiality": "public",
+      "quality": {
+        "extraction_confidence": 1,
+        "source_authority": "owner_asserted",
+        "corroboration_count": 1,
+        "freshness": "unknown",
+        "conflict_state": "none"
+      },
+      "provenance": [
+        {
+          "source_ref": "source.autonomic-demo#release-process.md",
+          "source_fingerprint": "sha256:7d836e3b550ae9ff353e5303d7e5ed08d45faaf6b3123bc720cdf9eb5cc4f924",
+          "content_digest": "sha256:3638e3aac76cfc277b425e9d6b98a65de23ed59d904165c5e5522e01cb932b4c"
+        }
+      ],
+      "lifecycle": "candidate",
+      "source_state": "available",
+      "authority_decision_required": false,
+      "canonical_write_allowed": false
     }
   ],
   "identity_resolutions": [
     {
-      "candidate_identity": "autonomic-demo:1_inspect_the_bounded_change_and_declared_outcome",
+      "candidate_identity": "autonomic-demo:1._inspect_the_bounded_change_and_declared_outcome.",
       "resolution": "new_identity",
-      "canonical_identity": "autonomic-demo:1_inspect_the_bounded_change_and_declared_outcome",
+      "canonical_identity": "autonomic-demo:1._inspect_the_bounded_change_and_declared_outcome.",
       "candidate_matches": [],
       "owner_review_required": false
     },
     {
-      "candidate_identity": "autonomic-demo:governed_release_process",
+      "candidate_identity": "autonomic-demo:~23~_governed_release_process",
       "resolution": "new_identity",
-      "canonical_identity": "autonomic-demo:governed_release_process",
+      "canonical_identity": "autonomic-demo:~23~_governed_release_process",
       "candidate_matches": [],
       "owner_review_required": false
     }
@@ -98,5 +98,5 @@
   },
   "canonical_write_allowed": false,
   "next_safe_action": "owner_review",
-  "digest": "sha256:70b647bc2635d91642b73279c3242dc730402f26ec3acb6ac16d4f954a879415"
+  "digest": "sha256:2044db6f3b3bd4771dc1f832dcfdc38c12678ba1c3d9f26e6e0203c91425c2c3"
 }

@@ -1,0 +1,74 @@
+{
+  "contract_version": "1.0.0",
+  "evidence_id": "connector-integration.mirai-2.2.2026-09-02",
+  "status": "passed",
+  "evidence_class": "controlled_local_integration",
+  "implementation_revision": "943a8e1eaebf659f03dfbb96ba19f3954c068e94",
+  "execution_environment": {
+    "host_os": "macos",
+    "node": "20.20.1",
+    "service_isolation": "temporary_containers",
+    "test_data": "synthetic_only",
+    "credentials": "temporary_and_not_recorded"
+  },
+  "services": [
+    {
+      "kind": "http",
+      "implementation": "real_https_endpoint",
+      "result": "passed",
+      "verified_boundary": "allowlisted_host_and_bounded_response"
+    },
+    {
+      "kind": "postgresql",
+      "implementation": "postgresql_16_temporary_container",
+      "result": "passed",
+      "verified_boundary": "read_only_transaction_and_bounded_select"
+    },
+    {
+      "kind": "mysql",
+      "implementation": "mysql_8_4_temporary_container",
+      "result": "passed",
+      "verified_boundary": "read_only_transaction_and_bounded_select"
+    },
+    {
+      "kind": "s3_compatible",
+      "implementation": "temporary_minio_container",
+      "result": "passed",
+      "verified_boundary": "allowlisted_bucket_prefix_and_bounded_object"
+    }
+  ],
+  "checks": [
+    {
+      "command": "npm run test:mirai-2.2-connectors-integration",
+      "status": "passed",
+      "evidence_ref": "test/integration/source-connectors.integration.test.cjs"
+    },
+    {
+      "command": "npm run validate:mirai-2.2-adapter-clean-room",
+      "status": "passed",
+      "summary": "The primary package and four optional adapter packages were packed and installed into a clean temporary consumer."
+    },
+    {
+      "command": "npm audit --audit-level=high",
+      "status": "passed",
+      "summary": "Zero known vulnerabilities were reported after dependency correction."
+    },
+    {
+      "command": "npm run release:check",
+      "status": "passed",
+      "summary": "The complete local release suite passed after connector integration."
+    }
+  ],
+  "cleanup": {
+    "temporary_services_removed": true,
+    "production_data_touched": false,
+    "production_write_performed": false,
+    "credential_values_recorded": false
+  },
+  "limitations": [
+    "This local run does not replace the public Linux, macOS and Windows CI matrix.",
+    "The integration test establishes bounded connector interoperability with controlled services, not correctness of arbitrary source data.",
+    "Source connectors remain read-only; external writes are outside this evidence."
+  ],
+  "claim_boundary": "This evidence closes the controlled connector-integration gate only. It does not authorize a production connection, managed autonomy, external write or stable publication."
+}

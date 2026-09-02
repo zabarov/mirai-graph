@@ -15,11 +15,37 @@ import {
   type SourceSnapshotItem
 } from "./types.js";
 
-const SECRET_MATERIAL = /-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----|\bghp_[A-Za-z0-9]{20,}\b|\bxoxb-[A-Za-z0-9-]{20,}\b|\bAKIA[0-9A-Z]{16}\b|(?:password|passwd|secret|token|api[_-]?key)\s*[:=]\s*["']?[A-Za-z0-9_./+\-=]{8,}/i;
+const SECRET_MATERIAL = /-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----|\bghp_[A-Za-z0-9]{20,}\b|\bxoxb-[A-Za-z0-9-]{20,}\b|\bAKIA[0-9A-Z]{16}\b|(?:^|[\s,{])["']?[A-Za-z0-9_.-]*(?:password|passwd|secret|token|api[_-]?key|access[_-]?key|private[_-]?key)[A-Za-z0-9_.-]*["']?\s*[:=]\s*["']?[^\s"',}\]]{4,}/im;
+
+function isSecretKey(key: string): boolean {
+  const normalized = key.replace(/([a-z0-9])([A-Z])/g, "$1_$2").replace(/[-.]/g, "_").toLowerCase();
+  return /(?:^|_)(?:password|passwd|secret|token)$/.test(normalized)
+    || /(?:^|_)(?:api|access|refresh|private|client|auth)_(?:key|token|secret)$/.test(normalized)
+    || /^(?:authorization|cookie|bearer|session_id|session_token)$/.test(normalized);
+}
 
 function containsSecretMaterial(value: unknown): boolean {
-  const text = typeof value === "string" ? value : JSON.stringify(value);
-  return SECRET_MATERIAL.test(text);
+  const seen = new WeakSet<object>();
+  const inspect = (candidate: unknown): boolean => {
+    if (typeof candidate === "string") return SECRET_MATERIAL.test(candidate);
+    if (!candidate || typeof candidate !== "object") return false;
+    if (seen.has(candidate)) return true;
+    seen.add(candidate);
+    if (Array.isArray(candidate)) return candidate.some(inspect);
+    return Object.entries(candidate as Record<string, unknown>).some(([key, child]) => isSecretKey(key) || inspect(child));
+  };
+  return inspect(value);
+}
+
+function safeConversionError(error: unknown): string {
+  const message = error instanceof Error ? error.message : String(error);
+  return /^[a-z][a-z0-9_]*(?::[A-Za-z0-9._/-]+)?$/.test(message) ? message : "converter_parse_or_execution_failed";
+}
+
+function assertConversionBudget(budget: SourceBudget): void {
+  for (const [name, value] of Object.entries(budget)) {
+    if (!Number.isSafeInteger(value) || value < 1) throw new Error(`source_budget_invalid:${name}`);
+  }
 }
 
 function unit(item: SourceSnapshotItem, payload: SourcePayload, ordinal: number, kind: NormalizedUnit["kind"], content: NormalizedUnit["content"], span?: NormalizedUnit["source_span"]): NormalizedUnit {
@@ -236,9 +262,19 @@ const xlsxConverter: ContentConverter = {
 export const BUILTIN_CONVERTERS: ContentConverter[] = [structuredConverter, csvConverter, htmlConverter, pdfConverter, docxConverter, xlsxConverter, textConverter];
 
 export async function convertPayloads(snapshot: SourceSnapshot, payloads: SourcePayload[], budget: SourceBudget, converters: ContentConverter[] = BUILTIN_CONVERTERS): Promise<ConversionResult> {
+  assertConversionBudget(budget);
+  if (payloads.length > budget.max_items) throw new Error("source_item_budget_exceeded");
+  let inputBytes = 0;
+  for (const payload of payloads) {
+    if (payload.content.byteLength > budget.max_item_bytes) throw new Error(`source_item_bytes_exceeded:${payload.key}`);
+    inputBytes += payload.content.byteLength;
+    if (inputBytes > budget.max_total_bytes) throw new Error("source_total_bytes_exceeded");
+  }
   const byKey = new Map(snapshot.items.map((item) => [item.key, item]));
   const units: NormalizedUnit[] = [];
   const diagnostics: ConversionResult["diagnostics"] = [];
+  const deadline = Date.now() + budget.timeout_ms;
+  let normalizedBytes = 0;
   for (const payload of payloads.sort((a, b) => a.key.localeCompare(b.key))) {
     const item = byKey.get(payload.key);
     if (!item) throw new Error(`source_snapshot_item_missing:${payload.key}`);
@@ -248,14 +284,28 @@ export async function convertPayloads(snapshot: SourceSnapshot, payloads: Source
       continue;
     }
     try {
-      const converted = await converter.convert(payload, item, budget);
+      const remainingMs = deadline - Date.now();
+      if (remainingMs < 1) throw new Error("conversion_timeout");
+      let timer: ReturnType<typeof setTimeout> | undefined;
+      const converted = await Promise.race([
+        converter.convert(payload, item, budget),
+        new Promise<NormalizedUnit[]>((_resolve, reject) => { timer = setTimeout(() => reject(new Error("conversion_timeout")), remainingMs); })
+      ]).finally(() => { if (timer) clearTimeout(timer); });
+      if (Date.now() > deadline) throw new Error("conversion_timeout");
       if (converted.some((value) => containsSecretMaterial(value.content))) {
         diagnostics.push({ source_ref: `${item.source_id}#${item.key}`, code: "secret_bearing_content_blocked", severity: "blocking", message: "Normalized content matched a secret-bearing pattern and was excluded.", converter_proposal_required: false });
         continue;
       }
+      if (units.length + converted.length > budget.max_items) throw new Error("normalized_unit_budget_exceeded");
+      for (const convertedUnit of converted) {
+        const bytes = Buffer.byteLength(JSON.stringify(convertedUnit.content));
+        if (bytes > budget.max_item_bytes) throw new Error("normalized_unit_bytes_exceeded");
+        normalizedBytes += bytes;
+        if (normalizedBytes > budget.max_total_bytes) throw new Error("normalized_total_bytes_exceeded");
+      }
       units.push(...converted);
     } catch (error) {
-      diagnostics.push({ source_ref: `${item.source_id}#${item.key}`, code: "conversion_failed", severity: "blocking", message: error instanceof Error ? error.message : String(error), converter_proposal_required: false });
+      diagnostics.push({ source_ref: `${item.source_id}#${item.key}`, code: "conversion_failed", severity: "blocking", message: safeConversionError(error), converter_proposal_required: false });
     }
   }
   return { units: units.sort((a, b) => a.id.localeCompare(b.id)), diagnostics, raw_source_persisted: false, canonical_write_allowed: false };

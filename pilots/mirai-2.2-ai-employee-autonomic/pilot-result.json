@@ -18,8 +18,8 @@
     "managed_decision": "automatic_promotion_allowed"
   },
   "evidence": {
-    "cycle_digest": "sha256:b5ace973a538a13deea59ff033c7c15ff575930a062951a77a1f244d9a6e50ec",
-    "knowledge_digest": "sha256:465c7e7bfb63d8643b0a805677a3f8e357df21b84968a09c453bf207af78d278"
+    "cycle_digest": "sha256:7d2fc8da81e4cfa00083bfe6548ff9ba1b2c9645d3bf94edb228654a3c456fa1",
+    "knowledge_digest": "sha256:8556bd05baa055a93b96ce0dbb5cedf73cfba52c86928f0ab4832140cd61f410"
   },
   "internal_review": "passed_fixture_consistency",
   "independent_human_review": "pending",
@@ -29,5 +29,5 @@
     "Model comparison, blind human review and production-read observation remain pending."
   ],
   "canonical_write_allowed": false,
-  "digest": "sha256:1a22df735176b58e430a8a27311ffd84420f26d643afac6e2d29383ccfe176b9"
+  "digest": "sha256:da6cdb8f4e1bd2280cb14b529cb1a84dbef218df774a795edc343b84502fb0de"
 }

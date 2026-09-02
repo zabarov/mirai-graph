@@ -362,15 +362,16 @@ export async function runCli(args: string[]): Promise<number> {
       const errors = validateSourceDescriptor(descriptor);
       if (errors.length) throw new Error(`source_descriptor_invalid:${errors.join(",")}`);
       const provider = sourceProvider(descriptor);
-      const payloads = await provider.scan(descriptor, {
+      const sourceBudget = {
         max_items: Number(readOption(args, "--max-items") || 10_000),
         max_item_bytes: Number(readOption(args, "--max-item-bytes") || 8 * 1024 * 1024),
         max_total_bytes: Number(readOption(args, "--max-total-bytes") || 128 * 1024 * 1024),
         timeout_ms: Number(readOption(args, "--timeout-ms") || 30_000)
-      });
+      };
+      const payloads = await provider.scan(descriptor, sourceBudget);
       const previousRef = readOption(args, "--previous");
       const previous = previousRef ? loadJson(previousRef) as unknown as SourceSnapshot : undefined;
-      const snapshot = buildSourceSnapshot(descriptor, payloads, previous);
+      const snapshot = buildSourceSnapshot(descriptor, payloads, previous, sourceBudget);
       const output = requireArgument(readOption(args, "--out"), "--out path");
       const unitsOutput = readOption(args, "--units-out");
       const conversion = unitsOutput ? await convertPayloads(snapshot, payloads, snapshot.budgets) : undefined;

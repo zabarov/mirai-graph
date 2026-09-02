@@ -17,7 +17,7 @@ const mappings = [
 const errors = [];
 if (!/^[a-f0-9]{40}$/.test(candidate.revision || "")) errors.push("checker_revision_invalid");
 if (candidate.implementation !== "python_independent" || candidate.imports_typescript_runtime !== false) errors.push("checker_independence_invalid");
-if (candidate.local_test_status !== "passed_22") errors.push("checker_local_tests_not_passed");
+if (!/^passed_[1-9][0-9]*$/.test(candidate.local_test_status || "")) errors.push("checker_local_tests_not_passed");
 if (candidate.canonical_write_performed !== false || candidate.effects_executed !== false) errors.push("checker_safety_boundary_invalid");
 for (const [kind, artifactRef, resultRef] of mappings) {
   const artifact = JSON.parse(fs.readFileSync(path.join(root, artifactRef), "utf8"));

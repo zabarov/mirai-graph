@@ -24,6 +24,15 @@ test("ambiguous identities require owner review and are never auto-merged", () =
   assert.equal(proposal.quality.readiness, "blocked");
 });
 
+test("lossy punctuation and unapproved aliases cannot silently merge identities", () => {
+  const punctuation = organizeKnowledge({ units: [unit("dash", { title: "Team-A", value: 1 }), unit("space", { title: "Team A", value: 1 })] });
+  assert.equal(new Set(punctuation.assertions.map((item) => item.identity_key)).size, 2);
+
+  const alias = { alias: "Legacy Name", canonical_identity: "demo:canonical", scope: "demo", reviewed: true, approval_ref: "" };
+  const unapproved = organizeKnowledge({ units: [unit("alias", { title: "Legacy Name", value: 1 })], aliases: [alias] });
+  assert.equal(unapproved.identity_resolutions[0].resolution, "new_identity");
+});
+
 test("graph-growth limits return a proposal-only partition route instead of expanding unboundedly", () => {
   const inputUnit = unit("large", { a: 1, b: 2, c: 3 });
   const result = organizeKnowledge({ units: [inputUnit], budgets: { max_assertions: 2 } });

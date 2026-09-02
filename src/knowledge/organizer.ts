@@ -13,7 +13,10 @@ import {
 } from "./types.js";
 
 function normalizeIdentity(value: string): string {
-  return value.normalize("NFKC").trim().toLowerCase().replace(/[^\p{L}\p{N}]+/gu, "_").replace(/^_+|_+$/g, "") || "unnamed";
+  return value.normalize("NFKC").trim().toLowerCase()
+    .replace(/\s+/gu, "_")
+    .replace(/[^\p{L}\p{N}._-]/gu, (character) => `~${character.codePointAt(0)?.toString(16)}~`)
+    .replace(/^_+|_+$/g, "") || "unnamed";
 }
 
 function unitLabel(unit: NormalizedUnit): string {
@@ -96,7 +99,7 @@ function budgetProposal(
 
 function resolveIdentity(identity: string, scope: string, aliases: AliasRule[], known: Set<string>): IdentityResolution {
   if (known.has(identity)) return { candidate_identity: identity, resolution: "exact", canonical_identity: identity, candidate_matches: [identity], owner_review_required: false };
-  const alias = aliases.find((item) => item.reviewed && item.scope === scope && normalizeIdentity(item.alias) === identity.split(":").at(-1));
+  const alias = aliases.find((item) => item.reviewed === true && typeof item.approval_ref === "string" && item.approval_ref.trim().length > 0 && item.scope === scope && normalizeIdentity(item.alias) === identity.split(":").at(-1));
   if (alias) return { candidate_identity: identity, resolution: "reviewed_alias", canonical_identity: alias.canonical_identity, candidate_matches: [alias.canonical_identity], owner_review_required: false };
   const suffix = identity.split(":").at(-1) as string;
   const matches = [...known].filter((item) => item.endsWith(`:${suffix}`)).sort();

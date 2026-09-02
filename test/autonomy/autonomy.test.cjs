@@ -24,6 +24,11 @@ function proposal(baseStateDigest, kind = "derived_navigation", target = "adapti
   return { ...body, digest: digestValue(body) };
 }
 
+function redigest(value) {
+  const { digest: _digest, ...body } = value;
+  return { ...body, digest: digestValue(body) };
+}
+
 test("only envelope-bounded adaptive changes can be applied and rolled back", () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "mirai-autonomy-"));
   const home = path.join(root, "home");
@@ -38,7 +43,10 @@ test("only envelope-bounded adaptive changes can be applied and rolled back", ()
     const options = { root, state_ref: ".mirai/adaptive/state.json", proposal: candidate, decision, envelope: approvedEnvelope, authorization_ref: authorization.id, verify_authorization: () => true, applied_at: "2026-09-02T00:01:00.000Z" };
     const receipt = applyAdaptiveEvolution(options);
     assert.equal(receipt.status, "applied");
+    assert.equal(fs.readdirSync(path.join(root, ".mirai/evidence/autonomic")).some((name) => name.includes(receipt.digest.slice(7, 19))), true);
     assert.equal(applyAdaptiveEvolution(options).status, "already_applied");
+    const unsafeRollback = redigest({ ...receipt, rollback_ref: ".mirai/migration-backups/autonomic/../../../package.json" });
+    assert.throws(() => rollbackAdaptiveEvolution({ root, state_ref: ".mirai/adaptive/state.json", receipt: unsafeRollback, rolled_back_at: "2026-09-02T00:02:00.000Z" }), /adaptive_rollback_ref_invalid/);
     assert.equal(rollbackAdaptiveEvolution({ root, state_ref: ".mirai/adaptive/state.json", receipt, rolled_back_at: "2026-09-02T00:02:00.000Z" }).status, "rolled_back");
   } finally {
     fs.rmSync(root, { recursive: true, force: true });
@@ -50,4 +58,62 @@ test("protected, effectful and authority-changing proposals are denied", () => {
   const decision = evaluateEvolutionProposal(proposal(initial, "protected_invariant", "system/protected/safety"), envelope(), "2026-09-02T00:00:00.000Z");
   assert.equal(decision.verdict, "denied");
   assert.equal(decision.change_decisions[0].reason_codes.includes("change_kind_never_automatic"), true);
+});
+
+test("change-count and payload budgets deny automatic promotion", () => {
+  const initial = digestValue({ contract_version: "1.0.0", scope: "demo", revision: 0, records: {}, applied_proposal_ids: [] });
+  const first = proposal(initial);
+  const secondPayload = { relation_ref: "relation.second" };
+  const secondChange = { ...first.changes[0], id: "change.second", target_ref: "adaptive/navigation/second", payload: secondPayload, payload_digest: digestValue(secondPayload) };
+  const overCount = redigest({ ...first, changes: [...first.changes, secondChange] });
+  const countEnvelope = redigest({ ...envelope(), change_budget: { max_changes: 1, max_payload_bytes: 4096 } });
+  const countDecision = evaluateEvolutionProposal(overCount, countEnvelope, "2026-09-02T00:00:00.000Z");
+  assert.equal(countDecision.verdict, "denied");
+  assert.equal(countDecision.change_decisions.every((item) => item.verdict === "deny" && item.reason_codes.includes("change_count_budget_exceeded")), true);
+
+  const byteEnvelope = redigest({ ...envelope(), change_budget: { max_changes: 4, max_payload_bytes: 1 } });
+  const byteDecision = evaluateEvolutionProposal(first, byteEnvelope, "2026-09-02T00:00:00.000Z");
+  assert.equal(byteDecision.verdict, "denied");
+  assert.equal(byteDecision.change_decisions[0].reason_codes.includes("change_payload_budget_exceeded"), true);
+});
+
+test("apply recomputes proposal, envelope and decision integrity", () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "mirai-autonomy-integrity-"));
+  try {
+    const initial = { contract_version: "1.0.0", scope: "demo", revision: 0, records: {}, applied_proposal_ids: [] };
+    const approvedEnvelope = envelope();
+    const candidate = proposal(digestValue(initial));
+    const decision = evaluateEvolutionProposal(candidate, approvedEnvelope, "2026-09-02T00:00:00.000Z");
+    const base = { root, state_ref: ".mirai/adaptive/state.json", proposal: candidate, decision, envelope: approvedEnvelope, authorization_ref: "authorization.test", verify_authorization: () => true, applied_at: "2026-09-02T00:01:00.000Z" };
+
+    const forgedProposal = redigest({ ...candidate, changes: [{ ...candidate.changes[0], kind: "capability", effectful: false }] });
+    const forgedDecisionBody = { ...decision, proposal_digest: forgedProposal.digest, verdict: "automatic_promotion_allowed", change_decisions: [{ change_id: forgedProposal.changes[0].id, verdict: "allow_automatic", reason_codes: [] }] };
+    const forgedDecision = redigest(forgedDecisionBody);
+    assert.throws(() => applyAdaptiveEvolution({ ...base, proposal: forgedProposal, decision: forgedDecision }), /evolution_decision_recomputation_mismatch|automatic_promotion_not_allowed/);
+
+    const unsafeId = redigest({ ...candidate, id: "../../../package" });
+    const unsafeDecision = evaluateEvolutionProposal(unsafeId, approvedEnvelope, "2026-09-02T00:00:00.000Z");
+    assert.equal(unsafeDecision.verdict, "denied");
+    assert.throws(() => applyAdaptiveEvolution({ ...base, proposal: unsafeId, decision: unsafeDecision }), /evolution_proposal_invalid/);
+    assert.throws(() => applyAdaptiveEvolution({ ...base, state_ref: "package.json" }), /adaptive_state_ref_invalid/);
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("failed lease acquisition cannot delete another process lease", () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "mirai-autonomy-lease-"));
+  try {
+    const initial = { contract_version: "1.0.0", scope: "demo", revision: 0, records: {}, applied_proposal_ids: [] };
+    const approvedEnvelope = envelope();
+    const candidate = proposal(digestValue(initial));
+    const decision = evaluateEvolutionProposal(candidate, approvedEnvelope, "2026-09-02T00:00:00.000Z");
+    const lease = path.join(root, ".mirai/adaptive/state.json.lease");
+    fs.mkdirSync(path.dirname(lease), { recursive: true });
+    fs.writeFileSync(lease, "other-process-token");
+    assert.throws(() => applyAdaptiveEvolution({ root, state_ref: ".mirai/adaptive/state.json", proposal: candidate, decision, envelope: approvedEnvelope, authorization_ref: "authorization.test", verify_authorization: () => true, applied_at: "2026-09-02T00:01:00.000Z" }), /adaptive_state_lease_unavailable/);
+    assert.equal(fs.readFileSync(lease, "utf8"), "other-process-token");
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
 });

@@ -6,14 +6,16 @@
   "additionalProperties": false,
   "required": ["contract_version", "id", "scope", "base_state_digest", "changes", "created_from_cycle_ref", "canonical_write_allowed", "digest"],
   "properties": {
-    "contract_version": { "const": "1.0.0" }, "id": { "type": "string" }, "scope": { "type": "string" }, "base_state_digest": { "$ref": "#/$defs/digest" },
+    "contract_version": { "const": "1.0.0" }, "id": { "$ref": "#/$defs/id" }, "scope": { "type": "string", "minLength": 1 }, "base_state_digest": { "$ref": "#/$defs/digest" },
     "changes": { "type": "array", "items": { "$ref": "#/$defs/change" } }, "created_from_cycle_ref": { "type": "string" }, "canonical_write_allowed": { "const": false }, "digest": { "$ref": "#/$defs/digest" }
   },
   "$defs": {
     "digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
-    "change": { "type": "object", "required": ["id", "kind", "target_ref", "stratum", "operation", "payload", "payload_digest", "risk", "confidence", "reversible", "effectful", "evidence_refs", "successful_replay_refs", "conflict_refs"], "properties": {
+    "id": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$" },
+    "change": { "type": "object", "additionalProperties": false, "required": ["id", "kind", "target_ref", "stratum", "operation", "payload", "payload_digest", "risk", "confidence", "reversible", "effectful", "evidence_refs", "successful_replay_refs", "conflict_refs"], "properties": {
+      "id": { "$ref": "#/$defs/id" }, "target_ref": { "type": "string", "pattern": "^adaptive/[A-Za-z0-9._:/-]+$" },
       "kind": { "enum": ["source_freshness", "derived_navigation", "reviewed_alias", "adaptive_statistic", "effect_free_program", "protected_invariant", "authority", "capability", "approval", "conflict_resolution", "effectful_program", "history_deletion", "autonomy_envelope"] },
-      "stratum": { "enum": ["system_protected", "organization_protected", "governed_canonical", "adaptive_canonical", "ephemeral"] }, "operation": { "enum": ["upsert", "deprecate"] }, "effectful": { "type": "boolean" }, "reversible": { "type": "boolean" }
+      "stratum": { "enum": ["system_protected", "organization_protected", "governed_canonical", "adaptive_canonical", "ephemeral"] }, "operation": { "enum": ["upsert", "deprecate"] }, "payload": { "type": "object" }, "payload_digest": { "$ref": "#/$defs/digest" }, "risk": { "enum": ["low", "medium", "high", "critical"] }, "confidence": { "type": "number", "minimum": 0, "maximum": 1 }, "effectful": { "type": "boolean" }, "reversible": { "type": "boolean" }, "evidence_refs": { "type": "array", "items": { "type": "string" } }, "successful_replay_refs": { "type": "array", "items": { "type": "string" } }, "conflict_refs": { "type": "array", "items": { "type": "string" } }
     } }
   }
 }

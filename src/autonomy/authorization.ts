@@ -8,6 +8,7 @@ import {
   type AutonomyAuthorizationReceipt,
   type AutonomyEnvelope
 } from "./types.js";
+import { validateAutonomyEnvelope } from "./evaluator.js";
 
 const KEY_FILE = "autonomy-approval.key";
 
@@ -48,6 +49,8 @@ export function createAutonomyAuthorizationReceipt(options: {
 }): AutonomyAuthorizationReceipt {
   if (!options.approved_by.trim()) throw new Error("autonomy_approver_required");
   const now = options.now || new Date();
+  const envelopeErrors = validateAutonomyEnvelope(options.envelope, now.toISOString());
+  if (envelopeErrors.length) throw new Error(`autonomy_envelope_invalid:${envelopeErrors.join(",")}`);
   const envelopeExpiry = Date.parse(options.envelope.expires_at);
   if (!Number.isFinite(envelopeExpiry) || envelopeExpiry <= now.getTime()) throw new Error("autonomy_envelope_expired");
   const ttl = options.ttl_ms ?? 24 * 60 * 60 * 1000;
@@ -77,6 +80,7 @@ export function verifyAutonomyAuthorizationReceipt(receipt: AutonomyAuthorizatio
 }): { valid: boolean; errors: string[] } {
   const errors: string[] = [];
   const now = options.now || new Date();
+  errors.push(...validateAutonomyEnvelope(options.envelope, now.toISOString()));
   if (receipt.contract_version !== AUTONOMY_AUTHORIZATION_CONTRACT_VERSION || receipt.approved !== true) errors.push("autonomy_authorization_contract_invalid");
   if (receipt.canonical_write_allowed !== false) errors.push("autonomy_authorization_boundary_invalid");
   if (receipt.envelope_id !== options.envelope.id || receipt.envelope_digest !== options.envelope.digest) errors.push("autonomy_authorization_envelope_mismatch");
