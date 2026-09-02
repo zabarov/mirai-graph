@@ -3,7 +3,7 @@
   "release_id": "release.mirai.2.1.0",
   "evaluated_version": "2.1.0",
   "promotion_target": "2.1.0",
-  "evaluated_at": "2026-09-02T13:10:00Z",
+  "evaluated_at": "2026-09-02T13:18:14Z",
   "overall_status": "blocked",
   "gates": [
     {
@@ -63,8 +63,8 @@
       "id": "gate.2_1_clean_room_cross_platform",
       "category": "release",
       "status": "passed",
-      "evidence_refs": [".github/workflows/ci.yml", "packages/cli/validate-clean-room-install.js", "packages/cli/validate-mirai-2-1-ci-gate.js", "https://github.com/zabarov/mirai-graph/actions/runs/33633025272"],
-      "summary": "Exact release-candidate revision 8b14c43 passed all 11 public CI jobs, including clean-room installation and Mirai Program checks on Linux, macOS and Windows, plus release-check and readiness-contract validation."
+      "evidence_refs": [".github/workflows/ci.yml", "packages/cli/validate-clean-room-install.js", "packages/cli/validate-mirai-2-1-ci-gate.js", "https://github.com/zabarov/mirai-graph/actions/runs/33633025272", "https://github.com/zabarov/mirai-graph/actions/runs/33634761421"],
+      "summary": "Exact stable revision 86796e7 passed all 11 public CI jobs, including clean-room installation and Mirai Program checks on Linux, macOS and Windows, plus release-check and readiness-contract validation. The earlier exact RC matrix also passed."
     },
     {
       "id": "gate.scientific_claim_boundary",
@@ -78,14 +78,14 @@
       "id": "gate.2_1_stable_release_metadata",
       "category": "release",
       "status": "blocked",
-      "evidence_refs": ["package.json", "README.md", "ROADMAP.md", "releases/2.1.0.md"],
-      "summary": "Stable 2.1.0 package and documentation metadata are prepared locally; live tag, GitHub Release and npm registry metadata remain gated until the exact stable commit passes CI.",
-      "blocker_reason": "Run the exact stable commit through public CI, then publish tag, GitHub Release and npm packages through a fresh live action gate."
+      "evidence_refs": ["package.json", "README.md", "ROADMAP.md", "releases/2.1.0.md", "https://github.com/zabarov/mirai-graph/tree/v2.1.0"],
+      "summary": "Stable 2.1.0 metadata and annotated tag are published at exact revision 86796e7 after its green public CI matrix. GitHub Release and npm registry publication remain incomplete.",
+      "blocker_reason": "Create the GitHub Release and publish @zabarov/mirai plus the mirai-graph compatibility package after the required account scopes are available."
     }
   ],
   "blocking_gate_ids": [
     "gate.2_1_stable_release_metadata"
   ],
-  "next_safe_action": "Run the exact stable 2.1.0 commit through the full public release matrix, then publish tag, GitHub Release and npm packages only through fresh live action gates.",
+  "next_safe_action": "Complete the GitHub Release and npm publication after obtaining account credentials scoped for Releases and new scoped-package creation; then verify registry and release metadata before passing the final gate.",
   "claim_boundary": "This readiness report supports contract inventory and targeted engineering evidence only. It does not authorize production writes or establish comparative scientific effectiveness."
 }
