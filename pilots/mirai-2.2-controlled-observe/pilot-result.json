@@ -4,13 +4,47 @@
   "observed_at": "2026-09-02T18:25:00.000Z",
   "status": "controlled_observe_complete",
   "case_count": 4,
+  "execution_provenance": {
+    "runner_revision": "35c6374d153f218206779ad2307de53ddd302cf7",
+    "runner_source_sha256": "sha256:87beb85174e6e995f444c71c24adaf27bebb5a0285813dd555f5bed74436a609",
+    "runtime_dist_digest": "sha256:3e78c84c7dc4f186c983bb94af83032a641447172f3757610561fb565e9286be",
+    "dependency_lock_sha256": "sha256:e49b227375295b4661a3c8a9a804667bc5d310f96f763089cdfda8081e1ffff3",
+    "public_config_digest": "sha256:3539f077611bb9f0448d1729e2070e90466c07002de56c6b512a4c3468be1867",
+    "private_config_digest": "sha256:fdecfbf7264366f4636273943da6bbca4bae32b6586b64151fd1d4edd408f226",
+    "runtime": {
+      "node": "v20.20.1",
+      "platform": "darwin",
+      "arch": "arm64"
+    },
+    "runner_worktree_clean_before": true,
+    "runner_worktree_status_digest_before": "sha256:12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+    "runner_worktree_clean_after": true,
+    "runner_worktree_status_digest_after": "sha256:12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+    "runner_worktree_unchanged": true
+  },
+  "effect_audit": {
+    "output_policy": "new_json_file_in_os_temporary_directory",
+    "output_existed_before": false,
+    "allowed_write_count": 1,
+    "source_snapshots_unchanged": true,
+    "source_git_states_unchanged": true,
+    "external_effect_adapters_invoked": false,
+    "canonical_write_attempted": false
+  },
   "results": [
     {
       "id": "pilot.controlled.ai-employee",
       "source_alias": "ai-employee",
       "source_kind": "real_repository_subset",
-      "source_revision_digest": "sha256:2aa69ef9a49b4058a07778e81f4026aa9be288cfeefcce14901bfa6fb1125835",
+      "source_revision_digest": "sha256:70a6d8ebecea509fe32029a1650b81d48f6fbf26f36eadb73a6a188b55599c5d",
+      "source_git_clean_before": false,
+      "source_git_state_digest_before": "sha256:f6976b97b5efed605cb1946c846d6ecc1b4c90f9dd11624da1a691f9287d0f55",
+      "source_git_state_digest_after": "sha256:f6976b97b5efed605cb1946c846d6ecc1b4c90f9dd11624da1a691f9287d0f55",
+      "source_git_state_unchanged": true,
+      "source_descriptor_digest": "sha256:10873a847e64df6d8c05a690c0a8febd15a165138b50af76640fdbfb59da05a8",
       "snapshot_digest": "sha256:ea4b877cca93b66515af9b51b0b3905a39ed99704eadad157f138077594c9941",
+      "snapshot_digest_after": "sha256:ea4b877cca93b66515af9b51b0b3905a39ed99704eadad157f138077594c9941",
+      "source_snapshot_unchanged": true,
       "cycle_digest": "sha256:9191994cd41acf6dcc8e64e176102c60d90c53cb5a51ff2f9f6678d22202161c",
       "mode": "observe_suggest",
       "source_item_count": 19,
@@ -24,20 +58,35 @@
       "technology_draft_allowed_count": 0,
       "evolution_change_proposal_count": 16,
       "cycle_status": "planned",
+      "invoked_operations": [
+        "filesystem.scan",
+        "source.snapshot",
+        "source.convert",
+        "knowledge.organize",
+        "technology.observe",
+        "evolution.plan"
+      ],
       "protected_or_effectful_change_applied": false,
       "production_effects": false,
       "canonical_write_allowed": false,
       "raw_paths_disclosed": false,
       "raw_content_disclosed": false,
       "review_status": "pending_independent_review",
-      "digest": "sha256:129a8bc0a9aaa05526c35a2ce99f92fb74b457b57cfe413e5e31212c66b2144f"
+      "digest": "sha256:e8b31b40a37655fabb605a6b79700ebcdb1d7025af52bb044569b2a8ba77612b"
     },
     {
       "id": "pilot.controlled.federation",
       "source_alias": "federation",
       "source_kind": "real_repository_subset",
       "source_revision_digest": "sha256:55054db2f10ab919a88efdac5ea98030d39a66e5d0f123d14ba6567d50fa2ddc",
+      "source_git_clean_before": false,
+      "source_git_state_digest_before": "sha256:63673215afacc0ceed019217120c422bdae3653419a1f311ea1e7981e1fc0025",
+      "source_git_state_digest_after": "sha256:63673215afacc0ceed019217120c422bdae3653419a1f311ea1e7981e1fc0025",
+      "source_git_state_unchanged": true,
+      "source_descriptor_digest": "sha256:9e94fc5c6b1d5cfe5a25d09d9a11e74b99adc60f092cb119adb6e89094ce381f",
       "snapshot_digest": "sha256:21b30d6afbb4686af603eb7f1aa410b2cdbeb140e9d1b4f74c24fe138ecc9be8",
+      "snapshot_digest_after": "sha256:21b30d6afbb4686af603eb7f1aa410b2cdbeb140e9d1b4f74c24fe138ecc9be8",
+      "source_snapshot_unchanged": true,
       "cycle_digest": "sha256:808786aaa7bf39042010b8a7ca33f689653feb9c3872d37ecde0ee54c6125678",
       "mode": "observe_suggest",
       "source_item_count": 52,
@@ -51,20 +100,35 @@
       "technology_draft_allowed_count": 0,
       "evolution_change_proposal_count": 0,
       "cycle_status": "manual_review_required",
+      "invoked_operations": [
+        "filesystem.scan",
+        "source.snapshot",
+        "source.convert",
+        "knowledge.organize",
+        "technology.observe",
+        "evolution.plan"
+      ],
       "protected_or_effectful_change_applied": false,
       "production_effects": false,
       "canonical_write_allowed": false,
       "raw_paths_disclosed": false,
       "raw_content_disclosed": false,
       "review_status": "pending_independent_review",
-      "digest": "sha256:97e5b81e037b9339ac674f4cc924fd974b364240c6ff0da50137fdde61747d19"
+      "digest": "sha256:cc6e3aeaa48d2dc91f03f8efbdb2c565ceb0b3ec625ca07373dd45b5e90a366a"
     },
     {
       "id": "pilot.controlled.modular-software",
       "source_alias": "modular-software",
       "source_kind": "real_repository_subset",
       "source_revision_digest": "sha256:f128c2910fa7ac4f1084c00d04d36986d5b8a9680b5536962d8403905e6df098",
+      "source_git_clean_before": false,
+      "source_git_state_digest_before": "sha256:00a1e5cf04f1a6f77f0a33af05402de10a6af65ada693a5d57ce8188dfc25280",
+      "source_git_state_digest_after": "sha256:00a1e5cf04f1a6f77f0a33af05402de10a6af65ada693a5d57ce8188dfc25280",
+      "source_git_state_unchanged": true,
+      "source_descriptor_digest": "sha256:512d763b25770dbddb95d3af035363f25564591e7bf6dbd2d3645a3e67c4d487",
       "snapshot_digest": "sha256:bed9e4533ed353ccb7c8ed52fc316b00c532e4903f69b7a782e069adbe122611",
+      "snapshot_digest_after": "sha256:bed9e4533ed353ccb7c8ed52fc316b00c532e4903f69b7a782e069adbe122611",
+      "source_snapshot_unchanged": true,
       "cycle_digest": "sha256:ce28a63b1b63faded2e6d02fea4089d2193f0c53495f7fd6b62f9f743f90b28b",
       "mode": "observe_suggest",
       "source_item_count": 47,
@@ -78,20 +142,35 @@
       "technology_draft_allowed_count": 0,
       "evolution_change_proposal_count": 0,
       "cycle_status": "manual_review_required",
+      "invoked_operations": [
+        "filesystem.scan",
+        "source.snapshot",
+        "source.convert",
+        "knowledge.organize",
+        "technology.observe",
+        "evolution.plan"
+      ],
       "protected_or_effectful_change_applied": false,
       "production_effects": false,
       "canonical_write_allowed": false,
       "raw_paths_disclosed": false,
       "raw_content_disclosed": false,
       "review_status": "pending_independent_review",
-      "digest": "sha256:96107432427d268d35913a859b3bdf1e3a8f27261ba24f3031afc840cd1becd4"
+      "digest": "sha256:0e18e0896e21410236184584032c89d92811abe9df8e114cc07aafab4104bd5a"
     },
     {
       "id": "pilot.controlled.self-hosting",
       "source_alias": "self-hosting",
       "source_kind": "real_repository_subset",
-      "source_revision_digest": "sha256:70a1346c99a70a4e274b725decdcba7b355a730167c5d55ae6ce7c3082c6d15f",
+      "source_revision_digest": "sha256:5bf630c12d5a9c1910361fddebc8c8acfb30584f18fdf562d82103ea0cbc2043",
+      "source_git_clean_before": true,
+      "source_git_state_digest_before": "sha256:12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+      "source_git_state_digest_after": "sha256:12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+      "source_git_state_unchanged": true,
+      "source_descriptor_digest": "sha256:d043bdbb574baa915d2b135e12a32da581c8fc7e4c19c83a29b1c8630da06e7b",
       "snapshot_digest": "sha256:4ce94a949a503b8df0c695e65b17d199b418fdce028ed2280bf384ce425818dc",
+      "snapshot_digest_after": "sha256:4ce94a949a503b8df0c695e65b17d199b418fdce028ed2280bf384ce425818dc",
+      "source_snapshot_unchanged": true,
       "cycle_digest": "sha256:1ef9799f34a5d1b631b7c04b913b27abd2cfece3dc485b2d3636dc2b8c4e381b",
       "mode": "observe_suggest",
       "source_item_count": 61,
@@ -105,13 +184,21 @@
       "technology_draft_allowed_count": 0,
       "evolution_change_proposal_count": 0,
       "cycle_status": "manual_review_required",
+      "invoked_operations": [
+        "filesystem.scan",
+        "source.snapshot",
+        "source.convert",
+        "knowledge.organize",
+        "technology.observe",
+        "evolution.plan"
+      ],
       "protected_or_effectful_change_applied": false,
       "production_effects": false,
       "canonical_write_allowed": false,
       "raw_paths_disclosed": false,
       "raw_content_disclosed": false,
       "review_status": "pending_independent_review",
-      "digest": "sha256:4113ef7b51478d73c14553dabe0c08c76a27937912ac3d34704d5454770183b5"
+      "digest": "sha256:9d2a68a48a6fd59b417aaceaf654cf730ad1ef2f7440fb18221081ff77596d1b"
     }
   ],
   "independent_review": "pending",
@@ -120,9 +207,10 @@
   "canonical_write_allowed": false,
   "limitations": [
     "Three source sets are private and represented only by sanitized aggregates and digests.",
+    "Private source authenticity is owner-verifiable but not independently reproducible from this public artifact.",
     "Observe/suggest results do not establish correctness of extracted knowledge or discovered processes.",
     "No production effect, canonical merge or automatic technology promotion was performed.",
     "Owner-authorized AI-assisted review is not external human peer review."
   ],
-  "digest": "sha256:7cc0e37e724f03871282cd299e74f93ddcc6e425da45b3c53ef9d3fe7798c07d"
+  "digest": "sha256:c8f48e949bcf17f32c15e4a0616d6ad969035d25147c5a345c36b39b79aa40dc"
 }
