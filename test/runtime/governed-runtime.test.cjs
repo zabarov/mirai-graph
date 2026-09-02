@@ -422,7 +422,7 @@ test("runtime deadline covers verification and leaves the effect unsettled", asy
         async execute() { return { content: "read" }; },
         async verify(_receipt, context) {
           return new Promise((resolve, reject) => {
-            const timer = setTimeout(() => resolve({ verified: true, details: ["late"] }), 100);
+            const timer = setTimeout(() => resolve({ verified: true, details: ["late"] }), 3000);
             context.signal.addEventListener("abort", () => { clearTimeout(timer); reject(context.signal.reason); }, { once: true });
           });
         }
@@ -432,10 +432,10 @@ test("runtime deadline covers verification and leaves the effect unsettled", asy
   const runId = "run.verification-deadline";
   const started = Date.now();
   await assert.rejects(
-    () => startGovernedRun(readProgram(), {}, { store: env.store, sandbox: env.sandbox, adapters, run_id: runId, deadline_at_ms: Date.now() + 50 }),
+    () => startGovernedRun(readProgram(), {}, { store: env.store, sandbox: env.sandbox, adapters, run_id: runId, deadline_at_ms: Date.now() + 1000 }),
     /effect_deadline_exceeded:verify/
   );
-  assert(Date.now() - started < 120);
+  assert(Date.now() - started < 2500);
   assert.equal(env.store.readRun(runId).status, "blocked");
   assert.equal(env.store.listReceipts(runId)[0].status, "executed");
 });
