@@ -3,7 +3,7 @@
   "evidence_id": "connector-integration.mirai-2.2.2026-09-02",
   "status": "passed",
   "evidence_class": "controlled_local_integration",
-  "implementation_revision": "943a8e1eaebf659f03dfbb96ba19f3954c068e94",
+  "implementation_revision": "1ab6480d49283580a6ab6dcd221227553dccb102",
   "execution_environment": {
     "host_os": "macos",
     "node": "20.20.1",
@@ -68,6 +68,7 @@
   "limitations": [
     "This local run does not replace the public Linux, macOS and Windows CI matrix.",
     "The integration test establishes bounded connector interoperability with controlled services, not correctness of arbitrary source data.",
+    "The pinned AWS SDK supports Node 20 for this release candidate and warns that versions published after early January 2027 will require Node 22; the Node runtime baseline must be reviewed before dependency upgrades after that date.",
     "Source connectors remain read-only; external writes are outside this evidence."
   ],
   "claim_boundary": "This evidence closes the controlled connector-integration gate only. It does not authorize a production connection, managed autonomy, external write or stable publication."
