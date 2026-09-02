@@ -101,6 +101,7 @@
     "test:mirai-2.1": "node --test test/assimilation/assimilation.test.cjs test/components/components.test.cjs test/technology/technology.test.cjs test/technology/qualification.test.cjs test/runtime/authorization.test.cjs test/activation/activation.test.cjs test/activation/shadow.test.cjs test/contracts/graph-native-schemas.test.cjs test/project/project-capsule.test.cjs",
     "generate:mirai-2.2-fixtures": "node packages/cli/generate-mirai-2.2-fixtures.js",
     "test:mirai-2.2": "node --test test/sources/sources.test.cjs test/knowledge/knowledge.test.cjs test/technology/process-discovery.test.cjs test/autonomy/autonomy.test.cjs test/evolution/controller.test.cjs",
+    "test:mirai-2.2-connectors-integration": "npm run build && node --test test/integration/source-connectors.integration.test.cjs",
     "validate:mirai-2.2-contracts": "node packages/cli/validate-mirai-2.2-contracts.js",
     "validate:mirai-2.2-cli": "node packages/cli/validate-mirai-2.2-cli.js",
     "generate:mirai-2.2-pilots": "node packages/cli/generate-mirai-2.2-pilots.js",
@@ -108,6 +109,7 @@
     "validate:independent-autonomic-conformance": "node packages/cli/validate-independent-autonomic-conformance.js",
     "validate:mirai-2.2-readiness": "node packages/cli/validate-mirai-2-2-readiness.js",
     "validate:mirai-2.2-adapter-packages": "node packages/cli/validate-mirai-2.2-adapter-packages.js",
+    "validate:mirai-2.2-adapter-clean-room": "node packages/cli/validate-mirai-2.2-adapter-clean-room.js",
     "validate:markdown-links": "node packages/cli/validate-markdown-links.js",
     "validate:shadow-differential": "node packages/cli/mirai.js activation shadow examples/mirai-shadow-differential-minimal/activation-plan.json --baseline examples/mirai-shadow-differential-minimal/accepted-baseline.json --base-dir . --out /tmp/mirai-shadow-differential-result.json --force",
     "validate:technology-qualification": "node packages/cli/mirai.js technology qualify examples/mirai-technology-qualification-minimal/technology-draft.json --bindings examples/mirai-technology-qualification-minimal/bindings.json --out /tmp/mirai-technology-qualification.json --force && node packages/cli/mirai.js technology hybrid-compile examples/mirai-technology-qualification-minimal/technology-draft.json --qualification /tmp/mirai-technology-qualification.json --out /tmp/mirai-hybrid-technology-plan.json --force",
@@ -222,7 +224,7 @@
     "validate:playground-demo": "npm run --silent playground:demo >/tmp/mirai-graph-playground-demo.md && diff -u playground/demo-report.md /tmp/mirai-graph-playground-demo.md",
     "validate:playground-report": "npm run --silent playground:report >/tmp/mirai-graph-playground-report.md && diff -u playground/demo-report.md /tmp/mirai-graph-playground-report.md && rg 'transition explanation|Instrumentation|Multi-source feedback|Baseline Comparison|baseline comparison' playground/demo-report.md",
     "test": "npm run validate:graph-manifest && npm run validate:minimal && npm run validate:benchmark && npm run validate:seed && npm run validate:profiles && npm run validate:ai-employee && npm run validate:skill-runtime && npm run validate:managed-project && npm run validate:implementation-control && npm run validate:implementation-control-cycles && npm run validate:launch-record && npm run validate:process-transition && npm run validate:process-transition-report && npm run validate:process-control && npm run validate:technology-quality-feedback && npm run validate:instrumentation-layer && npm run validate:instrumentation-report && npm run validate:dynamic-episodes && npm run validate:dynamic-episode-report && npm run validate:semantic-intent-resolution && npm run validate:goal-vector-quality-control && npm run validate:dna-alignment && npm run validate:work-state && npm run validate:risk-control && npm run validate:source-boundary && npm run validate:organization-governance && npm run validate:societal-governance && npm run validate:character-layer && npm run validate:character-layer-integration && npm run validate:model-portability-evidence && npm run validate:character-layer-readiness && npm run validate:templates && npm run validate:adopter-workflow && npm run validate:self-service-onboarding && npm run validate:project-capsule && npm run validate:init-fixtures && npm run validate:bootstrap-fixtures && npm run validate:release-state && npm run validate:mirai-graph-compat && npm run validate:cli-unified && npm run validate:pilots && npm run validate:context-packs && npm run validate:profile-results && npm run validate:routing-control && npm run seed:preview && npm run context:generate && npm run playground:demo && npm run playground:report && npm run readiness:benchmark && npm run benchmark:synthetic && npm run validate:baseline-comparison && npm run validate:markdown-report && npm run validate:playground-demo && npm run validate:playground-report && npm run test:negative && npm run test:character-layer-semantic-negative && npm run test:societal-governance-negative && npm run test:process-transition-negative && npm run test:technology-quality-feedback-negative && npm run test:instrumentation-layer-negative && npm run test:dynamic-episodes-negative && npm run test:semantic-intent-resolution-negative && npm run test:goal-vector-quality-control-negative",
-    "release:check": "npm test && npm run validate:mirai-2.2-adapter-packages && npm run validate:mirai-2.2-readiness && npm run validate:markdown-links && git diff --check"
+    "release:check": "npm test && npm run validate:mirai-2.2-adapter-packages && npm run validate:mirai-2.2-adapter-clean-room && npm run validate:mirai-2.2-readiness && npm run validate:markdown-links && git diff --check"
   },
   "repository": {
     "type": "git",
@@ -272,7 +274,10 @@
     "yaml": "^2.8.1"
   },
   "devDependencies": {
+    "@aws-sdk/client-s3": "3.1100.0",
     "@types/node": "^24.3.0",
+    "mysql2": "^3.15.3",
+    "pg": "^8.16.3",
     "typescript": "^5.9.2"
   }
 }

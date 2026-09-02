@@ -1,5 +1,7 @@
 "use strict";
 
+const mysql = require("mysql2/promise");
+
 function sources() {
   try { return require("@zabarov/mirai/sources"); }
   catch (error) {
@@ -8,4 +10,60 @@ function sources() {
   }
 }
 
-module.exports = { createMysqlSourceProvider: (client, templates) => sources().createSqlSourceProvider("mysql", client, templates) };
+function normalizeStatement(statement) {
+  return String(statement).trim().replace(/;\s*$/, "");
+}
+
+function createMysqlReadClient(options = {}) {
+  const externalPool = options.pool;
+  const pool = externalPool || mysql.createPool(
+    typeof options === "string"
+      ? options
+      : options.connectionUri || {
+          ...(options.poolConfig || {}),
+          waitForConnections: true,
+          connectionLimit: Math.max(1, Math.min(Number(options.maxConnections || 4), 16)),
+          multipleStatements: false
+        }
+  );
+
+  return {
+    read_only: true,
+    async query(statement, params, limits) {
+      const maxRows = Math.max(1, Math.floor(limits.max_rows));
+      const timeoutMs = Math.max(1, Math.floor(limits.timeout_ms));
+      const connection = await pool.getConnection();
+      try {
+        await connection.query(`SET SESSION MAX_EXECUTION_TIME = ${timeoutMs}`);
+        await connection.query("START TRANSACTION READ ONLY");
+        const [rows] = await connection.query(
+          `SELECT * FROM (${normalizeStatement(statement)}) AS mirai_source LIMIT ?`,
+          [...params, maxRows]
+        );
+        await connection.query("COMMIT");
+        if (!Array.isArray(rows)) throw new Error("mysql_read_rows_required");
+        return rows;
+      } catch (error) {
+        try { await connection.query("ROLLBACK"); } catch (_rollbackError) { /* original error remains authoritative */ }
+        throw error;
+      } finally {
+        connection.release();
+      }
+    },
+    async close() {
+      if (!externalPool) await pool.end();
+    }
+  };
+}
+
+function createMysqlSourceProvider(clientOrOptions, templates) {
+  const client = clientOrOptions && clientOrOptions.read_only === true && typeof clientOrOptions.query === "function"
+    ? clientOrOptions
+    : createMysqlReadClient(clientOrOptions);
+  const provider = sources().createSqlSourceProvider("mysql", client, templates);
+  return Object.assign(provider, {
+    close: async () => { if (typeof client.close === "function") await client.close(); }
+  });
+}
+
+module.exports = { createMysqlReadClient, createMysqlSourceProvider };

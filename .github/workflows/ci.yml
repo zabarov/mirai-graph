@@ -99,6 +99,9 @@ jobs:
       - name: Install and verify the packed artifact
         run: npm run validate:clean-room-install
 
+      - name: Install and verify official source adapters
+        run: npm run validate:mirai-2.2-adapter-clean-room
+
   release-check:
     runs-on: ubuntu-latest
 
@@ -159,3 +162,48 @@ jobs:
 
       - name: Validate independent autonomic conformance candidate
         run: npm run validate:independent-autonomic-conformance
+
+  source-connector-integration:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install package dependencies
+        run: npm ci
+
+      - name: Start isolated source services
+        shell: bash
+        run: |
+          docker run -d --name mirai-22-postgres -e POSTGRES_HOST_AUTH_METHOD=trust -e POSTGRES_DB=mirai_test -p 55432:5432 postgres:16-alpine
+          docker run -d --name mirai-22-mysql -e MYSQL_ROOT_PASSWORD=mirai-ci-root-password -e MYSQL_DATABASE=mirai_test -p 53306:3306 mysql:8.4
+          docker run -d --name mirai-22-minio -e MINIO_ROOT_USER=mirai_ci -e MINIO_ROOT_PASSWORD=mirai-ci-minio-password -p 59000:9000 minio/minio server /data
+          for attempt in {1..60}; do docker exec mirai-22-postgres pg_isready -U postgres -d mirai_test && break; sleep 2; done
+          for attempt in {1..60}; do docker exec mirai-22-mysql mysqladmin ping -uroot -pmirai-ci-root-password --silent && break; sleep 2; done
+
+      - name: Seed read-only database fixtures
+        shell: bash
+        run: |
+          docker exec mirai-22-postgres psql -v ON_ERROR_STOP=1 -U postgres -d mirai_test -c "CREATE ROLE mirai_reader LOGIN; CREATE TABLE source_records (id integer PRIMARY KEY, name text NOT NULL); INSERT INTO source_records VALUES (1, 'alpha'), (2, 'beta'); GRANT SELECT ON source_records TO mirai_reader;"
+          docker exec mirai-22-mysql mysql -uroot -pmirai-ci-root-password mirai_test -e "CREATE TABLE source_records (id integer PRIMARY KEY, name varchar(64) NOT NULL); INSERT INTO source_records VALUES (1, 'alpha'), (2, 'beta'); CREATE USER 'mirai_reader'@'%' IDENTIFIED BY 'mirai-ci-reader-password'; GRANT SELECT ON mirai_test.source_records TO 'mirai_reader'@'%'; FLUSH PRIVILEGES;"
+
+      - name: Run governed source connector integration
+        run: npm run test:mirai-2.2-connectors-integration
+        env:
+          MIRAI_TEST_HTTP_URL: https://example.com/
+          MIRAI_TEST_POSTGRES_URL: postgres://mirai_reader@127.0.0.1:55432/mirai_test
+          MIRAI_TEST_MYSQL_URL: mysql://mirai_reader:mirai-ci-reader-password@127.0.0.1:53306/mirai_test
+          MIRAI_TEST_S3_ENDPOINT: http://127.0.0.1:59000
+          MIRAI_TEST_S3_ACCESS_KEY: mirai_ci
+          MIRAI_TEST_S3_SECRET_KEY: mirai-ci-minio-password
+
+      - name: Stop isolated source services
+        if: always()
+        run: docker rm -f mirai-22-postgres mirai-22-mysql mirai-22-minio
