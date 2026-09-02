@@ -4,6 +4,11 @@ All notable changes to Mirai Graph will be documented in this file.
 
 ## [Unreleased]
 
+## [1.5.0] - 2026-09-03
+
+Compatible 1.x maintenance line, published under `legacy-1`; the npm `latest`
+channel and the separate 2.x development line are unchanged.
+
 - Project Technology can connect and refresh a bounded provider export without
   Git using explicit authenticated-release trust supplied by the consumer.
   Exact export bytes, graph identity, revision and forward ancestry are checked;
