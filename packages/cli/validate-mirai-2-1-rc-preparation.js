@@ -6,9 +6,12 @@ const path = require("node:path");
 
 const root = path.resolve(__dirname, "../..");
 const readinessRef = "releases/2.1.0-readiness.json";
-const targetVersion = "2.1.0-rc.1";
 const readiness = JSON.parse(fs.readFileSync(path.join(root, readinessRef), "utf8"));
 const packageJson = JSON.parse(fs.readFileSync(path.join(root, "package.json"), "utf8"));
+const rcVersion = "2.1.0-rc.1";
+const stableVersion = "2.1.0";
+const targetVersion = packageJson.version === stableVersion ? stableVersion : rcVersion;
+const preparationPhase = targetVersion === stableVersion ? "stable" : "rc";
 const errors = [];
 const selfTest = process.argv.includes("--self-test");
 
@@ -22,6 +25,7 @@ const prerequisiteIds = [
   "gate.2_1_migration_compatibility",
   "gate.scientific_claim_boundary"
 ];
+if (preparationPhase === "stable") prerequisiteIds.push("gate.2_1_clean_room_cross_platform");
 const gates = new Map((readiness.gates || []).map((gate) => [gate.id, gate]));
 const prerequisiteBlockers = [];
 for (const id of prerequisiteIds) {
@@ -34,13 +38,13 @@ const preparationAllowed = errors.length === 0 && prerequisiteBlockers.length ==
 const releaseNoteRef = `releases/${targetVersion}.md`;
 const releaseNoteExists = fs.existsSync(path.join(root, releaseNoteRef));
 
-function assessMetadata(preparationIsAllowed, packageVersion, noteExists, evaluatedVersion) {
+function assessMetadata(preparationIsAllowed, packageVersion, noteExists, evaluatedVersion, phase, expectedVersion) {
   const metadataErrors = [];
-  if (!preparationIsAllowed && packageVersion === targetVersion) {
-    metadataErrors.push("rc_version_set_before_prerequisite_gates_passed");
+  if (!preparationIsAllowed && packageVersion === expectedVersion) {
+    metadataErrors.push(`${phase}_version_set_before_prerequisite_gates_passed`);
   }
   if (!preparationIsAllowed && noteExists) {
-    metadataErrors.push("rc_release_note_created_before_prerequisite_gates_passed");
+    metadataErrors.push(`${phase}_release_note_created_before_prerequisite_gates_passed`);
   }
   if (evaluatedVersion !== packageVersion) {
     metadataErrors.push("readiness_package_version_mismatch");
@@ -49,7 +53,7 @@ function assessMetadata(preparationIsAllowed, packageVersion, noteExists, evalua
 }
 
 if (selfTest) {
-  const selfTestErrors = assessMetadata(false, targetVersion, true, "2.0.0-alpha.3");
+  const selfTestErrors = assessMetadata(false, rcVersion, true, "2.0.0-alpha.3", "rc", rcVersion);
   const expected = [
     "rc_version_set_before_prerequisite_gates_passed",
     "rc_release_note_created_before_prerequisite_gates_passed",
@@ -60,13 +64,15 @@ if (selfTest) {
   process.exitCode = valid ? 0 : 1;
   return;
 }
-errors.push(...assessMetadata(preparationAllowed, packageJson.version, releaseNoteExists, readiness.evaluated_version));
+errors.push(...assessMetadata(preparationAllowed, packageJson.version, releaseNoteExists, readiness.evaluated_version, preparationPhase, targetVersion));
 
 const valid = errors.length === 0;
 process.stdout.write(`${JSON.stringify({
   valid,
   target_version: targetVersion,
   current_version: packageJson.version,
+  preparation_phase: preparationPhase,
+  preparation_allowed: preparationAllowed,
   rc_preparation_allowed: preparationAllowed,
   prerequisite_blockers: prerequisiteBlockers,
   proposed_metadata_changes: [

@@ -1,6 +1,6 @@
 # Mirai Runtime
 
-Status: capability-gated reference runtime frozen for `2.1.0-rc.1`
+Status: capability-gated reference runtime frozen for `2.1.0`
 
 ## Purpose
 

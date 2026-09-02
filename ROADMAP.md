@@ -1,6 +1,6 @@
 # Mirai Graph Roadmap
 
-Status: published 1.4.0 compatibility line and Mirai 2.1.0-rc.1 release track
+Status: Mirai 2.1.0 stable release consolidation with 1.4 compatibility
 
 ## Phase 0: Public Foundation
 
@@ -234,7 +234,7 @@ The repository `1.4.1` maintenance line remains the declarative compatibility
 baseline; npm currently publishes `mirai-graph@1.4.0`. Mirai
 2.0 developed the governed execution core without replacing Hybrid SOT or
 treating graph content as runtime authorization. That core is now frozen at an
-exact reviewed revision and included in Mirai 2.1.0-rc.1; a separate stable
+exact reviewed revision and included in Mirai 2.1.0; a separate stable
 2.0 package was not published.
 
 Release sequence and current status:
@@ -276,20 +276,21 @@ unchanged while graph-native contracts and Project Capsule are added.
    Runtime plus the controlled Federation pilot;
 6. `2.1.0-rc.1`: independent checker extension, security review, contract
    freeze and clean-room installation;
-7. `2.1.0`: stable after conformance, safety, compatibility, pilot and exact RC
-   package gates pass. Confirmatory science remains required for comparative
-   effectiveness claims, not for bounded software release claims.
+7. `2.1.0`: stable engineering release after conformance, safety,
+   compatibility, controlled pilots and exact package gates passed.
+   Confirmatory science remains required for comparative effectiveness claims,
+   not for bounded software release claims.
 
 Project Capsule is an additive core-infrastructure track within 2.1: preferred
 `mirai/` layout, deterministic project lock, generated START, task-scoped Agent
 Execution Brief, graph-v2 migration and a 2.x root compatibility facade. It is
 not a new profile and does not change Program `1.0.0` or Runtime `1.0.0`.
 
-The release candidate now covers the full public contract inventory, durable
+The stable release covers the full public contract inventory, durable
 no-effect activation, controlled Federation/Larena-shaped/AI Employee pilots,
 independent Python conformance, production-read operations, exact-revision
-isolated security review and public cross-platform CI. Stable promotion still
-requires an exact RC package clean-room matrix and final release metadata.
+isolated security review and public cross-platform clean-room CI. Production
+writes remain separately gated by deployment and adapter policy.
 
 Current promotion truth is recorded in
 [`releases/2.1.0-readiness.json`](releases/2.1.0-readiness.json). This report is

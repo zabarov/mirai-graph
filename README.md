@@ -12,9 +12,8 @@ Use it when a software project has useful knowledge spread across README files,
 docs, issues, chats, code comments and AI prompts, and you need a small
 machine-readable map that developers and AI assistants can validate and reuse.
 
-Status: current 2.1 production-read release candidate. The currently published
-compatibility line remains `mirai-graph@1.4.0` until the RC and stable
-publication gates complete.
+Status: Mirai 2.1 stable software release prepared for production-read use.
+Production-write authority remains deployment-specific and separately gated.
 
 The machine-readable [2.1 release readiness report](releases/2.1.0-readiness.json)
 separates engineering release gates from scientific claims and production-write
@@ -42,7 +41,7 @@ and [external review packet](docs/security/mirai-independent-security-review-pac
 Passing repository tests is necessary engineering evidence, but is not by
 itself authorization to run against a production target.
 
-## Mirai 2.1 Release Candidate
+## Mirai 2.1 Stable
 
 Mirai 2.1 includes the security-frozen Mirai 2.0 Program and Runtime core plus
 additive graph-native capabilities. It adds:

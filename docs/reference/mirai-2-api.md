@@ -1,6 +1,6 @@
 # Mirai 2 API Reference
 
-Status: `2.1.0-rc.1`; Program and Runtime API freeze candidate
+Status: `2.1.0`; frozen Program and Runtime API
 
 ## Package Exports
 

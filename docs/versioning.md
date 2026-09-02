@@ -7,13 +7,13 @@ does not imply that their lifecycle or compatibility boundary is the same.
 
 | Dimension | Current baseline | Meaning |
 |---|---:|---|
-| published npm/product release | `mirai-graph@1.4.0` | Current registry compatibility baseline until 2.1 publication |
-| release-candidate product | `@zabarov/mirai@2.1.0-rc.1` | Mirai Program, Runtime and graph-native 2.1 surface |
+| stable product release | `@zabarov/mirai@2.1.0` | Mirai Program, Runtime and graph-native 2.1 surface |
+| compatibility package | `mirai-graph@2.1.0` | 2.x wrapper preserving legacy package and CLI entrypoints |
 | `graph.json` manifest | `2.0.0` | Workspace/package manifest shape |
 | Project Technology activation | `1.0.0` | `mirai.project_technology` extension contract |
 | Executable Technology | `1.0.0` | Declarative technology and Course Pack contract |
 | Mirai Program | `1.0.0` | Typed immutable executable-process IR |
-| Runtime API | `1.0.0` | Frozen governed runtime interface in the 2.1 RC |
+| Runtime API | `1.0.0` | Frozen governed runtime interface in Mirai 2.1 |
 
 Mirai 2.0 changed the product boundary by adding Mirai Program and Mirai
 Runtime. The frozen core is included in the unified 2.1 release line; no

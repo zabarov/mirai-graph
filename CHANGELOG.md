@@ -4,6 +4,18 @@ All notable changes to Mirai Graph will be documented in this file.
 
 ## [Unreleased]
 
+## [2.1.0] - 2026-09-02
+
+### Stable Release
+
+- Promoted the security-frozen Mirai 2.0 Program and Runtime core together
+  with the additive Mirai 2.1 graph-native and Project Capsule contracts.
+- Preserved `mirai-graph` package and CLI compatibility throughout 2.x.
+- Passed the exact release-candidate package through the full public CI and
+  clean-room matrix on Linux, macOS and Windows.
+- Kept production-write adapters, live effects and comparative scientific
+  claims outside the authority of the stable software release.
+
 ## [2.1.0-rc.1] - 2026-09-02
 
 ### Added

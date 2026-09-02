@@ -16,6 +16,9 @@ Release notes must separate:
 
 ## Release Notes
 
+- [v2.1.0](2.1.0.md) - stable production-read software release combining the
+  frozen execution core, graph-native 2.1 contracts, Project Capsule,
+  independent conformance and compatibility wrappers.
 - [v2.1.0-rc.1](2.1.0-rc.1.md) - production-read release candidate combining
   the security-frozen Mirai 2.0 execution core with graph-native 2.1 contracts,
   Project Capsule and compatibility wrappers.

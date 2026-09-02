@@ -17,7 +17,7 @@ function command(args, options = {}) {
 test("primary CLI exposes Mirai 2.1 help and package version while preserving legacy routing", () => {
   const help = command(["--help"]);
   assert.equal(help.status, 0, help.stderr);
-  assert.match(help.stderr, /Mirai 2\.1 CLI \(release candidate\)/);
+  assert.match(help.stderr, /Mirai 2\.1 CLI \(stable\)/);
   const version = command(["--version"]);
   assert.equal(version.status, 0, version.stderr);
   assert.equal(version.stdout.trim(), packageVersion);

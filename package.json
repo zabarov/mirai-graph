@@ -1,6 +1,6 @@
 {
   "name": "@zabarov/mirai",
-  "version": "2.1.0-rc.1",
+  "version": "2.1.0",
   "private": false,
   "description": "A governed executable environment for AI, project and organizational processes.",
   "license": "MIT",
@@ -107,6 +107,7 @@
     "validate:mirai-2.1-contract-freeze": "node packages/cli/validate-mirai-2-1-contract-freeze.js",
     "validate:mirai-2.1-ci-gate": "node packages/cli/validate-mirai-2-1-ci-gate.js",
     "validate:mirai-2.1-rc-preparation": "node packages/cli/validate-mirai-2-1-rc-preparation.js",
+    "validate:mirai-2.1-release-preparation": "node packages/cli/validate-mirai-2-1-rc-preparation.js",
     "test:mirai-2.1-rc-preparation-negative": "node packages/cli/validate-mirai-2-1-rc-preparation.js --self-test",
     "validate:mirai-2.1-release-readiness": "node packages/cli/validate-mirai-2-1-release-readiness.js",
     "validate:mirai-release-readiness": "node packages/cli/validate-mirai-2-release-readiness.js",

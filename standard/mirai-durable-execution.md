@@ -1,6 +1,6 @@
 # Mirai Durable Execution
 
-Status: `2.1.0-rc.1` frozen reference contract
+Status: `2.1.0` frozen reference contract
 
 ## Purpose
 
