@@ -1,0 +1,64 @@
+{
+  "contract_version": "1.0.0",
+  "pilot_id": "pilot.mirai-2.1.larena.graph-native",
+  "domain": "larena",
+  "status": "engineering_evidence_complete",
+  "baseline": {
+    "id": "mirai_2_explicit_program",
+    "status": "completed",
+    "artifact_refs": [
+      "pilots/mirai-2-beta-larena/results/mirai-evidence.json"
+    ],
+    "trace_digest": "sha256:7597c1a661acaeca30acab9609ab60994eb41c25e75a827974d3b905127b2f9f",
+    "stage_ids": [
+      "specification",
+      "context",
+      "patch",
+      "tests",
+      "review",
+      "evidence",
+      "kaizen"
+    ]
+  },
+  "graph_resolved": {
+    "id": "mirai_2_1_graph_resolved",
+    "status": "completed",
+    "artifact_refs": [
+      "pilots/mirai-2.1-beta-larena/results/activation-plan.json",
+      "pilots/mirai-2.1-beta-larena/results/activation-run-result.json"
+    ],
+    "trace_digest": "sha256:f0c77a5ed13a2e3666afcf56bd8bc355cd2d4ec99a418332d411395042bfbbda",
+    "stage_ids": [
+      "stage.dependencies",
+      "stage.documentation",
+      "stage.implementation",
+      "stage.kaizen",
+      "stage.quality",
+      "stage.specification",
+      "stage.tests"
+    ]
+  },
+  "metrics": {
+    "technology_adherence_percent": 100,
+    "unauthorized_effects": 0,
+    "false_completion_claims": 0,
+    "deterministic_trace_equality": true,
+    "activated_path_count": 7,
+    "parallel_frontier_width": 2,
+    "model_calls": 0,
+    "tokens": 0,
+    "cost_usd": 0
+  },
+  "safety": {
+    "production_effects": false,
+    "network_effects": false,
+    "canonical_graph_write": false,
+    "automatic_learning_update": false
+  },
+  "limitations": [
+    "This is deterministic public-safe engineering evidence, not a randomized effectiveness study.",
+    "The domain structure is generalized and contains no private source, policy or runtime trace.",
+    "No model call, production target, network effect or canonical learning update is used."
+  ],
+  "claim_boundary": "This public-safe fixture shows deterministic graph-resolved coordination of a bounded software delivery process; it does not establish code quality or organization-wide effectiveness."
+}

@@ -1,0 +1,95 @@
+{
+  "contract_version": "1.0.0",
+  "release_id": "release.mirai.2.1.0",
+  "evaluated_version": "2.0.0-alpha.3",
+  "promotion_target": "2.1.0",
+  "evaluated_at": "2026-09-02T09:05:00Z",
+  "overall_status": "blocked",
+  "gates": [
+    {
+      "id": "gate.2_0_core_security_freeze",
+      "category": "safety",
+      "status": "passed",
+      "evidence_refs": ["releases/2.1.0-contract-freeze-candidate.json", "test/runtime/governed-runtime.test.cjs", "standard/mirai-durable-execution.md"],
+      "summary": "The Program, Runtime and authorization core is inventoried at an exact revision; cross-process mutation serialization closes the known lease check/write race.",
+      "limitations": ["Independent security review remains a separate required gate."]
+    },
+    {
+      "id": "gate.2_1_contract_inventory",
+      "category": "compatibility",
+      "status": "passed",
+      "evidence_refs": ["releases/2.1.0-contract-freeze-candidate.json", "packages/cli/validate-mirai-2-1-contract-freeze.js"],
+      "summary": "Twelve public surfaces across Graph Core, Program, Runtime, authorization and additive 2.1 modules are machine-inventoried as freeze candidates."
+    },
+    {
+      "id": "gate.2_1_automated_suite",
+      "category": "engineering",
+      "status": "passed",
+      "evidence_refs": ["package.json", "test", "releases/2.1.0-contract-freeze-candidate.json"],
+      "summary": "The full npm run release:check suite passes with Runtime, 2.1, migration, compatibility, property, negative and release-readiness checks enabled."
+    },
+    {
+      "id": "gate.2_1_cross_implementation_conformance",
+      "category": "conformance",
+      "status": "blocked",
+      "evidence_refs": ["conformance/independent-checker.json", "packages/cli/validate-independent-graph-native-conformance.js"],
+      "summary": "The independent Python checker has local candidate coverage for qualification, hybrid plans and shadow differentials, but that revision is not yet published and bound into this repository.",
+      "blocker_reason": "Publish and clean-room verify the exact independent checker revision, then bind generated results for every frozen 2.1 surface."
+    },
+    {
+      "id": "gate.2_1_controlled_pilots",
+      "category": "pilot",
+      "status": "passed",
+      "evidence_refs": ["pilots/mirai-2.1-beta-federation", "pilots/mirai-2.1-beta-larena/results/pilot-result.json", "pilots/mirai-2.1-beta-ai-employee/results/pilot-result.json", "examples/mirai-project-capsule-child-demo"],
+      "summary": "Federation, Larena-shaped and AI Employee controlled pilots pass deterministically without production effects or canonical writes.",
+      "limitations": ["The Larena and AI Employee artifacts are public-safe controlled pilots, not production acceptance or comparative scientific evidence."]
+    },
+    {
+      "id": "gate.independent_security_review",
+      "category": "safety",
+      "status": "not_run",
+      "evidence_refs": ["docs/security/mirai-independent-security-review-request-2026-09-02.json", "docs/security/mirai-independent-security-review-packet.md"],
+      "summary": "The exact-scope review packet exists, including the cross-process lease boundary, but no attributable independent verdict is recorded.",
+      "blocker_reason": "An independent reviewer who did not implement the changes must review the exact freeze revision and close all critical/high findings."
+    },
+    {
+      "id": "gate.2_1_migration_compatibility",
+      "category": "compatibility",
+      "status": "passed",
+      "evidence_refs": ["test/project/project-capsule.test.cjs", "test/program/migration.test.cjs", "docs/adoption/migrate-1.4-to-2.0.md"],
+      "summary": "Legacy Graph and Mirai 2.0 Program compatibility remain covered while Project Capsule migration is dry-run, approval-first and idempotent."
+    },
+    {
+      "id": "gate.2_1_clean_room_cross_platform",
+      "category": "release",
+      "status": "not_run",
+      "evidence_refs": [".github/workflows/ci.yml", "packages/cli/validate-clean-room-install.js"],
+      "summary": "The infrastructure exists but has not run against a 2.1 release-candidate package.",
+      "blocker_reason": "Create the RC package and run clean-room installation on Linux, macOS and Windows."
+    },
+    {
+      "id": "gate.scientific_claim_boundary",
+      "category": "science",
+      "status": "passed",
+      "evidence_refs": ["docs/research/mirai-2-scientific-evaluation-protocol.md", "releases/2.0.0-readiness.json"],
+      "summary": "Confirmatory evaluation is explicitly separated from software release readiness and continues to block comparative effectiveness claims.",
+      "limitations": ["No stable release text may claim model independence, superiority or cost advantage as scientifically proven before confirmatory review."]
+    },
+    {
+      "id": "gate.2_1_stable_release_metadata",
+      "category": "release",
+      "status": "blocked",
+      "evidence_refs": ["package.json", "README.md", "ROADMAP.md"],
+      "summary": "Package metadata intentionally remains 2.0.0-alpha.3 while stable gates are open.",
+      "blocker_reason": "Version, release notes, tag, GitHub Release and npm metadata change only after engineering gates pass."
+    }
+  ],
+  "blocking_gate_ids": [
+    "gate.2_1_cross_implementation_conformance",
+    "gate.independent_security_review",
+    "gate.2_1_clean_room_cross_platform",
+    "gate.2_1_stable_release_metadata"
+  ],
+  "next_safe_action": "Publish and clean-room verify the independent checker candidate, obtain an attributable exact-revision security verdict, then create 2.1.0-rc.1 and run cross-platform clean-room gates.",
+  "claim_boundary": "This readiness report supports contract inventory and targeted engineering evidence only. It does not authorize production writes or establish comparative scientific effectiveness."
+}

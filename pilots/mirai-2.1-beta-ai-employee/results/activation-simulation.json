@@ -1,0 +1,46 @@
+{
+  "contract_version": "1.0.0",
+  "plan_digest": "sha256:86cf634dda2cfd15d055ee9387c80052bb0af637d54bc519cebeed9a625d0d6b",
+  "frontiers": [
+    [
+      "path.stage.intent.operation.process"
+    ],
+    [
+      "path.stage.character.operation.process",
+      "path.stage.context.operation.process"
+    ],
+    [
+      "path.stage.decision.operation.process"
+    ],
+    [
+      "path.stage.approval.operation.process"
+    ],
+    [
+      "path.stage.dry-run-action.operation.process"
+    ],
+    [
+      "path.stage.feedback.operation.process"
+    ],
+    [
+      "path.stage.lesson.operation.process"
+    ]
+  ],
+  "ordered_paths": [
+    "path.stage.intent.operation.process",
+    "path.stage.character.operation.process",
+    "path.stage.context.operation.process",
+    "path.stage.decision.operation.process",
+    "path.stage.approval.operation.process",
+    "path.stage.dry-run-action.operation.process",
+    "path.stage.feedback.operation.process",
+    "path.stage.lesson.operation.process"
+  ],
+  "join_result": {
+    "policy": "all",
+    "required_successes": 8
+  },
+  "decisions_reproduced": true,
+  "effects_executed": false,
+  "canonical_write_allowed": false,
+  "trace_digest": "sha256:45c60b3152e026bece3afe040aa4ac6c8fbfc4fd71ee00d0681dd914d6d57bde"
+}

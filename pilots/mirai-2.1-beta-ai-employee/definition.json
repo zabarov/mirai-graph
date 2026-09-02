@@ -1,0 +1,20 @@
+{
+  "pilot_id": "pilot.mirai-2.1.ai-employee.graph-native",
+  "domain": "ai_employee",
+  "scope": "ai-employee.public-safe.no-send",
+  "goal": "Resolve an AI employee request through context, character, approval, feedback and lesson",
+  "baseline_episode_ref": "pilots/mirai-2-beta-ai-employee/results/episode.json",
+  "baseline_stage_ids": ["intent", "character", "approval", "simulated_action", "feedback", "lesson"],
+  "stages": ["intent", "context", "character", "decision", "approval", "dry-run-action", "feedback", "lesson"],
+  "dependencies": [
+    ["intent", "context"],
+    ["intent", "character"],
+    ["context", "decision"],
+    ["character", "decision"],
+    ["decision", "approval"],
+    ["approval", "dry-run-action"],
+    ["dry-run-action", "feedback"],
+    ["feedback", "lesson"]
+  ],
+  "claim_boundary": "This public-safe no-send fixture shows deterministic coordination of AI employee context and behavior gates; it does not authorize a real action or prove model-independent performance."
+}

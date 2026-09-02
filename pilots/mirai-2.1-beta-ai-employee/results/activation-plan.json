@@ -1,0 +1,200 @@
+{
+  "contract_version": "1.0.0",
+  "id": "activation.signal.ai_employee.controlled-pilot.1",
+  "signal": {
+    "id": "signal.ai_employee.controlled-pilot.1",
+    "type": "technology_requested",
+    "goal": "Resolve an AI employee request through context, character, approval, feedback and lesson",
+    "scope": "ai-employee.public-safe.no-send",
+    "now": "2026-09-02T09:00:00Z",
+    "operation": "operation.process",
+    "values": {
+      "dry_run": true
+    }
+  },
+  "graph_snapshot_digest": "sha256:0eadf85a3a919e2a82c40e3885f95c8d4750547746ffb69d5205822a7dd51826",
+  "policy_digest": "sha256:c7669fed453c98d5753b80ef585f856916b8a7e5c06c2acb86823dc00e923d2a",
+  "selected_relation_fact_ids": [
+    "relation.ai_employee.01",
+    "relation.ai_employee.02",
+    "relation.ai_employee.03",
+    "relation.ai_employee.04",
+    "relation.ai_employee.05",
+    "relation.ai_employee.06",
+    "relation.ai_employee.07",
+    "relation.ai_employee.08"
+  ],
+  "blocked_relation_facts": [],
+  "activated_paths": [
+    {
+      "id": "path.stage.approval.operation.process",
+      "component_instance": "stage.approval",
+      "component_type": "component.controlled-stage",
+      "operation": "operation.process",
+      "implementation": "implementation.controlled-stage",
+      "program_ref": "pilots/mirai-2.1-domain-shared/stage.mirai.yaml",
+      "program_digest": "sha256:e15fc74708872801b56c21201630c892e6a8bc241479ce078d9050204b076ec4",
+      "priority": 100,
+      "dependencies": [
+        "path.stage.decision.operation.process"
+      ]
+    },
+    {
+      "id": "path.stage.character.operation.process",
+      "component_instance": "stage.character",
+      "component_type": "component.controlled-stage",
+      "operation": "operation.process",
+      "implementation": "implementation.controlled-stage",
+      "program_ref": "pilots/mirai-2.1-domain-shared/stage.mirai.yaml",
+      "program_digest": "sha256:e15fc74708872801b56c21201630c892e6a8bc241479ce078d9050204b076ec4",
+      "priority": 100,
+      "dependencies": [
+        "path.stage.intent.operation.process"
+      ]
+    },
+    {
+      "id": "path.stage.context.operation.process",
+      "component_instance": "stage.context",
+      "component_type": "component.controlled-stage",
+      "operation": "operation.process",
+      "implementation": "implementation.controlled-stage",
+      "program_ref": "pilots/mirai-2.1-domain-shared/stage.mirai.yaml",
+      "program_digest": "sha256:e15fc74708872801b56c21201630c892e6a8bc241479ce078d9050204b076ec4",
+      "priority": 100,
+      "dependencies": [
+        "path.stage.intent.operation.process"
+      ]
+    },
+    {
+      "id": "path.stage.decision.operation.process",
+      "component_instance": "stage.decision",
+      "component_type": "component.controlled-stage",
+      "operation": "operation.process",
+      "implementation": "implementation.controlled-stage",
+      "program_ref": "pilots/mirai-2.1-domain-shared/stage.mirai.yaml",
+      "program_digest": "sha256:e15fc74708872801b56c21201630c892e6a8bc241479ce078d9050204b076ec4",
+      "priority": 100,
+      "dependencies": [
+        "path.stage.character.operation.process",
+        "path.stage.context.operation.process"
+      ]
+    },
+    {
+      "id": "path.stage.dry-run-action.operation.process",
+      "component_instance": "stage.dry-run-action",
+      "component_type": "component.controlled-stage",
+      "operation": "operation.process",
+      "implementation": "implementation.controlled-stage",
+      "program_ref": "pilots/mirai-2.1-domain-shared/stage.mirai.yaml",
+      "program_digest": "sha256:e15fc74708872801b56c21201630c892e6a8bc241479ce078d9050204b076ec4",
+      "priority": 100,
+      "dependencies": [
+        "path.stage.approval.operation.process"
+      ]
+    },
+    {
+      "id": "path.stage.feedback.operation.process",
+      "component_instance": "stage.feedback",
+      "component_type": "component.controlled-stage",
+      "operation": "operation.process",
+      "implementation": "implementation.controlled-stage",
+      "program_ref": "pilots/mirai-2.1-domain-shared/stage.mirai.yaml",
+      "program_digest": "sha256:e15fc74708872801b56c21201630c892e6a8bc241479ce078d9050204b076ec4",
+      "priority": 100,
+      "dependencies": [
+        "path.stage.dry-run-action.operation.process"
+      ]
+    },
+    {
+      "id": "path.stage.intent.operation.process",
+      "component_instance": "stage.intent",
+      "component_type": "component.controlled-stage",
+      "operation": "operation.process",
+      "implementation": "implementation.controlled-stage",
+      "program_ref": "pilots/mirai-2.1-domain-shared/stage.mirai.yaml",
+      "program_digest": "sha256:e15fc74708872801b56c21201630c892e6a8bc241479ce078d9050204b076ec4",
+      "priority": 100,
+      "dependencies": []
+    },
+    {
+      "id": "path.stage.lesson.operation.process",
+      "component_instance": "stage.lesson",
+      "component_type": "component.controlled-stage",
+      "operation": "operation.process",
+      "implementation": "implementation.controlled-stage",
+      "program_ref": "pilots/mirai-2.1-domain-shared/stage.mirai.yaml",
+      "program_digest": "sha256:e15fc74708872801b56c21201630c892e6a8bc241479ce078d9050204b076ec4",
+      "priority": 100,
+      "dependencies": [
+        "path.stage.feedback.operation.process"
+      ]
+    }
+  ],
+  "blocked_paths": [],
+  "dependency_dag": [
+    {
+      "from": "path.stage.approval.operation.process",
+      "to": "path.stage.dry-run-action.operation.process"
+    },
+    {
+      "from": "path.stage.character.operation.process",
+      "to": "path.stage.decision.operation.process"
+    },
+    {
+      "from": "path.stage.context.operation.process",
+      "to": "path.stage.decision.operation.process"
+    },
+    {
+      "from": "path.stage.decision.operation.process",
+      "to": "path.stage.approval.operation.process"
+    },
+    {
+      "from": "path.stage.dry-run-action.operation.process",
+      "to": "path.stage.feedback.operation.process"
+    },
+    {
+      "from": "path.stage.feedback.operation.process",
+      "to": "path.stage.lesson.operation.process"
+    },
+    {
+      "from": "path.stage.intent.operation.process",
+      "to": "path.stage.character.operation.process"
+    },
+    {
+      "from": "path.stage.intent.operation.process",
+      "to": "path.stage.context.operation.process"
+    }
+  ],
+  "join": {
+    "policy": "all",
+    "deterministic_order": [
+      "path.stage.approval.operation.process",
+      "path.stage.character.operation.process",
+      "path.stage.context.operation.process",
+      "path.stage.decision.operation.process",
+      "path.stage.dry-run-action.operation.process",
+      "path.stage.feedback.operation.process",
+      "path.stage.intent.operation.process",
+      "path.stage.lesson.operation.process"
+    ]
+  },
+  "budgets": {
+    "max_nodes": 1000,
+    "max_depth": 32,
+    "max_fan_out": 64,
+    "max_iterations": 1000,
+    "max_parallel": 16,
+    "max_duration_ms": 300000
+  },
+  "required_capabilities": [
+    "pure"
+  ],
+  "required_approvals": [],
+  "decision_explanations": [
+    "Selected 8 path(s) for operation operation.process in scope ai-employee.public-safe.no-send.",
+    "Applied 8 of 8 relation fact(s).",
+    "Plan is bound to graph sha256:0eadf85a3a919e2a82c40e3885f95c8d4750547746ffb69d5205822a7dd51826 and policy sha256:c7669fed453c98d5753b80ef585f856916b8a7e5c06c2acb86823dc00e923d2a."
+  ],
+  "canonical_write_allowed": false,
+  "digest": "sha256:86cf634dda2cfd15d055ee9387c80052bb0af637d54bc519cebeed9a625d0d6b"
+}

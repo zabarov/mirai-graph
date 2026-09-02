@@ -1,0 +1,33 @@
+{
+  "contract_version": "1.0.0",
+  "id": "shadow.baseline.demo.prepare-review.activation.signal.demo.1",
+  "baseline_digest": "sha256:5f28f637fd1b7012d6865b2adde80a3b4e52515f6ecea8f3aabb56b88174866e",
+  "plan_digest": "sha256:cc039991db1de479e9eff34602e68f70de928a40c210d9920bd54baf10256546",
+  "simulation_trace_digest": "sha256:d67781c4bde79d041cb31d16cbf84f5cc86e85fb827a0f5c7019913aeb5b8429",
+  "zero_write_proven": true,
+  "mandatory_closure": {
+    "required_step_ids": ["step.prepare", "step.review"],
+    "matched_step_ids": ["step.prepare", "step.review"],
+    "missing_step_ids": []
+  },
+  "scope_delta": {
+    "unexpected_component_instances": [],
+    "unexpected_operations": [],
+    "unexpected_capabilities": []
+  },
+  "effect_analysis": {
+    "declared_effects": [],
+    "unknown_effects": [],
+    "program_digests": ["sha256:55197ffd33b73154ad7a4a49745a281413b291088fa54c85f2adfdb66b3084a3"]
+  },
+  "rollback_coverage": {
+    "required_step_ids": [],
+    "covered_step_ids": [],
+    "missing_step_ids": []
+  },
+  "verdict": "passed",
+  "blockers": [],
+  "activation_allowed": false,
+  "canonical_write_allowed": false,
+  "digest": "sha256:146ab8ad24e722d1a5c2cdb4ccff8b2927c9dcc18eb3e18bfb57e8e7e938d4d3"
+}

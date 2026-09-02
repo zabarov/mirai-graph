@@ -1,0 +1,105 @@
+{
+  "contract_version": "1.0.0",
+  "id": "freeze.mirai.2.1.rc1-candidate",
+  "status": "candidate",
+  "baseline_commit": "94affe034966bcf647280a259cb9b82b2bd47dd7",
+  "base_product_line": "2.0",
+  "additive_product_line": "2.1",
+  "surfaces": [
+    {
+      "id": "mirai.graph_core",
+      "contract_version": "2.0.0",
+      "product_line": "2.0",
+      "stability": "freeze_candidate",
+      "schema_refs": ["schemas/graph-manifest.schema.json", "schemas/object.schema.json", "schemas/relation.schema.json", "schemas/profile.schema.json"]
+    },
+    {
+      "id": "mirai.program",
+      "contract_version": "1.0.0",
+      "product_line": "2.0",
+      "stability": "freeze_candidate",
+      "schema_refs": ["schemas/mirai-program.schema.json", "schemas/mirai-program-extension.schema.json"]
+    },
+    {
+      "id": "mirai.runtime",
+      "contract_version": "1.0.0",
+      "product_line": "2.0",
+      "stability": "freeze_candidate",
+      "schema_refs": ["schemas/mirai-runtime-run.schema.json", "schemas/mirai-runtime-checkpoint.schema.json", "schemas/mirai-effect-receipt.schema.json", "schemas/mirai-governed-episode.schema.json", "schemas/mirai-sanitized-evidence.schema.json"]
+    },
+    {
+      "id": "mirai.authorization",
+      "contract_version": "1.0.0",
+      "product_line": "2.0",
+      "stability": "freeze_candidate",
+      "schema_refs": ["schemas/mirai-capability-request.schema.json", "schemas/mirai-capability-grant.schema.json", "schemas/mirai-policy-decision.schema.json", "schemas/mirai-approval-receipt.schema.json", "schemas/mirai-mandate-receipt.schema.json", "schemas/mirai-layered-invariant-set.schema.json", "schemas/mirai-invariant-evaluation.schema.json"]
+    },
+    {
+      "id": "mirai.conformance",
+      "contract_version": "1.0.0",
+      "product_line": "2.0",
+      "stability": "freeze_candidate",
+      "schema_refs": ["schemas/mirai-conformance-corpus.schema.json", "schemas/mirai-conformance-result.schema.json", "schemas/mirai-conformance-comparison.schema.json", "schemas/mirai-independent-artifact-result.schema.json"]
+    },
+    {
+      "id": "mirai.assimilation",
+      "contract_version": "1.0.0",
+      "product_line": "2.1",
+      "stability": "freeze_candidate",
+      "schema_refs": ["schemas/source-catalog.schema.json", "schemas/assimilation-proposal.schema.json"]
+    },
+    {
+      "id": "mirai.components",
+      "contract_version": "1.0.0",
+      "product_line": "2.1",
+      "stability": "freeze_candidate",
+      "schema_refs": ["schemas/component-package.schema.json", "schemas/relation-fact.schema.json"]
+    },
+    {
+      "id": "mirai.technology",
+      "contract_version": "1.0.0",
+      "product_line": "2.1",
+      "stability": "freeze_candidate",
+      "schema_refs": ["schemas/technology-draft.schema.json", "schemas/technology-qualification.schema.json", "schemas/hybrid-technology-plan.schema.json"]
+    },
+    {
+      "id": "mirai.activation",
+      "contract_version": "1.0.0",
+      "product_line": "2.1",
+      "stability": "freeze_candidate",
+      "schema_refs": ["schemas/activation-plan.schema.json", "schemas/activation-run-result.schema.json"]
+    },
+    {
+      "id": "mirai.shadow_differential",
+      "contract_version": "1.0.0",
+      "product_line": "2.1",
+      "stability": "freeze_candidate",
+      "schema_refs": ["schemas/shadow-accepted-baseline.schema.json", "schemas/shadow-differential-result.schema.json"]
+    },
+    {
+      "id": "mirai.project",
+      "contract_version": "1.0.0",
+      "product_line": "2.1",
+      "stability": "freeze_candidate",
+      "schema_refs": ["schemas/mirai-project-manifest.schema.json", "schemas/mirai-project-lock.schema.json", "schemas/mirai-agent-brief.schema.json", "schemas/mirai-project-migration-result.schema.json"]
+    },
+    {
+      "id": "mirai.project_technology",
+      "contract_version": "1.0.0",
+      "product_line": "2.1",
+      "stability": "freeze_candidate",
+      "schema_refs": ["schemas/project-technology-extension.schema.json", "schemas/project-technology-target-export.schema.json", "schemas/context-pack.schema.json", "schemas/context-traversal-receipt.schema.json", "schemas/executable-technology.schema.json"]
+    }
+  ],
+  "compatibility": {
+    "mirai_graph_wrapper_through": "2.x",
+    "legacy_schema_aliases_through": "2.x",
+    "program_1_0_compatible": true
+  },
+  "change_policy": {
+    "breaking_change": "new_candidate_and_migration_required",
+    "security_fix": "allowed_with_review_and_evidence",
+    "documentation_fix": "allowed_if_semantics_unchanged"
+  },
+  "claim_boundary": "This is a reviewable 2.1 contract inventory at an exact local revision. It is not a stable release, production-write authorization or scientific effectiveness claim."
+}

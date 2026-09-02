@@ -1,0 +1,330 @@
+{
+  "id": "graph.ai_employee.controlled-pilot",
+  "components": {
+    "contract_version": "1.0.0",
+    "interfaces": [
+      {
+        "id": "interface.controlled-stage",
+        "operations": [
+          "operation.process"
+        ]
+      }
+    ],
+    "operation_contracts": [
+      {
+        "id": "operation.process",
+        "inputs": [],
+        "outputs": [
+          {
+            "id": "result",
+            "type": "string"
+          }
+        ],
+        "required_capabilities": [
+          "pure"
+        ]
+      }
+    ],
+    "component_types": [
+      {
+        "id": "component.controlled-stage",
+        "implements": [
+          "interface.controlled-stage"
+        ],
+        "exposes": [
+          "operation.process"
+        ],
+        "composes": []
+      }
+    ],
+    "component_instances": [
+      {
+        "id": "stage.intent",
+        "instance_of": "component.controlled-stage",
+        "scope": "ai-employee.public-safe.no-send"
+      },
+      {
+        "id": "stage.context",
+        "instance_of": "component.controlled-stage",
+        "scope": "ai-employee.public-safe.no-send"
+      },
+      {
+        "id": "stage.character",
+        "instance_of": "component.controlled-stage",
+        "scope": "ai-employee.public-safe.no-send"
+      },
+      {
+        "id": "stage.decision",
+        "instance_of": "component.controlled-stage",
+        "scope": "ai-employee.public-safe.no-send"
+      },
+      {
+        "id": "stage.approval",
+        "instance_of": "component.controlled-stage",
+        "scope": "ai-employee.public-safe.no-send"
+      },
+      {
+        "id": "stage.dry-run-action",
+        "instance_of": "component.controlled-stage",
+        "scope": "ai-employee.public-safe.no-send"
+      },
+      {
+        "id": "stage.feedback",
+        "instance_of": "component.controlled-stage",
+        "scope": "ai-employee.public-safe.no-send"
+      },
+      {
+        "id": "stage.lesson",
+        "instance_of": "component.controlled-stage",
+        "scope": "ai-employee.public-safe.no-send"
+      }
+    ],
+    "program_implementations": [
+      {
+        "id": "implementation.controlled-stage",
+        "operation": "operation.process",
+        "program_ref": "pilots/mirai-2.1-domain-shared/stage.mirai.yaml",
+        "program_digest": "sha256:e15fc74708872801b56c21201630c892e6a8bc241479ce078d9050204b076ec4"
+      }
+    ],
+    "contextual_bindings": [
+      {
+        "id": "binding.controlled-stage",
+        "component_type": "component.controlled-stage",
+        "operation": "operation.process",
+        "implementation": "implementation.controlled-stage",
+        "priority": 100,
+        "scope": "ai-employee.public-safe.no-send"
+      }
+    ],
+    "canonical_write_allowed": false
+  },
+  "relation_facts": [
+    {
+      "contract_version": "1.0.0",
+      "id": "relation.ai_employee.01",
+      "type": "depends_on",
+      "participants": [
+        {
+          "ref": "stage.context",
+          "role": "dependent"
+        },
+        {
+          "ref": "stage.intent",
+          "role": "prerequisite"
+        }
+      ],
+      "scope": "ai-employee.public-safe.no-send",
+      "priority": 100,
+      "authority": "owner_asserted",
+      "confidence": 1,
+      "provenance": [
+        {
+          "source_ref": "synthetic://ai_employee-controlled-pilot"
+        }
+      ],
+      "activation_rule": {
+        "signal_type": "technology_requested",
+        "operation": "operation.process"
+      }
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "relation.ai_employee.02",
+      "type": "depends_on",
+      "participants": [
+        {
+          "ref": "stage.character",
+          "role": "dependent"
+        },
+        {
+          "ref": "stage.intent",
+          "role": "prerequisite"
+        }
+      ],
+      "scope": "ai-employee.public-safe.no-send",
+      "priority": 100,
+      "authority": "owner_asserted",
+      "confidence": 1,
+      "provenance": [
+        {
+          "source_ref": "synthetic://ai_employee-controlled-pilot"
+        }
+      ],
+      "activation_rule": {
+        "signal_type": "technology_requested",
+        "operation": "operation.process"
+      }
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "relation.ai_employee.03",
+      "type": "depends_on",
+      "participants": [
+        {
+          "ref": "stage.decision",
+          "role": "dependent"
+        },
+        {
+          "ref": "stage.context",
+          "role": "prerequisite"
+        }
+      ],
+      "scope": "ai-employee.public-safe.no-send",
+      "priority": 100,
+      "authority": "owner_asserted",
+      "confidence": 1,
+      "provenance": [
+        {
+          "source_ref": "synthetic://ai_employee-controlled-pilot"
+        }
+      ],
+      "activation_rule": {
+        "signal_type": "technology_requested",
+        "operation": "operation.process"
+      }
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "relation.ai_employee.04",
+      "type": "depends_on",
+      "participants": [
+        {
+          "ref": "stage.decision",
+          "role": "dependent"
+        },
+        {
+          "ref": "stage.character",
+          "role": "prerequisite"
+        }
+      ],
+      "scope": "ai-employee.public-safe.no-send",
+      "priority": 100,
+      "authority": "owner_asserted",
+      "confidence": 1,
+      "provenance": [
+        {
+          "source_ref": "synthetic://ai_employee-controlled-pilot"
+        }
+      ],
+      "activation_rule": {
+        "signal_type": "technology_requested",
+        "operation": "operation.process"
+      }
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "relation.ai_employee.05",
+      "type": "depends_on",
+      "participants": [
+        {
+          "ref": "stage.approval",
+          "role": "dependent"
+        },
+        {
+          "ref": "stage.decision",
+          "role": "prerequisite"
+        }
+      ],
+      "scope": "ai-employee.public-safe.no-send",
+      "priority": 100,
+      "authority": "owner_asserted",
+      "confidence": 1,
+      "provenance": [
+        {
+          "source_ref": "synthetic://ai_employee-controlled-pilot"
+        }
+      ],
+      "activation_rule": {
+        "signal_type": "technology_requested",
+        "operation": "operation.process"
+      }
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "relation.ai_employee.06",
+      "type": "depends_on",
+      "participants": [
+        {
+          "ref": "stage.dry-run-action",
+          "role": "dependent"
+        },
+        {
+          "ref": "stage.approval",
+          "role": "prerequisite"
+        }
+      ],
+      "scope": "ai-employee.public-safe.no-send",
+      "priority": 100,
+      "authority": "owner_asserted",
+      "confidence": 1,
+      "provenance": [
+        {
+          "source_ref": "synthetic://ai_employee-controlled-pilot"
+        }
+      ],
+      "activation_rule": {
+        "signal_type": "technology_requested",
+        "operation": "operation.process"
+      }
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "relation.ai_employee.07",
+      "type": "depends_on",
+      "participants": [
+        {
+          "ref": "stage.feedback",
+          "role": "dependent"
+        },
+        {
+          "ref": "stage.dry-run-action",
+          "role": "prerequisite"
+        }
+      ],
+      "scope": "ai-employee.public-safe.no-send",
+      "priority": 100,
+      "authority": "owner_asserted",
+      "confidence": 1,
+      "provenance": [
+        {
+          "source_ref": "synthetic://ai_employee-controlled-pilot"
+        }
+      ],
+      "activation_rule": {
+        "signal_type": "technology_requested",
+        "operation": "operation.process"
+      }
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "relation.ai_employee.08",
+      "type": "depends_on",
+      "participants": [
+        {
+          "ref": "stage.lesson",
+          "role": "dependent"
+        },
+        {
+          "ref": "stage.feedback",
+          "role": "prerequisite"
+        }
+      ],
+      "scope": "ai-employee.public-safe.no-send",
+      "priority": 100,
+      "authority": "owner_asserted",
+      "confidence": 1,
+      "provenance": [
+        {
+          "source_ref": "synthetic://ai_employee-controlled-pilot"
+        }
+      ],
+      "activation_rule": {
+        "signal_type": "technology_requested",
+        "operation": "operation.process"
+      }
+    }
+  ],
+  "graph_snapshot_digest": "sha256:0eadf85a3a919e2a82c40e3885f95c8d4750547746ffb69d5205822a7dd51826",
+  "policy_digest": "sha256:c7669fed453c98d5753b80ef585f856916b8a7e5c06c2acb86823dc00e923d2a"
+}

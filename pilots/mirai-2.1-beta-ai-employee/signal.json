@@ -1,0 +1,11 @@
+{
+  "id": "signal.ai_employee.controlled-pilot.1",
+  "type": "technology_requested",
+  "goal": "Resolve an AI employee request through context, character, approval, feedback and lesson",
+  "scope": "ai-employee.public-safe.no-send",
+  "now": "2026-09-02T09:00:00Z",
+  "operation": "operation.process",
+  "values": {
+    "dry_run": true
+  }
+}

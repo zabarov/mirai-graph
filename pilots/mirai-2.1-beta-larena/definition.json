@@ -1,0 +1,19 @@
+{
+  "pilot_id": "pilot.mirai-2.1.larena.graph-native",
+  "domain": "larena",
+  "scope": "larena.public-safe.package-feature",
+  "goal": "Carry a bounded package feature from specification through evidence and Kaizen",
+  "baseline_episode_ref": "pilots/mirai-2-beta-larena/results/mirai-evidence.json",
+  "baseline_stage_ids": ["specification", "context", "patch", "tests", "review", "evidence", "kaizen"],
+  "stages": ["specification", "dependencies", "implementation", "documentation", "tests", "quality", "kaizen"],
+  "dependencies": [
+    ["specification", "dependencies"],
+    ["dependencies", "implementation"],
+    ["dependencies", "documentation"],
+    ["implementation", "tests"],
+    ["documentation", "quality"],
+    ["tests", "quality"],
+    ["quality", "kaizen"]
+  ],
+  "claim_boundary": "This public-safe fixture shows deterministic graph-resolved coordination of a bounded software delivery process; it does not establish code quality or organization-wide effectiveness."
+}

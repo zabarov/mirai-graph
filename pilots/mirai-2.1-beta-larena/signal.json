@@ -1,0 +1,11 @@
+{
+  "id": "signal.larena.controlled-pilot.1",
+  "type": "technology_requested",
+  "goal": "Carry a bounded package feature from specification through evidence and Kaizen",
+  "scope": "larena.public-safe.package-feature",
+  "now": "2026-09-02T09:00:00Z",
+  "operation": "operation.process",
+  "values": {
+    "dry_run": true
+  }
+}

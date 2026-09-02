@@ -1,0 +1,34 @@
+{
+  "contract_version": "1.0.0",
+  "repository": "https://github.com/zabarov/mirai-conformance",
+  "revision": "841ddc69421899445a84b882bc47537d9e028cb6",
+  "implementation": "python_independent",
+  "imports_typescript_runtime": false,
+  "publication_status": "local_candidate",
+  "supported_surfaces": [
+    "source_catalogs",
+    "assimilation_proposals",
+    "component_packages",
+    "multidimensional_relation_facts",
+    "technology_drafts",
+    "technology_qualifications",
+    "hybrid_technology_plans",
+    "shadow_differentials",
+    "activation_plans",
+    "activation_run_results",
+    "project_manifests",
+    "project_locks",
+    "generated_start_pages",
+    "agent_execution_briefs"
+  ],
+  "result_refs": [
+    "conformance/results/python-mirai-2.1-technology-qualification-result.json",
+    "conformance/results/python-mirai-2.1-hybrid-technology-plan-result.json",
+    "conformance/results/python-mirai-2.1-shadow-differential-result.json",
+    "conformance/results/python-mirai-2.1-activation-plan-result.json",
+    "conformance/results/python-mirai-2.1-activation-run-result.json",
+    "conformance/results/python-mirai-2.1-project-capsule-result.json"
+  ],
+  "release_gate_eligible": false,
+  "next_safe_action": "Publish and clean-room verify this exact checker revision before promoting the 2.1 cross-implementation gate."
+}

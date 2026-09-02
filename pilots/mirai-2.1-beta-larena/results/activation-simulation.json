@@ -1,0 +1,42 @@
+{
+  "contract_version": "1.0.0",
+  "plan_digest": "sha256:42053c62ccf9b573cab11db297b1ab7022ff1a0f416d4e446cc77a1fe5cb84a3",
+  "frontiers": [
+    [
+      "path.stage.specification.operation.process"
+    ],
+    [
+      "path.stage.dependencies.operation.process"
+    ],
+    [
+      "path.stage.documentation.operation.process",
+      "path.stage.implementation.operation.process"
+    ],
+    [
+      "path.stage.tests.operation.process"
+    ],
+    [
+      "path.stage.quality.operation.process"
+    ],
+    [
+      "path.stage.kaizen.operation.process"
+    ]
+  ],
+  "ordered_paths": [
+    "path.stage.specification.operation.process",
+    "path.stage.dependencies.operation.process",
+    "path.stage.documentation.operation.process",
+    "path.stage.implementation.operation.process",
+    "path.stage.tests.operation.process",
+    "path.stage.quality.operation.process",
+    "path.stage.kaizen.operation.process"
+  ],
+  "join_result": {
+    "policy": "all",
+    "required_successes": 7
+  },
+  "decisions_reproduced": true,
+  "effects_executed": false,
+  "canonical_write_allowed": false,
+  "trace_digest": "sha256:c9551ceb515d12afc1f5fb1f6ce2c54446f071b0f1715bba3971d9b82f1a2569"
+}

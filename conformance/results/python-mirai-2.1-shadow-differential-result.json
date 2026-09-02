@@ -1,0 +1,10 @@
+{
+  "contract_version": "1.0.0",
+  "implementation": "python_independent",
+  "kind": "shadow-differential-result",
+  "status": "passed",
+  "artifact_digest": "sha256:e10a06b1b4a1161cb103cf773714b9d4af306951672afb6a00abddf824358411",
+  "errors": [],
+  "canonical_write_performed": false,
+  "effects_executed": false
+}

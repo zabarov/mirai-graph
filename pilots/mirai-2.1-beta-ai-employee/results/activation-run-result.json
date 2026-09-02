@@ -1,0 +1,111 @@
+{
+  "contract_version": "1.0.0",
+  "plan_digest": "sha256:86cf634dda2cfd15d055ee9387c80052bb0af637d54bc519cebeed9a625d0d6b",
+  "status": "completed",
+  "frontiers": [
+    [
+      "path.stage.intent.operation.process"
+    ],
+    [
+      "path.stage.character.operation.process",
+      "path.stage.context.operation.process"
+    ],
+    [
+      "path.stage.decision.operation.process"
+    ],
+    [
+      "path.stage.approval.operation.process"
+    ],
+    [
+      "path.stage.dry-run-action.operation.process"
+    ],
+    [
+      "path.stage.feedback.operation.process"
+    ],
+    [
+      "path.stage.lesson.operation.process"
+    ]
+  ],
+  "path_results": [
+    {
+      "path_id": "path.stage.intent.operation.process",
+      "status": "completed",
+      "program_digest": "sha256:e15fc74708872801b56c21201630c892e6a8bc241479ce078d9050204b076ec4",
+      "effects_executed": false,
+      "trace_digest": "sha256:14dc4bf4da091d9663cb104e99000f3b433384d52e45f9564387ebf9e4f02d85",
+      "output_digest": "sha256:13d0d190f850545a24e68c682d4e18f7b75f757eb984fc258a3a242dda458a1b"
+    },
+    {
+      "path_id": "path.stage.character.operation.process",
+      "status": "completed",
+      "program_digest": "sha256:e15fc74708872801b56c21201630c892e6a8bc241479ce078d9050204b076ec4",
+      "effects_executed": false,
+      "trace_digest": "sha256:14dc4bf4da091d9663cb104e99000f3b433384d52e45f9564387ebf9e4f02d85",
+      "output_digest": "sha256:13d0d190f850545a24e68c682d4e18f7b75f757eb984fc258a3a242dda458a1b"
+    },
+    {
+      "path_id": "path.stage.context.operation.process",
+      "status": "completed",
+      "program_digest": "sha256:e15fc74708872801b56c21201630c892e6a8bc241479ce078d9050204b076ec4",
+      "effects_executed": false,
+      "trace_digest": "sha256:14dc4bf4da091d9663cb104e99000f3b433384d52e45f9564387ebf9e4f02d85",
+      "output_digest": "sha256:13d0d190f850545a24e68c682d4e18f7b75f757eb984fc258a3a242dda458a1b"
+    },
+    {
+      "path_id": "path.stage.decision.operation.process",
+      "status": "completed",
+      "program_digest": "sha256:e15fc74708872801b56c21201630c892e6a8bc241479ce078d9050204b076ec4",
+      "effects_executed": false,
+      "trace_digest": "sha256:14dc4bf4da091d9663cb104e99000f3b433384d52e45f9564387ebf9e4f02d85",
+      "output_digest": "sha256:13d0d190f850545a24e68c682d4e18f7b75f757eb984fc258a3a242dda458a1b"
+    },
+    {
+      "path_id": "path.stage.approval.operation.process",
+      "status": "completed",
+      "program_digest": "sha256:e15fc74708872801b56c21201630c892e6a8bc241479ce078d9050204b076ec4",
+      "effects_executed": false,
+      "trace_digest": "sha256:14dc4bf4da091d9663cb104e99000f3b433384d52e45f9564387ebf9e4f02d85",
+      "output_digest": "sha256:13d0d190f850545a24e68c682d4e18f7b75f757eb984fc258a3a242dda458a1b"
+    },
+    {
+      "path_id": "path.stage.dry-run-action.operation.process",
+      "status": "completed",
+      "program_digest": "sha256:e15fc74708872801b56c21201630c892e6a8bc241479ce078d9050204b076ec4",
+      "effects_executed": false,
+      "trace_digest": "sha256:14dc4bf4da091d9663cb104e99000f3b433384d52e45f9564387ebf9e4f02d85",
+      "output_digest": "sha256:13d0d190f850545a24e68c682d4e18f7b75f757eb984fc258a3a242dda458a1b"
+    },
+    {
+      "path_id": "path.stage.feedback.operation.process",
+      "status": "completed",
+      "program_digest": "sha256:e15fc74708872801b56c21201630c892e6a8bc241479ce078d9050204b076ec4",
+      "effects_executed": false,
+      "trace_digest": "sha256:14dc4bf4da091d9663cb104e99000f3b433384d52e45f9564387ebf9e4f02d85",
+      "output_digest": "sha256:13d0d190f850545a24e68c682d4e18f7b75f757eb984fc258a3a242dda458a1b"
+    },
+    {
+      "path_id": "path.stage.lesson.operation.process",
+      "status": "completed",
+      "program_digest": "sha256:e15fc74708872801b56c21201630c892e6a8bc241479ce078d9050204b076ec4",
+      "effects_executed": false,
+      "trace_digest": "sha256:14dc4bf4da091d9663cb104e99000f3b433384d52e45f9564387ebf9e4f02d85",
+      "output_digest": "sha256:13d0d190f850545a24e68c682d4e18f7b75f757eb984fc258a3a242dda458a1b"
+    }
+  ],
+  "successful_path_ids": [
+    "path.stage.approval.operation.process",
+    "path.stage.character.operation.process",
+    "path.stage.context.operation.process",
+    "path.stage.decision.operation.process",
+    "path.stage.dry-run-action.operation.process",
+    "path.stage.feedback.operation.process",
+    "path.stage.intent.operation.process",
+    "path.stage.lesson.operation.process"
+  ],
+  "aggregate_trace_digest": "sha256:d0c9bc08745a597e8a386e9ab8bdf035643d977c8d2c0bc8543d948454d61349",
+  "effective_policy_digest": "sha256:c7669fed453c98d5753b80ef585f856916b8a7e5c06c2acb86823dc00e923d2a",
+  "host_budget_ceilings_digest": "sha256:735d9c824722e4f35cc5f0d56603464d3b10d2cecdf79db6a4333eea152e0154",
+  "effects_executed": false,
+  "canonical_write_allowed": false,
+  "learning_update_allowed": false
+}

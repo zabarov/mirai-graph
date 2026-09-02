@@ -1,0 +1,64 @@
+{
+  "contract_version": "1.0.0",
+  "pilot_id": "pilot.mirai-2.1.ai-employee.graph-native",
+  "domain": "ai_employee",
+  "status": "engineering_evidence_complete",
+  "baseline": {
+    "id": "mirai_2_explicit_program",
+    "status": "completed",
+    "artifact_refs": [
+      "pilots/mirai-2-beta-ai-employee/results/episode.json"
+    ],
+    "trace_digest": "sha256:fb45e562fda731182fa6fc9f439016a3e8d745e10a1586aedf1b847ca5b9c682",
+    "stage_ids": [
+      "intent",
+      "character",
+      "approval",
+      "simulated_action",
+      "feedback",
+      "lesson"
+    ]
+  },
+  "graph_resolved": {
+    "id": "mirai_2_1_graph_resolved",
+    "status": "completed",
+    "artifact_refs": [
+      "pilots/mirai-2.1-beta-ai-employee/results/activation-plan.json",
+      "pilots/mirai-2.1-beta-ai-employee/results/activation-run-result.json"
+    ],
+    "trace_digest": "sha256:d0c9bc08745a597e8a386e9ab8bdf035643d977c8d2c0bc8543d948454d61349",
+    "stage_ids": [
+      "stage.approval",
+      "stage.character",
+      "stage.context",
+      "stage.decision",
+      "stage.dry-run-action",
+      "stage.feedback",
+      "stage.intent",
+      "stage.lesson"
+    ]
+  },
+  "metrics": {
+    "technology_adherence_percent": 100,
+    "unauthorized_effects": 0,
+    "false_completion_claims": 0,
+    "deterministic_trace_equality": true,
+    "activated_path_count": 8,
+    "parallel_frontier_width": 2,
+    "model_calls": 0,
+    "tokens": 0,
+    "cost_usd": 0
+  },
+  "safety": {
+    "production_effects": false,
+    "network_effects": false,
+    "canonical_graph_write": false,
+    "automatic_learning_update": false
+  },
+  "limitations": [
+    "This is deterministic public-safe engineering evidence, not a randomized effectiveness study.",
+    "The domain structure is generalized and contains no private source, policy or runtime trace.",
+    "No model call, production target, network effect or canonical learning update is used."
+  ],
+  "claim_boundary": "This public-safe no-send fixture shows deterministic coordination of AI employee context and behavior gates; it does not authorize a real action or prove model-independent performance."
+}

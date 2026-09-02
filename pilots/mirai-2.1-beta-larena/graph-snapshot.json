@@ -1,0 +1,297 @@
+{
+  "id": "graph.larena.controlled-pilot",
+  "components": {
+    "contract_version": "1.0.0",
+    "interfaces": [
+      {
+        "id": "interface.controlled-stage",
+        "operations": [
+          "operation.process"
+        ]
+      }
+    ],
+    "operation_contracts": [
+      {
+        "id": "operation.process",
+        "inputs": [],
+        "outputs": [
+          {
+            "id": "result",
+            "type": "string"
+          }
+        ],
+        "required_capabilities": [
+          "pure"
+        ]
+      }
+    ],
+    "component_types": [
+      {
+        "id": "component.controlled-stage",
+        "implements": [
+          "interface.controlled-stage"
+        ],
+        "exposes": [
+          "operation.process"
+        ],
+        "composes": []
+      }
+    ],
+    "component_instances": [
+      {
+        "id": "stage.specification",
+        "instance_of": "component.controlled-stage",
+        "scope": "larena.public-safe.package-feature"
+      },
+      {
+        "id": "stage.dependencies",
+        "instance_of": "component.controlled-stage",
+        "scope": "larena.public-safe.package-feature"
+      },
+      {
+        "id": "stage.implementation",
+        "instance_of": "component.controlled-stage",
+        "scope": "larena.public-safe.package-feature"
+      },
+      {
+        "id": "stage.documentation",
+        "instance_of": "component.controlled-stage",
+        "scope": "larena.public-safe.package-feature"
+      },
+      {
+        "id": "stage.tests",
+        "instance_of": "component.controlled-stage",
+        "scope": "larena.public-safe.package-feature"
+      },
+      {
+        "id": "stage.quality",
+        "instance_of": "component.controlled-stage",
+        "scope": "larena.public-safe.package-feature"
+      },
+      {
+        "id": "stage.kaizen",
+        "instance_of": "component.controlled-stage",
+        "scope": "larena.public-safe.package-feature"
+      }
+    ],
+    "program_implementations": [
+      {
+        "id": "implementation.controlled-stage",
+        "operation": "operation.process",
+        "program_ref": "pilots/mirai-2.1-domain-shared/stage.mirai.yaml",
+        "program_digest": "sha256:e15fc74708872801b56c21201630c892e6a8bc241479ce078d9050204b076ec4"
+      }
+    ],
+    "contextual_bindings": [
+      {
+        "id": "binding.controlled-stage",
+        "component_type": "component.controlled-stage",
+        "operation": "operation.process",
+        "implementation": "implementation.controlled-stage",
+        "priority": 100,
+        "scope": "larena.public-safe.package-feature"
+      }
+    ],
+    "canonical_write_allowed": false
+  },
+  "relation_facts": [
+    {
+      "contract_version": "1.0.0",
+      "id": "relation.larena.01",
+      "type": "depends_on",
+      "participants": [
+        {
+          "ref": "stage.dependencies",
+          "role": "dependent"
+        },
+        {
+          "ref": "stage.specification",
+          "role": "prerequisite"
+        }
+      ],
+      "scope": "larena.public-safe.package-feature",
+      "priority": 100,
+      "authority": "owner_asserted",
+      "confidence": 1,
+      "provenance": [
+        {
+          "source_ref": "synthetic://larena-controlled-pilot"
+        }
+      ],
+      "activation_rule": {
+        "signal_type": "technology_requested",
+        "operation": "operation.process"
+      }
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "relation.larena.02",
+      "type": "depends_on",
+      "participants": [
+        {
+          "ref": "stage.implementation",
+          "role": "dependent"
+        },
+        {
+          "ref": "stage.dependencies",
+          "role": "prerequisite"
+        }
+      ],
+      "scope": "larena.public-safe.package-feature",
+      "priority": 100,
+      "authority": "owner_asserted",
+      "confidence": 1,
+      "provenance": [
+        {
+          "source_ref": "synthetic://larena-controlled-pilot"
+        }
+      ],
+      "activation_rule": {
+        "signal_type": "technology_requested",
+        "operation": "operation.process"
+      }
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "relation.larena.03",
+      "type": "depends_on",
+      "participants": [
+        {
+          "ref": "stage.documentation",
+          "role": "dependent"
+        },
+        {
+          "ref": "stage.dependencies",
+          "role": "prerequisite"
+        }
+      ],
+      "scope": "larena.public-safe.package-feature",
+      "priority": 100,
+      "authority": "owner_asserted",
+      "confidence": 1,
+      "provenance": [
+        {
+          "source_ref": "synthetic://larena-controlled-pilot"
+        }
+      ],
+      "activation_rule": {
+        "signal_type": "technology_requested",
+        "operation": "operation.process"
+      }
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "relation.larena.04",
+      "type": "depends_on",
+      "participants": [
+        {
+          "ref": "stage.tests",
+          "role": "dependent"
+        },
+        {
+          "ref": "stage.implementation",
+          "role": "prerequisite"
+        }
+      ],
+      "scope": "larena.public-safe.package-feature",
+      "priority": 100,
+      "authority": "owner_asserted",
+      "confidence": 1,
+      "provenance": [
+        {
+          "source_ref": "synthetic://larena-controlled-pilot"
+        }
+      ],
+      "activation_rule": {
+        "signal_type": "technology_requested",
+        "operation": "operation.process"
+      }
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "relation.larena.05",
+      "type": "depends_on",
+      "participants": [
+        {
+          "ref": "stage.quality",
+          "role": "dependent"
+        },
+        {
+          "ref": "stage.documentation",
+          "role": "prerequisite"
+        }
+      ],
+      "scope": "larena.public-safe.package-feature",
+      "priority": 100,
+      "authority": "owner_asserted",
+      "confidence": 1,
+      "provenance": [
+        {
+          "source_ref": "synthetic://larena-controlled-pilot"
+        }
+      ],
+      "activation_rule": {
+        "signal_type": "technology_requested",
+        "operation": "operation.process"
+      }
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "relation.larena.06",
+      "type": "depends_on",
+      "participants": [
+        {
+          "ref": "stage.quality",
+          "role": "dependent"
+        },
+        {
+          "ref": "stage.tests",
+          "role": "prerequisite"
+        }
+      ],
+      "scope": "larena.public-safe.package-feature",
+      "priority": 100,
+      "authority": "owner_asserted",
+      "confidence": 1,
+      "provenance": [
+        {
+          "source_ref": "synthetic://larena-controlled-pilot"
+        }
+      ],
+      "activation_rule": {
+        "signal_type": "technology_requested",
+        "operation": "operation.process"
+      }
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "relation.larena.07",
+      "type": "depends_on",
+      "participants": [
+        {
+          "ref": "stage.kaizen",
+          "role": "dependent"
+        },
+        {
+          "ref": "stage.quality",
+          "role": "prerequisite"
+        }
+      ],
+      "scope": "larena.public-safe.package-feature",
+      "priority": 100,
+      "authority": "owner_asserted",
+      "confidence": 1,
+      "provenance": [
+        {
+          "source_ref": "synthetic://larena-controlled-pilot"
+        }
+      ],
+      "activation_rule": {
+        "signal_type": "technology_requested",
+        "operation": "operation.process"
+      }
+    }
+  ],
+  "graph_snapshot_digest": "sha256:892fd51099f02ce810ceb4bf6580ebba309c1bc3f6aadd1452cf7f96ad640dc0",
+  "policy_digest": "sha256:c7669fed453c98d5753b80ef585f856916b8a7e5c06c2acb86823dc00e923d2a"
+}

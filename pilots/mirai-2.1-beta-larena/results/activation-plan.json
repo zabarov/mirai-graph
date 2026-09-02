@@ -1,0 +1,181 @@
+{
+  "contract_version": "1.0.0",
+  "id": "activation.signal.larena.controlled-pilot.1",
+  "signal": {
+    "id": "signal.larena.controlled-pilot.1",
+    "type": "technology_requested",
+    "goal": "Carry a bounded package feature from specification through evidence and Kaizen",
+    "scope": "larena.public-safe.package-feature",
+    "now": "2026-09-02T09:00:00Z",
+    "operation": "operation.process",
+    "values": {
+      "dry_run": true
+    }
+  },
+  "graph_snapshot_digest": "sha256:892fd51099f02ce810ceb4bf6580ebba309c1bc3f6aadd1452cf7f96ad640dc0",
+  "policy_digest": "sha256:c7669fed453c98d5753b80ef585f856916b8a7e5c06c2acb86823dc00e923d2a",
+  "selected_relation_fact_ids": [
+    "relation.larena.01",
+    "relation.larena.02",
+    "relation.larena.03",
+    "relation.larena.04",
+    "relation.larena.05",
+    "relation.larena.06",
+    "relation.larena.07"
+  ],
+  "blocked_relation_facts": [],
+  "activated_paths": [
+    {
+      "id": "path.stage.dependencies.operation.process",
+      "component_instance": "stage.dependencies",
+      "component_type": "component.controlled-stage",
+      "operation": "operation.process",
+      "implementation": "implementation.controlled-stage",
+      "program_ref": "pilots/mirai-2.1-domain-shared/stage.mirai.yaml",
+      "program_digest": "sha256:e15fc74708872801b56c21201630c892e6a8bc241479ce078d9050204b076ec4",
+      "priority": 100,
+      "dependencies": [
+        "path.stage.specification.operation.process"
+      ]
+    },
+    {
+      "id": "path.stage.documentation.operation.process",
+      "component_instance": "stage.documentation",
+      "component_type": "component.controlled-stage",
+      "operation": "operation.process",
+      "implementation": "implementation.controlled-stage",
+      "program_ref": "pilots/mirai-2.1-domain-shared/stage.mirai.yaml",
+      "program_digest": "sha256:e15fc74708872801b56c21201630c892e6a8bc241479ce078d9050204b076ec4",
+      "priority": 100,
+      "dependencies": [
+        "path.stage.dependencies.operation.process"
+      ]
+    },
+    {
+      "id": "path.stage.implementation.operation.process",
+      "component_instance": "stage.implementation",
+      "component_type": "component.controlled-stage",
+      "operation": "operation.process",
+      "implementation": "implementation.controlled-stage",
+      "program_ref": "pilots/mirai-2.1-domain-shared/stage.mirai.yaml",
+      "program_digest": "sha256:e15fc74708872801b56c21201630c892e6a8bc241479ce078d9050204b076ec4",
+      "priority": 100,
+      "dependencies": [
+        "path.stage.dependencies.operation.process"
+      ]
+    },
+    {
+      "id": "path.stage.kaizen.operation.process",
+      "component_instance": "stage.kaizen",
+      "component_type": "component.controlled-stage",
+      "operation": "operation.process",
+      "implementation": "implementation.controlled-stage",
+      "program_ref": "pilots/mirai-2.1-domain-shared/stage.mirai.yaml",
+      "program_digest": "sha256:e15fc74708872801b56c21201630c892e6a8bc241479ce078d9050204b076ec4",
+      "priority": 100,
+      "dependencies": [
+        "path.stage.quality.operation.process"
+      ]
+    },
+    {
+      "id": "path.stage.quality.operation.process",
+      "component_instance": "stage.quality",
+      "component_type": "component.controlled-stage",
+      "operation": "operation.process",
+      "implementation": "implementation.controlled-stage",
+      "program_ref": "pilots/mirai-2.1-domain-shared/stage.mirai.yaml",
+      "program_digest": "sha256:e15fc74708872801b56c21201630c892e6a8bc241479ce078d9050204b076ec4",
+      "priority": 100,
+      "dependencies": [
+        "path.stage.documentation.operation.process",
+        "path.stage.tests.operation.process"
+      ]
+    },
+    {
+      "id": "path.stage.specification.operation.process",
+      "component_instance": "stage.specification",
+      "component_type": "component.controlled-stage",
+      "operation": "operation.process",
+      "implementation": "implementation.controlled-stage",
+      "program_ref": "pilots/mirai-2.1-domain-shared/stage.mirai.yaml",
+      "program_digest": "sha256:e15fc74708872801b56c21201630c892e6a8bc241479ce078d9050204b076ec4",
+      "priority": 100,
+      "dependencies": []
+    },
+    {
+      "id": "path.stage.tests.operation.process",
+      "component_instance": "stage.tests",
+      "component_type": "component.controlled-stage",
+      "operation": "operation.process",
+      "implementation": "implementation.controlled-stage",
+      "program_ref": "pilots/mirai-2.1-domain-shared/stage.mirai.yaml",
+      "program_digest": "sha256:e15fc74708872801b56c21201630c892e6a8bc241479ce078d9050204b076ec4",
+      "priority": 100,
+      "dependencies": [
+        "path.stage.implementation.operation.process"
+      ]
+    }
+  ],
+  "blocked_paths": [],
+  "dependency_dag": [
+    {
+      "from": "path.stage.dependencies.operation.process",
+      "to": "path.stage.documentation.operation.process"
+    },
+    {
+      "from": "path.stage.dependencies.operation.process",
+      "to": "path.stage.implementation.operation.process"
+    },
+    {
+      "from": "path.stage.documentation.operation.process",
+      "to": "path.stage.quality.operation.process"
+    },
+    {
+      "from": "path.stage.implementation.operation.process",
+      "to": "path.stage.tests.operation.process"
+    },
+    {
+      "from": "path.stage.quality.operation.process",
+      "to": "path.stage.kaizen.operation.process"
+    },
+    {
+      "from": "path.stage.specification.operation.process",
+      "to": "path.stage.dependencies.operation.process"
+    },
+    {
+      "from": "path.stage.tests.operation.process",
+      "to": "path.stage.quality.operation.process"
+    }
+  ],
+  "join": {
+    "policy": "all",
+    "deterministic_order": [
+      "path.stage.dependencies.operation.process",
+      "path.stage.documentation.operation.process",
+      "path.stage.implementation.operation.process",
+      "path.stage.kaizen.operation.process",
+      "path.stage.quality.operation.process",
+      "path.stage.specification.operation.process",
+      "path.stage.tests.operation.process"
+    ]
+  },
+  "budgets": {
+    "max_nodes": 1000,
+    "max_depth": 32,
+    "max_fan_out": 64,
+    "max_iterations": 1000,
+    "max_parallel": 16,
+    "max_duration_ms": 300000
+  },
+  "required_capabilities": [
+    "pure"
+  ],
+  "required_approvals": [],
+  "decision_explanations": [
+    "Selected 7 path(s) for operation operation.process in scope larena.public-safe.package-feature.",
+    "Applied 7 of 7 relation fact(s).",
+    "Plan is bound to graph sha256:892fd51099f02ce810ceb4bf6580ebba309c1bc3f6aadd1452cf7f96ad640dc0 and policy sha256:c7669fed453c98d5753b80ef585f856916b8a7e5c06c2acb86823dc00e923d2a."
+  ],
+  "canonical_write_allowed": false,
+  "digest": "sha256:42053c62ccf9b573cab11db297b1ab7022ff1a0f416d4e446cc77a1fe5cb84a3"
+}

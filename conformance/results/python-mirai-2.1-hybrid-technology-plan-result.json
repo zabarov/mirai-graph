@@ -1,0 +1,10 @@
+{
+  "contract_version": "1.0.0",
+  "implementation": "python_independent",
+  "kind": "hybrid-technology-plan",
+  "status": "passed",
+  "artifact_digest": "sha256:54991a516e81b2fe2ed8c52390a3d2dafe84abae5a89c8c6b70c4580cb2650e2",
+  "errors": [],
+  "canonical_write_performed": false,
+  "effects_executed": false
+}

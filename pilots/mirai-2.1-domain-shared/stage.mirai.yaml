@@ -1,0 +1,17 @@
+contract_version: 1.0.0
+id: program.mirai-2.1.controlled-pilot.stage
+version: 1.0.0
+imports: []
+inputs: []
+outputs: [{ id: result, type: string }]
+state: []
+nodes:
+  - id: stage.return
+    kind: return
+    values: { result: { op: literal, value: stage_evidenced } }
+entry: stage.return
+error_routes: []
+policies:
+  budgets: { max_steps: 8, max_depth: 4, max_iterations: 4, max_parallel: 2, max_duration_ms: 10000 }
+  allowed_effects: [pure]
+  canonical_write_allowed: false
