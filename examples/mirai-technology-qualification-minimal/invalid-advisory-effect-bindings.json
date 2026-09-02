@@ -1,0 +1,28 @@
+[
+  {
+    "step_id": "step.inspect",
+    "classification": "advisory",
+    "acceptance": "owner_accepted",
+    "acceptance_ref": "evidence.classification.inspect",
+    "reason": "Invalid fixture: expert advice is incorrectly bound to an effect.",
+    "owner_ref": "role.change_owner",
+    "adapter": "pure",
+    "effects": ["pure"]
+  },
+  {
+    "step_id": "step.verify",
+    "classification": "verifiable",
+    "acceptance": "tester_accepted",
+    "acceptance_ref": "evidence.classification.verify",
+    "reason": "The evidence contract is tester accepted.",
+    "verification_ref": "verification.change_evidence"
+  },
+  {
+    "step_id": "step.decide",
+    "classification": "decision",
+    "acceptance": "owner_accepted",
+    "acceptance_ref": "evidence.classification.decide",
+    "reason": "The decision remains owner-bound.",
+    "owner_ref": "role.change_owner"
+  }
+]

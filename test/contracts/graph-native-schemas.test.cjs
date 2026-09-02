@@ -8,6 +8,7 @@ const addFormats = require("ajv-formats").default;
 
 const { scanSource, assimilateCatalog } = require("../../dist/cjs/assimilation");
 const { resolveActivationPlan, runActivationPlan } = require("../../dist/cjs/activation");
+const { compileHybridTechnologyPlan, qualifyTechnologyDraft } = require("../../dist/cjs/technology");
 
 test("public CommonJS subpath exports expose graph-native contracts", () => {
   assert.equal(typeof require("@zabarov/mirai/assimilation").scanSource, "function");
@@ -49,6 +50,12 @@ test("graph-native public schemas accept reference artifacts", () => {
   validate("relation-fact.schema.json", snapshot.relation_facts[0]);
   const draft = JSON.parse(fs.readFileSync(path.resolve(__dirname, "../../examples/mirai-technology-draft-minimal/technology-draft.json"), "utf8"));
   validate("technology-draft.schema.json", draft);
+  const qualificationRoot = path.resolve(__dirname, "../../examples/mirai-technology-qualification-minimal");
+  const qualifiedDraft = JSON.parse(fs.readFileSync(path.join(qualificationRoot, "technology-draft.json"), "utf8"));
+  const bindings = JSON.parse(fs.readFileSync(path.join(qualificationRoot, "bindings.json"), "utf8"));
+  const qualification = qualifyTechnologyDraft(qualifiedDraft, bindings);
+  validate("technology-qualification.schema.json", qualification);
+  validate("hybrid-technology-plan.schema.json", compileHybridTechnologyPlan(qualifiedDraft, qualification));
   const signal = JSON.parse(fs.readFileSync(path.resolve(__dirname, "../../examples/mirai-activation-minimal/signal.json"), "utf8"));
   validate("activation-plan.schema.json", resolveActivationPlan(snapshot, signal));
 });

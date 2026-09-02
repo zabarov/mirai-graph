@@ -12,6 +12,7 @@ import {
 import {
   DEFAULT_CAPABILITY_POLICY,
   ReferenceCapabilityProvider,
+  type CapabilityAuthorization,
   type CapabilityPolicy
 } from "./capabilities.js";
 import { EffectCoordinator, EffectExecutionBlocked, type FaultInjectionStage } from "./effects.js";
@@ -23,6 +24,7 @@ interface PersistedRuntimeConfig {
   programs: Record<string, MiraiProgram>;
   events: Record<string, unknown>;
   test_commands: Record<string, TestCommandDefinition>;
+  authorization?: CapabilityAuthorization;
 }
 
 export interface GovernedRunOptions {
@@ -32,6 +34,7 @@ export interface GovernedRunOptions {
   apply?: boolean;
   approval?: ApprovalReceipt;
   policy?: CapabilityPolicy;
+  authorization?: CapabilityAuthorization;
   programs?: Record<string, MiraiProgram>;
   events?: Record<string, unknown>;
   test_commands?: Record<string, TestCommandDefinition>;
@@ -71,7 +74,8 @@ function coordinatorFor(options: {
     sandbox: options.run.sandbox,
     apply: options.run.apply_requested,
     approval: options.approval,
-    approval_ref: options.approval ? "approval.json" : undefined
+    approval_ref: options.approval ? "approval.json" : undefined,
+    authorization: options.config.authorization
   });
   return new EffectCoordinator({
     run_id: options.run.run_id,
@@ -202,7 +206,8 @@ export async function startGovernedRun(program: MiraiProgram, input: Record<stri
     policy: options.policy || DEFAULT_CAPABILITY_POLICY,
     programs: options.programs || {},
     events: options.events || {},
-    test_commands: options.test_commands || {}
+    test_commands: options.test_commands || {},
+    ...(options.authorization ? { authorization: options.authorization } : {})
   };
   const run = store.createRun({
     program,

@@ -1,0 +1,30 @@
+{
+  "contract_version": "1.0.0",
+  "id": "technology.change_review",
+  "version": "1.0.0",
+  "goal": "Inspect a change, verify its evidence and obtain an owner decision",
+  "roles": ["operator", "tester", "owner"],
+  "inputs": [],
+  "outputs": [{ "id": "result", "type": "string", "required": true }],
+  "state": [],
+  "imports": [],
+  "steps": [
+    { "id": "step.inspect", "kind": "action", "operation": "inspect_change", "adapter": "pure", "effects": ["pure"], "next": "step.verify", "on_error": "return.error" },
+    { "id": "step.verify", "kind": "action", "operation": "verify_evidence", "effects": [], "next": "step.decide", "on_error": "return.error" },
+    { "id": "step.decide", "kind": "action", "operation": "accept_or_reject", "effects": [], "next": "return.ok", "on_error": "return.error" },
+    { "id": "return.ok", "kind": "return", "values": { "result": { "op": "literal", "value": "decision_recorded" } } },
+    { "id": "return.error", "kind": "return", "values": { "result": { "op": "literal", "value": "blocked" } } }
+  ],
+  "entry": "step.inspect",
+  "gates": ["evidence_required", "owner_decision_required"],
+  "policies": {
+    "budgets": { "max_steps": 30, "max_depth": 4, "max_iterations": 4, "max_parallel": 2, "max_duration_ms": 10000 },
+    "allowed_effects": ["pure"],
+    "canonical_write_allowed": false
+  },
+  "terminal_conditions": ["evidence verdict and owner decision are recorded"],
+  "diagnostics": [],
+  "source_ref": "change-review-technology.md",
+  "confidence": 1,
+  "canonical_write_allowed": false
+}

@@ -1,0 +1,26 @@
+[
+  {
+    "step_id": "step.inspect",
+    "classification": "executable",
+    "acceptance": "unreviewed",
+    "reason": "The proposed pure binding still requires owner acceptance.",
+    "adapter": "pure",
+    "effects": ["pure"]
+  },
+  {
+    "step_id": "step.verify",
+    "classification": "verifiable",
+    "acceptance": "tester_accepted",
+    "acceptance_ref": "evidence.classification.verify",
+    "reason": "The evidence contract is tester accepted.",
+    "verification_ref": "verification.change_evidence"
+  },
+  {
+    "step_id": "step.decide",
+    "classification": "decision",
+    "acceptance": "owner_accepted",
+    "acceptance_ref": "evidence.classification.decide",
+    "reason": "The decision remains owner-bound.",
+    "owner_ref": "role.change_owner"
+  }
+]

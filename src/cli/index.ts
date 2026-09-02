@@ -29,7 +29,15 @@ import {
 import type { TestCommandDefinition } from "../adapters/index.js";
 import { assimilateCatalog, scanSource, type SourceCatalog } from "../assimilation/index.js";
 import { validateComponentPackage, type ComponentPackage } from "../components/index.js";
-import { compileTechnologyDraft, extractTechnologyFile, type TechnologyDraft } from "../technology/index.js";
+import {
+  compileHybridTechnologyPlan,
+  compileTechnologyDraft,
+  extractTechnologyFile,
+  qualifyTechnologyDraft,
+  type OperationQualificationBinding,
+  type TechnologyDraft,
+  type TechnologyQualificationResult
+} from "../technology/index.js";
 import {
   resolveActivationPlan,
   runActivationPlan,
@@ -76,6 +84,8 @@ function usage(): void {
     "  mirai source scan <path> [--out <catalog.json>]",
     "  mirai assimilate <catalog.json> --out <proposal.json>",
     "  mirai technology extract <source> --out <draft.json>",
+    "  mirai technology qualify <draft.json> --bindings <bindings.json> --out <qualification.json>",
+    "  mirai technology hybrid-compile <draft.json> --qualification <qualification.json> --out <plan.json>",
     "  mirai technology compile <draft.json> --out <program.mirai.json>",
     "  mirai component validate <component-package.json>",
     "  mirai activation plan --graph <snapshot.json> --signal <signal.json> --out <plan.json>",
@@ -304,6 +314,25 @@ export async function runCli(args: string[]): Promise<number> {
       const program = compileTechnologyDraft(draft);
       const output = requireArgument(readOption(args, "--out"), "--out path");
       writeJson({ status: "compiled", output: writeJsonFile(output, program, args.includes("--force")), digest: program.digest, canonical_write_allowed: false });
+      return 0;
+    }
+
+    if (args[0] === "technology" && args[1] === "qualify") {
+      const draft = loadJson(requireArgument(args[2], "technology draft")) as unknown as TechnologyDraft;
+      const bindingsValue = JSON.parse(fs.readFileSync(path.resolve(requireArgument(readOption(args, "--bindings"), "--bindings path")), "utf8")) as unknown;
+      if (!Array.isArray(bindingsValue)) throw new Error("Qualification bindings must be a JSON array");
+      const result = qualifyTechnologyDraft(draft, bindingsValue as OperationQualificationBinding[]);
+      const output = requireArgument(readOption(args, "--out"), "--out path");
+      writeJson({ status: result.status, output: writeJsonFile(output, result, args.includes("--force")), digest: result.digest, activation_allowed: result.activation_allowed, canonical_write_allowed: false });
+      return result.status === "blocked" ? 2 : 0;
+    }
+
+    if (args[0] === "technology" && args[1] === "hybrid-compile") {
+      const draft = loadJson(requireArgument(args[2], "technology draft")) as unknown as TechnologyDraft;
+      const qualification = loadJson(requireArgument(readOption(args, "--qualification"), "--qualification path")) as unknown as TechnologyQualificationResult;
+      const plan = compileHybridTechnologyPlan(draft, qualification);
+      const output = requireArgument(readOption(args, "--out"), "--out path");
+      writeJson({ status: plan.qualification_status, output: writeJsonFile(output, plan, args.includes("--force")), digest: plan.digest, activation_allowed: plan.activation_allowed, canonical_write_allowed: false });
       return 0;
     }
 

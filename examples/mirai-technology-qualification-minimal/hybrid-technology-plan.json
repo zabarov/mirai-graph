@@ -1,0 +1,87 @@
+{
+  "contract_version": "1.0.0",
+  "id": "technology.change_review",
+  "version": "1.0.0",
+  "goal": "Inspect a change, verify its evidence and obtain an owner decision",
+  "source_ref": "change-review-technology.md",
+  "draft_digest": "sha256:dd5906fd62b6b7bb021ae1b4ec310129501a8bb0e8065278b71fbabec73052b1",
+  "qualification_digest": "sha256:17ce69c18b949d8bb771f8cfa21b0e54994fd478e05a48f5c81132bb610fc603",
+  "qualification_status": "hybrid_ready",
+  "entry": "step.inspect",
+  "operations": [
+    {
+      "step_id": "step.inspect",
+      "operation": "inspect_change",
+      "classification": "executable",
+      "acceptance": "owner_accepted",
+      "acceptance_ref": "evidence.classification.inspect",
+      "reason": "The operation is pure and deterministically bound to the reference adapter.",
+      "mode": "program_operation",
+      "next": "step.verify",
+      "on_error": "return.error",
+      "adapter": "pure",
+      "effects": [
+        "pure"
+      ]
+    },
+    {
+      "step_id": "step.verify",
+      "operation": "verify_evidence",
+      "classification": "verifiable",
+      "acceptance": "tester_accepted",
+      "acceptance_ref": "evidence.classification.verify",
+      "reason": "The result must be checked against the declared evidence contract.",
+      "mode": "verification_gate",
+      "next": "step.decide",
+      "on_error": "return.error",
+      "effects": [],
+      "verification_ref": "verification.change_evidence"
+    },
+    {
+      "step_id": "step.decide",
+      "operation": "accept_or_reject",
+      "classification": "decision",
+      "acceptance": "owner_accepted",
+      "acceptance_ref": "evidence.classification.decide",
+      "reason": "Acceptance is an owner decision and must not become an automatic effect.",
+      "mode": "decision_checkpoint",
+      "next": "return.ok",
+      "on_error": "return.error",
+      "effects": [],
+      "owner_ref": "role.change_owner"
+    }
+  ],
+  "control_steps": [
+    {
+      "id": "return.ok",
+      "kind": "return",
+      "values": {
+        "result": {
+          "op": "literal",
+          "value": "decision_recorded"
+        }
+      }
+    },
+    {
+      "id": "return.error",
+      "kind": "return",
+      "values": {
+        "result": {
+          "op": "literal",
+          "value": "blocked"
+        }
+      }
+    }
+  ],
+  "gates": [
+    "evidence_required",
+    "owner_decision_required"
+  ],
+  "terminal_conditions": [
+    "evidence verdict and owner decision are recorded"
+  ],
+  "requires_human_coordination": true,
+  "activation_allowed": false,
+  "canonical_write_allowed": false,
+  "digest": "sha256:c754343ef329d3a6b91c9d8a185268e03a6358fe1ae60e0d87b8d1f4f1183412"
+}

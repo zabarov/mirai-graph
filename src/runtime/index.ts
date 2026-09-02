@@ -20,6 +20,7 @@ export * from "./pure-interpreter.js";
 export * from "./replay.js";
 export * from "./contracts.js";
 export * from "./approval.js";
+export * from "./authorization.js";
 export * from "./capabilities.js";
 export * from "./store.js";
 export * from "./effects.js";

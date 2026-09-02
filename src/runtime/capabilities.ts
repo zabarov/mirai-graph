@@ -9,6 +9,8 @@ import {
   type PolicyDecisionRecord
 } from "./contracts.js";
 import { verifyApprovalReceipt } from "./approval.js";
+import { evaluateLayeredInvariants, verifyMandateReceipt } from "./authorization.js";
+import type { InvariantEvaluationResult, LayeredInvariantSet, MandateReceipt } from "./contracts.js";
 
 export interface CapabilityRule {
   id: string;
@@ -29,6 +31,13 @@ export interface CapabilityPolicy {
 export interface CapabilityDecision {
   decision: PolicyDecisionRecord;
   grant?: CapabilityGrant;
+}
+
+export interface CapabilityAuthorization {
+  mandate_required: boolean;
+  invariant_match_required: boolean;
+  mandate?: MandateReceipt;
+  invariant_sets: LayeredInvariantSet[];
 }
 
 export const DEFAULT_CAPABILITY_POLICY: CapabilityPolicy = {
@@ -71,6 +80,7 @@ export class ReferenceCapabilityProvider {
       apply: boolean;
       approval?: ApprovalReceipt;
       approval_ref?: string;
+      authorization?: CapabilityAuthorization;
     }
   ) {
     this.digest = policyDigest(policy);
@@ -78,6 +88,17 @@ export class ReferenceCapabilityProvider {
 
   request(request: CapabilityRequest, now = new Date()): CapabilityDecision {
     const reasons: string[] = [];
+    const authorization = this.context.authorization;
+    let invariantEvaluation: InvariantEvaluationResult | undefined;
+    if (authorization?.mandate_required) {
+      if (!authorization.mandate) reasons.push("mandate_required");
+      else reasons.push(...verifyMandateReceipt(authorization.mandate, { home: this.context.home, request, now }).errors);
+    }
+    if (authorization?.invariant_sets.length) {
+      invariantEvaluation = evaluateLayeredInvariants(request, authorization.invariant_sets);
+      if (invariantEvaluation.decision === "denied") reasons.push(...invariantEvaluation.reasons);
+      if (authorization.invariant_match_required && invariantEvaluation.decision === "unmatched") reasons.push("invariant_match_required");
+    } else if (authorization?.invariant_match_required) reasons.push("invariant_match_required");
     const rule = this.policy.rules.find((item) => item.id === request.capability);
     if (!rule) reasons.push("capability_not_host_allowlisted");
     else {
@@ -111,6 +132,8 @@ export class ReferenceCapabilityProvider {
       reasons: reasons.length ? [...new Set(reasons)].sort() : ["host_policy_matched"],
       policy_digest: this.digest,
       ...(this.context.approval_ref ? { approval_receipt_ref: this.context.approval_ref } : {}),
+      ...(authorization?.mandate ? { mandate_ref: `host-local://mandates/${authorization.mandate.mandate_id}` } : {}),
+      ...(invariantEvaluation ? { invariant_evaluation_digest: invariantEvaluation.digest } : {}),
       decided_at: now.toISOString()
     };
     if (decisionKind !== "granted") return { decision };
@@ -132,6 +155,8 @@ export class ReferenceCapabilityProvider {
       budget: request.budget,
       policy_digest: request.policy_digest,
       ...(this.context.approval_ref ? { approval_receipt_ref: this.context.approval_ref } : {}),
+      ...(authorization?.mandate ? { mandate_ref: `host-local://mandates/${authorization.mandate.mandate_id}` } : {}),
+      ...(invariantEvaluation ? { invariant_evaluation_digest: invariantEvaluation.digest } : {}),
       issued_at: now.toISOString(),
       expires_at: new Date(now.getTime() + this.policy.grant_ttl_ms).toISOString(),
       opaque_token: randomBytes(32).toString("base64url")

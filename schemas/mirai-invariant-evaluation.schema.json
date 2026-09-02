@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zabarov.github.io/mirai/schemas/mirai-invariant-evaluation.schema.json",
+  "title": "Mirai Invariant Evaluation Result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract_version", "request_id", "decision", "matched_rule_ids", "denied_rule_ids", "protected_rule_ids", "reasons", "canonical_write_allowed", "digest"],
+  "properties": {
+    "contract_version": { "const": "1.0.0" },
+    "request_id": { "type": "string", "minLength": 1 },
+    "decision": { "enum": ["allowed", "denied", "unmatched"] },
+    "matched_rule_ids": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+    "denied_rule_ids": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+    "protected_rule_ids": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+    "reasons": { "type": "array", "minItems": 1, "items": { "type": "string" }, "uniqueItems": true },
+    "canonical_write_allowed": { "const": false },
+    "digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" }
+  }
+}

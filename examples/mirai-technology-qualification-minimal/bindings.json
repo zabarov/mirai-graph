@@ -1,0 +1,27 @@
+[
+  {
+    "step_id": "step.inspect",
+    "classification": "executable",
+    "acceptance": "owner_accepted",
+    "acceptance_ref": "evidence.classification.inspect",
+    "reason": "The operation is pure and deterministically bound to the reference adapter.",
+    "adapter": "pure",
+    "effects": ["pure"]
+  },
+  {
+    "step_id": "step.verify",
+    "classification": "verifiable",
+    "acceptance": "tester_accepted",
+    "acceptance_ref": "evidence.classification.verify",
+    "reason": "The result must be checked against the declared evidence contract.",
+    "verification_ref": "verification.change_evidence"
+  },
+  {
+    "step_id": "step.decide",
+    "classification": "decision",
+    "acceptance": "owner_accepted",
+    "acceptance_ref": "evidence.classification.decide",
+    "reason": "Acceptance is an owner decision and must not become an automatic effect.",
+    "owner_ref": "role.change_owner"
+  }
+]

@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zabarov.github.io/mirai/schemas/technology-qualification.schema.json",
+  "title": "Mirai Technology Qualification Result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract_version", "technology_id", "technology_version", "source_ref", "draft_digest", "status", "operations", "blocking_diagnostics", "simulation_allowed", "activation_allowed", "canonical_write_allowed", "digest"],
+  "properties": {
+    "contract_version": { "const": "1.0.0" },
+    "technology_id": { "type": "string", "minLength": 1 },
+    "technology_version": { "type": "string", "minLength": 1 },
+    "source_ref": { "type": "string", "minLength": 1 },
+    "draft_digest": { "$ref": "#/$defs/digest" },
+    "status": { "enum": ["instruction_only", "program_candidate", "hybrid_ready", "executable_ready", "blocked"] },
+    "operations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["step_id", "operation", "classification", "acceptance", "reason", "blockers"],
+        "properties": {
+          "step_id": { "type": "string", "minLength": 1 },
+          "operation": { "type": "string", "minLength": 1 },
+          "classification": { "$ref": "#/$defs/operationClass" },
+          "acceptance": { "enum": ["unreviewed", "owner_accepted", "tester_accepted"] },
+          "acceptance_ref": { "type": "string", "minLength": 1 },
+          "reason": { "type": "string", "minLength": 1 },
+          "program_ref": { "type": "string", "minLength": 1 },
+          "adapter": { "type": "string", "minLength": 1 },
+          "effects": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
+          "capability": { "type": "string", "minLength": 1 },
+          "verification_ref": { "type": "string", "minLength": 1 },
+          "owner_ref": { "type": "string", "minLength": 1 },
+          "blockers": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true }
+        }
+      }
+    },
+    "blocking_diagnostics": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["code", "severity", "message"],
+        "properties": {
+          "code": { "type": "string", "minLength": 1 },
+          "severity": { "const": "blocking" },
+          "message": { "type": "string", "minLength": 1 },
+          "source_span": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["file", "line"],
+            "properties": { "file": { "type": "string" }, "line": { "type": "integer", "minimum": 1 } }
+          }
+        }
+      }
+    },
+    "simulation_allowed": { "type": "boolean" },
+    "activation_allowed": { "const": false },
+    "canonical_write_allowed": { "const": false },
+    "digest": { "$ref": "#/$defs/digest" }
+  },
+  "$defs": {
+    "digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "operationClass": { "enum": ["executable", "verifiable", "advisory", "decision", "unsupported"] }
+  }
+}

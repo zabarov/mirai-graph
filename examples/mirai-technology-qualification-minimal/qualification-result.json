@@ -1,0 +1,50 @@
+{
+  "contract_version": "1.0.0",
+  "technology_id": "technology.change_review",
+  "technology_version": "1.0.0",
+  "source_ref": "change-review-technology.md",
+  "draft_digest": "sha256:dd5906fd62b6b7bb021ae1b4ec310129501a8bb0e8065278b71fbabec73052b1",
+  "status": "hybrid_ready",
+  "operations": [
+    {
+      "step_id": "step.inspect",
+      "classification": "executable",
+      "acceptance": "owner_accepted",
+      "acceptance_ref": "evidence.classification.inspect",
+      "reason": "The operation is pure and deterministically bound to the reference adapter.",
+      "adapter": "pure",
+      "effects": [
+        "pure"
+      ],
+      "operation": "inspect_change",
+      "blockers": []
+    },
+    {
+      "step_id": "step.verify",
+      "classification": "verifiable",
+      "acceptance": "tester_accepted",
+      "acceptance_ref": "evidence.classification.verify",
+      "reason": "The result must be checked against the declared evidence contract.",
+      "verification_ref": "verification.change_evidence",
+      "operation": "verify_evidence",
+      "effects": [],
+      "blockers": []
+    },
+    {
+      "step_id": "step.decide",
+      "classification": "decision",
+      "acceptance": "owner_accepted",
+      "acceptance_ref": "evidence.classification.decide",
+      "reason": "Acceptance is an owner decision and must not become an automatic effect.",
+      "owner_ref": "role.change_owner",
+      "operation": "accept_or_reject",
+      "effects": [],
+      "blockers": []
+    }
+  ],
+  "blocking_diagnostics": [],
+  "simulation_allowed": true,
+  "activation_allowed": false,
+  "canonical_write_allowed": false,
+  "digest": "sha256:17ce69c18b949d8bb771f8cfa21b0e54994fd478e05a48f5c81132bb610fc603"
+}

@@ -6,6 +6,8 @@ export const RECEIPT_CONTRACT_VERSION = "1.0.0" as const;
 export const CHECKPOINT_CONTRACT_VERSION = "1.0.0" as const;
 export const RUN_CONTRACT_VERSION = "1.0.0" as const;
 export const EPISODE_CONTRACT_VERSION = "1.0.0" as const;
+export const MANDATE_CONTRACT_VERSION = "1.0.0" as const;
+export const INVARIANT_CONTRACT_VERSION = "1.0.0" as const;
 
 export type EffectName = "repository_read" | "git_read" | "workspace_patch" | "process_run" | "human_approval";
 export type ReceiptStatus = "prepared" | "executed" | "verified" | "failed" | "uncertain" | "compensated";
@@ -38,6 +40,8 @@ export interface PolicyDecisionRecord {
   reasons: string[];
   policy_digest: string;
   approval_receipt_ref?: string;
+  mandate_ref?: string;
+  invariant_evaluation_digest?: string;
   decided_at: string;
 }
 
@@ -59,9 +63,65 @@ export interface CapabilityGrant {
   budget: CapabilityRequest["budget"];
   policy_digest: string;
   approval_receipt_ref?: string;
+  mandate_ref?: string;
+  invariant_evaluation_digest?: string;
   issued_at: string;
   expires_at: string;
   opaque_token: string;
+}
+
+export interface MandateReceipt {
+  contract_version: typeof MANDATE_CONTRACT_VERSION;
+  mandate_id: string;
+  status: "active" | "revoked";
+  subject: string;
+  issuer: string;
+  run_id: string;
+  program_digest: string;
+  input_digest: string;
+  policy_digest: string;
+  request_scopes: ApprovalRequestScope[];
+  issued_at: string;
+  expires_at: string;
+  revocation_ref?: string;
+  canonical_write_allowed: false;
+  signature_algorithm: "hmac-sha256-local";
+  signature: string;
+}
+
+export type InvariantLayer = "system" | "organization" | "program" | "project" | "task";
+
+export interface InvariantRule {
+  id: string;
+  layer: InvariantLayer;
+  decision: "allow" | "deny";
+  protected: boolean;
+  adapters: string[];
+  operations: string[];
+  effects: EffectName[];
+  resource_prefixes: string[];
+  reason: string;
+}
+
+export interface LayeredInvariantSet {
+  contract_version: typeof INVARIANT_CONTRACT_VERSION;
+  id: string;
+  version: string;
+  rules: InvariantRule[];
+  canonical_write_allowed: false;
+  digest: string;
+}
+
+export interface InvariantEvaluationResult {
+  contract_version: typeof INVARIANT_CONTRACT_VERSION;
+  request_id: string;
+  decision: "allowed" | "denied" | "unmatched";
+  matched_rule_ids: string[];
+  denied_rule_ids: string[];
+  protected_rule_ids: string[];
+  reasons: string[];
+  canonical_write_allowed: false;
+  digest: string;
 }
 
 export type ApprovalRequestScope = Omit<CapabilityRequest, "contract_version" | "request_id" | "request_digest" | "approval_required">;

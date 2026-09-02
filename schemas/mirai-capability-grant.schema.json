@@ -23,6 +23,8 @@
     "budget": { "type": "object", "required": ["max_calls"], "properties": { "max_calls": { "type": "integer", "minimum": 1 }, "max_bytes": { "type": "integer", "minimum": 1 }, "timeout_ms": { "type": "integer", "minimum": 1 } }, "additionalProperties": false },
     "policy_digest": { "$ref": "#/$defs/digest" },
     "approval_receipt_ref": { "type": "string", "minLength": 1 },
+    "mandate_ref": { "type": "string", "minLength": 1 },
+    "invariant_evaluation_digest": { "$ref": "#/$defs/digest" },
     "issued_at": { "type": "string", "format": "date-time" },
     "expires_at": { "type": "string", "format": "date-time" },
     "opaque_token": { "type": "string", "minLength": 32 }
