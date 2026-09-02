@@ -23,6 +23,12 @@ const provenanceKeys = ["dependency_lock_sha256", "private_config_digest", "publ
 const runtimeKeys = ["arch", "node", "platform"];
 const auditKeys = ["allowed_write_count", "canonical_write_attempted", "external_effect_adapters_invoked", "output_existed_before", "output_policy", "source_git_states_unchanged", "source_snapshots_unchanged"];
 const allowedOperations = ["filesystem.scan", "source.snapshot", "source.convert", "knowledge.organize", "technology.observe", "evolution.plan"];
+const expectedSourceAliases = new Map([
+  ["pilot.controlled.ai-employee", "ai-employee"],
+  ["pilot.controlled.federation", "federation"],
+  ["pilot.controlled.modular-software", "modular-software"],
+  ["pilot.controlled.self-hosting", "self-hosting"]
+]);
 
 function exactKeys(value, expected, label) {
   if (!value || typeof value !== "object" || Array.isArray(value)) {
@@ -50,12 +56,11 @@ function containsPrivatePath(value) {
   if (value && typeof value === "object") return Object.values(value).some(containsPrivatePath);
   if (typeof value !== "string") return false;
   const text = value.trim();
-  if (/^file:\/\//i.test(text)) return true;
-  if (/^(?:[a-z]:[\\/]|\\\\)/i.test(text)) return true;
+  if (/file:\/\//i.test(text)) return true;
+  if (/(?:^|[^A-Za-z0-9])[a-z]:[\\/]/i.test(text)) return true;
+  if (/(?:^|[\s"'`(=:[,{])\\\\[^\s"'`]+[\\/]/.test(value)) return true;
   if (/^\/(?!\/)/.test(text)) return true;
-  if (/(?:^|[\s"'`(=])\/(?!\/)[^\s"'`]+/.test(value)) return true;
-  if (/(?:^|[\s"'`(=])[a-z]:[\\/][^\s"'`]+/i.test(value)) return true;
-  if (/(?:^|[\s"'`(=])\\\\[^\s"'`]+/.test(value)) return true;
+  if (/(?:^|[\s"'`(=:[,{])\/(?!\/)[^\s"'`]+/.test(value)) return true;
   return false;
 }
 
@@ -83,6 +88,7 @@ if (report.effect_audit?.source_snapshots_unchanged !== true || report.effect_au
 for (const result of report.results || []) {
   exactKeys(result, resultKeys, result.id || "result");
   if (result.source_kind !== "real_repository_subset" || result.mode !== "observe_suggest") errors.push(`${result.id}:not_real_observe_pilot`);
+  if (expectedSourceAliases.get(result.id) !== result.source_alias) errors.push(`${result.id}:source_alias_invalid`);
   count(result.source_item_count, `${result.id}:source_item_count`);
   count(result.normalized_unit_count, `${result.id}:normalized_unit_count`);
   for (const key of ["blocking_conversion_diagnostic_count", "assertion_count", "relation_count", "conflict_count", "process_observation_count", "process_candidate_count", "technology_draft_allowed_count", "evolution_change_proposal_count"]) count(result[key], `${result.id}:${key}`);
