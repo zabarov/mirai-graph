@@ -191,7 +191,9 @@ try {
   check("capsule_writer_creates_no_legacy_root_or_host_state", !fs.existsSync(path.join(capsule, "graph")) && !fs.existsSync(capsuleState));
   check("capsule_writer_preserves_facade_and_lock", facadeBefore.equals(fs.readFileSync(path.join(capsule, "graph.json"))) && lockBefore.equals(fs.readFileSync(path.join(capsule, "mirai/manifest.lock.json"))));
   const capsuleStart = technology.execute("sync", capsule, { apply: true, boundary: "task_start", stateRoot: capsuleState });
-  check("invalid_capsule_task_start_blocks_without_writes", capsuleStart.status === "blocked" && !capsuleStart.changed && !fs.existsSync(capsuleState), capsuleStart);
+  check("invalid_capsule_task_start_blocks_without_writes", capsuleStart.status === "blocked"
+    && capsuleStart.blockers.includes("missing_or_invalid:project.kind")
+    && !capsuleStart.changed && !fs.existsSync(capsuleState), capsuleStart);
   const capsuleFile = path.join(capsule, "mirai/graph/specs/project.json");
   fs.unlinkSync(capsuleFile);
   fs.symlinkSync(path.join(repo, "README.md"), capsuleFile);

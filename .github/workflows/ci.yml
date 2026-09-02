@@ -76,6 +76,12 @@ jobs:
       - name: Verify deterministic context traversal
         run: node packages/cli/validate-context-traversal.js
 
+      - name: Install project continuity dependencies
+        run: npm ci
+
+      - name: Build Capsule provider for continuity checks
+        run: npm run build
+
       - name: Verify portable project continuity
         run: node packages/cli/validate-project-continuity.js
 
