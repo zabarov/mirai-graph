@@ -166,6 +166,38 @@ try {
   const bootstrapContext = technology.context(bootstrapRepo, { phase: "discover", task: "bootstrap context" });
   check("new_git_graph_is_content_bound_before_first_commit", bootstrapContext.status === "success" && String(bootstrapContext.traversal_receipt.graph.revision).startsWith("content:"), bootstrapContext.blockers);
 
+  const capsule = path.join(root, "capsule");
+  const capsuleManifest = manifest("capsule-project");
+  capsuleManifest.graph = {
+    ...capsuleManifest.graph, root: "mirai/graph", source_of_truth: ["mirai/graph"],
+    objects: ["mirai/graph/specs/project.json"], relations: ["mirai/graph/specs/relations.json"], generated: [],
+  };
+  writeJson(path.join(capsule, "graph.json"), capsuleManifest);
+  writeJson(path.join(capsule, "mirai/graph/specs/project.json"), [{ id: "goal.capsule", summary: "before" }]);
+  writeJson(path.join(capsule, "mirai/graph/specs/relations.json"), []);
+  fs.writeFileSync(path.join(capsule, "mirai/manifest.yaml"), "contract_version: 1.0.0\n");
+  writeJson(path.join(capsule, "mirai/manifest.lock.json"), { diagnostic: "not an execution authorization" });
+  const capsuleDigest = technology.continuity.graphDigest(capsule);
+  writeJson(path.join(capsule, "mirai/graph/specs/project.json"), [{ id: "goal.capsule", summary: "after" }]);
+  check("capsule_data_changes_invalidate_digest", technology.continuity.graphDigest(capsule) !== capsuleDigest);
+  const afterData = technology.continuity.graphDigest(capsule);
+  writeJson(path.join(capsule, "mirai/manifest.lock.json"), { diagnostic: "changed" });
+  check("capsule_lock_changes_invalidate_digest", technology.continuity.graphDigest(capsule) !== afterData);
+  const facadeBefore = fs.readFileSync(path.join(capsule, "graph.json"));
+  const lockBefore = fs.readFileSync(path.join(capsule, "mirai/manifest.lock.json"));
+  const capsuleState = path.join(root, "capsule-host-state");
+  const capsuleSync = technology.execute("sync", capsule, { apply: true, boundary: "task_complete", continuityEvidence: evidence("capsule"), stateRoot: capsuleState });
+  check("capsule_legacy_writer_fails_closed", capsuleSync.status === "blocked" && capsuleSync.blockers.includes("continuity_capsule_write_requires_project_transaction"), capsuleSync);
+  check("capsule_writer_creates_no_legacy_root_or_host_state", !fs.existsSync(path.join(capsule, "graph")) && !fs.existsSync(capsuleState));
+  check("capsule_writer_preserves_facade_and_lock", facadeBefore.equals(fs.readFileSync(path.join(capsule, "graph.json"))) && lockBefore.equals(fs.readFileSync(path.join(capsule, "mirai/manifest.lock.json"))));
+  const capsuleStart = technology.execute("sync", capsule, { apply: true, boundary: "task_start", stateRoot: capsuleState });
+  check("invalid_capsule_task_start_blocks_without_writes", capsuleStart.status === "blocked" && !capsuleStart.changed && !fs.existsSync(capsuleState), capsuleStart);
+  const capsuleFile = path.join(capsule, "mirai/graph/specs/project.json");
+  fs.unlinkSync(capsuleFile);
+  fs.symlinkSync(path.join(repo, "README.md"), capsuleFile);
+  assert.throws(() => technology.continuity.graphDigest(capsule), /continuity_capsule_unsafe_path/);
+  check("capsule_symlink_cannot_be_silently_omitted", true);
+
   process.stdout.write(`${JSON.stringify({ status: "success", checks_passed: checks.length, checks_failed: 0, checks }, null, 2)}\n`);
 } catch (error) {
   process.stdout.write(`${JSON.stringify({ status: "fail", checks_passed: checks.filter((item) => item.passed).length, checks_failed: 1, checks, error: error.message }, null, 2)}\n`);

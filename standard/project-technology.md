@@ -102,8 +102,9 @@ task context -> verified outcome -> semantic candidate -> mirai/graph/specs
 `mirai/graph/specs` is the preferred portable authority. Legacy `graph/specs`
 remains readable during 2.x migration. Chat history and local workflow files
 are not required by another person or installation. Mutable receipts and
-rollback data are stored outside the project in a host-local directory keyed by
-`graph.id`.
+rollback data are local, not portable graph data. Legacy continuity uses a
+host-local directory keyed by `graph.id`; Capsule transactions use the ignored
+`.mirai/project-updates/` store. Do not commit or export that store.
 
 The existing `sync` operation accepts `task_start`, `stage_complete` and
 `task_complete`. Task start is read-only. A completed stage or task requires a
@@ -115,6 +116,8 @@ Two independent verified cases with the same signature may promote a method
 lesson when they do not change architecture. Repeated input is byte-identical
 and returns `changed=false`. Shared folders without Git additionally use a
 lease, compare-and-swap graph digest, backup, atomic write and readback.
+For Capsules, these rules build candidates only: every resulting canonical
+change still requires the exact-proposal host approval described below.
 
 ## Sequential Context Traversal
 
@@ -182,6 +185,111 @@ The architecture boundary carries exact component, package and capability
 identities, ownership for data/access/lifecycle/interface/runtime, required and
 forbidden relations, and dependency constraints. This keeps an imported target
 executable without copying the provider's private source or full graph.
+
+## Reference Implementation Compatibility
+
+The Capsule layout uses an approval-bound transaction, not the legacy writer.
+Without a prepared proposal and trusted host approval verifier,
+`stage_complete` and `task_complete` return
+`continuity_capsule_write_requires_project_transaction` before canonical writes
+or creating a legacy `graph/` root. Do not remove the Capsule or disable its
+boundary to bypass this diagnostic.
+
+Read-only continuity fingerprinting includes Capsule graph contents, manifest
+and lock bytes. This detects drift; it does not validate the lock or authorize
+execution. `task_start` remains read-only. Legacy `graph/` continuity behavior
+is retained for existing projects.
+
+Capsule target-provider discovery uses the existing Capsule validator and a
+fresh manifest lock and START. It reads only manifest-declared object files,
+accepts arrays and individual objects, and rejects duplicate identities.
+The target, manifest, lock, facade and supporting declaration files must be
+tracked and unchanged at the exact provider revision. A merely reviewed target
+is not accepted. The facade must agree with the Capsule declarations.
+
+Capsule exports use `.mirai/evidence/project-technology/target-provider-export.json`.
+Exporting does not modify the Capsule or authorize canonical changes. Import
+rechecks the exact Capsule target contract; rewriting an export and its digest
+cannot replace that contract. Unsafe output paths and symlink ancestors fail
+closed. Legacy projects retain their existing indexed target format and
+`graph/generated/project-technology/target-provider-export.json` export path.
+
+The programmatic integration is available through
+`continuity.prepareCapsuleContinuity(repo, boundary, evidence)` followed by
+`continuity.sync(repo, facade, boundary, evidence, { capsuleProposal, capsuleHost })`.
+The trusted host must authorize the exact proposal before sync. There is no CLI
+flag that replaces this host integration. Existing installations must adopt the
+API separately; a development checkout does not update them.
+
+### Capsule Update API
+
+`@zabarov/mirai/project` exports:
+
+- `validateProjectUpdateProposal(root, proposal)`: recompute immutable before/after
+  images without authorizing or applying them; domain consumers must additionally
+  validate their own semantics, not trust arbitrary proposal context labels.
+- `prepareProjectUpdate(root, changes, context)`: prepare exact before/after
+  images and generated lock, START and facade in disposable staging. The project
+  remains unchanged. Only existing, declared graph JSON files may be edited.
+- `applyProjectUpdate(root, proposal, host)`: verify the proposal, exact project
+  binding and host approval; compare the complete Capsule snapshot; acquire a
+  lease, journal the backups, write and read back, then record a receipt.
+- `recoverProjectUpdate(root, proposalDigest, action, host)`: explicitly finish
+  or roll back an interrupted transaction after renewed authority and hash checks.
+  A committed receipt is final; rollback after commit requires a new proposal.
+
+`host.verify_approval(request)` is a function installed by trusted application
+code, not graph data. It checks an out-of-band approval registry or service and
+returns an approval identifier, exact proposal digest, project binding, action
+(`apply` or `rollback`) and expiry, or denies the request. The verifier must not
+blindly reflect the request into an approval. An `approved: true` JSON document,
+`--apply`, a passing test or an execution mandate cannot grant this authority.
+The host authenticates owners and checks the domain meaning of graph changes.
+
+The authoring manifest, owner notes and program/policy entrypoints are not
+writable by this API. Graph objects must retain unique identities. Preparation
+and apply are bounded to 16 MiB and 2,000 snapshot entries. Capsules with external
+entrypoints or unsupported layouts fail closed rather than silently relocating
+data. Proposal images may contain private Capsule data: they are local review
+artifacts, not automatically sanitized public exports.
+
+Continuity recomputes its exact object delta from the verified pre-image and
+evidence before invoking apply. Receipts bind the IDs and digests of saved
+objects; current Capsule validation and saved-record checks gate task entry.
+Existing owned continuity records can be updated in a new approved proposal
+(for example stage completion or a second supporting case); foreign conflicting
+identities remain blocked. A single-object entrypoint may become a collection
+only as an explicit byte-level change in that proposal.
+
+Public sync distinguishes rejection, pending changes, and committed data awaiting
+host receipt projection. It preserves the proposal digest and recovery action.
+After successful recovery, retry the same proposal to repair receipt projection;
+do not invent a new proposal or infer that `blocked` means nothing was written.
+
+### Transaction And Recovery Boundary
+
+This is recoverable multi-file writing with a reader barrier, not filesystem-wide
+atomicity. While `.mirai/project-update.pending.json` exists, Capsule validation,
+agent inspection and compilation fail closed. Consumers must use verified locks;
+direct filesystem readers are not isolated. Runtime snapshots already verified
+before a transaction remain immutable and are not rewritten by it.
+
+Before active writes, the fsynced journal stores the approved proposal and original
+bytes. Each active write uses a temporary file and rename, preserving file modes.
+Receipts are recorded only after exact snapshot readback. Repeating a committed
+proposal is a no-op; evidence never authorizes a new update. Recovery accepts only
+the journal's before/after bytes. Unknown files, foreign edits, corrupt journals,
+expired approvals and pending transactions belonging to another proposal block
+recovery rather than cause an overwrite or deletion.
+
+Leases are cooperative and single-host. Explicit recovery may quarantine a dead
+process lease; it never steals a live lease. An orphaned reclaim guard, malformed
+lease or unexplained temporary file requires operator inspection. Do not delete
+those files blindly. Receipts/backups do not provide distributed locking or
+protection against a hostile user who can rewrite the process's own local state.
+Use access-controlled local filesystems; network filesystems and power-loss
+behavior on unsupported platforms require separate qualification. Directory
+fsync is used where supported; Windows verification remains a release gate.
 
 ## Hybrid Source Of Truth
 

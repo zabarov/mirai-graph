@@ -9,13 +9,17 @@
     {
       "id": "gate.2_1_backward_compatibility",
       "category": "compatibility",
-      "status": "passed",
+      "status": "blocked",
       "evidence_refs": [
         "package.json",
         "test/project/project-capsule.test.cjs",
-        "test/runtime/governed-runtime.test.cjs"
+        "test/project/project-update.test.cjs",
+        "test/runtime/governed-runtime.test.cjs",
+        "packages/cli/validate-project-continuity.js",
+        "standard/project-technology.md"
       ],
-      "summary": "Mirai Program 1.0.0, Runtime 1.0.0, Project Capsule and 2.x CLI compatibility remain in the automated suite."
+      "summary": "Capsule target discovery and approval-bound continuity transactions are implemented locally, including pending-reader barriers, CAS, journal, recovery and idempotent receipts. Program and Runtime behavior is unchanged.",
+      "blocker_reason": "Freeze the verified Capsule compatibility delta and bind independent review and cross-platform evidence to that exact candidate. Local implementation/tests do not update installed Federation or authorize a real canonical apply."
     },
     {
       "id": "gate.2_2_source_converter_contracts",
@@ -120,13 +124,14 @@
     {
       "id": "gate.2_2_independent_security_review",
       "category": "safety",
-      "status": "passed",
+      "status": "blocked",
       "evidence_refs": [
         "docs/security/mirai-2.2-independent-ai-security-review-2026-09-03.json",
         "docs/security/mirai-2.2-independent-ai-security-review-2026-09-03.md",
         "docs/security/mirai-2.2-independent-review-method-decision-2026-09-03.json"
       ],
-      "summary": "Isolated exact-candidate review found zero unresolved Critical/High; the unchanged 2.1 core was verified against its reviewed baseline.",
+      "summary": "The prior isolated review remains evidence for its frozen candidate, not for the subsequent Project Technology continuity correction.",
+      "blocker_reason": "Review the Capsule compatibility delta and rebind the final review to the new candidate; do not reuse the previous exact-revision verdict as current acceptance.",
       "limitations": [
         "One Medium concurrent-filesystem observation and one Low compiler-diagnostic observation remain, without a reproduced authority bypass.",
         "This is owner-authorized AI-assisted review, not an external human audit or production-write approval."
@@ -171,10 +176,12 @@
     }
   ],
   "blocking_gate_ids": [
+    "gate.2_1_backward_compatibility",
     "gate.2_2_public_independent_conformance",
+    "gate.2_2_independent_security_review",
     "gate.2_2_cross_platform_clean_room",
     "gate.2_2_stable_release_metadata"
   ],
-  "next_safe_action": "Obtain explicit permission to push the prepared product and independent-checker branches for public CI. Recheck the final exact revision there; stable publication remains separate.",
+  "next_safe_action": "Complete and review Capsule Project Technology compatibility before freezing a new exact candidate. Public CI, branch push and stable publication retain their separate approval boundaries.",
   "claim_boundary": "This report separates local engineering and owner-authorized AI-assisted review evidence from public CI, external human review, scientific proof and production-write authority. A locally validated candidate is not a stable release."
 }

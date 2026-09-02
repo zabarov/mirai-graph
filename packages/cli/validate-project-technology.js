@@ -109,6 +109,27 @@ function addTarget(repo, contract = executionContract(), lifecycle = "accepted")
   return git(repo, "rev-parse", "HEAD");
 }
 
+function initCapsuleProvider(root, name, single = false) {
+  const project = require("../../dist/cjs/project");
+  const repo = path.join(root, name);
+  fs.mkdirSync(repo, { recursive: true });
+  project.initProjectCapsule(repo);
+  const facade = JSON.parse(fs.readFileSync(path.join(repo, "graph.json"), "utf8"));
+  facade.extensions = { "mirai.project_technology": technology.extensionContract() };
+  writeJson(path.join(repo, "graph.json"), facade);
+  const target = {
+    id: TARGET_ID, kind: "knowledge", tz_role: "system", lifecycle: "accepted",
+    title: "Synthetic accepted target", semantic_digest: SEMANTIC_DIGEST,
+    provider_execution_contract: executionContract(),
+  };
+  writeJson(path.join(repo, "mirai/graph/objects.json"), single ? target : [target]);
+  project.compileProjectCapsule(repo);
+  git(repo, "init", "-q"); git(repo, "config", "user.name", "Mirai Fixture");
+  git(repo, "config", "user.email", "fixture@example.invalid");
+  git(repo, "add", "."); git(repo, "commit", "-qm", "synthetic capsule target");
+  return { repo, target, project };
+}
+
 const checks = [];
 function check(id, condition, details = null) {
   checks.push({ id, passed: Boolean(condition), details });
@@ -289,6 +310,50 @@ try {
   });
   const cliDotResult = JSON.parse(cliDot.stdout);
   check("unified_cli_resolves_relative_repo_from_caller_cwd", cliDot.status === 0 && cliDotResult.repository_id === "fixture-federation", cliDotResult);
+
+  for (const single of [false, true]) {
+    const { repo, project } = initCapsuleProvider(root, `capsule-${single ? "single" : "array"}`, single);
+    const capsuleOptions = { apply: true, targetId: TARGET_ID, semanticDigest: SEMANTIC_DIGEST, providerRevision: git(repo, "rev-parse", "HEAD") };
+    const baseline = git(repo, "status", "--porcelain=v1");
+    const first = technology.execute("provide", repo, capsuleOptions);
+    check(`capsule_${single ? "single" : "array"}_target_exports`, first.status === "success" && first.export_ref === ".mirai/evidence/project-technology/target-provider-export.json", first.blockers);
+    check("capsule_export_preserves_canonical_files_and_lock", baseline === git(repo, "status", "--porcelain=v1") && project.validateProjectCapsule(repo).valid && !fs.existsSync(path.join(repo, "graph")));
+    check("capsule_export_is_idempotent", technology.execute("provide", repo, capsuleOptions).changed === false);
+    const capsuleConsumer = initRepo(root, `capsule-consumer-${single}`);
+    technology.execute("enable", capsuleConsumer, { apply: true });
+    const imported = technology.execute("connect", capsuleConsumer, { ...capsuleOptions, source: path.join(repo, first.export_ref) });
+    check("capsule_export_connects_with_exact_revision", imported.status === "success", imported.blockers);
+    const forged = JSON.parse(fs.readFileSync(path.join(repo, first.export_ref), "utf8"));
+    forged.non_goal_ids = ["non_goal.fixture.forged"];
+    forged.execution_contract_digest = technology.sha256(technology.canonicalBytes(technology.normalizeExecutionContract(forged).contract));
+    const forgedPath = path.join(repo, ".mirai/evidence/project-technology/forged-export.json");
+    writeJson(forgedPath, forged);
+    const forgedImport = technology.execute("connect", capsuleConsumer, { ...capsuleOptions, source: forgedPath });
+    check("capsule_export_cannot_replace_canonical_contract", forgedImport.status === "fail" && forgedImport.blockers.includes("provider_export_does_not_match_capsule_target"), forgedImport.blockers);
+  }
+
+  const capsuleNegativeCases = [
+    ["missing_lock", ({ repo }) => fs.unlinkSync(path.join(repo, "mirai/manifest.lock.json")), "provider_capsule_lock_or_start_invalid"],
+    ["forged_lock", ({ repo }) => writeJson(path.join(repo, "mirai/manifest.lock.json"), { digest: SEMANTIC_DIGEST }), "provider_capsule_lock_or_start_invalid"],
+    ["stale_start", ({ repo }) => fs.appendFileSync(path.join(repo, "mirai/START.md"), "tampered\n"), "provider_capsule_lock_or_start_invalid"],
+    ["stale_graph", ({ repo, target }) => writeJson(path.join(repo, "mirai/graph/objects.json"), [{ ...target, title: "changed" }]), "provider_capsule_lock_or_start_invalid"],
+    ["dirty_target", ({ repo, target, project }) => { writeJson(path.join(repo, "mirai/graph/objects.json"), [{ ...target, title: "changed" }]); project.compileProjectCapsule(repo); }, "provider_target_object_not_revision_bound"],
+    ["untracked_target", ({ repo }) => git(repo, "rm", "--cached", "mirai/graph/objects.json"), "provider_target_object_not_revision_bound"],
+    ["duplicate_target", ({ repo, target, project }) => { writeJson(path.join(repo, "mirai/graph/objects.json"), [target, target]); project.compileProjectCapsule(repo); git(repo, "add", "."); git(repo, "commit", "-qm", "duplicate fixture"); }, "provider_capsule_duplicate_identity"],
+    ["reviewed_not_accepted", ({ repo, target, project }) => { writeJson(path.join(repo, "mirai/graph/objects.json"), [{ ...target, lifecycle: "reviewed" }]); project.compileProjectCapsule(repo); git(repo, "add", "."); git(repo, "commit", "-qm", "reviewed fixture"); }, "provider_target_not_accepted"],
+    ["facade_redirect", ({ repo }) => { const facade = JSON.parse(fs.readFileSync(path.join(repo, "graph.json"))); facade.graph.objects = ["graph/other.json"]; writeJson(path.join(repo, "graph.json"), facade); }, "provider_capsule_facade_mismatch"],
+    ["target_symlink", ({ repo }) => { const file = path.join(repo, "mirai/graph/objects.json"); fs.unlinkSync(file); fs.symlinkSync(path.join(provider, "README.md"), file); }, "provider_capsule_invalid"],
+    ["export_parent_symlink", ({ repo }) => fs.symlinkSync(root, path.join(repo, ".mirai"), "dir"), "provider_capsule_lock_or_start_invalid"],
+    ["export_dangling_symlink", ({ repo }) => fs.symlinkSync(path.join(root, "absent"), path.join(repo, ".mirai"), "dir"), "provider_capsule_lock_or_start_invalid"],
+  ];
+  for (const [id, mutate, expected] of capsuleNegativeCases) {
+    const fixture = initCapsuleProvider(root, `capsule-negative-${id}`);
+    mutate(fixture);
+    const baseline = git(fixture.repo, "status", "--porcelain=v1");
+    const denied = technology.execute("provide", fixture.repo, { apply: true, targetId: TARGET_ID, semanticDigest: SEMANTIC_DIGEST, providerRevision: git(fixture.repo, "rev-parse", "HEAD") });
+    check(`capsule_rejects_${id}`, denied.status === "fail" && denied.blockers.includes(expected), denied.blockers);
+    check(`capsule_rejection_${id}_writes_nothing`, git(fixture.repo, "status", "--porcelain=v1") === baseline && !fs.existsSync(path.join(fixture.repo, "graph")));
+  }
 
   process.stdout.write(`${JSON.stringify({ status: "success", checks_passed: checks.length, checks_failed: 0, checks }, null, 2)}\n`);
 } finally {

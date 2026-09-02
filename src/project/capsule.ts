@@ -3,6 +3,7 @@ import path from "node:path";
 import { parseDocument, stringify } from "yaml";
 import { canonicalize, digestValue, resolveConfinedPath, sha256 } from "../core/index.js";
 import type { AgentExecutionBrief, MiraiProjectLock, MiraiProjectManifest, ProjectDetectionResult, ProjectKind } from "./types.js";
+import { assertNoPendingProjectUpdate } from "./transaction-boundary.js";
 
 export const CAPSULE_DIR = "mirai";
 export const MANIFEST_PATH = "mirai/manifest.yaml";
@@ -209,6 +210,7 @@ export function generateProjectStart(lock: MiraiProjectLock, ownerNotes: string)
 
 export function compileProjectCapsule(projectRoot: string): { lock: MiraiProjectLock; start: string; lock_path: string; start_path: string } {
   const root = path.resolve(projectRoot);
+  assertNoPendingProjectUpdate(root);
   const manifest = readProjectManifest(root);
   const portableDirectories = [
     manifest.entrypoints.programs,
@@ -239,6 +241,7 @@ export function compileProjectCapsule(projectRoot: string): { lock: MiraiProject
 export function validateProjectCapsule(projectRoot: string): { valid: boolean; status: ProjectDetectionResult["status"]; errors: string[]; lock?: MiraiProjectLock } {
   const root = path.resolve(projectRoot);
   try {
+    assertNoPendingProjectUpdate(root);
     const expected = createProjectLock(root);
     const lockPath = path.join(root, LOCK_PATH);
     if (!fs.existsSync(lockPath)) return { valid: false, status: "needs_compile", errors: ["missing_manifest_lock"] };
@@ -250,6 +253,7 @@ export function validateProjectCapsule(projectRoot: string): { valid: boolean; s
     const expectedStart = generateProjectStart(expected, fs.existsSync(notesPath) ? readPortableText(notesPath) : "");
     const startPath = path.join(root, expected.manifest.documentation.start);
     if (!fs.existsSync(startPath) || readPortableText(startPath) !== expectedStart) errors.push("stale_or_modified_generated_start");
+    assertNoPendingProjectUpdate(root);
     return errors.length ? { valid: false, status: "needs_compile", errors } : { valid: true, status: "current", errors: [], lock: actual };
   } catch (error) {
     return { valid: false, status: "invalid", errors: [error instanceof Error ? error.message : String(error)] };

@@ -17,6 +17,7 @@ const traversal = require("./context-traversal");
 const continuity = require("./continuity");
 const artifacts = require("./artifact-release");
 const technologyCourse = require("./technology-course");
+const capsuleProvider = require("./capsule-provider");
 
 const CONTRACT_VERSION = "1.0.0";
 const EXTENSION_KEY = "mirai.project_technology";
@@ -387,14 +388,27 @@ function specObjectFiles(repo, manifest) {
 function targetContract(repo, targetId, semanticDigest, manifest) {
   const blockers = [];
   const matches = [];
-  for (const file of specObjectFiles(repo, manifest)) {
-    try { const object = readJson(file); if (object.id === targetId) matches.push({ object, file }); } catch (_) { blockers.push("provider_target_object_invalid"); }
+  let capsule = null;
+  if (capsuleProvider.isCapsule(repo, manifest)) {
+    try {
+      capsule = capsuleProvider.load(repo);
+      matches.push(...capsule.records.filter((entry) => entry.object.id === targetId));
+    } catch (error) {
+      const code = String(error.message || "");
+      return { contract: {}, blockers: [/^provider_capsule_[a-z_]+$/.test(code) ? code : "provider_capsule_invalid"] };
+    }
+  } else {
+    for (const file of specObjectFiles(repo, manifest)) {
+      try { const object = readJson(file); if (object.id === targetId) matches.push({ object, file }); } catch (_) { blockers.push("provider_target_object_invalid"); }
+    }
   }
   if (matches.length !== 1) return { contract: {}, blockers: [...blockers, "provider_target_object_count_invalid"] };
   const target = matches[0].object;
-  const relative = path.relative(repo, matches[0].file).split(path.sep).join("/");
-  if (!trackedFiles(repo).includes(relative)) blockers.push("provider_target_object_not_revision_bound");
-  const clean = spawnSync("git", ["diff", "--quiet", "HEAD", "--", relative], { cwd: repo });
+  const relative = matches[0].relative || path.relative(repo, matches[0].file).split(path.sep).join("/");
+  const revisionRefs = capsule ? capsule.revisionRefs : [relative];
+  const tracked = new Set(trackedFiles(repo));
+  if (revisionRefs.some((ref) => !tracked.has(ref))) blockers.push("provider_target_object_not_revision_bound");
+  const clean = spawnSync("git", ["diff", "--quiet", "HEAD", "--", ...revisionRefs], { cwd: repo });
   if (clean.status !== 0) blockers.push("provider_target_object_not_revision_bound");
   if (!["system", "contract"].includes(target.tz_role)) blockers.push("provider_target_role_not_canonical");
   if (!ACCEPTED_LIFECYCLES.has(target.lifecycle)) blockers.push("provider_target_not_accepted");
@@ -626,9 +640,12 @@ function sync(repoArg, options = {}) {
   if (options.boundary) {
     continuityResult = continuity.sync(repo, manifestState.manifest, options.boundary, options.continuityEvidence, options);
     if (continuityResult.status !== "success") return result("sync", "transactional", continuityResult.status, {
+      changed: Boolean(continuityResult.changed),
       blockers: continuityResult.blockers,
       continuity: continuityResult.continuity || null,
-      next_action: "repair the continuity evidence or reconcile the graph state",
+      transaction: continuityResult.transaction || null,
+      next_safe_action: continuityResult.next_safe_action || "repair_the_continuity_evidence_or_reconcile_the_graph_state",
+      next_action: continuityResult.next_safe_action || "repair the continuity evidence or reconcile the graph state",
     });
     if (options.boundary === "task_start") return result("sync", "read_only", "success", {
       changed: false,
@@ -662,8 +679,12 @@ function provide(repoArg, options = {}) {
   if (blockers.length) return result("provide", "transactional", "fail", { blockers: [...new Set(blockers)].sort(), next_action: "repair the accepted target contract" });
   const executionContractDigest = sha256(canonicalBytes(target.contract));
   const payload = { schema_version: "1.0.0", ...identity.values, ...target.contract, execution_contract_digest: executionContractDigest };
-  const changed = atomicWrite(path.join(repo, EXPORT_FILE), canonicalBytes(payload));
-  return result("provide", "transactional", "success", { changed, export_ref: EXPORT_FILE, target_binding: payload });
+  const capsule = capsuleProvider.isCapsule(repo, manifestState.manifest);
+  let exportPath;
+  try { exportPath = capsule ? capsuleProvider.exportPath(repo) : path.join(repo, EXPORT_FILE); }
+  catch (_) { return result("provide", "transactional", "fail", { blockers: ["provider_export_path_unsafe"], next_action: "repair the local export path without changing Capsule authority" }); }
+  const changed = atomicWrite(exportPath, canonicalBytes(payload));
+  return result("provide", "transactional", "success", { changed, export_ref: capsule ? capsuleProvider.EXPORT_REF : EXPORT_FILE, target_binding: payload });
 }
 
 function providerRootFor(exportPath) {
@@ -684,6 +705,14 @@ function connect(repoArg, options = {}) {
   const providerRoot = providerRootFor(source);
   if (!providerRoot) blockers.push("provider_revision_order_unverifiable");
   else if (git(providerRoot, "rev-parse", "HEAD").toLowerCase() !== identity.values.provider_revision) blockers.push("provider_revision_does_not_match_head");
+  if (providerRoot) {
+    const providerManifest = readManifest(providerRoot).manifest;
+    if (capsuleProvider.isCapsule(providerRoot, providerManifest)) {
+      const canonical = targetContract(providerRoot, identity.values.target_id, identity.values.semantic_digest, providerManifest);
+      blockers.push(...canonical.blockers);
+      if (!canonical.blockers.length && read.export.execution_contract_digest !== sha256(canonicalBytes(canonical.contract))) blockers.push("provider_export_does_not_match_capsule_target");
+    }
+  }
   const root = runtimeRoot(repo, manifestState.manifest, options);
   const currentPath = path.join(root, BINDING_FILE);
   let current = null;
