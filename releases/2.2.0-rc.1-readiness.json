@@ -3,7 +3,7 @@
   "release_id": "release.mirai.2.2.0-rc.1",
   "evaluated_version": "2.2.0-rc.1",
   "promotion_target": "2.2.0",
-  "evaluated_at": "2026-09-02T21:44:01Z",
+  "evaluated_at": "2026-09-02T21:54:47Z",
   "overall_status": "blocked",
   "gates": [
     {
@@ -60,9 +60,10 @@
       "evidence_refs": [
         "conformance/independent-checker-2.2-candidate.json",
         "conformance/results/python-mirai-2.2-source-snapshot-result.json",
-        "conformance/results/python-mirai-2.2-autonomic-cycle-result.json"
+        "conformance/results/python-mirai-2.2-autonomic-cycle-result.json",
+        "releases/evidence/2.2.0-rc.1-local-verification-2026-09-03.json"
       ],
-      "summary": "A separately implemented Python candidate agrees with the committed TypeScript fixture verdicts locally.",
+      "summary": "The independent Python candidate passes 23 tests and five matching artifact checks locally on macOS and in a clean Linux container.",
       "limitations": [
         "The checker revision remains local-only and is not a stable external release gate."
       ]
@@ -136,10 +137,11 @@
       "category": "release",
       "status": "blocked",
       "evidence_refs": [
-        ".github/workflows/ci.yml"
+        ".github/workflows/ci.yml",
+        "releases/evidence/2.2.0-rc.1-local-verification-2026-09-03.json"
       ],
-      "summary": "The full local macOS release suite and six-package clean-room install passed; public Linux/macOS/Windows CI is not run.",
-      "blocker_reason": "Complete local Linux verification, then run the public matrix at the publication-approved revision. Windows has not been tested in this local environment."
+      "summary": "The complete release suite and six-package install passed locally on macOS and clean Linux; public Linux/macOS/Windows CI is not run.",
+      "blocker_reason": "Run the public matrix at the publication-approved revision. Windows and hosted x64 runners have not been tested in this local environment."
     },
     {
       "id": "gate.2_2_controlled_real_pilots",
@@ -173,6 +175,6 @@
     "gate.2_2_cross_platform_clean_room",
     "gate.2_2_stable_release_metadata"
   ],
-  "next_safe_action": "Complete the exact local candidate rechecks, then obtain explicit permission to push the product and independent-checker branches for public CI. Stable publication remains separate.",
+  "next_safe_action": "Obtain explicit permission to push the prepared product and independent-checker branches for public CI. Recheck the final exact revision there; stable publication remains separate.",
   "claim_boundary": "This report separates local engineering and owner-authorized AI-assisted review evidence from public CI, external human review, scientific proof and production-write authority. A locally validated candidate is not a stable release."
 }

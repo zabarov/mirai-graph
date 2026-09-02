@@ -82,9 +82,12 @@ authority, conflicts, capabilities and effectful Programs remain manual.
 Read the [Autonomic Fabric standard](standard/mirai-autonomic-fabric.md),
 [architecture decision](docs/architecture/mirai-2-2-autonomic-fabric-adr.md),
 [threat model](docs/security/mirai-autonomic-fabric-threat-model.md) and
-[candidate readiness report](releases/2.2.0-rc.1-readiness.json). The readiness
-report keeps stable promotion blocked until revision-bound independent review,
-public cross-platform CI and controlled real-project pilot gates pass.
+[candidate readiness report](releases/2.2.0-rc.1-readiness.json). Controlled
+connector integration, independent source-security review and four real-source
+observe/suggest pilots have passed their bounded local gates. The complete
+release suite and six-package install pass on macOS and Linux. Stable promotion
+remains blocked by public independent conformance, the hosted platform matrix
+(including Windows) and separately approved publication.
 An isolated AI-assisted review is not an external human audit. The historical
 [alpha report](releases/2.2.0-alpha.1-readiness.json) remains available.
 

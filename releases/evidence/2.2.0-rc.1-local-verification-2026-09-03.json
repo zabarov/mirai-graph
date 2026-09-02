@@ -1,0 +1,122 @@
+{
+  "contract_version": "1.0.0",
+  "evidence_id": "verification.mirai.2.2.0-rc.1.local-2026-09-03",
+  "status": "passed_with_release_gates_remaining",
+  "package_version": "2.2.0-rc.1",
+  "implementation_revision": "eeb048121da54123566bc73f9024f37f8ddd688e",
+  "tested_revision": "691928975a1a3d5a29cc31530eaa71a1dc2e9890",
+  "continuity": {
+    "unchanged_from_implementation_revision": [
+      "src", "schemas", "packages", "compat", "test", "package.json", "package-lock.json"
+    ],
+    "tested_revision_changes": "Review evidence and CI service-readiness configuration only.",
+    "working_tree_clean_before_and_after": true
+  },
+  "node_checks": [
+    {
+      "platform": "macos",
+      "architecture": "arm64",
+      "node": "20.20.1",
+      "command": "npm run release:check",
+      "status": "passed",
+      "exit_code": 0,
+      "includes_npm_test": true,
+      "temporary_consumer_package_count": 6,
+      "node_test_count": 158,
+      "node_test_failures": 0,
+      "finished_at": "2026-09-02T21:53:23.312Z",
+      "suite_log_sha256": "5f976b05b8ee73c672350acf1a80ada58fe2443022b1f4be4525d0d33a38c1a9"
+    },
+    {
+      "platform": "linux",
+      "architecture": "arm64",
+      "node": "20.20.2",
+      "commands": ["npm ci", "npm run release:check", "npm pack --json"],
+      "status": "passed",
+      "exit_code": 0,
+      "isolation": "disposable_container_cloned_from_exact_git_bundle",
+      "temporary_consumer_package_count": 6,
+      "host_credentials_mounted": false,
+      "host_source_mounted_writable": false,
+      "started_at": "2026-09-02T21:50:14.253Z",
+      "finished_at": "2026-09-02T21:51:18.677Z",
+      "duration_ms": 64419,
+      "container_image_digest": "sha256:8f693eaa7e0a8e71560c9a82b55fd54c2ae920a2ba5d2cde28bac7d1c01c9ba5",
+      "bundle_sha256": "d71785f8fc380711b49a3dd995e6da96818eedef300a59a7798b6edab925dc4f",
+      "suite_log_sha256": "2faadd4bd38261820ae2bd01658f97064dcb7183cfa6307bc26a15145de5dfd5",
+      "packed_candidate": {
+        "name": "@zabarov/mirai",
+        "version": "2.2.0-rc.1",
+        "integrity": "sha512-EXTpPgr+9ajZGor55R7HP052cL/JxEKH/qkboHWaRMgyg9nqnQbTqHXzYuK/9TRNNbrL02mpeDInmHOeBwA76w==",
+        "size_bytes": 781633,
+        "unpacked_size_bytes": 4466920,
+        "file_count": 1340
+      }
+    }
+  ],
+  "independent_python": {
+    "checker_revision": "ff36101955a159980ca22da4d105f8b687dbc8cf",
+    "mirai_reference_revision": "eeb048121da54123566bc73f9024f37f8ddd688e",
+    "checker_version": "0.4.0a2",
+    "imports_typescript_runtime": false,
+    "macos": {
+      "python": "3.12.13",
+      "unit_tests_passed": 23,
+      "autonomic_artifacts_match": 5,
+      "wheel_and_sdist_built": true
+    },
+    "linux": {
+      "python": "3.12.14",
+      "architecture": "aarch64",
+      "isolation": "disposable_container_with_read_only_exact_source_archives",
+      "unit_tests_passed": 23,
+      "autonomic_artifacts_match": 5,
+      "shared_pure_corpus": "passed",
+      "jsonschema": "4.26.0",
+      "pyyaml": "6.0.3",
+      "exit_code": 0,
+      "started_at": "2026-09-02T21:54:32.550Z",
+      "finished_at": "2026-09-02T21:54:47.203Z",
+      "container_image_digest": "sha256:78387bc3881b8273120a12ebe6c1ab22b018ccc2c9adf565ae1ac9b536e184ea",
+      "checker_archive_sha256": "9ba0d0751f2ac7671c0a42be131d431b09afcc7e814af41198205e0c76749282",
+      "reference_archive_sha256": "bb6978c3708a79f9925ba19577f687d6d79fc58787d13cd5880a38d81f5bfc2a",
+      "suite_log_sha256": "d81cc645ae83d428d36b6f7abd00d9968fffb6c2b6241073c9d868dd1f689227"
+    },
+    "distributions": [
+      {
+        "filename": "mirai_conformance-0.4.0a2-py3-none-any.whl",
+        "sha256": "5893b08cd30473b98c9b282fab1824fc753e705798ddc8465f88ed8e584dc69b"
+      },
+      {
+        "filename": "mirai_conformance-0.4.0a2.tar.gz",
+        "sha256": "eb5ab4e2e4f8e86791973695379826cf91c7899620425c5f55711a278eb09b1e"
+      }
+    ]
+  },
+  "dependency_audit": {
+    "command": "npm audit --audit-level=high --json",
+    "status": "passed",
+    "exit_code": 0,
+    "dependency_lock_sha256": "39edf92dc0d91458a4b3c7c79ae6dc20e2f5567bb03b591dc83ac6ba745e67e6",
+    "reported_vulnerability_count": 0,
+    "finished_at": "2026-09-02T21:44:37.277Z",
+    "report_sha256": "7c1540be31be3b0e1f644c4d413d3059ce18d0d6934f094c30eaaba81372c5ce"
+  },
+  "related_evidence": [
+    "releases/evidence/2.2.0-connector-integration-2026-09-02.json",
+    "docs/security/mirai-2.2-independent-ai-security-review-2026-09-03.json",
+    "pilots/mirai-2.2-controlled-observe/independent-review.json"
+  ],
+  "public_ci": "not_run",
+  "windows": "not_run",
+  "publication_performed": false,
+  "production_write_performed": false,
+  "limitations": [
+    "Local arm64 Linux/macOS results do not establish Windows or hosted x64 CI conformance.",
+    "The Node test count excludes additional CLI/schema/negative validators and is not a measure of behavioral completeness.",
+    "The tarball fingerprint describes the tested candidate, not a future stable publication artifact.",
+    "Dependency audit reports known registry advisories at one time, not absence of vulnerabilities.",
+    "Review and pilot evidence does not grant deployment authority or prove semantic extraction quality."
+  ],
+  "claim_boundary": "Local verification passed. Stable promotion still requires public independent conformance, the exact-revision hosted platform matrix and separately approved release publication."
+}
