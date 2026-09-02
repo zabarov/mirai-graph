@@ -106,8 +106,8 @@
       "category": "safety",
       "status": "passed",
       "evidence_refs": ["releases/evidence/2.0.0-recovery-drill-2026-09-02.json", "test/runtime/governed-runtime.test.cjs"],
-      "summary": "Eight bounded recovery and authorization cases passed on Node 24, including crash reconciliation, uncertain-effect blocking, compensation, corrupted checkpoint handling and approval/grant rejection.",
-      "limitations": ["The drill uses temporary local filesystem effects and does not replace an operation-specific disaster-recovery exercise."]
+      "summary": "Nine bounded recovery and authorization cases passed on Node 24, including crash reconciliation, uncertain-effect blocking, compensation, corrupted checkpoint handling, approval/grant rejection and stale-owner lease fencing.",
+      "limitations": ["The drill uses temporary local filesystem effects and does not replace an operation-specific disaster-recovery exercise or independent expiry-boundary stress test."]
     },
     {
       "id": "gate.production_read_pilot",
@@ -153,9 +153,9 @@
       "id": "gate.independent_security_review",
       "category": "safety",
       "status": "not_run",
-      "evidence_refs": ["docs/security/mirai-runtime-threat-model.md"],
-      "summary": "The threat model and internal adversarial tests exist, but an independent security review has not been completed.",
-      "blocker_reason": "An independent reviewer must assess command, path, capability, approval, archive and secret-leakage boundaries."
+      "evidence_refs": ["docs/security/mirai-runtime-threat-model.md", "docs/security/mirai-independent-security-review-request-2026-09-02.json", "docs/security/mirai-security-pre-audit-corrections-2026-09-02.md"],
+      "summary": "The threat model, internal adversarial tests and pre-audit correction disposition exist at an exact revision, but an independent security review has not been completed.",
+      "blocker_reason": "An independent reviewer must assess command, path, capability, approval, archive, secret-leakage, activation policy/budget and lease expiry-boundary behavior."
     },
     {
       "id": "gate.public_independent_checker",

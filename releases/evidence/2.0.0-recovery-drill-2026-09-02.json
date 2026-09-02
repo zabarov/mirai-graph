@@ -1,7 +1,7 @@
 {
   "contract_version": "1.0.0",
   "id": "recovery-drill.mirai.2.0.2026-09-02",
-  "evaluated_revision": "5d001f5ead6d9856f634f203481d52030cec8b92",
+  "evaluated_revision": "95915799bf03fc6a1086cbb4a390fbc31cb8a613",
   "runtime": {
     "node": "24.20.0",
     "platform": "darwin-arm64"
@@ -15,11 +15,12 @@
     { "id": "corrupted_checkpoint", "expected": "block_resume", "result": "passed" },
     { "id": "uncertain_write", "expected": "block_automatic_resume", "result": "passed" },
     { "id": "expired_approval", "expected": "fail_before_effect", "result": "passed" },
-    { "id": "cross_run_grant_reuse", "expected": "reject_grant", "result": "passed" }
+    { "id": "cross_run_grant_reuse", "expected": "reject_grant", "result": "passed" },
+    { "id": "lease_renewal_and_generation_fencing", "expected": "renew_current_owner_and_reject_stale_owner_write", "result": "passed" }
   ],
   "summary": {
-    "tests": 8,
-    "passed": 8,
+    "tests": 9,
+    "passed": 9,
     "failed": 0,
     "duplicate_verified_effects": 0,
     "unauthorized_effects": 0
@@ -32,7 +33,8 @@
   ],
   "limitations": [
     "The drill uses synthetic filesystem effects in temporary directories.",
-    "It does not exercise a production service, network adapter or external backup system."
+    "It does not exercise a production service, network adapter or external backup system.",
+    "Cross-process lease behavior at the exact expiry boundary remains an independent stress-test target."
   ],
   "canonical_write_allowed": false
 }

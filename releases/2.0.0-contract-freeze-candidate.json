@@ -2,7 +2,7 @@
   "contract_version": "1.0.0",
   "id": "freeze.mirai.2.0.rc1-candidate",
   "status": "candidate",
-  "baseline_commit": "5d001f5ead6d9856f634f203481d52030cec8b92",
+  "baseline_commit": "95915799bf03fc6a1086cbb4a390fbc31cb8a613",
   "base_product_line": "2.0",
   "additive_product_line": "2.1",
   "surfaces": [

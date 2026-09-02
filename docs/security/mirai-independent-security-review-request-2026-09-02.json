@@ -4,7 +4,7 @@
   "status": "draft",
   "evidence_class": "template",
   "reviewed_repository": "https://github.com/zabarov/mirai-graph",
-  "reviewed_revision": "5d001f5ead6d9856f634f203481d52030cec8b92",
+  "reviewed_revision": "95915799bf03fc6a1086cbb4a390fbc31cb8a613",
   "reviewer": {
     "alias": "independent-reviewer-pending",
     "independent": false,
@@ -21,11 +21,17 @@
     "compensation",
     "evidence_redaction",
     "manifest_authority",
-    "activation_budgets"
+    "activation_budgets",
+    "activation_policy_binding",
+    "activation_host_budget_ceilings",
+    "process_run_production_exclusion",
+    "renewable_lease_and_generation_fencing"
   ],
   "methods": [
     "Reproduce the documented test and fuzz suites on the reviewed revision.",
-    "Add adversarial cases for capability, approval, path, archive and recovery boundaries.",
+    "Add adversarial cases for capability, approval, path, archive, activation policy, budget and recovery boundaries.",
+    "Stress cross-process lease renewal and takeover near the expiry boundary.",
+    "Confirm that process_run remains excluded from production profiles and is not represented as an OS or network sandbox.",
     "Review the bounded workspace write candidate without enabling a live adapter."
   ],
   "findings": [],
@@ -35,7 +41,7 @@
   ],
   "verdict": "not_reviewable",
   "adapter_scope": [],
-  "reviewed_at": "2026-09-02T08:20:00Z",
+  "reviewed_at": "2026-09-02T08:36:29Z",
   "attestation": "Prepared review request only; the reviewer must replace this field with an attributable attestation.",
   "claim_boundary": "This request records scope and revision but cannot close the independent security or production-write gate."
 }
