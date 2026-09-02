@@ -31,6 +31,12 @@ let tarball;
 try {
   const packOutput = runNode([npmCli, "pack", "--json", "--silent"], { label: "npm pack" });
   const pack = JSON.parse(packOutput);
+  const localStateEntries = (pack[0].files || [])
+    .map((entry) => entry.path)
+    .filter((entryPath) => entryPath === ".mirai" || entryPath.startsWith(".mirai/") || entryPath.includes("/.mirai/"));
+  if (localStateEntries.length > 0) {
+    throw new Error(`host-local .mirai state was packaged: ${localStateEntries.join(", ")}`);
+  }
   tarball = path.join(root, pack[0].filename);
   fs.writeFileSync(path.join(temp, "package.json"), JSON.stringify({ private: true }, null, 2));
   runNode([npmCli, "install", "--ignore-scripts", tarball], { cwd: temp, label: "npm install tarball" });

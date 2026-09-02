@@ -224,6 +224,7 @@
     "publications",
     "releases",
     "templates",
+    "!templates/**/.mirai/**",
     ".github"
   ],
   "dependencies": {
