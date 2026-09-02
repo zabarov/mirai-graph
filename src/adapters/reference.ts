@@ -192,13 +192,19 @@ const testRun: AdapterOperation = {
     const commandId = asString(args.command_id, "command_id");
     const definition = context.test_commands[commandId];
     if (!definition) throw new Error(`test_command_not_allowlisted:${commandId}`);
+    if (definition.execution_boundary !== "local_development_only") throw new Error("process_run_boundary_not_local_development_only");
+    const processHome = resolveSandboxPath(context.sandbox, ".mirai-process-home", true);
+    const processTmp = resolveSandboxPath(context.sandbox, ".mirai-process-tmp", true);
+    fs.mkdirSync(processHome, { recursive: true, mode: 0o700 });
+    fs.mkdirSync(processTmp, { recursive: true, mode: 0o700 });
+    const commandPath = path.resolve(definition.command);
     const execution = spawnSync(definition.command, definition.args, {
       cwd: context.sandbox,
       encoding: "utf8",
       timeout: Math.max(1, Math.min(definition.timeout_ms, context.remaining_ms ?? definition.timeout_ms)),
       maxBuffer: definition.max_output_bytes,
       shell: false,
-      env: { PATH: process.env.PATH || "", HOME: process.env.HOME || "", TMPDIR: process.env.TMPDIR || "/tmp", CI: "1" }
+      env: { PATH: path.dirname(commandPath), HOME: processHome, TMPDIR: processTmp, CI: "1", MIRAI_PROCESS_BOUNDARY: "local_development_only" }
     });
     if (execution.error) throw execution.error;
     const stdout = boundedOutput(execution.stdout || "", definition.max_output_bytes);

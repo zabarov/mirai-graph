@@ -14,6 +14,12 @@ destination and responsible owner. A write-capable operation additionally
 requires current backup evidence, a tested rollback or compensation path and a
 signed approval bound to this run and effect scope.
 
+Do not enable the reference `process_run` adapter in production-read or
+production-write profiles. It is a local-development test runner, not an OS or
+network sandbox. Production profiles must record
+`host_process_run_allowed=false` and use only adapters with an independently
+reviewed isolation boundary.
+
 ## Health Signals
 
 - run state and last durable event;

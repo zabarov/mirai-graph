@@ -389,10 +389,10 @@ test("runtime deadline covers verification and leaves the effect unsettled", asy
   const runId = "run.verification-deadline";
   const started = Date.now();
   await assert.rejects(
-    () => startGovernedRun(readProgram(), {}, { store: env.store, sandbox: env.sandbox, adapters, run_id: runId, deadline_at_ms: Date.now() + 10 }),
+    () => startGovernedRun(readProgram(), {}, { store: env.store, sandbox: env.sandbox, adapters, run_id: runId, deadline_at_ms: Date.now() + 50 }),
     /effect_deadline_exceeded:verify/
   );
-  assert(Date.now() - started < 90);
+  assert(Date.now() - started < 120);
   assert.equal(env.store.readRun(runId).status, "blocked");
   assert.equal(env.store.listReceipts(runId)[0].status, "executed");
 });
@@ -507,7 +507,7 @@ test("allowlisted test runner uses a fixed host command without shell", async ()
     apply: true,
     approval: receipt,
     test_commands: {
-      fixture: { command: process.execPath, args: ["-e", "process.stdout.write('ok')"], timeout_ms: 5000, max_output_bytes: 4096 }
+      fixture: { command: process.execPath, args: ["-e", "process.stdout.write('ok')"], timeout_ms: 5000, max_output_bytes: 4096, execution_boundary: "local_development_only" }
     }
   });
   assert.equal(result.run.status, "completed");
@@ -534,7 +534,7 @@ test("non-zero allowlisted test result blocks completion", async () => {
       approval: receipt,
       run_id: runId,
       test_commands: {
-        "failing-fixture": { command: process.execPath, args: ["-e", "process.exit(7)"], timeout_ms: 5000, max_output_bytes: 4096 }
+        "failing-fixture": { command: process.execPath, args: ["-e", "process.exit(7)"], timeout_ms: 5000, max_output_bytes: 4096, execution_boundary: "local_development_only" }
       }
     }),
     /effect_verification_failed/
@@ -544,7 +544,7 @@ test("non-zero allowlisted test result blocks completion", async () => {
   assert.equal(env.store.listReceipts(run.run_id)[0].status, "uncertain");
 });
 
-test("test runner does not inherit arbitrary secret environment variables", async () => {
+test("test runner uses a synthetic local-development environment without inherited secrets", async () => {
   const env = temporary();
   const subject = program("program.test-env", [
     {
@@ -560,13 +560,43 @@ test("test runner does not inherit arbitrary secret environment variables", asyn
     const result = await startGovernedRun(subject, {}, {
       store: env.store, sandbox: env.sandbox, apply: true, approval: receipt,
       test_commands: {
-        "env-check": { command: process.execPath, args: ["-e", "process.stdout.write(process.env.MIRAI_SECRET_FIXTURE || 'not-present')"], timeout_ms: 5000, max_output_bytes: 4096 }
+        "env-check": {
+          command: process.execPath,
+          args: ["-e", "process.stdout.write(JSON.stringify({secret:process.env.MIRAI_SECRET_FIXTURE||'not-present',home:process.env.HOME,tmp:process.env.TMPDIR,boundary:process.env.MIRAI_PROCESS_BOUNDARY}))"],
+          timeout_ms: 5000,
+          max_output_bytes: 4096,
+          execution_boundary: "local_development_only"
+        }
       }
     });
-    assert.equal(env.store.listReceipts(result.run.run_id)[0].result.stdout, "not-present");
+    const childEnv = JSON.parse(env.store.listReceipts(result.run.run_id)[0].result.stdout);
+    assert.equal(childEnv.secret, "not-present");
+    assert.equal(childEnv.home, path.join(env.sandbox, ".mirai-process-home"));
+    assert.equal(childEnv.tmp, path.join(env.sandbox, ".mirai-process-tmp"));
+    assert.equal(childEnv.boundary, "local_development_only");
   } finally {
     delete process.env.MIRAI_SECRET_FIXTURE;
   }
+});
+
+test("test runner rejects an allowlist entry without the local-development boundary", async () => {
+  const env = temporary();
+  const subject = program("program.test-boundary", [
+    {
+      id: "test.run", kind: "call", target: { kind: "adapter", adapter: "test", operation: "run" },
+      args: { command_id: { op: "literal", value: "fixture" } }, effects: ["process_run"],
+      capability: "capability.test.run", next: "return.done"
+    },
+    { id: "return.done", kind: "return" }
+  ], { allowed_effects: ["process_run"] });
+  const receipt = approval(env, subject, ["process_run"]);
+  await assert.rejects(
+    () => startGovernedRun(subject, {}, {
+      store: env.store, sandbox: env.sandbox, apply: true, approval: receipt,
+      test_commands: { fixture: { command: process.execPath, args: ["-e", "process.exit(0)"], timeout_ms: 5000, max_output_bytes: 4096 } }
+    }),
+    /process_run_boundary_not_local_development_only/
+  );
 });
 
 test("program content cannot inject a test command id", async () => {
@@ -583,7 +613,7 @@ test("program content cannot inject a test command id", async () => {
   await assert.rejects(
     () => startGovernedRun(subject, {}, {
       store: env.store, sandbox: env.sandbox, apply: true, approval: receipt,
-      test_commands: { fixture: { command: process.execPath, args: ["-e", "process.exit(0)"], timeout_ms: 5000, max_output_bytes: 4096 } }
+      test_commands: { fixture: { command: process.execPath, args: ["-e", "process.exit(0)"], timeout_ms: 5000, max_output_bytes: 4096, execution_boundary: "local_development_only" } }
     }),
     /test_command_not_allowlisted/
   );
@@ -621,10 +651,29 @@ test("expired lease is replaced but malformed or active state remains fail-close
   const subject = readProgram();
   const run = env.store.createRun({ program: subject, input: {}, sandbox: env.sandbox, apply: false, run_id: "run.stale-lease" });
   const leaseFile = path.join(env.store.directory(run.run_id), "lease.json");
-  fs.writeFileSync(leaseFile, JSON.stringify({ token: "stale", pid: 1, acquired_at: "2000-01-01T00:00:00.000Z", expires_at: "2000-01-01T00:00:01.000Z" }));
+  fs.writeFileSync(leaseFile, JSON.stringify({ token: "stale", generation: 4, pid: 1, acquired_at: "2000-01-01T00:00:00.000Z", expires_at: "2000-01-01T00:00:01.000Z" }));
   const lease = env.store.acquireLease(run.run_id);
   assert.notEqual(lease.token, "stale");
+  assert.equal(lease.generation, 5);
   env.store.releaseLease(run.run_id, lease.token);
+});
+
+test("lease renewal preserves generation and stale owners are fenced from writes", () => {
+  const env = temporary();
+  const subject = readProgram();
+  const run = env.store.createRun({ program: subject, input: {}, sandbox: env.sandbox, apply: false, run_id: "run.lease-fencing" });
+  const first = env.store.acquireLease(run.run_id, 60_000);
+  const renewed = env.store.renewLease(run.run_id, first.token, 120_000);
+  assert.equal(renewed.generation, first.generation);
+  assert(Date.parse(renewed.expires_at) > Date.parse(first.expires_at));
+
+  const leaseFile = path.join(env.store.directory(run.run_id), "lease.json");
+  fs.writeFileSync(leaseFile, `${JSON.stringify({ ...renewed, expires_at: "2000-01-01T00:00:00.000Z" }, null, 2)}\n`);
+  const successorStore = new RunStore(env.home);
+  const successor = successorStore.acquireLease(run.run_id, 60_000);
+  assert.equal(successor.generation, first.generation + 1);
+  assert.throws(() => env.store.updateRun(run.run_id, run.revision, (value) => value), /run_lease_fenced/);
+  successorStore.releaseLease(run.run_id, successor.token);
 });
 
 test("corrupted checkpoint blocks resume and is not silently replaced", async () => {

@@ -4,6 +4,15 @@ export const ACTIVATION_PLAN_CONTRACT_VERSION = "1.0.0" as const;
 
 export type JoinPolicy = "all" | "collect" | "any_success_ordered" | "quorum";
 
+export interface ActivationBudgets {
+  max_nodes: number;
+  max_depth: number;
+  max_fan_out: number;
+  max_iterations: number;
+  max_parallel: number;
+  max_duration_ms: number;
+}
+
 export interface ActivationSignal {
   id: string;
   type: string;
@@ -47,7 +56,7 @@ export interface ActivationPlan {
   blocked_paths: Array<{ id: string; reason: string }>;
   dependency_dag: Array<{ from: string; to: string }>;
   join: { policy: JoinPolicy; quorum?: number; deterministic_order: string[] };
-  budgets: { max_nodes: number; max_depth: number; max_fan_out: number; max_iterations: number; max_parallel: number; max_duration_ms: number };
+  budgets: ActivationBudgets;
   required_capabilities: string[];
   required_approvals: string[];
   decision_explanations: string[];
@@ -58,5 +67,5 @@ export interface ActivationPlan {
 export interface ActivationResolutionOptions {
   join?: JoinPolicy;
   quorum?: number;
-  budgets?: Partial<ActivationPlan["budgets"]>;
+  budgets?: Partial<ActivationBudgets>;
 }

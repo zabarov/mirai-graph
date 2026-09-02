@@ -3,6 +3,7 @@ import { relationApplies, validateComponentPackage } from "../components/validat
 import type { ComponentInstance, ContextualBinding, RelationFact } from "../components/types.js";
 import {
   ACTIVATION_PLAN_CONTRACT_VERSION,
+  type ActivationBudgets,
   type ActivationGraphSnapshot,
   type ActivationPath,
   type ActivationPlan,
@@ -10,9 +11,16 @@ import {
   type ActivationSignal
 } from "./types.js";
 
-const DEFAULT_BUDGETS: ActivationPlan["budgets"] = {
+export const DEFAULT_ACTIVATION_HOST_BUDGET_CEILINGS: ActivationBudgets = {
   max_nodes: 1000, max_depth: 32, max_fan_out: 64, max_iterations: 1000, max_parallel: 16, max_duration_ms: 300000
 };
+
+function assertBudgetsWithinCeilings(budgets: ActivationBudgets, ceilings: ActivationBudgets): void {
+  for (const key of Object.keys(ceilings) as Array<keyof ActivationBudgets>) {
+    if (!Number.isInteger(ceilings[key]) || ceilings[key] < 1) throw new Error(`activation_host_budget_ceiling_invalid:${key}`);
+    if (budgets[key] > ceilings[key]) throw new Error(`activation_host_budget_ceiling_exceeded:${key}`);
+  }
+}
 
 function bindingApplies(binding: ContextualBinding, signal: ActivationSignal): boolean {
   if (binding.operation !== signal.operation) return false;
@@ -50,8 +58,9 @@ export function resolveActivationPlan(snapshot: ActivationGraphSnapshot, signal:
   if (computedSnapshotDigest !== snapshot.graph_snapshot_digest) throw new Error(`graph_snapshot_digest_mismatch:${snapshot.graph_snapshot_digest}:${computedSnapshotDigest}`);
   const componentValidation = validateComponentPackage(snapshot.components);
   if (!componentValidation.valid) throw new Error(`component_package_invalid:${componentValidation.errors.join(",")}`);
-  const budgets = { ...DEFAULT_BUDGETS, ...(options.budgets || {}) };
+  const budgets = { ...DEFAULT_ACTIVATION_HOST_BUDGET_CEILINGS, ...(options.budgets || {}) };
   if (Object.values(budgets).some((value) => !Number.isInteger(value) || value < 1)) throw new Error("activation_budget_invalid");
+  assertBudgetsWithinCeilings(budgets, DEFAULT_ACTIVATION_HOST_BUDGET_CEILINGS);
 
   const selectedFacts: RelationFact[] = [];
   const blockedFacts: ActivationPlan["blocked_relation_facts"] = [];
@@ -148,6 +157,11 @@ export function resolveActivationPlan(snapshot: ActivationGraphSnapshot, signal:
     canonical_write_allowed: false as const
   };
   return { ...candidate, digest: digestValue(candidate) };
+}
+
+export function validateActivationHostBudgets(budgets: ActivationBudgets, ceilings: ActivationBudgets): void {
+  if (Object.values(budgets).some((value) => !Number.isInteger(value) || value < 1)) throw new Error("activation_budget_invalid");
+  assertBudgetsWithinCeilings(budgets, ceilings);
 }
 
 export function validateActivationPlan(plan: ActivationPlan): { valid: boolean; errors: string[] } {

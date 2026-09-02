@@ -42,3 +42,10 @@ The reference implementation qualifies for `production_read` in read-only and
 sandbox simulation scenarios. It does not currently qualify for generic
 `production_write`. Live adapters require their own threat model, policy,
 idempotency, reconciliation, compensation and owner approval.
+
+The reference `process_run` adapter is explicitly `local_development_only`. Its
+allowlisted command, synthetic `HOME`/`TMPDIR` and minimal environment reduce
+accidental host inheritance, but they do not provide OS or network isolation.
+Production-read and production-write profiles therefore require
+`host_process_run_allowed=false`; a future production command adapter needs a
+separate sandbox/container boundary and security review.

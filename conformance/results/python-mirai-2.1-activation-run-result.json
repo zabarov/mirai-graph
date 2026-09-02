@@ -3,7 +3,7 @@
   "implementation": "python_independent",
   "kind": "activation-run-result",
   "status": "passed",
-  "artifact_digest": "sha256:1f2a56268e938aeaad76bf28944ebcedddbb536c4325f0f88256865ebc80fa64",
+  "artifact_digest": "sha256:ba50e3f2ae57bce69762bcf51bd395f1adadd34356fb617dfe42c88d7e6e1cc6",
   "errors": [],
   "canonical_write_performed": false,
   "effects_executed": false

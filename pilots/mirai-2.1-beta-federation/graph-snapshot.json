@@ -1,7 +1,7 @@
 {
   "id": "graph.federation.graph-native.public-safe",
   "graph_snapshot_digest": "sha256:4fe0588134d1a8dee4976fcb5fa107c7e746f4bf4b13c6dfd3bb3c55286370c4",
-  "policy_digest": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+  "policy_digest": "sha256:c7669fed453c98d5753b80ef585f856916b8a7e5c06c2acb86823dc00e923d2a",
   "components": {
     "contract_version": "1.0.0",
     "interfaces": [{ "id": "interface.process-stage", "operations": ["operation.process"] }],

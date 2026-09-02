@@ -6,6 +6,7 @@ export interface TestCommandDefinition {
   args: string[];
   timeout_ms: number;
   max_output_bytes: number;
+  execution_boundary: "local_development_only";
 }
 
 export interface AdapterExecutionContext {

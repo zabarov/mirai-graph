@@ -19,7 +19,8 @@
     "incident_runbook_ref": "docs/operations/mirai-production-operations.md",
     "retention_policy_ref": "docs/operations/mirai-runtime-operations-guide.md",
     "monitoring_ref": "docs/operations/mirai-production-operations.md",
-    "sanitized_evidence_only": true
+    "sanitized_evidence_only": true,
+    "host_process_run_allowed": false
   },
   "recovery": {
     "uncertain_effect_action": "block_and_reconcile",

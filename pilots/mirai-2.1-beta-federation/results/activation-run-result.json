@@ -1,6 +1,6 @@
 {
   "contract_version": "1.0.0",
-  "plan_digest": "sha256:74c742acd1d2a09bad5567ba6d19de2549b5337d2e4aeb4f9cf12d02b6f7ad04",
+  "plan_digest": "sha256:f8d93716df68fd0b1f0f4225a4075032d9e28d70282394ed2930e75474de377d",
   "status": "completed",
   "frontiers": [
     [
@@ -66,7 +66,9 @@
     "path.stage.quality.operation.process",
     "path.stage.route.operation.process"
   ],
-  "aggregate_trace_digest": "sha256:0c9382a1acb770ac432f5135cf44eaaaa14875f3415756f3261d4ef7b1d093a0",
+  "aggregate_trace_digest": "sha256:d6f387a8c04f441df69cf2549c477f4de6a3102a9873814a7943257e61c410dc",
+  "effective_policy_digest": "sha256:c7669fed453c98d5753b80ef585f856916b8a7e5c06c2acb86823dc00e923d2a",
+  "host_budget_ceilings_digest": "sha256:735d9c824722e4f35cc5f0d56603464d3b10d2cecdf79db6a4333eea152e0154",
   "effects_executed": false,
   "canonical_write_allowed": false,
   "learning_update_allowed": false

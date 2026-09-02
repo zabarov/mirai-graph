@@ -1,6 +1,6 @@
 {
   "contract_version": "1.0.0",
-  "plan_digest": "sha256:74c742acd1d2a09bad5567ba6d19de2549b5337d2e4aeb4f9cf12d02b6f7ad04",
+  "plan_digest": "sha256:f8d93716df68fd0b1f0f4225a4075032d9e28d70282394ed2930e75474de377d",
   "frontiers": [
     [
       "path.stage.route.operation.process"
@@ -30,5 +30,5 @@
   "decisions_reproduced": true,
   "effects_executed": false,
   "canonical_write_allowed": false,
-  "trace_digest": "sha256:6766220484a8bed645267bc82c98659af175e62925e794888ab7b2312cc2d227"
+  "trace_digest": "sha256:f281599dee8f59074312839fd057ae66ef9f1dc322c8a2b778e4bf82666aa011"
 }

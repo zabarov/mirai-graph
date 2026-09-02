@@ -100,7 +100,20 @@ async function executeExisting(options: {
   fault_injection?: FaultInjectionStage;
   deadline_at_ms?: number;
 }): Promise<GovernedRunResult> {
-  const lease = options.store.acquireLease(options.run_id);
+  const runtimeConfig = options.store.readRuntimeConfig(options.run_id) as unknown as PersistedRuntimeConfig;
+  const maximumCommandTimeout = Math.max(0, ...Object.values(runtimeConfig.test_commands || {}).map((definition) => definition.timeout_ms));
+  const deadlineWindow = options.deadline_at_ms ? Math.max(0, options.deadline_at_ms - Date.now()) : 0;
+  const leaseTtlMs = Math.max(30_000, maximumCommandTimeout + 10_000, deadlineWindow + 10_000);
+  const lease = options.store.acquireLease(options.run_id, leaseTtlMs);
+  let renewalError: unknown;
+  const renewalInterval = setInterval(() => {
+    try {
+      options.store.renewLease(options.run_id, lease.token, leaseTtlMs);
+    } catch (error) {
+      renewalError = error;
+    }
+  }, Math.min(10_000, Math.max(1_000, Math.floor(leaseTtlMs / 3))));
+  renewalInterval.unref();
   try {
     let run = options.store.readRun(options.run_id);
     if (run.status === "completed") return { run, episode: options.store.readEpisode(run.run_id), checkpoint: options.store.readCheckpoint(run.run_id) };
@@ -115,7 +128,7 @@ async function executeExisting(options: {
     }
     const program = options.store.readProgram(run.run_id);
     const input = options.store.readInput(run.run_id);
-    const config = options.store.readRuntimeConfig(run.run_id) as unknown as PersistedRuntimeConfig;
+    const config = runtimeConfig;
     const approval = options.store.readApproval(run.run_id);
     assertProgram(program);
     if (program.digest !== run.program_digest || digestValue(input) !== run.input_digest) throw new Error("runtime_artifact_digest_mismatch");
@@ -137,6 +150,8 @@ async function executeExisting(options: {
       { programs: config.programs || {}, events: config.events || {} },
       (receipt) => coordinator.compensate(String(receipt))
     );
+    if (renewalError) throw renewalError;
+    options.store.assertLeaseOwnership(run.run_id, lease.token);
     const unsettled = options.store.listReceipts(run.run_id).filter((receipt) => !["verified", "compensated", "failed"].includes(receipt.status));
     if (unsettled.length) throw new EffectExecutionBlocked("unsettled_effect_receipts", unsettled.map((item) => item.receipt_id).join(", "));
     const effectStubs = coordinator.effectStubs();
@@ -195,6 +210,7 @@ async function executeExisting(options: {
     }
     throw error;
   } finally {
+    clearInterval(renewalInterval);
     options.store.releaseLease(options.run_id, lease.token);
   }
 }

@@ -12,7 +12,7 @@
     "values": { "risk": "normal" }
   },
   "graph_snapshot_digest": "sha256:47b35c850ea475aba1abc190538a845295df27c6e09b1cba20e3e2e717ec270a",
-  "policy_digest": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+  "policy_digest": "sha256:c7669fed453c98d5753b80ef585f856916b8a7e5c06c2acb86823dc00e923d2a",
   "selected_relation_fact_ids": ["relation.review_depends_on_prepare"],
   "blocked_relation_facts": [],
   "activated_paths": [
@@ -66,8 +66,8 @@
   "decision_explanations": [
     "Selected 2 path(s) for operation operation.execute in scope demo.",
     "Applied 1 of 1 relation fact(s).",
-    "Plan is bound to graph sha256:47b35c850ea475aba1abc190538a845295df27c6e09b1cba20e3e2e717ec270a and policy sha256:2222222222222222222222222222222222222222222222222222222222222222."
+    "Plan is bound to graph sha256:47b35c850ea475aba1abc190538a845295df27c6e09b1cba20e3e2e717ec270a and policy sha256:c7669fed453c98d5753b80ef585f856916b8a7e5c06c2acb86823dc00e923d2a."
   ],
   "canonical_write_allowed": false,
-  "digest": "sha256:f1fa83be10c7f920f2c869809960b39f0fb2eb5ff0a44057b48784155a3eae4f"
+  "digest": "sha256:cc039991db1de479e9eff34602e68f70de928a40c210d9920bd54baf10256546"
 }

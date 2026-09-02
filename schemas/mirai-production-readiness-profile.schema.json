@@ -58,7 +58,8 @@
         "incident_runbook_ref",
         "retention_policy_ref",
         "monitoring_ref",
-        "sanitized_evidence_only"
+        "sanitized_evidence_only",
+        "host_process_run_allowed"
       ],
       "properties": {
         "capability_policy_ref": { "type": "string", "minLength": 1 },
@@ -69,7 +70,8 @@
         "incident_runbook_ref": { "type": "string", "minLength": 1 },
         "retention_policy_ref": { "type": "string", "minLength": 1 },
         "monitoring_ref": { "type": "string", "minLength": 1 },
-        "sanitized_evidence_only": { "const": true }
+        "sanitized_evidence_only": { "const": true },
+        "host_process_run_allowed": { "const": false }
       }
     },
     "recovery": {

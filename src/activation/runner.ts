@@ -3,10 +3,10 @@ import path from "node:path";
 import { digestValue } from "../core/canonical.js";
 import { resolveConfinedPath } from "../core/path-boundary.js";
 import { compileProgramFile } from "../program/compiler.js";
-import { startGovernedRun, type ApprovalReceipt, type CapabilityPolicy } from "../runtime/index.js";
+import { DEFAULT_CAPABILITY_POLICY, policyDigest, startGovernedRun, type ApprovalReceipt, type CapabilityPolicy } from "../runtime/index.js";
 import { simulateActivationPlan } from "./simulator.js";
-import { validateActivationPlan } from "./resolver.js";
-import type { ActivationPlan } from "./types.js";
+import { DEFAULT_ACTIVATION_HOST_BUDGET_CEILINGS, validateActivationHostBudgets, validateActivationPlan } from "./resolver.js";
+import type { ActivationBudgets, ActivationPlan } from "./types.js";
 
 export interface ActivationRunOptions {
   sandbox: string;
@@ -16,6 +16,7 @@ export interface ActivationRunOptions {
   apply?: boolean;
   approvals?: Record<string, ApprovalReceipt>;
   policy?: CapabilityPolicy;
+  host_budget_ceilings?: ActivationBudgets;
 }
 
 export interface ActivationPathRunResult {
@@ -38,6 +39,8 @@ export interface ActivationRunResult {
   successful_path_ids: string[];
   selected_success_path_id?: string;
   aggregate_trace_digest: string;
+  effective_policy_digest: string;
+  host_budget_ceilings_digest: string;
   effects_executed: boolean;
   canonical_write_allowed: false;
   learning_update_allowed: false;
@@ -56,6 +59,12 @@ function requiredSuccesses(plan: ActivationPlan): number {
 export async function runActivationPlan(plan: ActivationPlan, options: ActivationRunOptions): Promise<ActivationRunResult> {
   const validation = validateActivationPlan(plan);
   if (!validation.valid) throw new Error(`activation_plan_invalid:${validation.errors.join(",")}`);
+  const effectivePolicy = options.policy || DEFAULT_CAPABILITY_POLICY;
+  const effectivePolicyDigest = policyDigest(effectivePolicy);
+  if (effectivePolicyDigest !== plan.policy_digest) throw new Error(`activation_policy_digest_mismatch:${plan.policy_digest}:${effectivePolicyDigest}`);
+  const hostBudgetCeilings = options.host_budget_ceilings || DEFAULT_ACTIVATION_HOST_BUDGET_CEILINGS;
+  validateActivationHostBudgets(plan.budgets, hostBudgetCeilings);
+  const hostBudgetCeilingsDigest = digestValue(hostBudgetCeilings);
   const schedule = simulateActivationPlan(plan);
   const byId = new Map(plan.activated_paths.map((item) => [item.id, item]));
   const baseDir = path.resolve(options.base_dir || process.cwd());
@@ -106,7 +115,7 @@ export async function runActivationPlan(plan: ActivationPlan, options: Activatio
           sandbox,
           apply: options.apply === true,
           approval: options.approvals?.[pathId],
-          policy: options.policy,
+          policy: effectivePolicy,
           deadline_at_ms: deadlineAt
         });
         return {
@@ -154,6 +163,8 @@ export async function runActivationPlan(plan: ActivationPlan, options: Activatio
     successful_path_ids: successful,
     ...(plan.join.policy === "any_success_ordered" && successful[0] ? { selected_success_path_id: successful[0] } : {}),
     aggregate_trace_digest: digestValue(traceBasis),
+    effective_policy_digest: effectivePolicyDigest,
+    host_budget_ceilings_digest: hostBudgetCeilingsDigest,
     effects_executed: effectsExecuted,
     canonical_write_allowed: false,
     learning_update_allowed: false

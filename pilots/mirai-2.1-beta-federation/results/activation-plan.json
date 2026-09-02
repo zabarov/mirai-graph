@@ -14,7 +14,7 @@
     }
   },
   "graph_snapshot_digest": "sha256:4fe0588134d1a8dee4976fcb5fa107c7e746f4bf4b13c6dfd3bb3c55286370c4",
-  "policy_digest": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+  "policy_digest": "sha256:c7669fed453c98d5753b80ef585f856916b8a7e5c06c2acb86823dc00e923d2a",
   "selected_relation_fact_ids": [
     "relation.kaizen_depends_quality",
     "relation.owner_docs_depends_route",
@@ -142,8 +142,8 @@
   "decision_explanations": [
     "Selected 5 path(s) for operation operation.process in scope federation.public-safe.",
     "Applied 5 of 6 relation fact(s).",
-    "Plan is bound to graph sha256:4fe0588134d1a8dee4976fcb5fa107c7e746f4bf4b13c6dfd3bb3c55286370c4 and policy sha256:3333333333333333333333333333333333333333333333333333333333333333."
+    "Plan is bound to graph sha256:4fe0588134d1a8dee4976fcb5fa107c7e746f4bf4b13c6dfd3bb3c55286370c4 and policy sha256:c7669fed453c98d5753b80ef585f856916b8a7e5c06c2acb86823dc00e923d2a."
   ],
   "canonical_write_allowed": false,
-  "digest": "sha256:74c742acd1d2a09bad5567ba6d19de2549b5337d2e4aeb4f9cf12d02b6f7ad04"
+  "digest": "sha256:f8d93716df68fd0b1f0f4225a4075032d9e28d70282394ed2930e75474de377d"
 }

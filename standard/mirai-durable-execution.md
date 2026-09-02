@@ -36,9 +36,14 @@ during resume instead of executing the effect again. An `uncertain` receipt
 blocks automatic retry until adapter-specific reconciliation proves the
 external state.
 
-Writes use a run lease, compare-and-swap revisions, temporary files, atomic
-rename and readback verification. Compensation is explicit and can itself
-fail; failed compensation is a blocker, not a successful completion.
+Writes use a renewable run lease, monotonically increasing lease generation,
+owner fencing checks, compare-and-swap revisions, temporary files, atomic
+rename and readback verification. A process that loses the current
+token/generation cannot continue through the RunStore write API. The reference
+filesystem lease is a single-host mechanism; cross-process expiry-boundary
+behavior remains in scope for independent security and recovery review.
+Compensation is explicit and can itself fail; failed compensation is a blocker,
+not a successful completion.
 
 ## Resume, Cancel And Reconcile
 

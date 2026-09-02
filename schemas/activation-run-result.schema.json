@@ -4,7 +4,7 @@
   "title": "Mirai Activation Run Result",
   "type": "object",
   "additionalProperties": false,
-  "required": ["contract_version", "plan_digest", "status", "frontiers", "path_results", "successful_path_ids", "aggregate_trace_digest", "effects_executed", "canonical_write_allowed", "learning_update_allowed"],
+  "required": ["contract_version", "plan_digest", "status", "frontiers", "path_results", "successful_path_ids", "aggregate_trace_digest", "effective_policy_digest", "host_budget_ceilings_digest", "effects_executed", "canonical_write_allowed", "learning_update_allowed"],
   "properties": {
     "contract_version": { "const": "1.0.0" },
     "plan_digest": { "$ref": "#/$defs/digest" },
@@ -34,6 +34,8 @@
     "successful_path_ids": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
     "selected_success_path_id": { "type": "string", "minLength": 1 },
     "aggregate_trace_digest": { "$ref": "#/$defs/digest" },
+    "effective_policy_digest": { "$ref": "#/$defs/digest" },
+    "host_budget_ceilings_digest": { "$ref": "#/$defs/digest" },
     "effects_executed": { "type": "boolean" },
     "canonical_write_allowed": { "const": false },
     "learning_update_allowed": { "const": false }

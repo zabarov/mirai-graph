@@ -6,6 +6,7 @@ const test = require("node:test");
 
 const { resolveActivationPlan, runActivationPlan, simulateActivationPlan, validateActivationPlan } = require("../../dist/cjs/activation");
 const { digestValue } = require("../../dist/cjs/core");
+const { DEFAULT_CAPABILITY_POLICY, policyDigest } = require("../../dist/cjs/runtime");
 
 const snapshot = JSON.parse(fs.readFileSync(path.resolve(__dirname, "../../examples/mirai-activation-minimal/graph-snapshot.json"), "utf8"));
 const signal = JSON.parse(fs.readFileSync(path.resolve(__dirname, "../../examples/mirai-activation-minimal/signal.json"), "utf8"));
@@ -91,8 +92,38 @@ test("activation runner executes immutable paths through the governed runtime de
   assert.equal(first.path_results.every((item) => item.status === "completed"), true);
   assert.equal(first.path_results.every((item) => item.effects_executed === false), true);
   assert.equal(first.effects_executed, false);
+  assert.equal(first.effective_policy_digest, policyDigest(DEFAULT_CAPABILITY_POLICY));
+  assert.match(first.host_budget_ceilings_digest, /^sha256:[a-f0-9]{64}$/);
   assert.equal(first.canonical_write_allowed, false);
   assert.equal(first.learning_update_allowed, false);
+});
+
+test("activation runner rejects a policy digest mismatch before creating runtime state", async () => {
+  const plan = resolveActivationPlan(snapshot, signal);
+  plan.policy_digest = `sha256:${"f".repeat(64)}`;
+  const { digest: _oldDigest, ...body } = plan;
+  plan.digest = digestValue(body);
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "mirai-activation-policy-"));
+  const home = path.join(root, "home");
+  await assert.rejects(
+    () => runActivationPlan(plan, { base_dir: path.resolve(__dirname, "../.."), sandbox: path.join(root, "sandbox"), home }),
+    /activation_policy_digest_mismatch/
+  );
+  assert.equal(fs.existsSync(home), false);
+});
+
+test("activation runner enforces trusted host budget ceilings before creating runtime state", async () => {
+  const plan = resolveActivationPlan(snapshot, signal);
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "mirai-activation-ceiling-"));
+  const home = path.join(root, "home");
+  await assert.rejects(
+    () => runActivationPlan(plan, {
+      base_dir: path.resolve(__dirname, "../.."), sandbox: path.join(root, "sandbox"), home,
+      host_budget_ceilings: { ...plan.budgets, max_nodes: 1 }
+    }),
+    /activation_host_budget_ceiling_exceeded:max_nodes/
+  );
+  assert.equal(fs.existsSync(home), false);
 });
 
 test("activation runner blocks a program digest mismatch before execution", async () => {
