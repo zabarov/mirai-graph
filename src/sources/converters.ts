@@ -16,6 +16,7 @@ import {
 } from "./types.js";
 
 const SECRET_MATERIAL = /-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----|\bghp_[A-Za-z0-9]{20,}\b|\bxoxb-[A-Za-z0-9-]{20,}\b|\bAKIA[0-9A-Z]{16}\b|(?:^|[\s,{])["']?[A-Za-z0-9_.-]*(?:password|passwd|secret|token|api[_-]?key|access[_-]?key|private[_-]?key)[A-Za-z0-9_.-]*["']?\s*[:=]\s*["']?[^\s"',}\]]{4,}/im;
+const MAX_CSV_COLUMNS = 4_096;
 
 function isSecretKey(key: string): boolean {
   const normalized = key.replace(/([a-z0-9])([A-Z])/g, "$1_$2").replace(/[-.]/g, "_").toLowerCase();
@@ -131,10 +132,14 @@ const csvConverter: ContentConverter = {
         const char = line[index] as string;
         if (char === '"' && line[index + 1] === '"' && quoted) { value += '"'; index += 1; }
         else if (char === '"') quoted = !quoted;
-        else if (char === "," && !quoted) { result.push(value); value = ""; }
+        else if (char === "," && !quoted) {
+          if (result.length >= MAX_CSV_COLUMNS) throw new Error("csv_column_budget_exceeded");
+          result.push(value); value = "";
+        }
         else value += char;
       }
       if (quoted) throw new Error("csv_unclosed_quote");
+      if (result.length >= MAX_CSV_COLUMNS) throw new Error("csv_column_budget_exceeded");
       result.push(value); return result;
     };
     let headers: string[] | undefined;

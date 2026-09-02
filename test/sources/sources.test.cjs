@@ -17,6 +17,8 @@ const {
   validateSourceDescriptor
 } = require("../../dist/cjs/sources");
 const { createS3ReadClient } = require("../../packages/source-s3");
+const { createPostgresReadClient } = require("../../packages/source-postgres");
+const { createMysqlReadClient } = require("../../packages/source-mysql");
 
 function descriptor(kind, locator, configuration = {}) {
   return { contract_version: "1.0.0", id: `source.${kind}`, provider: kind, locator, authority: "owner_asserted", scope: "test", confidentiality: "internal", freshness: {}, read_only: true, configuration };
@@ -44,6 +46,36 @@ test("filesystem snapshots are deterministic, incremental and exclude secret pat
     assert.equal(diffSourceSnapshots(first, changed).some((item) => item.state === "changed"), true);
   } finally {
     fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("filesystem reads fail closed when an ancestor changes between resolution and open", async () => {
+  if (process.platform === "win32") return;
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "mirai-source-race-root-"));
+  const outside = fs.mkdtempSync(path.join(os.tmpdir(), "mirai-source-race-outside-"));
+  const sourceDir = path.join(root, "sub");
+  const parkedDir = path.join(root, "sub-safe");
+  fs.mkdirSync(sourceDir);
+  fs.writeFileSync(path.join(sourceDir, "a.txt"), "inside");
+  fs.writeFileSync(path.join(outside, "a.txt"), "outside-boundary");
+  const resolvedSourceFile = fs.realpathSync(path.join(sourceDir, "a.txt"));
+  const originalOpen = fs.openSync;
+  let swapped = false;
+  fs.openSync = function patchedOpen(filename, ...args) {
+    if (!swapped && String(filename) === resolvedSourceFile) {
+      swapped = true;
+      fs.renameSync(sourceDir, parkedDir);
+      fs.symlinkSync(outside, sourceDir, "dir");
+    }
+    return originalOpen.call(fs, filename, ...args);
+  };
+  try {
+    await assert.rejects(() => createFilesystemSourceProvider().scan(descriptor("filesystem", root), DEFAULT_SOURCE_BUDGET), /source_file_scope_escape|source_file_changed_during_read/);
+    assert.equal(swapped, true);
+  } finally {
+    fs.openSync = originalOpen;
+    fs.rmSync(root, { recursive: true, force: true });
+    fs.rmSync(outside, { recursive: true, force: true });
   }
 });
 
@@ -94,6 +126,46 @@ test("HTTP resolution is transport-bound and rejects mapped or rebinding-prone a
 
   const tooManyPaths = createHttpSourceProvider({ resolver: async () => { throw new Error("resolver_must_not_run"); }, fetcher: async () => { throw new Error("fetch_must_not_run"); } });
   await assert.rejects(() => tooManyPaths.scan(descriptor("http", "https://example.test/", { allowed_hosts: ["example.test"], paths: ["/a", "/b"] }), { ...DEFAULT_SOURCE_BUDGET, max_items: 1 }), /source_item_budget_exceeded/);
+});
+
+test("HTTP, SQL and S3 timeouts propagate cancellation to read operations", async () => {
+  let httpAborted = false;
+  const http = createHttpSourceProvider({
+    resolver: async () => ["93.184.216.34"],
+    fetcher: async (_url, init) => new Promise((_resolve, reject) => {
+      init.signal.addEventListener("abort", () => { httpAborted = true; reject(new Error("aborted")); }, { once: true });
+    })
+  });
+  await assert.rejects(() => http.scan(descriptor("http", "https://example.test/", { allowed_hosts: ["example.test"] }), { ...DEFAULT_SOURCE_BUDGET, timeout_ms: 5 }), /http_source_timeout|aborted/);
+  assert.equal(httpAborted, true);
+
+  let sqlAborted = false;
+  const sql = createSqlSourceProvider("postgres", { read_only: true, query: async (_statement, _params, limits) => new Promise((_resolve, reject) => {
+    limits.signal.addEventListener("abort", () => { sqlAborted = true; reject(new Error("aborted")); }, { once: true });
+  }) }, { records: "SELECT id FROM records" });
+  await assert.rejects(() => sql.scan(descriptor("postgres", "database-alias", { query_id: "records" }), { ...DEFAULT_SOURCE_BUDGET, timeout_ms: 5 }), /sql_query_timeout|aborted/);
+  assert.equal(sqlAborted, true);
+
+  let s3Aborted = false;
+  const s3 = createS3SourceProvider({ read_only: true, list: async (_bucket, _prefix, _limit, limits) => new Promise((_resolve, reject) => {
+    limits.signal.addEventListener("abort", () => { s3Aborted = true; reject(new Error("aborted")); }, { once: true });
+  }), get: async () => Buffer.from("unused") });
+  await assert.rejects(() => s3.scan(descriptor("s3", "bucket-alias", { bucket: "docs", allowed_bucket: "docs", prefix: "public/", allowed_prefix: "public/" }), { ...DEFAULT_SOURCE_BUDGET, timeout_ms: 5 }), /s3_list_timeout|aborted/);
+  assert.equal(s3Aborted, true);
+});
+
+test("HTTP rejects an oversized declared body and cancels it", async () => {
+  let cancelled = false;
+  const body = new ReadableStream({
+    pull() {},
+    cancel() { cancelled = true; }
+  });
+  const http = createHttpSourceProvider({
+    resolver: async () => ["93.184.216.34"],
+    fetcher: async () => new Response(body, { status: 200, headers: { "content-length": "2048", "content-type": "text/plain" } })
+  });
+  await assert.rejects(() => http.scan(descriptor("http", "https://example.test/", { allowed_hosts: ["example.test"] }), { ...DEFAULT_SOURCE_BUDGET, max_item_bytes: 1024 }), /http_content_length_exceeded/);
+  assert.equal(cancelled, true);
 });
 
 test("secret-bearing normalized content is blocked instead of entering proposals", async () => {
@@ -167,10 +239,62 @@ test("provider and normalization budgets fail before unbounded materialization",
   const boundedRows = await convertPayloads(manyRowsSnapshot, [manyRows], { ...DEFAULT_SOURCE_BUDGET, max_items: 2 });
   assert.equal(boundedRows.units.length, 0);
   assert.equal(boundedRows.diagnostics.some((item) => item.message === "csv_row_budget_exceeded"), true);
+
+  const wideCsv = { key: "wide.csv", media_type: "text/csv", content: Buffer.from(`${Array.from({ length: 5_000 }, (_, index) => `column_${index}`).join(",")}\n${Array.from({ length: 5_000 }, () => "x").join(",")}`) };
+  const wideCsvSnapshot = buildSourceSnapshot(source, [wideCsv]);
+  const boundedColumns = await convertPayloads(wideCsvSnapshot, [wideCsv], DEFAULT_SOURCE_BUDGET);
+  assert.equal(boundedColumns.units.length, 0);
+  assert.equal(boundedColumns.diagnostics.some((item) => item.message === "csv_column_budget_exceeded"), true);
+});
+
+test("official database clients terminate or retire connections when aborted", async () => {
+  let postgresReleasedWithError = false;
+  const postgresConnection = {
+    async query(statement) {
+      if (typeof statement === "object") return new Promise((_resolve, reject) => statement.signal.addEventListener("abort", () => reject(new Error("postgres-aborted")), { once: true }));
+      return {};
+    },
+    release(error) { postgresReleasedWithError = error instanceof Error; }
+  };
+  const postgres = createPostgresReadClient({ pool: { connect: async () => postgresConnection } });
+  const postgresAbort = new AbortController();
+  const postgresQuery = postgres.query("SELECT 1", [], { max_rows: 1, timeout_ms: 100, signal: postgresAbort.signal });
+  setImmediate(() => postgresAbort.abort());
+  await assert.rejects(() => postgresQuery, /postgres-aborted/);
+  assert.equal(postgresReleasedWithError, true);
+
+  let mysqlDestroyed = false;
+  let rejectMysql;
+  const mysqlConnection = {
+    query(statement) {
+      if (String(statement).startsWith("SELECT *")) return new Promise((_resolve, reject) => { rejectMysql = reject; });
+      return Promise.resolve([[]]);
+    },
+    destroy() { mysqlDestroyed = true; rejectMysql?.(new Error("mysql-aborted")); },
+    release() { throw new Error("destroyed_connection_must_not_be_released"); }
+  };
+  const mysql = createMysqlReadClient({ pool: { getConnection: async () => mysqlConnection } });
+  const mysqlAbort = new AbortController();
+  const mysqlQuery = mysql.query("SELECT 1", [], { max_rows: 1, timeout_ms: 100, signal: mysqlAbort.signal });
+  setImmediate(() => mysqlAbort.abort());
+  await assert.rejects(() => mysqlQuery, /mysql-aborted/);
+  assert.equal(mysqlDestroyed, true);
 });
 
 test("official S3 client rejects invalid budgets and stalled pagination", async () => {
   assert.throws(() => createS3ReadClient({ client: { send: async () => ({}) }, maxObjectBytes: Number.NaN }), /s3_object_budget_invalid/);
+  const abort = new AbortController();
+  let observedSignal;
+  const signalClient = createS3ReadClient({
+    client: {
+      send: async (_command, options) => {
+        observedSignal = options.abortSignal;
+        return { Contents: [] };
+      }
+    }
+  });
+  await signalClient.list("bucket", "allowed/", 1, { signal: abort.signal });
+  assert.equal(observedSignal, abort.signal);
   const client = createS3ReadClient({
     client: {
       send: async () => ({ Contents: [], IsTruncated: true, NextContinuationToken: "same-token" })

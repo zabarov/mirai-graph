@@ -32,7 +32,7 @@ function createS3ReadClient(options = {}) {
   const maxObjectBytes = configuredMaxObjectBytes;
   return {
     read_only: true,
-    async list(bucket, prefix, limit) {
+    async list(bucket, prefix, limit, limits = {}) {
       if (!Number.isSafeInteger(limit) || limit < 1) throw new Error("s3_list_budget_invalid");
       const objects = [];
       let continuationToken;
@@ -47,7 +47,7 @@ function createS3ReadClient(options = {}) {
           Prefix: prefix,
           MaxKeys: Math.min(1000, limit - objects.length),
           ...(continuationToken ? { ContinuationToken: continuationToken } : {})
-        }));
+        }), limits.signal ? { abortSignal: limits.signal } : undefined);
         for (const object of result.Contents || []) {
           if (!object.Key) continue;
           objects.push({ key: object.Key, etag: object.ETag, bytes: object.Size });
@@ -63,7 +63,7 @@ function createS3ReadClient(options = {}) {
     async get(bucket, key, version, limits = {}) {
       const requestLimit = Math.max(1, Number(limits.max_bytes || maxObjectBytes));
       const effectiveLimit = Math.min(maxObjectBytes, requestLimit);
-      const result = await client.send(new GetObjectCommand({ Bucket: bucket, Key: key, ...(version ? { VersionId: version } : {}) }));
+      const result = await client.send(new GetObjectCommand({ Bucket: bucket, Key: key, ...(version ? { VersionId: version } : {}) }), limits.signal ? { abortSignal: limits.signal } : undefined);
       if (Number(result.ContentLength || 0) > effectiveLimit) throw new Error("s3_body_budget_exceeded");
       return {
         content: await bodyToBytes(result.Body, effectiveLimit),

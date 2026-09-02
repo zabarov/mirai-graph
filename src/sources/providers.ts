@@ -107,6 +107,26 @@ function collectFiles(root: string, current: string, output: string[], budget: S
   }
 }
 
+function isWithin(root: string, candidate: string): boolean {
+  const relative = path.relative(root, candidate);
+  return relative === "" || (relative !== ".." && !relative.startsWith(`..${path.sep}`) && !path.isAbsolute(relative));
+}
+
+function openedFileStat(root: string, filename: string, fileDescriptor: number, key: string): fs.Stats {
+  const opened = fs.fstatSync(fileDescriptor);
+  let currentResolved: string;
+  let current: fs.Stats;
+  try {
+    currentResolved = fs.realpathSync(filename);
+    current = fs.statSync(currentResolved);
+  } catch {
+    throw new Error(`source_file_changed_during_read:${key}`);
+  }
+  if (!isWithin(root, currentResolved)) throw new Error(`source_file_scope_escape:${key}`);
+  if (opened.dev !== current.dev || opened.ino !== current.ino) throw new Error(`source_file_changed_during_read:${key}`);
+  return opened;
+}
+
 function filePayloads(rootInput: string, budget: SourceBudget): SourcePayload[] {
   assertBudget(budget);
   const root = fs.realpathSync(path.resolve(rootInput));
@@ -118,13 +138,12 @@ function filePayloads(rootInput: string, budget: SourceBudget): SourcePayload[] 
   for (const filename of files) {
     const key = path.relative(root, filename).split(path.sep).join("/");
     const resolved = fs.realpathSync(filename);
-    const relative = path.relative(root, resolved);
-    if (relative === ".." || relative.startsWith(`..${path.sep}`) || path.isAbsolute(relative)) throw new Error(`source_file_scope_escape:${key}`);
+    if (!isWithin(root, resolved)) throw new Error(`source_file_scope_escape:${key}`);
     const noFollow = typeof fs.constants.O_NOFOLLOW === "number" ? fs.constants.O_NOFOLLOW : 0;
     const fileDescriptor = fs.openSync(resolved, fs.constants.O_RDONLY | noFollow);
     let content: Buffer;
     try {
-      const stat = fs.fstatSync(fileDescriptor);
+      const stat = openedFileStat(root, resolved, fileDescriptor, key);
       if (!stat.isFile()) throw new Error(`source_file_not_regular:${key}`);
       if (stat.size > budget.max_item_bytes) throw new Error(`source_item_bytes_exceeded:${key}`);
       totalBytes += stat.size;
@@ -238,7 +257,25 @@ async function withTimeout<T>(operation: Promise<T>, timeoutMs: number, code: st
   }
 }
 
-async function readResponseBounded(response: Response, maxBytes: number): Promise<Uint8Array> {
+async function withAbortTimeout<T>(operation: (signal: AbortSignal) => Promise<T>, timeoutMs: number, code: string): Promise<T> {
+  const controller = new AbortController();
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  try {
+    return await Promise.race([
+      operation(controller.signal),
+      new Promise<T>((_resolve, reject) => {
+        timer = setTimeout(() => {
+          controller.abort(new Error(code));
+          reject(new Error(code));
+        }, timeoutMs);
+      })
+    ]);
+  } finally {
+    if (timer) clearTimeout(timer);
+  }
+}
+
+async function readResponseBounded(response: Response, maxBytes: number, deadline: number): Promise<Uint8Array> {
   if (!response.body) {
     const content = new Uint8Array(await response.arrayBuffer());
     if (content.byteLength > maxBytes) throw new Error("http_body_budget_exceeded");
@@ -249,7 +286,19 @@ async function readResponseBounded(response: Response, maxBytes: number): Promis
   let total = 0;
   try {
     while (true) {
-      const { done, value } = await reader.read();
+      const remainingMs = deadline - Date.now();
+      if (remainingMs < 1) {
+        await reader.cancel("http_source_timeout");
+        throw new Error("http_source_timeout");
+      }
+      let result: ReadableStreamReadResult<Uint8Array>;
+      try {
+        result = await withTimeout(reader.read(), remainingMs, "http_source_timeout");
+      } catch (error) {
+        try { await reader.cancel("http_source_timeout"); } catch { /* The timeout remains authoritative. */ }
+        throw error;
+      }
+      const { done, value } = result;
       if (done) break;
       if (!value) continue;
       total += value.byteLength;
@@ -298,7 +347,13 @@ export function createHttpSourceProvider(options: { fetcher?: FetchLike; resolve
           if (remainingMs < 1) throw new Error("http_source_timeout");
           const addresses = [...new Set(await withTimeout(resolver(url.hostname), remainingMs, "http_dns_timeout"))].sort();
           if (!addresses.length || addresses.some(isPrivateIp)) throw new Error(`http_private_address_forbidden:${url.hostname}`);
-          response = await withTimeout(fetcher(url, { method: "GET", redirect: "manual", signal: AbortSignal.timeout(remainingMs), headers: { accept: "text/html,text/plain,application/json,application/pdf,*/*;q=0.1" } }, { hostname: url.hostname, approved_addresses: addresses }), remainingMs, "http_source_timeout");
+          const requestRemainingMs = deadline - Date.now();
+          if (requestRemainingMs < 1) throw new Error("http_source_timeout");
+          response = await withAbortTimeout((signal) => fetcher(url, { method: "GET", redirect: "manual", signal, headers: { accept: "text/html,text/plain,application/json,application/pdf,*/*;q=0.1" } }, { hostname: url.hostname, approved_addresses: addresses }), requestRemainingMs, "http_source_timeout");
+          if (Date.now() > deadline) {
+            await discardResponseBody(response);
+            throw new Error("http_source_timeout");
+          }
           if (response.status >= 300 && response.status < 400) {
             const location = response.headers.get("location");
             if (!location || redirect === maxRedirects) {
@@ -319,8 +374,11 @@ export function createHttpSourceProvider(options: { fetcher?: FetchLike; resolve
         if (remainingBytes < 1) throw new Error("source_total_bytes_exceeded");
         const itemLimit = Math.min(budget.max_item_bytes, remainingBytes);
         const declared = Number(response.headers.get("content-length") || 0);
-        if (declared > itemLimit) throw new Error("http_content_length_exceeded");
-        const content = await readResponseBounded(response, itemLimit);
+        if (declared > itemLimit) {
+          await discardResponseBody(response);
+          throw new Error("http_content_length_exceeded");
+        }
+        const content = await readResponseBounded(response, itemLimit, deadline);
         totalBytes += content.byteLength;
         const mediaType = (response.headers.get("content-type") || "application/octet-stream").split(";")[0] as string;
         payloads.push({ key: url.toString(), media_type: mediaType, content, etag: response.headers.get("etag") || undefined, modified_at: response.headers.get("last-modified") || undefined });
@@ -332,7 +390,7 @@ export function createHttpSourceProvider(options: { fetcher?: FetchLike; resolve
 
 export interface SqlReadClient {
   readonly read_only: true;
-  query(statement: string, params: unknown[], limits: { max_rows: number; timeout_ms: number }): Promise<Array<Record<string, unknown>>>;
+  query(statement: string, params: unknown[], limits: { max_rows: number; timeout_ms: number; signal?: AbortSignal }): Promise<Array<Record<string, unknown>>>;
 }
 
 function assertReadQuery(statement: string): void {
@@ -358,7 +416,7 @@ export function createSqlSourceProvider(kind: "postgres" | "mysql", client: SqlR
       assertReadQuery(statement);
       const params = Array.isArray(descriptor.configuration.params) ? descriptor.configuration.params : [];
       const rowLimit = budget.max_items === Number.MAX_SAFE_INTEGER ? budget.max_items : budget.max_items + 1;
-      const rows = await withTimeout(client.query(statement, params, { max_rows: rowLimit, timeout_ms: budget.timeout_ms }), budget.timeout_ms, "sql_query_timeout");
+      const rows = await withAbortTimeout((signal) => client.query(statement, params, { max_rows: rowLimit, timeout_ms: budget.timeout_ms, signal }), budget.timeout_ms, "sql_query_timeout");
       if (rows.length > budget.max_items) throw new Error("sql_row_budget_exceeded");
       const payloads: SourcePayload[] = [];
       let totalBytes = 0;
@@ -382,8 +440,8 @@ export interface S3ReadObject {
 
 export interface S3ReadClient {
   readonly read_only: true;
-  list(bucket: string, prefix: string, limit: number): Promise<Array<{ key: string; etag?: string; version?: string; bytes?: number }>>;
-  get(bucket: string, key: string, version?: string, limits?: { max_bytes: number }): Promise<Uint8Array | S3ReadObject>;
+  list(bucket: string, prefix: string, limit: number, limits?: { timeout_ms?: number; signal?: AbortSignal }): Promise<Array<{ key: string; etag?: string; version?: string; bytes?: number }>>;
+  get(bucket: string, key: string, version?: string, limits?: { max_bytes: number; timeout_ms?: number; signal?: AbortSignal }): Promise<Uint8Array | S3ReadObject>;
 }
 
 export function createS3SourceProvider(client: S3ReadClient): SourceProvider {
@@ -403,7 +461,8 @@ export function createS3SourceProvider(client: S3ReadClient): SourceProvider {
       if (!bucket || bucket !== allowedBucket || !prefix.startsWith(allowedPrefix) || prefix.includes("..")) throw new Error("s3_scope_not_allowed");
       const deadline = Date.now() + budget.timeout_ms;
       const objectLimit = budget.max_items === Number.MAX_SAFE_INTEGER ? budget.max_items : budget.max_items + 1;
-      const objects = await withTimeout(client.list(bucket, prefix, objectLimit), Math.max(1, deadline - Date.now()), "s3_list_timeout");
+      const listRemainingMs = Math.max(1, deadline - Date.now());
+      const objects = await withAbortTimeout((signal) => client.list(bucket, prefix, objectLimit, { timeout_ms: listRemainingMs, signal }), listRemainingMs, "s3_list_timeout");
       if (objects.length > budget.max_items) throw new Error("source_item_budget_exceeded");
       const payloads: SourcePayload[] = [];
       let totalBytes = 0;
@@ -415,7 +474,7 @@ export function createS3SourceProvider(client: S3ReadClient): SourceProvider {
         const maxBytes = Math.min(budget.max_item_bytes, remainingBytes);
         const remainingMs = deadline - Date.now();
         if (remainingMs < 1) throw new Error("s3_source_timeout");
-        const fetched = await withTimeout(client.get(bucket, object.key, object.version, { max_bytes: maxBytes }), remainingMs, "s3_get_timeout");
+        const fetched = await withAbortTimeout((signal) => client.get(bucket, object.key, object.version, { max_bytes: maxBytes, timeout_ms: remainingMs, signal }), remainingMs, "s3_get_timeout");
         const result: S3ReadObject = fetched instanceof Uint8Array ? { content: fetched } : fetched;
         if (result.content.byteLength > maxBytes) throw new Error(`source_item_bytes_exceeded:${object.key}`);
         totalBytes += result.content.byteLength;

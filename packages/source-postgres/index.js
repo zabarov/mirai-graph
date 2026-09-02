@@ -32,12 +32,22 @@ function createPostgresReadClient(options = {}) {
       const maxRows = Math.max(1, Math.floor(limits.max_rows));
       const timeoutMs = Math.max(1, Math.floor(limits.timeout_ms));
       const connection = await pool.connect();
+      let released = false;
+      const abort = () => {
+        if (released) return;
+        released = true;
+        connection.release(new Error("postgres_source_query_aborted"));
+      };
+      if (limits.signal && limits.signal.aborted) abort();
+      else if (limits.signal) limits.signal.addEventListener("abort", abort, { once: true });
       try {
+        if (released) throw new Error("postgres_source_query_aborted");
         await connection.query("BEGIN READ ONLY");
         await connection.query(`SET LOCAL statement_timeout = ${timeoutMs}`);
         const result = await connection.query({
           text: `SELECT * FROM (${normalizeStatement(statement)}) AS mirai_source LIMIT ${maxRows}`,
-          values: params
+          values: params,
+          ...(limits.signal ? { signal: limits.signal } : {})
         });
         await connection.query("COMMIT");
         return result.rows;
@@ -45,7 +55,8 @@ function createPostgresReadClient(options = {}) {
         try { await connection.query("ROLLBACK"); } catch (_rollbackError) { /* original error remains authoritative */ }
         throw error;
       } finally {
-        connection.release();
+        if (limits.signal) limits.signal.removeEventListener("abort", abort);
+        if (!released) connection.release();
       }
     },
     async close() {

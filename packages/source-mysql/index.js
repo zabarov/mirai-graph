@@ -33,7 +33,16 @@ function createMysqlReadClient(options = {}) {
       const maxRows = Math.max(1, Math.floor(limits.max_rows));
       const timeoutMs = Math.max(1, Math.floor(limits.timeout_ms));
       const connection = await pool.getConnection();
+      let destroyed = false;
+      const abort = () => {
+        if (destroyed) return;
+        destroyed = true;
+        connection.destroy();
+      };
+      if (limits.signal && limits.signal.aborted) abort();
+      else if (limits.signal) limits.signal.addEventListener("abort", abort, { once: true });
       try {
+        if (destroyed) throw new Error("mysql_source_query_aborted");
         await connection.query(`SET SESSION MAX_EXECUTION_TIME = ${timeoutMs}`);
         await connection.query("START TRANSACTION READ ONLY");
         const [rows] = await connection.query(
@@ -47,7 +56,8 @@ function createMysqlReadClient(options = {}) {
         try { await connection.query("ROLLBACK"); } catch (_rollbackError) { /* original error remains authoritative */ }
         throw error;
       } finally {
-        connection.release();
+        if (limits.signal) limits.signal.removeEventListener("abort", abort);
+        if (!destroyed) connection.release();
       }
     },
     async close() {
