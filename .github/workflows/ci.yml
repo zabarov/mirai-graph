@@ -114,9 +114,6 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Install release-check dependencies
-        run: sudo apt-get update && sudo apt-get install -y ripgrep
-
       - name: Install package dependencies
         run: npm ci
 

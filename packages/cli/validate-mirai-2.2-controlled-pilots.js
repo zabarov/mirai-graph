@@ -4,6 +4,12 @@
 const fs = require("node:fs");
 const path = require("node:path");
 const { digestValue, withoutDigest } = require("../../dist/cjs/core");
+const {
+  CLAIM_BOUNDARY,
+  INDEPENDENT_REVIEW,
+  LIMITATIONS,
+  OWNER_DECISION
+} = require("./mirai-2.2-controlled-pilot-contract");
 
 const root = path.resolve(__dirname, "../..");
 const inputIndex = process.argv.indexOf("--input");
@@ -11,7 +17,7 @@ const target = inputIndex >= 0 ? path.resolve(process.argv[inputIndex + 1]) : pa
 const report = JSON.parse(fs.readFileSync(target, "utf8"));
 const errors = [];
 const expectedIds = ["pilot.controlled.ai-employee", "pilot.controlled.federation", "pilot.controlled.modular-software", "pilot.controlled.self-hosting"];
-const rootKeys = ["canonical_write_allowed", "case_count", "contract_version", "digest", "effect_audit", "execution_provenance", "independent_review", "limitations", "observed_at", "owner_decision", "production_effects", "release_target", "results", "status"];
+const rootKeys = ["canonical_write_allowed", "case_count", "claim_boundary", "contract_version", "digest", "effect_audit", "execution_provenance", "independent_review", "limitations", "observed_at", "owner_decision", "production_effects", "release_target", "results", "status"];
 const resultKeys = ["assertion_count", "blocking_conversion_diagnostic_count", "canonical_write_allowed", "conflict_count", "cycle_digest", "cycle_status", "digest", "evolution_change_proposal_count", "id", "invoked_operations", "mode", "normalized_unit_count", "process_candidate_count", "process_observation_count", "production_effects", "protected_or_effectful_change_applied", "raw_content_disclosed", "raw_paths_disclosed", "relation_count", "review_status", "snapshot_digest", "snapshot_digest_after", "source_alias", "source_descriptor_digest", "source_git_clean_before", "source_git_state_digest_after", "source_git_state_digest_before", "source_git_state_unchanged", "source_item_count", "source_kind", "source_revision_digest", "source_snapshot_unchanged", "technology_draft_allowed_count"];
 const provenanceKeys = ["dependency_lock_sha256", "private_config_digest", "public_config_digest", "runner_revision", "runner_source_sha256", "runner_worktree_clean_after", "runner_worktree_clean_before", "runner_worktree_status_digest_after", "runner_worktree_status_digest_before", "runner_worktree_unchanged", "runtime", "runtime_dist_digest"];
 const runtimeKeys = ["arch", "node", "platform"];
@@ -39,11 +45,26 @@ function count(value, label) {
   if (!Number.isInteger(value) || value < 0) errors.push(`${label}:count_invalid`);
 }
 
+function containsPrivatePath(value) {
+  if (Array.isArray(value)) return value.some(containsPrivatePath);
+  if (value && typeof value === "object") return Object.values(value).some(containsPrivatePath);
+  if (typeof value !== "string") return false;
+  const text = value.trim();
+  if (/^file:\/\//i.test(text)) return true;
+  if (/^(?:[a-z]:[\\/]|\\\\)/i.test(text)) return true;
+  if (/^\/(?!\/)/.test(text)) return true;
+  if (/(?:^|[\s"'`(=])\/(?!\/)[^\s"'`]+/.test(value)) return true;
+  if (/(?:^|[\s"'`(=])[a-z]:[\\/][^\s"'`]+/i.test(value)) return true;
+  if (/(?:^|[\s"'`(=])\\\\[^\s"'`]+/.test(value)) return true;
+  return false;
+}
+
 exactKeys(report, rootKeys, "report");
 if (report.contract_version !== "1.0.0" || report.release_target !== "2.2.0") errors.push("controlled_pilot_contract_invalid");
 if (report.status !== "controlled_observe_complete" || report.case_count !== 4) errors.push("controlled_pilot_suite_incomplete");
 if (!Array.isArray(report.results) || report.results.map((item) => item.id).sort().join(",") !== expectedIds.join(",")) errors.push("controlled_pilot_case_set_invalid");
 if (report.production_effects !== false || report.canonical_write_allowed !== false) errors.push("controlled_pilot_boundary_invalid");
+if (report.independent_review !== INDEPENDENT_REVIEW || report.owner_decision !== OWNER_DECISION || report.claim_boundary !== CLAIM_BOUNDARY || JSON.stringify(report.limitations) !== JSON.stringify(LIMITATIONS)) errors.push("controlled_pilot_review_claim_invalid");
 digest(report.digest, "report");
 if (digestValue(withoutDigest(report)) !== report.digest) errors.push("controlled_pilot_report_digest_mismatch");
 
@@ -68,6 +89,7 @@ for (const result of report.results || []) {
   if (result.source_item_count < 1 || result.normalized_unit_count < 1) errors.push(`${result.id}:source_evidence_missing`);
   if (result.production_effects !== false || result.canonical_write_allowed !== false || result.protected_or_effectful_change_applied !== false) errors.push(`${result.id}:safety_boundary_invalid`);
   if (result.raw_paths_disclosed !== false || result.raw_content_disclosed !== false) errors.push(`${result.id}:public_safety_invalid`);
+  if (result.review_status !== "pending_independent_review") errors.push(`${result.id}:review_status_invalid`);
   if (result.technology_draft_allowed_count !== 0) errors.push(`${result.id}:observed_practice_promoted`);
   if (result.source_git_state_unchanged !== true || result.source_git_state_digest_before !== result.source_git_state_digest_after) errors.push(`${result.id}:source_git_state_changed`);
   if (result.source_snapshot_unchanged !== true || result.snapshot_digest !== result.snapshot_digest_after) errors.push(`${result.id}:source_snapshot_changed`);
@@ -75,7 +97,7 @@ for (const result of report.results || []) {
   for (const key of ["source_revision_digest", "source_git_state_digest_before", "source_git_state_digest_after", "source_descriptor_digest", "snapshot_digest", "snapshot_digest_after", "cycle_digest", "digest"]) digest(result[key], `${result.id}:${key}`);
   if (digestValue(withoutDigest(result)) !== result.digest) errors.push(`${result.id}:digest_mismatch`);
 }
-if (!Array.isArray(report.limitations) || !report.limitations.some((item) => /not independently reproducible/i.test(item))) errors.push("private_source_reproducibility_limitation_missing");
+if (containsPrivatePath(report)) errors.push("controlled_pilot_private_path_disclosed");
 const serialized = JSON.stringify(report);
 if (/\/Users\/|\\Users\\|larena|simai|ai-codex/i.test(serialized)) errors.push("controlled_pilot_private_identifier_disclosed");
 if (errors.length) {

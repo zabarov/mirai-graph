@@ -12,6 +12,12 @@ const { organizeKnowledge } = require(path.join(repositoryRoot, "dist/cjs/knowle
 const { buildSourceSnapshot, convertPayloads, createFilesystemSourceProvider, DEFAULT_SOURCE_BUDGET } = require(path.join(repositoryRoot, "dist/cjs/sources"));
 const { observationsFromUnits } = require(path.join(repositoryRoot, "dist/cjs/technology"));
 const { planAutonomicCycle } = require(path.join(repositoryRoot, "dist/cjs/evolution"));
+const {
+  CLAIM_BOUNDARY,
+  INDEPENDENT_REVIEW,
+  LIMITATIONS,
+  OWNER_DECISION
+} = require("./mirai-2.2-controlled-pilot-contract");
 
 function option(name) {
   const index = process.argv.indexOf(name);
@@ -37,6 +43,8 @@ function safeNewTemporaryOutput(value) {
     .map((entry) => fs.realpathSync(entry));
   const realParent = fs.realpathSync(parent);
   const candidate = path.join(realParent, path.basename(requested));
+  const realRepositoryRoot = fs.realpathSync(repositoryRoot);
+  if (isWithin(realRepositoryRoot, candidate)) throw new Error("controlled_pilot_output_overlaps_runner_repository");
   if (!temporaryRoots.some((root) => isWithin(root, candidate))) throw new Error("controlled_pilot_output_must_be_temporary");
   if (fs.existsSync(candidate)) throw new Error("controlled_pilot_output_already_exists");
   return candidate;
@@ -236,20 +244,20 @@ async function runCase(item) {
     execution_provenance,
     effect_audit,
     results,
-    independent_review: "pending",
-    owner_decision: "ai_assisted_independent_review_may_substitute_for_human_review_for_this_release",
+    independent_review: INDEPENDENT_REVIEW,
+    owner_decision: OWNER_DECISION,
+    claim_boundary: CLAIM_BOUNDARY,
     production_effects: false,
     canonical_write_allowed: false,
-    limitations: [
-      "Three source sets are private and represented only by sanitized aggregates and digests.",
-      "Private source authenticity is owner-verifiable but not independently reproducible from this public artifact.",
-      "Observe/suggest results do not establish correctness of extracted knowledge or discovered processes.",
-      "No production effect, canonical merge or automatic technology promotion was performed.",
-      "Owner-authorized AI-assisted review is not external human peer review."
-    ]
+    limitations: LIMITATIONS
   };
   const output = { ...body, digest: digestValue(body) };
   fs.writeFileSync(outputPath, `${JSON.stringify(output, null, 2)}\n`, { flag: "wx", mode: 0o600 });
+  const runnerStateAfterOutput = gitState(repositoryRoot);
+  if (runnerStateAfter.status_digest !== runnerStateAfterOutput.status_digest || runnerStateAfter.revision_digest !== runnerStateAfterOutput.revision_digest) {
+    fs.rmSync(outputPath, { force: true });
+    throw new Error("controlled_pilot_runner_repository_changed_after_output");
+  }
   process.stdout.write(`${JSON.stringify({ status: output.status, case_count: output.case_count, output: outputPath, canonical_write_allowed: false }, null, 2)}\n`);
 })().catch((error) => {
   process.stderr.write(`${error.message}\n`);
