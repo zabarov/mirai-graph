@@ -1,6 +1,6 @@
 # Mirai Runtime Operations Guide
 
-Status: `2.0.0-alpha.3` reference operations
+Status: `2.1.0-rc.1` reference operations
 
 ## Runtime Home
 

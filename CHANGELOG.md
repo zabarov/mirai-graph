@@ -4,6 +4,33 @@ All notable changes to Mirai Graph will be documented in this file.
 
 ## [Unreleased]
 
+## [2.1.0-rc.1] - 2026-09-02
+
+### Added
+
+- Added proposal-only Files/Git assimilation, graph-native components,
+  multidimensional relation facts, technology drafts, immutable activation
+  plans and deterministic parallel activation.
+- Added self-describing `mirai/` Project Capsules, deterministic locks,
+  generated START documents, Agent Execution Briefs and approval-first legacy
+  migration.
+- Added independent Python conformance evidence and controlled Federation,
+  Larena-shaped and AI Employee pilots.
+
+### Security
+
+- Rejected sandbox-root and post-initialization runtime path substitution.
+- Isolated Git reads from repository-controlled fsmonitor, external diff and
+  reusable temporary configuration.
+- Recorded an owner-authorized isolated AI-assisted review at an exact public
+  revision with no unresolved critical or high finding.
+
+### Release Boundary
+
+- The RC is eligible for production-read preparation only.
+- Production-write and live effect adapters remain separately gated.
+- Comparative scientific claims remain outside software release readiness.
+
 ### Mirai 2.0.0-alpha.3
 
 - Hardened production invariants after focused review: symlink-confined

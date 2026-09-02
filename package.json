@@ -1,6 +1,6 @@
 {
   "name": "@zabarov/mirai",
-  "version": "2.0.0-alpha.3",
+  "version": "2.1.0-rc.1",
   "private": false,
   "description": "A governed executable environment for AI, project and organizational processes.",
   "license": "MIT",
@@ -195,7 +195,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/zabarov/mirai.git"
+    "url": "git+https://github.com/zabarov/mirai-graph.git"
   },
   "keywords": [
     "graph",

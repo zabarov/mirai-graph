@@ -64,7 +64,7 @@ import {
 
 function usage(): void {
   process.stderr.write([
-    "Mirai 2 CLI (alpha.3)",
+    "Mirai 2.1 CLI (release candidate)",
     "Additive Mirai 2.1 development contracts are available for assimilation, components, technology and activation.",
     "",
     "  mirai program validate <program.mirai.yaml|program.mirai.json>",

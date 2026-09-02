@@ -1,6 +1,6 @@
 # Mirai 2 Beta Readiness
 
-Status: engineering candidate; beta promotion blocked by external evidence
+Status: historical engineering snapshot; software track advanced to 2.1.0-rc.1
 
 ## Completed Engineering Evidence
 
@@ -28,17 +28,17 @@ Status: engineering candidate; beta promotion blocked by external evidence
   independent review of the calibration packet is still pending;
 - the held-out confirmatory factorial experiment has not been preregistered or
   executed;
-- an independent security review has not been completed.
+- blinded and confirmatory research remain open for comparative claims.
 
 ## Verdict
 
-The implementation is technically ready for a controlled beta evidence round,
-but the package remains `2.0.0-alpha.3` until the external review and variance
-pilot gates are met. Current evidence supports executable conformance and
-auditability claims, not comparative effectiveness or stable release.
+This document records the earlier beta-evidence boundary. The software package
+has advanced to `2.1.0-rc.1` after exact-revision conformance and an
+owner-authorized isolated AI-assisted security review. Comparative
+effectiveness still requires blinded and confirmatory research.
 
-The authoritative gate inventory is
-[`releases/2.0.0-readiness.json`](../../releases/2.0.0-readiness.json). The
+The current authoritative gate inventory is
+[`releases/2.1.0-readiness.json`](../../releases/2.1.0-readiness.json). The
 [external review packet contract](mirai-2-external-review-packet.md) defines
 how the next human evidence must be prepared without pretending that internal
 engineering review was blinded.

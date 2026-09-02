@@ -1,6 +1,6 @@
 {
   "name": "mirai-graph",
-  "version": "2.0.0-alpha.3",
+  "version": "2.1.0-rc.1",
   "description": "Compatibility wrapper for @zabarov/mirai.",
   "license": "MIT",
   "main": "index.js",
@@ -10,6 +10,6 @@
     "mirai_graph": "cli.js"
   },
   "dependencies": {
-    "@zabarov/mirai": "2.0.0-alpha.3"
+    "@zabarov/mirai": "2.1.0-rc.1"
   }
 }

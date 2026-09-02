@@ -1,6 +1,6 @@
 # Mirai Runtime Threat Model
 
-Status: `2.0.0-alpha.3` security-review baseline
+Status: `2.1.0-rc.1` reviewed security baseline
 
 ## Assets And Trust Boundaries
 

@@ -1,6 +1,6 @@
 # Run A Governed Mirai Program
 
-Status: `2.0.0-alpha.3` checkout tutorial
+Status: `2.1.0-rc.1` checkout and package tutorial
 
 This tutorial executes a public-safe repository-read Program. It reads one
 synthetic file, creates host-local receipts and exports sanitized evidence. It

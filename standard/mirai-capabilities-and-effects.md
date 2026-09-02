@@ -1,6 +1,6 @@
 # Mirai Capabilities And Effects
 
-Status: `2.0.0-alpha.3` reference contract
+Status: `2.1.0-rc.1` frozen reference contract
 
 ## Purpose
 

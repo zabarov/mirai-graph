@@ -1,6 +1,6 @@
 # Mirai Documentation Map
 
-Status: Mirai 2.0 development map with stable Mirai Graph 1.4 compatibility
+Status: Mirai 2.1 release-candidate documentation map with 1.4 compatibility
 
 This page helps readers choose the right Mirai Graph documents without reading
 the whole repository.

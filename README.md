@@ -12,14 +12,14 @@ Use it when a software project has useful knowledge spread across README files,
 docs, issues, chats, code comments and AI prompts, and you need a small
 machine-readable map that developers and AI assistants can validate and reuse.
 
-Status: `2.0.0-alpha.3` development branch. The published compatibility line is
-`mirai-graph@1.4.0`; `1.4.1` is a repository maintenance baseline that has not
-been published to npm.
+Status: current 2.1 production-read release candidate. The currently published
+compatibility line remains `mirai-graph@1.4.0` until the RC and stable
+publication gates complete.
 
-The machine-readable [2.0 release readiness report](releases/2.0.0-readiness.json)
-currently records eighteen passed engineering and planning gates and four unresolved external,
-scientific or publication gates. A green local suite therefore does not by
-itself authorize beta, RC or stable promotion.
+The machine-readable [2.1 release readiness report](releases/2.1.0-readiness.json)
+separates engineering release gates from scientific claims and production-write
+authority. A green local suite therefore does not by itself authorize stable
+promotion or live effects.
 
 ### Production Readiness
 
@@ -42,11 +42,10 @@ and [external review packet](docs/security/mirai-independent-security-review-pac
 Passing repository tests is necessary engineering evidence, but is not by
 itself authorization to run against a production target.
 
-## Mirai 2.1 Development Preview
+## Mirai 2.1 Release Candidate
 
-The `codex/mirai-2.1` branch is an additive research and development track. It
-does not change the Mirai 2.0 Program or Runtime contracts and is not a stable
-release claim. It adds:
+Mirai 2.1 includes the security-frozen Mirai 2.0 Program and Runtime core plus
+additive graph-native capabilities. It adds:
 
 - read-only Files/Git source catalogs and proposal-only knowledge assimilation;
 - graph-native components with interfaces, typed operations and contextual

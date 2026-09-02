@@ -1,12 +1,12 @@
 cff-version: 1.2.0
-title: "Mirai Graph"
-message: "If you use Mirai Graph in research or software, please cite this repository."
+title: "Mirai"
+message: "If you use Mirai or Mirai Graph Core in research or software, please cite this repository."
 type: software
 authors:
   - family-names: "Zabarov"
     given-names: "Rim"
     orcid: "https://orcid.org/0009-0004-8605-5594"
-abstract: "Mirai Graph is an evolutionary graph operating model for managing the growth of complex systems."
+abstract: "Mirai combines an evolutionary graph operating model, typed programs, governed runtime, project capsules and graph-native activation for auditable AI, project and organizational processes."
 repository-code: "https://github.com/zabarov/mirai-graph"
 license: "MIT"
 keywords:
@@ -17,5 +17,5 @@ keywords:
   - complex systems
   - context engineering
   - systems engineering
-version: "1.2.0"
-date-released: "2026-08-27"
+version: "2.1.0-rc.1"
+date-released: "2026-09-02"

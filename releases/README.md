@@ -16,6 +16,9 @@ Release notes must separate:
 
 ## Release Notes
 
+- [v2.1.0-rc.1](2.1.0-rc.1.md) - production-read release candidate combining
+  the security-frozen Mirai 2.0 execution core with graph-native 2.1 contracts,
+  Project Capsule and compatibility wrappers.
 - [Mirai 2.0 stable readiness](2.0.0-readiness.json) - machine-readable passed,
   blocked and not-run promotion gates; the overall `2.0.0` verdict remains
   blocked.

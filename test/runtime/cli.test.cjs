@@ -6,6 +6,7 @@ const { spawnSync } = require("node:child_process");
 const test = require("node:test");
 
 const root = path.resolve(__dirname, "../..");
+const packageVersion = require(path.join(root, "package.json")).version;
 const cli = path.join(root, "packages/cli/mirai.js");
 const fixture = path.join(root, "examples/mirai-governed-runtime-minimal");
 
@@ -13,13 +14,13 @@ function command(args, options = {}) {
   return spawnSync(process.execPath, [cli, ...args], { cwd: root, encoding: "utf8", ...options });
 }
 
-test("primary CLI exposes Mirai 2 help and version while preserving legacy routing", () => {
+test("primary CLI exposes Mirai 2.1 help and package version while preserving legacy routing", () => {
   const help = command(["--help"]);
   assert.equal(help.status, 0, help.stderr);
-  assert.match(help.stderr, /Mirai 2 CLI \(alpha\.3\)/);
+  assert.match(help.stderr, /Mirai 2\.1 CLI \(release candidate\)/);
   const version = command(["--version"]);
   assert.equal(version.status, 0, version.stderr);
-  assert.equal(version.stdout.trim(), "2.0.0-alpha.3");
+  assert.equal(version.stdout.trim(), packageVersion);
   const legacy = command(["validate", path.join(root, "examples/minimal-graph")]);
   assert.equal(legacy.status, 0, legacy.stderr);
   assert.equal(JSON.parse(legacy.stdout).valid, true);

@@ -1,7 +1,6 @@
 # Mirai Graph Roadmap
 
-Status: published 1.4.0 compatibility line, local 1.4.1 maintenance baseline,
-and Mirai 2.0 development roadmap
+Status: published 1.4.0 compatibility line and Mirai 2.1.0-rc.1 release track
 
 ## Phase 0: Public Foundation
 
@@ -229,12 +228,14 @@ Planned artifacts:
 - release process;
 - public examples from approved external adopters.
 
-## Mirai 2.0 Development Track
+## Mirai 2.0 Core Track
 
 The repository `1.4.1` maintenance line remains the declarative compatibility
 baseline; npm currently publishes `mirai-graph@1.4.0`. Mirai
-2.0 develops a separate governed execution layer without replacing Hybrid SOT
-or treating graph content as runtime authorization.
+2.0 developed the governed execution core without replacing Hybrid SOT or
+treating graph content as runtime authorization. That core is now frozen at an
+exact reviewed revision and included in Mirai 2.1.0-rc.1; a separate stable
+2.0 package was not published.
 
 Release sequence and current status:
 
@@ -250,9 +251,9 @@ Release sequence and current status:
 4. `2.0.0-beta.1`: engineering pilot and independent-checker package is
    complete; property/fuzz and machine-readable readiness gates are also in
    place, while promotion awaits blinded external review and a variance pilot;
-5. `2.0.0-rc.1`: API freeze, independent security review, observed
-   cross-platform CI and clean-room installation;
-6. `2.0.0`: stable only after all conformance, safety and pilot gates pass.
+5. API freeze, isolated security review, observed cross-platform CI and
+   clean-room installation: completed as the 2.1 RC foundation;
+6. stable execution core: delivered through the unified 2.1 release line.
 
 The existing `graph.json` manifest contract is already `2.0.0`; that number is
 not the product release number. New Mirai Program and Runtime contracts have
@@ -260,9 +261,8 @@ their own versions.
 
 ## Mirai 2.1 Graph-Native Intelligence Track
 
-This track starts as a development branch while Mirai 2.0 external release
-gates remain open. It is additive: Mirai Program `1.0.0` and Runtime contracts
-remain unchanged.
+This track is additive: Mirai Program `1.0.0` and Runtime contracts remain
+unchanged while graph-native contracts and Project Capsule are added.
 
 1. `2.1.0-alpha.1`: source catalog, Files/Git scanning, fingerprints,
    provenance, duplicate/conflict classification and proposal-only assimilation;
@@ -276,25 +276,23 @@ remain unchanged.
    Runtime plus the controlled Federation pilot;
 6. `2.1.0-rc.1`: independent checker extension, security review, contract
    freeze and clean-room installation;
-7. `2.1.0`: stable only after all conformance, safety, pilot and scientific
-   gates pass.
+7. `2.1.0`: stable after conformance, safety, compatibility, pilot and exact RC
+   package gates pass. Confirmatory science remains required for comparative
+   effectiveness claims, not for bounded software release claims.
 
 Project Capsule is an additive core-infrastructure track within 2.1: preferred
 `mirai/` layout, deterministic project lock, generated START, task-scoped Agent
 Execution Brief, graph-v2 migration and a 2.x root compatibility facade. It is
 not a new profile and does not change Program `1.0.0` or Runtime `1.0.0`.
 
-The development implementation currently covers the alpha contracts, durable
-no-effect activation, the synthetic Federation pilot and independent Python
-checks for activation plans and run evidence. Beta engineering work is present,
-and the repository now includes a machine-validated 2.0 contract-freeze
-candidate plus a production-read operations contract. Effectful pilot coverage,
-independent security review and external scientific evaluation remain open. It
-must not be promoted to a 2.1 npm release before stable 2.0 and the remaining
-beta/RC gates.
+The release candidate now covers the full public contract inventory, durable
+no-effect activation, controlled Federation/Larena-shaped/AI Employee pilots,
+independent Python conformance, production-read operations, exact-revision
+isolated security review and public cross-platform CI. Stable promotion still
+requires an exact RC package clean-room matrix and final release metadata.
 
 Current promotion truth is recorded in
-[`releases/2.0.0-readiness.json`](releases/2.0.0-readiness.json). This report is
+[`releases/2.1.0-readiness.json`](releases/2.1.0-readiness.json). This report is
 validated in `npm test`; non-passed mandatory gates keep the overall state
 blocked rather than being hidden behind a green engineering suite.
 

@@ -1,6 +1,6 @@
 # Mirai Program
 
-Status: `2.0.0-alpha.3` contract with pure and governed reference execution
+Status: `2.1.0-rc.1` frozen contract with pure and governed reference execution
 
 ## Purpose
 
