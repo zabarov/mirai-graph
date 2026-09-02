@@ -454,7 +454,42 @@ function safeTrackedFile(relative) {
 
 function inventory(repo) {
   const entries = [];
-  for (const relative of trackedFiles(repo).filter(safeTrackedFile).sort()) {
+  const blockers = [];
+  let files = trackedFiles(repo);
+  const revision = git(repo, "rev-parse", "HEAD") || null;
+  if (!revision) {
+    if (fs.existsSync(path.join(repo, ".git"))) blockers.push("inventory_git_unavailable");
+    else {
+      // Ordinary folders and immutable distributions have no Git index. Use
+      // only explicitly declared graph/raw sources, never scan arbitrary data.
+      const graph = readManifest(repo).manifest?.graph || {};
+      const refs = ["graph.json", ...(graph.source_of_truth || []), ...(graph.objects || []),
+        ...(graph.relations || []), ...(graph.schemas || []), ...(graph.raw_sources || [])];
+      const found = new Set();
+      const visited = new Set();
+      function collect(relative) {
+        if (typeof relative !== "string" || !relative || path.isAbsolute(relative) || relative.includes("\\") || relative.includes(":") || relative.split("/").includes("..") || /[?*\[\]]/.test(relative)) {
+          blockers.push("inventory_declared_source_unsafe_or_unsupported"); return;
+        }
+        if (!safeTrackedFile(relative)) return;
+        if (visited.has(relative)) return;
+        visited.add(relative);
+        if (visited.size > 10000) { blockers.push("inventory_declared_source_budget_exceeded"); return; }
+        const absolute = path.join(repo, relative);
+        if (!fs.existsSync(absolute)) { blockers.push("inventory_declared_source_missing"); return; }
+        if (fs.lstatSync(absolute).isSymbolicLink() || !fs.realpathSync(absolute).startsWith(`${fs.realpathSync(repo)}${path.sep}`)) {
+          blockers.push("inventory_declared_source_unsafe_or_unsupported"); return;
+        }
+        if (fs.statSync(absolute).isDirectory()) {
+          for (const name of fs.readdirSync(absolute).sort()) collect(`${relative.replace(/\/$/, "")}/${name}`);
+        } else if (fs.statSync(absolute).isFile()) found.add(relative);
+        else blockers.push("inventory_declared_source_unsafe_or_unsupported");
+      }
+      refs.forEach(collect);
+      files = [...found];
+    }
+  }
+  for (const relative of files.filter(safeTrackedFile).sort()) {
     const absolute = path.join(repo, relative);
     if (!fs.existsSync(absolute) || fs.lstatSync(absolute).isSymbolicLink() || !fs.statSync(absolute).isFile()) continue;
     const bytes = fs.readFileSync(absolute);
@@ -463,10 +498,11 @@ function inventory(repo) {
   const payload = {
     schema_version: "1.0.0",
     repository_id: readManifest(repo).manifest?.id || path.basename(repo),
-    revision: git(repo, "rev-parse", "HEAD") || null,
+    revision,
     files: entries,
   };
   payload.inventory_digest = sha256(canonicalBytes(payload), true);
+  if (blockers.length) payload.blockers = [...new Set(blockers)].sort();
   return payload;
 }
 
@@ -537,7 +573,7 @@ function status(repoArg, options = {}) {
   try { if (fs.existsSync(path.join(root, INVENTORY_FILE))) stored = readJson(path.join(root, INVENTORY_FILE)); } catch (_) { /* stale */ }
   const current = inventory(repo);
   const freshness = stored && stored.inventory_digest === current.inventory_digest ? "current" : stored ? "stale" : "missing";
-  const blockers = [...manifestState.blockers, ...ext.blockers];
+  const blockers = [...manifestState.blockers, ...ext.blockers, ...(current.blockers || [])];
   if (!stored && legacyRuntimeState(repo).present) blockers.push("project_technology_host_state_migration_required");
   if (ext.contract && ext.contract.enabled === false) blockers.push("project_technology_disabled");
   if (freshness !== "current") blockers.push(`project_technology_inventory_${freshness}`);
@@ -582,6 +618,8 @@ function enable(repoArg, options = {}) {
   const repo = normalizeRepo(repoArg);
   const manifestState = readManifest(repo);
   if (!manifestState.manifest || manifestState.blockers.length) return result("enable", "transactional", "fail", { blockers: manifestState.blockers, next_action: "repair graph.json" });
+  const inventoryPreflight = inventory(repo);
+  if (inventoryPreflight.blockers?.length) return result("enable", "transactional", "blocked", { blockers: inventoryPreflight.blockers, next_action: "repair declared graph sources" });
   const manifest = structuredClone(manifestState.manifest);
   const extensions = { ...(manifest.extensions || {}) };
   const legacy = extensions[LEGACY_EXTENSION_KEY];
@@ -619,7 +657,7 @@ function sync(repoArg, options = {}) {
   const repo = normalizeRepo(repoArg);
   const manifestState = readManifest(repo);
   const ext = extensionState(manifestState.manifest);
-  const blockers = [...manifestState.blockers, ...ext.blockers];
+  const blockers = [...manifestState.blockers, ...ext.blockers, ...(inventory(repo).blockers || [])];
   const hostRoot = runtimeRoot(repo, manifestState.manifest, options);
   if (legacyRuntimeState(repo).present && !fs.existsSync(path.join(hostRoot, INVENTORY_FILE))) blockers.push("project_technology_host_state_migration_required");
   if (!ext.contract || ext.legacy || ext.contract.enabled !== true) blockers.push("project_technology_not_enabled");
@@ -804,7 +842,40 @@ function repair(repoArg, options = {}) {
   return sync(repo, options);
 }
 
+function verifyProviderExport(repoArg, options = {}) {
+  const repo = normalizeRepo(repoArg);
+  const source = path.resolve(options.source || path.join(repo, EXPORT_FILE));
+  const exported = readExport(source);
+  const manifestState = readManifest(repo);
+  const ext = extensionState(manifestState.manifest);
+  const identity = bindingValues(exported.export);
+  const blockers = [...exported.blockers, ...manifestState.blockers, ...ext.blockers, ...identity.blockers];
+  if (options.significantWork) blockers.push("provider_export_verification_is_not_execution_authority");
+  if (!trackedFiles(repo).includes("graph.json") || spawnSync("git", ["diff", "--quiet", "HEAD", "--", "graph.json"], { cwd: repo }).status !== 0) blockers.push("provider_manifest_not_revision_bound");
+  if (!source.startsWith(`${repo}${path.sep}`)) blockers.push("provider_export_outside_repository");
+  if (ext.contract?.enabled !== true || ext.legacy) blockers.push("project_technology_not_enabled");
+  const head = git(repo, "rev-parse", "HEAD");
+  if (head !== identity.values.provider_revision) blockers.push("provider_revision_does_not_match_head");
+  if (exported.export.provider_graph_id !== manifestState.manifest?.id) blockers.push("provider_archive_graph_mismatch");
+  const target = targetContract(repo, identity.values.target_id, identity.values.semantic_digest, manifestState.manifest);
+  blockers.push(...target.blockers);
+  if (sha256(canonicalBytes(target.contract)) !== exported.export.execution_contract_digest) blockers.push("provider_execution_contract_source_mismatch");
+  // Bound supported ancestry; deeper histories need a narrower supported
+  // release window rather than unbounded metadata in every consumer.
+  const history = git(repo, "rev-list", "--max-count=4098", "HEAD").split("\n").filter(Boolean);
+  if (history[0] !== head || history.length > 4097) blockers.push("provider_archive_ancestry_unverifiable_or_too_large");
+  return result("verify", "read_only", blockers.length ? "blocked" : "success", {
+    blockers: [...new Set(blockers)].sort(),
+    provider_archive: blockers.length ? null : {
+      exportSha256: exported.raw_sha256, graphId: manifestState.manifest.id,
+      providerRevision: head, ancestorRevisions: history.slice(1),
+    },
+    next_action: blockers.length ? "repair the canonical provider export before packaging" : "seal this anchor in authenticated release metadata",
+  });
+}
+
 function verify(repoArg, options = {}) {
+  if (options.source) return verifyProviderExport(repoArg, options);
   const state = status(repoArg, options);
   const blockers = [...state.blockers];
   const repo = normalizeRepo(repoArg);
@@ -871,6 +942,7 @@ module.exports = {
   sync,
   targetBindingStatus,
   verify,
+  verifyProviderExport,
   verifyArtifactRelease: artifacts.verifyArtifactRelease,
   verifyTechnologyCourse: technologyCourse.verifyTechnologyCourse,
   verifyContext: traversal.verifyContext,

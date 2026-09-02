@@ -38,13 +38,26 @@ try {
   const stateRoot = path.join(root, "state");
   const base = { targetId: fixture.TARGET_ID, semanticDigest: fixture.SEMANTIC_DIGEST, stateRoot, apply: true };
   for (const repo of [provider, consumer]) assert.equal(technology.execute("enable", repo, base).status, "success");
+  fixture.git(provider, "add", "graph.json"); fixture.git(provider, "commit", "-qm", "accepted activation");
+  revision = fixture.git(provider, "rev-parse", "HEAD");
   const releases = [];
   for (let n = 0; n < 2; n++) {
     if (n) { fixture.git(provider, "commit", "--allow-empty", "-qm", "compatible revision"); revision = fixture.git(provider, "rev-parse", "HEAD"); }
     const provided = technology.execute("provide", provider, { ...base, providerRevision: revision });
     assert.equal(provided.status, "success");
+    const beforeSourceProof = digestTree(root);
+    const sourceProof = technology.execute("verify", provider, { source: path.join(provider, provided.export_ref) });
+    check(`source_export_proven_${n}`, sourceProof.status === "success" && sourceProof.provider_archive.providerRevision === revision, sourceProof);
+    check(`source_proof_zero_write_${n}`, digestTree(root) === beforeSourceProof);
+    check(`source_proof_not_authority_${n}`, technology.execute("verify", provider, { source: path.join(provider, provided.export_ref), significantWork: true }).status === "blocked");
+    const providerManifestPath = path.join(provider, "graph.json");
+    const providerManifestBytes = fs.readFileSync(providerManifestPath);
+    fs.appendFileSync(providerManifestPath, " ");
+    check(`uncommitted_manifest_blocks_source_proof_${n}`, technology.execute("verify", provider, { source: path.join(provider, provided.export_ref) }).blockers.includes("provider_manifest_not_revision_bound"));
+    fs.writeFileSync(providerManifestPath, providerManifestBytes);
     const bytes = fs.readFileSync(path.join(provider, provided.export_ref));
     const source = path.join(root, `export-${n}.json`); fs.writeFileSync(source, bytes);
+    check(`external_export_blocks_source_proof_${n}`, technology.execute("verify", provider, { source }).blockers.includes("provider_export_outside_repository"));
     // Build anchor on the verified SOURCE side, before Git is removed.
     const ancestors = n ? [releases[0].providerRevision] : [];
     for (const ancestor of ancestors) fixture.git(provider, "merge-base", "--is-ancestor", ancestor, revision);
@@ -132,5 +145,21 @@ try {
   denied("legacy_archive_needs_graph_identity", { ...releases[1], providerArchive: { ...releases[1].providerArchive,
     exportSha256: technology.sha256(fs.readFileSync(releases[1].source)) } }, "provider_archive_graph_mismatch");
   fs.writeFileSync(releases[1].source, original);
+  const folderInventory = technology.inventory(packedConsumer);
+  check("folder_inventory_nonempty", folderInventory.files.some(file => file.path === "graph.json") && folderInventory.files.some(file => file.path === "README.md"), folderInventory);
+  check("folder_inventory_sync", technology.execute("sync", packedConsumer, base).status === "success");
+  check("folder_inventory_sync_noop", technology.execute("sync", packedConsumer, base).changed === false);
+  const readme = path.join(packedConsumer, "README.md"); const readmeBefore = fs.readFileSync(readme);
+  fs.appendFileSync(readme, "\nChanged declared raw source\n");
+  const staleTree = digestTree(root);
+  check("folder_changed_source_is_stale", technology.execute("status", packedConsumer, base).blockers.includes("project_technology_inventory_stale"));
+  check("folder_stale_status_zero_write", digestTree(root) === staleTree);
+  fs.writeFileSync(readme, readmeBefore);
+  const graphForMissing = JSON.parse(fs.readFileSync(graphFile)); graphForMissing.graph.raw_sources.push("missing-required-source.md");
+  fs.writeFileSync(graphFile, JSON.stringify(graphForMissing));
+  const missingBefore = digestTree(root);
+  check("missing_declared_source_blocks_sync", technology.execute("sync", packedConsumer, base).blockers.includes("inventory_declared_source_missing"));
+  check("missing_source_sync_zero_write", digestTree(root) === missingBefore);
+  fs.writeFileSync(graphFile, graphBefore);
   console.log(JSON.stringify({ status: "success", check_count: checks.length, checks }, null, 2));
 } finally { process.env.PATH = originalPath; fs.rmSync(root, { recursive: true, force: true }); }

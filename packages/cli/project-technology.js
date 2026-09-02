@@ -94,7 +94,8 @@ function readJsonFile(file) {
 function hydrateContextOptions(request) {
   if (request.options.providerArchiveTrustFile) {
     if (request.operation !== "connect") throw new Error("archive trust is only supported by connect");
-    request.options.providerArchive = readJsonFile(request.options.providerArchiveTrustFile);
+    request.options.providerArchive = request.options.providerArchiveTrustFile === "-"
+      ? JSON.parse(fs.readFileSync(0, "utf8")) : readJsonFile(request.options.providerArchiveTrustFile);
   }
   if (request.operation === "sync" && request.options.boundary) {
     if (request.options.boundary !== "task_start" && !request.options.evidenceFile) throw new Error(`${request.options.boundary} requires --evidence`);

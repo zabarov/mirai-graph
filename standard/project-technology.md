@@ -11,7 +11,8 @@ not a profile, a second graph or a source of domain methodology.
 
 The normal source provider path continues to verify Git HEAD and ancestry.
 For an immutable distribution, `connect` also accepts `providerArchive` in the
-JavaScript options, or `--provider-archive-trust <file>` in the CLI:
+JavaScript options, or `--provider-archive-trust <file>` in the CLI (use `-`
+to read that bounded JSON from stdin without creating a temporary file):
 
 ```json
 {
@@ -31,6 +32,14 @@ source target and the declared source revision before publishing its digest.
 Ancestor entries must be proven by the source Git history during that build;
 they are not inferred from version numbers, dates or commit hash ordering.
 
+The existing `technology verify <repository> --source <bounded-export>` and
+`verifyProviderExport(repository, options)` provide a read-only source-side
+proof for packaging. They require a revision-bound enabled manifest, exact HEAD,
+accepted target and matching execution contract, and return the anchor with at
+most 4096 proven ancestors. A packaging caller must then authenticate the release
+metadata containing this anchor. This proof is not permission to execute a
+significant task; requesting significant work through it is blocked.
+
 Exports produced by `provide` now include `provider_graph_id`. Old Git-backed
 exports remain readable; archive import requires the graph identity. `connect`
 uses the same full accepted execution contract validation and atomic import.
@@ -42,9 +51,14 @@ use archive trust to authorize work, change owners, expand scope or bypass
 acceptance. `provide` continues to require the canonical Git source; archive
 consumers import its immutable output, never regenerate acceptance from copies.
 
-Status/verify use the hash-bound local import and remain read-only. Repository
-snapshot inventory, raw-source access and release authenticity policy remain
-separate responsibilities; archive import does not claim to solve them.
+Status/verify use the hash-bound local import and remain read-only. Without a
+Git repository, inventory reads only the manifest and explicitly declared graph
+and raw-source paths, with a bounded traversal. Missing, unsafe or unsupported
+declared paths block sync before writes. Symlinks and secret/excluded paths are
+not imported. Ordinary folders use content digests and a null inventory revision,
+never a fabricated Git revision. If Git metadata exists but Git is unavailable,
+inventory fails closed instead of silently treating a checkout as an archive.
+Raw-source access and release authenticity remain separate responsibilities.
 
 The root `graph.json` declares the repository scope and profiles. The same
 Project Technology operations therefore work for:
