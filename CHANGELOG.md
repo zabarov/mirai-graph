@@ -23,6 +23,8 @@ All notable changes to Mirai Graph will be documented in this file.
 
 - Reject secret-like and private-path strings in JSON property names as well as
   values at the shared graph/task admission boundary.
+- Update `fflate` to `0.8.3` and verify that malformed ZIP64 office archives
+  fail before decompression.
 - Keep graph patches, cluster output, task completion and model output as
   evidence or proposals; none grants capabilities, approval or canonical write.
 

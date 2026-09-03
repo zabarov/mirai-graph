@@ -316,6 +316,18 @@ test("malformed and oversized office archives fail closed before normalization",
     assert.equal(conversion.diagnostics.some((item) => item.code === "conversion_failed" && item.severity === "blocking"), true);
   }
 
+  const zip64 = Buffer.alloc(22);
+  zip64.writeUInt32LE(0x06054b50, 0);
+  zip64.writeUInt16LE(0xffff, 8);
+  zip64.writeUInt16LE(0xffff, 10);
+  zip64.writeUInt32LE(0xffffffff, 12);
+  zip64.writeUInt32LE(0xffffffff, 16);
+  const zip64Payload = { key: "zip64.docx", media_type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document", content: zip64 };
+  const zip64Snapshot = buildSourceSnapshot(source, [zip64Payload]);
+  const zip64Conversion = await convertPayloads(zip64Snapshot, [zip64Payload], DEFAULT_SOURCE_BUDGET);
+  assert.equal(zip64Conversion.units.length, 0);
+  assert.equal(zip64Conversion.diagnostics.some((item) => item.message === "archive_zip64_unsupported"), true);
+
   const bomb = zipSync({ "word/document.xml": strToU8("x".repeat(50_000)) }, { level: 9 });
   const payload = { key: "ratio.docx", media_type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document", content: bomb };
   const snapshot = buildSourceSnapshot(source, [payload]);
