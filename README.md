@@ -83,11 +83,13 @@ Read the [Autonomic Fabric standard](standard/mirai-autonomic-fabric.md),
 [architecture decision](docs/architecture/mirai-2-2-autonomic-fabric-adr.md),
 [threat model](docs/security/mirai-autonomic-fabric-threat-model.md) and
 [candidate readiness report](releases/2.2.0-rc.1-readiness.json). Controlled
-connector integration, independent source-security review and four real-source
-observe/suggest pilots have passed their bounded local gates. The complete
-release suite and six-package install pass on macOS and Linux. Stable promotion
-remains blocked by public independent conformance, the hosted platform matrix
-(including Windows) and separately approved publication.
+connector integration and four real-source observe/suggest pilots have passed
+their bounded local gates. The earlier source-security review does not cover
+the subsequent Capsule transaction changes, which still require independent
+review. The [frozen Capsule candidate](releases/evidence/2.2.0-rc.1-capsule-freeze-2026-09-03.json)
+passes the full release suite locally on macOS and clean Linux. Stable promotion
+remains blocked by the new security review, public independent conformance,
+the hosted platform matrix (including Windows) and release approval gates.
 An isolated AI-assisted review is not an external human audit. The historical
 [alpha report](releases/2.2.0-alpha.1-readiness.json) remains available.
 

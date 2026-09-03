@@ -3,7 +3,7 @@
   "release_id": "release.mirai.2.2.0-rc.1",
   "evaluated_version": "2.2.0-rc.1",
   "promotion_target": "2.2.0",
-  "evaluated_at": "2026-09-02T21:54:47Z",
+  "evaluated_at": "2026-09-02T23:59:58Z",
   "overall_status": "blocked",
   "gates": [
     {
@@ -16,10 +16,11 @@
         "test/project/project-update.test.cjs",
         "test/runtime/governed-runtime.test.cjs",
         "packages/cli/validate-project-continuity.js",
-        "standard/project-technology.md"
+        "standard/project-technology.md",
+        "releases/evidence/2.2.0-rc.1-capsule-freeze-2026-09-03.json"
       ],
       "summary": "Capsule target discovery and approval-bound continuity transactions are implemented locally, including pending-reader barriers, CAS, journal, recovery and idempotent receipts. Program and Runtime behavior is unchanged.",
-      "blocker_reason": "Freeze the verified Capsule compatibility delta and bind independent review and cross-platform evidence to that exact candidate. Local implementation/tests do not update installed Federation or authorize a real canonical apply."
+      "blocker_reason": "The Capsule delta is frozen at c654ff321299abe670fb71bee74ecae4dbe5e5fd with full local macOS and clean Linux checks. Independent security review and hosted cross-platform evidence for this candidate remain required. No installed Federation update or real canonical apply is authorized by these tests."
     },
     {
       "id": "gate.2_2_source_converter_contracts",
@@ -65,7 +66,8 @@
         "conformance/independent-checker-2.2-candidate.json",
         "conformance/results/python-mirai-2.2-source-snapshot-result.json",
         "conformance/results/python-mirai-2.2-autonomic-cycle-result.json",
-        "releases/evidence/2.2.0-rc.1-local-verification-2026-09-03.json"
+        "releases/evidence/2.2.0-rc.1-local-verification-2026-09-03.json",
+        "releases/evidence/2.2.0-rc.1-capsule-freeze-2026-09-03.json"
       ],
       "summary": "The independent Python candidate passes 23 tests and five matching artifact checks locally on macOS and in a clean Linux container.",
       "limitations": [
@@ -131,7 +133,7 @@
         "docs/security/mirai-2.2-independent-review-method-decision-2026-09-03.json"
       ],
       "summary": "The prior isolated review remains evidence for its frozen candidate, not for the subsequent Project Technology continuity correction.",
-      "blocker_reason": "Review the Capsule compatibility delta and rebind the final review to the new candidate; do not reuse the previous exact-revision verdict as current acceptance.",
+      "blocker_reason": "Review the Capsule compatibility delta through c654ff321299abe670fb71bee74ecae4dbe5e5fd. The additional review did not complete; do not reuse the prior candidate verdict or conformance results as security acceptance.",
       "limitations": [
         "One Medium concurrent-filesystem observation and one Low compiler-diagnostic observation remain, without a reproduced authority bypass.",
         "This is owner-authorized AI-assisted review, not an external human audit or production-write approval."
@@ -143,9 +145,10 @@
       "status": "blocked",
       "evidence_refs": [
         ".github/workflows/ci.yml",
-        "releases/evidence/2.2.0-rc.1-local-verification-2026-09-03.json"
+        "releases/evidence/2.2.0-rc.1-local-verification-2026-09-03.json",
+        "releases/evidence/2.2.0-rc.1-capsule-freeze-2026-09-03.json"
       ],
-      "summary": "The complete release suite and six-package install passed locally on macOS and clean Linux; public Linux/macOS/Windows CI is not run.",
+      "summary": "The frozen Capsule candidate passed the complete release suite locally on macOS and in an exact-revision clean Linux clone. Public Linux/macOS/Windows CI is not run.",
       "blocker_reason": "Run the public matrix at the publication-approved revision. Windows and hosted x64 runners have not been tested in this local environment."
     },
     {
@@ -182,6 +185,6 @@
     "gate.2_2_cross_platform_clean_room",
     "gate.2_2_stable_release_metadata"
   ],
-  "next_safe_action": "Complete and review Capsule Project Technology compatibility before freezing a new exact candidate. Public CI, branch push and stable publication retain their separate approval boundaries.",
+  "next_safe_action": "Obtain independent security review of the frozen Capsule candidate and hosted exact-revision conformance/platform evidence. Stable promotion remains blocked; local verification is not publication or deployment authority.",
   "claim_boundary": "This report separates local engineering and owner-authorized AI-assisted review evidence from public CI, external human review, scientific proof and production-write authority. A locally validated candidate is not a stable release."
 }

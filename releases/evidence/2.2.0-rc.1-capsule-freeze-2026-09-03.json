@@ -1,0 +1,66 @@
+{
+  "contract_version": "1.0.0",
+  "product_version": "2.2.0-rc.1",
+  "candidate_revision": "c654ff321299abe670fb71bee74ecae4dbe5e5fd",
+  "capsule_implementation_revision": "834dd592c77e8d932c4bf65b33381c4e6b52d696",
+  "checker_revision": "193f78d4e430ef68f1c338edac358ce36a41cca2",
+  "status": "local_verification_passed_release_blocked",
+  "checks": [
+    {
+      "name": "macos_release_check",
+      "command": "npm run release:check",
+      "node_version": "20.20.1",
+      "platform": "darwin",
+      "exit_code": 0,
+      "log_sha256": "ce830419575f9d410df2cd0ebd63bf316e1eea48503db949293e36b194b223bd"
+    },
+    {
+      "name": "clean_linux_release_check",
+      "command": "npm ci; npm run release:check",
+      "node_version": "20.20.2",
+      "platform": "linux",
+      "architecture": "arm64",
+      "source_method": "git_bundle_clone_exact_revision",
+      "exit_code": 0,
+      "log_sha256": "5c53fda198ad0687bc9d0e200e3ae133bdd5bf64d219b63f6b8771edceade8dc"
+    },
+    {
+      "name": "independent_python_tests",
+      "command": "python -m unittest discover -s tests -v",
+      "passed": 23,
+      "exit_code": 0,
+      "log_sha256": "794a5393de70125892dd30b60d826d6ae13b26d0963087a4ba391063f4f5cb61"
+    },
+    {
+      "name": "independent_autonomic_artifacts",
+      "kinds": ["source-snapshot", "knowledge-proposal", "autonomy-envelope", "evolution-decision", "autonomic-cycle"],
+      "passed": 5,
+      "failed": 0
+    },
+    {
+      "name": "continuity_missing_build_negative",
+      "missing_build_exit_code": 1,
+      "built_provider_checks_passed": 38,
+      "status": "passed"
+    }
+  ],
+  "resolved_findings": [
+    "continuity negative fixture previously accepted module load failure instead of the required validation reason",
+    "context-traversal CI now installs dependencies and builds before Capsule continuity verification"
+  ],
+  "unresolved_gates": [
+    "independent_security_review_of_capsule_delta",
+    "public_checker_ci_at_exact_candidate",
+    "hosted_linux_macos_windows_matrix",
+    "stable_release_acceptance_and_publication"
+  ],
+  "limitations": [
+    "Local macOS verification used the exact candidate file contents before its checkpoint commit; Linux cloned the exact commit.",
+    "An initial source-only Linux archive run failed the required Git HEAD check; the exact-revision clone run supersedes it.",
+    "Independent Python conformance is not an independent security review of Capsule transactions.",
+    "Log digests identify local evidence; raw host logs are intentionally not published.",
+    "No hosted Windows run, production apply, Federation update, tag or package publication is claimed."
+  ],
+  "canonical_write_performed": false,
+  "production_auto_apply_allowed": false
+}
