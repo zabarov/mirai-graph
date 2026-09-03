@@ -2,6 +2,12 @@
 
 Make your project understandable to humans and AI.
 
+Local-target 1.6.0 candidate (not released): ordinary folders can select an accepted
+target without Git or a self-connected provider. The calling application must
+authenticate the owner's approval; adjacent checksums never grant authority.
+See [Project Technology](standard/project-technology.md#local-accepted-targets-candidate-extension)
+for the trust boundary, preview, verification and transactional selection.
+
 Mirai Graph turns scattered project knowledge into a structured graph of
 features, requirements, dependencies, risks, decisions, evidence and process
 gates.
@@ -10,7 +16,8 @@ Use it when a software project has useful knowledge spread across README files,
 docs, issues, chats, code comments and AI prompts, and you need a small
 machine-readable map that developers and AI assistants can validate and reuse.
 
-Status: stable public `1.3.0` release.
+Status: compatible 1.x line; `1.6.0` is an unpublished candidate based on `1.5.0`.
+The separate 2.x line is not included or migrated here.
 
 ## What Problem Does It Solve?
 
@@ -42,20 +49,18 @@ Start with a normal repository and use Mirai Graph to:
 
 ## Current Installation Status
 
-The repository provides the stable `mirai-graph@1.3.0` package. To verify a
-repository checkout directly, use:
+The compatible published baseline is `mirai-graph@1.5.0` on `legacy-1`.
+Do not use an unversioned npm install to select this generation: `latest` is
+independent. To verify this candidate, use its exact reviewed checkout:
 
 ```bash
-git clone https://github.com/zabarov/mirai-graph.git
-cd mirai-graph
-npm install
 npm run release:check
 ```
 
-External projects use:
+External 1.x projects can explicitly pin the published baseline:
 
 ```bash
-npm install -D mirai-graph
+npm install --save-dev --save-exact mirai-graph@1.5.0
 ```
 
 ## Connect A Project In 10 Minutes

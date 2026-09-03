@@ -15,6 +15,8 @@ Release notes must separate:
 
 ## Release Notes
 
+- [v1.6.0 candidate](1.6.0.md) - local accepted targets and valid unborn Git
+  inventory; unpublished, intended for `legacy-1` only.
 - [v1.5.0](1.5.0.md) - compatible 1.x authenticated archive providers and
   declared-source inventory without Git (`legacy-1`, not npm `latest`).
 - [v1.2.0](1.2.0.md) - portable task-boundary project continuity in Project

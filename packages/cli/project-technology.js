@@ -14,6 +14,7 @@ function usage() {
   console.error("         --semantic-digest <sha256:...> --provider-revision <sha>");
   console.error("         --refresh-binding --significant-work --max-objects <count>");
   console.error("Archive connect: --provider-archive-trust <verified-release-anchor.json>");
+  console.error("Local target: sync --target-source <selector.json> --local-acceptance-trust <verified-owner-anchor.json> --expected-graph-digest <sha256:...> [--apply]");
   console.error("Continuity: sync --boundary task_start|stage_complete|task_complete [--evidence <json>] [--expected-graph-digest <sha256:...>]");
   console.error("            verify --significant-work [--receipt-digest <sha256:...>]");
   console.error("Context: --phase discover --task <text>");
@@ -48,7 +49,11 @@ function parse(argv) {
   const values = new Set(["--task", "--source", "--target-id", "--semantic-digest", "--provider-revision", "--max-objects", "--phase", "--input", "--select", "--selection", "--packet", "--evidence", "--selector", "--reason", "--confidence", "--context-budget", "--boundary", "--expected-graph-digest", "--receipt-digest", "--state-root", "--matter-id", "--direction", "--artifact-root", "--release-date", "--release-id", "--parent-release", "--base-release", "--target-release", "--client-note", "--technology", "--scenario", "--audience", "--course-pack", "--projection"]);
   const flags = new Set(["--apply", "--refresh-binding", "--significant-work", "--create-export"]);
   values.add("--provider-archive-trust");
+  values.add("--local-acceptance-trust");
+  values.add("--target-source");
   const names = {
+    "--local-acceptance-trust": "localAcceptanceTrustFile",
+    "--target-source": "targetSourceFile",
     "--provider-archive-trust": "providerArchiveTrustFile",
     "--task": "task", "--source": "source", "--target-id": "targetId",
     "--semantic-digest": "semanticDigest", "--provider-revision": "providerRevision",
@@ -92,6 +97,12 @@ function readJsonFile(file) {
 }
 
 function hydrateContextOptions(request) {
+  if (request.options.localAcceptanceTrustFile === "-" && request.options.providerArchiveTrustFile === "-") throw new Error("only one trust input may consume stdin");
+  if (request.options.localAcceptanceTrustFile) {
+    request.options.localAcceptance = request.options.localAcceptanceTrustFile === "-"
+      ? JSON.parse(fs.readFileSync(0, "utf8")) : readJsonFile(request.options.localAcceptanceTrustFile);
+  }
+  if (request.options.targetSourceFile) request.options.targetSource = readJsonFile(request.options.targetSourceFile);
   if (request.options.providerArchiveTrustFile) {
     if (request.operation !== "connect") throw new Error("archive trust is only supported by connect");
     request.options.providerArchive = request.options.providerArchiveTrustFile === "-"

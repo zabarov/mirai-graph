@@ -1,5 +1,74 @@
 # Project Technology
 
+## Local accepted targets (candidate extension)
+
+Local targets use the same execution-contract normalizer as external providers.
+They do not need Git or a self-connected provider. The optional manifest
+`extensions.mirai.project_technology.target_source` contains exactly
+`{kind:"local", target_id, acceptance_ref}`. It selects existing `graph/specs`
+objects and never approves them. No new profile or manifest version is required.
+
+The selected target has the existing `provider_execution_contract` shape. Every
+required object, goal/Done When, requirement/acceptance, constraint, non-goal,
+deferred boundary and architecture reference must resolve to accepted canonical
+specs. Required relations close transitively; cycles and conflicts block work.
+The acceptance is a `decision` object with subtype
+`architecture_baseline_acceptance`, accepted lifecycle/readiness, `graph_id`,
+`target_id`, `owner_id`, `semantic_digest`, `execution_contract_digest` and a
+bounded `approval_ref`. It must match the declared architecture owner.
+
+The caller supplies `localAcceptance` / `--local-acceptance-trust <file>` (or `-`
+for stdin): `{graphId,targetId,ownerId,decisionSha256}`. This is **trusted caller
+input** obtained from the existing human-approval authority channel. The engine
+checks consistency, not the human's identity. Calculating the hash from an
+untrusted folder is not authentication. The anchor is never obtained from graph
+contents or auto-created/persisted by sync. A new host without authenticated
+approval gets `local_target_acceptance_unverified`; read-only diagnosis remains
+available. A host-local cache is not portable acceptance authority.
+
+`plan` returns the same `target_binding` as `status`; it exposes calculated
+digests for review even when acceptance is blocked. The local `semantic_digest`
+hashes canonical JSON of graph ID, target ID, selected objects and relations.
+Object keys are sorted; objects and relations are sorted by ID. Timestamps,
+evidence, approval refs and computed digest fields are excluded. The acceptance
+object is excluded to avoid self-reference. Source refs retain their paths, not
+content hashes. Normalized meaning, required closure and scope stay bound.
+`execution_contract_digest` hashes the shared normalized contract. Source/evidence
+bytes are separately hashed into `content_revision`; the target pins that value.
+Tool drift blocks freshness without re-accepting architecture. JSON formatting
+does not change semantics; changed source bytes (including line endings) change
+content identity intentionally. Paths, clocks and Git HEAD are not local IDs.
+`provider_revision` remains exclusive to external Git/archive bindings.
+
+Selection is `sync --target-source <selector.json> --local-acceptance-trust <anchor.json>
+--expected-graph-digest <digest> --apply`; omit `--apply` for zero-write preview.
+Use `continuity.graphDigest(repo)` for the CAS value. Selection uses the existing
+continuity lease, backup, atomic rename and readback. Repetition is byte-identical.
+Select before a separate task-boundary sync; these are not a combined transaction.
+Significant `context` and `verify` additionally require a current receipt from the
+existing continuity mechanism, even when the optional policy was omitted.
+Updating a content pin is not a verification receipt. Record actual checks through
+`sync --boundary stage_complete --evidence <checks.json> --apply` after validating
+the sources. A second host must verify those sources and record its own fresh
+receipt; it does not have to re-approve unchanged architecture.
+`disconnect --expected-graph-digest <digest> --apply` removes only the local
+selector through the same lease/CAS/backup transaction. It does not remove the
+target or its Decision. Without `--apply` it remains a preview.
+Git hygiene remains strict: a changed tracked manifest must be committed through
+the caller's authorized Git workflow before execution becomes ready.
+Before the first Git commit, a structurally valid unborn branch may inventory
+declared graph/raw sources using the same content-bound path as an ordinary
+folder. Missing Git, corrupt refs/index and invalid detached HEAD stay blocked.
+This never supplies `provider_revision` or permits a Git provider export.
+
+Local and external bindings conflict rather than override each other. Missing
+external providers never cause fallback to local data. Local raw sources must be
+safe relative files, not `source/`, generated outputs, symlinks or external URLs;
+external technologies continue to use verified providers. Raw file contents are
+not included in the target packet. Existing folder safety and action authorization
+still apply: ready is not permission to write. Shared-server leases do not lock
+offline sync replicas; divergent expected state requires reconciliation.
+
 Status: 1.4 stable standard; activation contract remains 1.0.0
 
 Project Technology is the shared executable mechanism of Mirai Graph. It is

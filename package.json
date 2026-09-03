@@ -1,6 +1,6 @@
 {
   "name": "mirai-graph",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "private": false,
   "description": "An evolutionary graph operating model for managing the growth of complex systems.",
   "license": "MIT",
@@ -14,7 +14,7 @@
   },
   "scripts": {
     "pretest": "npm run test:project-technology && npm run test:context-traversal && npm run test:project-continuity && npm run test:artifact-releases && npm run test:technology-courses && npm run validate:project-technology-schemas",
-    "test:project-technology": "node packages/cli/validate-project-technology.js && node packages/cli/validate-provider-archive.js",
+    "test:project-technology": "node packages/cli/validate-project-technology.js && node packages/cli/validate-provider-archive.js && node packages/cli/validate-local-target.js",
     "test:context-traversal": "node packages/cli/validate-context-traversal.js",
     "test:project-continuity": "node packages/cli/validate-project-continuity.js",
     "test:artifact-releases": "node packages/cli/validate-artifact-releases.js",

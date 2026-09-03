@@ -4,6 +4,26 @@ All notable changes to Mirai Graph will be documented in this file.
 
 ## [Unreleased]
 
+## [1.6.0] - Unpublished candidate
+
+Compatible additive release for the 1.x line; intended npm channel `legacy-1`.
+The 2.x `latest` channel is not changed. Publication and independent acceptance
+are pending; no installed consumer is automatically migrated.
+
+- A valid new Git branch without its first commit can inventory only explicitly
+  declared sources. Corrupt or unavailable Git stays blocked; no revision is
+  invented and provider export still requires a real commit. The existing
+  three-platform CI matrix now includes local-target/provider regressions.
+
+- Explicitly selected local accepted targets in ordinary folders and
+  Git repositories, using the existing execution-contract validator and graph
+  reader. Independent caller-verified approval anchors prevent self-acceptance.
+- Local selection/disconnection reuse continuity lease, CAS, backup and rollback;
+  diagnostics are read-only. Semantic acceptance and source-content freshness
+  are separate; significant work requires current verification evidence.
+- `plan` now reports the same target binding as `status`, `context` and `verify`.
+  External provider identity and ancestry checks are unchanged.
+
 ## [1.5.0] - 2026-09-03
 
 Compatible 1.x maintenance line, published under `legacy-1`; the npm `latest`

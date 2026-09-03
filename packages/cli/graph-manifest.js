@@ -131,7 +131,14 @@ function validateManifest(manifest, repo = null) {
       for (const field of Object.keys(expected)) if (technology[field] !== expected[field]) errors.push(`extensions.mirai.project_technology.${field} is invalid`);
       if (typeof technology.enabled !== "boolean") errors.push("extensions.mirai.project_technology.enabled is invalid");
       if (technology.continuity_policy !== undefined && technology.continuity_policy !== "task_boundary") errors.push("extensions.mirai.project_technology.continuity_policy is invalid");
-      for (const field of Object.keys(technology)) if (!(field in expected) && !["enabled", "continuity_policy"].includes(field)) errors.push(`extensions.mirai.project_technology has unknown field ${field}`);
+      if (technology.target_source !== undefined) {
+        const selected = technology.target_source;
+        if (!selected || typeof selected !== "object" || Array.isArray(selected) || selected.kind !== "local" ||
+            !/^[A-Za-z0-9][A-Za-z0-9._:-]{1,255}$/.test(selected.target_id || "") ||
+            !/^[A-Za-z0-9][A-Za-z0-9._:-]{1,255}$/.test(selected.acceptance_ref || "") ||
+            Object.keys(selected).some(key => !["kind", "target_id", "acceptance_ref"].includes(key))) errors.push("extensions.mirai.project_technology.target_source is invalid");
+      }
+      for (const field of Object.keys(technology)) if (!(field in expected) && !["enabled", "continuity_policy", "target_source"].includes(field)) errors.push(`extensions.mirai.project_technology has unknown field ${field}`);
     }
   }
   if (manifest.graph !== null) {
