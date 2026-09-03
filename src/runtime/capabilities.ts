@@ -1,7 +1,7 @@
 import { randomBytes } from "node:crypto";
 import { digestValue } from "../core/canonical.js";
 import {
-  CAPABILITY_CONTRACT_VERSION,
+  capabilityContractFor, requiresTaskApproval,
   type ApprovalReceipt,
   type CapabilityGrant,
   type CapabilityRequest,
@@ -88,6 +88,7 @@ export class ReferenceCapabilityProvider {
 
   request(request: CapabilityRequest, now = new Date()): CapabilityDecision {
     const reasons: string[] = [];
+    if (request.contract_version !== capabilityContractFor(request.effects)) reasons.push("capability_contract_invalid");
     const authorization = this.context.authorization;
     let invariantEvaluation: InvariantEvaluationResult | undefined;
     if (authorization?.mandate_required) {
@@ -108,8 +109,9 @@ export class ReferenceCapabilityProvider {
       if (!rule.resource_prefixes.some((prefix) => resourceMatchesPrefix(request.resource, prefix))) reasons.push("capability_resource_mismatch");
       if (request.budget.max_calls < 1 || request.budget.max_calls > this.policy.max_calls_per_grant) reasons.push("capability_call_budget_invalid");
       if (request.policy_digest !== this.digest) reasons.push("capability_policy_digest_mismatch");
-      if (rule.approval_required && !this.context.apply) reasons.push("apply_flag_required");
-      if (rule.approval_required) {
+      const approvalRequired = rule.approval_required || requiresTaskApproval(request.effects);
+      if (approvalRequired && !this.context.apply) reasons.push("apply_flag_required");
+      if (approvalRequired) {
         if (!this.context.approval) reasons.push("approval_receipt_required");
         else {
           const verified = verifyApprovalReceipt(this.context.approval, {
@@ -125,7 +127,7 @@ export class ReferenceCapabilityProvider {
     const approvalOnly = reasons.length > 0 && reasons.every((item) => item === "apply_flag_required" || item === "approval_receipt_required");
     const decisionKind = reasons.length === 0 ? "granted" : approvalOnly ? "approval_required" : "denied";
     const decision: PolicyDecisionRecord = {
-      contract_version: CAPABILITY_CONTRACT_VERSION,
+      contract_version: capabilityContractFor(request.effects),
       decision_id: `decision.${request.request_id.slice(request.request_id.lastIndexOf(".") + 1)}`,
       request_id: request.request_id,
       decision: decisionKind,
@@ -138,7 +140,7 @@ export class ReferenceCapabilityProvider {
     };
     if (decisionKind !== "granted") return { decision };
     const grant: CapabilityGrant = {
-      contract_version: CAPABILITY_CONTRACT_VERSION,
+      contract_version: capabilityContractFor(request.effects),
       grant_id: `grant.${request.request_id.slice(request.request_id.lastIndexOf(".") + 1)}.${randomBytes(5).toString("hex")}`,
       request_id: request.request_id,
       request_digest: request.request_digest,
@@ -167,7 +169,7 @@ export class ReferenceCapabilityProvider {
 
 export function validateGrant(grant: CapabilityGrant, request: CapabilityRequest, now = new Date()): string[] {
   const errors: string[] = [];
-  if (grant.contract_version !== CAPABILITY_CONTRACT_VERSION) errors.push("grant_contract_invalid");
+  if (grant.contract_version !== capabilityContractFor(request.effects) || request.contract_version !== grant.contract_version) errors.push("grant_contract_invalid");
   if (grant.run_id !== request.run_id) errors.push("grant_cross_run_reuse");
   if (grant.request_id !== request.request_id || grant.request_digest !== request.request_digest) errors.push("grant_request_mismatch");
   if (grant.program_digest !== request.program_digest || grant.input_digest !== request.input_digest || grant.node_id !== request.node_id) errors.push("grant_program_scope_mismatch");
@@ -182,7 +184,7 @@ export function validateGrant(grant: CapabilityGrant, request: CapabilityRequest
 }
 
 export function buildCapabilityRequest(options: Omit<CapabilityRequest, "contract_version" | "request_id" | "request_digest">): CapabilityRequest {
-  const base = { contract_version: CAPABILITY_CONTRACT_VERSION, ...options };
+  const base = { ...options, contract_version: capabilityContractFor(options.effects) };
   const requestDigest = digestValue(base);
   return {
     ...base,

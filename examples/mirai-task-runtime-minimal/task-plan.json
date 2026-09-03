@@ -1,0 +1,52 @@
+{
+  "contract_version": "1.0.0",
+  "id": "plan.task-demo",
+  "graph_digest": "sha256:0995a1d1f95a75a03255c4bbe981cc06685bc86840a70928143e6c95ed95a373",
+  "policy_digest": "sha256:c4a8f8544c1cfae5bad8699aaf56879b5a4c0a93b281d2c7c41dfc45b739fb70",
+  "catalog_digest": "sha256:28da00e5d6d912013e1196c48b7199bccb86ca45e22db864ea564abe74140c48",
+  "requests": [
+    {
+      "id": "task.classify",
+      "parent_id": null,
+      "receiver_id": "worker.program",
+      "receiver_digest": "sha256:72fec331dc339276640c097f4832a09f0ed7801c82a98748feaf4eb1b3b7b582",
+      "object_ids": [
+        "requirements.a"
+      ],
+      "input": {
+        "risk": "high"
+      },
+      "dependencies": [],
+      "required_evidence": [
+        "evidence.classification"
+      ],
+      "deadline": "2099-01-01T00:00:00.000Z",
+      "outcome": "Classify the risk and route high risk to review"
+    },
+    {
+      "id": "task.draft",
+      "parent_id": null,
+      "receiver_id": "worker.ai",
+      "receiver_digest": "sha256:46ade10b0156ecc8a7c9fa8b7072daea99275e03b54852383c924d59c3e85f6e",
+      "object_ids": [
+        "requirements.a"
+      ],
+      "input": {
+        "request": "Draft a response after risk classification"
+      },
+      "dependencies": [
+        {
+          "task_id": "task.classify",
+          "requires": "verified"
+        }
+      ],
+      "required_evidence": [
+        "evidence.draft"
+      ],
+      "deadline": "2099-01-01T00:00:00.000Z",
+      "outcome": "Return a review-required draft, not acceptance"
+    }
+  ],
+  "canonical_write_allowed": false,
+  "digest": "sha256:f3dbd0acf548580661308d82993b949fded9527338756d2fc7365009dba21eb3"
+}

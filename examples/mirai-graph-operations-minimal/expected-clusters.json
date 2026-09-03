@@ -1,0 +1,83 @@
+{
+  "contract_version": "1.0.0",
+  "base_digest": "sha256:0995a1d1f95a75a03255c4bbe981cc06685bc86840a70928143e6c95ed95a373",
+  "policy": {
+    "id": "policy.topics",
+    "keys": [
+      "topics"
+    ],
+    "max_groups": 20,
+    "max_group_size": 20,
+    "max_memberships": 40
+  },
+  "policy_digest": "sha256:1b27f59149661db9c09477768e2d97e18294f7201d623e36cae2834c3998d156",
+  "origin": "rules",
+  "groups": [
+    {
+      "id": "cluster.17ef56f0b97cfdd46c4d5cf8bd9ce475cb87a166d60dd892def5d1e27c7b1e6e",
+      "scope": "client.a",
+      "key": "topics",
+      "value": "safety",
+      "member_ids": [
+        "requirements.a",
+        "safety.a"
+      ],
+      "evidence_refs": [
+        "source.shared"
+      ],
+      "reason": "metadata_match",
+      "revision_digest": "sha256:4fec8080488c7d48b3d5d9df8967afc604f920a2cf73d2cc9bf14c6641d30247"
+    },
+    {
+      "id": "cluster.23b6052c7986d0020c46582bec6bd81c6d7d856b95fce04b7f3729368e64b242",
+      "scope": "client.b",
+      "key": "topics",
+      "value": "verification",
+      "member_ids": [
+        "verification.b"
+      ],
+      "evidence_refs": [
+        "source.shared"
+      ],
+      "reason": "metadata_match",
+      "revision_digest": "sha256:2c87fde726ffdd68398d33922a860fb930b689f9575f94ae10518db5435fda63"
+    },
+    {
+      "id": "cluster.7a50b7b987fd41cdd0b86006da5a03e234f31d4264d464fb2b0cbe0bd49bf7cd",
+      "scope": "client.a",
+      "key": "topics",
+      "value": "requirements",
+      "member_ids": [
+        "requirements.a"
+      ],
+      "evidence_refs": [
+        "source.shared"
+      ],
+      "reason": "metadata_match",
+      "revision_digest": "sha256:4d1abd3ecdec75665fd656d350292711109e621e19d3f4239cee045370a26842"
+    },
+    {
+      "id": "cluster.9cdae2c43af9685ff4f8974453d5d3a9522e2dc521e12b66cee95abd39b2be10",
+      "scope": "client.a",
+      "key": "topics",
+      "value": "verification",
+      "member_ids": [
+        "verification.a"
+      ],
+      "evidence_refs": [
+        "source.shared"
+      ],
+      "reason": "metadata_match",
+      "revision_digest": "sha256:de18c879a8f0d2c4ca25529dbdf779dd84c4c15fb0fd48b0523c5245d96635c8"
+    }
+  ],
+  "unassigned_ids": [
+    "unclassified"
+  ],
+  "overlapping_ids": [
+    "requirements.a"
+  ],
+  "status": "proposed",
+  "canonical_write_allowed": false,
+  "digest": "sha256:e9d82f90b2ccecf38f43094bafab1bece8076d39fc475c1acca2372b629dc3ed"
+}

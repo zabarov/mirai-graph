@@ -37,7 +37,7 @@ const TARGET_EXPORT_KEYS = new Set([
   "schema_version", "target_id", "semantic_digest", "provider_revision",
   "decision_refs", "goal_binding", "requirement_bindings", "constraint_ids",
   "non_goal_ids", "deferred_boundary_ids", "allowed_change_scope",
-  "architecture_contract", "execution_contract_digest",
+  "architecture_contract", "execution_contract_digest", "provider_graph_id",
 ]);
 const SECRET_PARTS = [".env", "credential", "secret", "token", "password", "private-key", "id_rsa", ".pem", ".p12"];
 const EXCLUDED_PARTS = new Set([".git", ".mirai-graph", ".simai", "node_modules", "vendor", "dist", "build", "coverage", "generated"]);
@@ -439,6 +439,7 @@ function readExport(filePath) {
   try { payload = JSON.parse(bytes.toString("utf8").replace(/^\uFEFF/, "")); } catch (_) { return { export: {}, blockers: ["provider_export_invalid"] }; }
   if (!payload || typeof payload !== "object" || Array.isArray(payload)) return { export: {}, blockers: ["provider_export_invalid"] };
   if (Object.keys(payload).some((key) => !TARGET_EXPORT_KEYS.has(key))) blockers.push("provider_export_not_bounded");
+  if (Object.hasOwn(payload, "provider_graph_id") && (typeof payload.provider_graph_id !== "string" || !REF_RE.test(payload.provider_graph_id))) blockers.push("provider_graph_id_invalid");
   const identity = bindingValues(payload); blockers.push(...identity.blockers);
   const executionFields = [
     "decision_refs", "goal_binding", "requirement_bindings", "constraint_ids",
@@ -449,7 +450,7 @@ function readExport(filePath) {
   const digest = sha256(canonicalBytes(normalized.contract));
   if (!payload.execution_contract_digest) blockers.push("provider_execution_contract_digest_missing");
   else if (payload.execution_contract_digest !== digest) blockers.push("provider_execution_contract_digest_mismatch");
-  return { export: { schema_version: "1.0.0", ...identity.values, ...normalized.contract, execution_contract_digest: digest }, blockers: [...new Set(blockers)].sort(), raw_sha256: sha256(bytes) };
+  return { export: { schema_version: "1.0.0", ...identity.values, ...normalized.contract, execution_contract_digest: digest, ...(payload.provider_graph_id ? { provider_graph_id: payload.provider_graph_id } : {}) }, blockers: [...new Set(blockers)].sort(), raw_sha256: sha256(bytes) };
 }
 
 function trackedFiles(repo) {
@@ -467,7 +468,42 @@ function safeTrackedFile(relative) {
 
 function inventory(repo) {
   const entries = [];
-  for (const relative of trackedFiles(repo).filter(safeTrackedFile).sort()) {
+  const blockers = [];
+  let files = trackedFiles(repo);
+  const revision = git(repo, "rev-parse", "HEAD") || null;
+  if (!revision) {
+    if (fs.existsSync(path.join(repo, ".git"))) blockers.push("inventory_git_unavailable");
+    else {
+      // Ordinary folders and immutable distributions have no Git index. Use
+      // only explicitly declared graph/raw sources, never scan arbitrary data.
+      const graph = readManifest(repo).manifest?.graph || {};
+      const refs = ["graph.json", ...(graph.source_of_truth || []), ...(graph.objects || []),
+        ...(graph.relations || []), ...(graph.schemas || []), ...(graph.raw_sources || [])];
+      const found = new Set();
+      const visited = new Set();
+      function collect(relative) {
+        if (typeof relative !== "string" || !relative || path.isAbsolute(relative) || relative.includes("\\") || relative.includes(":") || relative.split("/").includes("..") || /[?*\[\]]/.test(relative)) {
+          blockers.push("inventory_declared_source_unsafe_or_unsupported"); return;
+        }
+        if (!safeTrackedFile(relative)) return;
+        if (visited.has(relative)) return;
+        visited.add(relative);
+        if (visited.size > 10000) { blockers.push("inventory_declared_source_budget_exceeded"); return; }
+        const absolute = path.join(repo, relative);
+        if (!fs.existsSync(absolute)) { blockers.push("inventory_declared_source_missing"); return; }
+        if (fs.lstatSync(absolute).isSymbolicLink() || !fs.realpathSync(absolute).startsWith(`${fs.realpathSync(repo)}${path.sep}`)) {
+          blockers.push("inventory_declared_source_unsafe_or_unsupported"); return;
+        }
+        if (fs.statSync(absolute).isDirectory()) {
+          for (const name of fs.readdirSync(absolute).sort()) collect(`${relative.replace(/\/$/, "")}/${name}`);
+        } else if (fs.statSync(absolute).isFile()) found.add(relative);
+        else blockers.push("inventory_declared_source_unsafe_or_unsupported");
+      }
+      refs.forEach(collect);
+      files = [...found];
+    }
+  }
+  for (const relative of files.filter(safeTrackedFile).sort()) {
     const absolute = path.join(repo, relative);
     if (!fs.existsSync(absolute) || fs.lstatSync(absolute).isSymbolicLink() || !fs.statSync(absolute).isFile()) continue;
     const bytes = fs.readFileSync(absolute);
@@ -476,10 +512,11 @@ function inventory(repo) {
   const payload = {
     schema_version: "1.0.0",
     repository_id: readManifest(repo).manifest?.id || path.basename(repo),
-    revision: git(repo, "rev-parse", "HEAD") || null,
+    revision,
     files: entries,
   };
   payload.inventory_digest = sha256(canonicalBytes(payload), true);
+  if (blockers.length) payload.blockers = [...new Set(blockers)].sort();
   return payload;
 }
 
@@ -535,6 +572,7 @@ function targetBindingStatus(repo, options = {}) {
     provider_export_sha256: binding.provider_export_sha256 || null,
     execution_contract: Object.fromEntries(["decision_refs", "goal_binding", "requirement_bindings", "constraint_ids", "non_goal_ids", "deferred_boundary_ids", "allowed_change_scope", "architecture_contract"].map((key) => [key, exported.export[key]])),
     execution_contract_digest: exported.export.execution_contract_digest || null,
+    provider_graph_id: exported.export.provider_graph_id || null,
     blockers: [...new Set(blockers)].sort(),
     next_action: blockers.length ? "refresh or repair the exact provider binding" : "none",
   };
@@ -549,7 +587,7 @@ function status(repoArg, options = {}) {
   try { if (fs.existsSync(path.join(root, INVENTORY_FILE))) stored = readJson(path.join(root, INVENTORY_FILE)); } catch (_) { /* stale */ }
   const current = inventory(repo);
   const freshness = stored && stored.inventory_digest === current.inventory_digest ? "current" : stored ? "stale" : "missing";
-  const blockers = [...manifestState.blockers, ...ext.blockers];
+  const blockers = [...manifestState.blockers, ...ext.blockers, ...(current.blockers || [])];
   if (!stored && legacyRuntimeState(repo).present) blockers.push("project_technology_host_state_migration_required");
   if (ext.contract && ext.contract.enabled === false) blockers.push("project_technology_disabled");
   if (freshness !== "current") blockers.push(`project_technology_inventory_${freshness}`);
@@ -594,6 +632,8 @@ function enable(repoArg, options = {}) {
   const repo = normalizeRepo(repoArg);
   const manifestState = readManifest(repo);
   if (!manifestState.manifest || manifestState.blockers.length) return result("enable", "transactional", "fail", { blockers: manifestState.blockers, next_action: "repair graph.json" });
+  const inventoryPreflight = inventory(repo);
+  if (inventoryPreflight.blockers?.length) return result("enable", "transactional", "blocked", { blockers: inventoryPreflight.blockers, next_action: "repair declared graph sources" });
   const manifest = structuredClone(manifestState.manifest);
   const extensions = { ...(manifest.extensions || {}) };
   const legacy = extensions[LEGACY_EXTENSION_KEY];
@@ -631,7 +671,7 @@ function sync(repoArg, options = {}) {
   const repo = normalizeRepo(repoArg);
   const manifestState = readManifest(repo);
   const ext = extensionState(manifestState.manifest);
-  const blockers = [...manifestState.blockers, ...ext.blockers];
+  const blockers = [...manifestState.blockers, ...ext.blockers, ...(inventory(repo).blockers || [])];
   const hostRoot = runtimeRoot(repo, manifestState.manifest, options);
   if (legacyRuntimeState(repo).present && !fs.existsSync(path.join(hostRoot, INVENTORY_FILE))) blockers.push("project_technology_host_state_migration_required");
   if (!ext.contract || ext.legacy || ext.contract.enabled !== true) blockers.push("project_technology_not_enabled");
@@ -678,7 +718,7 @@ function provide(repoArg, options = {}) {
   blockers.push(...target.blockers);
   if (blockers.length) return result("provide", "transactional", "fail", { blockers: [...new Set(blockers)].sort(), next_action: "repair the accepted target contract" });
   const executionContractDigest = sha256(canonicalBytes(target.contract));
-  const payload = { schema_version: "1.0.0", ...identity.values, ...target.contract, execution_contract_digest: executionContractDigest };
+  const payload = { schema_version: "1.0.0", ...identity.values, ...target.contract, execution_contract_digest: executionContractDigest, provider_graph_id: manifestState.manifest.id };
   const capsule = capsuleProvider.isCapsule(repo, manifestState.manifest);
   let exportPath;
   try { exportPath = capsule ? capsuleProvider.exportPath(repo) : path.join(repo, EXPORT_FILE); }
@@ -692,6 +732,32 @@ function providerRootFor(exportPath) {
   return completed.status === 0 ? completed.stdout.trim() : null;
 }
 
+// This is explicit consumer trust, NOT an assertion read from the provider.
+// The caller must obtain it from authenticated, checksum-bound release metadata.
+// Keeping it out of the export prevents an archive from authenticating itself.
+function archiveProviderIdentity(source, exported, anchor) {
+  const fail = code => ({ blockers: [code], ancestors: [] });
+  if (!anchor || typeof anchor !== "object" || Array.isArray(anchor)) return fail("provider_archive_trust_invalid");
+  const keys = ["exportSha256", "graphId", "providerRevision", "ancestorRevisions"];
+  if (Object.keys(anchor).some(key => !keys.includes(key)) || keys.some(key => !Object.hasOwn(anchor, key))) return fail("provider_archive_trust_invalid");
+  if (!/^[0-9a-f]{64}$/.test(anchor.exportSha256 || "") ||
+      typeof anchor.graphId !== "string" || !REF_RE.test(anchor.graphId) ||
+      !REVISION_RE.test(anchor.providerRevision || "") ||
+      !Array.isArray(anchor.ancestorRevisions) || anchor.ancestorRevisions.length > 4096 ||
+      anchor.ancestorRevisions.some(rev => typeof rev !== "string" || !REVISION_RE.test(rev) || rev === anchor.providerRevision) ||
+      new Set(anchor.ancestorRevisions).size !== anchor.ancestorRevisions.length) return fail("provider_archive_trust_invalid");
+  try {
+    // Parent aliases such as macOS /var are allowed; the exact bytes are pinned.
+    if (fs.lstatSync(source).isSymbolicLink()) return fail("provider_archive_source_unsafe");
+    if (!fs.statSync(source).isFile() || fs.statSync(source).size > 1024 * 1024) return fail("provider_archive_source_unsafe");
+    const bytes = fs.readFileSync(source);
+    if (sha256(bytes) !== anchor.exportSha256 || canonicalBytes(JSON.parse(bytes)) !== canonicalBytes(exported)) return fail("provider_archive_export_digest_mismatch");
+  } catch (_) { return fail("provider_archive_source_unsafe"); }
+  if (exported.provider_graph_id !== anchor.graphId) return fail("provider_archive_graph_mismatch");
+  if (exported.provider_revision !== anchor.providerRevision) return fail("provider_archive_revision_mismatch");
+  return { blockers: [], ancestors: anchor.ancestorRevisions };
+}
+
 function connect(repoArg, options = {}) {
   const repo = normalizeRepo(repoArg);
   const source = path.resolve(String(options.source || ""));
@@ -702,8 +768,11 @@ function connect(repoArg, options = {}) {
   const blockers = [...identity.blockers, ...read.blockers, ...manifestState.blockers, ...ext.blockers];
   if (!ext.contract || ext.legacy || ext.contract.enabled !== true) blockers.push("project_technology_not_enabled");
   for (const key of Object.keys(identity.values)) if (read.export[key] !== identity.values[key]) blockers.push(`${key}_mismatch`);
-  const providerRoot = providerRootFor(source);
-  if (!providerRoot) blockers.push("provider_revision_order_unverifiable");
+  const archiveRequested = Object.hasOwn(options, "providerArchive");
+  const archive = archiveRequested ? archiveProviderIdentity(source, read.export, options.providerArchive) : null;
+  const providerRoot = archiveRequested ? null : providerRootFor(source);
+  if (archive) blockers.push(...archive.blockers);
+  else if (!providerRoot) blockers.push("provider_revision_order_unverifiable");
   else if (git(providerRoot, "rev-parse", "HEAD").toLowerCase() !== identity.values.provider_revision) blockers.push("provider_revision_does_not_match_head");
   if (providerRoot) {
     const providerManifest = readManifest(providerRoot).manifest;
@@ -718,6 +787,9 @@ function connect(repoArg, options = {}) {
   let current = null;
   try { if (fs.existsSync(currentPath)) current = readJson(currentPath); } catch (_) { blockers.push("current_target_binding_invalid"); }
   if (current) {
+    const currentExport = targetBindingStatus(repo, options);
+    const existingGraphId = currentExport.provider_graph_id;
+    if (existingGraphId && existingGraphId !== read.export.provider_graph_id) blockers.push("target_provider_graph_conflict");
     if (!options.refreshBinding) {
       const same = Object.keys(identity.values).every((key) => current[key] === identity.values[key]);
       if (!same) blockers.push("target_provider_conflict", "target_provider_refresh_required");
@@ -732,7 +804,9 @@ function connect(repoArg, options = {}) {
       const currentState = targetBindingStatus(repo, options);
       if (currentState.status !== "ready") blockers.push(...currentState.blockers);
       if (currentState.execution_contract_digest !== read.export.execution_contract_digest) blockers.push("provider_execution_contract_refresh_mismatch");
-      if (!providerRoot) blockers.push("provider_revision_order_unverifiable");
+      if (archive) {
+        if (current.provider_revision !== identity.values.provider_revision && !archive.ancestors.includes(current.provider_revision)) blockers.push("provider_revision_not_forward");
+      } else if (!providerRoot) blockers.push("provider_revision_order_unverifiable");
       else {
         if (current.provider_revision !== identity.values.provider_revision) {
           const ancestry = spawnSync("git", ["-C", providerRoot, "merge-base", "--is-ancestor", current.provider_revision, identity.values.provider_revision]);
@@ -797,7 +871,40 @@ function repair(repoArg, options = {}) {
   return sync(repo, options);
 }
 
+function verifyProviderExport(repoArg, options = {}) {
+  const repo = normalizeRepo(repoArg);
+  const source = path.resolve(options.source || path.join(repo, EXPORT_FILE));
+  const exported = readExport(source);
+  const manifestState = readManifest(repo);
+  const ext = extensionState(manifestState.manifest);
+  const identity = bindingValues(exported.export);
+  const blockers = [...exported.blockers, ...manifestState.blockers, ...ext.blockers, ...identity.blockers];
+  if (options.significantWork) blockers.push("provider_export_verification_is_not_execution_authority");
+  if (!trackedFiles(repo).includes("graph.json") || spawnSync("git", ["diff", "--quiet", "HEAD", "--", "graph.json"], { cwd: repo }).status !== 0) blockers.push("provider_manifest_not_revision_bound");
+  if (!source.startsWith(`${repo}${path.sep}`)) blockers.push("provider_export_outside_repository");
+  if (ext.contract?.enabled !== true || ext.legacy) blockers.push("project_technology_not_enabled");
+  const head = git(repo, "rev-parse", "HEAD");
+  if (head !== identity.values.provider_revision) blockers.push("provider_revision_does_not_match_head");
+  if (exported.export.provider_graph_id !== manifestState.manifest?.id) blockers.push("provider_archive_graph_mismatch");
+  const target = targetContract(repo, identity.values.target_id, identity.values.semantic_digest, manifestState.manifest);
+  blockers.push(...target.blockers);
+  if (sha256(canonicalBytes(target.contract)) !== exported.export.execution_contract_digest) blockers.push("provider_execution_contract_source_mismatch");
+  // Bound supported ancestry; deeper histories need a narrower supported
+  // release window rather than unbounded metadata in every consumer.
+  const history = git(repo, "rev-list", "--max-count=4098", "HEAD").split("\n").filter(Boolean);
+  if (history[0] !== head || history.length > 4097) blockers.push("provider_archive_ancestry_unverifiable_or_too_large");
+  return result("verify", "read_only", blockers.length ? "blocked" : "success", {
+    blockers: [...new Set(blockers)].sort(),
+    provider_archive: blockers.length ? null : {
+      exportSha256: exported.raw_sha256, graphId: manifestState.manifest.id,
+      providerRevision: head, ancestorRevisions: history.slice(1),
+    },
+    next_action: blockers.length ? "repair the canonical provider export before packaging" : "seal this anchor in authenticated release metadata",
+  });
+}
+
 function verify(repoArg, options = {}) {
+  if (options.source) return verifyProviderExport(repoArg, options);
   const state = status(repoArg, options);
   const blockers = [...state.blockers];
   const repo = normalizeRepo(repoArg);
@@ -864,6 +971,7 @@ module.exports = {
   sync,
   targetBindingStatus,
   verify,
+  verifyProviderExport,
   verifyArtifactRelease: artifacts.verifyArtifactRelease,
   verifyTechnologyCourse: technologyCourse.verifyTechnologyCourse,
   verifyContext: traversal.verifyContext,

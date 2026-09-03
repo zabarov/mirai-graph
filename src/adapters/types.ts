@@ -1,4 +1,4 @@
-import type { ApprovalReceipt, EffectName, EffectReceipt } from "../runtime/contracts.js";
+import type { ApprovalReceipt, CapabilityRequest, CapabilityGrant, EffectName, EffectReceipt } from "../runtime/contracts.js";
 import type { RunStore } from "../runtime/store.js";
 
 export interface TestCommandDefinition {
@@ -19,11 +19,15 @@ export interface AdapterExecutionContext {
   signal?: AbortSignal;
   store: RunStore;
   approval?: ApprovalReceipt;
+  capability_request?: CapabilityRequest;
+  capability_grant?: CapabilityGrant;
   test_commands: Record<string, TestCommandDefinition>;
 }
 
 export interface AdapterOperation {
   effect: EffectName;
+  /** Read-only host validation before a receipt is prepared; never invokes an effect. */
+  preflight?(args: Record<string, unknown>, context: AdapterExecutionContext): void;
   execute(args: Record<string, unknown>, context: AdapterExecutionContext): Promise<unknown>;
   verify(receipt: EffectReceipt, context: AdapterExecutionContext): Promise<{ verified: boolean; details: string[] }>;
   compensate?(receipt: EffectReceipt, context: AdapterExecutionContext): Promise<{ compensated: boolean; details: string[] }>;

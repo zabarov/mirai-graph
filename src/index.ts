@@ -12,4 +12,6 @@ export * as sources from "./sources/index.js";
 export * as knowledge from "./knowledge/index.js";
 export * as autonomy from "./autonomy/index.js";
 export * as evolution from "./evolution/index.js";
+export * as stdlib from "./stdlib/index.js";
+export * as tasks from "./tasks/index.js";
 export { runCli } from "./cli/index.js";

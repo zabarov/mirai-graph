@@ -1,0 +1,192 @@
+{
+  "graph": {
+    "contract_version": "1.0.0",
+    "id": "demo.organization",
+    "objects": [
+      {
+        "id": "requirements.a",
+        "kind": "requirement",
+        "scope": "client.a",
+        "metadata": {
+          "client": "a",
+          "topics": [
+            "requirements",
+            "safety"
+          ]
+        },
+        "source_refs": [
+          "source.shared"
+        ]
+      },
+      {
+        "id": "safety.a",
+        "kind": "requirement",
+        "scope": "client.a",
+        "metadata": {
+          "client": "a",
+          "topics": [
+            "safety"
+          ]
+        },
+        "source_refs": [
+          "source.shared"
+        ]
+      },
+      {
+        "id": "unclassified",
+        "kind": "note",
+        "scope": "client.a",
+        "metadata": {},
+        "source_refs": [
+          "source.shared"
+        ]
+      },
+      {
+        "id": "verification.a",
+        "kind": "requirement",
+        "scope": "client.a",
+        "metadata": {
+          "client": "a",
+          "topics": [
+            "verification"
+          ]
+        },
+        "source_refs": [
+          "source.shared"
+        ]
+      },
+      {
+        "id": "verification.b",
+        "kind": "requirement",
+        "scope": "client.b",
+        "metadata": {
+          "client": "b",
+          "topics": [
+            "verification"
+          ]
+        },
+        "source_refs": [
+          "source.shared"
+        ]
+      }
+    ],
+    "relations": [
+      {
+        "contract_version": "1.0.0",
+        "id": "edge.expired",
+        "type": "depends_on",
+        "participants": [
+          {
+            "ref": "verification.a",
+            "role": "consumer"
+          },
+          {
+            "ref": "safety.a",
+            "role": "dependency"
+          }
+        ],
+        "priority": 0,
+        "authority": "derived",
+        "confidence": 1,
+        "provenance": [
+          {
+            "source_ref": "source.shared"
+          }
+        ],
+        "scope": "client.a",
+        "valid_until": "2020-01-01T00:00:00Z"
+      },
+      {
+        "contract_version": "1.0.0",
+        "id": "edge.other",
+        "type": "depends_on",
+        "participants": [
+          {
+            "ref": "verification.a",
+            "role": "consumer"
+          },
+          {
+            "ref": "verification.b",
+            "role": "dependency"
+          }
+        ],
+        "priority": 0,
+        "authority": "derived",
+        "confidence": 1,
+        "provenance": [
+          {
+            "source_ref": "source.shared"
+          }
+        ],
+        "scope": "client.b"
+      },
+      {
+        "contract_version": "1.0.0",
+        "id": "edge.safety",
+        "type": "depends_on",
+        "participants": [
+          {
+            "ref": "requirements.a",
+            "role": "consumer"
+          },
+          {
+            "ref": "safety.a",
+            "role": "dependency"
+          }
+        ],
+        "priority": 0,
+        "authority": "derived",
+        "confidence": 1,
+        "provenance": [
+          {
+            "source_ref": "source.shared"
+          }
+        ],
+        "scope": "client.a"
+      },
+      {
+        "contract_version": "1.0.0",
+        "id": "edge.verify",
+        "type": "depends_on",
+        "participants": [
+          {
+            "ref": "verification.a",
+            "role": "consumer"
+          },
+          {
+            "ref": "requirements.a",
+            "role": "dependency"
+          }
+        ],
+        "priority": 0,
+        "authority": "derived",
+        "confidence": 1,
+        "provenance": [
+          {
+            "source_ref": "source.shared"
+          }
+        ],
+        "scope": "client.a"
+      }
+    ],
+    "sources": [
+      {
+        "id": "source.shared",
+        "owner_ref": "owner.demo",
+        "digest": "sha256:cb73c0b07e8ce2644fe897b10b11b088c87bf9650ea6ad800c2f9975032a2ecf",
+        "confidentiality": "public"
+      }
+    ],
+    "canonical_write_allowed": false,
+    "digest": "sha256:0995a1d1f95a75a03255c4bbe981cc06685bc86840a70928143e6c95ed95a373"
+  },
+  "policy": {
+    "id": "policy.topics",
+    "keys": [
+      "topics"
+    ],
+    "max_groups": 20,
+    "max_group_size": 20,
+    "max_memberships": 40
+  }
+}

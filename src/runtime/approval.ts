@@ -4,7 +4,7 @@ import { createHmac, randomBytes, timingSafeEqual } from "node:crypto";
 import { canonicalJson, digestValue } from "../core/canonical.js";
 import { assertNoSymlinkComponents } from "../core/path-boundary.js";
 import {
-  APPROVAL_CONTRACT_VERSION,
+  capabilityContractFor,
   type ApprovalReceipt,
   type ApprovalRequestScope,
   type CapabilityRequest,
@@ -76,11 +76,12 @@ export function createApprovalReceipt(options: {
     if (scope.program_digest !== options.program_digest) throw new Error("approval_scope_program_mismatch");
     if (scope.input_digest !== options.input_digest) throw new Error("approval_scope_input_mismatch");
     if (scope.policy_digest !== options.policy_digest) throw new Error("approval_scope_policy_mismatch");
-    if (!effects.every((effect) => scope.effects.includes(effect))) throw new Error("approval_scope_effect_mismatch");
+    if (!scope.effects.length || !scope.effects.every((effect) => effects.includes(effect))) throw new Error("approval_scope_effect_mismatch");
   }
+  if (!effects.every(effect => requestScopes.some(scope => scope.effects.includes(effect)))) throw new Error("approval_scope_effect_mismatch");
   const nodeIds = [...new Set(requestScopes.map((scope) => scope.node_id))].sort();
   const payload = {
-    contract_version: APPROVAL_CONTRACT_VERSION,
+    contract_version: capabilityContractFor(effects),
     approval_id: `approval.${digestValue({ run: options.run_id, program: options.program_digest, input: options.input_digest, sandbox: path.resolve(options.sandbox), policy: options.policy_digest, scopes: requestScopes, at: now.toISOString() }).slice(7, 23)}`,
     approved: true as const,
     run_id: options.run_id,
@@ -107,7 +108,7 @@ export function verifyApprovalReceipt(receipt: ApprovalReceipt, options: {
   now?: Date;
 }): { valid: boolean; errors: string[] } {
   const errors: string[] = [];
-  if (receipt.contract_version !== APPROVAL_CONTRACT_VERSION || receipt.approved !== true) errors.push("approval_contract_invalid");
+  if (receipt.contract_version !== capabilityContractFor(receipt.effects) || receipt.approved !== true) errors.push("approval_contract_invalid");
   if (receipt.canonical_write_allowed !== false) errors.push("approval_canonical_write_boundary_invalid");
   if (receipt.run_id !== options.request.run_id) errors.push("approval_run_id_mismatch");
   if (receipt.program_digest !== options.request.program_digest) errors.push("approval_program_digest_mismatch");

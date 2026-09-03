@@ -3,6 +3,7 @@ import type { MiraiProgram, ProgramNode, SlotDefinition } from "../program/types
 import { validateProgram, valueMatchesType } from "../program/validator.js";
 import { evaluateExpression, evaluateMap, type EvaluationScope } from "./expression.js";
 import { DEFAULT_PURE_ADAPTERS, type PureAdapterRegistry } from "./pure-adapters.js";
+import { invokeStandardOperation } from "../stdlib/catalog.js";
 
 export const PURE_EPISODE_CONTRACT_VERSION = "1.0.0" as const;
 
@@ -194,9 +195,13 @@ async function executeProgram(
               capability: node.capability
             });
           } else {
-            const operation = state.adapters[node.target.adapter]?.[node.target.operation];
-            if (!operation) throw new PureExecutionError("adapter_operation_not_found", `${node.target.adapter}.${node.target.operation}`, node.id);
-            result = await operation(args, { program_id: program.id, node_id: node.id, attempt: 1 });
+            if (program.contract_version === "1.1.0" && node.target.adapter === "mirai_stdlib") {
+              result = invokeStandardOperation(node.target.operation, args, program.operation_catalog!.digest);
+            } else {
+              const operation = state.adapters[node.target.adapter]?.[node.target.operation];
+              if (!operation) throw new PureExecutionError("adapter_operation_not_found", `${node.target.adapter}.${node.target.operation}`, node.id);
+              result = await operation(args, { program_id: program.id, node_id: node.id, attempt: 1 });
+            }
           }
         }
         if (node.result) localState[node.result] = clone(result);

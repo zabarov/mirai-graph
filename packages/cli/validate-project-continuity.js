@@ -173,6 +173,7 @@ try {
     objects: ["mirai/graph/specs/project.json"], relations: ["mirai/graph/specs/relations.json"], generated: [],
   };
   writeJson(path.join(capsule, "graph.json"), capsuleManifest);
+  fs.writeFileSync(path.join(capsule, "README.md"), "# Synthetic Capsule source\n");
   writeJson(path.join(capsule, "mirai/graph/specs/project.json"), [{ id: "goal.capsule", summary: "before" }]);
   writeJson(path.join(capsule, "mirai/graph/specs/relations.json"), []);
   fs.writeFileSync(path.join(capsule, "mirai/manifest.yaml"), "contract_version: 1.0.0\n");

@@ -5,8 +5,9 @@
   "type": "object",
   "additionalProperties": false,
   "required": ["contract_version", "approval_id", "approved", "run_id", "program_digest", "input_digest", "policy_digest", "sandbox_digest", "effects", "node_ids", "request_scopes", "approver", "issued_at", "expires_at", "canonical_write_allowed", "signature_algorithm", "signature"],
+  "allOf": [{"if":{"properties":{"effects":{"contains":{"enum":["task_control","task_dispatch","inference_invoke","task_read"]}}},"required":["effects"]},"then":{"properties":{"contract_version":{"const":"1.2.0"}}},"else":{"properties":{"contract_version":{"const":"1.1.0"}}}}],
   "properties": {
-    "contract_version": { "const": "1.1.0" },
+    "contract_version": {"enum":["1.1.0","1.2.0"]},
     "approval_id": { "type": "string", "minLength": 1 },
     "approved": { "const": true },
     "run_id": { "type": "string", "minLength": 1 },
@@ -14,7 +15,7 @@
     "input_digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
     "policy_digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
     "sandbox_digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
-    "effects": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "enum": ["repository_read", "git_read", "workspace_patch", "process_run", "human_approval"] } },
+    "effects": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "enum": ["repository_read","git_read","workspace_patch","process_run","human_approval","task_control","task_dispatch","inference_invoke","task_read"] } },
     "node_ids": { "type": "array", "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
     "request_scopes": {
       "type": "array", "minItems": 1,
@@ -30,7 +31,7 @@
           "adapter": { "type": "string", "minLength": 1 },
           "action": { "type": "string", "minLength": 1 },
           "resource": { "type": "string", "minLength": 1 },
-          "effects": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "enum": ["repository_read", "git_read", "workspace_patch", "process_run", "human_approval"] } },
+          "effects": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "enum": ["repository_read","git_read","workspace_patch","process_run","human_approval","task_control","task_dispatch","inference_invoke","task_read"] } },
           "capability": { "type": "string", "minLength": 1 },
           "budget": { "type": "object", "additionalProperties": false, "required": ["max_calls"], "properties": { "max_calls": { "type": "integer", "minimum": 1 }, "max_bytes": { "type": "integer", "minimum": 1 }, "timeout_ms": { "type": "integer", "minimum": 1 } } },
           "policy_digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" }

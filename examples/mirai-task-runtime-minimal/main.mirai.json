@@ -1,0 +1,200 @@
+{
+  "contract_version": "1.1.0",
+  "entry": "step.0",
+  "error_routes": [],
+  "id": "program.task-demo",
+  "imports": [],
+  "inputs": [],
+  "nodes": [
+    {
+      "args": {
+        "plan_digest": {
+          "op": "literal",
+          "value": "sha256:f3dbd0acf548580661308d82993b949fded9527338756d2fc7365009dba21eb3"
+        },
+        "registry_digest": {
+          "op": "literal",
+          "value": "sha256:420fade01f6455705513820836c587a905f0c0b20cb0e67ba26957e6dfde2fc3"
+        }
+      },
+      "capability": "cap.submit",
+      "effects": [
+        "task_control"
+      ],
+      "id": "step.0",
+      "kind": "call",
+      "next": "step.1",
+      "target": {
+        "adapter": "mirai_tasks",
+        "kind": "adapter",
+        "operation": "submit"
+      }
+    },
+    {
+      "args": {
+        "plan_digest": {
+          "op": "literal",
+          "value": "sha256:f3dbd0acf548580661308d82993b949fded9527338756d2fc7365009dba21eb3"
+        },
+        "registry_digest": {
+          "op": "literal",
+          "value": "sha256:420fade01f6455705513820836c587a905f0c0b20cb0e67ba26957e6dfde2fc3"
+        },
+        "task_id": {
+          "op": "literal",
+          "value": "task.classify"
+        }
+      },
+      "capability": "cap.dispatch",
+      "effects": [
+        "task_dispatch"
+      ],
+      "id": "step.1",
+      "kind": "call",
+      "next": "step.2",
+      "target": {
+        "adapter": "mirai_tasks",
+        "kind": "adapter",
+        "operation": "dispatch"
+      }
+    },
+    {
+      "args": {
+        "plan_digest": {
+          "op": "literal",
+          "value": "sha256:f3dbd0acf548580661308d82993b949fded9527338756d2fc7365009dba21eb3"
+        },
+        "registry_digest": {
+          "op": "literal",
+          "value": "sha256:420fade01f6455705513820836c587a905f0c0b20cb0e67ba26957e6dfde2fc3"
+        },
+        "task_id": {
+          "op": "literal",
+          "value": "task.draft"
+        }
+      },
+      "capability": "cap.inference",
+      "effects": [
+        "inference_invoke"
+      ],
+      "id": "step.2",
+      "kind": "call",
+      "next": "step.3",
+      "target": {
+        "adapter": "mirai_tasks",
+        "kind": "adapter",
+        "operation": "inference"
+      }
+    },
+    {
+      "args": {
+        "plan_digest": {
+          "op": "literal",
+          "value": "sha256:f3dbd0acf548580661308d82993b949fded9527338756d2fc7365009dba21eb3"
+        },
+        "registry_digest": {
+          "op": "literal",
+          "value": "sha256:420fade01f6455705513820836c587a905f0c0b20cb0e67ba26957e6dfde2fc3"
+        }
+      },
+      "capability": "cap.collect",
+      "effects": [
+        "task_read"
+      ],
+      "id": "step.3",
+      "kind": "call",
+      "next": "done",
+      "result": "collected",
+      "target": {
+        "adapter": "mirai_tasks",
+        "kind": "adapter",
+        "operation": "collect"
+      }
+    },
+    {
+      "id": "done",
+      "kind": "return",
+      "values": {
+        "task_status": {
+          "key": "status",
+          "op": "get",
+          "target": {
+            "key": "value",
+            "op": "get",
+            "target": {
+              "op": "ref",
+              "path": "state.collected"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "operation_catalog": {
+    "contract_version": "1.0.0",
+    "digest": "sha256:28da00e5d6d912013e1196c48b7199bccb86ca45e22db864ea564abe74140c48",
+    "id": "mirai.stdlib"
+  },
+  "outputs": [
+    {
+      "id": "task_status",
+      "type": "string"
+    }
+  ],
+  "policies": {
+    "allowed_effects": [
+      "task_control",
+      "task_dispatch",
+      "inference_invoke",
+      "task_read"
+    ],
+    "budgets": {
+      "max_depth": 4,
+      "max_duration_ms": 10000,
+      "max_iterations": 8,
+      "max_parallel": 2,
+      "max_steps": 16
+    },
+    "canonical_write_allowed": false
+  },
+  "source_map": {
+    "done": {
+      "file": "main.mirai.json"
+    },
+    "step.0": {
+      "file": "main.mirai.json"
+    },
+    "step.1": {
+      "file": "main.mirai.json"
+    },
+    "step.2": {
+      "file": "main.mirai.json"
+    },
+    "step.3": {
+      "file": "main.mirai.json"
+    }
+  },
+  "state": [
+    {
+      "default": {
+        "value": {
+          "status": "pending"
+        }
+      },
+      "id": "collected",
+      "type": {
+        "fields": {
+          "value": {
+            "fields": {
+              "status": "string"
+            },
+            "kind": "record"
+          }
+        },
+        "kind": "record"
+      }
+    }
+  ],
+  "version": "1.0.0",
+  "digest": "sha256:e83c0c2b49e00e55f794d0671e4b176178f12858d9c4af88ac2efe74b18550a2"
+}

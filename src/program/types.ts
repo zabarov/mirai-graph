@@ -1,4 +1,5 @@
 export const PROGRAM_CONTRACT_VERSION = "1.0.0" as const;
+export const PROGRAM_OPERATIONS_CONTRACT_VERSION = "1.1.0" as const;
 
 export type PrimitiveType =
   | "boolean" | "string" | "int64" | "decimal" | "timestamp" | "duration"
@@ -147,7 +148,8 @@ export interface ExecutionBudgets {
 }
 
 export interface MiraiProgram {
-  contract_version: typeof PROGRAM_CONTRACT_VERSION;
+  contract_version: typeof PROGRAM_CONTRACT_VERSION | typeof PROGRAM_OPERATIONS_CONTRACT_VERSION;
+  operation_catalog?: { id: "mirai.stdlib"; contract_version: "1.0.0"; digest: string };
   id: string;
   version: string;
   imports: ProgramImport[];

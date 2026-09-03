@@ -9,12 +9,20 @@ export const EPISODE_CONTRACT_VERSION = "1.0.0" as const;
 export const MANDATE_CONTRACT_VERSION = "1.0.0" as const;
 export const INVARIANT_CONTRACT_VERSION = "1.0.0" as const;
 
-export type EffectName = "repository_read" | "git_read" | "workspace_patch" | "process_run" | "human_approval";
+export const TASK_CAPABILITY_CONTRACT_VERSION = "1.2.0" as const;
+export const TASK_RECEIPT_CONTRACT_VERSION = "1.1.0" as const;
+export const TASK_EFFECTS = ["task_control", "task_dispatch", "inference_invoke", "task_read"] as const;
+export type TaskEffect = typeof TASK_EFFECTS[number];
+export type EffectName = "repository_read" | "git_read" | "workspace_patch" | "process_run" | "human_approval" | TaskEffect;
+export const hasTaskEffect = (effects: readonly string[]): boolean => effects.some(e => (TASK_EFFECTS as readonly string[]).includes(e));
+export const capabilityContractFor = (effects: readonly string[]) => hasTaskEffect(effects) ? TASK_CAPABILITY_CONTRACT_VERSION : CAPABILITY_CONTRACT_VERSION;
+export const receiptContractFor = (effects: readonly string[]) => hasTaskEffect(effects) ? TASK_RECEIPT_CONTRACT_VERSION : RECEIPT_CONTRACT_VERSION;
+export const requiresTaskApproval = (effects: readonly string[]) => effects.some(e => e === "task_control" || e === "task_dispatch" || e === "inference_invoke");
 export type ReceiptStatus = "prepared" | "executed" | "verified" | "failed" | "uncertain" | "compensated";
 export type RunStatus = "prepared" | "running" | "completed" | "cancelled" | "failed" | "blocked";
 
 export interface CapabilityRequest {
-  contract_version: typeof CAPABILITY_CONTRACT_VERSION;
+  contract_version: typeof CAPABILITY_CONTRACT_VERSION | typeof TASK_CAPABILITY_CONTRACT_VERSION;
   request_id: string;
   run_id: string;
   program_digest: string;
@@ -33,7 +41,7 @@ export interface CapabilityRequest {
 }
 
 export interface PolicyDecisionRecord {
-  contract_version: typeof CAPABILITY_CONTRACT_VERSION;
+  contract_version: CapabilityRequest["contract_version"];
   decision_id: string;
   request_id: string;
   decision: "granted" | "denied" | "approval_required";
@@ -46,7 +54,7 @@ export interface PolicyDecisionRecord {
 }
 
 export interface CapabilityGrant {
-  contract_version: typeof CAPABILITY_CONTRACT_VERSION;
+  contract_version: CapabilityRequest["contract_version"];
   grant_id: string;
   request_id: string;
   request_digest: string;
@@ -127,7 +135,7 @@ export interface InvariantEvaluationResult {
 export type ApprovalRequestScope = Omit<CapabilityRequest, "contract_version" | "request_id" | "request_digest" | "approval_required">;
 
 export interface ApprovalReceipt {
-  contract_version: typeof APPROVAL_CONTRACT_VERSION;
+  contract_version: typeof APPROVAL_CONTRACT_VERSION | typeof TASK_CAPABILITY_CONTRACT_VERSION;
   approval_id: string;
   approved: true;
   run_id: string;
@@ -147,7 +155,7 @@ export interface ApprovalReceipt {
 }
 
 export interface EffectReceipt {
-  contract_version: typeof RECEIPT_CONTRACT_VERSION;
+  contract_version: typeof RECEIPT_CONTRACT_VERSION | typeof TASK_RECEIPT_CONTRACT_VERSION;
   receipt_id: string;
   sequence: number;
   idempotency_key: string;
@@ -233,7 +241,7 @@ export type RuntimeEffectSummary = Omit<RuntimeEffectStub, "result" | "error_mes
 };
 
 export interface SanitizedEffectReceipt {
-  contract_version: typeof RECEIPT_CONTRACT_VERSION;
+  contract_version: EffectReceipt["contract_version"];
   receipt_id: string;
   sequence: number;
   idempotency_key: string;

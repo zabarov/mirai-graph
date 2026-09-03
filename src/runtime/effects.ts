@@ -8,7 +8,7 @@ import {
 } from "../adapters/index.js";
 import type { EffectExecutionRequest } from "./pure-interpreter.js";
 import {
-  RECEIPT_CONTRACT_VERSION,
+  receiptContractFor, requiresTaskApproval,
   type ApprovalReceipt,
   type EffectName,
   type EffectReceipt,
@@ -24,6 +24,7 @@ import type { RunStore } from "./store.js";
 export type FaultInjectionStage = "after_prepare" | "after_execute_before_verify";
 
 function resourceFor(request: EffectExecutionRequest): string {
+  if (request.adapter === "mirai_tasks") return `mirai-task:${String(request.args.registry_digest)}/${String(request.args.plan_digest)}/${String(request.args.task_id || "root")}/${request.operation}`;
   if (request.adapter === "repository" || request.adapter === "workspace") {
     const value = typeof request.args.path === "string" ? request.args.path : ".";
     return value === "." ? "." : `./${value.replace(/^\.\//, "")}`;
@@ -92,8 +93,8 @@ export class EffectCoordinator {
     let timer: ReturnType<typeof setTimeout> | undefined;
     const timeout = new Promise<never>((_resolve, reject) => {
       timer = setTimeout(() => {
-        controller.abort(new Error(`effect_deadline_exceeded:${phase}`));
         reject(new Error(`effect_deadline_exceeded:${phase}`));
+        controller.abort(new Error(`effect_deadline_exceeded:${phase}`));
       }, remaining);
     });
     try {
@@ -187,7 +188,7 @@ export class EffectCoordinator {
       capability: request.capability,
       budget: { max_calls: 1, max_bytes: 1_000_000, timeout_ms: 30_000 },
       policy_digest: this.options.provider.digest,
-      approval_required: operation.effect === "workspace_patch" || operation.effect === "process_run" || operation.effect === "human_approval"
+      approval_required: operation.effect === "workspace_patch" || operation.effect === "process_run" || operation.effect === "human_approval" || requiresTaskApproval(effects)
     });
     const capability = this.options.provider.request(capabilityRequest);
     this.options.store.writeCapabilityRequest(this.options.run_id, capabilityRequest);
@@ -197,9 +198,11 @@ export class EffectCoordinator {
     const grantErrors = validateGrant(grant, capabilityRequest);
     if (grantErrors.length) throw new EffectExecutionBlocked("capability_grant_invalid", grantErrors.join(", "));
     const grantRef = this.options.store.writeCapability(this.options.run_id, grant);
+    operation.preflight?.(request.args, { ...this.context(idempotencyKey, grant.budget.max_bytes),
+      capability_request: capabilityRequest, capability_grant: grant });
     const now = new Date().toISOString();
     const prepared: EffectReceipt = {
-      contract_version: RECEIPT_CONTRACT_VERSION,
+      contract_version: receiptContractFor(effects),
       receipt_id: receiptId,
       idempotency_key: idempotencyKey,
       run_id: this.options.run_id,
@@ -232,7 +235,10 @@ export class EffectCoordinator {
     }
     let result: unknown;
     try {
-      result = await this.withinDeadline("execute", (signal, deadline) => operation.execute(request.args, this.context(idempotencyKey, grant.budget.max_bytes, signal, deadline)), grant.budget.timeout_ms);
+      result = await this.withinDeadline("execute", (signal, deadline) => operation.execute(request.args, {
+        ...this.context(idempotencyKey, grant.budget.max_bytes, signal, deadline),
+        capability_request: capabilityRequest, capability_grant: grant
+      }), grant.budget.timeout_ms);
     } catch (error) {
       const retrySafe = operation.effect === "repository_read" || operation.effect === "git_read";
       const failed: EffectReceipt = {

@@ -302,6 +302,35 @@ source still answers "how should the domain work be done?".
 
 ## Safety Rules
 
+### Files without Git and authenticated distribution
+
+An ordinary folder is inventoried only through explicitly declared manifest
+graph/raw-source paths, with bounded traversal. Changed files invalidate the
+inventory; missing or unsafe declared sources block sync. This is not a scan
+of arbitrary neighboring documents. A broken Git checkout is not silently
+reclassified as a plain folder.
+
+On the original Git-backed provider, `technology verify <repo> --source <export>`
+checks the accepted target, graph identity, revision-bound canonical inputs and
+execution-contract digest. For a Capsule this includes the fresh lock, generated
+START, facade and actual target records. A successful source proof returns a
+bounded `provider_archive` anchor, not permission to execute work.
+
+An authenticated distributor can deliver that anchor separately from the export.
+The consumer uses `technology connect ... --provider-archive-trust <anchor.json>`
+(or `--provider-archive-trust -` for JSON on stdin). It must obtain the anchor from
+trusted, checksum-bound release metadata, never from an untrusted export's own
+claims. The import checks exact bytes, graph identity and provider revision;
+refresh additionally requires forward ancestry and an unchanged accepted target
+and execution contract. Publication/signature verification belongs to the host
+distributor, not to a JSON field or this import function.
+
+Historical Git exports without `provider_graph_id` remain readable. Archive
+imports require that identity. Program/Runtime contracts and Capsule transactions
+are unchanged; this does not install, select or migrate a Federation engine.
+
+### Common boundaries
+
 - Read-only commands never write.
 - Changing commands return preview unless `--apply` is explicit.
 - Significant work fails closed when the target binding is missing, stale,

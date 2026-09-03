@@ -1,0 +1,98 @@
+[
+  {
+    "run_id": "run.task-demo",
+    "program_digest": "sha256:e83c0c2b49e00e55f794d0671e4b176178f12858d9c4af88ac2efe74b18550a2",
+    "input_digest": "sha256:44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "args_digest": "sha256:6e761b861b01d1f3cb6fd1af60696907d33830dc04a1edb203ff0666badfb136",
+    "node_id": "step.0",
+    "adapter": "mirai_tasks",
+    "action": "submit",
+    "resource": "mirai-task:sha256:420fade01f6455705513820836c587a905f0c0b20cb0e67ba26957e6dfde2fc3/sha256:f3dbd0acf548580661308d82993b949fded9527338756d2fc7365009dba21eb3/root/submit",
+    "effects": [
+      "task_control"
+    ],
+    "capability": "cap.submit",
+    "budget": {
+      "max_calls": 1,
+      "max_bytes": 1000000,
+      "timeout_ms": 30000
+    },
+    "policy_digest": "sha256:65f153e3014f76470eb3d72c7e50a90a89ebf6f80aa573e242289f74e39007ed",
+    "approval_required": true,
+    "contract_version": "1.2.0",
+    "request_id": "request.a2460bc5ddfa66f0",
+    "request_digest": "sha256:a2460bc5ddfa66f0424123f9a6811cbe8c08efbf991fafba61cb60ee755dd994"
+  },
+  {
+    "run_id": "run.task-demo",
+    "program_digest": "sha256:e83c0c2b49e00e55f794d0671e4b176178f12858d9c4af88ac2efe74b18550a2",
+    "input_digest": "sha256:44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "args_digest": "sha256:197850335ab80e941e37a8b2a002558e1c2b7c360c7ae1dadf37a7a219c7af7b",
+    "node_id": "step.1",
+    "adapter": "mirai_tasks",
+    "action": "dispatch",
+    "resource": "mirai-task:sha256:420fade01f6455705513820836c587a905f0c0b20cb0e67ba26957e6dfde2fc3/sha256:f3dbd0acf548580661308d82993b949fded9527338756d2fc7365009dba21eb3/task.classify/dispatch",
+    "effects": [
+      "task_dispatch"
+    ],
+    "capability": "cap.dispatch",
+    "budget": {
+      "max_calls": 1,
+      "max_bytes": 1000000,
+      "timeout_ms": 30000
+    },
+    "policy_digest": "sha256:65f153e3014f76470eb3d72c7e50a90a89ebf6f80aa573e242289f74e39007ed",
+    "approval_required": true,
+    "contract_version": "1.2.0",
+    "request_id": "request.159be810a8249dfa",
+    "request_digest": "sha256:159be810a8249dfad5d8a3027560daed95ccc6aafcb9f47b988bbc0beac40187"
+  },
+  {
+    "run_id": "run.task-demo",
+    "program_digest": "sha256:e83c0c2b49e00e55f794d0671e4b176178f12858d9c4af88ac2efe74b18550a2",
+    "input_digest": "sha256:44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "args_digest": "sha256:c747ba5e7fcbadca137dabc3a9227d1d26c34600da4169c83185d51a7e4cb744",
+    "node_id": "step.2",
+    "adapter": "mirai_tasks",
+    "action": "inference",
+    "resource": "mirai-task:sha256:420fade01f6455705513820836c587a905f0c0b20cb0e67ba26957e6dfde2fc3/sha256:f3dbd0acf548580661308d82993b949fded9527338756d2fc7365009dba21eb3/task.draft/inference",
+    "effects": [
+      "inference_invoke"
+    ],
+    "capability": "cap.inference",
+    "budget": {
+      "max_calls": 1,
+      "max_bytes": 1000000,
+      "timeout_ms": 30000
+    },
+    "policy_digest": "sha256:65f153e3014f76470eb3d72c7e50a90a89ebf6f80aa573e242289f74e39007ed",
+    "approval_required": true,
+    "contract_version": "1.2.0",
+    "request_id": "request.d61f4a8189d2983a",
+    "request_digest": "sha256:d61f4a8189d2983a86f2c030f2bd0a9110b814ba277fd81a88d038cd981fe5b2"
+  },
+  {
+    "run_id": "run.task-demo",
+    "program_digest": "sha256:e83c0c2b49e00e55f794d0671e4b176178f12858d9c4af88ac2efe74b18550a2",
+    "input_digest": "sha256:44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "args_digest": "sha256:6e761b861b01d1f3cb6fd1af60696907d33830dc04a1edb203ff0666badfb136",
+    "node_id": "step.3",
+    "adapter": "mirai_tasks",
+    "action": "collect",
+    "resource": "mirai-task:sha256:420fade01f6455705513820836c587a905f0c0b20cb0e67ba26957e6dfde2fc3/sha256:f3dbd0acf548580661308d82993b949fded9527338756d2fc7365009dba21eb3/root/collect",
+    "effects": [
+      "task_read"
+    ],
+    "capability": "cap.collect",
+    "budget": {
+      "max_calls": 1,
+      "max_bytes": 1000000,
+      "timeout_ms": 30000
+    },
+    "policy_digest": "sha256:65f153e3014f76470eb3d72c7e50a90a89ebf6f80aa573e242289f74e39007ed",
+    "approval_required": false,
+    "contract_version": "1.2.0",
+    "request_id": "request.a3b3401bf047ac05",
+    "request_digest": "sha256:a3b3401bf047ac05f44102cc416027ba7d964aca21697c4d64e7232cc0bbc4e2"
+  }
+]

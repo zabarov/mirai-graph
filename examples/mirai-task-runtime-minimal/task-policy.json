@@ -1,0 +1,55 @@
+{
+  "id": "policy.task-demo",
+  "owner": "owner",
+  "reviewers": [
+    "reviewer"
+  ],
+  "participants": [
+    {
+      "id": "owner",
+      "object_ids": [
+        "requirements.a"
+      ],
+      "source_ids": [
+        "source.shared"
+      ],
+      "delegate_to": [
+        "worker.ai",
+        "worker.program"
+      ]
+    },
+    {
+      "id": "worker.ai",
+      "object_ids": [
+        "requirements.a"
+      ],
+      "source_ids": [
+        "source.shared"
+      ],
+      "delegate_to": [
+        "worker.ai",
+        "worker.program"
+      ]
+    },
+    {
+      "id": "worker.program",
+      "object_ids": [
+        "requirements.a"
+      ],
+      "source_ids": [
+        "source.shared"
+      ],
+      "delegate_to": [
+        "worker.ai",
+        "worker.program"
+      ]
+    }
+  ],
+  "max_depth": 2,
+  "max_tasks": 8,
+  "max_parallel": 2,
+  "max_duration_ms": 10000,
+  "max_output_bytes": 10000,
+  "max_model_calls": 1,
+  "digest": "sha256:c4a8f8544c1cfae5bad8699aaf56879b5a4c0a93b281d2c7c41dfc45b739fb70"
+}

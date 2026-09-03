@@ -7,6 +7,8 @@ import { DEFAULT_CAPABILITY_POLICY, policyDigest, startGovernedRun, type Approva
 import { simulateActivationPlan } from "./simulator.js";
 import { DEFAULT_ACTIVATION_HOST_BUDGET_CEILINGS, validateActivationHostBudgets, validateActivationPlan } from "./resolver.js";
 import type { ActivationBudgets, ActivationPlan } from "./types.js";
+import type { AdapterRegistry } from "../adapters/types.js";
+import { TASK_EFFECTS } from "../runtime/contracts.js";
 
 export interface ActivationRunOptions {
   sandbox: string;
@@ -17,6 +19,7 @@ export interface ActivationRunOptions {
   approvals?: Record<string, ApprovalReceipt>;
   policy?: CapabilityPolicy;
   host_budget_ceilings?: ActivationBudgets;
+  adapters?: AdapterRegistry;
 }
 
 export interface ActivationPathRunResult {
@@ -57,18 +60,26 @@ function requiredSuccesses(plan: ActivationPlan): number {
 }
 
 export async function runActivationPlan(plan: ActivationPlan, options: ActivationRunOptions): Promise<ActivationRunResult> {
+  plan = structuredClone(plan);
   const validation = validateActivationPlan(plan);
   if (!validation.valid) throw new Error(`activation_plan_invalid:${validation.errors.join(",")}`);
-  const effectivePolicy = options.policy || DEFAULT_CAPABILITY_POLICY;
+  const effectivePolicy = structuredClone(options.policy || DEFAULT_CAPABILITY_POLICY);
+  const input = structuredClone(options.input || {});
+  const approvals = structuredClone(options.approvals || {});
+  const home = options.home, apply = options.apply === true;
+  const adapters = options.adapters && Object.fromEntries(Object.entries(options.adapters).map(([id, operations]) => [id,
+    Object.fromEntries(Object.entries(operations).map(([name, operation]) => [name, { ...operation }]))]));
+  if (adapters && Object.entries(adapters).some(([id, operations]) => id === "mirai_tasks" || Object.values(operations).some(op => (TASK_EFFECTS as readonly string[]).includes(op.effect)))) throw new Error("activation_shared_task_budget_not_supported");
   const effectivePolicyDigest = policyDigest(effectivePolicy);
   if (effectivePolicyDigest !== plan.policy_digest) throw new Error(`activation_policy_digest_mismatch:${plan.policy_digest}:${effectivePolicyDigest}`);
-  const hostBudgetCeilings = options.host_budget_ceilings || DEFAULT_ACTIVATION_HOST_BUDGET_CEILINGS;
+  const hostBudgetCeilings = structuredClone(options.host_budget_ceilings || DEFAULT_ACTIVATION_HOST_BUDGET_CEILINGS);
   validateActivationHostBudgets(plan.budgets, hostBudgetCeilings);
   const hostBudgetCeilingsDigest = digestValue(hostBudgetCeilings);
   const schedule = simulateActivationPlan(plan);
   const byId = new Map(plan.activated_paths.map((item) => [item.id, item]));
   const baseDir = path.resolve(options.base_dir || process.cwd());
   const sandboxRoot = path.resolve(options.sandbox);
+  if (new Set(plan.activated_paths.map(p => safeSegment(p.id))).size !== plan.activated_paths.length) throw new Error("activation_sandbox_identity_collision");
   fs.mkdirSync(sandboxRoot, { recursive: true });
   const results: ActivationPathRunResult[] = [];
   const startedAt = Date.now();
@@ -110,11 +121,12 @@ export async function runActivationPlan(plan: ActivationPlan, options: Activatio
         if (program.digest !== activationPath.program_digest) throw new Error(`activation_program_digest_mismatch:${pathId}`);
         const sandbox = path.join(sandboxRoot, safeSegment(pathId));
         fs.mkdirSync(sandbox, { recursive: true });
-        const runtimeResult = await startGovernedRun(program, options.input || {}, {
-          home: options.home,
+        const runtimeResult = await startGovernedRun(program, input, {
+          home,
           sandbox,
-          apply: options.apply === true,
-          approval: options.approvals?.[pathId],
+          apply,
+          approval: approvals[pathId],
+          adapters,
           policy: effectivePolicy,
           deadline_at_ms: deadlineAt
         });

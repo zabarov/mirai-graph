@@ -1,4 +1,6 @@
 import fs from "node:fs";
+import { runGraphOperationsCli } from "./graph-operations.js";
+import { loadTaskCliAdapters, runTaskCli } from "./tasks.js";
 import path from "node:path";
 import { compileProgramFile, ProgramCompilationError } from "../program/compiler.js";
 import { migrateTechnologyTarget } from "../program/migration.js";
@@ -98,7 +100,13 @@ function usage(): void {
   process.stderr.write([
     "Mirai 2.1 CLI (stable)",
     "Mirai 2.2 Autonomic Fabric commands are in development, bounded, proposal-first and never grant their own authority.",
+    "Mirai 2.3 graph-operation development commands are read-only and proposal-only.",
     "",
+    "  mirai stdlib list | describe <operation>",
+    "  mirai graph query|traverse|project|diff|draft|validate|propose_patch <arguments.json>",
+    "  mirai cluster propose|evaluate|materialize_view <arguments.json>",
+    "  mirai task validate <registry.json>",
+    "  mirai task inspect <run-id> --task-registry <registry.json> [--home <mirai-home>]",
     "  mirai program validate <program.mirai.yaml|program.mirai.json>",
     "  mirai compile <source.mirai.yaml> --out <program.mirai.json>",
     "  mirai program plan <program>",
@@ -107,8 +115,8 @@ function usage(): void {
     "  mirai conformance run <corpus.json>",
     "  mirai conformance compare <reference-result.json> <candidate-result.json>",
     "  mirai approval create <program.mirai.json> --sandbox <dir> --requests <requests.json> --out <receipt.json>",
-    "  mirai run <program.mirai.json> --input <input.json> --sandbox <dir> [--apply --approval <receipt.json>]",
-    "  mirai resume <run-id> [--approval <receipt.json>] [--home <mirai-home>]",
+    "  mirai run <program.mirai.json> --input <input.json> --sandbox <dir> [--apply --approval <receipt.json>] [--task-registry <registry.json>]",
+    "  mirai resume <run-id> [--approval <receipt.json>] [--home <mirai-home>] [--task-registry <registry.json>]",
     "  mirai cancel <run-id> [--home <mirai-home>]",
     "  mirai reconcile <run-id> [--home <mirai-home>]",
     "  mirai inspect <run-id> [--home <mirai-home>]",
@@ -282,6 +290,8 @@ export async function runCli(args: string[]): Promise<number> {
   }
 
   try {
+    if (args[0] === "task") return runTaskCli(args);
+    if (["stdlib", "graph", "cluster"].includes(args[0] || "") || (args[0] === "component" && ["describe", "resolve"].includes(args[1] || ""))) return runGraphOperationsCli(args);
     if (args[0] === "project") {
       const command = requireArgument(args[1], "project command");
       const target = path.resolve(args[2] && !args[2].startsWith("--") ? args[2] : ".");
@@ -681,7 +691,8 @@ export async function runCli(args: string[]): Promise<number> {
       const requestsPath = path.resolve(requireArgument(readOption(args, "--requests"), "--requests path"));
       const rawRequests = fs.statSync(requestsPath).isDirectory()
         ? fs.readdirSync(requestsPath).filter((name) => name.endsWith(".json")).sort().map((name) => loadJson(path.join(requestsPath, name)))
-        : loadJson(requestsPath);
+        : loadJsonValue(requestsPath);
+      if (!rawRequests || (Array.isArray(rawRequests) && rawRequests.some(request => !request || typeof request !== "object" || Array.isArray(request))) || (!Array.isArray(rawRequests) && typeof rawRequests !== "object")) throw new Error("approval_requests_invalid");
       const requests = (Array.isArray(rawRequests) ? rawRequests : [rawRequests]) as unknown as CapabilityRequest[];
       if (!requests.length) throw new Error("approval_requests_required");
       const requestScopes: ApprovalRequestScope[] = requests.map((request) => {
@@ -724,7 +735,8 @@ export async function runCli(args: string[]): Promise<number> {
         policy: config.policy,
         test_commands: config.test_commands,
         events: config.events,
-        run_id: readOption(args, "--run-id")
+        run_id: readOption(args, "--run-id"),
+        adapters: loadTaskCliAdapters(args)
       });
       writeJson(result);
       return result.run.status === "completed" ? 0 : 2;
@@ -734,7 +746,8 @@ export async function runCli(args: string[]): Promise<number> {
       const approvalFile = readOption(args, "--approval");
       const result = await resumeGovernedRun(requireArgument(args[1], "run id"), {
         home: runtimeHome(args),
-        approval: approvalFile ? loadJson(approvalFile) as unknown as ApprovalReceipt : undefined
+        approval: approvalFile ? loadJson(approvalFile) as unknown as ApprovalReceipt : undefined,
+        adapters: loadTaskCliAdapters(args)
       });
       writeJson(result);
       return result.run.status === "completed" ? 0 : 2;
@@ -746,7 +759,7 @@ export async function runCli(args: string[]): Promise<number> {
     }
 
     if (args[0] === "reconcile") {
-      const result = await reconcileGovernedRun(requireArgument(args[1], "run id"), { home: runtimeHome(args) });
+      const result = await reconcileGovernedRun(requireArgument(args[1], "run id"), { home: runtimeHome(args), adapters: loadTaskCliAdapters(args) });
       writeJson(result);
       return result.run.blockers.length ? 2 : 0;
     }

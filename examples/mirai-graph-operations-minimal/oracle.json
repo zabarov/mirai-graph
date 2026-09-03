@@ -1,0 +1,46 @@
+{
+  "accessible": [
+    "requirements.a",
+    "safety.a",
+    "unclassified",
+    "verification.a",
+    "verification.b"
+  ],
+  "scope_a": [
+    "requirements.a",
+    "safety.a",
+    "unclassified",
+    "verification.a"
+  ],
+  "traversal": [
+    "requirements.a",
+    "safety.a",
+    "verification.a"
+  ],
+  "groups": {
+    "client.a/requirements": [
+      "requirements.a"
+    ],
+    "client.a/safety": [
+      "requirements.a",
+      "safety.a"
+    ],
+    "client.a/verification": [
+      "verification.a"
+    ],
+    "client.b/verification": [
+      "verification.b"
+    ]
+  },
+  "unassigned": [
+    "unclassified"
+  ],
+  "multiply_assigned": [
+    "requirements.a"
+  ],
+  "required_outcomes": [
+    "requirements_checked",
+    "verification_checked",
+    "safety_checked"
+  ]
+}

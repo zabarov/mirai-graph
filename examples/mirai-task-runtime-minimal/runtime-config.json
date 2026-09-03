@@ -1,0 +1,73 @@
+{
+  "policy": {
+    "contract_version": "1.0.0",
+    "grant_ttl_ms": 60000,
+    "max_calls_per_grant": 1,
+    "rules": [
+      {
+        "id": "cap.submit",
+        "adapters": [
+          "mirai_tasks"
+        ],
+        "operations": [
+          "submit"
+        ],
+        "effects": [
+          "task_control"
+        ],
+        "resource_prefixes": [
+          "mirai-task:sha256:420fade01f6455705513820836c587a905f0c0b20cb0e67ba26957e6dfde2fc3"
+        ],
+        "approval_required": true
+      },
+      {
+        "id": "cap.dispatch",
+        "adapters": [
+          "mirai_tasks"
+        ],
+        "operations": [
+          "dispatch"
+        ],
+        "effects": [
+          "task_dispatch"
+        ],
+        "resource_prefixes": [
+          "mirai-task:sha256:420fade01f6455705513820836c587a905f0c0b20cb0e67ba26957e6dfde2fc3"
+        ],
+        "approval_required": true
+      },
+      {
+        "id": "cap.inference",
+        "adapters": [
+          "mirai_tasks"
+        ],
+        "operations": [
+          "inference"
+        ],
+        "effects": [
+          "inference_invoke"
+        ],
+        "resource_prefixes": [
+          "mirai-task:sha256:420fade01f6455705513820836c587a905f0c0b20cb0e67ba26957e6dfde2fc3"
+        ],
+        "approval_required": true
+      },
+      {
+        "id": "cap.collect",
+        "adapters": [
+          "mirai_tasks"
+        ],
+        "operations": [
+          "collect"
+        ],
+        "effects": [
+          "task_read"
+        ],
+        "resource_prefixes": [
+          "mirai-task:sha256:420fade01f6455705513820836c587a905f0c0b20cb0e67ba26957e6dfde2fc3"
+        ],
+        "approval_required": false
+      }
+    ]
+  }
+}

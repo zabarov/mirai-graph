@@ -1,0 +1,36 @@
+{
+  "contract_version": "1.0.0",
+  "id": "worker.ai",
+  "kind": "recorded_ai",
+  "input_type": {
+    "kind": "record",
+    "fields": {
+      "request": "string"
+    }
+  },
+  "output_type": {
+    "kind": "record",
+    "fields": {
+      "draft": "string"
+    }
+  },
+  "recordings": [
+    {
+      "task_id": "task.draft",
+      "input_digest": "sha256:f4bb9a14979e2aebf3a6f047531ad9944dbbe995722c0f1d9f10e94610c0af95",
+      "view_digest": "sha256:94cec18b9779861073daf254865f3f59625e5c4168502a06027e41bf7f30b09d",
+      "dependencies_digest": "sha256:99ff699df0eb7b3922c49220d9935de847179bbabb2b040e4a99d75330b9b135",
+      "result": {
+        "output": {
+          "draft": "High risk: request independent review before acceptance."
+        },
+        "evidence": [
+          {
+            "id": "evidence.draft",
+            "digest": "sha256:707f139abe28236307eea2100e6375fdce7918019b011a9c7505d0ec8a302285"
+          }
+        ]
+      }
+    }
+  ]
+}

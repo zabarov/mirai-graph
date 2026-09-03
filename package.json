@@ -77,6 +77,16 @@
       "import": "./dist/esm/knowledge/index.js",
       "require": "./dist/cjs/knowledge/index.js"
     },
+    "./stdlib": {
+      "types": "./dist/cjs/stdlib/index.d.ts",
+      "import": "./dist/esm/stdlib/index.js",
+      "require": "./dist/cjs/stdlib/index.js"
+    },
+    "./tasks": {
+      "types": "./dist/cjs/tasks/index.d.ts",
+      "import": "./dist/esm/tasks/index.js",
+      "require": "./dist/cjs/tasks/index.js"
+    },
     "./autonomy": {
       "types": "./dist/cjs/autonomy/index.d.ts",
       "import": "./dist/esm/autonomy/index.js",
@@ -90,6 +100,14 @@
     "./project-technology": "./packages/project-technology/index.js"
   },
   "scripts": {
+    "posttest": "npm run test:mirai-2.3",
+    "test:mirai-2.3": "npm run test:graph-operations && node --test test/tasks/*.test.cjs && node packages/cli/generate-graph-operation-fixtures.js --check && node packages/cli/generate-task-runtime-fixture.js --check",
+    "test:graph-operations": "node --test test/stdlib/*.test.cjs test/knowledge/clusters.test.cjs",
+    "generate:graph-operation-fixtures": "node packages/cli/generate-graph-operation-fixtures.js",
+    "pilot:graph-organization": "node packages/cli/run-graph-organization-pilot.js",
+    "pilot:graph-computed": "node packages/cli/run-graph-computed-pilot.js",
+    "validate:graph-organization-conformance": "node packages/cli/validate-graph-organization-conformance.js",
+    "validate:graph-program-conformance": "node packages/cli/validate-graph-program-conformance.js",
     "prebuild": "node packages/build/generate-program-schema.js",
     "build:cjs": "tsc -p tsconfig.cjs.json",
     "build:esm": "tsc -p tsconfig.esm.json && node packages/build/finalize-esm.js",
@@ -152,7 +170,8 @@
     "test:mirai-beta-pilot-negative": "node packages/cli/validate-mirai-beta-pilots.js --self-test",
     "test:mirai-program-negative": "node packages/cli/mirai.js program validate examples/mirai-program-invalid/unbounded-foreach.mirai.yaml >/tmp/mirai-invalid-loop.out 2>&1 && exit 1 || test $? -eq 1 && node packages/cli/mirai.js program validate examples/mirai-program-invalid/unknown-effect.mirai.yaml >/tmp/mirai-invalid-effect.out 2>&1 && exit 1 || test $? -eq 1",
     "pretest": "npm run build && npm run test:mirai-alpha1 && npm run test:mirai-alpha2 && npm run test:mirai-alpha3 && npm run test:mirai-2.1 && npm run test:mirai-2.2 && npm run validate:mirai-2.2-contracts && npm run validate:mirai-2.2-cli && npm run validate:mirai-2.2-pilots && npm run validate:independent-autonomic-conformance && npm run validate:mirai-2.1-cli && npm run validate:mirai-2.1-federation-pilot && npm run validate:mirai-2.1-domain-pilots && npm run validate:independent-graph-native-conformance && npm run validate:independent-2.1-candidate-conformance && npm run validate:independent-project-conformance && npm run validate:independent-checker-publication && npm run test:mirai-property-fuzz && npm run validate:mirai-program && npm run validate:mirai-conformance && npm run validate:independent-conformance && npm run validate:independent-runtime-conformance && npm run validate:mirai-beta-pilots && npm run validate:mirai-scientific-evaluation && npm run validate:production-readiness && npm run validate:bounded-production-write-candidate && npm run validate:security-review-contract && npm run validate:security-review-request && npm run validate:security-review-result && npm run test:security-review-contract-negative && npm run test:production-readiness-negative && npm run validate:contract-freeze-candidate && npm run validate:mirai-2.1-contract-freeze && npm run validate:mirai-2.1-ci-gate && npm run validate:mirai-2.1-rc-preparation && npm run test:mirai-2.1-rc-preparation-negative && npm run validate:mirai-release-readiness && npm run validate:mirai-2.1-release-readiness && npm run validate:clean-room-install && npm run test:mirai-beta-pilot-negative && npm run test:mirai-program-negative && npm run test:project-technology && npm run test:context-traversal && npm run test:project-continuity && npm run test:artifact-releases && npm run test:technology-courses && npm run validate:project-technology-schemas",
-    "test:project-technology": "node packages/cli/validate-project-technology.js",
+    "test:project-technology": "node packages/cli/validate-project-technology.js && npm run test:provider-archive",
+    "test:provider-archive": "node packages/cli/validate-provider-archive.js && node --test test/project/legacy-folder-inventory.test.cjs",
     "test:context-traversal": "node packages/cli/validate-context-traversal.js",
     "test:project-continuity": "node packages/cli/validate-project-continuity.js",
     "test:artifact-releases": "node packages/cli/validate-artifact-releases.js",

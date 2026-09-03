@@ -319,6 +319,22 @@ try {
     check(`capsule_${single ? "single" : "array"}_target_exports`, first.status === "success" && first.export_ref === ".mirai/evidence/project-technology/target-provider-export.json", first.blockers);
     check("capsule_export_preserves_canonical_files_and_lock", baseline === git(repo, "status", "--porcelain=v1") && project.validateProjectCapsule(repo).valid && !fs.existsSync(path.join(repo, "graph")));
     check("capsule_export_is_idempotent", technology.execute("provide", repo, capsuleOptions).changed === false);
+    const proof = technology.verifyProviderExport(repo, { source: path.join(repo, first.export_ref) });
+    check("capsule_source_proof_ready", proof.status === "success" && proof.provider_archive?.providerRevision === capsuleOptions.providerRevision, proof.blockers);
+    check("capsule_source_proof_is_read_only", baseline === git(repo, "status", "--porcelain=v1") && project.validateProjectCapsule(repo).valid);
+    const archiveConsumer = path.join(root, `capsule-archive-consumer-${single}`);
+    const archiveSeed = initRepo(root, `capsule-archive-seed-${single}`);
+    const archiveOptions = { ...capsuleOptions, stateRoot: path.join(root, `capsule-archive-state-${single}`) };
+    const archiveManifest = JSON.parse(fs.readFileSync(path.join(archiveSeed, "graph.json")));
+    archiveManifest.id = "fixture-consumer";
+    writeJson(path.join(archiveSeed, "graph.json"), archiveManifest);
+    technology.execute("enable", archiveSeed, archiveOptions);
+    fs.cpSync(archiveSeed, archiveConsumer, { recursive: true, filter: file => path.basename(file) !== ".git" });
+    const archiveSource = path.join(root, `capsule-archive-export-${single}.json`);
+    fs.copyFileSync(path.join(repo, first.export_ref), archiveSource);
+    const archiveImport = technology.execute("connect", archiveConsumer, { ...archiveOptions, source: archiveSource, providerArchive: proof.provider_archive });
+    check("capsule_archive_imports_into_no_git_folder", archiveImport.status === "success" && archiveImport.target_binding.status === "ready", archiveImport);
+    check("capsule_archive_import_is_idempotent", technology.execute("connect", archiveConsumer, { ...archiveOptions, source: archiveSource, providerArchive: proof.provider_archive }).changed === false);
     const capsuleConsumer = initRepo(root, `capsule-consumer-${single}`);
     technology.execute("enable", capsuleConsumer, { apply: true });
     const imported = technology.execute("connect", capsuleConsumer, { ...capsuleOptions, source: path.join(repo, first.export_ref) });
@@ -328,6 +344,8 @@ try {
     forged.execution_contract_digest = technology.sha256(technology.canonicalBytes(technology.normalizeExecutionContract(forged).contract));
     const forgedPath = path.join(repo, ".mirai/evidence/project-technology/forged-export.json");
     writeJson(forgedPath, forged);
+    const forgedProof = technology.verifyProviderExport(repo, { source: forgedPath });
+    check("capsule_forged_export_cannot_get_source_proof", forgedProof.status === "blocked" && forgedProof.provider_archive === null && forgedProof.blockers.includes("provider_execution_contract_source_mismatch"), forgedProof.blockers);
     const forgedImport = technology.execute("connect", capsuleConsumer, { ...capsuleOptions, source: forgedPath });
     check("capsule_export_cannot_replace_canonical_contract", forgedImport.status === "fail" && forgedImport.blockers.includes("provider_export_does_not_match_capsule_target"), forgedImport.blockers);
   }
@@ -348,11 +366,21 @@ try {
   ];
   for (const [id, mutate, expected] of capsuleNegativeCases) {
     const fixture = initCapsuleProvider(root, `capsule-negative-${id}`);
+    const beforeMutation = technology.execute("provide", fixture.repo, { apply: true, targetId: TARGET_ID, semanticDigest: SEMANTIC_DIGEST, providerRevision: git(fixture.repo, "rev-parse", "HEAD") });
+    assert.equal(beforeMutation.status, "success");
+    // Preserve a proof input outside the Capsule-local export directory so path
+    // sabotage cases can still mutate that directory independently.
+    const proofSource = path.join(fixture.repo, "provider-proof.json");
+    fs.copyFileSync(path.join(fixture.repo, beforeMutation.export_ref), proofSource);
+    fs.rmSync(path.join(fixture.repo, ".mirai"), { recursive: true, force: true });
     mutate(fixture);
     const baseline = git(fixture.repo, "status", "--porcelain=v1");
     const denied = technology.execute("provide", fixture.repo, { apply: true, targetId: TARGET_ID, semanticDigest: SEMANTIC_DIGEST, providerRevision: git(fixture.repo, "rev-parse", "HEAD") });
     check(`capsule_rejects_${id}`, denied.status === "fail" && denied.blockers.includes(expected), denied.blockers);
     check(`capsule_rejection_${id}_writes_nothing`, git(fixture.repo, "status", "--porcelain=v1") === baseline && !fs.existsSync(path.join(fixture.repo, "graph")));
+    const deniedProof = technology.verifyProviderExport(fixture.repo, { source: proofSource });
+    check(`capsule_source_proof_rejects_${id}`, deniedProof.status === "blocked" && deniedProof.provider_archive === null, deniedProof.blockers);
+    check(`capsule_source_proof_${id}_writes_nothing`, git(fixture.repo, "status", "--porcelain=v1") === baseline);
   }
 
   process.stdout.write(`${JSON.stringify({ status: "success", checks_passed: checks.length, checks_failed: 0, checks }, null, 2)}\n`);

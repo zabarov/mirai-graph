@@ -5,8 +5,9 @@
   "type": "object",
   "additionalProperties": false,
   "required": ["contract_version", "request_id", "run_id", "program_digest", "input_digest", "args_digest", "node_id", "adapter", "action", "resource", "effects", "capability", "budget", "policy_digest", "approval_required", "request_digest"],
+  "allOf": [{"if":{"properties":{"effects":{"contains":{"enum":["task_control","task_dispatch","inference_invoke","task_read"]}}},"required":["effects"]},"then":{"properties":{"contract_version":{"const":"1.2.0"}}},"else":{"properties":{"contract_version":{"const":"1.1.0"}}}}],
   "properties": {
-    "contract_version": { "const": "1.1.0" },
+    "contract_version": {"enum":["1.1.0","1.2.0"]},
     "request_id": { "$ref": "#/$defs/id" },
     "run_id": { "$ref": "#/$defs/id" },
     "program_digest": { "$ref": "#/$defs/digest" },
@@ -33,6 +34,6 @@
   "$defs": {
     "id": { "type": "string", "minLength": 1 },
     "digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
-    "effects": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "enum": ["repository_read", "git_read", "workspace_patch", "process_run", "human_approval"] } }
+    "effects": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "enum": ["repository_read","git_read","workspace_patch","process_run","human_approval","task_control","task_dispatch","inference_invoke","task_read"] } }
   }
 }

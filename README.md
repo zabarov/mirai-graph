@@ -2,7 +2,7 @@
 
 Make complex work explicit, executable and auditable for humans and AI.
 
-Mirai 2.0 combines **Mirai Graph Core** with a typed process language and a
+Mirai combines **Mirai Graph Core** with a typed process language and a
 governed runtime. The graph describes goals, knowledge, dependencies, risks,
 policies and evidence. A Mirai Program describes the bounded decisions and
 steps that may be performed. The runtime can execute only authorized effects
@@ -12,10 +12,17 @@ Use it when a software project has useful knowledge spread across README files,
 docs, issues, chats, code comments and AI prompts, and you need a small
 machine-readable map that developers and AI assistants can validate and reuse.
 
-Current stable release: Mirai `2.1.0`, prepared for production-read use.
-This branch/package is Mirai `2.2.0-rc.1`, an unpublished local candidate of the
-Autonomic Fabric. It is not a stable release and does not authorize production
-writes or managed autonomy on a deployment target.
+This branch is the **Mirai 2.3 development preview**, not a published release.
+It adds graph operations, overlapping cluster proposals and bounded task
+delegation. Program integration and independent conformance are still in
+progress; the task SDK alone is not a production authorization mechanism.
+See the [development guide](docs/adoption/graph-organization-development.md)
+for supported operations, limitations and reproducible local checks.
+
+The retained package baseline is `2.2.0-rc.1`; it does not identify the new
+features as released. The recorded stable baseline is Mirai `2.1.0`, prepared
+for production-read use. Neither baseline nor this preview authorizes
+production writes or managed autonomy on a deployment target.
 
 The machine-readable [2.1 release readiness report](releases/2.1.0-readiness.json)
 separates engineering release gates from scientific claims and production-write

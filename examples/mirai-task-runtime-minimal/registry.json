@@ -1,0 +1,34 @@
+{
+  "contract_version": "1.0.0",
+  "graph": {
+    "path": "graph.json",
+    "content_digest": "sha256:4616965ac8f8262efd3b680743ca5ed35fd81e7008f2adba19d70de3bb7f4d07"
+  },
+  "policy": {
+    "path": "task-policy.json",
+    "content_digest": "sha256:96130c6cd5b74dd98e0ab88334d7767880c3c191f8e563fb60cadcc870a8d3c6"
+  },
+  "plan": {
+    "path": "task-plan.json",
+    "content_digest": "sha256:bb4f6dfd20df9c2e01238593a197ad9a9f22d41e70ae4baa3cf33544aa89e385"
+  },
+  "receivers": [
+    {
+      "kind": "program",
+      "id": "worker.program",
+      "program": {
+        "path": "worker.mirai.json",
+        "content_digest": "sha256:b597516242c7513d98707c3411e30c8d8665a17aac3b0fd5e5ae743152043f1a"
+      },
+      "evidence_id": "evidence.classification"
+    },
+    {
+      "kind": "recorded_ai",
+      "recording": {
+        "path": "recording.json",
+        "content_digest": "sha256:46ade10b0156ecc8a7c9fa8b7072daea99275e03b54852383c924d59c3e85f6e"
+      }
+    }
+  ],
+  "canonical_write_allowed": false
+}

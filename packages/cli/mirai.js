@@ -9,6 +9,7 @@ const newCommands = new Set([
   "program", "compile", "simulate", "approval", "run", "resume", "cancel",
   "reconcile", "inspect", "replay", "evidence", "conformance", "source",
   "operations",
+  "stdlib", "graph", "cluster", "task",
   "assimilate", "identity", "technology", "component", "activation",
   "autonomy", "evolution", "autonomic",
   "project", "init", "detect", "bootstrap"

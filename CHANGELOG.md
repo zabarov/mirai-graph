@@ -6,6 +6,11 @@ All notable changes to Mirai Graph will be documented in this file.
 
 ### Mirai 2.2.0-rc.1 Preparation
 
+- Ported the 1.5 bounded no-Git Project Technology inventory and authenticated
+  provider-export import/refresh path, preserving Capsule target, lock and
+  continuity protections. Added the original archive tests and Capsule/source
+  proof integration coverage; installed Federation engines are not changed.
+
 - Added the Autonomic Fabric Source/Converter SDK with bounded, read-only
   Files, Git, HTTP, PostgreSQL, MySQL and S3-compatible providers.
 - Added HTML, PDF, DOCX and XLSX normalization with secret, path, archive and

@@ -1,0 +1,147 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zabarov.github.io/mirai/schemas/task-plan.schema.json",
+  "title": "Mirai bounded local task plan (development)",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "contract_version": {
+      "const": "1.0.0"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+    },
+    "graph_digest": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "policy_digest": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "catalog_digest": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "requests": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 256,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+          },
+          "parent_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "receiver_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+          },
+          "receiver_digest": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          },
+          "object_ids": {
+            "type": "array",
+            "uniqueItems": true,
+            "maxItems": 10000,
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+            }
+          },
+          "input": {
+            "type": "object",
+            "maxProperties": 64
+          },
+          "dependencies": {
+            "type": "array",
+            "maxItems": 256,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "task_id": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                },
+                "requires": {
+                  "enum": [
+                    "verified",
+                    "accepted"
+                  ]
+                }
+              },
+              "required": [
+                "task_id",
+                "requires"
+              ]
+            }
+          },
+          "required_evidence": {
+            "type": "array",
+            "uniqueItems": true,
+            "maxItems": 64,
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+            },
+            "minItems": 1
+          },
+          "deadline": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "outcome": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          }
+        },
+        "required": [
+          "id",
+          "parent_id",
+          "receiver_id",
+          "receiver_digest",
+          "object_ids",
+          "input",
+          "dependencies",
+          "required_evidence",
+          "deadline",
+          "outcome"
+        ]
+      }
+    },
+    "canonical_write_allowed": {
+      "const": false
+    },
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    }
+  },
+  "required": [
+    "contract_version",
+    "id",
+    "graph_digest",
+    "policy_digest",
+    "catalog_digest",
+    "requests",
+    "canonical_write_allowed",
+    "digest"
+  ]
+}

@@ -1,0 +1,85 @@
+{
+  "contract_version": "1.0.0",
+  "entry": "classify",
+  "error_routes": [],
+  "id": "program.risk-route",
+  "imports": [],
+  "inputs": [
+    {
+      "id": "risk",
+      "type": "string"
+    }
+  ],
+  "nodes": [
+    {
+      "condition": {
+        "left": {
+          "op": "ref",
+          "path": "input.risk"
+        },
+        "op": "eq",
+        "right": {
+          "op": "literal",
+          "value": "high"
+        }
+      },
+      "else": "ordinary",
+      "id": "classify",
+      "kind": "branch",
+      "then": "review"
+    },
+    {
+      "id": "review",
+      "kind": "return",
+      "values": {
+        "route": {
+          "op": "literal",
+          "value": "review"
+        }
+      }
+    },
+    {
+      "id": "ordinary",
+      "kind": "return",
+      "values": {
+        "route": {
+          "op": "literal",
+          "value": "ordinary"
+        }
+      }
+    }
+  ],
+  "outputs": [
+    {
+      "id": "route",
+      "type": "string"
+    }
+  ],
+  "policies": {
+    "allowed_effects": [
+      "pure"
+    ],
+    "budgets": {
+      "max_depth": 2,
+      "max_duration_ms": 1000,
+      "max_iterations": 2,
+      "max_parallel": 2,
+      "max_steps": 8
+    },
+    "canonical_write_allowed": false
+  },
+  "source_map": {
+    "classify": {
+      "file": "worker.mirai.json"
+    },
+    "ordinary": {
+      "file": "worker.mirai.json"
+    },
+    "review": {
+      "file": "worker.mirai.json"
+    }
+  },
+  "state": [],
+  "version": "1.0.0",
+  "digest": "sha256:b647fd42d0e9513128c67df4b99ffa1098678d6fd710d5bff50c30fe6d79bd65"
+}

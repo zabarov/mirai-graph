@@ -4,6 +4,9 @@ import { canonicalJson } from "../core/canonical.js";
 import { programDigest } from "./digest.js";
 import { MIRAI_PROGRAM_SCHEMA } from "./schema.js";
 import type { Expression, MiraiProgram, ProgramNode, TypeSpec, ValidationResult } from "./types.js";
+import { describeStandardOperation, standardOperationCatalogDigest, validateStandardOperationArgument } from "../stdlib/catalog.js";
+import { TASK_EFFECTS } from "../runtime/contracts.js";
+import { TASK_OPERATIONS, taskArgumentValid } from "../tasks/operations.js";
 
 const ALLOWED_EFFECTS = new Set([
   "pure", "repository_read", "git_read", "workspace_patch", "process_run", "human_approval"
@@ -154,10 +157,24 @@ function validateNode(node: ProgramNode, refs: Set<string>, env: Map<string, Typ
     if (node.target?.kind === "adapter" && (!Array.isArray(node.effects) || node.effects.length === 0)) errors.push(`${label}:effects_required`);
     for (const [key, value] of Object.entries(node.args || {})) inferExpression(value, env, errors, `${label}.args.${key}`);
     for (const effect of node.effects || []) {
-      if (!ALLOWED_EFFECTS.has(effect)) errors.push(`${label}:unknown_effect:${effect}`);
+      if (!ALLOWED_EFFECTS.has(effect) && !(program.contract_version === "1.1.0" && (TASK_EFFECTS as readonly string[]).includes(effect))) errors.push(`${label}:unknown_effect:${effect}`);
       if (!program.policies.allowed_effects.includes(effect)) errors.push(`${label}:effect_not_allowed:${effect}`);
     }
     if (node.effects?.some((effect) => effect !== "pure") && !node.capability) errors.push(`${label}:capability_required`);
+    if (node.target?.kind === "adapter" && node.target.adapter === "mirai_tasks") {
+      if (program.contract_version !== "1.1.0") errors.push(`${label}:task_operations_require_program_1_1`);
+      const descriptor = Object.hasOwn(TASK_OPERATIONS, node.target.operation) ? TASK_OPERATIONS[node.target.operation] : undefined;
+      if (!descriptor) errors.push(`${label}:task_operation_unknown`);
+      else {
+        if (node.effects?.join(",") !== descriptor.effect) errors.push(`${label}:task_operation_effect_mismatch`);
+        const fields = ["registry_digest", "plan_digest", ...descriptor.required];
+        for (const key of fields) if (!Object.hasOwn(node.args || {}, key)) errors.push(`${label}:task_argument_missing:${key}`);
+        for (const [key, value] of Object.entries(node.args || {})) {
+          if (!fields.includes(key)) errors.push(`${label}:task_argument_unknown:${key}`);
+          else if (value.op === "literal" && !taskArgumentValid(key, value.value)) errors.push(`${label}:task_argument_invalid:${key}`);
+        }
+      }
+    } else if (node.effects?.some(e => (TASK_EFFECTS as readonly string[]).includes(e))) errors.push(`${label}:task_adapter_required`);
     if (node.on_error !== undefined) requireRef(node.on_error, refs, `${label}.on_error`, errors);
     if (node.result !== undefined && !env.has(`state.${node.result}`)) errors.push(`${label}:unknown_result_state:${node.result}`);
   } else if (node.kind === "branch") {
@@ -225,6 +242,24 @@ export function validateProgram(value: unknown, options: { verifyDigest?: boolea
   if (!isRecord(value)) return { valid: false, errors, warnings };
   const program = value as unknown as MiraiProgram;
   if (!Array.isArray(program.nodes) || !program.policies?.budgets) return { valid: false, errors, warnings };
+  if (program.contract_version === "1.0.0" && program.operation_catalog !== undefined) errors.push("operation_catalog_requires_program_1_1");
+  if (program.contract_version === "1.1.0") {
+    if (program.operation_catalog?.id !== "mirai.stdlib" || program.operation_catalog.contract_version !== "1.0.0" || program.operation_catalog.digest !== standardOperationCatalogDigest()) errors.push("operation_catalog_binding_mismatch");
+    for (const node of program.nodes) {
+      if (node.kind !== "call" || node.target?.kind !== "adapter" || node.target.adapter !== "mirai_stdlib") continue;
+      try {
+        const descriptor = describeStandardOperation(node.target.operation);
+        if ((node.effects || ["pure"]).join(",") !== descriptor.effect || node.capability !== undefined) errors.push(`operation_effect_mismatch:${node.id}`);
+        const required = descriptor.input_schema.required as string[];
+        const properties = descriptor.input_schema.properties as Record<string, unknown>;
+        for (const name of required) if (!Object.hasOwn(node.args || {}, name)) errors.push(`operation_argument_missing:${node.id}:${name}`);
+        for (const [name, expression] of Object.entries(node.args || {})) {
+          if (!Object.hasOwn(properties, name)) errors.push(`operation_argument_unknown:${node.id}:${name}`);
+          else if (expression.op === "literal" && !validateStandardOperationArgument(descriptor.id, name, expression.value)) errors.push(`operation_argument_invalid:${node.id}:${name}`);
+        }
+      } catch { errors.push(`operation_contract_invalid:${node.id}`); }
+    }
+  }
 
   const ids = new Set<string>();
   for (const node of program.nodes) {
@@ -259,7 +294,7 @@ export function validateProgram(value: unknown, options: { verifyDigest?: boolea
     importAliases.add(item.alias);
   }
 
-  for (const effect of program.policies.allowed_effects || []) if (!ALLOWED_EFFECTS.has(effect)) errors.push(`unknown_allowed_effect:${effect}`);
+  for (const effect of program.policies.allowed_effects || []) if (!ALLOWED_EFFECTS.has(effect) && !(program.contract_version === "1.1.0" && (TASK_EFFECTS as readonly string[]).includes(effect))) errors.push(`unknown_allowed_effect:${effect}`);
   if (program.policies.canonical_write_allowed !== false) errors.push("canonical_write_must_be_false");
   for (const node of program.nodes) validateNode(node, ids, env, program, errors);
   for (const route of program.error_routes || []) requireRef(route.to, ids, `error_route:${route.error}`, errors);

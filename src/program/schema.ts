@@ -20,9 +20,94 @@ export const MIRAI_PROGRAM_SCHEMA = {
     "source_map",
     "digest"
   ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "contract_version": {
+            "const": "1.1.0"
+          }
+        },
+        "required": [
+          "contract_version"
+        ]
+      },
+      "then": {
+        "required": [
+          "operation_catalog"
+        ]
+      },
+      "else": {
+        "not": {
+          "required": [
+            "operation_catalog"
+          ]
+        },
+        "properties": {
+          "policies": {
+            "properties": {
+              "allowed_effects": {
+                "items": {
+                  "enum": [
+                    "pure",
+                    "repository_read",
+                    "git_read",
+                    "workspace_patch",
+                    "process_run",
+                    "human_approval"
+                  ]
+                }
+              }
+            }
+          },
+          "nodes": {
+            "items": {
+              "properties": {
+                "effects": {
+                  "items": {
+                    "enum": [
+                      "pure",
+                      "repository_read",
+                      "git_read",
+                      "workspace_patch",
+                      "process_run",
+                      "human_approval"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
   "properties": {
     "contract_version": {
-      "const": "1.0.0"
+      "enum": [
+        "1.0.0",
+        "1.1.0"
+      ]
+    },
+    "operation_catalog": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "contract_version",
+        "digest"
+      ],
+      "properties": {
+        "id": {
+          "const": "mirai.stdlib"
+        },
+        "contract_version": {
+          "const": "1.0.0"
+        },
+        "digest": {
+          "$ref": "#/$defs/digest"
+        }
+      }
     },
     "id": {
       "$ref": "#/$defs/id"
@@ -146,7 +231,11 @@ export const MIRAI_PROGRAM_SCHEMA = {
               "git_read",
               "workspace_patch",
               "process_run",
-              "human_approval"
+              "human_approval",
+              "task_control",
+              "task_dispatch",
+              "inference_invoke",
+              "task_read"
             ]
           }
         },

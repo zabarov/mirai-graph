@@ -151,7 +151,11 @@ export class RunStore {
     run_id?: string;
     now?: Date;
     runtime_config?: Record<string, unknown>;
+    initial_extensions?: Record<string, unknown>;
   }): RuntimeRunRecord {
+    for (const name of Object.keys(options.initial_extensions || {})) {
+      if (!/^[a-z][a-z0-9-]{0,63}$/.test(name)) throw new Error("runtime_extension_name_invalid");
+    }
     const now = options.now || new Date();
     const runId = options.run_id || `run.${now.toISOString().replace(/[-:.TZ]/g, "")}.${randomBytes(5).toString("hex")}`;
     const graphSegment = safeSegment(options.program.id);
@@ -185,6 +189,10 @@ export class RunStore {
     writeAtomic(path.join(directory, "input.json"), options.input);
     writeAtomic(path.join(directory, "runtime-config.json"), options.runtime_config || {});
     writeAtomic(path.join(directory, "run.json"), record);
+    // The run index is the publication point: initial extension state precedes it.
+    for (const [name, value] of Object.entries(options.initial_extensions || {})) {
+      writeAtomic(path.join(directory, "extensions", `${name}.json`), { value, digest: digestValue(value) });
+    }
     writeAtomic(path.join(this.indexRoot, `${safeSegment(runId)}.json`), { run_id: runId, graph_id: options.program.id, run_dir: directory } satisfies RunIndexEntry);
     this.writeCheckpoint(runId, record);
     return record;
@@ -517,5 +525,28 @@ export class RunStore {
     const target = path.resolve(directory, ref);
     if (!target.startsWith(`${directory}${path.sep}`)) throw new Error("runtime_artifact_boundary_violation");
     return readJson<T>(target);
+  }
+
+  readExtensionState<T>(runId: string, name: string): { value: T; digest: string } | undefined {
+    if (!/^[a-z][a-z0-9-]{0,63}$/.test(name)) throw new Error("runtime_extension_name_invalid");
+    const filename = path.join(this.directory(runId), "extensions", `${name}.json`);
+    assertNoSymlinkComponents(filename, true, "runtime");
+    if (!fs.existsSync(filename)) return undefined;
+    const state = readJson<{ value: T; digest: string }>(filename);
+    if (digestValue(state.value) !== state.digest) throw new Error("runtime_extension_digest_mismatch");
+    return state;
+  }
+
+  /** Host-owned extension state reuses the run lock, lease fence and atomic IO. */
+  updateExtensionState<T>(runId: string, name: string, expectedDigest: string | null, update: (value: T | undefined) => T): { value: T; digest: string } {
+    if (!/^[a-z][a-z0-9-]{0,63}$/.test(name)) throw new Error("runtime_extension_name_invalid");
+    return this.withFencedMutation(runId, () => {
+      const previous = this.readExtensionState<T>(runId, name);
+      if ((previous?.digest ?? null) !== expectedDigest) throw new Error("runtime_extension_compare_and_swap_failed");
+      const value = update(previous ? structuredClone(previous.value) : undefined);
+      const next = { value, digest: digestValue(value) };
+      writeAtomic(path.join(this.directory(runId), "extensions", `${name}.json`), next);
+      return next;
+    });
   }
 }

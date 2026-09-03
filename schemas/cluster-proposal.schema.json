@@ -1,0 +1,237 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zabarov.github.io/mirai/schemas/cluster-proposal.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "base_digest",
+    "policy",
+    "policy_digest",
+    "origin",
+    "groups",
+    "unassigned_ids",
+    "overlapping_ids",
+    "status",
+    "canonical_write_allowed",
+    "digest"
+  ],
+  "properties": {
+    "contract_version": {
+      "const": "1.0.0"
+    },
+    "base_digest": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "keys",
+        "max_groups",
+        "max_group_size",
+        "max_memberships"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+        },
+        "keys": {
+          "type": "array",
+          "uniqueItems": true,
+          "maxItems": 16,
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+          },
+          "minItems": 1
+        },
+        "max_groups": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000
+        },
+        "max_group_size": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000
+        },
+        "max_memberships": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100000
+        },
+        "neighborhood": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "relation_types",
+            "now",
+            "max_depth"
+          ],
+          "properties": {
+            "relation_types": {
+              "type": "array",
+              "uniqueItems": true,
+              "maxItems": 64,
+              "items": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+              },
+              "minItems": 1
+            },
+            "now": {
+              "type": "string",
+              "maxLength": 40
+            },
+            "max_depth": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 64
+            }
+          }
+        }
+      }
+    },
+    "policy_digest": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "origin": {
+      "enum": [
+        "rules",
+        "provider"
+      ]
+    },
+    "groups": {
+      "type": "array",
+      "maxItems": 1000,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "scope",
+          "key",
+          "value",
+          "member_ids",
+          "evidence_refs",
+          "reason",
+          "revision_digest"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+          },
+          "scope": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+          },
+          "key": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+          },
+          "value": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 256
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "boolean"
+              }
+            ]
+          },
+          "member_ids": {
+            "type": "array",
+            "uniqueItems": true,
+            "maxItems": 10000,
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+            },
+            "minItems": 1
+          },
+          "evidence_refs": {
+            "type": "array",
+            "uniqueItems": true,
+            "maxItems": 10000,
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+            }
+          },
+          "reason": {
+            "enum": [
+              "metadata_match",
+              "metadata_and_dependencies",
+              "provider_proposal"
+            ]
+          },
+          "revision_digest": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          }
+        }
+      }
+    },
+    "unassigned_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "maxItems": 10000,
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+      }
+    },
+    "overlapping_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "maxItems": 10000,
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+      }
+    },
+    "status": {
+      "const": "proposed"
+    },
+    "canonical_write_allowed": {
+      "const": false
+    },
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "provider_record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "provider_id",
+        "input_digest",
+        "output_digest"
+      ],
+      "properties": {
+        "provider_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+        },
+        "input_digest": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "output_digest": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        }
+      }
+    }
+  }
+}

@@ -17,3 +17,8 @@ const generated = [
 if (!fs.existsSync(target) || fs.readFileSync(target, "utf8") !== generated) {
   fs.writeFileSync(target, generated);
 }
+
+const componentSchema = JSON.parse(fs.readFileSync(path.join(root, "schemas/component-package.schema.json"), "utf8"));
+const componentTarget = path.join(root, "src/components/schema.ts");
+const componentGenerated = `// Generated from schemas/component-package.schema.json. Do not edit by hand.\nexport const COMPONENT_PACKAGE_SCHEMA = ${JSON.stringify(componentSchema, null, 2)} as const;\n`;
+if (!fs.existsSync(componentTarget) || fs.readFileSync(componentTarget, "utf8") !== componentGenerated) fs.writeFileSync(componentTarget, componentGenerated);
