@@ -15,6 +15,11 @@ export function requireCondition(condition: unknown, code: string): asserts cond
   if (!condition) throw new Error(code);
 }
 
+function requireSafeString(value: string): void {
+  requireCondition(value.length <= 4096, "graph_string_budget_exceeded");
+  requireCondition(!/(?:BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY|\b(?:ghp_|sk-proj-|xoxb-)[A-Za-z0-9_-]{8,}|\/Users\/|[A-Za-z]:\\Users\\)/.test(value), "sensitive_content_rejected");
+}
+
 export function requireJson(value: unknown): void {
   let nodes = 0;
   const active = new Set<object>();
@@ -23,8 +28,7 @@ export function requireJson(value: unknown): void {
     if (item === null || typeof item === "boolean") return;
     if (typeof item === "number") { requireCondition(Number.isFinite(item), "non_finite_value"); return; }
     if (typeof item === "string") {
-      requireCondition(item.length <= 4096, "graph_string_budget_exceeded");
-      requireCondition(!/(?:BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY|\b(?:ghp_|sk-proj-|xoxb-)[A-Za-z0-9_-]{8,}|\/Users\/|[A-Za-z]:\\Users\\)/.test(item), "sensitive_content_rejected");
+      requireSafeString(item);
       return;
     }
     requireCondition(item && typeof item === "object" && (Array.isArray(item) || Object.getPrototypeOf(item) === Object.prototype || Object.getPrototypeOf(item) === null), "non_json_value");
@@ -33,6 +37,7 @@ export function requireJson(value: unknown): void {
     for (const [key, descriptor] of Object.entries(Object.getOwnPropertyDescriptors(item))) {
       if (Array.isArray(item) && key === "length") continue;
       requireCondition(!["__proto__", "constructor", "prototype"].includes(key) && "value" in descriptor, "unsafe_json_property");
+      requireSafeString(key);
       visit(descriptor.value, depth + 1);
     }
     active.delete(item);

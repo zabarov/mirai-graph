@@ -82,6 +82,11 @@ test("invalid shapes, stale digests, private paths, secret signatures and protot
     const broken = fixtureInput(); broken.objects[0].metadata.bad = value;
     assert.throws(() => g.createGraphSnapshot(broken));
   }
+  for (const key of ["ghp_1234567890abcdefghij", "/Users/example/private"]) {
+    const broken = fixtureInput(); broken.objects[0].metadata = { nested: { [key]: "redacted" } };
+    assert.throws(() => g.createGraphSnapshot(broken), /sensitive_content_rejected/);
+  }
+  assert.doesNotThrow(() => g.requireJson({ nested: { access_token_ref: "access-center-alias" } }));
   const proto = fixtureInput(); proto.objects[0].metadata = JSON.parse('{"__proto__":"bad"}');
   assert.throws(() => g.createGraphSnapshot(proto), /unsafe_json_property/);
   const brokenTime = fixtureInput(); brokenTime.relations[0].valid_from = "not-a-date";
