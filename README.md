@@ -2,6 +2,12 @@
 
 Make your project understandable to humans and AI.
 
+Local-target candidate (not released): ordinary folders can select an accepted
+target without Git or a self-connected provider. The calling application must
+authenticate the owner's approval; adjacent checksums never grant authority.
+See [Project Technology](standard/project-technology.md#local-accepted-targets-candidate-extension)
+for the trust boundary, preview, verification and transactional selection.
+
 Mirai Graph turns scattered project knowledge into a structured graph of
 features, requirements, dependencies, risks, decisions, evidence and process
 gates.

@@ -10,6 +10,15 @@
     "enabled": { "type": "boolean" },
     "context_policy": { "const": "task_scoped" },
     "source_boundary": { "const": "hybrid_sot" },
-    "continuity_policy": { "enum": ["task_boundary"] }
+    "continuity_policy": { "enum": ["task_boundary"] },
+    "target_source": {
+      "type": "object", "additionalProperties": false,
+      "required": ["kind", "target_id", "acceptance_ref"],
+      "properties": {
+        "kind": { "const": "local" },
+        "target_id": { "type": "string", "minLength": 2 },
+        "acceptance_ref": { "type": "string", "minLength": 2 }
+      }
+    }
   }
 }

@@ -506,7 +506,7 @@ function inventory(repo) {
   return payload;
 }
 
-function context(repoArg, options = {}) {
+function contextTraversal(repoArg, options = {}) {
   if (options.phase === "expand") return traversal.expandContext(repoArg, options.traversalReceipt, options.selectedIds, options);
   if (options.phase === "compile") return traversal.compileContext(repoArg, options.traversalReceipt, options.selection, options);
   if (options.phase === "verify") return traversal.verifyContext(repoArg, options.contextPack, options.usageEvidence, options);
@@ -529,10 +529,147 @@ function context(repoArg, options = {}) {
   };
 }
 
+function context(repoArg, options = {}) {
+  const output = contextTraversal(repoArg, options);
+  const binding = targetBindingStatus(normalizeRepo(repoArg), options);
+  const blockers = [...(output.blockers || [])];
+  if (options.significantWork && binding.status !== "ready") blockers.push(...binding.blockers, "accepted_target_binding_required_for_significant_work");
+  if (options.significantWork && binding.source_kind === "local") blockers.push(...localVerificationBlockers(normalizeRepo(repoArg), options));
+  return { ...output, target_binding: binding, blockers: [...new Set(blockers)].sort(),
+    status: blockers.length ? "blocked" : output.status };
+}
+
+function localVerificationBlockers(repo, options) {
+  const current = continuity.status(repo, readManifest(repo).manifest, options);
+  if (!current.terminal_receipt) return ["local_target_verification_missing"];
+  return current.terminal_receipt.current_graph_digest === current.graph_digest ? [] : ["local_target_verification_stale"];
+}
+
+// Resolve a local target from the same canonical object reader used by context.
+// Approval origin is a caller responsibility, just like archive-provider trust.
+// Never infer that trust from the decision file or persist it as approval.
+function localTargetStatus(repo, manifest, selection, options = {}) {
+  const blockers = [];
+  const blocked = () => ({ status: "blocked", enabled: true, source_kind: "local", blockers: [...new Set(blockers)].sort(), next_action: "review the local target and verify its owner acceptance" });
+  if (!selection || selection.kind !== "local" || Object.keys(selection).some(k => !["kind", "target_id", "acceptance_ref"].includes(k)) ||
+      !REF_RE.test(selection.target_id || "") || !REF_RE.test(selection.acceptance_ref || "")) {
+    blockers.push("local_target_selection_invalid"); return blocked();
+  }
+  const graph = traversal.readGraph(repo);
+  blockers.push(...graph.blockers);
+  if (!(graph.objects instanceof Map)) { blockers.push("local_target_graph_invalid"); return blocked(); }
+  const target = graph.objects.get(selection.target_id)?.value;
+  const decision = graph.objects.get(selection.acceptance_ref)?.value;
+  const decisionRecord = graph.objects.get(selection.acceptance_ref);
+  if (decisionRecord && (!decisionRecord.relative.startsWith("graph/specs/") || !localSafeFile(repo, decisionRecord.relative))) blockers.push("local_target_acceptance_source_unsafe");
+  if (!target || !["contract", "system"].includes(target.tz_role)) { blockers.push("local_target_missing_or_invalid"); return blocked(); }
+  const normalized = normalizeExecutionContract(target.provider_execution_contract);
+  blockers.push(...normalized.blockers);
+  const contract = normalized.contract;
+  const accepted = obj => obj && ACCEPTED_LIFECYCLES.has(obj.lifecycle) &&
+    (!obj.readiness || ACCEPTED_LIFECYCLES.has(obj.readiness));
+  if (!accepted(target)) blockers.push("local_target_not_accepted");
+  const refs = new Set([selection.target_id, contract.goal_binding?.goal_id,
+    ...(contract.goal_binding?.done_when_ids || []), ...(contract.constraint_ids || []),
+    ...(contract.non_goal_ids || []), ...(contract.deferred_boundary_ids || []),
+    ...(contract.decision_refs || []), contract.architecture_contract?.contract_ref]);
+  for (const item of contract.requirement_bindings || []) {
+    refs.add(item.requirement_id);
+    for (const id of [...item.acceptance_ids, ...item.done_when_ids]) refs.add(id);
+  }
+  // The approval object cannot participate in the digest it signs.
+  refs.delete(selection.acceptance_ref); refs.delete(undefined);
+  const active = new Set(); const visited = new Set();
+  function visit(id) {
+    if (active.has(id)) { blockers.push("local_target_required_cycle"); return; }
+    if (visited.has(id)) return;
+    visited.add(id); active.add(id);
+    for (const relation of graph.relations.filter(r => r.source === id && traversal.REQUIRED_RELATIONS.has(r.type))) {
+      if (!ACCEPTED_LIFECYCLES.has(relation.lifecycle || relation.readiness)) blockers.push("local_target_relation_not_accepted");
+      if (relation.target === selection.acceptance_ref) continue;
+      refs.add(relation.target); visit(relation.target);
+    }
+    active.delete(id);
+  }
+  for (const id of [...refs]) visit(id);
+  const semanticObjects = []; const sources = [];
+  const excluded = new Set(["created_at", "updated_at", "semantic_digest", "execution_contract_digest", "content_revision", "evidence", "approval_ref"]);
+  for (const id of [...refs].sort()) {
+    const record = graph.objects.get(id);
+    if (!record) { blockers.push("local_target_required_object_missing"); continue; }
+    if (!accepted(record.value)) blockers.push("local_target_required_object_not_accepted");
+    if (!record.relative.startsWith("graph/specs/") || !localSafeFile(repo, record.relative)) { blockers.push("local_target_source_unsafe"); continue; }
+    const value = Object.fromEntries(Object.entries(record.value).filter(([key]) => !excluded.has(key)));
+    // Digests of referenced tools/evidence belong to content freshness, not meaning.
+    const sourceRefs = record.value.source_refs || [];
+    const evidenceRefs = record.value.evidence || [];
+    if (!Array.isArray(sourceRefs) || !Array.isArray(evidenceRefs) ||
+        sourceRefs.some(ref => typeof (typeof ref === "string" ? ref : ref?.ref) !== "string")) {
+      blockers.push("local_target_source_refs_invalid"); continue;
+    }
+    value.source_refs = sourceRefs.map(ref => typeof ref === "string" ? ref : ref.ref).sort();
+    semanticObjects.push(value);
+    for (const raw of [...sourceRefs, ...evidenceRefs]) {
+      const ref = typeof raw === "string" ? raw : raw?.ref;
+      if (!localSafeFile(repo, ref)) { blockers.push("local_target_source_unsafe_or_missing"); continue; }
+      const bytes = fs.readFileSync(path.join(repo, ref));
+      const actual = sha256(bytes, true);
+      if (typeof raw === "object" && (raw.sha256 || raw.digest) && (raw.sha256 || raw.digest) !== actual) blockers.push("local_target_source_digest_mismatch");
+      sources.push({ ref, sha256: actual });
+    }
+  }
+  const relations = graph.relations.filter(r => refs.has(r.source) && refs.has(r.target)).map(({ _record, ...r }) =>
+    Object.fromEntries(Object.entries(r).filter(([k]) => !excluded.has(k))));
+  relations.sort((a,b) => a.id < b.id ? -1 : a.id > b.id ? 1 : 0);
+  if (relations.some(r => r.type === "conflicts_with")) blockers.push("local_target_conflict");
+  if (contract.goal_binding?.done_when_ids.some(id => !contract.requirement_bindings.some(r => r.done_when_ids.includes(id)))) blockers.push("local_target_done_when_uncovered");
+  const semanticDigest = sha256(canonicalBytes({ graph_id: manifest.id, target_id: selection.target_id, objects: semanticObjects, relations }), true);
+  const executionDigest = sha256(canonicalBytes(contract));
+  const contentRevision = sha256(canonicalBytes([...new Map(sources.map(s => [s.ref, s])).values()].sort((a,b) => a.ref < b.ref ? -1 : a.ref > b.ref ? 1 : 0)), true);
+  if (target.semantic_digest !== semanticDigest) blockers.push("local_target_semantic_digest_mismatch");
+  if (target.content_revision !== contentRevision) blockers.push("local_target_content_stale");
+  if (!decision || decision.kind !== "decision" || decision.subtype !== "architecture_baseline_acceptance" || !accepted(decision)) blockers.push("local_target_acceptance_missing_or_invalid");
+  const architecture = contract.architecture_contract || {};
+  if (!contract.decision_refs?.includes(selection.acceptance_ref) || architecture.acceptance_ref !== selection.acceptance_ref) blockers.push("local_target_acceptance_ref_mismatch");
+  if (decision && (decision.graph_id !== manifest.id || decision.target_id !== selection.target_id ||
+      decision.owner_id !== architecture.architecture_owner_id || decision.semantic_digest !== semanticDigest ||
+      decision.execution_contract_digest !== executionDigest || !REF_RE.test(decision.approval_ref || ""))) blockers.push("local_target_acceptance_identity_mismatch");
+  const trust = options.localAcceptance;
+  if (!trust || Object.keys(trust).some(k => !["graphId", "targetId", "ownerId", "decisionSha256"].includes(k)) ||
+      trust.graphId !== manifest.id || trust.targetId !== selection.target_id || trust.ownerId !== architecture.architecture_owner_id ||
+      !decision || trust.decisionSha256 !== sha256(canonicalBytes(decision))) blockers.push("local_target_acceptance_unverified");
+  if (!contract.allowed_change_scope?.some(s => s.repository_id === manifest.id)) blockers.push("local_target_repository_scope_unapproved");
+  return { ...blocked(), status: blockers.length ? "blocked" : "ready", repository_id: manifest.id,
+    target_id: selection.target_id, acceptance_ref: selection.acceptance_ref,
+    semantic_digest: semanticDigest, content_revision: contentRevision,
+    execution_contract_digest: executionDigest, execution_contract: contract,
+    next_action: blockers.length ? "review the local target and verify its owner acceptance" : "none" };
+}
+
+function localSafeFile(repo, ref) {
+  if (typeof ref !== "string" || !ref || /[:\\\\]/.test(ref) || path.posix.isAbsolute(ref) || ref.split("/").some(p => ["..", ".", "source", "generated"].includes(p)) ||
+      SECRET_PARTS.some(p => ref.toLowerCase().includes(p))) return false;
+  let current = repo;
+  try {
+    for (const part of ref.split("/")) { current = path.join(current, part); if (fs.lstatSync(current).isSymbolicLink()) return false; }
+    return fs.statSync(current).isFile();
+  } catch (_) { return false; }
+}
+
 function targetBindingStatus(repo, options = {}) {
   const manifest = readManifest(repo).manifest;
   const root = runtimeRoot(repo, manifest, options);
   const bindingPath = path.join(root, BINDING_FILE);
+  const selection = options.targetSource || manifest?.extensions?.[EXTENSION_KEY]?.target_source;
+  if (selection) {
+    if (fs.existsSync(bindingPath)) return { status: "blocked", enabled: true, source_kind: "conflict", blockers: ["local_external_target_conflict"], next_action: "explicitly reconcile local and external targets" };
+    const local = localTargetStatus(repo, manifest, selection, options);
+    if (manifest?.extensions?.[EXTENSION_KEY]?.enabled !== true) {
+      local.status = "blocked";
+      local.blockers = [...new Set([...local.blockers, "project_technology_disabled"])].sort();
+    }
+    return local;
+  }
   if (!fs.existsSync(bindingPath)) return { status: "not_configured", enabled: false, blockers: [], next_action: "connect an exact target provider binding" };
   let binding;
   try { binding = readJson(bindingPath); } catch (_) { return { status: "blocked", enabled: true, blockers: ["target_binding_invalid"] }; }
@@ -586,7 +723,7 @@ function status(repoArg, options = {}) {
     technology_freshness: freshness,
     technology_digest: current.inventory_digest,
     target_binding: binding,
-    continuity: continuity.status(repo, manifestState.manifest, {}),
+    continuity: continuity.status(repo, manifestState.manifest, options),
     blockers: [...new Set(blockers)].sort(),
     next_action: ext.legacy ? "run enable --apply to migrate the legacy contract" : blockers.length ? "run plan, then the required transactional operation" : "none",
   });
@@ -599,10 +736,11 @@ function explain(repoArg) {
   });
 }
 
-function plan(repoArg) {
-  const state = status(repoArg);
+function plan(repoArg, options = {}) {
+  const state = status(repoArg, options);
   return result("plan", "read_only", "success", {
     current_status: state.status,
+    target_binding: state.target_binding,
     planned_changes: ["validate_graph_manifest", "migrate_legacy_extension_if_present", "migrate_project_local_runtime_to_host_state", "enable_public_contract", "build_safe_inventory", "verify_target_binding"],
     blockers: state.blockers.filter((item) => !["project_technology_not_configured", "project_technology_migration_required", "project_technology_inventory_missing", "project_technology_inventory_stale"].includes(item)),
     next_action: "rerun the selected operation with --apply",
@@ -611,6 +749,8 @@ function plan(repoArg) {
 
 function preview(operation, repoArg, options = {}) {
   const state = status(repoArg, options);
+  if (options.targetSource) return result(operation, "preview", "preview", { apply_required: true,
+    target_binding: state.target_binding, blockers: state.target_binding.blockers, next_action: "sync --apply with expected graph digest and independently verified acceptance" });
   return result(operation, "preview", "preview", { apply_required: true, current_status: state.status, blockers: state.blockers.filter((item) => item.startsWith("graph_manifest_")), next_action: `${operation} --apply` });
 }
 
@@ -624,7 +764,7 @@ function enable(repoArg, options = {}) {
   const extensions = { ...(manifest.extensions || {}) };
   const legacy = extensions[LEGACY_EXTENSION_KEY];
   delete extensions[LEGACY_EXTENSION_KEY];
-  extensions[EXTENSION_KEY] = extensionContract();
+  extensions[EXTENSION_KEY] = { ...extensionContract(), ...(extensions[EXTENSION_KEY]?.target_source ? { target_source: extensions[EXTENSION_KEY].target_source } : {}) };
   manifest.extensions = extensions;
   const root = runtimeRoot(repo, manifest, options);
   const runtimeMigration = migrateProjectLocalRuntime(repo, manifest, root);
@@ -655,12 +795,15 @@ function enable(repoArg, options = {}) {
 
 function sync(repoArg, options = {}) {
   const repo = normalizeRepo(repoArg);
+  if (options.targetSource) return syncLocalSelection(repo, options);
   const manifestState = readManifest(repo);
   const ext = extensionState(manifestState.manifest);
   const blockers = [...manifestState.blockers, ...ext.blockers, ...(inventory(repo).blockers || [])];
   const hostRoot = runtimeRoot(repo, manifestState.manifest, options);
   if (legacyRuntimeState(repo).present && !fs.existsSync(path.join(hostRoot, INVENTORY_FILE))) blockers.push("project_technology_host_state_migration_required");
   if (!ext.contract || ext.legacy || ext.contract.enabled !== true) blockers.push("project_technology_not_enabled");
+  const binding = targetBindingStatus(repo, options);
+  if (binding.source_kind && binding.status !== "ready") blockers.push(...binding.blockers);
   if (blockers.length) return result("sync", "transactional", "fail", { blockers: [...new Set(blockers)].sort(), next_action: "enable or repair Project Technology" });
   let continuityResult = null;
   if (options.boundary) {
@@ -686,6 +829,56 @@ function sync(repoArg, options = {}) {
     target_binding: targetBindingStatus(repo, options),
     continuity: continuityResult?.continuity || continuity.status(repo, currentManifest, options),
   });
+}
+
+function syncLocalSelection(repo, options, remove = false) {
+  const operation = remove ? "disconnect" : "sync";
+  const manifestState = readManifest(repo);
+  const manifest = manifestState.manifest;
+  const ext = extensionState(manifest);
+  const binding = targetBindingStatus(repo, options);
+  const blockers = [...manifestState.blockers, ...ext.blockers, ...(remove ? [] : binding.blockers)];
+  if (!remove && ext.contract?.enabled !== true) blockers.push("project_technology_not_enabled");
+  if (options.boundary) blockers.push("local_target_selection_requires_separate_boundary");
+  const beforeDigest = continuity.graphDigest(repo);
+  if (!options.expectedGraphDigest || beforeDigest !== options.expectedGraphDigest) blockers.push("local_target_compare_and_swap_conflict");
+  if (blockers.length) return result(operation, "transactional", "blocked", { target_binding: binding, blockers: [...new Set(blockers)].sort() });
+  const root = runtimeRoot(repo, manifest, options);
+  const lease = continuity.lock(repo, root);
+  if (!lease.acquired) return result(operation, "transactional", "blocked", { blockers: ["continuity_lease_conflict"] });
+  const file = path.join(repo, "graph.json"); const inventoryPath = path.join(root, INVENTORY_FILE);
+  const before = fs.readFileSync(file);
+  const inventoryBefore = fs.existsSync(inventoryPath) ? fs.readFileSync(inventoryPath) : null;
+  try {
+    if (continuity.graphDigest(repo) !== beforeDigest) return result(operation, "transactional", "blocked", { blockers: ["local_target_compare_and_swap_conflict"] });
+    const next = structuredClone(manifest);
+    if (remove) delete next.extensions[EXTENSION_KEY].target_source;
+    else next.extensions[EXTENSION_KEY].target_source = options.targetSource;
+    if (canonicalBytes(next) === canonicalBytes(manifest)) return result(operation, "transactional", "success", { target_binding: binding });
+    const backup = path.join(root, "rollback", beforeDigest.slice(7), "graph.json");
+    atomicWrite(backup, before);
+    atomicWrite(file, canonicalBytes(next));
+    const inv = inventory(repo);
+    if (inv.blockers?.length) throw new Error("local_target_inventory_failed");
+    atomicWrite(inventoryPath, canonicalBytes(inv));
+    // No source write besides the selector is permitted in this transaction.
+    // Ignore expected Git dirtiness from the selector itself during readback.
+    if (!fs.readFileSync(file).equals(Buffer.from(canonicalBytes(next)))) throw new Error("local_target_readback_failed");
+    const readback = targetBindingStatus(repo, remove ? { ...options, targetSource: undefined } : options);
+    if (!remove && (readback.semantic_digest !== binding.semantic_digest || readback.content_revision !== binding.content_revision ||
+        readback.blockers.some(code => code !== "graph_source_not_revision_bound"))) throw new Error("local_target_source_changed_during_selection");
+    return result(operation, "transactional", "success", { changed: true, target_binding: readback,
+      rollback_ref: `host-local://rollback/${beforeDigest.slice(7)}/graph.json`, technology_digest: inv.inventory_digest });
+  } catch (_) {
+    let restored = false;
+    try {
+      atomicWrite(file, before);
+      if (inventoryBefore) atomicWrite(inventoryPath, inventoryBefore);
+      else if (fs.existsSync(inventoryPath)) fs.unlinkSync(inventoryPath);
+      restored = fs.readFileSync(file).equals(before);
+    } catch (_) { /* recovery required remains explicit */ }
+    return result(operation, "transactional", "fail", { blockers: [restored ? "local_target_rollback_applied" : "local_target_recovery_required"] });
+  } finally { continuity.releaseLock(lease); }
 }
 
 function provide(repoArg, options = {}) {
@@ -748,6 +941,7 @@ function connect(repoArg, options = {}) {
   if (!ext.contract || ext.legacy || ext.contract.enabled !== true) blockers.push("project_technology_not_enabled");
   for (const key of Object.keys(identity.values)) if (read.export[key] !== identity.values[key]) blockers.push(`${key}_mismatch`);
   const archiveRequested = Object.hasOwn(options, "providerArchive");
+  if (manifestState.manifest?.extensions?.[EXTENSION_KEY]?.target_source) blockers.push("local_external_target_conflict");
   const archive = archiveRequested ? archiveProviderIdentity(source, read.export, options.providerArchive) : null;
   const providerRoot = archiveRequested ? null : providerRootFor(source);
   if (archive) blockers.push(...archive.blockers);
@@ -809,6 +1003,7 @@ function connect(repoArg, options = {}) {
 
 function disconnect(repoArg, options = {}) {
   const repo = normalizeRepo(repoArg);
+  if (readManifest(repo).manifest?.extensions?.[EXTENSION_KEY]?.target_source) return syncLocalSelection(repo, options, true);
   const root = runtimeRoot(repo, readManifest(repo).manifest, options);
   const bindingPath = path.join(root, BINDING_FILE);
   if (!fs.existsSync(bindingPath)) return result("disconnect", "transactional", "success");
@@ -883,6 +1078,7 @@ function verify(repoArg, options = {}) {
   const continuityResult = continuity.verify(repo, manifest, options);
   if (continuity.continuityPolicy(manifest) === "task_boundary" || options.receiptDigest || options.significantWork) blockers.push(...continuityResult.blockers);
   if (options.significantWork && state.target_binding.status !== "ready") blockers.push("accepted_target_binding_required_for_significant_work");
+  if (options.significantWork && state.target_binding.source_kind === "local") blockers.push(...localVerificationBlockers(repo, options));
   return result("verify", "read_only", blockers.length ? "blocked" : "success", {
     repository_id: state.repository_id,
     enabled: state.enabled,

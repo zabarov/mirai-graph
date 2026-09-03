@@ -406,6 +406,8 @@ module.exports = {
   digest,
   graphDigest,
   latestReceipt,
+  lock,
+  releaseLock,
   normalizeEvidence,
   stateRoot,
   status,
