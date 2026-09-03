@@ -4,6 +4,11 @@ All notable changes to Mirai Graph will be documented in this file.
 
 ## [Unreleased]
 
+- A valid new Git branch without its first commit can inventory only explicitly
+  declared sources. Corrupt or unavailable Git stays blocked; no revision is
+  invented and provider export still requires a real commit. The existing
+  three-platform CI matrix now includes local-target/provider regressions.
+
 - Candidate: explicitly selected local accepted targets in ordinary folders and
   Git repositories, using the existing execution-contract validator and graph
   reader. Independent caller-verified approval anchors prevent self-acceptance.

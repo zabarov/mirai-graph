@@ -29,6 +29,9 @@ jobs:
       - name: Verify portable project continuity
         run: node packages/cli/validate-project-continuity.js
 
+      - name: Verify local target and provider contracts
+        run: npm run test:project-technology
+
   release-check:
     runs-on: ubuntu-latest
 

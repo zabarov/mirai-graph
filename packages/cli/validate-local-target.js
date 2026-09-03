@@ -112,6 +112,38 @@ try {
     const before=snapshot(root);assert.equal(t.execute("disconnect",repo,{...options(),apply:true}).changed,false);assert.deepEqual(snapshot(root),before);
     assert.equal(t.execute("sync",repo,{...options(),apply:true,targetSource:selection,expectedGraphDigest:t.continuity.graphDigest(repo)}).status,"success");
   });
+  const unborn=path.join(root,"new Git project");fs.cpSync(repo,unborn,{recursive:true});
+  assert.equal(spawnSync("git",["init","-q",unborn]).status,0);
+  check("unborn_inventory_declared_sources_and_zero_write",()=>{
+    const before=snapshot(unborn);const inv=t.inventory(unborn);
+    assert.deepEqual(inv.blockers||[],[]);assert.equal(inv.revision,null);
+    assert(inv.files.some(f=>f.path==="data/tools/method.txt"));assert.deepEqual(snapshot(unborn),before);
+  });
+  check("unborn_sync_and_repeat",()=>{
+    assert.equal(t.execute("sync",unborn,{...options(),apply:true}).status,"success");
+    const before=snapshot(unborn);assert.equal(t.execute("sync",unborn,{...options(),apply:true}).changed,false);assert.deepEqual(snapshot(unborn),before);
+  });
+  const headFile=path.join(unborn,".git/HEAD");const headBytes=fs.readFileSync(headFile);
+  check("invalid_detached_head_not_unborn",()=>{
+    fs.writeFileSync(headFile,"f".repeat(40)+"\n");
+    try{assert(t.inventory(unborn).blockers.includes("inventory_git_unavailable"));}finally{fs.writeFileSync(headFile,headBytes);}
+  });
+  check("corrupt_symbolic_branch_not_unborn",()=>{
+    const ref=headBytes.toString().trim().replace(/^ref: /,"");const file=path.join(unborn,".git",ref);fs.mkdirSync(path.dirname(file),{recursive:true});fs.writeFileSync(file,"not-a-commit\n");
+    try{assert(t.inventory(unborn).blockers.includes("inventory_git_unavailable"));}finally{fs.unlinkSync(file);}
+  });
+  check("corrupt_index_not_unborn",()=>{
+    const file=path.join(unborn,".git/index");fs.writeFileSync(file,"broken index");
+    try{assert(t.inventory(unborn).blockers.includes("inventory_git_unavailable"));}finally{fs.unlinkSync(file);}
+  });
+  check("unavailable_git_not_unborn",()=>{
+    const prior=process.env.PATH;process.env.PATH=path.join(root,"no-tools");
+    try{assert(t.inventory(unborn).blockers.includes("inventory_git_unavailable"));}finally{process.env.PATH=prior;}
+  });
+  check("unborn_provider_does_not_invent_revision",()=>{
+    const r=t.execute("provide",unborn,{...options(),apply:true,targetId:selection.target_id,semanticDigest:target.semantic_digest,providerRevision:"a".repeat(40)});
+    assert.notEqual(r.status,"success");
+  });
   check("git_equivalent_identity",()=>{const before=binding();for(const args of [["init","-q"],["config","user.name","Fixture"],["config","user.email","fixture@example.invalid"],["add","."],["commit","-qm","accepted fixture"]])assert.equal(spawnSync("git",args,{cwd:repo}).status,0);assert.deepEqual(binding(),before);});
   console.log(JSON.stringify({status:"success",checks_passed:checks.length,checks},null,2));
 } finally {fs.rmSync(root,{recursive:true,force:true});}

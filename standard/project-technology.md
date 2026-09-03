@@ -56,6 +56,10 @@ selector through the same lease/CAS/backup transaction. It does not remove the
 target or its Decision. Without `--apply` it remains a preview.
 Git hygiene remains strict: a changed tracked manifest must be committed through
 the caller's authorized Git workflow before execution becomes ready.
+Before the first Git commit, a structurally valid unborn branch may inventory
+declared graph/raw sources using the same content-bound path as an ordinary
+folder. Missing Git, corrupt refs/index and invalid detached HEAD stay blocked.
+This never supplies `provider_revision` or permits a Git provider export.
 
 Local and external bindings conflict rather than override each other. Missing
 external providers never cause fallback to local data. Local raw sources must be

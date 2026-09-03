@@ -456,9 +456,9 @@ function inventory(repo) {
   const entries = [];
   const blockers = [];
   let files = trackedFiles(repo);
-  const revision = git(repo, "rev-parse", "HEAD") || null;
+  const revision = git(repo, "rev-parse", "--verify", "HEAD^{commit}") || null;
   if (!revision) {
-    if (fs.existsSync(path.join(repo, ".git"))) blockers.push("inventory_git_unavailable");
+    if (fs.existsSync(path.join(repo, ".git")) && !unbornGitBranch(repo)) blockers.push("inventory_git_unavailable");
     else {
       // Ordinary folders and immutable distributions have no Git index. Use
       // only explicitly declared graph/raw sources, never scan arbitrary data.
@@ -504,6 +504,19 @@ function inventory(repo) {
   payload.inventory_digest = sha256(canonicalBytes(payload), true);
   if (blockers.length) payload.blockers = [...new Set(blockers)].sort();
   return payload;
+}
+
+// A valid new repository has no HEAD commit yet. It may inventory declared
+// sources, but must never impersonate a revision-bound provider. Missing tools,
+// corrupt refs/index and detached invalid HEAD are not an unborn branch.
+function unbornGitBranch(repo) {
+  const options = { cwd: repo, encoding: "utf8", env: { ...process.env, GIT_OPTIONAL_LOCKS: "0" } };
+  const branch = spawnSync("git", ["symbolic-ref", "--quiet", "HEAD"], options);
+  const ref = (branch.stdout || "").trim();
+  if (branch.status !== 0 || !ref.startsWith("refs/heads/")) return false;
+  const existing = spawnSync("git", ["show-ref", "--verify", "--quiet", ref], options);
+  if (existing.status !== 1 || existing.stderr) return false;
+  return spawnSync("git", ["status", "--porcelain=v1", "--untracked-files=no"], options).status === 0;
 }
 
 function contextTraversal(repoArg, options = {}) {
