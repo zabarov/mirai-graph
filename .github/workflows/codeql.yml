@@ -6,6 +6,8 @@ on:
       - main
       - codex/mirai-2.0
       - codex/mirai-2.1
+      - codex/mirai-2.2
+      - codex/mirai-2.3
   pull_request:
   schedule:
     - cron: "17 4 * * 1"

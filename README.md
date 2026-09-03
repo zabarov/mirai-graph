@@ -12,17 +12,18 @@ Use it when a software project has useful knowledge spread across README files,
 docs, issues, chats, code comments and AI prompts, and you need a small
 machine-readable map that developers and AI assistants can validate and reuse.
 
-This branch is the **Mirai 2.3 development preview**, not a published release.
-It adds graph operations, overlapping cluster proposals and bounded task
-delegation. Program integration and independent conformance are still in
-progress; the task SDK alone is not a production authorization mechanism.
+Mirai `2.3.0-alpha.1` is an experimental prerelease that adds graph operations,
+overlapping cluster proposals and bounded task delegation. The task SDK alone
+is not a production authorization mechanism, and this alpha does not promote
+the unfinished Mirai 2.2 managed-autonomy candidate to stable.
 See the [development guide](docs/adoption/graph-organization-development.md)
 for supported operations, limitations and reproducible local checks.
 
-The retained package baseline is `2.2.0-rc.1`; it does not identify the new
-features as released. The recorded stable baseline is Mirai `2.1.0`, prepared
-for production-read use. Neither baseline nor this preview authorizes
-production writes or managed autonomy on a deployment target.
+The recorded stable baseline is Mirai `2.1.0`, prepared for production-read
+use. The Mirai 2.2 release-candidate contracts remain an explicit compatibility
+and Autonomic Fabric candidate beneath this alpha. Neither baseline nor this
+prerelease authorizes production writes or managed autonomy on a deployment
+target.
 
 The machine-readable [2.1 release readiness report](releases/2.1.0-readiness.json)
 separates engineering release gates from scientific claims and production-write
@@ -89,12 +90,13 @@ authority, conflicts, capabilities and effectful Programs remain manual.
 Read the [Autonomic Fabric standard](standard/mirai-autonomic-fabric.md),
 [architecture decision](docs/architecture/mirai-2-2-autonomic-fabric-adr.md),
 [threat model](docs/security/mirai-autonomic-fabric-threat-model.md) and
-[candidate readiness report](releases/2.2.0-rc.1-readiness.json). Controlled
+[release index and candidate readiness reports](releases/README.md). Controlled
 connector integration and four real-source observe/suggest pilots have passed
 their bounded local gates. The earlier source-security review does not cover
 the subsequent Capsule transaction changes, which still require independent
-review. The [frozen Capsule candidate](releases/evidence/2.2.0-rc.1-capsule-freeze-2026-09-03.json)
-passes the full release suite locally on macOS and clean Linux. Stable promotion
+review. The frozen Capsule candidate referenced from the
+[release index](releases/README.md) passes the full release suite locally on
+macOS and clean Linux. Stable promotion
 remains blocked by the new security review, public independent conformance,
 the hosted platform matrix (including Windows) and release approval gates.
 An isolated AI-assisted review is not an external human audit. The historical

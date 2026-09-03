@@ -18,7 +18,8 @@ function runNode(args, options = {}) {
   const result = spawnSync(process.execPath, args, {
     cwd: options.cwd || root,
     encoding: "utf8",
-    env: { ...process.env, npm_config_audit: "false", npm_config_fund: "false" }
+    env: { ...process.env, npm_config_audit: "false", npm_config_fund: "false",
+      npm_config_cache: process.env.MIRAI_NPM_CACHE || path.join(temp, "npm-cache") }
   });
   if (result.status !== 0) {
     throw new Error(`${options.label || args.join(" ")} failed\n${result.stdout}\n${result.stderr}`);

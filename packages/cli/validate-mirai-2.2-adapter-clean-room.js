@@ -18,7 +18,13 @@ const npmCli = process.env.npm_execpath;
 if (!npmCli) throw new Error("npm_execpath_required");
 
 function npm(args, cwd) {
-  const result = spawnSync(process.execPath, [npmCli, ...args], { cwd, encoding: "utf8", timeout: 180_000 });
+  const result = spawnSync(process.execPath, [npmCli, ...args], {
+    cwd,
+    encoding: "utf8",
+    timeout: 180_000,
+    env: { ...process.env, npm_config_cache: process.env.MIRAI_NPM_CACHE || path.join(temporaryRoot, "npm-cache"),
+      npm_config_audit: "false", npm_config_fund: "false" }
+  });
   if (result.status !== 0) throw new Error(`npm_failed:${args.join(" ")}:\n${result.stdout}\n${result.stderr}`);
   return result.stdout;
 }

@@ -4,6 +4,36 @@ All notable changes to Mirai Graph will be documented in this file.
 
 ## [Unreleased]
 
+## [2.3.0-alpha.1] - 2026-09-03
+
+### Added
+
+- Added typed graph query, traversal, projection and proposal-only patch
+  operations through the new `@zabarov/mirai/stdlib` export.
+- Added deterministic overlapping cluster proposals and bounded model-proposed
+  grouping without canonical-write authority.
+- Added Program 1.1 operation-catalog bindings and governed task delegation
+  with scope attenuation, evidence, recovery and separate acceptance.
+- Added independent Python conformance for the bounded organization and Program
+  binding corpora.
+- Added a public synthetic organization corpus so cross-platform conformance
+  checks run against identical immutable inputs.
+
+### Security
+
+- Reject secret-like and private-path strings in JSON property names as well as
+  values at the shared graph/task admission boundary.
+- Keep graph patches, cluster output, task completion and model output as
+  evidence or proposals; none grants capabilities, approval or canonical write.
+
+### Release Boundary
+
+- This is an experimental alpha over stable Mirai 2.1 and the gated 2.2
+  candidate. It is not a production-write or managed-autonomy release.
+- The four source connector packages receive the same alpha package version
+  and an explicit prerelease-compatible peer range; their runtime contracts
+  and implementation are unchanged.
+
 ### Mirai 2.2.0-rc.1 Preparation
 
 - Ported the 1.5 bounded no-Git Project Technology inventory and authenticated

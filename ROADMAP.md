@@ -1,6 +1,6 @@
 # Mirai Graph Roadmap
 
-Status: Mirai 2.1.0 stable with local Mirai 2.2.0-rc.1 release preparation
+Status: Mirai 2.1.0 stable; Mirai 2.2.0-rc.1 remains gated; Mirai 2.3.0-alpha.1 adds experimental graph organization and governed task delegation
 
 ## Phase 0: Public Foundation
 
@@ -325,6 +325,19 @@ pilot tooling. Its version label does not mean public RC or stable gates have
 passed. Public independent conformance and the cross-platform matrix remain
 separate gates. The exact state is recorded in
 [`releases/2.2.0-rc.1-readiness.json`](releases/2.2.0-rc.1-readiness.json).
+
+## Mirai 2.3 Graph Organization Track
+
+`2.3.0-alpha.1` adds typed graph operations, overlapping cluster proposals,
+Program 1.1 operation-catalog bindings and bounded governed task delegation.
+It is additive to the stable 2.1 contracts and does not silently close the
+independent-review or managed-autonomy gates retained from 2.2.
+
+The alpha release gate requires deterministic product tests, matching bounded
+TypeScript/Python conformance, sensitive-data admission checks, public
+Linux/macOS/Windows CI and explicit prerelease limitations. Production writes,
+automatic authority changes and unrestricted model-driven organization remain
+out of scope.
 
 Managed auto-apply remains limited to reversible `adaptive_canonical` changes
 allowed by an unexpired, host-authorized envelope. Protected invariants,

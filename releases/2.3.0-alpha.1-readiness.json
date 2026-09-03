@@ -1,0 +1,79 @@
+{
+  "contract_version": "1.0.0",
+  "release_id": "release.mirai.2.3.0-alpha.1",
+  "evaluated_version": "2.3.0-alpha.1",
+  "promotion_target": "2.3.0-alpha.1",
+  "evaluated_at": "2026-09-03T18:44:13Z",
+  "overall_status": "blocked",
+  "gates": [
+    {
+      "id": "gate.2_3_release_boundary",
+      "category": "compatibility",
+      "status": "passed",
+      "evidence_refs": ["README.md", "ROADMAP.md", "releases/2.3.0-alpha.1.md", "releases/2.2.0-rc.1-readiness.json"],
+      "summary": "The alpha is additive to stable 2.1 and explicitly does not promote the gated 2.2 candidate to stable."
+    },
+    {
+      "id": "gate.2_3_graph_operations",
+      "category": "engineering",
+      "status": "passed",
+      "evidence_refs": ["src/stdlib", "src/knowledge/clusters.ts", "test/stdlib/graph.test.cjs", "test/knowledge/clusters.test.cjs"],
+      "summary": "Typed graph operations, proposal-only patches and deterministic cluster organization pass local regression tests."
+    },
+    {
+      "id": "gate.2_3_task_delegation",
+      "category": "engineering",
+      "status": "passed",
+      "evidence_refs": ["src/tasks", "test/tasks", "examples/mirai-task-runtime-minimal"],
+      "summary": "Bounded task delegation, context attenuation, durable receipts, replay and separate acceptance pass local regression tests."
+    },
+    {
+      "id": "gate.2_3_independent_conformance",
+      "category": "conformance",
+      "status": "blocked",
+      "evidence_refs": ["packages/cli/validate-graph-organization-conformance.js", "packages/cli/validate-graph-program-conformance.js", "test/fixtures/graph-organization.cjs", "conformance/corpus/organization-2.3/bundle.json", "examples/mirai-task-runtime-minimal/main.mirai.json"],
+      "summary": "The separate Python implementation agrees locally on the bounded organization and Program 1.1 corpora.",
+      "blocker_reason": "Publish the exact product and checker revisions and obtain public cross-platform checker results.",
+      "limitations": ["Bounded corpus agreement is not full formal equivalence or an external human audit."]
+    },
+    {
+      "id": "gate.2_3_security_review",
+      "category": "safety",
+      "status": "blocked",
+      "evidence_refs": ["test/stdlib/graph.test.cjs"],
+      "summary": "The confirmed sensitive-property-name defect is corrected with a synthetic regression test.",
+      "blocker_reason": "Review the exact post-correction release commit and run public CodeQL before publication."
+    },
+    {
+      "id": "gate.2_3_cross_platform_ci",
+      "category": "release",
+      "status": "not_run",
+      "evidence_refs": [".github/workflows/ci.yml"],
+      "summary": "The public CI matrix includes Linux, macOS and Windows for the 2.3 test and clean-room package paths.",
+      "blocker_reason": "Push the exact release-preparation commit and obtain passing public matrix results."
+    },
+    {
+      "id": "gate.2_3_release_metadata",
+      "category": "release",
+      "status": "not_run",
+      "evidence_refs": ["package.json", "package-lock.json", "compat/mirai-graph/package.json", "packages/source-http/package.json", "packages/source-postgres/package.json", "packages/source-mysql/package.json", "packages/source-s3/package.json", "releases/2.3.0-alpha.1.md"],
+      "summary": "Package and release metadata are prepared for the alpha prerelease.",
+      "blocker_reason": "Tag, GitHub Release and npm publication must occur only after all preceding alpha gates pass."
+    },
+    {
+      "id": "gate.scientific_claim_boundary",
+      "category": "science",
+      "status": "passed",
+      "evidence_refs": ["docs/architecture/mirai-2.3-local-verification.md", "releases/2.3.0-alpha.1.md"],
+      "summary": "Conformance and engineering evidence are separated from universal correctness, productivity and scientific claims."
+    }
+  ],
+  "blocking_gate_ids": [
+    "gate.2_3_independent_conformance",
+    "gate.2_3_security_review",
+    "gate.2_3_cross_platform_ci",
+    "gate.2_3_release_metadata"
+  ],
+  "next_safe_action": "Run local release validation, commit the preparation, publish both candidate branches and obtain exact-revision public CI and security evidence before tagging.",
+  "claim_boundary": "Mirai 2.3.0-alpha.1 is an experimental graph-organization and governed-task prerelease. It does not authorize production writes, close Mirai 2.2 stable gates, prove scientific benefit or permit unrestricted autonomy."
+}

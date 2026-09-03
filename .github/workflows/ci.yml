@@ -7,6 +7,7 @@ on:
       - codex/mirai-2.0
       - codex/mirai-2.1
       - codex/mirai-2.2
+      - codex/mirai-2.3
   pull_request:
 
 permissions:
@@ -53,6 +54,9 @@ jobs:
 
       - name: Verify Mirai 2.2 schemas and CLI
         run: npm run validate:mirai-2.2-contracts && npm run validate:mirai-2.2-cli && npm run validate:mirai-2.2-adapter-packages
+
+      - name: Verify Mirai 2.3 graph operations and governed tasks
+        run: npm run test:mirai-2.3
 
       - name: Verify bounded property and security fuzz corpus
         run: npm run test:mirai-property-fuzz
@@ -165,6 +169,9 @@ jobs:
 
       - name: Validate honest Mirai 2.2 readiness
         run: npm run validate:mirai-2.2-readiness
+
+      - name: Validate honest Mirai 2.3 alpha readiness
+        run: npm run validate:mirai-2.3-readiness
 
       - name: Validate independent autonomic conformance candidate
         run: npm run validate:independent-autonomic-conformance

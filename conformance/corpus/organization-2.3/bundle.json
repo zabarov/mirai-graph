@@ -1,0 +1,4285 @@
+{
+  "graph": {
+    "contract_version": "1.0.0",
+    "id": "demo.organization",
+    "objects": [
+      {
+        "id": "requirements.a",
+        "kind": "requirement",
+        "scope": "client.a",
+        "metadata": {
+          "client": "a",
+          "topics": [
+            "requirements",
+            "safety"
+          ],
+          "risk": 1,
+          "load": 4
+        },
+        "source_refs": [
+          "source.shared"
+        ]
+      },
+      {
+        "id": "safety.a",
+        "kind": "requirement",
+        "scope": "client.a",
+        "metadata": {
+          "client": "a",
+          "topics": [
+            "safety"
+          ],
+          "risk": 1,
+          "load": 4
+        },
+        "source_refs": [
+          "source.shared"
+        ]
+      },
+      {
+        "id": "unclassified",
+        "kind": "note",
+        "scope": "client.a",
+        "metadata": {
+          "risk": 1,
+          "load": 4
+        },
+        "source_refs": [
+          "source.shared"
+        ]
+      },
+      {
+        "id": "verification.a",
+        "kind": "requirement",
+        "scope": "client.a",
+        "metadata": {
+          "client": "a",
+          "topics": [
+            "verification"
+          ],
+          "risk": 1,
+          "load": 4
+        },
+        "source_refs": [
+          "source.shared"
+        ]
+      },
+      {
+        "id": "verification.b",
+        "kind": "requirement",
+        "scope": "client.b",
+        "metadata": {
+          "client": "b",
+          "topics": [
+            "verification"
+          ],
+          "risk": 1,
+          "load": 4
+        },
+        "source_refs": [
+          "source.shared"
+        ]
+      }
+    ],
+    "relations": [
+      {
+        "contract_version": "1.0.0",
+        "id": "edge.expired",
+        "type": "depends_on",
+        "participants": [
+          {
+            "ref": "verification.a",
+            "role": "consumer"
+          },
+          {
+            "ref": "safety.a",
+            "role": "dependency"
+          }
+        ],
+        "priority": 0,
+        "authority": "derived",
+        "confidence": 1,
+        "provenance": [
+          {
+            "source_ref": "source.shared"
+          }
+        ],
+        "scope": "client.a",
+        "valid_until": "2020-01-01T00:00:00Z"
+      },
+      {
+        "contract_version": "1.0.0",
+        "id": "edge.other",
+        "type": "depends_on",
+        "participants": [
+          {
+            "ref": "verification.a",
+            "role": "consumer"
+          },
+          {
+            "ref": "verification.b",
+            "role": "dependency"
+          }
+        ],
+        "priority": 0,
+        "authority": "derived",
+        "confidence": 1,
+        "provenance": [
+          {
+            "source_ref": "source.shared"
+          }
+        ],
+        "scope": "client.b"
+      },
+      {
+        "contract_version": "1.0.0",
+        "id": "edge.safety",
+        "type": "depends_on",
+        "participants": [
+          {
+            "ref": "requirements.a",
+            "role": "consumer"
+          },
+          {
+            "ref": "safety.a",
+            "role": "dependency"
+          }
+        ],
+        "priority": 0,
+        "authority": "derived",
+        "confidence": 1,
+        "provenance": [
+          {
+            "source_ref": "source.shared"
+          }
+        ],
+        "scope": "client.a"
+      },
+      {
+        "contract_version": "1.0.0",
+        "id": "edge.verify",
+        "type": "depends_on",
+        "participants": [
+          {
+            "ref": "verification.a",
+            "role": "consumer"
+          },
+          {
+            "ref": "requirements.a",
+            "role": "dependency"
+          }
+        ],
+        "priority": 0,
+        "authority": "derived",
+        "confidence": 1,
+        "provenance": [
+          {
+            "source_ref": "source.shared"
+          }
+        ],
+        "scope": "client.a"
+      }
+    ],
+    "sources": [
+      {
+        "id": "source.shared",
+        "owner_ref": "owner.demo",
+        "digest": "sha256:cb73c0b07e8ce2644fe897b10b11b088c87bf9650ea6ad800c2f9975032a2ecf",
+        "confidentiality": "public"
+      }
+    ],
+    "canonical_write_allowed": false,
+    "digest": "sha256:98dcb5aa06472953f55197c53d6971532aeb01d6d489ec3b947eac23b1640e0e"
+  },
+  "policy": {
+    "id": "policy.computed",
+    "owner": "owner",
+    "reviewers": [
+      "reviewer.oracle"
+    ],
+    "participants": [
+      {
+        "id": "owner",
+        "object_ids": [
+          "requirements.a",
+          "safety.a",
+          "unclassified",
+          "verification.a"
+        ],
+        "source_ids": [
+          "source.shared"
+        ],
+        "delegate_to": [
+          "worker.report",
+          "worker.requirements",
+          "worker.safety",
+          "worker.verification"
+        ]
+      },
+      {
+        "id": "worker.report",
+        "object_ids": [
+          "requirements.a",
+          "safety.a",
+          "unclassified",
+          "verification.a"
+        ],
+        "source_ids": [
+          "source.shared"
+        ],
+        "delegate_to": [
+          "worker.report",
+          "worker.requirements",
+          "worker.safety",
+          "worker.verification"
+        ]
+      },
+      {
+        "id": "worker.requirements",
+        "object_ids": [
+          "requirements.a",
+          "safety.a",
+          "unclassified",
+          "verification.a"
+        ],
+        "source_ids": [
+          "source.shared"
+        ],
+        "delegate_to": [
+          "worker.report",
+          "worker.requirements",
+          "worker.safety",
+          "worker.verification"
+        ]
+      },
+      {
+        "id": "worker.safety",
+        "object_ids": [
+          "requirements.a",
+          "safety.a",
+          "unclassified",
+          "verification.a"
+        ],
+        "source_ids": [
+          "source.shared"
+        ],
+        "delegate_to": [
+          "worker.report",
+          "worker.requirements",
+          "worker.safety",
+          "worker.verification"
+        ]
+      },
+      {
+        "id": "worker.verification",
+        "object_ids": [
+          "requirements.a",
+          "safety.a",
+          "unclassified",
+          "verification.a"
+        ],
+        "source_ids": [
+          "source.shared"
+        ],
+        "delegate_to": [
+          "worker.report",
+          "worker.requirements",
+          "worker.safety",
+          "worker.verification"
+        ]
+      }
+    ],
+    "max_depth": 2,
+    "max_tasks": 4,
+    "max_parallel": 3,
+    "max_duration_ms": 10000,
+    "max_output_bytes": 10000,
+    "max_model_calls": 1,
+    "digest": "sha256:2b08e85f493ffe49a366f06addf8ad92b92933652cc895e50d42a84694410f2a"
+  },
+  "record": {
+    "contract_version": "1.0.0",
+    "ledger": {
+      "contract_version": "1.0.0",
+      "plan": {
+        "contract_version": "1.0.0",
+        "id": "plan.computed",
+        "graph_digest": "sha256:98dcb5aa06472953f55197c53d6971532aeb01d6d489ec3b947eac23b1640e0e",
+        "policy_digest": "sha256:2b08e85f493ffe49a366f06addf8ad92b92933652cc895e50d42a84694410f2a",
+        "catalog_digest": "sha256:28da00e5d6d912013e1196c48b7199bccb86ca45e22db864ea564abe74140c48",
+        "requests": [
+          {
+            "id": "task.requirements",
+            "parent_id": null,
+            "receiver_id": "worker.requirements",
+            "receiver_digest": "sha256:17661f67271bc0b44d7316283c46e5c6b536c9cc2b6787555a06c893931b5b7d",
+            "object_ids": [
+              "requirements.a"
+            ],
+            "input": {
+              "risk": 1,
+              "load": 4,
+              "limit": 4
+            },
+            "dependencies": [],
+            "required_evidence": [
+              "evidence.computed"
+            ],
+            "deadline": "2099-01-01T00:00:00.000Z",
+            "outcome": "Compute the risk score and route using the fixed threshold"
+          },
+          {
+            "id": "task.safety",
+            "parent_id": null,
+            "receiver_id": "worker.safety",
+            "receiver_digest": "sha256:17661f67271bc0b44d7316283c46e5c6b536c9cc2b6787555a06c893931b5b7d",
+            "object_ids": [
+              "requirements.a",
+              "safety.a"
+            ],
+            "input": {
+              "risk": 1,
+              "load": 8,
+              "limit": 6
+            },
+            "dependencies": [],
+            "required_evidence": [
+              "evidence.computed"
+            ],
+            "deadline": "2099-01-01T00:00:00.000Z",
+            "outcome": "Compute the risk score and route using the fixed threshold"
+          },
+          {
+            "id": "task.summary",
+            "parent_id": null,
+            "receiver_id": "worker.report",
+            "receiver_digest": "sha256:39ce4fa38217e32f958fb29cf4117d87246708357665e64a8d3851ff305c92bf",
+            "object_ids": [
+              "requirements.a",
+              "safety.a",
+              "verification.a"
+            ],
+            "input": {
+              "title": "Review summary"
+            },
+            "dependencies": [
+              {
+                "task_id": "task.requirements",
+                "requires": "accepted"
+              },
+              {
+                "task_id": "task.safety",
+                "requires": "accepted"
+              },
+              {
+                "task_id": "task.verification",
+                "requires": "accepted"
+              }
+            ],
+            "required_evidence": [
+              "evidence.summary"
+            ],
+            "deadline": "2099-01-01T00:00:00.000Z",
+            "outcome": "Summarize accepted specialist decisions"
+          },
+          {
+            "id": "task.verification",
+            "parent_id": null,
+            "receiver_id": "worker.verification",
+            "receiver_digest": "sha256:17661f67271bc0b44d7316283c46e5c6b536c9cc2b6787555a06c893931b5b7d",
+            "object_ids": [
+              "verification.a"
+            ],
+            "input": {
+              "risk": 1,
+              "load": 4,
+              "limit": 3
+            },
+            "dependencies": [],
+            "required_evidence": [
+              "evidence.computed"
+            ],
+            "deadline": "2099-01-01T00:00:00.000Z",
+            "outcome": "Compute the risk score and route using the fixed threshold"
+          }
+        ],
+        "canonical_write_allowed": false,
+        "digest": "sha256:27ac8943fad5e0d6a366fecbceca8686af1673725d2f5415851e0cff0ccc1fd2"
+      },
+      "graph_digest": "sha256:98dcb5aa06472953f55197c53d6971532aeb01d6d489ec3b947eac23b1640e0e",
+      "policy_digest": "sha256:2b08e85f493ffe49a366f06addf8ad92b92933652cc895e50d42a84694410f2a",
+      "receiver_catalog_digest": "sha256:8711eebb43a26ce1b796978c85a5ba34168d20e32f0493bb69961728c4424cbe",
+      "cancelled": false,
+      "reserved_model_calls": 1,
+      "deadline_at": 1788444957439,
+      "tasks": {
+        "task.requirements": {
+          "request": {
+            "id": "task.requirements",
+            "parent_id": null,
+            "receiver_id": "worker.requirements",
+            "receiver_digest": "sha256:17661f67271bc0b44d7316283c46e5c6b536c9cc2b6787555a06c893931b5b7d",
+            "object_ids": [
+              "requirements.a"
+            ],
+            "input": {
+              "risk": 1,
+              "load": 4,
+              "limit": 4
+            },
+            "dependencies": [],
+            "required_evidence": [
+              "evidence.computed"
+            ],
+            "deadline": "2099-01-01T00:00:00.000Z",
+            "outcome": "Compute the risk score and route using the fixed threshold"
+          },
+          "request_digest": "sha256:6f268f0c5f179e57c7dea119c6dd3589b30a7abd41d2a289595863245719aacc",
+          "input_snapshot_digest": "sha256:b74cc971b50a05860af06f1ca5ae881e708f69a63ea92c675047716b358e2927",
+          "idempotency_key": "sha256:1351ad8541a0eee93692c56ddd53bc940794cda1e1ea79bdad91e0d038fd9d1a",
+          "state": "completed",
+          "receipt_state": "verified",
+          "acceptance": "accepted",
+          "result": {
+            "output": {
+              "route": "review",
+              "score": 5
+            },
+            "evidence": [
+              {
+                "id": "evidence.computed",
+                "digest": "sha256:3ca4ad67f366c1f81f9220fcc86780f26dc3b4196b22c2ca1ea9fafe3666ae90"
+              }
+            ]
+          },
+          "result_digest": "sha256:a191979705ac356a520ca7ea812a74c0ad8fbf16444ef42ec12d76895ae79200",
+          "acceptance_receipt": {
+            "reviewer": "reviewer.oracle",
+            "result_digest": "sha256:a191979705ac356a520ca7ea812a74c0ad8fbf16444ef42ec12d76895ae79200",
+            "decision_digest": "sha256:69a9b59241037ab2663c56031e6200401bd8dbcada2950f83d78dab394240820"
+          }
+        },
+        "task.safety": {
+          "request": {
+            "id": "task.safety",
+            "parent_id": null,
+            "receiver_id": "worker.safety",
+            "receiver_digest": "sha256:17661f67271bc0b44d7316283c46e5c6b536c9cc2b6787555a06c893931b5b7d",
+            "object_ids": [
+              "requirements.a",
+              "safety.a"
+            ],
+            "input": {
+              "risk": 1,
+              "load": 8,
+              "limit": 6
+            },
+            "dependencies": [],
+            "required_evidence": [
+              "evidence.computed"
+            ],
+            "deadline": "2099-01-01T00:00:00.000Z",
+            "outcome": "Compute the risk score and route using the fixed threshold"
+          },
+          "request_digest": "sha256:4ee2aaf07f885e7e4f1cfc47b71fef9b0dde41cae6d841296eee21437584952c",
+          "input_snapshot_digest": "sha256:5952ff1b65293081ca7d089df443b50b398afe37795f4bdad273df25aa9464cb",
+          "idempotency_key": "sha256:57b854716ee0b712a6cb522cdfe18e90b062b3a7f50525027c3098eb63d9eb51",
+          "state": "completed",
+          "receipt_state": "verified",
+          "acceptance": "accepted",
+          "result": {
+            "output": {
+              "route": "review",
+              "score": 9
+            },
+            "evidence": [
+              {
+                "id": "evidence.computed",
+                "digest": "sha256:b2d1b3cd2aae6922f4b966d52442fde3565fe2fd4b148aa35903969321be230a"
+              }
+            ]
+          },
+          "result_digest": "sha256:a9563f585baeae20f93fd2a3aecc3ee072d42f87502d1361a7d1078622734187",
+          "acceptance_receipt": {
+            "reviewer": "reviewer.oracle",
+            "result_digest": "sha256:a9563f585baeae20f93fd2a3aecc3ee072d42f87502d1361a7d1078622734187",
+            "decision_digest": "sha256:44e338ceceb326be5efe06389ad70eb81b649c2cb735bf9b86069ae05a886b72"
+          }
+        },
+        "task.summary": {
+          "request": {
+            "id": "task.summary",
+            "parent_id": null,
+            "receiver_id": "worker.report",
+            "receiver_digest": "sha256:39ce4fa38217e32f958fb29cf4117d87246708357665e64a8d3851ff305c92bf",
+            "object_ids": [
+              "requirements.a",
+              "safety.a",
+              "verification.a"
+            ],
+            "input": {
+              "title": "Review summary"
+            },
+            "dependencies": [
+              {
+                "task_id": "task.requirements",
+                "requires": "accepted"
+              },
+              {
+                "task_id": "task.safety",
+                "requires": "accepted"
+              },
+              {
+                "task_id": "task.verification",
+                "requires": "accepted"
+              }
+            ],
+            "required_evidence": [
+              "evidence.summary"
+            ],
+            "deadline": "2099-01-01T00:00:00.000Z",
+            "outcome": "Summarize accepted specialist decisions"
+          },
+          "request_digest": "sha256:ae8ded9c4b912c0bf4c0a4f34a2e1992c6b0628883bb50c2cb485e8bb7eeb505",
+          "input_snapshot_digest": "sha256:ff72f96b82ce48a3f8e65f400961790066ba27770ccb602e36f0fff341502ed3",
+          "idempotency_key": "sha256:5f10e86305be7c6d102e8df3d017ec523ca11fd2212a44c448b7e061c3333e15",
+          "state": "completed",
+          "receipt_state": "verified",
+          "acceptance": "accepted",
+          "result": {
+            "output": {
+              "decisions": "requirements:review,safety:review,verification:review"
+            },
+            "evidence": [
+              {
+                "id": "evidence.summary",
+                "digest": "sha256:29e094dced9d75e8ca6ca37150fa9dcac408e0c7176fd27c351df9db094e7550"
+              }
+            ]
+          },
+          "result_digest": "sha256:0741977258ef7b396a1cfa83cf3278ab30e24a7a07db7a5018ba458796309fbd",
+          "acceptance_receipt": {
+            "reviewer": "reviewer.oracle",
+            "result_digest": "sha256:0741977258ef7b396a1cfa83cf3278ab30e24a7a07db7a5018ba458796309fbd",
+            "decision_digest": "sha256:ae5a5accca50391f7c3786bf9d005622ad9aaf24f6e36881cedeb2da42765ddf"
+          }
+        },
+        "task.verification": {
+          "request": {
+            "id": "task.verification",
+            "parent_id": null,
+            "receiver_id": "worker.verification",
+            "receiver_digest": "sha256:17661f67271bc0b44d7316283c46e5c6b536c9cc2b6787555a06c893931b5b7d",
+            "object_ids": [
+              "verification.a"
+            ],
+            "input": {
+              "risk": 1,
+              "load": 4,
+              "limit": 3
+            },
+            "dependencies": [],
+            "required_evidence": [
+              "evidence.computed"
+            ],
+            "deadline": "2099-01-01T00:00:00.000Z",
+            "outcome": "Compute the risk score and route using the fixed threshold"
+          },
+          "request_digest": "sha256:09a7927f8b612cad5a5d8bfede719bc02eafa190577a782eb92cb5506da581e6",
+          "input_snapshot_digest": "sha256:ffd5cce81762d4604e40d226fe16e49d1490e8f29a55d66bc02578a387dc970e",
+          "idempotency_key": "sha256:b3abf6d6e5f00cac2bb117e00a29e8e000b6f248135d671f88a119ab1ff1d065",
+          "state": "completed",
+          "receipt_state": "verified",
+          "acceptance": "accepted",
+          "result": {
+            "output": {
+              "route": "review",
+              "score": 5
+            },
+            "evidence": [
+              {
+                "id": "evidence.computed",
+                "digest": "sha256:17967a27cdebdd8d80537ea6cb980dce91c29bfe2fa28f968c32182534ba4ae3"
+              }
+            ]
+          },
+          "result_digest": "sha256:01cfd9b55def7025156379b667823ee8c2e8543827857d438243ccb83ad2d5e4",
+          "acceptance_receipt": {
+            "reviewer": "reviewer.oracle",
+            "result_digest": "sha256:01cfd9b55def7025156379b667823ee8c2e8543827857d438243ccb83ad2d5e4",
+            "decision_digest": "sha256:ee002fe86319513c0ad4bf7f485c48be4308a56a39106f0f5100c8599914e8c4"
+          }
+        }
+      }
+    },
+    "canonical_write_allowed": false,
+    "digest": "sha256:9fe908a920d6a1b53c14293e0390834c214e944d7f26ca27a1a4bf521c5e185c"
+  },
+  "history_record": {
+    "contract_version": "1.0.0",
+    "ledger": {
+      "contract_version": "1.2.0",
+      "history": [
+        {
+          "sequence": 1,
+          "kind": "reserve",
+          "previous_digest": "sha256:30909c60a12c421e32f43bc0394e2a45e62c349ddb7453ddbceacc4bf8a7032e",
+          "before_digest": "sha256:30909c60a12c421e32f43bc0394e2a45e62c349ddb7453ddbceacc4bf8a7032e",
+          "after_digest": "sha256:140227d0cd89d8d7c57b789f72a4c1ae6dc8e0c831a90d1a786361794e207c53",
+          "changes": {
+            "task.requirements": {
+              "state": "running"
+            }
+          },
+          "cancelled": false,
+          "reserved_model_calls": 0,
+          "digest": "sha256:fb24e1fee8e1d708af78ab69a60ae5a45063edb11398c7991ad2e981d6ed11b0"
+        },
+        {
+          "sequence": 2,
+          "kind": "reserve",
+          "previous_digest": "sha256:fb24e1fee8e1d708af78ab69a60ae5a45063edb11398c7991ad2e981d6ed11b0",
+          "before_digest": "sha256:140227d0cd89d8d7c57b789f72a4c1ae6dc8e0c831a90d1a786361794e207c53",
+          "after_digest": "sha256:44119d65c11f8fa3510b6663f09669c6f7a9d8ef81ed9069b51b572d0a8a471d",
+          "changes": {
+            "task.safety": {
+              "state": "running"
+            }
+          },
+          "cancelled": false,
+          "reserved_model_calls": 0,
+          "digest": "sha256:94560e82238488c50cf4d251bf2efa4114058c266677e541fcd74e21b13afa5f"
+        },
+        {
+          "sequence": 3,
+          "kind": "reserve",
+          "previous_digest": "sha256:94560e82238488c50cf4d251bf2efa4114058c266677e541fcd74e21b13afa5f",
+          "before_digest": "sha256:44119d65c11f8fa3510b6663f09669c6f7a9d8ef81ed9069b51b572d0a8a471d",
+          "after_digest": "sha256:702b965d0138a55c5454a4b38eac9d345307af09716cb03a39737a3d0f006e8c",
+          "changes": {
+            "task.verification": {
+              "state": "running"
+            }
+          },
+          "cancelled": false,
+          "reserved_model_calls": 0,
+          "digest": "sha256:6549eb6394e66d1410319b3fb30db1d8ea3ddd38c5380eb1467b9a131fb5052d"
+        },
+        {
+          "sequence": 4,
+          "kind": "output",
+          "previous_digest": "sha256:6549eb6394e66d1410319b3fb30db1d8ea3ddd38c5380eb1467b9a131fb5052d",
+          "before_digest": "sha256:702b965d0138a55c5454a4b38eac9d345307af09716cb03a39737a3d0f006e8c",
+          "after_digest": "sha256:f625862b69432cdaeae42eeb661f86d2ef8575f05d0a69d66691f135c293a174",
+          "changes": {
+            "task.requirements": {
+              "receipt_state": "executed",
+              "result": {
+                "output": {
+                  "route": "review",
+                  "score": 5
+                },
+                "evidence": [
+                  {
+                    "id": "evidence.computed",
+                    "digest": "sha256:3ca4ad67f366c1f81f9220fcc86780f26dc3b4196b22c2ca1ea9fafe3666ae90"
+                  }
+                ]
+              },
+              "result_digest": "sha256:a191979705ac356a520ca7ea812a74c0ad8fbf16444ef42ec12d76895ae79200"
+            }
+          },
+          "cancelled": false,
+          "reserved_model_calls": 0,
+          "digest": "sha256:92380605e6456a3aca707274ac6644eec50115f4baa2b2abe35c90b1acc82fa6"
+        },
+        {
+          "sequence": 5,
+          "kind": "verify",
+          "previous_digest": "sha256:92380605e6456a3aca707274ac6644eec50115f4baa2b2abe35c90b1acc82fa6",
+          "before_digest": "sha256:f625862b69432cdaeae42eeb661f86d2ef8575f05d0a69d66691f135c293a174",
+          "after_digest": "sha256:ca440f30e7314d4eded77cb25382844f886a36da88cffefc6a4cb298f64cf19e",
+          "changes": {
+            "task.requirements": {
+              "state": "completed",
+              "receipt_state": "verified"
+            }
+          },
+          "cancelled": false,
+          "reserved_model_calls": 0,
+          "digest": "sha256:f2e1fae97dd2ea3f5e8dfa4681ba867c6ce551984ce75817de5e1d28d25f7552"
+        },
+        {
+          "sequence": 6,
+          "kind": "output",
+          "previous_digest": "sha256:f2e1fae97dd2ea3f5e8dfa4681ba867c6ce551984ce75817de5e1d28d25f7552",
+          "before_digest": "sha256:ca440f30e7314d4eded77cb25382844f886a36da88cffefc6a4cb298f64cf19e",
+          "after_digest": "sha256:bd7255637b591a60e36f639d9b96ba36b16a219fb2c6df6e1a1e2dbfcfa39f93",
+          "changes": {
+            "task.safety": {
+              "receipt_state": "executed",
+              "result": {
+                "output": {
+                  "route": "review",
+                  "score": 9
+                },
+                "evidence": [
+                  {
+                    "id": "evidence.computed",
+                    "digest": "sha256:b2d1b3cd2aae6922f4b966d52442fde3565fe2fd4b148aa35903969321be230a"
+                  }
+                ]
+              },
+              "result_digest": "sha256:a9563f585baeae20f93fd2a3aecc3ee072d42f87502d1361a7d1078622734187"
+            }
+          },
+          "cancelled": false,
+          "reserved_model_calls": 0,
+          "digest": "sha256:77362e4b2b6cdc95cf89742f7a6a4febc2341c7ff1748017dd3b890aa2b89c28"
+        },
+        {
+          "sequence": 7,
+          "kind": "verify",
+          "previous_digest": "sha256:77362e4b2b6cdc95cf89742f7a6a4febc2341c7ff1748017dd3b890aa2b89c28",
+          "before_digest": "sha256:bd7255637b591a60e36f639d9b96ba36b16a219fb2c6df6e1a1e2dbfcfa39f93",
+          "after_digest": "sha256:1ad604d686576461a92f12dd43738fd52ea9354eaef4a2a8a974c0dff262e4a2",
+          "changes": {
+            "task.safety": {
+              "state": "completed",
+              "receipt_state": "verified"
+            }
+          },
+          "cancelled": false,
+          "reserved_model_calls": 0,
+          "digest": "sha256:3d0ff60612505194f5888ce0bc0bb3a498fa612214d8c0769874c253c65b2376"
+        },
+        {
+          "sequence": 8,
+          "kind": "output",
+          "previous_digest": "sha256:3d0ff60612505194f5888ce0bc0bb3a498fa612214d8c0769874c253c65b2376",
+          "before_digest": "sha256:1ad604d686576461a92f12dd43738fd52ea9354eaef4a2a8a974c0dff262e4a2",
+          "after_digest": "sha256:d386d36364783f9760a301b553dd4b9c17ce645e7511595764fc4d9fef85e822",
+          "changes": {
+            "task.verification": {
+              "receipt_state": "executed",
+              "result": {
+                "output": {
+                  "route": "review",
+                  "score": 5
+                },
+                "evidence": [
+                  {
+                    "id": "evidence.computed",
+                    "digest": "sha256:17967a27cdebdd8d80537ea6cb980dce91c29bfe2fa28f968c32182534ba4ae3"
+                  }
+                ]
+              },
+              "result_digest": "sha256:01cfd9b55def7025156379b667823ee8c2e8543827857d438243ccb83ad2d5e4"
+            }
+          },
+          "cancelled": false,
+          "reserved_model_calls": 0,
+          "digest": "sha256:cf3996d5ed6d8543728f2ef508aeafb2683c301446d4790fc0018fb62b7d4606"
+        },
+        {
+          "sequence": 9,
+          "kind": "verify",
+          "previous_digest": "sha256:cf3996d5ed6d8543728f2ef508aeafb2683c301446d4790fc0018fb62b7d4606",
+          "before_digest": "sha256:d386d36364783f9760a301b553dd4b9c17ce645e7511595764fc4d9fef85e822",
+          "after_digest": "sha256:cd1e18338f24d27d859add94d2442278f6352a2c7e96e2d621960613ceed337f",
+          "changes": {
+            "task.verification": {
+              "state": "completed",
+              "receipt_state": "verified"
+            }
+          },
+          "cancelled": false,
+          "reserved_model_calls": 0,
+          "digest": "sha256:de097fb36e1abe979b1329c069a4b4933a269e4113a32ec26c6ea395ffd8d580"
+        },
+        {
+          "sequence": 10,
+          "kind": "accept",
+          "previous_digest": "sha256:de097fb36e1abe979b1329c069a4b4933a269e4113a32ec26c6ea395ffd8d580",
+          "before_digest": "sha256:cd1e18338f24d27d859add94d2442278f6352a2c7e96e2d621960613ceed337f",
+          "after_digest": "sha256:3b0ae401706565ab276f947604bf3f93dac97c91fdb306b144d7f7dc1e3bf2d8",
+          "changes": {
+            "task.requirements": {
+              "acceptance": "accepted",
+              "acceptance_receipt": {
+                "reviewer": "reviewer.oracle",
+                "result_digest": "sha256:a191979705ac356a520ca7ea812a74c0ad8fbf16444ef42ec12d76895ae79200",
+                "decision_digest": "sha256:69a9b59241037ab2663c56031e6200401bd8dbcada2950f83d78dab394240820"
+              }
+            }
+          },
+          "cancelled": false,
+          "reserved_model_calls": 0,
+          "digest": "sha256:56310b42a199cb55479ed718bffee4b3210291e218f1f98a2860c0847dca7b08"
+        },
+        {
+          "sequence": 11,
+          "kind": "accept",
+          "previous_digest": "sha256:56310b42a199cb55479ed718bffee4b3210291e218f1f98a2860c0847dca7b08",
+          "before_digest": "sha256:3b0ae401706565ab276f947604bf3f93dac97c91fdb306b144d7f7dc1e3bf2d8",
+          "after_digest": "sha256:a5179a654ab2562d4db0e564b4645ff8642054b9fea86cf821ba5b8b02237105",
+          "changes": {
+            "task.safety": {
+              "acceptance": "accepted",
+              "acceptance_receipt": {
+                "reviewer": "reviewer.oracle",
+                "result_digest": "sha256:a9563f585baeae20f93fd2a3aecc3ee072d42f87502d1361a7d1078622734187",
+                "decision_digest": "sha256:44e338ceceb326be5efe06389ad70eb81b649c2cb735bf9b86069ae05a886b72"
+              }
+            }
+          },
+          "cancelled": false,
+          "reserved_model_calls": 0,
+          "digest": "sha256:c9a78ecef0f6799c952bf636c4724db398e09df0b026c5af0ac78a1c79abb420"
+        },
+        {
+          "sequence": 12,
+          "kind": "accept",
+          "previous_digest": "sha256:c9a78ecef0f6799c952bf636c4724db398e09df0b026c5af0ac78a1c79abb420",
+          "before_digest": "sha256:a5179a654ab2562d4db0e564b4645ff8642054b9fea86cf821ba5b8b02237105",
+          "after_digest": "sha256:0c09ebb857e3bf7634ad607c9fabcf5c574934d724c658b72fccc80c8cd15698",
+          "changes": {
+            "task.verification": {
+              "acceptance": "accepted",
+              "acceptance_receipt": {
+                "reviewer": "reviewer.oracle",
+                "result_digest": "sha256:01cfd9b55def7025156379b667823ee8c2e8543827857d438243ccb83ad2d5e4",
+                "decision_digest": "sha256:ee002fe86319513c0ad4bf7f485c48be4308a56a39106f0f5100c8599914e8c4"
+              }
+            }
+          },
+          "cancelled": false,
+          "reserved_model_calls": 0,
+          "digest": "sha256:cb40bb129ae3ff65fed884a93c4cd72ddba8b39b50586259aa82eb6450631c69"
+        },
+        {
+          "sequence": 13,
+          "kind": "reserve",
+          "previous_digest": "sha256:cb40bb129ae3ff65fed884a93c4cd72ddba8b39b50586259aa82eb6450631c69",
+          "before_digest": "sha256:0c09ebb857e3bf7634ad607c9fabcf5c574934d724c658b72fccc80c8cd15698",
+          "after_digest": "sha256:582c3e1a8fff9c687b5daaec6603b9fdf89ae918754585a2ad0e87d4f2e936e4",
+          "changes": {
+            "task.summary": {
+              "state": "running"
+            }
+          },
+          "cancelled": false,
+          "reserved_model_calls": 1,
+          "digest": "sha256:c107edf3aa1229349f7aad41badafd6e260d12e5f901cda0828036e8bf2fbc0c"
+        },
+        {
+          "sequence": 14,
+          "kind": "output",
+          "previous_digest": "sha256:c107edf3aa1229349f7aad41badafd6e260d12e5f901cda0828036e8bf2fbc0c",
+          "before_digest": "sha256:582c3e1a8fff9c687b5daaec6603b9fdf89ae918754585a2ad0e87d4f2e936e4",
+          "after_digest": "sha256:67fdfd49563cf39f62a5d46e3729064d79f6e48e93364b2f1ce81c16123aebc5",
+          "changes": {
+            "task.summary": {
+              "receipt_state": "executed",
+              "result": {
+                "output": {
+                  "decisions": "requirements:review,safety:review,verification:review"
+                },
+                "evidence": [
+                  {
+                    "id": "evidence.summary",
+                    "digest": "sha256:29e094dced9d75e8ca6ca37150fa9dcac408e0c7176fd27c351df9db094e7550"
+                  }
+                ]
+              },
+              "result_digest": "sha256:0741977258ef7b396a1cfa83cf3278ab30e24a7a07db7a5018ba458796309fbd"
+            }
+          },
+          "cancelled": false,
+          "reserved_model_calls": 1,
+          "digest": "sha256:c0d7a6980ebced68253e668b87c4987b269950885fcc86c1c0eeba165dcbe227"
+        },
+        {
+          "sequence": 15,
+          "kind": "verify",
+          "previous_digest": "sha256:c0d7a6980ebced68253e668b87c4987b269950885fcc86c1c0eeba165dcbe227",
+          "before_digest": "sha256:67fdfd49563cf39f62a5d46e3729064d79f6e48e93364b2f1ce81c16123aebc5",
+          "after_digest": "sha256:edcc42a0d9a5f7751e94379b4f2a2146c06f0cbecd9795d2bb4107b1faa20441",
+          "changes": {
+            "task.summary": {
+              "state": "completed",
+              "receipt_state": "verified"
+            }
+          },
+          "cancelled": false,
+          "reserved_model_calls": 1,
+          "digest": "sha256:2f3bb37ef7266dcf8b363c27ae8abbb1cd98a4012157e4ec411703a60b6866d7"
+        },
+        {
+          "sequence": 16,
+          "kind": "accept",
+          "previous_digest": "sha256:2f3bb37ef7266dcf8b363c27ae8abbb1cd98a4012157e4ec411703a60b6866d7",
+          "before_digest": "sha256:edcc42a0d9a5f7751e94379b4f2a2146c06f0cbecd9795d2bb4107b1faa20441",
+          "after_digest": "sha256:4196878d2d433722ed185d4454c1dcb004aa72f93ab1f79b860a0495288823ba",
+          "changes": {
+            "task.summary": {
+              "acceptance": "accepted",
+              "acceptance_receipt": {
+                "reviewer": "reviewer.oracle",
+                "result_digest": "sha256:0741977258ef7b396a1cfa83cf3278ab30e24a7a07db7a5018ba458796309fbd",
+                "decision_digest": "sha256:ae5a5accca50391f7c3786bf9d005622ad9aaf24f6e36881cedeb2da42765ddf"
+              }
+            }
+          },
+          "cancelled": false,
+          "reserved_model_calls": 1,
+          "digest": "sha256:afea60b6813d60dd19d696f4e621a087f199104d04ebe7860fe1db395bb08445"
+        }
+      ],
+      "plan": {
+        "contract_version": "1.0.0",
+        "id": "plan.computed",
+        "graph_digest": "sha256:98dcb5aa06472953f55197c53d6971532aeb01d6d489ec3b947eac23b1640e0e",
+        "policy_digest": "sha256:2b08e85f493ffe49a366f06addf8ad92b92933652cc895e50d42a84694410f2a",
+        "catalog_digest": "sha256:28da00e5d6d912013e1196c48b7199bccb86ca45e22db864ea564abe74140c48",
+        "requests": [
+          {
+            "id": "task.requirements",
+            "parent_id": null,
+            "receiver_id": "worker.requirements",
+            "receiver_digest": "sha256:17661f67271bc0b44d7316283c46e5c6b536c9cc2b6787555a06c893931b5b7d",
+            "object_ids": [
+              "requirements.a"
+            ],
+            "input": {
+              "risk": 1,
+              "load": 4,
+              "limit": 4
+            },
+            "dependencies": [],
+            "required_evidence": [
+              "evidence.computed"
+            ],
+            "deadline": "2099-01-01T00:00:00.000Z",
+            "outcome": "Compute the risk score and route using the fixed threshold"
+          },
+          {
+            "id": "task.safety",
+            "parent_id": null,
+            "receiver_id": "worker.safety",
+            "receiver_digest": "sha256:17661f67271bc0b44d7316283c46e5c6b536c9cc2b6787555a06c893931b5b7d",
+            "object_ids": [
+              "requirements.a",
+              "safety.a"
+            ],
+            "input": {
+              "risk": 1,
+              "load": 8,
+              "limit": 6
+            },
+            "dependencies": [],
+            "required_evidence": [
+              "evidence.computed"
+            ],
+            "deadline": "2099-01-01T00:00:00.000Z",
+            "outcome": "Compute the risk score and route using the fixed threshold"
+          },
+          {
+            "id": "task.summary",
+            "parent_id": null,
+            "receiver_id": "worker.report",
+            "receiver_digest": "sha256:39ce4fa38217e32f958fb29cf4117d87246708357665e64a8d3851ff305c92bf",
+            "object_ids": [
+              "requirements.a",
+              "safety.a",
+              "verification.a"
+            ],
+            "input": {
+              "title": "Review summary"
+            },
+            "dependencies": [
+              {
+                "task_id": "task.requirements",
+                "requires": "accepted"
+              },
+              {
+                "task_id": "task.safety",
+                "requires": "accepted"
+              },
+              {
+                "task_id": "task.verification",
+                "requires": "accepted"
+              }
+            ],
+            "required_evidence": [
+              "evidence.summary"
+            ],
+            "deadline": "2099-01-01T00:00:00.000Z",
+            "outcome": "Summarize accepted specialist decisions"
+          },
+          {
+            "id": "task.verification",
+            "parent_id": null,
+            "receiver_id": "worker.verification",
+            "receiver_digest": "sha256:17661f67271bc0b44d7316283c46e5c6b536c9cc2b6787555a06c893931b5b7d",
+            "object_ids": [
+              "verification.a"
+            ],
+            "input": {
+              "risk": 1,
+              "load": 4,
+              "limit": 3
+            },
+            "dependencies": [],
+            "required_evidence": [
+              "evidence.computed"
+            ],
+            "deadline": "2099-01-01T00:00:00.000Z",
+            "outcome": "Compute the risk score and route using the fixed threshold"
+          }
+        ],
+        "canonical_write_allowed": false,
+        "digest": "sha256:27ac8943fad5e0d6a366fecbceca8686af1673725d2f5415851e0cff0ccc1fd2"
+      },
+      "graph_digest": "sha256:98dcb5aa06472953f55197c53d6971532aeb01d6d489ec3b947eac23b1640e0e",
+      "policy_digest": "sha256:2b08e85f493ffe49a366f06addf8ad92b92933652cc895e50d42a84694410f2a",
+      "receiver_catalog_digest": "sha256:8711eebb43a26ce1b796978c85a5ba34168d20e32f0493bb69961728c4424cbe",
+      "cancelled": false,
+      "reserved_model_calls": 1,
+      "deadline_at": 1788444957439,
+      "tasks": {
+        "task.requirements": {
+          "request": {
+            "id": "task.requirements",
+            "parent_id": null,
+            "receiver_id": "worker.requirements",
+            "receiver_digest": "sha256:17661f67271bc0b44d7316283c46e5c6b536c9cc2b6787555a06c893931b5b7d",
+            "object_ids": [
+              "requirements.a"
+            ],
+            "input": {
+              "risk": 1,
+              "load": 4,
+              "limit": 4
+            },
+            "dependencies": [],
+            "required_evidence": [
+              "evidence.computed"
+            ],
+            "deadline": "2099-01-01T00:00:00.000Z",
+            "outcome": "Compute the risk score and route using the fixed threshold"
+          },
+          "request_digest": "sha256:6f268f0c5f179e57c7dea119c6dd3589b30a7abd41d2a289595863245719aacc",
+          "input_snapshot_digest": "sha256:b74cc971b50a05860af06f1ca5ae881e708f69a63ea92c675047716b358e2927",
+          "idempotency_key": "sha256:1351ad8541a0eee93692c56ddd53bc940794cda1e1ea79bdad91e0d038fd9d1a",
+          "state": "completed",
+          "receipt_state": "verified",
+          "acceptance": "accepted",
+          "result": {
+            "output": {
+              "route": "review",
+              "score": 5
+            },
+            "evidence": [
+              {
+                "id": "evidence.computed",
+                "digest": "sha256:3ca4ad67f366c1f81f9220fcc86780f26dc3b4196b22c2ca1ea9fafe3666ae90"
+              }
+            ]
+          },
+          "result_digest": "sha256:a191979705ac356a520ca7ea812a74c0ad8fbf16444ef42ec12d76895ae79200",
+          "acceptance_receipt": {
+            "reviewer": "reviewer.oracle",
+            "result_digest": "sha256:a191979705ac356a520ca7ea812a74c0ad8fbf16444ef42ec12d76895ae79200",
+            "decision_digest": "sha256:69a9b59241037ab2663c56031e6200401bd8dbcada2950f83d78dab394240820"
+          }
+        },
+        "task.safety": {
+          "request": {
+            "id": "task.safety",
+            "parent_id": null,
+            "receiver_id": "worker.safety",
+            "receiver_digest": "sha256:17661f67271bc0b44d7316283c46e5c6b536c9cc2b6787555a06c893931b5b7d",
+            "object_ids": [
+              "requirements.a",
+              "safety.a"
+            ],
+            "input": {
+              "risk": 1,
+              "load": 8,
+              "limit": 6
+            },
+            "dependencies": [],
+            "required_evidence": [
+              "evidence.computed"
+            ],
+            "deadline": "2099-01-01T00:00:00.000Z",
+            "outcome": "Compute the risk score and route using the fixed threshold"
+          },
+          "request_digest": "sha256:4ee2aaf07f885e7e4f1cfc47b71fef9b0dde41cae6d841296eee21437584952c",
+          "input_snapshot_digest": "sha256:5952ff1b65293081ca7d089df443b50b398afe37795f4bdad273df25aa9464cb",
+          "idempotency_key": "sha256:57b854716ee0b712a6cb522cdfe18e90b062b3a7f50525027c3098eb63d9eb51",
+          "state": "completed",
+          "receipt_state": "verified",
+          "acceptance": "accepted",
+          "result": {
+            "output": {
+              "route": "review",
+              "score": 9
+            },
+            "evidence": [
+              {
+                "id": "evidence.computed",
+                "digest": "sha256:b2d1b3cd2aae6922f4b966d52442fde3565fe2fd4b148aa35903969321be230a"
+              }
+            ]
+          },
+          "result_digest": "sha256:a9563f585baeae20f93fd2a3aecc3ee072d42f87502d1361a7d1078622734187",
+          "acceptance_receipt": {
+            "reviewer": "reviewer.oracle",
+            "result_digest": "sha256:a9563f585baeae20f93fd2a3aecc3ee072d42f87502d1361a7d1078622734187",
+            "decision_digest": "sha256:44e338ceceb326be5efe06389ad70eb81b649c2cb735bf9b86069ae05a886b72"
+          }
+        },
+        "task.summary": {
+          "request": {
+            "id": "task.summary",
+            "parent_id": null,
+            "receiver_id": "worker.report",
+            "receiver_digest": "sha256:39ce4fa38217e32f958fb29cf4117d87246708357665e64a8d3851ff305c92bf",
+            "object_ids": [
+              "requirements.a",
+              "safety.a",
+              "verification.a"
+            ],
+            "input": {
+              "title": "Review summary"
+            },
+            "dependencies": [
+              {
+                "task_id": "task.requirements",
+                "requires": "accepted"
+              },
+              {
+                "task_id": "task.safety",
+                "requires": "accepted"
+              },
+              {
+                "task_id": "task.verification",
+                "requires": "accepted"
+              }
+            ],
+            "required_evidence": [
+              "evidence.summary"
+            ],
+            "deadline": "2099-01-01T00:00:00.000Z",
+            "outcome": "Summarize accepted specialist decisions"
+          },
+          "request_digest": "sha256:ae8ded9c4b912c0bf4c0a4f34a2e1992c6b0628883bb50c2cb485e8bb7eeb505",
+          "input_snapshot_digest": "sha256:ff72f96b82ce48a3f8e65f400961790066ba27770ccb602e36f0fff341502ed3",
+          "idempotency_key": "sha256:5f10e86305be7c6d102e8df3d017ec523ca11fd2212a44c448b7e061c3333e15",
+          "state": "completed",
+          "receipt_state": "verified",
+          "acceptance": "accepted",
+          "result": {
+            "output": {
+              "decisions": "requirements:review,safety:review,verification:review"
+            },
+            "evidence": [
+              {
+                "id": "evidence.summary",
+                "digest": "sha256:29e094dced9d75e8ca6ca37150fa9dcac408e0c7176fd27c351df9db094e7550"
+              }
+            ]
+          },
+          "result_digest": "sha256:0741977258ef7b396a1cfa83cf3278ab30e24a7a07db7a5018ba458796309fbd",
+          "acceptance_receipt": {
+            "reviewer": "reviewer.oracle",
+            "result_digest": "sha256:0741977258ef7b396a1cfa83cf3278ab30e24a7a07db7a5018ba458796309fbd",
+            "decision_digest": "sha256:ae5a5accca50391f7c3786bf9d005622ad9aaf24f6e36881cedeb2da42765ddf"
+          }
+        },
+        "task.verification": {
+          "request": {
+            "id": "task.verification",
+            "parent_id": null,
+            "receiver_id": "worker.verification",
+            "receiver_digest": "sha256:17661f67271bc0b44d7316283c46e5c6b536c9cc2b6787555a06c893931b5b7d",
+            "object_ids": [
+              "verification.a"
+            ],
+            "input": {
+              "risk": 1,
+              "load": 4,
+              "limit": 3
+            },
+            "dependencies": [],
+            "required_evidence": [
+              "evidence.computed"
+            ],
+            "deadline": "2099-01-01T00:00:00.000Z",
+            "outcome": "Compute the risk score and route using the fixed threshold"
+          },
+          "request_digest": "sha256:09a7927f8b612cad5a5d8bfede719bc02eafa190577a782eb92cb5506da581e6",
+          "input_snapshot_digest": "sha256:ffd5cce81762d4604e40d226fe16e49d1490e8f29a55d66bc02578a387dc970e",
+          "idempotency_key": "sha256:b3abf6d6e5f00cac2bb117e00a29e8e000b6f248135d671f88a119ab1ff1d065",
+          "state": "completed",
+          "receipt_state": "verified",
+          "acceptance": "accepted",
+          "result": {
+            "output": {
+              "route": "review",
+              "score": 5
+            },
+            "evidence": [
+              {
+                "id": "evidence.computed",
+                "digest": "sha256:17967a27cdebdd8d80537ea6cb980dce91c29bfe2fa28f968c32182534ba4ae3"
+              }
+            ]
+          },
+          "result_digest": "sha256:01cfd9b55def7025156379b667823ee8c2e8543827857d438243ccb83ad2d5e4",
+          "acceptance_receipt": {
+            "reviewer": "reviewer.oracle",
+            "result_digest": "sha256:01cfd9b55def7025156379b667823ee8c2e8543827857d438243ccb83ad2d5e4",
+            "decision_digest": "sha256:ee002fe86319513c0ad4bf7f485c48be4308a56a39106f0f5100c8599914e8c4"
+          }
+        }
+      }
+    },
+    "canonical_write_allowed": false,
+    "digest": "sha256:6681e03f95afbf62154eb39b78254134da07fcacdbafc2a1c2c7930a8ebafd05"
+  },
+  "receivers": [
+    {
+      "id": "worker.requirements",
+      "kind": "program",
+      "digest": "sha256:17661f67271bc0b44d7316283c46e5c6b536c9cc2b6787555a06c893931b5b7d",
+      "input_type": {
+        "kind": "record",
+        "fields": {
+          "risk": "int64",
+          "load": "int64",
+          "limit": "int64"
+        }
+      },
+      "output_type": {
+        "kind": "record",
+        "fields": {
+          "score": "int64",
+          "route": "string"
+        }
+      }
+    },
+    {
+      "id": "worker.safety",
+      "kind": "program",
+      "digest": "sha256:17661f67271bc0b44d7316283c46e5c6b536c9cc2b6787555a06c893931b5b7d",
+      "input_type": {
+        "kind": "record",
+        "fields": {
+          "risk": "int64",
+          "load": "int64",
+          "limit": "int64"
+        }
+      },
+      "output_type": {
+        "kind": "record",
+        "fields": {
+          "score": "int64",
+          "route": "string"
+        }
+      }
+    },
+    {
+      "id": "worker.verification",
+      "kind": "program",
+      "digest": "sha256:17661f67271bc0b44d7316283c46e5c6b536c9cc2b6787555a06c893931b5b7d",
+      "input_type": {
+        "kind": "record",
+        "fields": {
+          "risk": "int64",
+          "load": "int64",
+          "limit": "int64"
+        }
+      },
+      "output_type": {
+        "kind": "record",
+        "fields": {
+          "score": "int64",
+          "route": "string"
+        }
+      }
+    },
+    {
+      "id": "worker.report",
+      "kind": "ai",
+      "digest": "sha256:39ce4fa38217e32f958fb29cf4117d87246708357665e64a8d3851ff305c92bf",
+      "input_type": {
+        "kind": "record",
+        "fields": {
+          "title": "string"
+        }
+      },
+      "output_type": {
+        "kind": "record",
+        "fields": {
+          "decisions": "string"
+        }
+      }
+    }
+  ],
+  "clusters": {
+    "contract_version": "1.0.0",
+    "base_digest": "sha256:98dcb5aa06472953f55197c53d6971532aeb01d6d489ec3b947eac23b1640e0e",
+    "policy": {
+      "id": "policy.topics",
+      "keys": [
+        "topics"
+      ],
+      "max_groups": 16,
+      "max_group_size": 16,
+      "max_memberships": 64
+    },
+    "policy_digest": "sha256:9d50480dc8df1e9344c9d3f7039546a7f7a71900a79315e0379fdbcbd4178275",
+    "origin": "rules",
+    "groups": [
+      {
+        "id": "cluster.17ef56f0b97cfdd46c4d5cf8bd9ce475cb87a166d60dd892def5d1e27c7b1e6e",
+        "scope": "client.a",
+        "key": "topics",
+        "value": "safety",
+        "member_ids": [
+          "requirements.a",
+          "safety.a"
+        ],
+        "evidence_refs": [
+          "source.shared"
+        ],
+        "reason": "metadata_match",
+        "revision_digest": "sha256:4fec8080488c7d48b3d5d9df8967afc604f920a2cf73d2cc9bf14c6641d30247"
+      },
+      {
+        "id": "cluster.23b6052c7986d0020c46582bec6bd81c6d7d856b95fce04b7f3729368e64b242",
+        "scope": "client.b",
+        "key": "topics",
+        "value": "verification",
+        "member_ids": [
+          "verification.b"
+        ],
+        "evidence_refs": [
+          "source.shared"
+        ],
+        "reason": "metadata_match",
+        "revision_digest": "sha256:2c87fde726ffdd68398d33922a860fb930b689f9575f94ae10518db5435fda63"
+      },
+      {
+        "id": "cluster.7a50b7b987fd41cdd0b86006da5a03e234f31d4264d464fb2b0cbe0bd49bf7cd",
+        "scope": "client.a",
+        "key": "topics",
+        "value": "requirements",
+        "member_ids": [
+          "requirements.a"
+        ],
+        "evidence_refs": [
+          "source.shared"
+        ],
+        "reason": "metadata_match",
+        "revision_digest": "sha256:4d1abd3ecdec75665fd656d350292711109e621e19d3f4239cee045370a26842"
+      },
+      {
+        "id": "cluster.9cdae2c43af9685ff4f8974453d5d3a9522e2dc521e12b66cee95abd39b2be10",
+        "scope": "client.a",
+        "key": "topics",
+        "value": "verification",
+        "member_ids": [
+          "verification.a"
+        ],
+        "evidence_refs": [
+          "source.shared"
+        ],
+        "reason": "metadata_match",
+        "revision_digest": "sha256:de18c879a8f0d2c4ca25529dbdf779dd84c4c15fb0fd48b0523c5245d96635c8"
+      }
+    ],
+    "unassigned_ids": [
+      "unclassified"
+    ],
+    "overlapping_ids": [
+      "requirements.a"
+    ],
+    "status": "proposed",
+    "canonical_write_allowed": false,
+    "digest": "sha256:b65f186f99ce1039bc2f7a737926eeec2896292f2416feca3905f1532006e718"
+  },
+  "public_graph": {
+    "contract_version": "1.0.0",
+    "id": "demo.organization",
+    "objects": [
+      {
+        "id": "requirements.a",
+        "kind": "requirement",
+        "scope": "client.a",
+        "metadata": {
+          "client": "a",
+          "topics": [
+            "requirements",
+            "safety"
+          ],
+          "risk": 1,
+          "load": 4
+        },
+        "source_refs": [
+          "source.shared"
+        ]
+      },
+      {
+        "id": "safety.a",
+        "kind": "requirement",
+        "scope": "client.a",
+        "metadata": {
+          "client": "a",
+          "topics": [
+            "safety"
+          ],
+          "risk": 1,
+          "load": 4
+        },
+        "source_refs": [
+          "source.shared"
+        ]
+      },
+      {
+        "id": "unclassified",
+        "kind": "note",
+        "scope": "client.a",
+        "metadata": {
+          "risk": 1,
+          "load": 4
+        },
+        "source_refs": [
+          "source.shared"
+        ]
+      },
+      {
+        "id": "verification.a",
+        "kind": "requirement",
+        "scope": "client.a",
+        "metadata": {
+          "client": "a",
+          "topics": [
+            "verification"
+          ],
+          "risk": 1,
+          "load": 4
+        },
+        "source_refs": [
+          "source.shared"
+        ]
+      },
+      {
+        "id": "verification.b",
+        "kind": "requirement",
+        "scope": "client.b",
+        "metadata": {
+          "client": "b",
+          "topics": [
+            "verification"
+          ],
+          "risk": 1,
+          "load": 4
+        },
+        "source_refs": [
+          "source.shared"
+        ]
+      }
+    ],
+    "relations": [
+      {
+        "contract_version": "1.0.0",
+        "id": "edge.expired",
+        "type": "depends_on",
+        "participants": [
+          {
+            "ref": "verification.a",
+            "role": "consumer"
+          },
+          {
+            "ref": "safety.a",
+            "role": "dependency"
+          }
+        ],
+        "priority": 0,
+        "authority": "derived",
+        "confidence": 1,
+        "provenance": [
+          {
+            "source_ref": "source.shared"
+          }
+        ],
+        "scope": "client.a",
+        "valid_until": "2020-01-01T00:00:00Z"
+      },
+      {
+        "contract_version": "1.0.0",
+        "id": "edge.other",
+        "type": "depends_on",
+        "participants": [
+          {
+            "ref": "verification.a",
+            "role": "consumer"
+          },
+          {
+            "ref": "verification.b",
+            "role": "dependency"
+          }
+        ],
+        "priority": 0,
+        "authority": "derived",
+        "confidence": 1,
+        "provenance": [
+          {
+            "source_ref": "source.shared"
+          }
+        ],
+        "scope": "client.b"
+      },
+      {
+        "contract_version": "1.0.0",
+        "id": "edge.safety",
+        "type": "depends_on",
+        "participants": [
+          {
+            "ref": "requirements.a",
+            "role": "consumer"
+          },
+          {
+            "ref": "safety.a",
+            "role": "dependency"
+          }
+        ],
+        "priority": 0,
+        "authority": "derived",
+        "confidence": 1,
+        "provenance": [
+          {
+            "source_ref": "source.shared"
+          }
+        ],
+        "scope": "client.a"
+      },
+      {
+        "contract_version": "1.0.0",
+        "id": "edge.verify",
+        "type": "depends_on",
+        "participants": [
+          {
+            "ref": "verification.a",
+            "role": "consumer"
+          },
+          {
+            "ref": "requirements.a",
+            "role": "dependency"
+          }
+        ],
+        "priority": 0,
+        "authority": "derived",
+        "confidence": 1,
+        "provenance": [
+          {
+            "source_ref": "source.shared"
+          }
+        ],
+        "scope": "client.a"
+      }
+    ],
+    "sources": [
+      {
+        "id": "source.shared",
+        "owner_ref": "owner.demo",
+        "digest": "sha256:cb73c0b07e8ce2644fe897b10b11b088c87bf9650ea6ad800c2f9975032a2ecf",
+        "confidentiality": "public"
+      }
+    ],
+    "canonical_write_allowed": false,
+    "digest": "sha256:98dcb5aa06472953f55197c53d6971532aeb01d6d489ec3b947eac23b1640e0e"
+  },
+  "public_clusters": {
+    "contract_version": "1.0.0",
+    "base_digest": "sha256:98dcb5aa06472953f55197c53d6971532aeb01d6d489ec3b947eac23b1640e0e",
+    "policy": {
+      "id": "policy.topics",
+      "keys": [
+        "topics"
+      ],
+      "max_groups": 16,
+      "max_group_size": 16,
+      "max_memberships": 64
+    },
+    "policy_digest": "sha256:9d50480dc8df1e9344c9d3f7039546a7f7a71900a79315e0379fdbcbd4178275",
+    "origin": "rules",
+    "groups": [
+      {
+        "id": "cluster.17ef56f0b97cfdd46c4d5cf8bd9ce475cb87a166d60dd892def5d1e27c7b1e6e",
+        "scope": "client.a",
+        "key": "topics",
+        "value": "safety",
+        "member_ids": [
+          "requirements.a",
+          "safety.a"
+        ],
+        "evidence_refs": [
+          "source.shared"
+        ],
+        "reason": "metadata_match",
+        "revision_digest": "sha256:4fec8080488c7d48b3d5d9df8967afc604f920a2cf73d2cc9bf14c6641d30247"
+      },
+      {
+        "id": "cluster.23b6052c7986d0020c46582bec6bd81c6d7d856b95fce04b7f3729368e64b242",
+        "scope": "client.b",
+        "key": "topics",
+        "value": "verification",
+        "member_ids": [
+          "verification.b"
+        ],
+        "evidence_refs": [
+          "source.shared"
+        ],
+        "reason": "metadata_match",
+        "revision_digest": "sha256:2c87fde726ffdd68398d33922a860fb930b689f9575f94ae10518db5435fda63"
+      },
+      {
+        "id": "cluster.7a50b7b987fd41cdd0b86006da5a03e234f31d4264d464fb2b0cbe0bd49bf7cd",
+        "scope": "client.a",
+        "key": "topics",
+        "value": "requirements",
+        "member_ids": [
+          "requirements.a"
+        ],
+        "evidence_refs": [
+          "source.shared"
+        ],
+        "reason": "metadata_match",
+        "revision_digest": "sha256:4d1abd3ecdec75665fd656d350292711109e621e19d3f4239cee045370a26842"
+      },
+      {
+        "id": "cluster.9cdae2c43af9685ff4f8974453d5d3a9522e2dc521e12b66cee95abd39b2be10",
+        "scope": "client.a",
+        "key": "topics",
+        "value": "verification",
+        "member_ids": [
+          "verification.a"
+        ],
+        "evidence_refs": [
+          "source.shared"
+        ],
+        "reason": "metadata_match",
+        "revision_digest": "sha256:de18c879a8f0d2c4ca25529dbdf779dd84c4c15fb0fd48b0523c5245d96635c8"
+      }
+    ],
+    "unassigned_ids": [
+      "unclassified"
+    ],
+    "overlapping_ids": [
+      "requirements.a"
+    ],
+    "status": "proposed",
+    "canonical_write_allowed": false,
+    "digest": "sha256:b65f186f99ce1039bc2f7a737926eeec2896292f2416feca3905f1532006e718"
+  },
+  "catalog": {
+    "contract_version": "1.0.0",
+    "operations": [
+      {
+        "id": "cluster.evaluate",
+        "summary": "Measure coverage and optional oracle agreement, not semantic truth.",
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "graph": {
+              "$ref": "https://zabarov.github.io/mirai/schemas/graph-operation-snapshot.schema.json"
+            },
+            "proposal": {
+              "$ref": "https://zabarov.github.io/mirai/schemas/cluster-proposal.schema.json"
+            },
+            "expected": {
+              "type": "object",
+              "maxProperties": 1000,
+              "propertyNames": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+              },
+              "additionalProperties": {
+                "type": "array",
+                "uniqueItems": true,
+                "maxItems": 10000,
+                "items": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                }
+              }
+            }
+          },
+          "required": [
+            "graph",
+            "proposal"
+          ]
+        },
+        "output_schema": {
+          "type": "object",
+          "required": [
+            "digest",
+            "canonical_write_allowed"
+          ],
+          "properties": {
+            "digest": {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            },
+            "canonical_write_allowed": {
+              "const": false
+            }
+          }
+        },
+        "version": "1.0.0",
+        "effect": "pure",
+        "canonical_write_allowed": false
+      },
+      {
+        "id": "cluster.materialize_view",
+        "summary": "Return an ephemeral group view; no filesystem writes.",
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "graph": {
+              "$ref": "https://zabarov.github.io/mirai/schemas/graph-operation-snapshot.schema.json"
+            },
+            "proposal": {
+              "$ref": "https://zabarov.github.io/mirai/schemas/cluster-proposal.schema.json"
+            },
+            "group_id": {
+              "type": "string",
+              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+            }
+          },
+          "required": [
+            "graph",
+            "proposal",
+            "group_id"
+          ]
+        },
+        "output_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "contract_version": {
+              "const": "1.0.0"
+            },
+            "base_digest": {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            },
+            "object_ids": {
+              "type": "array",
+              "uniqueItems": true,
+              "maxItems": 10000,
+              "items": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+              }
+            },
+            "graph": {
+              "$ref": "https://zabarov.github.io/mirai/schemas/graph-operation-snapshot.schema.json"
+            },
+            "canonical_write_allowed": {
+              "const": false
+            },
+            "digest": {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            }
+          },
+          "required": [
+            "contract_version",
+            "base_digest",
+            "object_ids",
+            "graph",
+            "canonical_write_allowed",
+            "digest"
+          ]
+        },
+        "version": "1.0.0",
+        "effect": "pure",
+        "canonical_write_allowed": false
+      },
+      {
+        "id": "cluster.propose",
+        "summary": "Group authorized metadata deterministically; inference is a separate host operation.",
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "graph": {
+              "$ref": "https://zabarov.github.io/mirai/schemas/graph-operation-snapshot.schema.json"
+            },
+            "policy": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "id",
+                "keys",
+                "max_groups",
+                "max_group_size",
+                "max_memberships"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                },
+                "keys": {
+                  "type": "array",
+                  "uniqueItems": true,
+                  "maxItems": 16,
+                  "items": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                  },
+                  "minItems": 1
+                },
+                "max_groups": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 1000
+                },
+                "max_group_size": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 10000
+                },
+                "max_memberships": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 100000
+                },
+                "neighborhood": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "relation_types",
+                    "now",
+                    "max_depth"
+                  ],
+                  "properties": {
+                    "relation_types": {
+                      "type": "array",
+                      "uniqueItems": true,
+                      "maxItems": 64,
+                      "items": {
+                        "type": "string",
+                        "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                      },
+                      "minItems": 1
+                    },
+                    "now": {
+                      "type": "string",
+                      "maxLength": 40
+                    },
+                    "max_depth": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 64
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "required": [
+            "graph",
+            "policy"
+          ]
+        },
+        "output_schema": {
+          "$ref": "https://zabarov.github.io/mirai/schemas/cluster-proposal.schema.json"
+        },
+        "version": "1.0.0",
+        "effect": "pure",
+        "canonical_write_allowed": false
+      },
+      {
+        "id": "component.describe",
+        "summary": "Describe an existing instance and exposed operations without granting access.",
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "package": {
+              "$ref": "https://zabarov.github.io/mirai/schemas/component-package.schema.json"
+            },
+            "instance_id": {
+              "type": "string",
+              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+            }
+          },
+          "required": [
+            "package",
+            "instance_id"
+          ]
+        },
+        "output_schema": {
+          "type": "object",
+          "required": [
+            "digest",
+            "canonical_write_allowed"
+          ],
+          "properties": {
+            "digest": {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            },
+            "canonical_write_allowed": {
+              "const": false
+            }
+          }
+        },
+        "version": "1.0.0",
+        "effect": "pure",
+        "canonical_write_allowed": false
+      },
+      {
+        "id": "component.resolve",
+        "summary": "Reuse contextual activation resolution for explicitly selected, same-scope instances; never execute them.",
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "snapshot": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                },
+                "graph_snapshot_digest": {
+                  "type": "string",
+                  "pattern": "^sha256:[a-f0-9]{64}$"
+                },
+                "policy_digest": {
+                  "type": "string",
+                  "pattern": "^sha256:[a-f0-9]{64}$"
+                },
+                "components": {
+                  "$ref": "https://zabarov.github.io/mirai/schemas/component-package.schema.json"
+                },
+                "relation_facts": {
+                  "type": "array",
+                  "maxItems": 40000,
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "contract_version",
+                      "id",
+                      "type",
+                      "participants",
+                      "priority",
+                      "authority",
+                      "confidence",
+                      "provenance"
+                    ],
+                    "properties": {
+                      "contract_version": {
+                        "const": "1.0.0"
+                      },
+                      "id": {
+                        "type": "string",
+                        "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                      },
+                      "type": {
+                        "type": "string",
+                        "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                      },
+                      "participants": {
+                        "type": "array",
+                        "minItems": 2,
+                        "maxItems": 64,
+                        "items": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "ref",
+                            "role"
+                          ],
+                          "properties": {
+                            "ref": {
+                              "type": "string",
+                              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                            },
+                            "role": {
+                              "type": "string",
+                              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                            }
+                          }
+                        }
+                      },
+                      "qualifiers": {
+                        "type": "object",
+                        "maxProperties": 64,
+                        "propertyNames": {
+                          "type": "string",
+                          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                        },
+                        "additionalProperties": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "maxLength": 256
+                            },
+                            {
+                              "type": "number"
+                            },
+                            {
+                              "type": "boolean"
+                            }
+                          ]
+                        }
+                      },
+                      "conditions": {
+                        "type": "object",
+                        "maxProperties": 64,
+                        "propertyNames": {
+                          "type": "string",
+                          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                        },
+                        "additionalProperties": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "maxLength": 256
+                            },
+                            {
+                              "type": "number"
+                            },
+                            {
+                              "type": "boolean"
+                            }
+                          ]
+                        }
+                      },
+                      "scope": {
+                        "type": "string",
+                        "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                      },
+                      "valid_from": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "valid_until": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "priority": {
+                        "type": "integer",
+                        "minimum": -1000000,
+                        "maximum": 1000000
+                      },
+                      "authority": {
+                        "enum": [
+                          "canonical",
+                          "owner_asserted",
+                          "derived",
+                          "proposal"
+                        ]
+                      },
+                      "confidence": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                      },
+                      "provenance": {
+                        "type": "array",
+                        "minItems": 1,
+                        "maxItems": 64,
+                        "items": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "source_ref"
+                          ],
+                          "properties": {
+                            "source_ref": {
+                              "type": "string",
+                              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                            },
+                            "evidence_ref": {
+                              "type": "string",
+                              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                            }
+                          }
+                        }
+                      },
+                      "activation_rule": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "signal_type"
+                        ],
+                        "properties": {
+                          "signal_type": {
+                            "type": "string",
+                            "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                          },
+                          "operation": {
+                            "type": "string",
+                            "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "required": [
+                "id",
+                "graph_snapshot_digest",
+                "policy_digest",
+                "components",
+                "relation_facts"
+              ]
+            },
+            "signal": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                },
+                "type": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                },
+                "goal": {
+                  "type": "string",
+                  "maxLength": 256
+                },
+                "scope": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                },
+                "now": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "operation": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                },
+                "component_refs": {
+                  "type": "array",
+                  "uniqueItems": true,
+                  "maxItems": 10000,
+                  "items": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                  },
+                  "minItems": 1
+                },
+                "values": {
+                  "type": "object",
+                  "maxProperties": 64,
+                  "propertyNames": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                  },
+                  "additionalProperties": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "maxLength": 256
+                      },
+                      {
+                        "type": "number"
+                      },
+                      {
+                        "type": "boolean"
+                      }
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "id",
+                "type",
+                "goal",
+                "scope",
+                "now",
+                "operation",
+                "component_refs"
+              ]
+            }
+          },
+          "required": [
+            "snapshot",
+            "signal"
+          ]
+        },
+        "output_schema": {
+          "type": "object",
+          "required": [
+            "digest",
+            "canonical_write_allowed"
+          ],
+          "properties": {
+            "digest": {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            },
+            "canonical_write_allowed": {
+              "const": false
+            }
+          }
+        },
+        "version": "1.0.0",
+        "effect": "pure",
+        "canonical_write_allowed": false
+      },
+      {
+        "id": "graph.diff",
+        "summary": "Compare snapshots without applying changes.",
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "before": {
+              "$ref": "https://zabarov.github.io/mirai/schemas/graph-operation-snapshot.schema.json"
+            },
+            "after": {
+              "$ref": "https://zabarov.github.io/mirai/schemas/graph-operation-snapshot.schema.json"
+            }
+          },
+          "required": [
+            "before",
+            "after"
+          ]
+        },
+        "output_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "contract_version": {
+              "const": "1.0.0"
+            },
+            "before_digest": {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            },
+            "after_digest": {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            },
+            "objects": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "added": {
+                  "type": "array",
+                  "uniqueItems": true,
+                  "maxItems": 10000,
+                  "items": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                  }
+                },
+                "changed": {
+                  "type": "array",
+                  "uniqueItems": true,
+                  "maxItems": 10000,
+                  "items": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                  }
+                },
+                "removed": {
+                  "type": "array",
+                  "uniqueItems": true,
+                  "maxItems": 10000,
+                  "items": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                  }
+                }
+              },
+              "required": [
+                "added",
+                "changed",
+                "removed"
+              ]
+            },
+            "relations": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "added": {
+                  "type": "array",
+                  "uniqueItems": true,
+                  "maxItems": 10000,
+                  "items": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                  }
+                },
+                "changed": {
+                  "type": "array",
+                  "uniqueItems": true,
+                  "maxItems": 10000,
+                  "items": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                  }
+                },
+                "removed": {
+                  "type": "array",
+                  "uniqueItems": true,
+                  "maxItems": 10000,
+                  "items": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                  }
+                }
+              },
+              "required": [
+                "added",
+                "changed",
+                "removed"
+              ]
+            },
+            "sources": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "added": {
+                  "type": "array",
+                  "uniqueItems": true,
+                  "maxItems": 10000,
+                  "items": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                  }
+                },
+                "changed": {
+                  "type": "array",
+                  "uniqueItems": true,
+                  "maxItems": 10000,
+                  "items": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                  }
+                },
+                "removed": {
+                  "type": "array",
+                  "uniqueItems": true,
+                  "maxItems": 10000,
+                  "items": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                  }
+                }
+              },
+              "required": [
+                "added",
+                "changed",
+                "removed"
+              ]
+            },
+            "canonical_write_allowed": {
+              "const": false
+            },
+            "digest": {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            }
+          },
+          "required": [
+            "contract_version",
+            "before_digest",
+            "after_digest",
+            "objects",
+            "relations",
+            "sources",
+            "canonical_write_allowed",
+            "digest"
+          ]
+        },
+        "version": "1.0.0",
+        "effect": "pure",
+        "canonical_write_allowed": false
+      },
+      {
+        "id": "graph.draft",
+        "summary": "Build a normalized proposed graph value, never a canonical write.",
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "graph": {
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "contract_version",
+                "id",
+                "objects",
+                "relations",
+                "sources",
+                "canonical_write_allowed"
+              ],
+              "properties": {
+                "contract_version": {
+                  "const": "1.0.0"
+                },
+                "id": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                },
+                "objects": {
+                  "type": "array",
+                  "maxItems": 10000,
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "id",
+                      "kind",
+                      "scope",
+                      "metadata",
+                      "source_refs"
+                    ],
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                      },
+                      "kind": {
+                        "type": "string",
+                        "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                      },
+                      "scope": {
+                        "type": "string",
+                        "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                      },
+                      "source_refs": {
+                        "type": "array",
+                        "maxItems": 64,
+                        "uniqueItems": true,
+                        "items": {
+                          "type": "string",
+                          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                        }
+                      },
+                      "metadata": {
+                        "type": "object",
+                        "maxProperties": 64,
+                        "propertyNames": {
+                          "type": "string",
+                          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                        },
+                        "additionalProperties": {
+                          "anyOf": [
+                            {
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "maxLength": 256
+                                },
+                                {
+                                  "type": "number"
+                                },
+                                {
+                                  "type": "boolean"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "array",
+                              "maxItems": 64,
+                              "uniqueItems": true,
+                              "items": {
+                                "anyOf": [
+                                  {
+                                    "type": "string",
+                                    "maxLength": 256
+                                  },
+                                  {
+                                    "type": "number"
+                                  },
+                                  {
+                                    "type": "boolean"
+                                  }
+                                ]
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                },
+                "relations": {
+                  "type": "array",
+                  "maxItems": 40000,
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "contract_version",
+                      "id",
+                      "type",
+                      "participants",
+                      "priority",
+                      "authority",
+                      "confidence",
+                      "provenance"
+                    ],
+                    "properties": {
+                      "contract_version": {
+                        "const": "1.0.0"
+                      },
+                      "id": {
+                        "type": "string",
+                        "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                      },
+                      "type": {
+                        "type": "string",
+                        "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                      },
+                      "participants": {
+                        "type": "array",
+                        "minItems": 2,
+                        "maxItems": 64,
+                        "items": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "ref",
+                            "role"
+                          ],
+                          "properties": {
+                            "ref": {
+                              "type": "string",
+                              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                            },
+                            "role": {
+                              "type": "string",
+                              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                            }
+                          }
+                        }
+                      },
+                      "qualifiers": {
+                        "type": "object",
+                        "maxProperties": 64,
+                        "propertyNames": {
+                          "type": "string",
+                          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                        },
+                        "additionalProperties": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "maxLength": 256
+                            },
+                            {
+                              "type": "number"
+                            },
+                            {
+                              "type": "boolean"
+                            }
+                          ]
+                        }
+                      },
+                      "conditions": {
+                        "type": "object",
+                        "maxProperties": 64,
+                        "propertyNames": {
+                          "type": "string",
+                          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                        },
+                        "additionalProperties": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "maxLength": 256
+                            },
+                            {
+                              "type": "number"
+                            },
+                            {
+                              "type": "boolean"
+                            }
+                          ]
+                        }
+                      },
+                      "scope": {
+                        "type": "string",
+                        "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                      },
+                      "valid_from": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "valid_until": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "priority": {
+                        "type": "integer",
+                        "minimum": -1000000,
+                        "maximum": 1000000
+                      },
+                      "authority": {
+                        "enum": [
+                          "canonical",
+                          "owner_asserted",
+                          "derived",
+                          "proposal"
+                        ]
+                      },
+                      "confidence": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                      },
+                      "provenance": {
+                        "type": "array",
+                        "minItems": 1,
+                        "maxItems": 64,
+                        "items": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "source_ref"
+                          ],
+                          "properties": {
+                            "source_ref": {
+                              "type": "string",
+                              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                            },
+                            "evidence_ref": {
+                              "type": "string",
+                              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                            }
+                          }
+                        }
+                      },
+                      "activation_rule": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "signal_type"
+                        ],
+                        "properties": {
+                          "signal_type": {
+                            "type": "string",
+                            "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                          },
+                          "operation": {
+                            "type": "string",
+                            "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "sources": {
+                  "type": "array",
+                  "maxItems": 10000,
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "id",
+                      "owner_ref",
+                      "digest",
+                      "confidentiality"
+                    ],
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                      },
+                      "owner_ref": {
+                        "type": "string",
+                        "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                      },
+                      "digest": {
+                        "type": "string",
+                        "pattern": "^sha256:[a-f0-9]{64}$"
+                      },
+                      "confidentiality": {
+                        "enum": [
+                          "public",
+                          "internal",
+                          "restricted"
+                        ]
+                      }
+                    }
+                  }
+                },
+                "canonical_write_allowed": {
+                  "const": false
+                }
+              }
+            }
+          },
+          "required": [
+            "graph"
+          ]
+        },
+        "output_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "status": {
+              "const": "proposed"
+            },
+            "preview": {
+              "$ref": "https://zabarov.github.io/mirai/schemas/graph-operation-snapshot.schema.json"
+            },
+            "canonical_write_allowed": {
+              "const": false
+            },
+            "digest": {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            }
+          },
+          "required": [
+            "status",
+            "preview",
+            "canonical_write_allowed",
+            "digest"
+          ]
+        },
+        "version": "1.0.0",
+        "effect": "pure",
+        "canonical_write_allowed": false
+      },
+      {
+        "id": "graph.project",
+        "summary": "Build an induced reference view; this does not authorize access.",
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "graph": {
+              "$ref": "https://zabarov.github.io/mirai/schemas/graph-operation-snapshot.schema.json"
+            },
+            "object_ids": {
+              "type": "array",
+              "uniqueItems": true,
+              "maxItems": 10000,
+              "items": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+              }
+            }
+          },
+          "required": [
+            "graph",
+            "object_ids"
+          ]
+        },
+        "output_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "contract_version": {
+              "const": "1.0.0"
+            },
+            "base_digest": {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            },
+            "object_ids": {
+              "type": "array",
+              "uniqueItems": true,
+              "maxItems": 10000,
+              "items": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+              }
+            },
+            "graph": {
+              "$ref": "https://zabarov.github.io/mirai/schemas/graph-operation-snapshot.schema.json"
+            },
+            "canonical_write_allowed": {
+              "const": false
+            },
+            "digest": {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            }
+          },
+          "required": [
+            "contract_version",
+            "base_digest",
+            "object_ids",
+            "graph",
+            "canonical_write_allowed",
+            "digest"
+          ]
+        },
+        "version": "1.0.0",
+        "effect": "pure",
+        "canonical_write_allowed": false
+      },
+      {
+        "id": "graph.propose_patch",
+        "summary": "Propose a base-bound metadata change with a validated preview.",
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "graph": {
+              "$ref": "https://zabarov.github.io/mirai/schemas/graph-operation-snapshot.schema.json"
+            },
+            "patch": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "upsert_objects": {
+                  "type": "array",
+                  "maxItems": 10000,
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "id",
+                      "kind",
+                      "scope",
+                      "metadata",
+                      "source_refs"
+                    ],
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                      },
+                      "kind": {
+                        "type": "string",
+                        "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                      },
+                      "scope": {
+                        "type": "string",
+                        "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                      },
+                      "source_refs": {
+                        "type": "array",
+                        "maxItems": 64,
+                        "uniqueItems": true,
+                        "items": {
+                          "type": "string",
+                          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                        }
+                      },
+                      "metadata": {
+                        "type": "object",
+                        "maxProperties": 64,
+                        "propertyNames": {
+                          "type": "string",
+                          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                        },
+                        "additionalProperties": {
+                          "anyOf": [
+                            {
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "maxLength": 256
+                                },
+                                {
+                                  "type": "number"
+                                },
+                                {
+                                  "type": "boolean"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "array",
+                              "maxItems": 64,
+                              "uniqueItems": true,
+                              "items": {
+                                "anyOf": [
+                                  {
+                                    "type": "string",
+                                    "maxLength": 256
+                                  },
+                                  {
+                                    "type": "number"
+                                  },
+                                  {
+                                    "type": "boolean"
+                                  }
+                                ]
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                },
+                "deprecate_objects": {
+                  "type": "array",
+                  "uniqueItems": true,
+                  "maxItems": 10000,
+                  "items": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                  }
+                },
+                "upsert_relations": {
+                  "type": "array",
+                  "maxItems": 40000,
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "contract_version",
+                      "id",
+                      "type",
+                      "participants",
+                      "priority",
+                      "authority",
+                      "confidence",
+                      "provenance"
+                    ],
+                    "properties": {
+                      "contract_version": {
+                        "const": "1.0.0"
+                      },
+                      "id": {
+                        "type": "string",
+                        "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                      },
+                      "type": {
+                        "type": "string",
+                        "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                      },
+                      "participants": {
+                        "type": "array",
+                        "minItems": 2,
+                        "maxItems": 64,
+                        "items": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "ref",
+                            "role"
+                          ],
+                          "properties": {
+                            "ref": {
+                              "type": "string",
+                              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                            },
+                            "role": {
+                              "type": "string",
+                              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                            }
+                          }
+                        }
+                      },
+                      "qualifiers": {
+                        "type": "object",
+                        "maxProperties": 64,
+                        "propertyNames": {
+                          "type": "string",
+                          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                        },
+                        "additionalProperties": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "maxLength": 256
+                            },
+                            {
+                              "type": "number"
+                            },
+                            {
+                              "type": "boolean"
+                            }
+                          ]
+                        }
+                      },
+                      "conditions": {
+                        "type": "object",
+                        "maxProperties": 64,
+                        "propertyNames": {
+                          "type": "string",
+                          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                        },
+                        "additionalProperties": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "maxLength": 256
+                            },
+                            {
+                              "type": "number"
+                            },
+                            {
+                              "type": "boolean"
+                            }
+                          ]
+                        }
+                      },
+                      "scope": {
+                        "type": "string",
+                        "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                      },
+                      "valid_from": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "valid_until": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "priority": {
+                        "type": "integer",
+                        "minimum": -1000000,
+                        "maximum": 1000000
+                      },
+                      "authority": {
+                        "enum": [
+                          "canonical",
+                          "owner_asserted",
+                          "derived",
+                          "proposal"
+                        ]
+                      },
+                      "confidence": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                      },
+                      "provenance": {
+                        "type": "array",
+                        "minItems": 1,
+                        "maxItems": 64,
+                        "items": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "source_ref"
+                          ],
+                          "properties": {
+                            "source_ref": {
+                              "type": "string",
+                              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                            },
+                            "evidence_ref": {
+                              "type": "string",
+                              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                            }
+                          }
+                        }
+                      },
+                      "activation_rule": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "signal_type"
+                        ],
+                        "properties": {
+                          "signal_type": {
+                            "type": "string",
+                            "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                          },
+                          "operation": {
+                            "type": "string",
+                            "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "deprecate_relations": {
+                  "type": "array",
+                  "uniqueItems": true,
+                  "maxItems": 10000,
+                  "items": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                  }
+                }
+              },
+              "required": [
+                "upsert_objects",
+                "deprecate_objects",
+                "upsert_relations",
+                "deprecate_relations"
+              ]
+            }
+          },
+          "required": [
+            "graph",
+            "patch"
+          ]
+        },
+        "output_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "contract_version": {
+              "const": "1.0.0"
+            },
+            "base_digest": {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            },
+            "changes": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "upsert_objects": {
+                  "type": "array",
+                  "maxItems": 10000,
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "id",
+                      "kind",
+                      "scope",
+                      "metadata",
+                      "source_refs"
+                    ],
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                      },
+                      "kind": {
+                        "type": "string",
+                        "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                      },
+                      "scope": {
+                        "type": "string",
+                        "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                      },
+                      "source_refs": {
+                        "type": "array",
+                        "maxItems": 64,
+                        "uniqueItems": true,
+                        "items": {
+                          "type": "string",
+                          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                        }
+                      },
+                      "metadata": {
+                        "type": "object",
+                        "maxProperties": 64,
+                        "propertyNames": {
+                          "type": "string",
+                          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                        },
+                        "additionalProperties": {
+                          "anyOf": [
+                            {
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "maxLength": 256
+                                },
+                                {
+                                  "type": "number"
+                                },
+                                {
+                                  "type": "boolean"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "array",
+                              "maxItems": 64,
+                              "uniqueItems": true,
+                              "items": {
+                                "anyOf": [
+                                  {
+                                    "type": "string",
+                                    "maxLength": 256
+                                  },
+                                  {
+                                    "type": "number"
+                                  },
+                                  {
+                                    "type": "boolean"
+                                  }
+                                ]
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                },
+                "deprecate_objects": {
+                  "type": "array",
+                  "uniqueItems": true,
+                  "maxItems": 10000,
+                  "items": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                  }
+                },
+                "upsert_relations": {
+                  "type": "array",
+                  "maxItems": 40000,
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "contract_version",
+                      "id",
+                      "type",
+                      "participants",
+                      "priority",
+                      "authority",
+                      "confidence",
+                      "provenance"
+                    ],
+                    "properties": {
+                      "contract_version": {
+                        "const": "1.0.0"
+                      },
+                      "id": {
+                        "type": "string",
+                        "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                      },
+                      "type": {
+                        "type": "string",
+                        "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                      },
+                      "participants": {
+                        "type": "array",
+                        "minItems": 2,
+                        "maxItems": 64,
+                        "items": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "ref",
+                            "role"
+                          ],
+                          "properties": {
+                            "ref": {
+                              "type": "string",
+                              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                            },
+                            "role": {
+                              "type": "string",
+                              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                            }
+                          }
+                        }
+                      },
+                      "qualifiers": {
+                        "type": "object",
+                        "maxProperties": 64,
+                        "propertyNames": {
+                          "type": "string",
+                          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                        },
+                        "additionalProperties": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "maxLength": 256
+                            },
+                            {
+                              "type": "number"
+                            },
+                            {
+                              "type": "boolean"
+                            }
+                          ]
+                        }
+                      },
+                      "conditions": {
+                        "type": "object",
+                        "maxProperties": 64,
+                        "propertyNames": {
+                          "type": "string",
+                          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                        },
+                        "additionalProperties": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "maxLength": 256
+                            },
+                            {
+                              "type": "number"
+                            },
+                            {
+                              "type": "boolean"
+                            }
+                          ]
+                        }
+                      },
+                      "scope": {
+                        "type": "string",
+                        "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                      },
+                      "valid_from": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "valid_until": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "priority": {
+                        "type": "integer",
+                        "minimum": -1000000,
+                        "maximum": 1000000
+                      },
+                      "authority": {
+                        "enum": [
+                          "canonical",
+                          "owner_asserted",
+                          "derived",
+                          "proposal"
+                        ]
+                      },
+                      "confidence": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                      },
+                      "provenance": {
+                        "type": "array",
+                        "minItems": 1,
+                        "maxItems": 64,
+                        "items": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "source_ref"
+                          ],
+                          "properties": {
+                            "source_ref": {
+                              "type": "string",
+                              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                            },
+                            "evidence_ref": {
+                              "type": "string",
+                              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                            }
+                          }
+                        }
+                      },
+                      "activation_rule": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "signal_type"
+                        ],
+                        "properties": {
+                          "signal_type": {
+                            "type": "string",
+                            "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                          },
+                          "operation": {
+                            "type": "string",
+                            "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "deprecate_relations": {
+                  "type": "array",
+                  "uniqueItems": true,
+                  "maxItems": 10000,
+                  "items": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                  }
+                }
+              },
+              "required": [
+                "upsert_objects",
+                "deprecate_objects",
+                "upsert_relations",
+                "deprecate_relations"
+              ]
+            },
+            "preview": {
+              "$ref": "https://zabarov.github.io/mirai/schemas/graph-operation-snapshot.schema.json"
+            },
+            "status": {
+              "const": "proposed"
+            },
+            "canonical_write_allowed": {
+              "const": false
+            },
+            "digest": {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            }
+          },
+          "required": [
+            "contract_version",
+            "base_digest",
+            "changes",
+            "preview",
+            "status",
+            "canonical_write_allowed",
+            "digest"
+          ]
+        },
+        "version": "1.0.0",
+        "effect": "pure",
+        "canonical_write_allowed": false
+      },
+      {
+        "id": "graph.query",
+        "summary": "Select objects using bounded exact filters.",
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "graph": {
+              "$ref": "https://zabarov.github.io/mirai/schemas/graph-operation-snapshot.schema.json"
+            },
+            "query": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "ids": {
+                  "type": "array",
+                  "uniqueItems": true,
+                  "maxItems": 10000,
+                  "items": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                  }
+                },
+                "kinds": {
+                  "type": "array",
+                  "uniqueItems": true,
+                  "maxItems": 10000,
+                  "items": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                  }
+                },
+                "scopes": {
+                  "type": "array",
+                  "uniqueItems": true,
+                  "maxItems": 10000,
+                  "items": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                  }
+                },
+                "metadata": {
+                  "type": "object",
+                  "maxProperties": 64,
+                  "propertyNames": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                  },
+                  "additionalProperties": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "maxLength": 256
+                      },
+                      {
+                        "type": "number"
+                      },
+                      {
+                        "type": "boolean"
+                      }
+                    ]
+                  }
+                },
+                "max_objects": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 10000
+                }
+              },
+              "required": []
+            }
+          },
+          "required": [
+            "graph",
+            "query"
+          ]
+        },
+        "output_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "contract_version": {
+              "const": "1.0.0"
+            },
+            "base_digest": {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            },
+            "object_ids": {
+              "type": "array",
+              "uniqueItems": true,
+              "maxItems": 10000,
+              "items": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+              }
+            },
+            "graph": {
+              "$ref": "https://zabarov.github.io/mirai/schemas/graph-operation-snapshot.schema.json"
+            },
+            "canonical_write_allowed": {
+              "const": false
+            },
+            "digest": {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            }
+          },
+          "required": [
+            "contract_version",
+            "base_digest",
+            "object_ids",
+            "graph",
+            "canonical_write_allowed",
+            "digest"
+          ]
+        },
+        "version": "1.0.0",
+        "effect": "pure",
+        "canonical_write_allowed": false
+      },
+      {
+        "id": "graph.traverse",
+        "summary": "Follow explicit relation roles in time and scope.",
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "graph": {
+              "$ref": "https://zabarov.github.io/mirai/schemas/graph-operation-snapshot.schema.json"
+            },
+            "query": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "seeds": {
+                  "type": "array",
+                  "uniqueItems": true,
+                  "maxItems": 10000,
+                  "items": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                  },
+                  "minItems": 1
+                },
+                "relation_types": {
+                  "type": "array",
+                  "uniqueItems": true,
+                  "maxItems": 10000,
+                  "items": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                  },
+                  "minItems": 1
+                },
+                "direction": {
+                  "enum": [
+                    "incoming",
+                    "outgoing",
+                    "both"
+                  ]
+                },
+                "from_role": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                },
+                "to_role": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                },
+                "scope": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                },
+                "now": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "values": {
+                  "type": "object",
+                  "maxProperties": 64,
+                  "propertyNames": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                  },
+                  "additionalProperties": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "maxLength": 256
+                      },
+                      {
+                        "type": "number"
+                      },
+                      {
+                        "type": "boolean"
+                      }
+                    ]
+                  }
+                },
+                "max_depth": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 64
+                },
+                "max_objects": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 10000
+                },
+                "max_relations": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 40000
+                },
+                "max_visits": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 1000000
+                }
+              },
+              "required": [
+                "seeds",
+                "relation_types",
+                "direction",
+                "scope",
+                "now",
+                "max_depth",
+                "max_objects",
+                "max_relations"
+              ]
+            }
+          },
+          "required": [
+            "graph",
+            "query"
+          ]
+        },
+        "output_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "contract_version": {
+              "const": "1.0.0"
+            },
+            "base_digest": {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            },
+            "object_ids": {
+              "type": "array",
+              "uniqueItems": true,
+              "maxItems": 10000,
+              "items": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+              }
+            },
+            "graph": {
+              "$ref": "https://zabarov.github.io/mirai/schemas/graph-operation-snapshot.schema.json"
+            },
+            "canonical_write_allowed": {
+              "const": false
+            },
+            "digest": {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            }
+          },
+          "required": [
+            "contract_version",
+            "base_digest",
+            "object_ids",
+            "graph",
+            "canonical_write_allowed",
+            "digest"
+          ]
+        },
+        "version": "1.0.0",
+        "effect": "pure",
+        "canonical_write_allowed": false
+      },
+      {
+        "id": "graph.validate",
+        "summary": "Check bounded shape, references and snapshot digest.",
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "graph": {
+              "$ref": "https://zabarov.github.io/mirai/schemas/graph-operation-snapshot.schema.json"
+            }
+          },
+          "required": [
+            "graph"
+          ]
+        },
+        "output_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "valid": {
+              "const": true
+            },
+            "snapshot_digest": {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            },
+            "canonical_write_allowed": {
+              "const": false
+            },
+            "digest": {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            }
+          },
+          "required": [
+            "valid",
+            "snapshot_digest",
+            "canonical_write_allowed",
+            "digest"
+          ]
+        },
+        "version": "1.0.0",
+        "effect": "pure",
+        "canonical_write_allowed": false
+      },
+      {
+        "id": "relation.propose",
+        "summary": "Propose a relation fact while preserving participants and qualifiers.",
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "graph": {
+              "$ref": "https://zabarov.github.io/mirai/schemas/graph-operation-snapshot.schema.json"
+            },
+            "relation": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "contract_version",
+                "id",
+                "type",
+                "participants",
+                "priority",
+                "authority",
+                "confidence",
+                "provenance"
+              ],
+              "properties": {
+                "contract_version": {
+                  "const": "1.0.0"
+                },
+                "id": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                },
+                "type": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                },
+                "participants": {
+                  "type": "array",
+                  "minItems": 2,
+                  "maxItems": 64,
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "ref",
+                      "role"
+                    ],
+                    "properties": {
+                      "ref": {
+                        "type": "string",
+                        "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                      },
+                      "role": {
+                        "type": "string",
+                        "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                      }
+                    }
+                  }
+                },
+                "qualifiers": {
+                  "type": "object",
+                  "maxProperties": 64,
+                  "propertyNames": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                  },
+                  "additionalProperties": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "maxLength": 256
+                      },
+                      {
+                        "type": "number"
+                      },
+                      {
+                        "type": "boolean"
+                      }
+                    ]
+                  }
+                },
+                "conditions": {
+                  "type": "object",
+                  "maxProperties": 64,
+                  "propertyNames": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                  },
+                  "additionalProperties": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "maxLength": 256
+                      },
+                      {
+                        "type": "number"
+                      },
+                      {
+                        "type": "boolean"
+                      }
+                    ]
+                  }
+                },
+                "scope": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                },
+                "valid_from": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "valid_until": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "priority": {
+                  "type": "integer",
+                  "minimum": -1000000,
+                  "maximum": 1000000
+                },
+                "authority": {
+                  "enum": [
+                    "canonical",
+                    "owner_asserted",
+                    "derived",
+                    "proposal"
+                  ]
+                },
+                "confidence": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "provenance": {
+                  "type": "array",
+                  "minItems": 1,
+                  "maxItems": 64,
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "source_ref"
+                    ],
+                    "properties": {
+                      "source_ref": {
+                        "type": "string",
+                        "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                      },
+                      "evidence_ref": {
+                        "type": "string",
+                        "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                      }
+                    }
+                  }
+                },
+                "activation_rule": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "signal_type"
+                  ],
+                  "properties": {
+                    "signal_type": {
+                      "type": "string",
+                      "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                    },
+                    "operation": {
+                      "type": "string",
+                      "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "required": [
+            "graph",
+            "relation"
+          ]
+        },
+        "output_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "contract_version": {
+              "const": "1.0.0"
+            },
+            "base_digest": {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            },
+            "changes": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "upsert_objects": {
+                  "type": "array",
+                  "maxItems": 10000,
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "id",
+                      "kind",
+                      "scope",
+                      "metadata",
+                      "source_refs"
+                    ],
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                      },
+                      "kind": {
+                        "type": "string",
+                        "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                      },
+                      "scope": {
+                        "type": "string",
+                        "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                      },
+                      "source_refs": {
+                        "type": "array",
+                        "maxItems": 64,
+                        "uniqueItems": true,
+                        "items": {
+                          "type": "string",
+                          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                        }
+                      },
+                      "metadata": {
+                        "type": "object",
+                        "maxProperties": 64,
+                        "propertyNames": {
+                          "type": "string",
+                          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                        },
+                        "additionalProperties": {
+                          "anyOf": [
+                            {
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "maxLength": 256
+                                },
+                                {
+                                  "type": "number"
+                                },
+                                {
+                                  "type": "boolean"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "array",
+                              "maxItems": 64,
+                              "uniqueItems": true,
+                              "items": {
+                                "anyOf": [
+                                  {
+                                    "type": "string",
+                                    "maxLength": 256
+                                  },
+                                  {
+                                    "type": "number"
+                                  },
+                                  {
+                                    "type": "boolean"
+                                  }
+                                ]
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                },
+                "deprecate_objects": {
+                  "type": "array",
+                  "uniqueItems": true,
+                  "maxItems": 10000,
+                  "items": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                  }
+                },
+                "upsert_relations": {
+                  "type": "array",
+                  "maxItems": 40000,
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "contract_version",
+                      "id",
+                      "type",
+                      "participants",
+                      "priority",
+                      "authority",
+                      "confidence",
+                      "provenance"
+                    ],
+                    "properties": {
+                      "contract_version": {
+                        "const": "1.0.0"
+                      },
+                      "id": {
+                        "type": "string",
+                        "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                      },
+                      "type": {
+                        "type": "string",
+                        "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                      },
+                      "participants": {
+                        "type": "array",
+                        "minItems": 2,
+                        "maxItems": 64,
+                        "items": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "ref",
+                            "role"
+                          ],
+                          "properties": {
+                            "ref": {
+                              "type": "string",
+                              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                            },
+                            "role": {
+                              "type": "string",
+                              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                            }
+                          }
+                        }
+                      },
+                      "qualifiers": {
+                        "type": "object",
+                        "maxProperties": 64,
+                        "propertyNames": {
+                          "type": "string",
+                          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                        },
+                        "additionalProperties": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "maxLength": 256
+                            },
+                            {
+                              "type": "number"
+                            },
+                            {
+                              "type": "boolean"
+                            }
+                          ]
+                        }
+                      },
+                      "conditions": {
+                        "type": "object",
+                        "maxProperties": 64,
+                        "propertyNames": {
+                          "type": "string",
+                          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                        },
+                        "additionalProperties": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "maxLength": 256
+                            },
+                            {
+                              "type": "number"
+                            },
+                            {
+                              "type": "boolean"
+                            }
+                          ]
+                        }
+                      },
+                      "scope": {
+                        "type": "string",
+                        "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                      },
+                      "valid_from": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "valid_until": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "priority": {
+                        "type": "integer",
+                        "minimum": -1000000,
+                        "maximum": 1000000
+                      },
+                      "authority": {
+                        "enum": [
+                          "canonical",
+                          "owner_asserted",
+                          "derived",
+                          "proposal"
+                        ]
+                      },
+                      "confidence": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                      },
+                      "provenance": {
+                        "type": "array",
+                        "minItems": 1,
+                        "maxItems": 64,
+                        "items": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "source_ref"
+                          ],
+                          "properties": {
+                            "source_ref": {
+                              "type": "string",
+                              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                            },
+                            "evidence_ref": {
+                              "type": "string",
+                              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                            }
+                          }
+                        }
+                      },
+                      "activation_rule": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "signal_type"
+                        ],
+                        "properties": {
+                          "signal_type": {
+                            "type": "string",
+                            "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                          },
+                          "operation": {
+                            "type": "string",
+                            "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "deprecate_relations": {
+                  "type": "array",
+                  "uniqueItems": true,
+                  "maxItems": 10000,
+                  "items": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$"
+                  }
+                }
+              },
+              "required": [
+                "upsert_objects",
+                "deprecate_objects",
+                "upsert_relations",
+                "deprecate_relations"
+              ]
+            },
+            "preview": {
+              "$ref": "https://zabarov.github.io/mirai/schemas/graph-operation-snapshot.schema.json"
+            },
+            "status": {
+              "const": "proposed"
+            },
+            "canonical_write_allowed": {
+              "const": false
+            },
+            "digest": {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            }
+          },
+          "required": [
+            "contract_version",
+            "base_digest",
+            "changes",
+            "preview",
+            "status",
+            "canonical_write_allowed",
+            "digest"
+          ]
+        },
+        "version": "1.0.0",
+        "effect": "pure",
+        "canonical_write_allowed": false
+      }
+    ],
+    "digest": "sha256:28da00e5d6d912013e1196c48b7199bccb86ca45e22db864ea564abe74140c48"
+  }
+}

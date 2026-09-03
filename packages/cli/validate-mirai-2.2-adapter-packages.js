@@ -14,7 +14,12 @@ const packages = [
   ["source-s3", "@zabarov/mirai-source-s3", ["createS3ReadClient", "createS3SourceProvider"], { "@aws-sdk/client-s3": "3.1100.0" }]
 ];
 const stable = !rootPackage.version.includes("-");
-const expectedPeerRange = stable ? ">=2.2.0 <3" : ">=2.2.0-alpha.1 <3";
+const [major, minor] = rootPackage.version.split(".").map(Number);
+const expectedPeerRange = stable
+  ? ">=2.2.0 <3"
+  : minor > 2
+    ? `>=2.2.0-alpha.1 <${major}.${minor}.0 || >=${rootPackage.version} <${major + 1}`
+    : ">=2.2.0-alpha.1 <3";
 
 for (const [directory, name, factories, dependencies] of packages) {
   const packageRoot = path.join(root, "packages", directory);

@@ -16,6 +16,10 @@ Release notes must separate:
 
 ## Release Notes
 
+- [v2.3.0-alpha.1](2.3.0-alpha.1.md) - experimental graph organization,
+  Program 1.1 operation bindings and governed task delegation prerelease.
+- [Mirai 2.3 alpha readiness](2.3.0-alpha.1-readiness.json) - exact alpha
+  publication gates and explicit stable/production limitations.
 - [v2.2.0-rc.1](2.2.0-rc.1.md) - unpublished local release candidate; public
   conformance, cross-platform CI and stable publication remain gated.
 - [Mirai 2.2 candidate readiness](2.2.0-rc.1-readiness.json) - current
