@@ -25,6 +25,11 @@ intent
   the exact contract digest, slot id and candidate value digest. An opaque
   admission receipt identifies the host policy decision; model output cannot
   reuse that admission for a different value.
+- Serialized evidence cannot admit itself. Assessment requires a verifier
+  injected by the host from protected runtime state and bound to the exact
+  evidence-set and policy digests. The CLI reads that verifier input only from
+  `<MIRAI_HOME>/outcome-admissions.json`; project content and command arguments
+  cannot supply it.
 - Critical conflicts block completion and remain visible.
 - Missing user input produces a bounded clarifying question.
 - A partial result is valid only when the contract allows it and the confirmed
@@ -63,6 +68,9 @@ aggregation remains supported for compatibility. Child failure,
 temporary unavailability, handoff, conflict, missing input or insufficient
 evidence propagates to the aggregate instead of being hidden by another
 successful child.
+Child scope, effect, conflict handling, evidence requirement, minimum authority
+and freshness may preserve or strengthen the parent contract, but cannot
+weaken it.
 
 ## Boundaries
 
@@ -71,3 +79,5 @@ own channel formatting and business rules. Owner systems retain detailed facts
 under Hybrid SOT. Feedback and corrections are proposals until governed review.
 Candidate-derived values remain marked as untrusted data through assessment and
 delivery so downstream rendering cannot confuse retrieved text with commands.
+Delivery planning accepts only an assessment verified by the host in the same
+execution context; a digest-valid assessment file is not sufficient by itself.

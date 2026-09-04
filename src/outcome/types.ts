@@ -105,6 +105,14 @@ export interface OutcomeEvidenceSet {
   digest: string;
 }
 
+export type OutcomeEvidenceAdmissionVerifier = (
+  item: OutcomeEvidenceItem,
+  evidence: OutcomeEvidenceSet,
+  contract: OutcomeCompletionContract
+) => boolean;
+
+export type OutcomeAssessmentVerifier = (assessment: OutcomeAssessment) => boolean;
+
 export type OutcomeSlotState =
   | "confirmed" | "missing" | "stale" | "conflicting"
   | "unsupported" | "unauthorized" | "invalid";

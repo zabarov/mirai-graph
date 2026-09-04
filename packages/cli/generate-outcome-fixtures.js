@@ -4,12 +4,16 @@
 const fs = require("node:fs");
 const path = require("node:path");
 const { digestValue } = require("../../dist/cjs/core");
-const { assessOutcome, aggregateOutcomes, planOutcomeDelivery } = require("../../dist/cjs/outcome");
+const { assessOutcome, aggregateOutcomes, createOutcomeAdmissionVerifier, planOutcomeDelivery } = require("../../dist/cjs/outcome");
 
 const root = path.resolve(__dirname, "../../examples/mirai-outcome-completion-minimal");
 const invalidRoot = path.resolve(__dirname, "../../examples/mirai-outcome-completion-invalid");
 const seal = (body) => ({ ...body, digest: digestValue(body) });
 const write = (name, value) => fs.writeFileSync(path.join(root, name), `${JSON.stringify(value, null, 2)}\n`);
+const admissionVerifierFor = (...sets) => {
+  const verifiers = new Map(sets.map((set) => [set.digest, createOutcomeAdmissionVerifier(set.policy_digest, set.digest, set.items.map((item) => item.admission_receipt_digest))]));
+  return (item, set, contractValue) => Boolean(verifiers.get(set.digest)?.(item, set, contractValue));
+};
 fs.mkdirSync(root, { recursive: true });
 fs.mkdirSync(invalidRoot, { recursive: true });
 
@@ -36,8 +40,8 @@ const evidence = seal({ contract_version: "1.0.0", snapshot_digest: digestValue(
   evidenceItem("evidence.tests", "source.ci", "test_status", "passed", "supporting"),
   evidenceItem("evidence.release-note", "source.release-note", "release_note", "releases/2.5.0-alpha.1.md", "supporting")
 ], partial: false, limitations: ["Synthetic fixture does not establish production readiness."], canonical_write_allowed: false });
-const assessment = assessOutcome(contract, candidates, evidence);
-const delivery = planOutcomeDelivery(assessment);
+const assessment = assessOutcome(contract, candidates, evidence, admissionVerifierFor(evidence));
+const delivery = planOutcomeDelivery(assessment, (value) => value.digest === assessment.digest);
 
 write("outcome-contract.json", contract);
 write("candidate-set.json", candidates);
@@ -47,14 +51,18 @@ write("delivery-plan.json", delivery);
 
 const childContract = seal({ ...Object.fromEntries(Object.entries(contract).filter(([key]) => key !== "digest")), id: "outcome.release-readiness-child", parent_contract_digest: contract.digest });
 const childCandidates = seal({ ...Object.fromEntries(Object.entries(candidates).filter(([key]) => key !== "digest")), id: "candidates.release-readiness-child", contract_digest: childContract.digest });
-const childEvidence = seal({ ...Object.fromEntries(Object.entries(evidence).filter(([key]) => key !== "digest")), items: evidence.items.map((item) => seal({ ...Object.fromEntries(Object.entries(item).filter(([key]) => key !== "digest")), contract_digest: childContract.digest })) });
-const childAssessment = assessOutcome(childContract, childCandidates, childEvidence);
+const childEvidence = seal({ ...Object.fromEntries(Object.entries(evidence).filter(([key]) => key !== "digest")), items: evidence.items.map((item) => {
+  const body = { ...Object.fromEntries(Object.entries(item).filter(([key]) => key !== "digest")), contract_digest: childContract.digest };
+  body.admission_receipt_digest = digestValue(["host-admission", body.id, body.contract_digest, body.slot_id, body.value_digest]);
+  return seal(body);
+}) });
+const childAssessment = assessOutcome(childContract, childCandidates, childEvidence, admissionVerifierFor(childEvidence));
 const incompleteCandidates = seal({ ...Object.fromEntries(Object.entries(childCandidates).filter(([key]) => key !== "digest")), id: "candidates.release-readiness-child-incomplete", candidates: childCandidates.candidates.filter((item) => item.slot_id !== "test_status") });
-const incompleteChildAssessment = assessOutcome(childContract, incompleteCandidates, childEvidence);
+const incompleteChildAssessment = assessOutcome(childContract, incompleteCandidates, childEvidence, admissionVerifierFor(childEvidence));
 const aggregateAssessment = aggregateOutcomes(contract, [
   { contract: childContract, candidates: childCandidates, evidence: childEvidence, assessment: childAssessment },
   { contract: childContract, candidates: incompleteCandidates, evidence: childEvidence, assessment: incompleteChildAssessment }
-]);
+], admissionVerifierFor(childEvidence));
 write("child-outcome-contract.json", childContract);
 write("child-candidate-set.json", childCandidates);
 write("child-evidence-set.json", childEvidence);

@@ -3,7 +3,7 @@
   "id": "assessment.aggregate.outcome.release-readiness",
   "contract_digest": "sha256:2bfa960f65dc862865a6515081333c82f110ffbeb5e0319372fb1e68ce59453a",
   "candidate_set_digest": "sha256:32fd018c22c3ef29b32686c42407a72366f174dffa297fea7fbe3b0505f5c467",
-  "evidence_set_digest": "sha256:0cc396416d58f6af80883732ee3f66ebc5b0c942a13e9904c84e26254f9ae51d",
+  "evidence_set_digest": "sha256:f57d6897a7549b2a610f490ceeb6d500ba0fb5ec0387e2dce3d8b6e5ae5f6733",
   "slots": [
     {
       "slot_id": "version",
@@ -68,5 +68,5 @@
   ],
   "execution_allowed": false,
   "canonical_write_allowed": false,
-  "digest": "sha256:4d2bb218e124585815c07cf5d031bea1dcb9517b92671426ab1dcdde574b027a"
+  "digest": "sha256:177bb681245b8e4fba1c7d092ac54348ea38354fde237a78841be35c3b4b57fe"
 }

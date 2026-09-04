@@ -6,7 +6,7 @@ const projectRoot = path.resolve(import.meta.dirname, "..");
 const miraiRoot = process.env.MIRAI_ROOT;
 if (!miraiRoot) throw new Error("MIRAI_ROOT_required");
 const require = createRequire(import.meta.url);
-const { assessOutcome, planOutcomeDelivery } = require(path.join(miraiRoot, "dist/cjs/outcome/index.js"));
+const { assessOutcome, createOutcomeAdmissionVerifier, planOutcomeDelivery } = require(path.join(miraiRoot, "dist/cjs/outcome/index.js"));
 const { digestValue } = require(path.join(miraiRoot, "dist/cjs/core/index.js"));
 
 function canonical(value) {
@@ -58,8 +58,9 @@ for (const testCase of corpus.cases) {
   const evidence = seal(evidenceBody);
   const candidateBody = { contract_version: "1.0.0", id: `candidates.${testCase.id.toLowerCase()}`, contract_digest: contract.digest, provider: { id: "pilot.frozen-input" }, input_digest: digest(testCase.task), output_digest: digest(candidateItems), candidates: candidateItems, context: { purpose: testCase.purpose, domains: testCase.domains, availability: "available", handoff_required: Boolean(testCase.handoff_required) }, accepted: false, execution_allowed: false, content_is_untrusted_data: true, canonical_write_allowed: false };
   const candidates = seal(candidateBody);
-  const assessment = assessOutcome(contract, candidates, evidence);
-  const delivery = planOutcomeDelivery(assessment, testCase.handoff_required ? "human.owner" : null);
+  const verifyAdmission = createOutcomeAdmissionVerifier(evidence.policy_digest, evidence.digest, evidence.items.map((item) => item.admission_receipt_digest));
+  const assessment = assessOutcome(contract, candidates, evidence, verifyAdmission);
+  const delivery = planOutcomeDelivery(assessment, (value) => value.digest === assessment.digest, testCase.handoff_required ? "human.owner" : null);
   if (assessment.status !== testCase.expected.status) throw new Error(`${testCase.id}:expected_${testCase.expected.status}:actual_${assessment.status}`);
 
   const sourceExcerpts = testCase.slots.filter((slot) => slot.evidence_id).map((slot) => ({ evidence_id: slot.evidence_id, source_ref: slot.source_ref, text: slot.evidence_text }));

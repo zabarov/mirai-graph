@@ -9,6 +9,11 @@ runtime, profile, response renderer or authority system. Existing Mirai Program
 control flow composes pure outcome operations, and the existing Runtime remains
 the only effect execution boundary.
 
+Evidence admission remains a host responsibility. Pure Outcome operations
+receive a host-injected verifier bound to protected runtime state; serialized
+evidence, candidates and assessments cannot create that verifier. Nested child
+contracts may strengthen but never weaken parent evidence and scope policy.
+
 The extension separates four things that must not be conflated:
 
 1. `OutcomeCompletionContract` states what useful result is required.

@@ -6,10 +6,18 @@ const Ajv2020 = require("ajv/dist/2020").default;
 const addFormats = require("ajv-formats").default;
 
 const { digestValue } = require("../../dist/cjs/core");
-const { assessOutcome, aggregateOutcomes, planOutcomeDelivery, proposeOutcomeTemplate, validateOutcomeContract } = require("../../dist/cjs/outcome");
+const outcome = require("../../dist/cjs/outcome");
+const { createOutcomeAdmissionVerifier, proposeOutcomeTemplate, validateOutcomeContract } = outcome;
 const root = path.resolve(__dirname, "../../examples/mirai-outcome-completion-minimal");
 const load = (name) => JSON.parse(fs.readFileSync(path.join(root, name), "utf8"));
 const seal = (body) => { const { digest: _digest, ...rest } = body; return { ...rest, digest: digestValue(rest) }; };
+const verifierFor = (...sets) => {
+  const verifiers = new Map(sets.map((set) => [set.digest, createOutcomeAdmissionVerifier(set.policy_digest, set.digest, set.items.map((item) => item.admission_receipt_digest))]));
+  return (item, set, contract) => Boolean(verifiers.get(set.digest)?.(item, set, contract));
+};
+const assessOutcome = (contract, candidates, evidence) => outcome.assessOutcome(contract, candidates, evidence, verifierFor(evidence));
+const aggregateOutcomes = (contract, bundles) => outcome.aggregateOutcomes(contract, bundles, verifierFor(...bundles.map((bundle) => bundle.evidence)));
+const planOutcomeDelivery = (assessment) => outcome.planOutcomeDelivery(assessment, (value) => value.digest === assessment.digest);
 
 test("public outcome schemas accept deterministic reference artifacts", () => {
   const pairs = [["outcome-completion-contract.schema.json", "outcome-contract.json"], ["outcome-candidate-set.schema.json", "candidate-set.json"], ["outcome-evidence-set.schema.json", "evidence-set.json"], ["outcome-assessment.schema.json", "assessment.json"], ["outcome-delivery-plan.schema.json", "delivery-plan.json"]];
@@ -157,6 +165,34 @@ test("evidence is bound to the admitted contract, slot and candidate value", () 
   malformed.items[0].admission_receipt_digest = "not-a-digest";
   malformed.items = malformed.items.map(seal);
   assert.throws(() => assessOutcome(contract, load("candidate-set.json"), seal(malformed)), /outcome_evidence_item_invalid/);
+});
+
+test("serialized evidence cannot admit itself without a host verifier", () => {
+  const contract = load("outcome-contract.json");
+  const candidates = load("candidate-set.json");
+  const evidence = load("evidence-set.json");
+  assert.throws(() => outcome.assessOutcome(contract, candidates, evidence), /outcome_evidence_admission_verifier_required/);
+
+  const forged = structuredClone(evidence);
+  forged.items[0].admission_receipt_digest = digestValue("forged-receipt");
+  forged.items = forged.items.map(seal);
+  const forgedSet = seal(forged);
+  const assessment = outcome.assessOutcome(contract, candidates, forgedSet, verifierFor(evidence));
+  assert.deepEqual(assessment.unsupported_slots, ["release_note", "test_status", "version"]);
+});
+
+test("child contracts cannot weaken parent evidence policy", () => {
+  const parent = load("outcome-contract.json");
+  const bundle = load("child-bundle.json");
+  bundle.contract.required_slots.find((slot) => slot.id === "version").minimum_authority = "proposal";
+  bundle.contract = seal(bundle.contract);
+  assert.throws(() => aggregateOutcomes(parent, [bundle]), /outcome_child_policy_weakened/);
+});
+
+test("delivery requires a host-verified assessment", () => {
+  const assessment = load("assessment.json");
+  const forged = seal({ ...assessment, status: "satisfied", evidence_coverage: 0 });
+  assert.throws(() => outcome.planOutcomeDelivery(forged, (value) => value.digest === assessment.digest), /outcome_assessment_verifier_required/);
 });
 
 test("untrusted content label survives assessment and delivery", () => {

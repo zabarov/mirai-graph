@@ -135,12 +135,12 @@
         "contract_digest": "sha256:59c097c8cd736b2ef28927c6f8baf2f9473d3889296839f8f6cec3ee4dacf356",
         "slot_id": "version",
         "value_digest": "sha256:3d228737fbe18762cb3ecfcc16b0118d8d2966eeed7fab298cb3dd8e7880b42e",
-        "admission_receipt_digest": "sha256:85084388d617eb2a823e68e510d05e4235551fa1cc5a8cb1fbdd34111431cfe6",
+        "admission_receipt_digest": "sha256:a49bd918a28c605aa838bacd524caccd88956ad35e3963bab5ab38a0da875114",
         "authority": "owner_asserted",
         "freshness": "current",
         "conflict_refs": [],
         "authorized": true,
-        "digest": "sha256:6c81e8e57fddbc4365b810d0738fdb41915ad1f024dfd6144ef6beaf38089737"
+        "digest": "sha256:bb8b293517ce73089bb355610c6ead07ae099b665838fd3f1197bda0fc3441d4"
       },
       {
         "id": "evidence.tests",
@@ -148,12 +148,12 @@
         "contract_digest": "sha256:59c097c8cd736b2ef28927c6f8baf2f9473d3889296839f8f6cec3ee4dacf356",
         "slot_id": "test_status",
         "value_digest": "sha256:559532ad927252eed5d9b6687d55203a96b956d822055f4570f196a93a42bece",
-        "admission_receipt_digest": "sha256:cded0565be682398bc3c871f5666923aab04f63ace09673751c0cf243fba2917",
+        "admission_receipt_digest": "sha256:14980ef3768f52046a5084c8d58cef769d5063a9371e72dc46ff03fb0322ca92",
         "authority": "supporting",
         "freshness": "current",
         "conflict_refs": [],
         "authorized": true,
-        "digest": "sha256:968e661b35af5c64ca38959798af4822cbd7a2181cf25f4d6f39cf804894ce67"
+        "digest": "sha256:b4223669afa47a11a07bbabeca331346f6f59570c033306eacc6ffaa534f7e44"
       },
       {
         "id": "evidence.release-note",
@@ -161,12 +161,12 @@
         "contract_digest": "sha256:59c097c8cd736b2ef28927c6f8baf2f9473d3889296839f8f6cec3ee4dacf356",
         "slot_id": "release_note",
         "value_digest": "sha256:57073f3b4845c1d2decb3d0a34ab982bbf16ddbc8d8efb90d18b12d09c04653c",
-        "admission_receipt_digest": "sha256:8d337e782f79c861a07aedbe056a423183b7a37adf0b712fa8763ec61db90065",
+        "admission_receipt_digest": "sha256:92ec4232eddf452ecba287f1a14dff2e9629c08d7bf4e2a1f874e829506ebd1a",
         "authority": "supporting",
         "freshness": "current",
         "conflict_refs": [],
         "authorized": true,
-        "digest": "sha256:e4a5f68d2e435bbd2073d59afd50f2160fa95ec4c1a5450cc064dd4b5db21adf"
+        "digest": "sha256:ec83daaa8cdf77010bd18acf944cd16cfc1b51dddc1350abc747732a6434de51"
       }
     ],
     "partial": false,
@@ -174,7 +174,7 @@
       "Synthetic fixture does not establish production readiness."
     ],
     "canonical_write_allowed": false,
-    "digest": "sha256:07240ae2c58e3170eadaaaa7a713c4582abfa66b2a56fde4f82f1248d5d2b9e5"
+    "digest": "sha256:989c5ad7c1ec23b2dcad5b35b10da1ef6e993b9c1e4823e1f87ee4dab5d3ddf4"
   },
   "assessment": {
     "contract_version": "1.0.0",
@@ -182,7 +182,7 @@
     "contract_digest": "sha256:59c097c8cd736b2ef28927c6f8baf2f9473d3889296839f8f6cec3ee4dacf356",
     "parent_contract_digest": "sha256:2bfa960f65dc862865a6515081333c82f110ffbeb5e0319372fb1e68ce59453a",
     "candidate_set_digest": "sha256:f1e8bbc23d05869cb2927b7cd9d82de350280c10ef15f085163cc0986713e470",
-    "evidence_set_digest": "sha256:07240ae2c58e3170eadaaaa7a713c4582abfa66b2a56fde4f82f1248d5d2b9e5",
+    "evidence_set_digest": "sha256:989c5ad7c1ec23b2dcad5b35b10da1ef6e993b9c1e4823e1f87ee4dab5d3ddf4",
     "slots": [
       {
         "slot_id": "version",
@@ -247,6 +247,6 @@
     ],
     "execution_allowed": false,
     "canonical_write_allowed": false,
-    "digest": "sha256:70acdd7a12c9b5e9fba504435e9717c6d0afb0782dc792d723afd17cc9611e1f"
+    "digest": "sha256:592bfb671c2e64b386d09c2af61ca63ed104f9444f9d18e8ee4c5ca11d191a54"
   }
 }

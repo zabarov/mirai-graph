@@ -5,8 +5,10 @@ import type {
   OutcomeCandidateSet,
   OutcomeCompletionContract,
   OutcomeDeliveryPlan,
+  OutcomeEvidenceAdmissionVerifier,
   OutcomeEvidenceItem,
   OutcomeEvidenceSet,
+  OutcomeAssessmentVerifier,
   OutcomeSlotAssessment,
   OutcomeSlotDefinition,
   OutcomeStatus,
@@ -41,16 +43,17 @@ function validValue(type: OutcomeSlotDefinition["value_type"], value: unknown): 
   return false;
 }
 
-function evidenceFor(contract: OutcomeCompletionContract, slot: OutcomeSlotDefinition, candidate: OutcomeCandidateSet["candidates"][number], evidence: OutcomeEvidenceSet): OutcomeEvidenceItem[] {
+function evidenceFor(contract: OutcomeCompletionContract, slot: OutcomeSlotDefinition, candidate: OutcomeCandidateSet["candidates"][number], evidence: OutcomeEvidenceSet, verifyAdmission: OutcomeEvidenceAdmissionVerifier): OutcomeEvidenceItem[] {
   const valueDigest = digestValue(candidate.value);
   return evidence.items.filter((item) => candidate.evidence_refs.includes(item.id)
     && candidate.source_refs.includes(item.source_ref)
     && item.contract_digest === contract.digest
     && item.slot_id === slot.id
-    && item.value_digest === valueDigest);
+    && item.value_digest === valueDigest
+    && verifyAdmission(item, evidence, contract));
 }
 
-function assessSlot(contract: OutcomeCompletionContract, slot: OutcomeSlotDefinition, candidates: OutcomeCandidateSet, evidence: OutcomeEvidenceSet): OutcomeSlotAssessment {
+function assessSlot(contract: OutcomeCompletionContract, slot: OutcomeSlotDefinition, candidates: OutcomeCandidateSet, evidence: OutcomeEvidenceSet, verifyAdmission: OutcomeEvidenceAdmissionVerifier): OutcomeSlotAssessment {
   const empty = (state: OutcomeSlotAssessment["state"], reasons: string[], candidateRefs: string[] = [], sourceRefs: string[] = []): OutcomeSlotAssessment => ({
     slot_id: slot.id, state, candidate_refs: candidateRefs, admitted_evidence_refs: [], source_refs: sourceRefs, reasons, content_is_untrusted_data: true
   });
@@ -59,7 +62,7 @@ function assessSlot(contract: OutcomeCompletionContract, slot: OutcomeSlotDefini
   const validCandidates = matches.filter((candidate) => validValue(slot.value_type, candidate.value));
   if (!validCandidates.length) return empty("invalid", ["candidate_value_type_invalid"], matches.map((item) => item.id));
   const selected = validCandidates[0]!;
-  const matchingEvidence = evidenceFor(contract, slot, selected, evidence);
+  const matchingEvidence = evidenceFor(contract, slot, selected, evidence, verifyAdmission);
   const authorized = matchingEvidence.filter((item) => item.authorized);
   if (slot.evidence_required && !matchingEvidence.length) return empty("unsupported", ["evidence_binding_not_admitted"], [selected.id], selected.source_refs);
   if (slot.evidence_required && !authorized.length) return empty("unauthorized", ["evidence_not_authorized"], [selected.id], selected.source_refs);
@@ -99,14 +102,22 @@ function aggregateChildStatus(contract: OutcomeCompletionContract, assessments: 
   return slotStatus;
 }
 
-export function assessOutcome(contract: OutcomeCompletionContract, candidates: OutcomeCandidateSet, evidence: OutcomeEvidenceSet): OutcomeAssessment {
+export function createOutcomeAdmissionVerifier(policyDigest: string, evidenceSetDigest: string, admittedReceiptDigests: readonly string[]): OutcomeEvidenceAdmissionVerifier {
+  const admitted = new Set(admittedReceiptDigests);
+  return (item, evidence) => evidence.policy_digest === policyDigest
+    && evidence.digest === evidenceSetDigest
+    && admitted.has(item.admission_receipt_digest);
+}
+
+export function assessOutcome(contract: OutcomeCompletionContract, candidates: OutcomeCandidateSet, evidence: OutcomeEvidenceSet, verifyAdmission: OutcomeEvidenceAdmissionVerifier): OutcomeAssessment {
   assertOutcomeContract(contract);
   assertOutcomeCandidateSet(candidates);
   assertOutcomeEvidenceSet(evidence);
+  if (typeof verifyAdmission !== "function") throw new Error("outcome_evidence_admission_verifier_required");
   if (candidates.contract_digest !== contract.digest) throw new Error("outcome_candidate_contract_mismatch");
   if (contract.template_authority === "ephemeral_read_only" && contract.scope.effect !== "read_only") throw new Error("ephemeral_outcome_contract_cannot_be_effectful");
   if (contract.parent_contract_digest && contract.template_authority === "ephemeral_read_only") throw new Error("ephemeral_parent_contract_requires_explicit_resolution");
-  const slots = [...contract.required_slots, ...contract.optional_slots].map((slot) => assessSlot(contract, slot, candidates, evidence));
+  const slots = [...contract.required_slots, ...contract.optional_slots].map((slot) => assessSlot(contract, slot, candidates, evidence, verifyAdmission));
   const status = selectStatus(contract, candidates.context, slots);
   const byState = (state: OutcomeSlotAssessment["state"]) => slots.filter((slot) => slot.state === state).map((slot) => slot.slot_id);
   const required = slots.filter((slot) => contract.required_slots.some((item) => item.id === slot.slot_id));
@@ -130,12 +141,31 @@ export function assessOutcome(contract: OutcomeCompletionContract, candidates: O
   return seal(body);
 }
 
-export function aggregateOutcomes(contract: OutcomeCompletionContract, childBundles: OutcomeChildBundle[]): OutcomeAssessment {
+function childContractPreservesParent(parent: OutcomeCompletionContract, child: OutcomeCompletionContract): boolean {
+  if (child.scope.purpose !== parent.scope.purpose) return false;
+  if (child.scope.domains.some((domain) => !parent.scope.domains.includes(domain))) return false;
+  if (parent.scope.effect === "read_only" && child.scope.effect !== "read_only") return false;
+  if (parent.conflict_policy.noncritical_conflict === "block" && child.conflict_policy.noncritical_conflict !== "block") return false;
+  const childSlots = new Map([...child.required_slots, ...child.optional_slots].map((slot) => [slot.id, slot]));
+  return [...parent.required_slots, ...parent.optional_slots].every((parentSlot) => {
+    const childSlot = childSlots.get(parentSlot.id);
+    if (!childSlot) return true;
+    if (childSlot.value_type !== parentSlot.value_type) return false;
+    if (parentSlot.critical && !childSlot.critical) return false;
+    if (parentSlot.evidence_required && !childSlot.evidence_required) return false;
+    if ((authorityRank[childSlot.minimum_authority] ?? -1) < (authorityRank[parentSlot.minimum_authority] ?? 99)) return false;
+    return (requiredFreshness[childSlot.freshness_required] ?? -1) >= (requiredFreshness[parentSlot.freshness_required] ?? 99);
+  });
+}
+
+export function aggregateOutcomes(contract: OutcomeCompletionContract, childBundles: OutcomeChildBundle[], verifyAdmission: OutcomeEvidenceAdmissionVerifier): OutcomeAssessment {
   if (!childBundles.length) throw new Error("outcome_assessments_required");
   assertOutcomeContract(contract);
+  if (typeof verifyAdmission !== "function") throw new Error("outcome_evidence_admission_verifier_required");
   const assessments = childBundles.map((bundle) => {
     if (!bundle?.contract || !bundle.candidates || !bundle.evidence || !bundle.assessment) throw new Error("outcome_child_bundle_invalid");
-    const recomputed = assessOutcome(bundle.contract, bundle.candidates, bundle.evidence);
+    if (!childContractPreservesParent(contract, bundle.contract)) throw new Error("outcome_child_policy_weakened");
+    const recomputed = assessOutcome(bundle.contract, bundle.candidates, bundle.evidence, verifyAdmission);
     if ((bundle.contract.digest !== contract.digest && bundle.contract.parent_contract_digest !== contract.digest) || !sameDigest(bundle.assessment) || bundle.assessment.digest !== recomputed.digest) throw new Error("outcome_child_assessment_invalid");
     return recomputed;
   });
@@ -193,7 +223,8 @@ export function aggregateOutcomes(contract: OutcomeCompletionContract, childBund
   return seal(body);
 }
 
-export function planOutcomeDelivery(assessment: OutcomeAssessment, handoffRoute: string | null = null): OutcomeDeliveryPlan {
+export function planOutcomeDelivery(assessment: OutcomeAssessment, verifyAssessment: OutcomeAssessmentVerifier, handoffRoute: string | null = null): OutcomeDeliveryPlan {
+  if (typeof verifyAssessment !== "function" || !verifyAssessment(assessment)) throw new Error("outcome_assessment_verifier_required");
   if (!sameDigest(assessment)) throw new Error("outcome_assessment_digest_mismatch");
   const confirmed = assessment.slots.filter((slot) => slot.state === "confirmed");
   const body = { contract_version: "1.0.0" as const, id: `delivery.${assessment.id}`, assessment_digest: assessment.digest, status: assessment.status,

@@ -4,7 +4,7 @@
   "contract_digest": "sha256:59c097c8cd736b2ef28927c6f8baf2f9473d3889296839f8f6cec3ee4dacf356",
   "parent_contract_digest": "sha256:2bfa960f65dc862865a6515081333c82f110ffbeb5e0319372fb1e68ce59453a",
   "candidate_set_digest": "sha256:f1e8bbc23d05869cb2927b7cd9d82de350280c10ef15f085163cc0986713e470",
-  "evidence_set_digest": "sha256:07240ae2c58e3170eadaaaa7a713c4582abfa66b2a56fde4f82f1248d5d2b9e5",
+  "evidence_set_digest": "sha256:989c5ad7c1ec23b2dcad5b35b10da1ef6e993b9c1e4823e1f87ee4dab5d3ddf4",
   "slots": [
     {
       "slot_id": "version",
@@ -69,5 +69,5 @@
   ],
   "execution_allowed": false,
   "canonical_write_allowed": false,
-  "digest": "sha256:70acdd7a12c9b5e9fba504435e9717c6d0afb0782dc792d723afd17cc9611e1f"
+  "digest": "sha256:592bfb671c2e64b386d09c2af61ca63ed104f9444f9d18e8ee4c5ca11d191a54"
 }

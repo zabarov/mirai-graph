@@ -108,6 +108,7 @@ import {
 } from "../retrieval/index.js";
 import {
   assessOutcome,
+  createOutcomeAdmissionVerifier,
   planOutcomeDelivery,
   proposeOutcomeTemplate,
   validateOutcomeContract,
@@ -185,8 +186,8 @@ function usage(): void {
     "  mirai search <project> <query> [--intent <intent>] [--markdown]",
     "  mirai search explain <project> <query> [--intent <intent>] [--markdown]",
     "  mirai outcome validate <contract.json>",
-    "  mirai outcome assess --contract <contract.json> --candidates <candidates.json> --evidence <evidence.json>",
-    "  mirai outcome explain <assessment.json> --markdown",
+    "  mirai outcome assess --contract <contract.json> --candidates <candidates.json> --evidence <evidence.json> --home <trusted-state>",
+    "  mirai outcome explain <assessment.json> --contract <contract.json> --candidates <candidates.json> --evidence <evidence.json> --home <trusted-state> --markdown",
     "  mirai outcome template propose --intent <intent.json> --out <proposal.json>",
     "",
     "Alpha.3 effects are capability-gated. Workspace/process actions require --apply and a signed local approval.",
@@ -293,6 +294,22 @@ function runtimeHome(args: string[]): string | undefined {
   return readOption(args, "--home") || process.env.MIRAI_HOME;
 }
 
+function outcomeAdmissionVerifier(args: string[], evidence: OutcomeEvidenceSet) {
+  const home = runtimeHome(args);
+  if (!home) throw new Error("outcome_admission_home_required");
+  const registryPath = path.resolve(home, "outcome-admissions.json");
+  const registry = loadJson(registryPath) as {
+    policy_digest?: string;
+    evidence_sets?: Record<string, string[]>;
+    digest?: string;
+  };
+  const { digest, ...body } = registry;
+  if (!digest || digest !== digestValue(body)) throw new Error("outcome_admission_registry_digest_mismatch");
+  const admitted = registry.evidence_sets?.[evidence.digest];
+  if (registry.policy_digest !== evidence.policy_digest || !Array.isArray(admitted)) throw new Error("outcome_admission_registry_binding_mismatch");
+  return createOutcomeAdmissionVerifier(registry.policy_digest, evidence.digest, admitted);
+}
+
 function parseEffects(value: string): EffectName[] {
   const known = new Set<EffectName>(["repository_read", "git_read", "workspace_patch", "process_run", "human_approval"]);
   const effects = value.split(",").map((item) => item.trim()).filter(Boolean);
@@ -336,13 +353,17 @@ export async function runCli(args: string[]): Promise<number> {
         const contract = loadJson(requireArgument(readOption(args, "--contract"), "--contract")) as unknown as OutcomeCompletionContract;
         const candidates = loadJson(requireArgument(readOption(args, "--candidates"), "--candidates")) as unknown as OutcomeCandidateSet;
         const evidence = loadJson(requireArgument(readOption(args, "--evidence"), "--evidence")) as unknown as OutcomeEvidenceSet;
-        const assessment = assessOutcome(contract, candidates, evidence);
+        const assessment = assessOutcome(contract, candidates, evidence, outcomeAdmissionVerifier(args, evidence));
         writeJson(assessment);
         return ["satisfied", "partially_satisfied", "needs_input", "handoff_required"].includes(assessment.status) ? 0 : 2;
       }
       if (command === "explain") {
         const assessment = loadJson(requireArgument(args[2], "assessment path")) as unknown as OutcomeAssessment;
-        const plan = planOutcomeDelivery(assessment, readOption(args, "--handoff") || null);
+        const contract = loadJson(requireArgument(readOption(args, "--contract"), "--contract")) as unknown as OutcomeCompletionContract;
+        const candidates = loadJson(requireArgument(readOption(args, "--candidates"), "--candidates")) as unknown as OutcomeCandidateSet;
+        const evidence = loadJson(requireArgument(readOption(args, "--evidence"), "--evidence")) as unknown as OutcomeEvidenceSet;
+        const recomputed = assessOutcome(contract, candidates, evidence, outcomeAdmissionVerifier(args, evidence));
+        const plan = planOutcomeDelivery(assessment, (value) => value.digest === recomputed.digest, readOption(args, "--handoff") || null);
         if (!args.includes("--markdown")) writeJson(plan);
         else process.stdout.write(["# Outcome Completion", "", `- Status: \`${plan.status}\``, `- Assessment: \`${plan.assessment_digest}\``, `- Confirmed facts: ${plan.confirmed_facts.length}`, `- Gaps: ${plan.gaps.length}`, `- Next safe action: ${plan.useful_next_step}`, ...(plan.question ? [`- Question: ${plan.question}`] : []), "", "No execution, approval, capability or canonical write is authorized by this plan.", ""].join("\n"));
         return 0;
