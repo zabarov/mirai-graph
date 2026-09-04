@@ -32,6 +32,6 @@
       "critical": { "type": "boolean" }, "acquisition": { "enum": ["user_input", "evidence", "operation", "derived"] }, "evidence_required": { "type": "boolean" },
       "minimum_authority": { "enum": ["canonical_external", "canonical", "owner_asserted", "supporting", "informational", "derived", "proposal"] },
       "freshness_required": { "enum": ["current", "allow_aging", "allow_stale"] }
-    } }
+    }, "allOf": [{ "if": { "properties": { "critical": { "const": true } }, "required": ["critical"] }, "then": { "properties": { "evidence_required": { "const": true } } } }] }
   }
 }

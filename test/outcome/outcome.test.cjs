@@ -113,5 +113,19 @@ test("effectful ephemeral contract is rejected", () => {
   const sealedContract = seal(contract);
   assert.equal(validateOutcomeContract(sealedContract).valid, false);
   const candidates = load("candidate-set.json"); candidates.contract_digest = sealedContract.digest;
-  assert.throws(() => assessOutcome(sealedContract, seal(candidates), load("evidence-set.json")), /ephemeral_outcome_contract_cannot_be_effectful/);
+  assert.throws(() => assessOutcome(sealedContract, seal(candidates), load("evidence-set.json")), /ephemeral_contract_must_be_read_only/);
+});
+
+test("critical completion cannot opt out of evidence and malformed inputs fail closed", () => {
+  const contract = load("outcome-contract.json");
+  contract.required_slots[0].evidence_required = false;
+  const weakened = seal(contract);
+  assert.match(validateOutcomeContract(weakened).errors.join(","), /critical_slot_requires_evidence/);
+  const candidates = load("candidate-set.json");
+  candidates.contract_digest = weakened.digest;
+  assert.throws(() => assessOutcome(weakened, seal(candidates), load("evidence-set.json")), /critical_slot_requires_evidence/);
+
+  const malformed = load("candidate-set.json");
+  malformed.candidates = null;
+  assert.throws(() => assessOutcome(load("outcome-contract.json"), seal(malformed), load("evidence-set.json")), /candidate_set_invalid/);
 });

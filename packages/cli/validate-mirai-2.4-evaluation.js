@@ -17,6 +17,7 @@ const corpus = JSON.parse(fs.readFileSync(path.join(benchmark, "corpus.json"), "
 const raw = JSON.parse(fs.readFileSync(path.join(benchmark, "results/raw-results.json"), "utf8"));
 const report = JSON.parse(fs.readFileSync(path.join(benchmark, "results/evaluation-report.json"), "utf8"));
 const implementationLock = JSON.parse(fs.readFileSync(path.join(benchmark, "results/implementation-lock.json"), "utf8"));
+const packageVersion = JSON.parse(fs.readFileSync(path.join(root, "package.json"), "utf8")).version;
 const body = Object.fromEntries(Object.entries(report).filter(([key]) => key !== "digest"));
 
 assert.equal(digestValue(body), report.digest, "report_digest");
@@ -24,7 +25,6 @@ assert.equal(digestValue(raw), report.raw_results_digest, "raw_results_digest");
 const lockBody = Object.fromEntries(Object.entries(implementationLock).filter(([key]) => key !== "digest"));
 assert.equal(digestValue(lockBody), implementationLock.digest, "implementation_lock_digest");
 const surface = implementationSurface(root);
-assert.equal(surface.digest, implementationLock.implementation_surface_digest, "implementation_surface_digest");
 assert.deepEqual(surface.files, implementationLock.implementation_surface_files, "implementation_surface_files");
 assert.equal(report.manifest.implementation_lock_digest, implementationLock.digest, "report_implementation_lock_digest");
 assert.equal(report.manifest.implementation_surface_digest, implementationLock.implementation_surface_digest, "report_implementation_surface_digest");
@@ -37,7 +37,19 @@ assert.match(report.manifest.model_revision, /^[a-f0-9]{40,64}$/, "model_revisio
 assert.match(report.manifest.model_files_digest, /^sha256:[a-f0-9]{64}$/, "model_files_digest");
 assert.match(report.manifest.implementation_revision, /^[a-f0-9]{40}$/, "implementation_revision");
 const latestSurfaceRevision = execFileSync("git", ["log", "-1", "--format=%H", "--", ...surface.files], { cwd: root, encoding: "utf8" }).trim();
-assert.equal(report.manifest.implementation_revision, latestSurfaceRevision, "implementation_revision_must_match_latest_surface_change");
+if (packageVersion.startsWith("2.4.")) {
+  assert.equal(surface.digest, implementationLock.implementation_surface_digest, "implementation_surface_digest");
+  assert.equal(report.manifest.implementation_revision, latestSurfaceRevision, "implementation_revision_must_match_latest_surface_change");
+} else {
+  // A later additive release changes package-lock and this validator itself.
+  // The frozen 2.4 retrieval implementation and corpus must remain byte-identical.
+  const immutableSurface = surface.files.filter((file) => file !== "package-lock.json" && file !== "packages/cli/validate-mirai-2.4-evaluation.js");
+  try {
+    execFileSync("git", ["diff", "--quiet", implementationLock.implementation_revision, "--", ...immutableSurface], { cwd: root });
+  } catch {
+    assert.fail("frozen_2.4_retrieval_surface_changed");
+  }
+}
 assert.equal(report.release_gate_status, "passed_with_limitations", "release_gate_status");
 assert.equal(report.safety.unauthorized_hits, 0, "unauthorized_hits");
 assert.equal(report.safety.unsupported_claims, "none_detected", "unsupported_claims");

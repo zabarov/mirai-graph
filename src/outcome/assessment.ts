@@ -11,6 +11,7 @@ import type {
   OutcomeStatus,
   OutcomeTemplateProposal
 } from "./types.js";
+import { assertOutcomeCandidateSet, assertOutcomeContract, assertOutcomeEvidenceSet } from "./validator.js";
 
 const authorityRank: Record<string, number> = {
   proposal: 0, derived: 1, informational: 2, supporting: 3,
@@ -78,9 +79,9 @@ function selectStatus(contract: OutcomeCompletionContract, context: OutcomeCandi
 }
 
 export function assessOutcome(contract: OutcomeCompletionContract, candidates: OutcomeCandidateSet, evidence: OutcomeEvidenceSet): OutcomeAssessment {
-  if (!sameDigest(contract)) throw new Error("outcome_contract_digest_mismatch");
-  if (!sameDigest(candidates)) throw new Error("outcome_candidate_set_digest_mismatch");
-  if (!sameDigest(evidence)) throw new Error("outcome_evidence_set_digest_mismatch");
+  assertOutcomeContract(contract);
+  assertOutcomeCandidateSet(candidates);
+  assertOutcomeEvidenceSet(evidence);
   if (candidates.contract_digest !== contract.digest) throw new Error("outcome_candidate_contract_mismatch");
   if (contract.template_authority === "ephemeral_read_only" && contract.scope.effect !== "read_only") throw new Error("ephemeral_outcome_contract_cannot_be_effectful");
   if (contract.parent_contract_digest && contract.template_authority === "ephemeral_read_only") throw new Error("ephemeral_parent_contract_requires_explicit_resolution");
@@ -109,8 +110,8 @@ export function assessOutcome(contract: OutcomeCompletionContract, candidates: O
 
 export function aggregateOutcomes(contract: OutcomeCompletionContract, assessments: OutcomeAssessment[]): OutcomeAssessment {
   if (!assessments.length) throw new Error("outcome_assessments_required");
-  if (!sameDigest(contract)) throw new Error("outcome_contract_digest_mismatch");
-  if (assessments.some((item) => item.contract_digest !== contract.digest || !sameDigest(item))) throw new Error("outcome_child_assessment_invalid");
+  assertOutcomeContract(contract);
+  if (assessments.some((item) => item.contract_digest !== contract.digest || !Array.isArray(item.slots) || !Array.isArray(item.limitations) || !sameDigest(item))) throw new Error("outcome_child_assessment_invalid");
   const definitions = [...contract.required_slots, ...contract.optional_slots];
   const severity: OutcomeSlotAssessment["state"][] = ["conflicting", "unauthorized", "stale", "unsupported", "invalid", "missing"];
   const slots = definitions.map((definition): OutcomeSlotAssessment => {
