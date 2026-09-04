@@ -139,7 +139,16 @@ export async function dispatchFederatedQuery(
       const result = cached || await callBeforeDeadline(handler, forwarded, entry);
       const { digest, ...body } = result;
       if (result.query_id !== envelope.id || result.responder_graph_id !== entry.graph_id || result.policy_digest !== entry.policy_digest) throw new Error("federated_result_binding_mismatch");
-      if (result.instructions_authorized !== false || result.canonical_write_allowed !== false || result.evidence_bundle.instructions_authorized !== false) throw new Error("federated_result_authority_boundary_broken");
+      if (result.instructions_authorized !== false || result.canonical_write_allowed !== false || result.evidence_bundle.instructions_authorized !== false || result.evidence_bundle.canonical_write_allowed !== false) throw new Error("federated_result_authority_boundary_broken");
+      if (!result.usage || !Number.isSafeInteger(result.usage.tokens_used) || result.usage.tokens_used < 0 || !Number.isFinite(result.usage.cost_used) || result.usage.cost_used < 0 || !Number.isFinite(result.usage.duration_ms) || result.usage.duration_ms < 0) throw new Error("federated_result_usage_invalid");
+      if (result.usage.tokens_used > forwarded.token_budget || result.usage.cost_used > forwarded.cost_budget || result.usage.duration_ms > Math.max(0, Date.parse(forwarded.deadline) - Date.now())) throw new Error("federated_result_budget_exceeded");
+      const allowedScopes = new Set(forwarded.requester.scopes);
+      const allowedSources = new Set(forwarded.requester.source_refs);
+      if (result.evidence_bundle.source_refs.some((sourceRef) => !allowedSources.has(sourceRef))) throw new Error("federated_result_source_scope_violation");
+      for (const hit of result.evidence_bundle.hits) {
+        if (!allowedScopes.has(hit.scope) || !allowedSources.has(hit.source_ref) || hit.instructions_authorized !== false) throw new Error("federated_result_hit_scope_violation");
+        if (hit.evidence_refs.some((ref) => !allowedSources.has(ref) && ref !== hit.source_ref)) throw new Error("federated_result_evidence_scope_violation");
+      }
       if (result.query_digest !== digestValue(forwarded) || result.evidence_bundle.query_digest !== result.query_digest || result.evidence_bundle.policy_digest !== result.policy_digest) throw new Error("federated_result_query_or_evidence_mismatch");
       if (result.evidence_bundle.index_digest !== result.index_digest || result.evidence_bundle.graph_digest !== result.graph_digest) throw new Error("federated_result_snapshot_mismatch");
       if (result.index_digest !== entry.index_digest || result.graph_digest !== (entry.graph_digest ?? null)) throw new Error("federated_result_directory_snapshot_mismatch");

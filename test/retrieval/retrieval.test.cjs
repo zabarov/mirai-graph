@@ -19,7 +19,7 @@ const {
   validateFederatedEnvelope
 } = require("../../dist/cjs/retrieval");
 const { createGraphSnapshot } = require("../../dist/cjs/stdlib");
-const { createLocalEmbeddingProvider, prepareLocalEmbeddingModel } = require("../../packages/embedding-local");
+const { createLocalEmbeddingProvider, prepareLocalEmbeddingModel, digestDirectory } = require("../../packages/embedding-local");
 
 const fixture = path.resolve(__dirname, "../../examples/mirai-retrieval-minimal");
 
@@ -84,7 +84,7 @@ test("answers are evidence-bound and do not pretend lexical search is semantic",
 test("an explicit embedding provider enables vector retrieval and stays rebuildable", async () => {
   const root = projectCopy();
   const provider = {
-    id: "deterministic-test-provider", model: "Xenova/multilingual-e5-small", dimensions: 384,
+    id: "deterministic-test-provider", model: "Xenova/multilingual-e5-small", dimensions: 384, revision: "test-revision", files_digest: `sha256:${"e".repeat(64)}`,
     async embed(texts) { return texts.map((text) => Array.from({ length: 384 }, (_, index) => index === 0 ? (/release/i.test(text) ? 1 : 0) : index === 1 ? 1 : 0)); }
   };
   try {
@@ -190,7 +190,7 @@ test("federated retrieval is bounded and validates digest bindings", async () =>
       calls += 1;
       const evidenceBody = { contract_version: "1.0.0", query_digest: digestValue(requestEnvelope), index_digest: indexDigest, graph_digest: null, policy_digest: entry.policy_digest, hits: [], source_refs: [], conflicts: [], limitations: [], partial: false, instructions_authorized: false, canonical_write_allowed: false };
       const evidence = { ...evidenceBody, digest: digestValue(evidenceBody) };
-      const body = { contract_version: "1.0.0", query_id: requestEnvelope.id, responder_graph_id: entry.graph_id, query_digest: digestValue(requestEnvelope), index_digest: evidence.index_digest, graph_digest: null, policy_digest: entry.policy_digest, evidence_bundle: evidence, status: "complete", blockers: [], instructions_authorized: false, canonical_write_allowed: false };
+      const body = { contract_version: "1.0.0", query_id: requestEnvelope.id, responder_graph_id: entry.graph_id, query_digest: digestValue(requestEnvelope), index_digest: evidence.index_digest, graph_digest: null, policy_digest: entry.policy_digest, evidence_bundle: evidence, status: "complete", blockers: [], usage: { tokens_used: 10, cost_used: 0.01, duration_ms: 1 }, instructions_authorized: false, canonical_write_allowed: false };
       return { ...body, digest: digestValue(body) };
     }
   }, { cache });
@@ -279,7 +279,7 @@ test("federation narrows delegated access and rejects forged remote evidence", a
     seen = forwarded.requester;
     const evidenceBody = { contract_version: "1.0.0", query_digest: digestValue(forwarded), index_digest: indexDigest, graph_digest: null, policy_digest: policyDigest, hits: [], source_refs: [], conflicts: [], limitations: [], partial: false, instructions_authorized: false, canonical_write_allowed: false };
     const evidence = { ...evidenceBody, digest: digestValue(evidenceBody) };
-    const body = { contract_version: "1.0.0", query_id: envelope.id, responder_graph_id: entry.graph_id, query_digest: digestValue(forwarded), index_digest: indexDigest, graph_digest: null, policy_digest: policyDigest, evidence_bundle: evidence, status: "complete", blockers: [], instructions_authorized: false, canonical_write_allowed: false };
+    const body = { contract_version: "1.0.0", query_id: envelope.id, responder_graph_id: entry.graph_id, query_digest: digestValue(forwarded), index_digest: indexDigest, graph_digest: null, policy_digest: policyDigest, evidence_bundle: evidence, status: "complete", blockers: [], usage: { tokens_used: 10, cost_used: 0.01, duration_ms: 1 }, instructions_authorized: false, canonical_write_allowed: false };
     return { ...body, digest: digestValue(body) };
   }});
   assert.equal(output.results.length, 1);
@@ -289,9 +289,85 @@ test("federation narrows delegated access and rejects forged remote evidence", a
   const forged = await dispatchFederatedQuery([entry], { ...envelope, id: "fq.forged" }, { "endpoint.release": async (forwarded) => {
     const evidenceBody = { contract_version: "1.0.0", query_digest: digestValue(forwarded), index_digest: indexDigest, graph_digest: null, policy_digest: policyDigest, hits: [], source_refs: [], conflicts: [], limitations: [], partial: false, instructions_authorized: false, canonical_write_allowed: false };
     const evidence = { ...evidenceBody, digest: `sha256:${"d".repeat(64)}` };
-    const body = { contract_version: "1.0.0", query_id: "fq.forged", responder_graph_id: entry.graph_id, query_digest: digestValue(forwarded), index_digest: indexDigest, graph_digest: null, policy_digest: policyDigest, evidence_bundle: evidence, status: "complete", blockers: [], instructions_authorized: false, canonical_write_allowed: false };
+    const body = { contract_version: "1.0.0", query_id: "fq.forged", responder_graph_id: entry.graph_id, query_digest: digestValue(forwarded), index_digest: indexDigest, graph_digest: null, policy_digest: policyDigest, evidence_bundle: evidence, status: "complete", blockers: [], usage: { tokens_used: 10, cost_used: 0.01, duration_ms: 1 }, instructions_authorized: false, canonical_write_allowed: false };
     return { ...body, digest: digestValue(body) };
   }});
   assert.equal(forged.results.length, 0);
   assert.ok(forged.blockers.some((value) => value.includes("federated_evidence_digest_mismatch")));
+});
+
+test("secret-bearing and reference-only records never enter snippets or embedding input", async () => {
+  const root = projectCopy();
+  const captured = [];
+  const provider = {
+    id: "deterministic-test-provider", model: "Xenova/multilingual-e5-small", dimensions: 384, revision: "test-revision", files_digest: `sha256:${"e".repeat(64)}`,
+    async embed(texts) { captured.push(...texts); return texts.map(() => Array.from({ length: 384 }, (_, index) => index === 0 ? 1 : 0)); }
+  };
+  try {
+    const secret = `AKIA${"A".repeat(16)}`;
+    fs.writeFileSync(path.join(root, "inputs/policies.json"), JSON.stringify([
+      { id: "aws-secret", title: secret, scope: "retrieval-demo" },
+      { id: "confidential-rule", title: "private merger plan", scope: "retrieval-demo", confidentiality: "confidential" }
+    ]));
+    const configFile = path.join(root, "mirai/retrieval.yaml");
+    const source = fs.readFileSync(configFile, "utf8");
+    fs.writeFileSync(configFile, source.replace("inputs:\n", "inputs:\n  - kind: policies\n    path: inputs/policies.json\n").replace("source_refs: [source.demo]", "source_refs: [source.demo, inputs/policies.json]"));
+    await buildLocalRetrievalIndex(root, { embedding_provider: provider });
+    const projected = fs.readFileSync(path.join(root, ".mirai/indexes/retrieval.demo/documents.json"), "utf8");
+    assert.doesNotMatch(projected, new RegExp(secret));
+    assert.doesNotMatch(projected, /private merger plan/);
+    assert.doesNotMatch(captured.join("\n"), new RegExp(secret));
+    assert.doesNotMatch(captured.join("\n"), /private merger plan/);
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("embedding cache digest uses unambiguous path and content framing", () => {
+  const first = fs.mkdtempSync(path.join(os.tmpdir(), "mirai-digest-a-"));
+  const second = fs.mkdtempSync(path.join(os.tmpdir(), "mirai-digest-b-"));
+  try {
+    fs.writeFileSync(path.join(first, "a"), "bc");
+    fs.writeFileSync(path.join(second, "ab"), "c");
+    assert.notEqual(digestDirectory(first), digestDirectory(second));
+  } finally {
+    fs.rmSync(first, { recursive: true, force: true });
+    fs.rmSync(second, { recursive: true, force: true });
+  }
+});
+
+test("local semantic retrieval fails closed when its deadline is exceeded", async () => {
+  const root = projectCopy();
+  const identity = { id: "deadline-provider", model: "Xenova/multilingual-e5-small", dimensions: 384, revision: "test-revision", files_digest: `sha256:${"e".repeat(64)}` };
+  const fast = { ...identity, async embed(texts) { return texts.map(() => Array.from({ length: 384 }, (_, index) => index === 0 ? 1 : 0)); } };
+  const slow = { ...identity, async embed(texts) { await new Promise((resolve) => setTimeout(resolve, 40)); return fast.embed(texts); } };
+  try {
+    const configFile = path.join(root, "mirai/retrieval.yaml");
+    fs.writeFileSync(configFile, fs.readFileSync(configFile, "utf8").replace("timeout_ms: 5000", "timeout_ms: 10"));
+    const config = readRetrievalConfig(root);
+    await buildLocalRetrievalIndex(root, { embedding_provider: fast });
+    await assert.rejects(() => searchLocalRetrievalIndex(root, { ...request(config, "release policy"), intent: "semantic_discovery", channels: ["semantic"] }, { embedding_provider: slow }), /retrieval_timeout_exceeded/);
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("federated retrieval rejects out-of-scope hits and reported budget overruns", async () => {
+  const policyDigest = `sha256:${"b".repeat(64)}`;
+  const indexDigest = `sha256:${"c".repeat(64)}`;
+  const envelope = { contract_version: "1.0.0", id: "fq.scope", origin_graph_id: "graph.parent", requester: { principal_id: "principal.demo", purpose: "find_policy", scopes: ["demo"], source_refs: ["source.demo"], policy_digest: policyDigest }, query: "release policy", intent: "policy_lookup", target_domains: ["release"], visited_graph_ids: [], max_hops: 3, max_fan_out: 1, deadline: "2099-01-01T00:00:00Z", token_budget: 100, cost_budget: 1, freshness_required: "current", canonical_write_allowed: false };
+  const entry = { graph_id: "graph.release", domains: ["release"], intents: ["policy_lookup"], scopes: ["demo"], source_refs: ["source.demo"], authority: "owner_asserted", freshness: "current", endpoint_alias: "endpoint.release", policy_digest: policyDigest, index_digest: indexDigest, graph_digest: null };
+  const make = (forwarded, hit, usage) => {
+    const evidenceBody = { contract_version: "1.0.0", query_digest: digestValue(forwarded), index_digest: indexDigest, graph_digest: null, policy_digest: policyDigest, hits: hit ? [hit] : [], source_refs: hit ? [hit.source_ref] : [], conflicts: [], limitations: [], partial: false, instructions_authorized: false, canonical_write_allowed: false };
+    const evidence = { ...evidenceBody, digest: digestValue(evidenceBody) };
+    const body = { contract_version: "1.0.0", query_id: envelope.id, responder_graph_id: entry.graph_id, query_digest: digestValue(forwarded), index_digest: indexDigest, graph_digest: null, policy_digest: policyDigest, evidence_bundle: evidence, status: "complete", blockers: [], usage, instructions_authorized: false, canonical_write_allowed: false };
+    return { ...body, digest: digestValue(body) };
+  };
+  const forbiddenHit = { document_id: "forbidden", kind: "policy", title: "Forbidden", snippet: "", source_ref: "source.forbidden", scope: "admin", authority: "owner_asserted", freshness: "current", graph_object_refs: [], evidence_refs: [], program_refs: [], policy_refs: [], channels: ["lexical"], rank_score: 1, match_reasons: [], instructions_authorized: false };
+  const scoped = await dispatchFederatedQuery([entry], envelope, { "endpoint.release": async (forwarded) => make(forwarded, forbiddenHit, { tokens_used: 1, cost_used: 0, duration_ms: 1 }) });
+  assert.equal(scoped.results.length, 0);
+  assert.ok(scoped.blockers.some((value) => value.includes("federated_result_source_scope_violation") || value.includes("federated_result_hit_scope_violation")));
+  const over = await dispatchFederatedQuery([entry], envelope, { "endpoint.release": async (forwarded) => make(forwarded, null, { tokens_used: 101, cost_used: 0, duration_ms: 1 }) });
+  assert.equal(over.results.length, 0);
+  assert.ok(over.blockers.some((value) => value.includes("federated_result_budget_exceeded")));
 });

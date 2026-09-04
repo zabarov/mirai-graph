@@ -98,7 +98,7 @@ export interface RetrievalPlan {
   intent: RetrievalIntent;
   channels: RetrievalChannel[];
   filters: { scopes: string[]; source_refs: string[]; freshness_required: "current" | "allow_aging" | "allow_stale" };
-  budgets: { max_results: number; max_graph_depth: number; timeout_ms: number };
+  budgets: { max_results: number; max_graph_depth: number; max_fan_out: number; max_hops: number; timeout_ms: number };
   semantic_status: RetrievalIndexDescriptor["semantic_status"];
   diagnostics: string[];
   canonical_write_allowed: false;
@@ -166,8 +166,8 @@ export interface EmbeddingProvider {
   readonly id: string;
   readonly model: string;
   readonly dimensions: number;
-  readonly revision?: string;
-  readonly files_digest?: string;
+  readonly revision: string;
+  readonly files_digest: string;
   embed(texts: string[]): Promise<number[][]>;
 }
 
@@ -221,6 +221,7 @@ export interface FederatedQueryResult {
   evidence_bundle: EvidenceBundle;
   status: "complete" | "partial" | "blocked";
   blockers: string[];
+  usage: { tokens_used: number; cost_used: number; duration_ms: number };
   instructions_authorized: false;
   canonical_write_allowed: false;
   digest: string;
@@ -235,10 +236,13 @@ export interface RetrievalEvaluation {
   mrr: number;
   intent_accuracy: number;
   path_correctness: number;
+  path_case_count: number;
   evidence_coverage: number;
   claim_faithfulness: number;
   conflict_detection_rate: number;
+  conflict_case_count: number;
   stale_detection_rate: number;
+  stale_case_count: number;
   unauthorized_hit_count: number;
   stale_hit_rate: number;
   p50_latency_ms: number;

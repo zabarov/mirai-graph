@@ -52,6 +52,8 @@ export function planRetrieval(request: RetrievalRequest, descriptor: RetrievalIn
     budgets: {
       max_results: Math.min(request.max_results || config.budgets.max_query_results, config.budgets.max_query_results),
       max_graph_depth: config.budgets.max_graph_depth,
+      max_fan_out: config.budgets.max_fan_out,
+      max_hops: config.budgets.max_hops,
       timeout_ms: config.budgets.timeout_ms
     },
     semantic_status: descriptor.semantic_status,

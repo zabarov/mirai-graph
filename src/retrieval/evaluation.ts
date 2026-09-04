@@ -54,11 +54,11 @@ export function evaluateRetrieval(corpusId: string, system: RetrievalEvaluation[
     const first = ids.findIndex((id) => expected.has(id));
     reciprocalRanks.push(first < 0 ? 0 : 1 / (first + 1));
     const relevant = item.hits.filter((hit) => expected.has(hit.document_id));
-    pathScores.push(item.expected_graph_path ? (relevant.some((hit) => JSON.stringify(hit.graph_path) === JSON.stringify(item.expected_graph_path)) ? 1 : 0) : 1);
+    if (item.expected_graph_path) pathScores.push(relevant.some((hit) => JSON.stringify(hit.graph_path) === JSON.stringify(item.expected_graph_path)) ? 1 : 0);
     evidenceScores.push(item.answer.claims.length ? item.answer.claims.filter((claim) => claim.evidence_refs.length > 0 && claim.source_refs.length > 0).length / item.answer.claims.length : item.answer.status === "insufficient_evidence" || item.answer.status === "clarification_required" ? 1 : 0);
     faithfulnessScores.push(item.claim_faithfulness ?? 0);
-    conflictScores.push(item.conflict_expected ? (item.answer.conflicts.length > 0 ? 1 : 0) : 1);
-    staleScores.push(item.stale_expected ? (item.answer.conflicts.some((value) => value.startsWith("stale:")) ? 1 : 0) : 1);
+    if (item.conflict_expected) conflictScores.push(item.answer.conflicts.some((value) => value.startsWith("conflict:")) ? 1 : 0);
+    if (item.stale_expected) staleScores.push(item.answer.conflicts.some((value) => value.startsWith("stale:")) ? 1 : 0);
     const unauthorizedIds = new Set(item.unauthorized_document_ids || []);
     unauthorized += item.hits.filter((hit) => unauthorizedIds.has(hit.document_id)).length;
     stale += item.hits.filter((hit) => hit.freshness === "stale").length;
@@ -73,10 +73,13 @@ export function evaluateRetrieval(corpusId: string, system: RetrievalEvaluation[
     mrr: mean(reciprocalRanks),
     intent_accuracy: cases.filter((item) => item.expected_intent === item.predicted_intent).length / cases.length,
     path_correctness: mean(pathScores),
+    path_case_count: pathScores.length,
     evidence_coverage: mean(evidenceScores),
     claim_faithfulness: mean(faithfulnessScores),
     conflict_detection_rate: mean(conflictScores),
+    conflict_case_count: conflictScores.length,
     stale_detection_rate: mean(staleScores),
+    stale_case_count: staleScores.length,
     unauthorized_hit_count: unauthorized,
     stale_hit_rate: hitCount ? stale / hitCount : 0,
     p50_latency_ms: percentile(cases.map((item) => item.latency_ms), 0.5),

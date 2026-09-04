@@ -5,6 +5,7 @@
   "type": "object",
   "additionalProperties": false,
   "required": ["contract_version", "index_id", "project_id", "provider", "provider_version", "access_digest", "configuration_digest", "source_snapshot_digests", "graph_snapshot_digest", "source_projection_digest", "documents_digest", "storage_digest", "document_count", "semantic_status", "semantic_model", "semantic_revision", "semantic_files_digest", "dimensions", "built_at", "canonical_write_allowed", "digest"],
+  "allOf": [{ "if": { "properties": { "semantic_status": { "const": "ready" } }, "required": ["semantic_status"] }, "then": { "properties": { "semantic_model": { "type": "string", "minLength": 1 }, "semantic_revision": { "type": "string", "minLength": 1 }, "semantic_files_digest": { "$ref": "#/$defs/digest" }, "dimensions": { "type": "integer", "minimum": 1 } } } }],
   "properties": {
     "contract_version": { "const": "1.0.0" }, "index_id": { "type": "string" }, "project_id": { "type": "string" }, "provider": { "const": "orama" }, "provider_version": { "type": "string" },
     "access_digest": { "$ref": "#/$defs/digest" }, "configuration_digest": { "$ref": "#/$defs/digest" }, "source_snapshot_digests": { "type": "array", "uniqueItems": true, "items": { "$ref": "#/$defs/digest" } }, "graph_snapshot_digest": { "anyOf": [{ "$ref": "#/$defs/digest" }, { "type": "null" }] }, "source_projection_digest": { "$ref": "#/$defs/digest" }, "documents_digest": { "$ref": "#/$defs/digest" }, "storage_digest": { "$ref": "#/$defs/digest" },

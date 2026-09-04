@@ -10,7 +10,7 @@ import { createRetrievalAnswer, planRetrieval, reciprocalRankFusion, sortHits } 
 import type { EmbeddingProvider, EvidenceBundle, RetrievalChannel, RetrievalDocument, RetrievalHit, RetrievalIndexDescriptor, RetrievalInputConfig, RetrievalProjectConfig, RetrievalRequest } from "./types.js";
 
 const PROVIDER_VERSION = "@orama/orama@3.1.18";
-const SENSITIVE = /(?:BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY|\b(?:ghp_|sk-proj-|xoxb-)[A-Za-z0-9_-]{8,}|\b(?:password|passwd|secret|token)\s*[:=]\s*[^\s,;]{6,}|\/Users\/|[A-Za-z]:\\Users\\)/iu;
+const SENSITIVE = /(?:-----?BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----?|\b(?:ghp_|github_pat_|sk-proj-|xoxb-)[A-Za-z0-9_-]{8,}|\bAKIA[0-9A-Z]{16}\b|(?:^|[\s,{])["']?[A-Za-z0-9_.-]*(?:password|passwd|secret|token|api[_-]?key|access[_-]?key|private[_-]?key)[A-Za-z0-9_.-]*["']?\s*[:=]\s*["']?[^\s"',}\]]{4,}|\/Users\/|[A-Za-z]:\\Users\\)/imu;
 
 type OramaDocument = Omit<RetrievalDocument, "digest" | "embedding"> & { digest: string; embedding?: number[] };
 
@@ -36,6 +36,10 @@ function documentDigest(document: Omit<RetrievalDocument, "digest">): RetrievalD
 
 function authorized(config: RetrievalProjectConfig, sourceRef: string, scope: string, documentId: string): boolean {
   return config.access.source_refs.includes(sourceRef) && config.access.scopes.includes(scope) && (!config.access.document_ids || config.access.document_ids.includes(documentId));
+}
+
+function referenceOnly(confidentiality: RetrievalDocument["confidentiality"]): boolean {
+  return confidentiality === "confidential" || confidentiality === "restricted";
 }
 
 function unitDocument(unit: NormalizedUnit, config: RetrievalProjectConfig): RetrievalDocument | null {
@@ -131,7 +135,10 @@ function genericDocuments(value: unknown, kind: string, sourceRef: string, sourc
     const documentId = `${kind}:${id}`;
     if (!authorized(config, sourceRef, scope, documentId)) return [];
     const raw = JSON.stringify(record);
-    const referenceOnly = SENSITIVE.test(raw);
+    const declared = ["public", "internal", "confidential", "restricted"].includes(String(record.confidentiality)) ? record.confidentiality as RetrievalDocument["confidentiality"] : "internal";
+    const sensitive = SENSITIVE.test(raw);
+    const referenceOnly = sensitive || declared === "confidential" || declared === "restricted";
+    const confidentiality = sensitive ? "restricted" as const : declared;
     const title = referenceOnly ? id : typeof record.title === "string" ? record.title : typeof record.name === "string" ? record.name : id;
     const freshness = ["current", "aging", "stale", "unknown"].includes(String(record.freshness)) ? record.freshness as RetrievalDocument["freshness"] : "current";
     const conflictRefs = Array.isArray(record.conflict_refs) ? record.conflict_refs.filter((item): item is string => typeof item === "string") : [];
@@ -146,7 +153,7 @@ function genericDocuments(value: unknown, kind: string, sourceRef: string, sourc
       scope,
       authority: "owner_asserted",
       freshness,
-      confidentiality: "internal",
+      confidentiality,
       graph_object_refs: [],
       evidence_refs: [sourceRef],
       program_refs: kind === "program" ? [id] : [],
@@ -268,13 +275,15 @@ export async function buildLocalRetrievalIndex(projectRoot: string, options: { e
   const collected = collectRetrievalDocuments(root, config);
   const sourceProjectionDigest = digestValue(collected.documents);
   const provider = options.embedding_provider;
-  if (provider && (provider.model !== config.semantic.model || provider.dimensions !== config.semantic.dimensions)) throw new Error("retrieval_embedding_provider_mismatch");
+  if (provider && (provider.model !== config.semantic.model || provider.dimensions !== config.semantic.dimensions || !provider.revision || !provider.files_digest)) throw new Error("retrieval_embedding_provider_mismatch");
   if (provider) {
-    const vectors = await provider.embed(collected.documents.map((document) => `passage: ${document.search_text}`));
-    fail(vectors.length === collected.documents.length && vectors.every((vector) => vector.length === provider.dimensions && vector.every(Number.isFinite)), "retrieval_embedding_shape_invalid");
+    const allowed = collected.documents.map((document, index) => ({ document, index })).filter(({ document }) => !referenceOnly(document.confidentiality));
+    const vectors = await provider.embed(allowed.map(({ document }) => `passage: ${document.search_text}`));
+    fail(vectors.length === allowed.length && vectors.every((vector) => vector.length === provider.dimensions && vector.every(Number.isFinite)), "retrieval_embedding_shape_invalid");
+    const byIndex = new Map(allowed.map((item, index) => [item.index, vectors[index] as number[]]));
     collected.documents.forEach((document, index) => {
       const { digest: _digest, ...body } = document;
-      document.embedding = vectors[index];
+      document.embedding = byIndex.get(index) || Array.from({ length: provider.dimensions }, () => 0);
       document.digest = digestValue({ ...body, embedding: document.embedding });
     });
   }
@@ -358,7 +367,7 @@ function freshnessAllowed(document: RetrievalDocument, requirement: RetrievalReq
   return document.freshness === "current";
 }
 
-function graphExpansion(graph: GraphSnapshot | undefined, seedRefs: string[], documents: RetrievalDocument[], depth: number): Map<string, string[]> {
+function graphExpansion(graph: GraphSnapshot | undefined, seedRefs: string[], documents: RetrievalDocument[], depth: number, maxFanOut: number): Map<string, string[]> {
   const paths = new Map<string, string[]>();
   if (!graph || !seedRefs.length) return paths;
   assertSnapshot(graph);
@@ -370,7 +379,7 @@ function graphExpansion(graph: GraphSnapshot | undefined, seedRefs: string[], do
       const refs = relation.participants.map((participant) => participant.ref);
       const parent = refs.find((ref) => frontier.includes(ref));
       if (!parent) continue;
-      for (const ref of refs) if (!paths.has(ref)) { paths.set(ref, [...(paths.get(parent) || [parent]), ref]); next.push(ref); }
+      for (const ref of refs) if (!paths.has(ref) && next.length < maxFanOut) { paths.set(ref, [...(paths.get(parent) || [parent]), ref]); next.push(ref); }
     }
     frontier = [...new Set(next)];
   }
@@ -388,6 +397,10 @@ function graphQuerySeeds(graph: GraphSnapshot | undefined, query: string): strin
   }).map((object) => object.id);
 }
 
+function entityKey(documentId: string): string {
+  return documentId.replace(/^(?:graph\.object:|graph\.relation:|policy:|program:|evidence:|unit\.)/u, "");
+}
+
 export async function searchLocalRetrievalIndex(projectRoot: string, request: RetrievalRequest, options: { embedding_provider?: EmbeddingProvider } = {}): Promise<{ plan: ReturnType<typeof planRetrieval>; evidence: EvidenceBundle; answer: ReturnType<typeof createRetrievalAnswer> }> {
   const root = path.resolve(projectRoot);
   const config = readRetrievalConfig(root);
@@ -401,6 +414,8 @@ export async function searchLocalRetrievalIndex(projectRoot: string, request: Re
   if (request.graph && request.graph.digest !== descriptor.graph_snapshot_digest) throw new Error("retrieval_graph_snapshot_mismatch");
   if (!request.graph && descriptor.graph_snapshot_digest) throw new Error("retrieval_graph_snapshot_required");
   const plan = planRetrieval(request, descriptor, config);
+  const deadline = Date.now() + plan.budgets.timeout_ms;
+  const assertDeadline = (): void => fail(Date.now() <= deadline, "retrieval_timeout_exceeded");
   const directory = retrievalIndexDirectory(root, config.index_id);
   const documents = readJson(path.join(directory, "documents.json")) as RetrievalDocument[];
   const accessPermitted = documents.filter((document) => request.access.source_refs.includes(document.source_ref) && request.access.scopes.includes(document.scope) && (!request.access.document_ids || request.access.document_ids.includes(document.id)));
@@ -418,6 +433,7 @@ export async function searchLocalRetrievalIndex(projectRoot: string, request: Re
   }
   if (plan.channels.includes("lexical")) {
     const result = await search(database, { term: request.query, properties: ["title", "search_text", "source_ref"], limit: Math.max(plan.budgets.max_results * 4, 20) });
+    assertDeadline();
     const ids = result.hits.map((hit) => String((hit.document as OramaDocument).id));
     rankings.push({ channel: "lexical", ids });
     ids.forEach((id) => reasons.set(id, [...(reasons.get(id) || []), "bm25_lexical_match"]));
@@ -426,10 +442,18 @@ export async function searchLocalRetrievalIndex(projectRoot: string, request: Re
     const provider = options.embedding_provider;
     if (!provider || provider.model !== descriptor.semantic_model || provider.dimensions !== descriptor.dimensions) throw new Error("retrieval_semantic_provider_required");
     if ((provider.revision || null) !== descriptor.semantic_revision || (provider.files_digest || null) !== descriptor.semantic_files_digest) throw new Error("retrieval_semantic_artifact_binding_mismatch");
-    const [vector] = await provider.embed([`query: ${request.query}`]);
+    const remaining = deadline - Date.now();
+    fail(remaining > 0, "retrieval_timeout_exceeded");
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const [vector] = await Promise.race([
+      provider.embed([`query: ${request.query}`]),
+      new Promise<never>((_resolve, reject) => { timer = setTimeout(() => reject(new Error("retrieval_timeout_exceeded")), remaining); })
+    ]).finally(() => { if (timer) clearTimeout(timer); });
+    assertDeadline();
     fail(vector && vector.length === provider.dimensions && vector.every(Number.isFinite), "retrieval_query_embedding_invalid");
     const result = await search(database, { mode: "vector", vector: { value: vector, property: "embedding" }, limit: Math.max(plan.budgets.max_results * 4, 20) });
-    const ids = result.hits.map((hit) => String((hit.document as OramaDocument).id));
+    const semanticAllowed = new Set(permitted.filter((document) => !referenceOnly(document.confidentiality)).map((document) => document.id));
+    const ids = result.hits.map((hit) => String((hit.document as OramaDocument).id)).filter((id) => semanticAllowed.has(id));
     rankings.push({ channel: "semantic", ids });
     ids.forEach((id) => reasons.set(id, [...(reasons.get(id) || []), "semantic_vector_match"]));
   }
@@ -446,10 +470,17 @@ export async function searchLocalRetrievalIndex(projectRoot: string, request: Re
   const initial = reciprocalRankFusion(rankings);
   const initialDocuments = permitted.filter((document) => initial.has(document.id));
   const graphSeeds = [...new Set([...initialDocuments.flatMap((document) => document.graph_object_refs), ...graphQuerySeeds(request.graph, request.query)])];
-  const paths = plan.channels.includes("graph") ? graphExpansion(request.graph, graphSeeds, permitted, plan.budgets.max_graph_depth) : new Map<string, string[]>();
+  const paths = plan.channels.includes("graph") ? graphExpansion(request.graph, graphSeeds, permitted, plan.budgets.max_graph_depth, plan.budgets.max_fan_out) : new Map<string, string[]>();
   const graphIds = permitted.filter((document) => document.graph_object_refs.some((ref) => paths.has(ref))).map((document) => document.id);
   if (graphIds.length) rankings.push({ channel: "graph", ids: graphIds });
   const fused = reciprocalRankFusion(rankings);
+  if (plan.intent === "change_or_freshness") {
+    const selectedKeys = new Set(permitted.filter((document) => fused.has(document.id)).map((document) => entityKey(document.id)));
+    for (const document of permitted) if (selectedKeys.has(entityKey(document.id)) && (document.freshness === "stale" || document.conflict_refs?.length) && !fused.has(document.id)) {
+      fused.set(document.id, { score: 1 / 80, channels: ["process"] });
+      reasons.set(document.id, ["entity_state_companion"]);
+    }
+  }
   const hits = sortHits(permitted.filter((document) => fused.has(document.id)).map((document): RetrievalHit => {
     const score = fused.get(document.id) as { score: number; channels: RetrievalChannel[] };
     const graphPath = document.graph_object_refs.map((ref) => paths.get(ref)).find(Boolean);
@@ -474,5 +505,6 @@ export async function searchLocalRetrievalIndex(projectRoot: string, request: Re
   };
   const evidence = { ...evidenceBody, digest: digestValue(evidenceBody) };
   const answer = createRetrievalAnswer(request, plan, evidence);
+  assertDeadline();
   return { plan, evidence, answer };
 }

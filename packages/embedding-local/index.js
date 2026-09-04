@@ -17,8 +17,12 @@ function digestDirectory(root) {
       if (item.isDirectory()) walk(filename);
       else if (item.isFile()) {
         if (name === "mirai-model-receipt.json") continue;
-        hash.update(path.relative(root, filename));
-        hash.update(fs.readFileSync(filename));
+        const relative = Buffer.from(path.relative(root, filename), "utf8");
+        const content = fs.readFileSync(filename);
+        hash.update(Buffer.from(`${relative.length}:`, "ascii"));
+        hash.update(relative);
+        hash.update(Buffer.from(`${content.length}:`, "ascii"));
+        hash.update(content);
       }
     }
   }

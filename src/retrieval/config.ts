@@ -10,7 +10,7 @@ export const RETRIEVAL_INDEX_ROOT = ".mirai/indexes";
 const ID = /^[A-Za-z][A-Za-z0-9_.:-]{0,159}$/;
 const DIGEST = /^sha256:[a-f0-9]{64}$/;
 const FORBIDDEN = new Set(["approval", "approvals", "capability", "capabilities", "canonical_write_allowed", "credential", "credentials", "secret", "token"]);
-const SENSITIVE_VALUE = /(?:BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY|\b(?:ghp_|sk-proj-|xoxb-)[A-Za-z0-9_-]{8,}|\/Users\/|[A-Za-z]:\\Users\\)/u;
+const SENSITIVE_VALUE = /(?:-----?BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----?|\b(?:ghp_|github_pat_|sk-proj-|xoxb-)[A-Za-z0-9_-]{8,}|\bAKIA[0-9A-Z]{16}\b|\/Users\/|[A-Za-z]:\\Users\\)/u;
 
 function fail(condition: unknown, code: string): asserts condition {
   if (!condition) throw new Error(code);
