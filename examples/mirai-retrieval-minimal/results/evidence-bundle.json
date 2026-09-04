@@ -22,12 +22,14 @@
       "policy_refs": [],
       "channels": [
         "exact",
-        "lexical"
+        "lexical",
+        "graph"
       ],
-      "rank_score": 0.03278688524590164,
+      "rank_score": 0.05778688524590164,
       "match_reasons": [
         "exact_identifier_or_title_match",
-        "bm25_lexical_match"
+        "bm25_lexical_match",
+        "graph_entity_companion"
       ],
       "instructions_authorized": false
     }
@@ -44,5 +46,5 @@
   "partial": true,
   "instructions_authorized": false,
   "canonical_write_allowed": false,
-  "digest": "sha256:b9430d848d5f0f690a0ff38d683ed2c1318618820c85863ca2c7304e4f464abe"
+  "digest": "sha256:cfe5de0bcf5006c883073aa61ded7a354fc497887164014e63ab01beda4505cc"
 }

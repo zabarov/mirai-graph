@@ -20,6 +20,8 @@
   "budgets": {
     "max_results": 10,
     "max_graph_depth": 4,
+    "max_fan_out": 4,
+    "max_hops": 3,
     "timeout_ms": 5000
   },
   "semantic_status": "provider_unavailable",
@@ -27,5 +29,5 @@
     "semantic_provider_unavailable"
   ],
   "canonical_write_allowed": false,
-  "digest": "sha256:22b57c965f2a887949c872c5cb24953e3cadaa169ac03f7d510103f286f89b79"
+  "digest": "sha256:160d7aa3e35ca7872567a50aedce87038757083ee024e65ed8766465e1746484"
 }
