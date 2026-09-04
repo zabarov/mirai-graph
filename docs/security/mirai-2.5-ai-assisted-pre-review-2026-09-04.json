@@ -1,0 +1,70 @@
+{
+  "contract_version": "1.0.0",
+  "review_id": "security-pre-review.mirai-2.5-outcome-completion-2026-09-04",
+  "status": "complete",
+  "evidence_class": "internal_ai_assisted_pre_review",
+  "reviewed_revision": "e28ce76c02709ce741fe36d132c138ad6579c509",
+  "scope": [
+    "critical_slot_evidence",
+    "forged_evidence_reference",
+    "authority_and_freshness",
+    "contract_immutability",
+    "parent_child_aggregation",
+    "capability_and_approval_non_authority",
+    "canonical_write_prohibition",
+    "prompt_content_non_authority"
+  ],
+  "checks": [
+    {
+      "command": "npm run test:mirai-2.5",
+      "status": "passed",
+      "summary": "Thirteen tests cover deterministic assessment, status precedence, evidence admission, aggregation and existing Program composition."
+    },
+    {
+      "command": "npm run test:mirai-2.5-negative",
+      "status": "passed",
+      "summary": "Invalid completion, forged evidence, authority minting, effectful ephemeral contract and false timeout completion fail closed."
+    },
+    {
+      "command": "npm run validate:independent-outcome-conformance",
+      "status": "passed_local_only",
+      "summary": "Seven artifacts agree with independent Python checker revision 68956f7a4d047c3c5b8164a99152782d6116f969; public CI remains pending."
+    }
+  ],
+  "findings": [
+    {
+      "id": "OC-001",
+      "severity": "high",
+      "status": "fixed",
+      "summary": "Critical slots cannot opt out of evidence."
+    },
+    {
+      "id": "OC-002",
+      "severity": "high",
+      "status": "fixed",
+      "summary": "Runtime-shaped untyped inputs are validated before assessment."
+    },
+    {
+      "id": "OC-003",
+      "severity": "high",
+      "status": "fixed",
+      "summary": "Nested aggregation preserves child evidence and rejects tampering or divergent confirmed values."
+    },
+    {
+      "id": "OC-004",
+      "severity": "medium",
+      "status": "fixed",
+      "summary": "Configured noncritical conflicts block completion."
+    }
+  ],
+  "unresolved_blockers": [
+    "This pre-review was performed in the implementation thread and is not an independent security review.",
+    "Public CodeQL and cross-platform checks have not yet run for the reviewed revision.",
+    "Production integrations and product rendering are outside this review."
+  ],
+  "verdict": "pass_for_local_rc_engineering_only",
+  "release_gate_eligible": false,
+  "production_write_authorized": false,
+  "canonical_write_allowed": false,
+  "claim_boundary": "Internal AI-assisted pre-review supports local RC engineering only. It is not an external human audit, does not close the independent security gate and authorizes no production effect."
+}

@@ -29,6 +29,7 @@ function run(command, args) {
 for (const script of scripts) run(process.execPath, [npmCli, "run", script]);
 if (candidate) {
   run(process.execPath, ["packages/cli/validate-mirai-2-4-readiness.js"]);
+  run(process.execPath, ["packages/cli/validate-mirai-2-5-readiness.js"]);
 } else {
   run(process.execPath, [npmCli, "run", "validate:mirai-2.4-readiness"]);
 }
