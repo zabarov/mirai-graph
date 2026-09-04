@@ -1,9 +1,9 @@
 {
   "contract_version": "1.0.0",
   "implementation": "python_independent",
-  "kind": "pilot-result",
+  "kind": "evidence-set",
   "status": "passed",
-  "artifact_digest": "sha256:6c4322fc92547b203ca48b98b975f06d09807e1e7841aef4d33df4d3b4629e9b",
+  "artifact_digest": "sha256:b7968fe0f4fc6e1ffe59a6b458ad9328310f0ef9a34ac06fdb0486610fc9d619",
   "errors": [],
   "canonical_write_performed": false,
   "effects_executed": false

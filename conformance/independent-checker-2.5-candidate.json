@@ -2,13 +2,14 @@
   "contract_version": "1.0.0",
   "repository": "zabarov/mirai-conformance",
   "branch": "codex/mirai-2.5-outcome-conformance",
-  "revision": "f6505973c403257583a33e087d9a168448bc0817",
+  "revision": "ea79b3c37a680eda44aaf0d822bf271b33693d95",
   "version": "0.6.0a1",
   "implementation": "python_independent",
   "imports_typescript_runtime": false,
   "supported_surfaces": [
     "outcome_completion_contract",
     "outcome_candidate_set",
+    "outcome_evidence_set",
     "outcome_assessment",
     "outcome_aggregate_assessment",
     "outcome_delivery_plan",
@@ -20,5 +21,5 @@
   "release_gate_eligible": false,
   "canonical_write_performed": false,
   "effects_executed": false,
-  "mirai_reference_revision": "8bc65458c478955f7fd8472fed0eedb01bf9df6c"
+  "mirai_reference_revision": "7b2ef0443b246eae1f8efa4484ba3f39fe24e9ad"
 }

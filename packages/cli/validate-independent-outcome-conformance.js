@@ -10,6 +10,7 @@ const candidate = JSON.parse(fs.readFileSync(path.join(root, "conformance/indepe
 const mappings = [
   ["contract", "examples/mirai-outcome-completion-minimal/outcome-contract.json", "conformance/results/python-mirai-2.5-outcome-contract-result.json"],
   ["candidate-set", "examples/mirai-outcome-completion-minimal/candidate-set.json", "conformance/results/python-mirai-2.5-outcome-candidates-result.json"],
+  ["evidence-set", "examples/mirai-outcome-completion-minimal/evidence-set.json", "conformance/results/python-mirai-2.5-outcome-evidence-result.json"],
   ["assessment", "examples/mirai-outcome-completion-minimal/assessment.json", "conformance/results/python-mirai-2.5-outcome-assessment-result.json"],
   ["aggregate-assessment", "examples/mirai-outcome-completion-minimal/aggregate-assessment.json", "conformance/results/python-mirai-2.5-outcome-aggregate-assessment-result.json"],
   ["delivery-plan", "examples/mirai-outcome-completion-minimal/delivery-plan.json", "conformance/results/python-mirai-2.5-outcome-delivery-result.json"],
