@@ -1,14 +1,16 @@
 # Mirai 2.5 Outcome Completion Security Review
 
-Status: internal pre-review for `2.5.0-alpha.1`; independent review pending
+Status: AI-assisted RC engineering review complete; external human review not claimed
 
 ## Executive Summary
 
 The Outcome Completion extension is fail-closed for malformed inputs, missing
 or unauthorized evidence, stale evidence, conflicts and attempts to grant
-execution or canonical-write authority. No critical or high-severity finding
-remains open in the local alpha implementation. This document is not an
-independent security assessment and does not authorize production rollout.
+execution or canonical-write authority. An isolated AI-assisted reviewer found
+five reproducible false-green paths. All were reproduced by the integration
+owner, fixed and covered by TypeScript and independent Python checks. The
+reviewer task was interrupted after recording findings, so this is not an
+external human audit and does not authorize production rollout.
 
 ## Closed Findings
 
@@ -45,11 +47,49 @@ Severity: medium, closed.
 Status selection now blocks any conflicting slot when the contract selects
 `noncritical_conflict=block` (`src/outcome/assessment.ts:66-78`).
 
+### OC-006: Serialized evidence could admit itself
+
+Severity: high, closed.
+
+Assessment now requires a host-provided admission verifier bound to the policy,
+the complete evidence-set digest and admitted receipt digests. Serialized model
+or project content cannot supply this verifier (`src/outcome/assessment.ts`).
+
+### OC-007: Child contract could weaken parent policy
+
+Severity: high, closed.
+
+Aggregation checks purpose, domains, effect boundary, conflict policy,
+criticality, evidence requirement, authority and freshness before recomputing a
+child assessment (`src/outcome/assessment.ts`).
+
+### OC-008: Delivery trusted a serialized assessment
+
+Severity: high, closed.
+
+Delivery requires a host verification callback. The CLI reloads the contract,
+candidates and evidence, applies host admission and recomputes the assessment
+before planning delivery (`src/cli/index.ts`).
+
+### OC-009: Contract could define away completion proof
+
+Severity: high, closed.
+
+Every contract must now contain at least one required critical slot with
+evidence enabled. The JSON schema, TypeScript validator and independent Python
+checker enforce the same rule.
+
+### OC-010: Fully failed pilot could recommend RC review
+
+Severity: medium, closed.
+
+The controlled-pilot scorer now returns `blocked_by_outcome_failure` when all
+scored runs are hard failures, and its validator checks this fail-closed branch.
+
 ## Residual Boundaries
 
 - SHA-256 digests provide deterministic integrity, not identity or
-  authenticity. A host must admit evidence and accepted child assessments
-  through existing policy, capability and Task Runtime boundaries.
+  authenticity. A trusted host must own admission state and policy decisions.
 - The extension never grants an effect, approval, capability or canonical
   update. An effectful workflow still requires the existing Mirai Runtime and
   its approval receipts.
@@ -58,9 +98,10 @@ Status selection now blocks any conflicting slot when the contract selects
 - Public fixtures are synthetic shadow slices. They do not establish resistance
   to every provider-specific prompt injection or production integration.
 
-## Required External Gates
+## Remaining Boundaries
 
-- independent review of forged evidence, authority and parent/child bindings;
-- cross-platform clean-room execution against the exact candidate commit;
-- controlled product pilots with human review;
-- public checker branch and passing CI before `release_gate_eligible=true`.
+- the executable controlled pilot uses condition-blind AI review, not blinded
+  external human evaluation;
+- product-specific production-read and production-write reviews remain local to
+  each deployment;
+- stable release promotion and live effects require separate approvals.

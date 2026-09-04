@@ -4,12 +4,22 @@ All notable changes to Mirai Graph will be documented in this file.
 
 ## [Unreleased]
 
+## [2.5.0-rc.1] - 2026-09-04
+
 ### Added
 
 - Added Outcome Completion contracts, pure assessment operations and CLI.
 - Added evidence-bound slot assessment, nested aggregation and semantic
   delivery planning without new runtime or language constructs.
 - Added controlled fixtures, negative cases and independent checker work.
+
+### Security
+
+- Required host-provided evidence admission and assessment verification.
+- Prevented child contracts from weakening parent evidence policy.
+- Rejected contracts that define completion without a critical evidence slot.
+- Added a fail-closed guard against RC recommendations from fully failed pilot
+  outcomes.
 
 ## [2.4.0] - 2026-09-04
 

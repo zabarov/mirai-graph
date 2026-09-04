@@ -3,7 +3,7 @@
   "implementation": "python_independent",
   "kind": "assessment",
   "status": "passed",
-  "artifact_digest": "sha256:38f74e53207c445505265b4067915140e3b0e68e07be6a63da148cbfa0c0b3b7",
+  "artifact_digest": "sha256:0f50e77eeb2ab0b8354a8b1aa78ac457a4eea5bc33286d07916a1b7b9c41aec7",
   "errors": [],
   "canonical_write_performed": false,
   "effects_executed": false

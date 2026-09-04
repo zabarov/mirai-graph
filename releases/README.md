@@ -23,8 +23,8 @@ Release notes must separate:
 
 ## Release Notes
 
-- [v2.5.0-alpha.1](2.5.0-alpha.1.md) - local Outcome Completion alpha;
-- [v2.5.0-rc.1 preparation](2.5.0-rc.1.md) - blocked release-candidate readiness record;
+- [v2.5.0-alpha.1](2.5.0-alpha.1.md) - historical local Outcome Completion alpha;
+- [v2.5.0-rc.1](2.5.0-rc.1.md) - Outcome Completion release-candidate engineering freeze;
   independent and controlled release gates remain open.
 - [v2.4.0](2.4.0.md) - stable production-read Retrieval Fabric release.
 - [Mirai 2.4 readiness](2.4.0-readiness.json) - machine-readable engineering,

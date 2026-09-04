@@ -1,6 +1,6 @@
 {
   "name": "@zabarov/mirai",
-  "version": "2.5.0-alpha.1",
+  "version": "2.5.0-rc.1",
   "private": false,
   "description": "A governed executable environment for AI, project and organizational processes.",
   "license": "MIT",
@@ -110,7 +110,7 @@
     "./project-technology": "./packages/project-technology/index.js"
   },
   "scripts": {
-    "posttest": "npm run test:mirai-2.3 && npm run test:mirai-2.4 && npm run validate:mirai-2.4-evaluation && npm run validate:mirai-2.4-retrieval-pilots && npm run validate:independent-retrieval-conformance && npm run test:mirai-2.5 && npm run test:mirai-2.5-negative && npm run validate:mirai-2.5-cli && npm run validate:mirai-2.5-pilots && npm run validate:mirai-2.5-model-pilot && npm run validate:mirai-2.5-model-pilot-v2 && npm run validate:independent-outcome-conformance && npm run validate:mirai-2.5-security-pre-review && npm run validate:mirai-2.5-readiness",
+    "posttest": "npm run test:mirai-2.3 && npm run test:mirai-2.4 && npm run validate:mirai-2.4-evaluation && npm run validate:mirai-2.4-retrieval-pilots && npm run validate:independent-retrieval-conformance && npm run test:mirai-2.5 && npm run test:mirai-2.5-negative && npm run validate:mirai-2.5-cli && npm run validate:mirai-2.5-pilots && npm run validate:mirai-2.5-model-pilot && npm run validate:mirai-2.5-model-pilot-v2 && npm run validate:independent-outcome-conformance && npm run validate:mirai-2.5-security-pre-review && npm run validate:mirai-2.5-security-review && npm run validate:mirai-2.5-readiness",
     "test:mirai-2.5": "node --test test/outcome/outcome.test.cjs test/outcome/outcome-cli.test.cjs test/outcome/outcome-program.test.cjs",
     "test:mirai-2.5-negative": "node packages/cli/test-mirai-2.5-negative.js",
     "validate:mirai-2.5-cli": "node packages/cli/validate-mirai-2.5-cli.js",
@@ -119,6 +119,7 @@
     "validate:mirai-2.5-model-pilot-v2": "node pilots/mirai-2.5-controlled-model-v2/scripts/validate-results.mjs",
     "validate:independent-outcome-conformance": "node packages/cli/validate-independent-outcome-conformance.js",
     "validate:mirai-2.5-security-pre-review": "node packages/cli/validate-mirai-2.5-security-pre-review.js",
+    "validate:mirai-2.5-security-review": "node packages/cli/validate-mirai-2.5-security-review.js",
     "validate:mirai-2.5-readiness": "node packages/cli/validate-mirai-2-5-readiness.js",
     "test:mirai-2.4": "node --test test/retrieval/retrieval.test.cjs",
     "generate:mirai-2.4-evaluation": "npm run build && node benchmarks/mirai-2.4-retrieval/generate-corpus.js",

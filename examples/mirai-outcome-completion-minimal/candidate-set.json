@@ -11,7 +11,7 @@
     {
       "id": "candidate.version",
       "slot_id": "version",
-      "value": "2.5.0-alpha.1",
+      "value": "2.5.0-rc.1",
       "evidence_refs": [
         "evidence.version"
       ],
@@ -35,7 +35,7 @@
     {
       "id": "candidate.note",
       "slot_id": "release_note",
-      "value": "releases/2.5.0-alpha.1.md",
+      "value": "releases/2.5.0-rc.1.md",
       "evidence_refs": [
         "evidence.release-note"
       ],
@@ -57,5 +57,5 @@
   "execution_allowed": false,
   "content_is_untrusted_data": true,
   "canonical_write_allowed": false,
-  "digest": "sha256:da893794710e0bc7a8c48c28120633a913caac67a53da571c3221fe0a093c4f8"
+  "digest": "sha256:542805f6a3ab1e14fbf0ddf6c1bb8d5e2ccce9644e859bad134b51f6b9336e4b"
 }

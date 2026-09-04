@@ -76,7 +76,7 @@
       {
         "id": "candidate.version",
         "slot_id": "version",
-        "value": "2.5.0-alpha.1",
+        "value": "2.5.0-rc.1",
         "evidence_refs": [
           "evidence.version"
         ],
@@ -88,7 +88,7 @@
       {
         "id": "candidate.note",
         "slot_id": "release_note",
-        "value": "releases/2.5.0-alpha.1.md",
+        "value": "releases/2.5.0-rc.1.md",
         "evidence_refs": [
           "evidence.release-note"
         ],
@@ -110,7 +110,7 @@
     "execution_allowed": false,
     "content_is_untrusted_data": true,
     "canonical_write_allowed": false,
-    "digest": "sha256:747c4cf38588d1ea9395576e5ee619730da9c99622adc1983d3b2663a77f9451"
+    "digest": "sha256:0850fe718b38755999cab74acab8a01443071d2cde65ec2f48eac7c36873d6e3"
   },
   "evidence": {
     "contract_version": "1.0.0",
@@ -122,13 +122,13 @@
         "source_ref": "source.package",
         "contract_digest": "sha256:59c097c8cd736b2ef28927c6f8baf2f9473d3889296839f8f6cec3ee4dacf356",
         "slot_id": "version",
-        "value_digest": "sha256:3d228737fbe18762cb3ecfcc16b0118d8d2966eeed7fab298cb3dd8e7880b42e",
-        "admission_receipt_digest": "sha256:a49bd918a28c605aa838bacd524caccd88956ad35e3963bab5ab38a0da875114",
+        "value_digest": "sha256:e9ff265ac17b882b41283b6687f094b25f07314afb5ab4c726a204181bca751e",
+        "admission_receipt_digest": "sha256:8b7853d0548b04443aa66628d72028560d37d9cea11cfde2f348509f877c1832",
         "authority": "owner_asserted",
         "freshness": "current",
         "conflict_refs": [],
         "authorized": true,
-        "digest": "sha256:bb8b293517ce73089bb355610c6ead07ae099b665838fd3f1197bda0fc3441d4"
+        "digest": "sha256:367cfb6f5607aceb210f8c2f988caf287fdd26fa28df25aac021a76d6d33ecd5"
       },
       {
         "id": "evidence.tests",
@@ -148,13 +148,13 @@
         "source_ref": "source.release-note",
         "contract_digest": "sha256:59c097c8cd736b2ef28927c6f8baf2f9473d3889296839f8f6cec3ee4dacf356",
         "slot_id": "release_note",
-        "value_digest": "sha256:57073f3b4845c1d2decb3d0a34ab982bbf16ddbc8d8efb90d18b12d09c04653c",
-        "admission_receipt_digest": "sha256:92ec4232eddf452ecba287f1a14dff2e9629c08d7bf4e2a1f874e829506ebd1a",
+        "value_digest": "sha256:65c0e182a89451f700a54bef26171927f7c9b1340563c1a8b8039fee0f2051ed",
+        "admission_receipt_digest": "sha256:b0f270c084f1d8b80ed333d96f486d2a83b68f52cf56ff86466cb5ddeca12e24",
         "authority": "supporting",
         "freshness": "current",
         "conflict_refs": [],
         "authorized": true,
-        "digest": "sha256:ec83daaa8cdf77010bd18acf944cd16cfc1b51dddc1350abc747732a6434de51"
+        "digest": "sha256:4a361b59b7432b8322e57224f944b530a6222ca3b0101f5e74d54e461d01402e"
       }
     ],
     "partial": false,
@@ -162,20 +162,20 @@
       "Synthetic fixture does not establish production readiness."
     ],
     "canonical_write_allowed": false,
-    "digest": "sha256:989c5ad7c1ec23b2dcad5b35b10da1ef6e993b9c1e4823e1f87ee4dab5d3ddf4"
+    "digest": "sha256:c45d9b6984f4eebee01b305c4233c41617c1540787090b76f3d44f90e07e85da"
   },
   "assessment": {
     "contract_version": "1.0.0",
     "id": "assessment.outcome.release-readiness-child.candidates.release-readiness-child-incomplete",
     "contract_digest": "sha256:59c097c8cd736b2ef28927c6f8baf2f9473d3889296839f8f6cec3ee4dacf356",
     "parent_contract_digest": "sha256:2bfa960f65dc862865a6515081333c82f110ffbeb5e0319372fb1e68ce59453a",
-    "candidate_set_digest": "sha256:747c4cf38588d1ea9395576e5ee619730da9c99622adc1983d3b2663a77f9451",
-    "evidence_set_digest": "sha256:989c5ad7c1ec23b2dcad5b35b10da1ef6e993b9c1e4823e1f87ee4dab5d3ddf4",
+    "candidate_set_digest": "sha256:0850fe718b38755999cab74acab8a01443071d2cde65ec2f48eac7c36873d6e3",
+    "evidence_set_digest": "sha256:c45d9b6984f4eebee01b305c4233c41617c1540787090b76f3d44f90e07e85da",
     "slots": [
       {
         "slot_id": "version",
         "state": "confirmed",
-        "value": "2.5.0-alpha.1",
+        "value": "2.5.0-rc.1",
         "candidate_refs": [
           "candidate.version"
         ],
@@ -202,7 +202,7 @@
       {
         "slot_id": "release_note",
         "state": "confirmed",
-        "value": "releases/2.5.0-alpha.1.md",
+        "value": "releases/2.5.0-rc.1.md",
         "candidate_refs": [
           "candidate.note"
         ],
@@ -232,6 +232,6 @@
     ],
     "execution_allowed": false,
     "canonical_write_allowed": false,
-    "digest": "sha256:71be904ffcc3cf80929232a09a88760d31e97d3951484a7349010a5072540c6f"
+    "digest": "sha256:49cec22cbdc74ad8de38619d2cf9b49bb897ac3b9a506b4500a549ebb9e1b8d8"
   }
 }

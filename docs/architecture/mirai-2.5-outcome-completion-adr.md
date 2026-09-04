@@ -1,6 +1,6 @@
 # ADR: Outcome Completion Is A Core Extension
 
-Status: accepted for `2.5.0-alpha.1` implementation
+Status: frozen for `2.5.0-rc.1` engineering review
 
 ## Decision
 

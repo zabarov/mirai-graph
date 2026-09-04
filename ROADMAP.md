@@ -1,6 +1,6 @@
 # Mirai Graph Roadmap
 
-Status: Mirai 2.4.0 stable; Mirai 2.5 Outcome Completion alpha development
+Status: Mirai 2.4.0 stable; Mirai 2.5 Outcome Completion RC engineering freeze
 
 ## Mirai 2.5: Outcome Completion
 
@@ -9,9 +9,11 @@ tool activity, tests or generated prose.
 
 The additive extension introduces outcome contracts, untrusted candidate sets,
 deterministic assessments and semantic delivery plans. It composes through
-existing Mirai Program nodes and Runtime boundaries. Stable promotion requires
-independent conformance, security review, controlled pilots and cross-platform
-clean-room checks.
+existing Mirai Program nodes and Runtime boundaries. The RC engineering gates
+include an executable controlled pilot, independent conformance, AI-assisted
+security review, CodeQL and cross-platform clean-room checks. Stable promotion
+still requires a separately approved release decision and product-specific
+production readiness.
 
 ## Phase 0: Public Foundation
 

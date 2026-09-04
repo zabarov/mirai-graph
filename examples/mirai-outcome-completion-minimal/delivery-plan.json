@@ -1,12 +1,12 @@
 {
   "contract_version": "1.0.0",
   "id": "delivery.assessment.outcome.release-readiness.candidates.release-readiness",
-  "assessment_digest": "sha256:5ed745f300705fbf28d4c4dcf1aaf4011e2c509f7f27388f850e5fbb37a32ea3",
+  "assessment_digest": "sha256:ae40f1e860d7d090a07915d504535aee753b9cf7a52b7d6440eafff31bee5e28",
   "status": "satisfied",
   "confirmed_facts": [
     {
       "slot_id": "version",
-      "value": "2.5.0-alpha.1",
+      "value": "2.5.0-rc.1",
       "evidence_refs": [
         "evidence.version"
       ],
@@ -28,7 +28,7 @@
     },
     {
       "slot_id": "release_note",
-      "value": "releases/2.5.0-alpha.1.md",
+      "value": "releases/2.5.0-rc.1.md",
       "evidence_refs": [
         "evidence.release-note"
       ],
@@ -61,5 +61,5 @@
   ],
   "execution_allowed": false,
   "canonical_write_allowed": false,
-  "digest": "sha256:65e42349b7a7ff5486fff049393e6189a20b048ac02c2cc8b5ee7c2f49d15d36"
+  "digest": "sha256:41201380d43f50b686f5948ce2be9409d3ad6bb48f1681bf85ee6dea8e4e805c"
 }

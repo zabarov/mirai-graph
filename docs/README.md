@@ -1,6 +1,6 @@
 # Mirai Documentation Map
 
-Status: Mirai 2.4 stable documentation map with Mirai 2.5 alpha development
+Status: Mirai 2.4 stable documentation map with Mirai 2.5 RC engineering freeze
 
 This page helps readers choose the right Mirai Graph documents without reading
 the whole repository.
@@ -31,13 +31,14 @@ the whole repository.
 
 ## Standard
 
-Mirai 2.5 outcome development:
+Mirai 2.5 Outcome Completion:
 
 - [Outcome Completion](../standard/outcome-completion.md)
 - [Outcome Completion Architecture Decision](architecture/mirai-2.5-outcome-completion-adr.md)
 - [Outcome Completion Internal Security Pre-Review](security/mirai-2.5-outcome-security-review.md)
 - [Minimal Outcome Example](../examples/mirai-outcome-completion-minimal/outcome-contract.json)
-- [2.5 Alpha Release Note](../releases/2.5.0-alpha.1.md)
+- [2.5 RC Release Note](../releases/2.5.0-rc.1.md)
+- [2.5 RC Readiness](../releases/2.5.0-rc.1-readiness.json)
 
 Mirai 2.0 execution:
 

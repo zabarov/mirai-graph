@@ -1,0 +1,39 @@
+{
+  "contract_version": "1.0.0",
+  "review_id": "security-review.mirai-2.5-outcome-completion-2026-09-04",
+  "status": "complete_with_remediation",
+  "evidence_class": "isolated_ai_assisted_security_review",
+  "review_execution_status": "interrupted_after_reproducible_findings",
+  "reviewed_revision": "7b2ef0443b246eae1f8efa4484ba3f39fe24e9ad",
+  "remediation_revision": "49eba15f9d248ce3b26672aab4cf6810b6719cbf",
+  "scope": [
+    "evidence_admission",
+    "parent_child_policy_attenuation",
+    "assessment_delivery_binding",
+    "minimum_completion_proof",
+    "pilot_release_recommendation"
+  ],
+  "findings": [
+    {"id":"OC-006","severity":"high","status":"fixed","summary":"Serialized evidence could admit itself without a host-provided verifier.","remediation":"Assessment now requires a host-injected verifier bound to policy, evidence-set and admitted receipt digests."},
+    {"id":"OC-007","severity":"high","status":"fixed","summary":"A child contract could weaken parent authority, freshness or evidence requirements.","remediation":"Aggregation now rejects child policy weakening before recomputing child assessment."},
+    {"id":"OC-008","severity":"high","status":"fixed","summary":"Delivery could accept a self-consistent but untrusted serialized assessment.","remediation":"Delivery requires a host verifier and the CLI recomputes assessment from bound inputs."},
+    {"id":"OC-009","severity":"high","status":"fixed","summary":"A contract could remove all critical evidence requirements and still report satisfied.","remediation":"Schema, TypeScript and Python validators require at least one critical evidence-backed required slot."},
+    {"id":"OC-010","severity":"medium","status":"fixed","summary":"A fully failed model pilot could still receive an RC engineering recommendation.","remediation":"The scorer now blocks a recommendation when every scored run is a hard failure and validates this guard."}
+  ],
+  "verification": {
+    "typescript_outcome_tests": "passed_20",
+    "python_independent_tests": "passed_32",
+    "codeql_status": "passed",
+    "cross_platform_status": "pending_final_rc_head"
+  },
+  "residual_limitations": [
+    "The isolated reviewer did not produce a final message because its task was interrupted after findings were recorded.",
+    "The integration owner reproduced each finding and verified the remediations.",
+    "This review does not assess a product-specific production deployment or external effects."
+  ],
+  "verdict": "pass_for_rc_engineering_with_limitations",
+  "release_gate_eligible": true,
+  "production_write_authorized": false,
+  "canonical_write_allowed": false,
+  "claim_boundary": "This is an isolated AI-assisted security review with reproduced findings and verified remediation. It is not an external human audit and does not authorize production write."
+}

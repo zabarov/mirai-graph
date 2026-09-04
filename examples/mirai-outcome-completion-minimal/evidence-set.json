@@ -8,13 +8,13 @@
       "source_ref": "source.package",
       "contract_digest": "sha256:2bfa960f65dc862865a6515081333c82f110ffbeb5e0319372fb1e68ce59453a",
       "slot_id": "version",
-      "value_digest": "sha256:3d228737fbe18762cb3ecfcc16b0118d8d2966eeed7fab298cb3dd8e7880b42e",
-      "admission_receipt_digest": "sha256:85084388d617eb2a823e68e510d05e4235551fa1cc5a8cb1fbdd34111431cfe6",
+      "value_digest": "sha256:e9ff265ac17b882b41283b6687f094b25f07314afb5ab4c726a204181bca751e",
+      "admission_receipt_digest": "sha256:0275c91f056100271245d817503247bc1d8ceb27717717403030291d674c59a9",
       "authority": "owner_asserted",
       "freshness": "current",
       "conflict_refs": [],
       "authorized": true,
-      "digest": "sha256:26fd5c40fcbd1ba7796a057c22f850d4d49a868c3d214dcaf80004c6a8fbc0c2"
+      "digest": "sha256:5384cb5ba0839502c78a6c944d6b2d7658e92f3b1444280820a8a68f497679bf"
     },
     {
       "id": "evidence.tests",
@@ -34,13 +34,13 @@
       "source_ref": "source.release-note",
       "contract_digest": "sha256:2bfa960f65dc862865a6515081333c82f110ffbeb5e0319372fb1e68ce59453a",
       "slot_id": "release_note",
-      "value_digest": "sha256:57073f3b4845c1d2decb3d0a34ab982bbf16ddbc8d8efb90d18b12d09c04653c",
-      "admission_receipt_digest": "sha256:8d337e782f79c861a07aedbe056a423183b7a37adf0b712fa8763ec61db90065",
+      "value_digest": "sha256:65c0e182a89451f700a54bef26171927f7c9b1340563c1a8b8039fee0f2051ed",
+      "admission_receipt_digest": "sha256:1c437176699f1b0f230b801e3325cd6a09a75ce4990fc257d47cc4a5247fb329",
       "authority": "supporting",
       "freshness": "current",
       "conflict_refs": [],
       "authorized": true,
-      "digest": "sha256:cbcd44f4180714d996871c6f46ad6dd1136f00d1048933026f634908476bc555"
+      "digest": "sha256:6bf0339c0ff5ad8418f94a1f9ff4404458161f3b7e9ad2cd5b7752305f214165"
     }
   ],
   "partial": false,
@@ -48,5 +48,5 @@
     "Synthetic fixture does not establish production readiness."
   ],
   "canonical_write_allowed": false,
-  "digest": "sha256:807d7aae7e810b99b93b36ed926a75715b408f2b0ca9945aaa29cf503e7eb7d4"
+  "digest": "sha256:240a6063f049ad7823ff7619787865a793e5e92bc87a3facd4c5d2bf98a24753"
 }

@@ -2,13 +2,13 @@
   "contract_version": "1.0.0",
   "id": "assessment.outcome.release-readiness.candidates.release-readiness",
   "contract_digest": "sha256:2bfa960f65dc862865a6515081333c82f110ffbeb5e0319372fb1e68ce59453a",
-  "candidate_set_digest": "sha256:da893794710e0bc7a8c48c28120633a913caac67a53da571c3221fe0a093c4f8",
-  "evidence_set_digest": "sha256:807d7aae7e810b99b93b36ed926a75715b408f2b0ca9945aaa29cf503e7eb7d4",
+  "candidate_set_digest": "sha256:542805f6a3ab1e14fbf0ddf6c1bb8d5e2ccce9644e859bad134b51f6b9336e4b",
+  "evidence_set_digest": "sha256:240a6063f049ad7823ff7619787865a793e5e92bc87a3facd4c5d2bf98a24753",
   "slots": [
     {
       "slot_id": "version",
       "state": "confirmed",
-      "value": "2.5.0-alpha.1",
+      "value": "2.5.0-rc.1",
       "candidate_refs": [
         "candidate.version"
       ],
@@ -40,7 +40,7 @@
     {
       "slot_id": "release_note",
       "state": "confirmed",
-      "value": "releases/2.5.0-alpha.1.md",
+      "value": "releases/2.5.0-rc.1.md",
       "candidate_refs": [
         "candidate.note"
       ],
@@ -68,5 +68,5 @@
   ],
   "execution_allowed": false,
   "canonical_write_allowed": false,
-  "digest": "sha256:b5f583d5478d8b9a2fb94e3f5d9f5a44b313cd41ee4ffb7cab1b0533897a7b18"
+  "digest": "sha256:b7f7a4e4ba3c2cd3622cce43c242ef8f64cdb80bdaba40b7d376adc2c12f21c7"
 }
