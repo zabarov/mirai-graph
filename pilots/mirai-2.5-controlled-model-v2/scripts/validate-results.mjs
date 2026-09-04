@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import { CONDITIONS, MODELS, computeAnalysis, digest } from "./scoring.mjs";
+import { CONDITIONS, MODELS, computeAnalysis, digest, releaseGateRecommendation } from "./scoring.mjs";
 
 const root = path.resolve(import.meta.dirname, "..");
 const read = (file) => JSON.parse(fs.readFileSync(path.join(root, file), "utf8"));
@@ -25,6 +25,7 @@ for (const group of raw.reviews) {
 }
 const recomputed = computeAnalysis(packets, raw);
 if (JSON.stringify(recomputed) !== JSON.stringify(analysis)) fail("analysis_reconstruction_mismatch");
+if (releaseGateRecommendation([], [{ hard_failure: true }]) !== "blocked_by_outcome_failure") fail("all_failure_release_guard_broken");
 const serialized = JSON.stringify([packets, raw, analysis]);
 for (const pattern of [/BEGIN PRIVATE KEY/, /ghp_[A-Za-z0-9]+/, /github_pat_[A-Za-z0-9_]+/, /sk-[A-Za-z0-9_-]{16,}/]) if (pattern.test(serialized)) fail("sensitive_material");
 process.stdout.write(`${JSON.stringify({ valid: true, runs: raw.runs.length, review_groups: raw.reviews.length, spent_usd: raw.spent_usd, analysis_digest: analysis.digest }, null, 2)}\n`);

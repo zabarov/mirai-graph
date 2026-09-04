@@ -229,3 +229,16 @@ test("critical completion cannot opt out of evidence and malformed inputs fail c
   malformed.candidates = null;
   assert.throws(() => assessOutcome(load("outcome-contract.json"), seal(malformed), load("evidence-set.json")), /candidate_set_invalid/);
 });
+
+test("a contract without a critical evidence slot cannot declare completion", () => {
+  const contract = load("outcome-contract.json");
+  for (const slot of [...contract.required_slots, ...contract.optional_slots]) {
+    slot.critical = false;
+    slot.evidence_required = false;
+  }
+  const weakened = seal(contract);
+  assert.match(validateOutcomeContract(weakened).errors.join(","), /critical_evidence_required_slot_missing/);
+  const candidates = load("candidate-set.json");
+  candidates.contract_digest = weakened.digest;
+  assert.throws(() => outcome.assessOutcome(weakened, seal(candidates), load("evidence-set.json"), verifierFor(load("evidence-set.json"))), /critical_evidence_required_slot_missing/);
+});

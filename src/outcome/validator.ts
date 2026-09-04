@@ -15,6 +15,7 @@ export function validateOutcomeContract(contract: OutcomeCompletionContract): Ou
   if (contract?.execution_allowed !== false) errors.push("execution_allowed_must_be_false");
   if (contract?.template_authority === "ephemeral_read_only" && contract.scope.effect !== "read_only") errors.push("ephemeral_contract_must_be_read_only");
   const slots = [...(contract?.required_slots || []), ...(contract?.optional_slots || [])];
+  if (!contract?.required_slots?.some((slot) => slot.critical && slot.evidence_required === true)) errors.push("critical_evidence_required_slot_missing");
   const ids = slots.map((slot) => slot.id);
   if (new Set(ids).size !== ids.length) errors.push("duplicate_slot_id");
   if (slots.some((slot) => !idPattern.test(slot.id) || !slot.label?.trim())) errors.push("invalid_slot_definition");

@@ -11,7 +11,7 @@
     "goal": { "type": "string", "minLength": 1, "maxLength": 2048 },
     "scope": { "type": "object", "additionalProperties": false, "required": ["purpose", "domains", "effect"], "properties": { "purpose": { "$ref": "#/$defs/id" }, "domains": { "$ref": "#/$defs/ids" }, "effect": { "enum": ["read_only", "effectful"] } } },
     "outcome_kind": { "$ref": "#/$defs/id" },
-    "required_slots": { "type": "array", "minItems": 1, "maxItems": 128, "items": { "$ref": "#/$defs/slot" } },
+    "required_slots": { "type": "array", "minItems": 1, "maxItems": 128, "items": { "$ref": "#/$defs/slot" }, "contains": { "type": "object", "required": ["critical", "evidence_required"], "properties": { "critical": { "const": true }, "evidence_required": { "const": true } } }, "minContains": 1 },
     "optional_slots": { "type": "array", "maxItems": 128, "items": { "$ref": "#/$defs/slot" } },
     "completion_policy": { "type": "object", "additionalProperties": false, "required": ["allow_partial", "all_critical_required"], "properties": { "allow_partial": { "type": "boolean" }, "all_critical_required": { "const": true } } },
     "interaction_policy": { "type": "object", "additionalProperties": false, "required": ["max_questions", "ask_one_at_a_time"], "properties": { "max_questions": { "type": "integer", "minimum": 0, "maximum": 16 }, "ask_one_at_a_time": { "type": "boolean" } } },

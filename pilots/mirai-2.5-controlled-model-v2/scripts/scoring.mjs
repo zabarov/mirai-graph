@@ -8,6 +8,12 @@ const rawDigest = (value) => crypto.createHash("sha256").update(JSON.stringify(v
 const normalized = (value) => String(value || "").toLocaleLowerCase("ru-RU").replace(/ё/g, "е");
 const mean = (values) => values.length ? values.reduce((sum, value) => sum + value, 0) / values.length : null;
 
+export function releaseGateRecommendation(activeFailures, scored) {
+  if (activeFailures.length) return "blocked_by_infrastructure_failure";
+  if (!scored.length || scored.every((item) => item.hard_failure)) return "blocked_by_outcome_failure";
+  return "eligible_for_rc_engineering_review";
+}
+
 export function computeAnalysis(packets, raw) {
   const packetByKey = new Map(packets.conditions.map((item) => [`${item.case_id}:${item.condition}`, item]));
   const scored = raw.runs.map((run) => {
@@ -41,6 +47,6 @@ export function computeAnalysis(packets, raw) {
   const contours = [...new Set(scored.map((item) => item.contour))].sort();
   const byContour = contours.flatMap((contour) => CONDITIONS.map((condition) => { const rows = scored.filter((item) => item.contour === contour && item.condition === condition); return { contour, condition, run_count: rows.length, outcome_integrity_score: mean(rows.map((item) => item.outcome_integrity_score)), hard_failure_rate: mean(rows.map((item) => item.hard_failure ? 1 : 0)) }; }));
   const activeFailures = raw.failures.filter((item) => !item.recovered_at);
-  const body = { study_id: raw.study_id, phase: raw.phase, packet_digest: raw.packet_digest, protocol_digest: raw.protocol_digest, raw_digest: digest(raw), scoring_revision: "2.0.0-committed-executable", run_count: scored.length, review_group_count: raw.reviews.length, failures: raw.failures, active_failure_count: activeFailures.length, hard_failures: scored.filter((item) => item.hard_failure).map((item) => ({ case_id: item.case_id, condition: item.condition, model: item.model, reasons: item.hard_failure_reasons })), total_cost_usd: raw.spent_usd, aggregate, by_model: byModel, by_contour: byContour, claims: ["This controlled replay estimates package-level engineering outcome integrity for the frozen corpus.", "AI-assisted condition-blind review is not external human review.", "The replay does not isolate one causal mechanism or test a production channel."], release_gate_recommendation: activeFailures.length ? "blocked_by_infrastructure_failure" : "eligible_for_rc_engineering_review", production_effects: false, canonical_write_allowed: false };
+  const body = { study_id: raw.study_id, phase: raw.phase, packet_digest: raw.packet_digest, protocol_digest: raw.protocol_digest, raw_digest: digest(raw), scoring_revision: "2.0.0-committed-executable", run_count: scored.length, review_group_count: raw.reviews.length, failures: raw.failures, active_failure_count: activeFailures.length, hard_failures: scored.filter((item) => item.hard_failure).map((item) => ({ case_id: item.case_id, condition: item.condition, model: item.model, reasons: item.hard_failure_reasons })), total_cost_usd: raw.spent_usd, aggregate, by_model: byModel, by_contour: byContour, claims: ["This controlled replay estimates package-level engineering outcome integrity for the frozen corpus.", "AI-assisted condition-blind review is not external human review.", "The replay does not isolate one causal mechanism or test a production channel."], release_gate_recommendation: releaseGateRecommendation(activeFailures, scored), production_effects: false, canonical_write_allowed: false };
   return { ...body, digest: digest(body) };
 }

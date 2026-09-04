@@ -25,6 +25,8 @@ intent
   the exact contract digest, slot id and candidate value digest. An opaque
   admission receipt identifies the host policy decision; model output cannot
   reuse that admission for a different value.
+- Every contract has at least one required critical slot backed by evidence;
+  a contract cannot define away the minimum completion proof.
 - Serialized evidence cannot admit itself. Assessment requires a verifier
   injected by the host from protected runtime state and bound to the exact
   evidence-set and policy digests. The CLI reads that verifier input only from
