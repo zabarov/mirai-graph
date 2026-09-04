@@ -391,10 +391,12 @@ function graphExpansion(graph: GraphSnapshot | undefined, seedRefs: string[], do
 function graphQuerySeeds(graph: GraphSnapshot | undefined, query: string): string[] {
   if (!graph) return [];
   const terms = query.toLocaleLowerCase("und").split(/[^\p{L}\p{N}_.:-]+/u).filter((item) => item.length > 2);
-  return graph.objects.filter((object) => {
+  const ranked = graph.objects.map((object) => {
     const searchable = `${object.id} ${object.kind} ${JSON.stringify(object.metadata)}`.toLocaleLowerCase("und");
-    return terms.some((term) => searchable.includes(term));
-  }).map((object) => object.id);
+    return { id: object.id, score: terms.filter((term) => searchable.includes(term)).length };
+  }).filter((item) => item.score > 0);
+  const best = Math.max(0, ...ranked.map((item) => item.score));
+  return ranked.filter((item) => item.score === best).map((item) => item.id);
 }
 
 function entityKey(documentId: string): string {

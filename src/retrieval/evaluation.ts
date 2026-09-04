@@ -53,8 +53,7 @@ export function evaluateRetrieval(corpusId: string, system: RetrievalEvaluation[
     ndcgs.push(ideal ? dcg / ideal : 1);
     const first = ids.findIndex((id) => expected.has(id));
     reciprocalRanks.push(first < 0 ? 0 : 1 / (first + 1));
-    const relevant = item.hits.filter((hit) => expected.has(hit.document_id));
-    if (item.expected_graph_path) pathScores.push(relevant.some((hit) => JSON.stringify(hit.graph_path) === JSON.stringify(item.expected_graph_path)) ? 1 : 0);
+    if (item.expected_graph_path) pathScores.push(item.hits.some((hit) => JSON.stringify(hit.graph_path) === JSON.stringify(item.expected_graph_path)) ? 1 : 0);
     evidenceScores.push(item.answer.claims.length ? item.answer.claims.filter((claim) => claim.evidence_refs.length > 0 && claim.source_refs.length > 0).length / item.answer.claims.length : item.answer.status === "insufficient_evidence" || item.answer.status === "clarification_required" ? 1 : 0);
     faithfulnessScores.push(item.claim_faithfulness ?? 0);
     if (item.conflict_expected) conflictScores.push(item.answer.conflicts.some((value) => value.startsWith("conflict:")) ? 1 : 0);
