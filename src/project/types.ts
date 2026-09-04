@@ -77,6 +77,16 @@ export interface AgentExecutionBrief {
   required_sources: string[];
   available_programs: string[];
   policies_and_gates: string[];
+  retrieval?: {
+    status: "ready" | "partial" | "unavailable";
+    index_digest: string | null;
+    source_refs: string[];
+    program_candidates: string[];
+    policy_refs: string[];
+    blockers: string[];
+    next_safe_action: string;
+    evidence_bundle_digest: string | null;
+  };
   allowed_actions: string[];
   forbidden_actions: string[];
   missing_context: string[];

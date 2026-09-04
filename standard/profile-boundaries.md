@@ -40,6 +40,7 @@ Each layer answers a different question.
 | Implementation/process control | How is work allowed to move? | Launch records, states, transitions, gates, evidence requirements | Business meaning that belongs in a domain profile |
 | Technology quality feedback | Did work follow the approved technology? | Classified findings, blocking/non-blocking verdicts, routes to fix or Kaizen | General testing claims without process conformance |
 | Dynamic episode evidence | What happened in this specific event and why? | Trigger, activated objects, selected path, blocked alternatives, evidence, feedback route | Authorization or canonical graph mutation |
+| Retrieval Fabric | What authorized facts, relations, technologies, policies, evidence or programs are relevant now? | Disposable indexes, retrieval plans, evidence-bound answers, freshness and conflict diagnostics | Bulk source content, approval, execution or canonical updates |
 | Kaizen/proposal loops | What should improve? | Lessons, process improvements, graph proposals, follow-up routes | Automatic canonical updates |
 | AI employee / skill runtime | Who or what uses the graph at runtime? | Roles, skills, tools, policies, context, fallback, runtime contracts | Source-of-truth replacement for owner methods |
 

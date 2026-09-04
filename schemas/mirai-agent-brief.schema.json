@@ -10,6 +10,7 @@
     "profiles": { "$ref": "#/$defs/strings" }, "features": { "$ref": "#/$defs/strings" }, "required_sources": { "$ref": "#/$defs/strings" },
     "available_programs": { "$ref": "#/$defs/strings" }, "policies_and_gates": { "$ref": "#/$defs/strings" }, "allowed_actions": { "$ref": "#/$defs/strings" },
     "forbidden_actions": { "$ref": "#/$defs/strings" }, "missing_context": { "$ref": "#/$defs/strings" }, "blockers": { "$ref": "#/$defs/strings" },
+    "retrieval": { "type": "object", "additionalProperties": false, "required": ["status", "index_digest", "source_refs", "program_candidates", "policy_refs", "blockers", "next_safe_action", "evidence_bundle_digest"], "properties": { "status": { "enum": ["ready", "partial", "unavailable"] }, "index_digest": { "anyOf": [{ "$ref": "#/$defs/digest" }, { "type": "null" }] }, "source_refs": { "$ref": "#/$defs/strings" }, "program_candidates": { "$ref": "#/$defs/strings" }, "policy_refs": { "$ref": "#/$defs/strings" }, "blockers": { "$ref": "#/$defs/strings" }, "next_safe_action": { "type": "string" }, "evidence_bundle_digest": { "anyOf": [{ "$ref": "#/$defs/digest" }, { "type": "null" }] } } },
     "next_safe_action": { "type": "string" }, "canonical_write_allowed": { "const": false }, "digest": { "$ref": "#/$defs/digest" }
   },
   "$defs": { "digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" }, "strings": { "type": "array", "items": { "type": "string" } } }

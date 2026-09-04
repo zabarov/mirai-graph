@@ -4,6 +4,38 @@ All notable changes to Mirai Graph will be documented in this file.
 
 ## [Unreleased]
 
+## [2.4.0-alpha.1] - 2026-09-04
+
+### Added
+
+- Added `@zabarov/mirai/retrieval` contracts for local indexes, requests,
+  plans, evidence bundles, answers, federation and evaluation.
+- Added deterministic Orama-backed index build, reconcile, status, verify and
+  hybrid search commands with evidence-bound answers.
+- Added an optional local multilingual embedding provider package with
+  explicit download and model receipt boundaries.
+- Added bounded federated target selection and digest-bound response checks.
+- Added schemas, a synthetic example, evaluation metrics and focused tests.
+
+### Security
+
+- Authorize before indexing and require the same access projection at query
+  time; changed ACLs require a separate projection.
+- Keep confidential content reference-only and reject secret-like values or
+  private machine paths in portable retrieval configuration and queries.
+- Write indexes through atomic directory replacement and bind descriptors to
+  source, document and serialized index digests.
+- Preserve proposal/evidence boundaries: search cannot approve, execute or
+  mutate canonical state.
+
+### Release Boundary
+
+- This is an experimental prerelease over Mirai 2.3. It is ready for local and
+  controlled read-only evaluation, not stable production or managed remote
+  retrieval.
+- Stable promotion remains gated on independent conformance, security review,
+  multilingual evaluation, controlled pilots and Linux/macOS/Windows checks.
+
 ## [2.3.0-alpha.1] - 2026-09-03
 
 ### Added

@@ -1,0 +1,35 @@
+{
+  "units": [
+    {
+      "contract_version": "1.0.0",
+      "id": "unit.release-policy",
+      "source_ref": "source.demo",
+      "source_fingerprint": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+      "kind": "text",
+      "media_type": "text/markdown",
+      "ordinal": 0,
+      "content": "Release requires tests, evidence, owner approval and a completed Kaizen review.",
+      "content_digest": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+      "source_span": { "section": "Release policy" },
+      "authority": "owner_asserted",
+      "scope": "retrieval-demo",
+      "confidentiality": "public",
+      "instructions_authorized": false
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "unit.internal-reference",
+      "source_ref": "source.demo",
+      "source_fingerprint": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+      "kind": "record",
+      "media_type": "application/json",
+      "ordinal": 1,
+      "content": { "credential_alias": "access.release-provider", "token": "must-not-be-indexed" },
+      "content_digest": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+      "authority": "supporting",
+      "scope": "retrieval-demo",
+      "confidentiality": "confidential",
+      "instructions_authorized": false
+    }
+  ]
+}

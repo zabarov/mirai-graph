@@ -1,0 +1,28 @@
+contract_version: 1.0.0
+index_id: retrieval.demo
+project_id: project.retrieval-demo
+inputs:
+  - kind: normalized_units
+    path: inputs/normalized-units.json
+access:
+  principal_id: principal.demo-reader
+  purpose: answer_project_questions
+  scopes: [retrieval-demo]
+  source_refs: [source.demo]
+  policy_digest: sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+placement:
+  mode: minimal_projection
+  confidential_mode: reference_only
+  max_snippet_chars: 240
+semantic:
+  provider: local
+  model: Xenova/multilingual-e5-small
+  dimensions: 384
+budgets:
+  max_documents: 100
+  max_index_bytes: 1048576
+  max_query_results: 10
+  max_graph_depth: 4
+  max_fan_out: 4
+  max_hops: 3
+  timeout_ms: 5000

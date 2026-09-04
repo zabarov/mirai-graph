@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zabarov.github.io/mirai/schemas/retrieval-request.schema.json",
+  "title": "Mirai Retrieval Request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract_version", "id", "query", "access", "canonical_write_allowed"],
+  "properties": {
+    "contract_version": { "const": "1.0.0" }, "id": { "type": "string", "minLength": 1 }, "query": { "type": "string", "minLength": 1, "maxLength": 4096 }, "intent": { "enum": ["exact_lookup", "semantic_discovery", "relationship_trace", "technology_lookup", "policy_lookup", "evidence_lookup", "change_or_freshness", "global_synthesis"] }, "freshness_required": { "enum": ["current", "allow_aging", "allow_stale"] }, "channels": { "type": "array", "uniqueItems": true, "items": { "enum": ["exact", "lexical", "semantic", "graph", "process"] } }, "max_results": { "type": "integer", "minimum": 1 }, "access": { "type": "object" }, "graph": { "type": "object" }, "canonical_write_allowed": { "const": false }
+  }
+}

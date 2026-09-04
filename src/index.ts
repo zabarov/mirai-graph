@@ -14,4 +14,5 @@ export * as autonomy from "./autonomy/index.js";
 export * as evolution from "./evolution/index.js";
 export * as stdlib from "./stdlib/index.js";
 export * as tasks from "./tasks/index.js";
+export * as retrieval from "./retrieval/index.js";
 export { runCli } from "./cli/index.js";

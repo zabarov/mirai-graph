@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zabarov.github.io/mirai/schemas/retrieval-project-config.schema.json",
+  "title": "Mirai Retrieval Project Configuration",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract_version", "index_id", "project_id", "inputs", "access", "placement", "semantic", "budgets"],
+  "properties": {
+    "contract_version": { "const": "1.0.0" },
+    "index_id": { "$ref": "#/$defs/id" },
+    "project_id": { "$ref": "#/$defs/id" },
+    "inputs": { "type": "array", "minItems": 1, "maxItems": 32, "items": { "type": "object", "additionalProperties": false, "required": ["kind", "path"], "properties": { "kind": { "enum": ["normalized_units", "graph_snapshot", "programs", "policies", "evidence"] }, "path": { "type": "string", "minLength": 1 }, "snapshot_digest": { "$ref": "#/$defs/digest" } } } },
+    "access": { "$ref": "#/$defs/access" },
+    "placement": { "type": "object", "additionalProperties": false, "required": ["mode", "confidential_mode", "max_snippet_chars"], "properties": { "mode": { "const": "minimal_projection" }, "confidential_mode": { "const": "reference_only" }, "max_snippet_chars": { "type": "integer", "minimum": 32, "maximum": 2048 } } },
+    "semantic": { "type": "object", "additionalProperties": false, "required": ["provider"], "properties": { "provider": { "enum": ["disabled", "local", "external"] }, "model": { "type": "string", "minLength": 1 }, "dimensions": { "type": "integer", "minimum": 1, "maximum": 4096 } }, "allOf": [{ "if": { "properties": { "provider": { "enum": ["local", "external"] } } }, "then": { "required": ["model", "dimensions"] } }] },
+    "budgets": { "type": "object", "additionalProperties": false, "required": ["max_documents", "max_index_bytes", "max_query_results", "max_graph_depth", "max_fan_out", "max_hops", "timeout_ms"], "properties": { "max_documents": { "type": "integer", "minimum": 1 }, "max_index_bytes": { "type": "integer", "minimum": 1024 }, "max_query_results": { "type": "integer", "minimum": 1, "maximum": 1000 }, "max_graph_depth": { "type": "integer", "minimum": 1, "maximum": 64 }, "max_fan_out": { "type": "integer", "minimum": 1, "maximum": 64 }, "max_hops": { "type": "integer", "minimum": 1, "maximum": 16 }, "timeout_ms": { "type": "integer", "minimum": 10, "maximum": 300000 } } }
+  },
+  "$defs": {
+    "id": { "type": "string", "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,159}$" },
+    "digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "strings": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+    "access": { "type": "object", "additionalProperties": false, "required": ["principal_id", "purpose", "scopes", "source_refs", "policy_digest"], "properties": { "principal_id": { "$ref": "#/$defs/id" }, "purpose": { "type": "string", "minLength": 1, "maxLength": 512 }, "scopes": { "$ref": "#/$defs/strings" }, "source_refs": { "$ref": "#/$defs/strings" }, "document_ids": { "$ref": "#/$defs/strings" }, "policy_digest": { "$ref": "#/$defs/digest" } } }
+  }
+}

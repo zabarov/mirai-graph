@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zabarov.github.io/mirai/schemas/retrieval-plan.schema.json",
+  "title": "Mirai Retrieval Plan",
+  "type": "object", "additionalProperties": false,
+  "required": ["contract_version", "request_digest", "intent", "channels", "filters", "budgets", "semantic_status", "diagnostics", "canonical_write_allowed", "digest"],
+  "properties": {
+    "contract_version": { "const": "1.0.0" }, "request_digest": { "$ref": "#/$defs/digest" }, "intent": { "type": "string" }, "channels": { "type": "array", "uniqueItems": true, "items": { "enum": ["exact", "lexical", "semantic", "graph", "process"] } }, "filters": { "type": "object" }, "budgets": { "type": "object" }, "semantic_status": { "enum": ["ready", "disabled", "provider_unavailable"] }, "diagnostics": { "type": "array", "items": { "type": "string" } }, "canonical_write_allowed": { "const": false }, "digest": { "$ref": "#/$defs/digest" }
+  },
+  "$defs": { "digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" } }
+}

@@ -1,0 +1,31 @@
+{
+  "contract_version": "1.0.0",
+  "request_digest": "sha256:d2aaf5f1da85962a7f77f2e6faa0b328b95eea46048222afe251179ed3c82ee5",
+  "intent": "policy_lookup",
+  "channels": [
+    "exact",
+    "lexical",
+    "graph",
+    "process"
+  ],
+  "filters": {
+    "scopes": [
+      "retrieval-demo"
+    ],
+    "source_refs": [
+      "source.demo"
+    ],
+    "freshness_required": "current"
+  },
+  "budgets": {
+    "max_results": 10,
+    "max_graph_depth": 4,
+    "timeout_ms": 5000
+  },
+  "semantic_status": "provider_unavailable",
+  "diagnostics": [
+    "semantic_provider_unavailable"
+  ],
+  "canonical_write_allowed": false,
+  "digest": "sha256:22b57c965f2a887949c872c5cb24953e3cadaa169ac03f7d510103f286f89b79"
+}

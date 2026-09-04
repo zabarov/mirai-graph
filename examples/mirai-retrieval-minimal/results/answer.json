@@ -1,0 +1,33 @@
+{
+  "contract_version": "1.0.0",
+  "request_id": "query.release-policy",
+  "intent": "policy_lookup",
+  "status": "partial",
+  "answer": "Release policy: Release requires tests, evidence, owner approval and a completed Kaizen review.",
+  "claims": [
+    {
+      "text": "Release policy: Release requires tests, evidence, owner approval and a completed Kaizen review.",
+      "evidence_refs": [
+        "source.demo"
+      ],
+      "source_refs": [
+        "source.demo"
+      ]
+    }
+  ],
+  "relevant_relationships": [],
+  "program_candidates": [],
+  "policy_refs": [],
+  "conflicts": [],
+  "limitations": [
+    "semantic_provider_unavailable",
+    "graph_snapshot_not_supplied",
+    "semantic_retrieval_unavailable"
+  ],
+  "next_safe_action": "review_evidence_before_action",
+  "execution_allowed": false,
+  "content_is_untrusted_data": true,
+  "canonical_write_allowed": false,
+  "evidence_bundle_digest": "sha256:063eff59bdf419612ba9a6f75590429dcdf0e45aa76a9b6880c1a089c172882d",
+  "digest": "sha256:3f03b9751768b29c947e1b4532887607e6df67712bbcc8ee7215866d9c5d809d"
+}

@@ -1,0 +1,48 @@
+{
+  "contract_version": "1.0.0",
+  "query_digest": "sha256:d2aaf5f1da85962a7f77f2e6faa0b328b95eea46048222afe251179ed3c82ee5",
+  "index_digest": "sha256:d9bc61a59412c8a68f22a938164a69afd95a2da1c2a6fa1485a9782d18bf5d23",
+  "graph_digest": null,
+  "policy_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "hits": [
+    {
+      "document_id": "unit.release-policy",
+      "kind": "text",
+      "title": "Release policy",
+      "snippet": "Release requires tests, evidence, owner approval and a completed Kaizen review.",
+      "source_ref": "source.demo",
+      "scope": "retrieval-demo",
+      "authority": "owner_asserted",
+      "freshness": "current",
+      "graph_object_refs": [],
+      "evidence_refs": [
+        "source.demo"
+      ],
+      "program_refs": [],
+      "policy_refs": [],
+      "channels": [
+        "exact",
+        "lexical"
+      ],
+      "rank_score": 0.03278688524590164,
+      "match_reasons": [
+        "exact_identifier_or_title_match",
+        "bm25_lexical_match"
+      ],
+      "instructions_authorized": false
+    }
+  ],
+  "source_refs": [
+    "source.demo"
+  ],
+  "conflicts": [],
+  "limitations": [
+    "semantic_provider_unavailable",
+    "graph_snapshot_not_supplied",
+    "semantic_retrieval_unavailable"
+  ],
+  "partial": true,
+  "instructions_authorized": false,
+  "canonical_write_allowed": false,
+  "digest": "sha256:063eff59bdf419612ba9a6f75590429dcdf0e45aa76a9b6880c1a089c172882d"
+}

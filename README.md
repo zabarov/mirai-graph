@@ -12,12 +12,24 @@ Use it when a software project has useful knowledge spread across README files,
 docs, issues, chats, code comments and AI prompts, and you need a small
 machine-readable map that developers and AI assistants can validate and reuse.
 
-Mirai `2.3.0-alpha.1` is an experimental prerelease that adds graph operations,
-overlapping cluster proposals and bounded task delegation. The task SDK alone
-is not a production authorization mechanism, and this alpha does not promote
-the unfinished Mirai 2.2 managed-autonomy candidate to stable.
-See the [development guide](docs/adoption/graph-organization-development.md)
-for supported operations, limitations and reproducible local checks.
+Mirai `2.4.0-alpha.1` is an experimental prerelease that adds Retrieval Fabric
+over the 2.3 graph-operation baseline. It builds disposable,
+authorization-bound local indexes and returns evidence-bound answers across
+exact, lexical, optional semantic, graph and process channels. Retrieval never
+grants approval, executes a Program or changes canonical graph state.
+
+```bash
+npm install
+npm run build
+node packages/cli/mirai.js index build examples/mirai-retrieval-minimal
+node packages/cli/mirai.js search examples/mirai-retrieval-minimal "release policy"
+```
+
+See the [Retrieval Fabric standard](standard/retrieval-fabric.md),
+[architecture decision](docs/architecture/mirai-2.4-retrieval-fabric-adr.md)
+and [minimal example](examples/mirai-retrieval-minimal/README.md). Graph
+organization remains documented in the
+[2.3 development guide](docs/adoption/graph-organization-development.md).
 
 The recorded stable baseline is Mirai `2.1.0`, prepared for production-read
 use. The Mirai 2.2 release-candidate contracts remain an explicit compatibility

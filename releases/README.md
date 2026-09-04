@@ -2,6 +2,10 @@
 
 Status: stable 1.0 release process
 
+Current prerelease: [v2.4.0-alpha.1](2.4.0-alpha.1.md), an experimental
+Retrieval Fabric candidate with rebuildable authorization-bound indexes and
+evidence-bound answers.
+
 ## Purpose
 
 This directory records public release notes for Mirai and the Mirai Graph 1.x

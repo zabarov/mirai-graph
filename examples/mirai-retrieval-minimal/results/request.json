@@ -1,0 +1,19 @@
+{
+  "contract_version": "1.0.0",
+  "id": "query.release-policy",
+  "query": "release policy",
+  "intent": "policy_lookup",
+  "access": {
+    "policy_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "principal_id": "principal.demo-reader",
+    "purpose": "answer_project_questions",
+    "scopes": [
+      "retrieval-demo"
+    ],
+    "source_refs": [
+      "source.demo"
+    ]
+  },
+  "freshness_required": "current",
+  "canonical_write_allowed": false
+}

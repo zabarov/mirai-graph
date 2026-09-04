@@ -95,6 +95,17 @@ import {
   type PromotionReceipt
 } from "../autonomy/index.js";
 import { planAutonomicCycle, runAutonomicReconcileOnce, type AutonomicCycleInput } from "../evolution/index.js";
+import { digestValue } from "../core/index.js";
+import {
+  buildLocalRetrievalIndex,
+  collectRetrievalDocuments,
+  inspectLocalRetrievalIndex,
+  readRetrievalConfig,
+  reconcileLocalRetrievalIndex,
+  retrievalConfigurationDigest,
+  searchLocalRetrievalIndex,
+  type RetrievalRequest
+} from "../retrieval/index.js";
 
 function usage(): void {
   process.stderr.write([
@@ -156,6 +167,12 @@ function usage(): void {
     "  mirai project status [path]",
     "  mirai project migrate [path] --from graph-v2 --dry-run",
     "  mirai project migrate [path] --from graph-v2 --apply --approval <receipt>",
+    "  mirai index plan <project>",
+    "  mirai index build <project>",
+    "  mirai index reconcile <project>",
+    "  mirai index status|verify <project>",
+    "  mirai search <project> <query> [--intent <intent>] [--markdown]",
+    "  mirai search explain <project> <query> [--intent <intent>] [--markdown]",
     "",
     "Alpha.3 effects are capability-gated. Workspace/process actions require --apply and a signed local approval.",
     ""
@@ -292,6 +309,53 @@ export async function runCli(args: string[]): Promise<number> {
   try {
     if (args[0] === "task") return runTaskCli(args);
     if (["stdlib", "graph", "cluster"].includes(args[0] || "") || (args[0] === "component" && ["describe", "resolve"].includes(args[1] || ""))) return runGraphOperationsCli(args);
+    if (args[0] === "index") {
+      const command = requireArgument(args[1], "index command");
+      const target = path.resolve(requireArgument(args[2], "project path"));
+      if (command === "plan") {
+        const config = readRetrievalConfig(target);
+        const collected = collectRetrievalDocuments(target, config);
+        writeJson({ status: "planned", project_id: config.project_id, index_id: config.index_id, document_count: collected.documents.length, source_snapshot_digests: collected.snapshotDigests, graph_snapshot_digest: collected.graph?.digest || null, configuration_digest: retrievalConfigurationDigest(config), writes_performed: false, canonical_write_allowed: false });
+        return 0;
+      }
+      if (command === "build") {
+        writeJson({ status: "built", descriptor: await buildLocalRetrievalIndex(target), canonical_write_allowed: false });
+        return 0;
+      }
+      if (command === "reconcile") {
+        writeJson({ status: "reconciled", ...(await reconcileLocalRetrievalIndex(target)), canonical_write_allowed: false });
+        return 0;
+      }
+      if (command === "status" || command === "verify") {
+        const result = inspectLocalRetrievalIndex(target);
+        writeJson(result);
+        return result.status === "ready" ? 0 : command === "status" && result.status === "missing" ? 0 : 2;
+      }
+      throw new Error(`Unknown index command ${command}`);
+    }
+
+    if (args[0] === "search") {
+      const explain = args[1] === "explain";
+      const offset = explain ? 1 : 0;
+      const target = path.resolve(requireArgument(args[1 + offset], "project path"));
+      const query = requireArgument(args[2 + offset], "query");
+      const config = readRetrievalConfig(target);
+      const collected = collectRetrievalDocuments(target, config);
+      const requestBody = {
+        contract_version: "1.0.0" as const,
+        id: `query-${digestValue({ query, access: config.access }).slice(0, 16)}`,
+        query,
+        ...(readOption(args, "--intent") ? { intent: readOption(args, "--intent") as RetrievalRequest["intent"] } : {}),
+        access: config.access,
+        ...(readOption(args, "--freshness") ? { freshness_required: readOption(args, "--freshness") as RetrievalRequest["freshness_required"] } : {}),
+        ...(readOption(args, "--max-results") ? { max_results: Number(readOption(args, "--max-results")) } : {}),
+        ...(collected.graph ? { graph: collected.graph } : {}),
+        canonical_write_allowed: false as const
+      };
+      const result = await searchLocalRetrievalIndex(target, requestBody);
+      writeProjectOutput((explain ? result : result.answer) as unknown as Record<string, unknown>, args.includes("--markdown"));
+      return result.answer.status === "clarification_required" || result.answer.status === "insufficient_evidence" ? 2 : 0;
+    }
     if (args[0] === "project") {
       const command = requireArgument(args[1], "project command");
       const target = path.resolve(args[2] && !args[2].startsWith("--") ? args[2] : ".");
@@ -316,7 +380,24 @@ export async function runCli(args: string[]): Promise<number> {
       }
       if (command === "inspect") {
         if (!args.includes("--for-agent")) throw new Error("project inspect currently requires --for-agent");
-        writeProjectOutput(inspectProjectForAgent(target, requireArgument(readOption(args, "--task"), "--task")) as unknown as Record<string, unknown>, args.includes("--markdown"));
+        const task = requireArgument(readOption(args, "--task"), "--task");
+        const brief = inspectProjectForAgent(target, task);
+        const retrievalConfig = path.join(target, "mirai", "retrieval.yaml");
+        if (fs.existsSync(retrievalConfig)) {
+          const state = inspectLocalRetrievalIndex(target);
+          let retrieval;
+          if (state.status === "ready" && state.descriptor) {
+            const config = readRetrievalConfig(target);
+            const collected = collectRetrievalDocuments(target, config);
+            const result = await searchLocalRetrievalIndex(target, { contract_version: "1.0.0", id: `agent-${digestValue(task).slice(7, 23)}`, query: task, access: config.access, ...(collected.graph ? { graph: collected.graph } : {}), canonical_write_allowed: false });
+            retrieval = { status: result.answer.status === "answered" ? "ready" as const : "partial" as const, index_digest: state.descriptor.digest, source_refs: result.evidence.source_refs, program_candidates: result.answer.program_candidates, policy_refs: result.answer.policy_refs, blockers: result.answer.conflicts, next_safe_action: result.answer.next_safe_action, evidence_bundle_digest: result.evidence.digest };
+          } else {
+            retrieval = { status: "unavailable" as const, index_digest: state.descriptor?.digest || null, source_refs: [], program_candidates: [], policy_refs: [], blockers: state.diagnostics, next_safe_action: state.status === "missing" ? "build_authorized_retrieval_index" : "reconcile_authorized_retrieval_index", evidence_bundle_digest: null };
+          }
+          const { digest: _digest, ...body } = brief;
+          const enriched = { ...body, retrieval };
+          writeProjectOutput({ ...enriched, digest: digestValue(enriched) } as unknown as Record<string, unknown>, args.includes("--markdown"));
+        } else writeProjectOutput(brief as unknown as Record<string, unknown>, args.includes("--markdown"));
         return 0;
       }
       if (command === "migrate") {

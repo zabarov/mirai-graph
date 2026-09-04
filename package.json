@@ -1,6 +1,6 @@
 {
   "name": "@zabarov/mirai",
-  "version": "2.3.0-alpha.1",
+  "version": "2.4.0-alpha.1",
   "private": false,
   "description": "A governed executable environment for AI, project and organizational processes.",
   "license": "MIT",
@@ -97,10 +97,19 @@
       "import": "./dist/esm/evolution/index.js",
       "require": "./dist/cjs/evolution/index.js"
     },
+    "./retrieval": {
+      "types": "./dist/cjs/retrieval/index.d.ts",
+      "import": "./dist/esm/retrieval/index.js",
+      "require": "./dist/cjs/retrieval/index.js"
+    },
     "./project-technology": "./packages/project-technology/index.js"
   },
   "scripts": {
-    "posttest": "npm run test:mirai-2.3",
+    "posttest": "npm run test:mirai-2.3 && npm run test:mirai-2.4",
+    "test:mirai-2.4": "node --test test/retrieval/retrieval.test.cjs",
+    "validate:mirai-2.4": "npm run build && npm run test:mirai-2.4",
+    "generate:mirai-2.4-fixtures": "npm run build && node packages/cli/generate-retrieval-fixtures.js",
+    "validate:mirai-2.4-readiness": "node packages/cli/validate-mirai-2-4-readiness.js",
     "test:mirai-2.3": "npm run test:graph-operations && node --test test/tasks/activation-composition.test.cjs test/tasks/composition.test.cjs test/tasks/computed-pilot.test.cjs test/tasks/controller.test.cjs test/tasks/registry-cli.test.cjs test/tasks/runtime-bridge.test.cjs && node packages/cli/generate-graph-operation-fixtures.js --check && node packages/cli/generate-task-runtime-fixture.js --check",
     "test:graph-operations": "node --test test/stdlib/catalog.test.cjs test/stdlib/graph.test.cjs test/knowledge/clusters.test.cjs",
     "generate:graph-operation-fixtures": "node packages/cli/generate-graph-operation-fixtures.js",
@@ -249,7 +258,7 @@
     "validate:playground-demo": "npm run --silent playground:demo >/tmp/mirai-graph-playground-demo.md && diff -u playground/demo-report.md /tmp/mirai-graph-playground-demo.md",
     "validate:playground-report": "npm run --silent playground:report >/tmp/mirai-graph-playground-report.md && diff -u playground/demo-report.md /tmp/mirai-graph-playground-report.md && node packages/cli/assert-file-contains.js playground/demo-report.md 'transition explanation' 'Instrumentation' 'Multi-source feedback' 'Baseline Comparison' 'baseline comparison'",
     "test": "npm run validate:graph-manifest && npm run validate:minimal && npm run validate:benchmark && npm run validate:seed && npm run validate:profiles && npm run validate:ai-employee && npm run validate:skill-runtime && npm run validate:managed-project && npm run validate:implementation-control && npm run validate:implementation-control-cycles && npm run validate:launch-record && npm run validate:process-transition && npm run validate:process-transition-report && npm run validate:process-control && npm run validate:technology-quality-feedback && npm run validate:instrumentation-layer && npm run validate:instrumentation-report && npm run validate:dynamic-episodes && npm run validate:dynamic-episode-report && npm run validate:semantic-intent-resolution && npm run validate:goal-vector-quality-control && npm run validate:dna-alignment && npm run validate:work-state && npm run validate:risk-control && npm run validate:source-boundary && npm run validate:organization-governance && npm run validate:societal-governance && npm run validate:character-layer && npm run validate:character-layer-integration && npm run validate:model-portability-evidence && npm run validate:character-layer-readiness && npm run validate:templates && npm run validate:adopter-workflow && npm run validate:self-service-onboarding && npm run validate:project-capsule && npm run validate:init-fixtures && npm run validate:bootstrap-fixtures && npm run validate:release-state && npm run validate:mirai-graph-compat && npm run validate:cli-unified && npm run validate:pilots && npm run validate:context-packs && npm run validate:profile-results && npm run validate:routing-control && npm run seed:preview && npm run context:generate && npm run playground:demo && npm run playground:report && npm run readiness:benchmark && npm run benchmark:synthetic && npm run validate:baseline-comparison && npm run validate:markdown-report && npm run validate:playground-demo && npm run validate:playground-report && npm run test:negative && npm run test:character-layer-semantic-negative && npm run test:societal-governance-negative && npm run test:process-transition-negative && npm run test:technology-quality-feedback-negative && npm run test:instrumentation-layer-negative && npm run test:dynamic-episodes-negative && npm run test:semantic-intent-resolution-negative && npm run test:goal-vector-quality-control-negative",
-    "release:check": "npm test && npm run test:project-continuity && npm run test:project-technology && npm run validate:mirai-2.2-adapter-packages && npm run validate:mirai-2.2-adapter-clean-room && npm run validate:mirai-2.2-controlled-pilots && npm run test:mirai-2.2-controlled-pilots-negative && npm run validate:mirai-2.2-security-review && npm run test:mirai-2.2-security-review-negative && npm run validate:mirai-2.2-readiness && npm run validate:mirai-2.3-readiness && npm run validate:markdown-links && git diff --check"
+    "release:check": "npm test && npm run test:project-continuity && npm run test:project-technology && npm run validate:mirai-2.2-adapter-packages && npm run validate:mirai-2.2-adapter-clean-room && npm run validate:mirai-2.2-controlled-pilots && npm run test:mirai-2.2-controlled-pilots-negative && npm run validate:mirai-2.2-security-review && npm run test:mirai-2.2-security-review-negative && npm run validate:mirai-2.2-readiness && npm run validate:mirai-2.4-readiness && npm run validate:markdown-links && git diff --check"
   },
   "repository": {
     "type": "git",
@@ -287,9 +296,11 @@
     "releases",
     "templates",
     "!templates/**/.mirai/**",
+    "!examples/**/.mirai/**",
     ".github"
   ],
   "dependencies": {
+    "@orama/orama": "^3.1.18",
     "ajv": "^8.17.1",
     "ajv-formats": "^3.0.1",
     "fast-xml-parser": "^5.7.0",

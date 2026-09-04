@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zabarov.github.io/mirai/schemas/retrieval-evidence-bundle.schema.json",
+  "title": "Mirai Retrieval Evidence Bundle",
+  "type": "object", "additionalProperties": false,
+  "required": ["contract_version", "query_digest", "index_digest", "graph_digest", "policy_digest", "hits", "source_refs", "conflicts", "limitations", "partial", "instructions_authorized", "canonical_write_allowed", "digest"],
+  "properties": {
+    "contract_version": { "const": "1.0.0" }, "query_digest": { "$ref": "#/$defs/digest" }, "index_digest": { "$ref": "#/$defs/digest" }, "graph_digest": { "anyOf": [{ "$ref": "#/$defs/digest" }, { "type": "null" }] }, "policy_digest": { "$ref": "#/$defs/digest" }, "hits": { "type": "array", "items": { "type": "object", "required": ["document_id", "source_ref", "evidence_refs", "channels", "rank_score", "instructions_authorized"], "properties": { "instructions_authorized": { "const": false } } } }, "source_refs": { "type": "array", "items": { "type": "string" } }, "conflicts": { "type": "array", "items": { "type": "string" } }, "limitations": { "type": "array", "items": { "type": "string" } }, "partial": { "type": "boolean" }, "instructions_authorized": { "const": false }, "canonical_write_allowed": { "const": false }, "digest": { "$ref": "#/$defs/digest" }
+  },
+  "$defs": { "digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" } }
+}
