@@ -1,6 +1,7 @@
 import { digestValue, withoutDigest } from "../core/index.js";
 import type {
   OutcomeAssessment,
+  OutcomeChildBundle,
   OutcomeCandidateSet,
   OutcomeCompletionContract,
   OutcomeDeliveryPlan,
@@ -40,27 +41,36 @@ function validValue(type: OutcomeSlotDefinition["value_type"], value: unknown): 
   return false;
 }
 
-function evidenceFor(candidateEvidenceRefs: string[], candidateSourceRefs: string[], evidence: OutcomeEvidenceSet): OutcomeEvidenceItem[] {
-  return evidence.items.filter((item) => candidateEvidenceRefs.includes(item.id) && candidateSourceRefs.includes(item.source_ref));
+function evidenceFor(contract: OutcomeCompletionContract, slot: OutcomeSlotDefinition, candidate: OutcomeCandidateSet["candidates"][number], evidence: OutcomeEvidenceSet): OutcomeEvidenceItem[] {
+  const valueDigest = digestValue(candidate.value);
+  return evidence.items.filter((item) => candidate.evidence_refs.includes(item.id)
+    && candidate.source_refs.includes(item.source_ref)
+    && item.contract_digest === contract.digest
+    && item.slot_id === slot.id
+    && item.value_digest === valueDigest);
 }
 
-function assessSlot(slot: OutcomeSlotDefinition, candidates: OutcomeCandidateSet, evidence: OutcomeEvidenceSet): OutcomeSlotAssessment {
+function assessSlot(contract: OutcomeCompletionContract, slot: OutcomeSlotDefinition, candidates: OutcomeCandidateSet, evidence: OutcomeEvidenceSet): OutcomeSlotAssessment {
+  const empty = (state: OutcomeSlotAssessment["state"], reasons: string[], candidateRefs: string[] = [], sourceRefs: string[] = []): OutcomeSlotAssessment => ({
+    slot_id: slot.id, state, candidate_refs: candidateRefs, admitted_evidence_refs: [], source_refs: sourceRefs, reasons, content_is_untrusted_data: true
+  });
   const matches = candidates.candidates.filter((candidate) => candidate.slot_id === slot.id).sort((a, b) => a.id.localeCompare(b.id));
-  if (!matches.length) return { slot_id: slot.id, state: "missing", candidate_refs: [], admitted_evidence_refs: [], source_refs: [], reasons: [slot.acquisition === "user_input" ? "user_input_required" : "candidate_missing"] };
+  if (!matches.length) return empty("missing", [slot.acquisition === "user_input" ? "user_input_required" : "candidate_missing"]);
   const validCandidates = matches.filter((candidate) => validValue(slot.value_type, candidate.value));
-  if (!validCandidates.length) return { slot_id: slot.id, state: "invalid", candidate_refs: matches.map((item) => item.id), admitted_evidence_refs: [], source_refs: [], reasons: ["candidate_value_type_invalid"] };
+  if (!validCandidates.length) return empty("invalid", ["candidate_value_type_invalid"], matches.map((item) => item.id));
   const selected = validCandidates[0]!;
-  const matchingEvidence = evidenceFor(selected.evidence_refs, selected.source_refs, evidence);
+  const matchingEvidence = evidenceFor(contract, slot, selected, evidence);
   const authorized = matchingEvidence.filter((item) => item.authorized);
-  if (slot.evidence_required && !matchingEvidence.length) return { slot_id: slot.id, state: "unsupported", candidate_refs: [selected.id], admitted_evidence_refs: [], source_refs: selected.source_refs, reasons: ["evidence_reference_not_admitted"] };
-  if (slot.evidence_required && !authorized.length) return { slot_id: slot.id, state: "unauthorized", candidate_refs: [selected.id], admitted_evidence_refs: [], source_refs: selected.source_refs, reasons: ["evidence_not_authorized"] };
+  if (slot.evidence_required && !matchingEvidence.length) return empty("unsupported", ["evidence_binding_not_admitted"], [selected.id], selected.source_refs);
+  if (slot.evidence_required && !authorized.length) return empty("unauthorized", ["evidence_not_authorized"], [selected.id], selected.source_refs);
   const admissible = slot.evidence_required ? authorized : authorized.length ? authorized : matchingEvidence;
-  if (slot.evidence_required && !admissible.some((item) => (authorityRank[item.authority] ?? -1) >= (authorityRank[slot.minimum_authority] ?? 99))) return { slot_id: slot.id, state: "unsupported", candidate_refs: [selected.id], admitted_evidence_refs: admissible.map((item) => item.id), source_refs: admissible.map((item) => item.source_ref), reasons: ["authority_below_requirement"] };
-  if (admissible.some((item) => item.conflict_refs.length > 0)) return { slot_id: slot.id, state: "conflicting", candidate_refs: [selected.id], admitted_evidence_refs: admissible.map((item) => item.id), source_refs: admissible.map((item) => item.source_ref), reasons: ["admitted_evidence_conflict"] };
-  if (slot.evidence_required && !admissible.some((item) => (freshnessRank[item.freshness] ?? -1) >= (requiredFreshness[slot.freshness_required] ?? 99))) return { slot_id: slot.id, state: "stale", candidate_refs: [selected.id], admitted_evidence_refs: admissible.map((item) => item.id), source_refs: admissible.map((item) => item.source_ref), reasons: ["freshness_below_requirement"] };
+  const assessed = (state: OutcomeSlotAssessment["state"], reasons: string[]): OutcomeSlotAssessment => ({ slot_id: slot.id, state, candidate_refs: [selected.id], admitted_evidence_refs: admissible.map((item) => item.id), source_refs: admissible.map((item) => item.source_ref), reasons, content_is_untrusted_data: true });
+  if (slot.evidence_required && !admissible.some((item) => (authorityRank[item.authority] ?? -1) >= (authorityRank[slot.minimum_authority] ?? 99))) return assessed("unsupported", ["authority_below_requirement"]);
+  if (admissible.some((item) => item.conflict_refs.length > 0)) return assessed("conflicting", ["admitted_evidence_conflict"]);
+  if (slot.evidence_required && !admissible.some((item) => (freshnessRank[item.freshness] ?? -1) >= (requiredFreshness[slot.freshness_required] ?? 99))) return assessed("stale", ["freshness_below_requirement"]);
   const distinctValues = unique(validCandidates.map((item) => JSON.stringify(item.value)));
-  if (distinctValues.length > 1) return { slot_id: slot.id, state: "conflicting", candidate_refs: validCandidates.map((item) => item.id), admitted_evidence_refs: admissible.map((item) => item.id), source_refs: admissible.map((item) => item.source_ref), reasons: ["candidate_values_conflict"] };
-  return { slot_id: slot.id, state: "confirmed", value: selected.value, candidate_refs: validCandidates.map((item) => item.id), admitted_evidence_refs: unique(admissible.map((item) => item.id)), source_refs: unique(admissible.map((item) => item.source_ref)), reasons: [] };
+  if (distinctValues.length > 1) return { ...assessed("conflicting", ["candidate_values_conflict"]), candidate_refs: validCandidates.map((item) => item.id) };
+  return { slot_id: slot.id, state: "confirmed", value: selected.value, candidate_refs: validCandidates.map((item) => item.id), admitted_evidence_refs: unique(admissible.map((item) => item.id)), source_refs: unique(admissible.map((item) => item.source_ref)), reasons: [], content_is_untrusted_data: true };
 }
 
 function selectStatus(contract: OutcomeCompletionContract, context: OutcomeCandidateSet["context"], slots: OutcomeSlotAssessment[]): OutcomeStatus {
@@ -96,7 +106,7 @@ export function assessOutcome(contract: OutcomeCompletionContract, candidates: O
   if (candidates.contract_digest !== contract.digest) throw new Error("outcome_candidate_contract_mismatch");
   if (contract.template_authority === "ephemeral_read_only" && contract.scope.effect !== "read_only") throw new Error("ephemeral_outcome_contract_cannot_be_effectful");
   if (contract.parent_contract_digest && contract.template_authority === "ephemeral_read_only") throw new Error("ephemeral_parent_contract_requires_explicit_resolution");
-  const slots = [...contract.required_slots, ...contract.optional_slots].map((slot) => assessSlot(slot, candidates, evidence));
+  const slots = [...contract.required_slots, ...contract.optional_slots].map((slot) => assessSlot(contract, slot, candidates, evidence));
   const status = selectStatus(contract, candidates.context, slots);
   const byState = (state: OutcomeSlotAssessment["state"]) => slots.filter((slot) => slot.state === state).map((slot) => slot.slot_id);
   const required = slots.filter((slot) => contract.required_slots.some((item) => item.id === slot.slot_id));
@@ -120,10 +130,15 @@ export function assessOutcome(contract: OutcomeCompletionContract, candidates: O
   return seal(body);
 }
 
-export function aggregateOutcomes(contract: OutcomeCompletionContract, assessments: OutcomeAssessment[]): OutcomeAssessment {
-  if (!assessments.length) throw new Error("outcome_assessments_required");
+export function aggregateOutcomes(contract: OutcomeCompletionContract, childBundles: OutcomeChildBundle[]): OutcomeAssessment {
+  if (!childBundles.length) throw new Error("outcome_assessments_required");
   assertOutcomeContract(contract);
-  if (assessments.some((item) => (item.contract_digest !== contract.digest && item.parent_contract_digest !== contract.digest) || !Array.isArray(item.slots) || !Array.isArray(item.limitations) || !sameDigest(item))) throw new Error("outcome_child_assessment_invalid");
+  const assessments = childBundles.map((bundle) => {
+    if (!bundle?.contract || !bundle.candidates || !bundle.evidence || !bundle.assessment) throw new Error("outcome_child_bundle_invalid");
+    const recomputed = assessOutcome(bundle.contract, bundle.candidates, bundle.evidence);
+    if ((bundle.contract.digest !== contract.digest && bundle.contract.parent_contract_digest !== contract.digest) || !sameDigest(bundle.assessment) || bundle.assessment.digest !== recomputed.digest) throw new Error("outcome_child_assessment_invalid");
+    return recomputed;
+  });
   const definitions = [...contract.required_slots, ...contract.optional_slots];
   const severity: OutcomeSlotAssessment["state"][] = ["conflicting", "unauthorized", "stale", "unsupported", "invalid", "missing"];
   const slots = definitions.map((definition): OutcomeSlotAssessment => {
@@ -134,7 +149,8 @@ export function aggregateOutcomes(contract: OutcomeCompletionContract, assessmen
       slot_id: definition.id,
       candidate_refs: unique(children.flatMap((slot) => slot.candidate_refs)),
       admitted_evidence_refs: unique(children.flatMap((slot) => slot.admitted_evidence_refs)),
-      source_refs: unique(children.flatMap((slot) => slot.source_refs))
+      source_refs: unique(children.flatMap((slot) => slot.source_refs)),
+      content_is_untrusted_data: true as const
     };
     if (values.length > 1 || children.some((slot) => slot.state === "conflicting")) {
       return { ...common, state: "conflicting", reasons: unique(["child_assessments_conflict", ...children.flatMap((slot) => slot.reasons)]) };
@@ -181,7 +197,7 @@ export function planOutcomeDelivery(assessment: OutcomeAssessment, handoffRoute:
   if (!sameDigest(assessment)) throw new Error("outcome_assessment_digest_mismatch");
   const confirmed = assessment.slots.filter((slot) => slot.state === "confirmed");
   const body = { contract_version: "1.0.0" as const, id: `delivery.${assessment.id}`, assessment_digest: assessment.digest, status: assessment.status,
-    confirmed_facts: confirmed.map((slot) => ({ slot_id: slot.slot_id, value: slot.value, evidence_refs: slot.admitted_evidence_refs, source_refs: slot.source_refs })),
+    confirmed_facts: confirmed.map((slot) => ({ slot_id: slot.slot_id, value: slot.value, evidence_refs: slot.admitted_evidence_refs, source_refs: slot.source_refs, content_is_untrusted_data: true as const })),
     gaps: assessment.slots.filter((slot) => slot.state !== "confirmed").map((slot) => ({ slot_id: slot.slot_id, state: slot.state, reasons: slot.reasons })),
     question: assessment.clarifying_question, useful_next_step: assessment.next_safe_action,
     citations: unique(confirmed.flatMap((slot) => slot.admitted_evidence_refs.map((ref, index) => `${ref}\u0000${slot.source_refs[index] || slot.source_refs[0] || "source.unknown"}`))).map((pair) => { const [evidence_ref, source_ref] = pair.split("\u0000"); return { evidence_ref: evidence_ref!, source_ref: source_ref! }; }),

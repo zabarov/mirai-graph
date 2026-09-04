@@ -1,7 +1,7 @@
 {
   "contract_version": "1.0.0",
   "id": "delivery.assessment.outcome.release-readiness.candidates.release-readiness",
-  "assessment_digest": "sha256:8f922cda1745e1653d9608d0d56c7bf5607adeb3287d2f4ce981e9ee2cf928a6",
+  "assessment_digest": "sha256:5ed745f300705fbf28d4c4dcf1aaf4011e2c509f7f27388f850e5fbb37a32ea3",
   "status": "satisfied",
   "confirmed_facts": [
     {
@@ -12,7 +12,8 @@
       ],
       "source_refs": [
         "source.package"
-      ]
+      ],
+      "content_is_untrusted_data": true
     },
     {
       "slot_id": "test_status",
@@ -22,7 +23,8 @@
       ],
       "source_refs": [
         "source.ci"
-      ]
+      ],
+      "content_is_untrusted_data": true
     },
     {
       "slot_id": "release_note",
@@ -32,7 +34,8 @@
       ],
       "source_refs": [
         "source.release-note"
-      ]
+      ],
+      "content_is_untrusted_data": true
     }
   ],
   "gaps": [],
@@ -58,5 +61,5 @@
   ],
   "execution_allowed": false,
   "canonical_write_allowed": false,
-  "digest": "sha256:d597480369cc9dff71637a3d25a380a0778dc778c409a180119a12e037d7b51b"
+  "digest": "sha256:65e42349b7a7ff5486fff049393e6189a20b048ac02c2cc8b5ee7c2f49d15d36"
 }

@@ -1,7 +1,7 @@
 import { digestValue } from "../core/index.js";
 import type { PureAdapterRegistry } from "../runtime/pure-adapters.js";
 import { aggregateOutcomes, assessOutcome, planOutcomeDelivery, proposeOutcomeTemplate } from "./assessment.js";
-import type { OutcomeAssessment, OutcomeCandidateSet, OutcomeCompletionContract, OutcomeEvidenceSet } from "./types.js";
+import type { OutcomeAssessment, OutcomeCandidateSet, OutcomeChildBundle, OutcomeCompletionContract, OutcomeEvidenceSet } from "./types.js";
 import { assertOutcomeCandidateSet, assertOutcomeContract } from "./validator.js";
 
 const operations = ["outcome.aggregate", "outcome.assess", "outcome.bind_candidates", "outcome.instantiate", "outcome.plan_delivery"] as const;
@@ -16,7 +16,7 @@ export function invokeOutcomeOperation(id: typeof operations[number], args: Reco
   if (id === "outcome.instantiate") { assertOutcomeContract(args.contract as OutcomeCompletionContract); return structuredClone(args.contract); }
   if (id === "outcome.bind_candidates") { assertOutcomeCandidateSet(args.candidates as OutcomeCandidateSet); return structuredClone(args.candidates); }
   if (id === "outcome.assess") return assessOutcome(args.contract as OutcomeCompletionContract, args.candidates as OutcomeCandidateSet, args.evidence as OutcomeEvidenceSet);
-  if (id === "outcome.aggregate") return aggregateOutcomes(args.contract as OutcomeCompletionContract, args.assessments as OutcomeAssessment[]);
+  if (id === "outcome.aggregate") return aggregateOutcomes(args.contract as OutcomeCompletionContract, args.child_bundles as OutcomeChildBundle[]);
   return planOutcomeDelivery(args.assessment as OutcomeAssessment, typeof args.handoff_route === "string" ? args.handoff_route : null);
 }
 

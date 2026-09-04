@@ -6,7 +6,7 @@
     {
       "id": "evidence.version",
       "source_ref": "source.package",
-      "contract_digest": "sha256:2bfa960f65dc862865a6515081333c82f110ffbeb5e0319372fb1e68ce59453a",
+      "contract_digest": "sha256:59c097c8cd736b2ef28927c6f8baf2f9473d3889296839f8f6cec3ee4dacf356",
       "slot_id": "version",
       "value_digest": "sha256:3d228737fbe18762cb3ecfcc16b0118d8d2966eeed7fab298cb3dd8e7880b42e",
       "admission_receipt_digest": "sha256:85084388d617eb2a823e68e510d05e4235551fa1cc5a8cb1fbdd34111431cfe6",
@@ -14,12 +14,12 @@
       "freshness": "current",
       "conflict_refs": [],
       "authorized": true,
-      "digest": "sha256:26fd5c40fcbd1ba7796a057c22f850d4d49a868c3d214dcaf80004c6a8fbc0c2"
+      "digest": "sha256:6c81e8e57fddbc4365b810d0738fdb41915ad1f024dfd6144ef6beaf38089737"
     },
     {
       "id": "evidence.tests",
       "source_ref": "source.ci",
-      "contract_digest": "sha256:2bfa960f65dc862865a6515081333c82f110ffbeb5e0319372fb1e68ce59453a",
+      "contract_digest": "sha256:59c097c8cd736b2ef28927c6f8baf2f9473d3889296839f8f6cec3ee4dacf356",
       "slot_id": "test_status",
       "value_digest": "sha256:559532ad927252eed5d9b6687d55203a96b956d822055f4570f196a93a42bece",
       "admission_receipt_digest": "sha256:cded0565be682398bc3c871f5666923aab04f63ace09673751c0cf243fba2917",
@@ -27,12 +27,12 @@
       "freshness": "current",
       "conflict_refs": [],
       "authorized": true,
-      "digest": "sha256:befcda525de5309749aa511aa78444b433a0302f57049c04b0ed57a02e6f7b21"
+      "digest": "sha256:968e661b35af5c64ca38959798af4822cbd7a2181cf25f4d6f39cf804894ce67"
     },
     {
       "id": "evidence.release-note",
       "source_ref": "source.release-note",
-      "contract_digest": "sha256:2bfa960f65dc862865a6515081333c82f110ffbeb5e0319372fb1e68ce59453a",
+      "contract_digest": "sha256:59c097c8cd736b2ef28927c6f8baf2f9473d3889296839f8f6cec3ee4dacf356",
       "slot_id": "release_note",
       "value_digest": "sha256:57073f3b4845c1d2decb3d0a34ab982bbf16ddbc8d8efb90d18b12d09c04653c",
       "admission_receipt_digest": "sha256:8d337e782f79c861a07aedbe056a423183b7a37adf0b712fa8763ec61db90065",
@@ -40,7 +40,7 @@
       "freshness": "current",
       "conflict_refs": [],
       "authorized": true,
-      "digest": "sha256:cbcd44f4180714d996871c6f46ad6dd1136f00d1048933026f634908476bc555"
+      "digest": "sha256:e4a5f68d2e435bbd2073d59afd50f2160fa95ec4c1a5450cc064dd4b5db21adf"
     }
   ],
   "partial": false,
@@ -48,5 +48,5 @@
     "Synthetic fixture does not establish production readiness."
   ],
   "canonical_write_allowed": false,
-  "digest": "sha256:807d7aae7e810b99b93b36ed926a75715b408f2b0ca9945aaa29cf503e7eb7d4"
+  "digest": "sha256:07240ae2c58e3170eadaaaa7a713c4582abfa66b2a56fde4f82f1248d5d2b9e5"
 }

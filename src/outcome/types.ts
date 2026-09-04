@@ -83,6 +83,10 @@ export interface OutcomeCandidateSet {
 export interface OutcomeEvidenceItem {
   id: string;
   source_ref: string;
+  contract_digest: string;
+  slot_id: string;
+  value_digest: string;
+  admission_receipt_digest: string;
   authority: OutcomeAuthority;
   freshness: "current" | "aging" | "stale" | "unknown";
   conflict_refs: string[];
@@ -113,6 +117,14 @@ export interface OutcomeSlotAssessment {
   admitted_evidence_refs: string[];
   source_refs: string[];
   reasons: string[];
+  content_is_untrusted_data: true;
+}
+
+export interface OutcomeChildBundle {
+  contract: OutcomeCompletionContract;
+  candidates: OutcomeCandidateSet;
+  evidence: OutcomeEvidenceSet;
+  assessment: OutcomeAssessment;
 }
 
 export interface OutcomeAssessment {
@@ -143,7 +155,7 @@ export interface OutcomeDeliveryPlan {
   id: string;
   assessment_digest: string;
   status: OutcomeStatus;
-  confirmed_facts: Array<{ slot_id: string; value: unknown; evidence_refs: string[]; source_refs: string[] }>;
+  confirmed_facts: Array<{ slot_id: string; value: unknown; evidence_refs: string[]; source_refs: string[]; content_is_untrusted_data: true }>;
   gaps: Array<{ slot_id: string; state: OutcomeSlotState; reasons: string[] }>;
   question: string | null;
   useful_next_step: string;

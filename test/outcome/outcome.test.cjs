@@ -12,7 +12,7 @@ const load = (name) => JSON.parse(fs.readFileSync(path.join(root, name), "utf8")
 const seal = (body) => { const { digest: _digest, ...rest } = body; return { ...rest, digest: digestValue(rest) }; };
 
 test("public outcome schemas accept deterministic reference artifacts", () => {
-  const pairs = [["outcome-completion-contract.schema.json", "outcome-contract.json"], ["outcome-candidate-set.schema.json", "candidate-set.json"], ["outcome-assessment.schema.json", "assessment.json"], ["outcome-delivery-plan.schema.json", "delivery-plan.json"]];
+  const pairs = [["outcome-completion-contract.schema.json", "outcome-contract.json"], ["outcome-candidate-set.schema.json", "candidate-set.json"], ["outcome-evidence-set.schema.json", "evidence-set.json"], ["outcome-assessment.schema.json", "assessment.json"], ["outcome-delivery-plan.schema.json", "delivery-plan.json"]];
   for (const [schemaName, valueName] of pairs) {
     const ajv = new Ajv2020({ allErrors: true, strict: false }); addFormats(ajv);
     const validate = ajv.compile(JSON.parse(fs.readFileSync(path.resolve(__dirname, "../../schemas", schemaName), "utf8")));
@@ -59,7 +59,7 @@ test("status precedence handles scope, conflict, input and temporary failure", (
   const outOfScope = structuredClone(baseCandidates); outOfScope.context.purpose = "other";
   assert.equal(assessOutcome(contract, seal(outOfScope), baseEvidence).status, "out_of_scope");
 
-  const conflictEvidence = structuredClone(baseEvidence); conflictEvidence.items.find((item) => item.id === "evidence.tests").conflict_refs = ["conflict.tests"];
+  const conflictEvidence = structuredClone(baseEvidence); conflictEvidence.items.find((item) => item.id === "evidence.tests").conflict_refs = ["conflict.tests"]; conflictEvidence.items = conflictEvidence.items.map(seal);
   assert.equal(assessOutcome(contract, baseCandidates, seal(conflictEvidence)).status, "blocked_by_conflict");
 
   let inputContract = structuredClone(contract); inputContract.required_slots[0].acquisition = "user_input"; inputContract = seal(inputContract);
@@ -75,9 +75,9 @@ test("forged, stale and unauthorized evidence fail closed", () => {
   const contract = load("outcome-contract.json"); const candidates = load("candidate-set.json");
   const forged = structuredClone(candidates); forged.candidates[0].evidence_refs = ["evidence.forged"];
   assert.equal(assessOutcome(contract, seal(forged), load("evidence-set.json")).status, "insufficient_evidence");
-  const stale = load("evidence-set.json"); stale.items.find((item) => item.id === "evidence.version").freshness = "stale";
+  const stale = load("evidence-set.json"); stale.items.find((item) => item.id === "evidence.version").freshness = "stale"; stale.items = stale.items.map(seal);
   assert.deepEqual(assessOutcome(contract, candidates, seal(stale)).stale_slots, ["version"]);
-  const unauthorized = load("evidence-set.json"); unauthorized.items.find((item) => item.id === "evidence.tests").authorized = false;
+  const unauthorized = load("evidence-set.json"); unauthorized.items.find((item) => item.id === "evidence.tests").authorized = false; unauthorized.items = unauthorized.items.map(seal);
   assert.deepEqual(assessOutcome(contract, candidates, seal(unauthorized)).unauthorized_slots, ["test_status"]);
 });
 
@@ -87,8 +87,9 @@ test("pure assessment is deterministic across 100 runs", () => {
 });
 
 test("nested aggregation preserves evidence and rejects tampered children", () => {
-  const contract = load("outcome-contract.json"); const child = load("assessment.json");
-  const aggregate = aggregateOutcomes(contract, [child, child]);
+  const contract = load("outcome-contract.json"); const candidates = load("candidate-set.json"); const evidence = load("evidence-set.json"); const child = load("assessment.json");
+  const bundle = { contract, candidates, evidence, assessment: child };
+  const aggregate = aggregateOutcomes(contract, [bundle, bundle]);
   assert.equal(aggregate.status, "satisfied");
   assert.deepEqual(aggregate.slots.find((slot) => slot.slot_id === "version").admitted_evidence_refs, ["evidence.version"]);
   assert.equal(aggregate.evidence_set_digest, digestValue([child.evidence_set_digest, child.evidence_set_digest]));
@@ -96,9 +97,11 @@ test("nested aggregation preserves evidence and rejects tampered children", () =
   const version = conflicting.slots.find((slot) => slot.slot_id === "version");
   version.value = "different";
   conflicting.digest = digestValue(Object.fromEntries(Object.entries(conflicting).filter(([key]) => key !== "digest")));
-  assert.equal(aggregateOutcomes(contract, [child, conflicting]).status, "blocked_by_conflict");
+  assert.throws(() => aggregateOutcomes(contract, [bundle, { ...bundle, assessment: conflicting }]), /child_assessment_invalid/);
   const tampered = structuredClone(child); tampered.status = "failed";
-  assert.throws(() => aggregateOutcomes(contract, [tampered]), /child_assessment_invalid/);
+  assert.throws(() => aggregateOutcomes(contract, [{ ...bundle, assessment: tampered }]), /child_assessment_invalid/);
+  const forgedCandidates = structuredClone(candidates); forgedCandidates.candidates[0].value = "different";
+  assert.throws(() => aggregateOutcomes(contract, [{ contract, candidates: seal(forgedCandidates), evidence, assessment: child }]), /child_assessment_invalid/);
 });
 
 test("nested aggregation accepts explicit parent binding and preserves incomplete child status", () => {
@@ -110,21 +113,45 @@ test("nested aggregation accepts explicit parent binding and preserves incomplet
   const childCandidates = load("candidate-set.json");
   childCandidates.id = "candidates.child";
   childCandidates.contract_digest = boundChildContract.digest;
-  const boundChild = assessOutcome(boundChildContract, seal(childCandidates), load("evidence-set.json"));
+  const evidence = load("evidence-set.json");
+  const reboundEvidence = structuredClone(evidence);
+  reboundEvidence.items = reboundEvidence.items.map((item) => seal({ ...item, contract_digest: boundChildContract.digest }));
+  const sealedReboundEvidence = seal(reboundEvidence);
+  const boundChild = assessOutcome(boundChildContract, seal(childCandidates), sealedReboundEvidence);
   assert.equal(boundChild.parent_contract_digest, parent.digest);
-  assert.equal(aggregateOutcomes(parent, [boundChild]).status, "satisfied");
+  assert.equal(aggregateOutcomes(parent, [{ contract: boundChildContract, candidates: seal(childCandidates), evidence: sealedReboundEvidence, assessment: boundChild }]).status, "satisfied");
 
   const unboundContract = seal({ ...childContract, id: "outcome.unbound-child", parent_contract_digest: `sha256:${"a".repeat(64)}` });
   const unboundCandidates = seal({ ...childCandidates, id: "candidates.unbound", contract_digest: unboundContract.digest });
-  const unboundChild = assessOutcome(unboundContract, unboundCandidates, load("evidence-set.json"));
-  assert.throws(() => aggregateOutcomes(parent, [unboundChild]), /child_assessment_invalid/);
+  const unboundEvidence = structuredClone(evidence); unboundEvidence.items = unboundEvidence.items.map((item) => seal({ ...item, contract_digest: unboundContract.digest }));
+  const sealedUnboundEvidence = seal(unboundEvidence);
+  const unboundChild = assessOutcome(unboundContract, unboundCandidates, sealedUnboundEvidence);
+  assert.throws(() => aggregateOutcomes(parent, [{ contract: unboundContract, candidates: unboundCandidates, evidence: sealedUnboundEvidence, assessment: unboundChild }]), /child_assessment_invalid/);
 
   const incompleteCandidates = structuredClone(childCandidates);
   incompleteCandidates.id = "candidates.incomplete-child";
   incompleteCandidates.candidates = incompleteCandidates.candidates.filter((item) => item.slot_id !== "test_status");
-  const incompleteChild = assessOutcome(boundChildContract, seal(incompleteCandidates), load("evidence-set.json"));
+  const sealedIncompleteCandidates = seal(incompleteCandidates);
+  const incompleteChild = assessOutcome(boundChildContract, sealedIncompleteCandidates, sealedReboundEvidence);
   assert.equal(incompleteChild.status, "insufficient_evidence");
-  assert.equal(aggregateOutcomes(parent, [boundChild, incompleteChild]).status, "insufficient_evidence");
+  assert.equal(aggregateOutcomes(parent, [
+    { contract: boundChildContract, candidates: seal(childCandidates), evidence: sealedReboundEvidence, assessment: boundChild },
+    { contract: boundChildContract, candidates: sealedIncompleteCandidates, evidence: sealedReboundEvidence, assessment: incompleteChild }
+  ]).status, "insufficient_evidence");
+});
+
+test("evidence is bound to the admitted contract, slot and candidate value", () => {
+  const contract = load("outcome-contract.json"); const evidence = load("evidence-set.json");
+  const candidates = load("candidate-set.json"); candidates.candidates[0].value = "laundered-value";
+  const assessment = assessOutcome(contract, seal(candidates), evidence);
+  assert.equal(assessment.status, "insufficient_evidence");
+  assert.deepEqual(assessment.unsupported_slots, ["version"]);
+});
+
+test("untrusted content label survives assessment and delivery", () => {
+  const assessment = assessOutcome(load("outcome-contract.json"), load("candidate-set.json"), load("evidence-set.json"));
+  assert.equal(assessment.slots.every((slot) => slot.content_is_untrusted_data === true), true);
+  assert.equal(planOutcomeDelivery(assessment).confirmed_facts.every((fact) => fact.content_is_untrusted_data === true), true);
 });
 
 test("template proposal remains read-only and owner-review-bound", () => {

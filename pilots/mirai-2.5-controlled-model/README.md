@@ -1,6 +1,6 @@
 # Mirai 2.5 Controlled Model Pilot
 
-Status: completed public-safe engineering pilot
+Status: completed exploratory public-safe engineering pilot; superseded as an RC gate by v2
 
 This package records the frozen 12-case, three-condition, three-generation-model
 pilot used to evaluate Outcome Completion. It contains 108 generation runs and
@@ -21,8 +21,10 @@ Generation models were `gpt-5.6-luna`, `gpt-5.6-terra`, and
 Outcome Completion improved exact status classification to `0.972` and the
 deterministic outcome-integrity score to `0.908` on this corpus. It did not
 eliminate strict evidence-binding failures: four of 36 Outcome Completion runs
-failed that hard check. The evidence therefore supports engineering RC review,
-not universal effectiveness or production readiness.
+failed that hard check. The result is retained as exploratory history. It does
+not by itself pass the controlled-pilot RC gate because the executable scorer
+and complete review bindings were not frozen in the same public lineage before
+execution.
 
 Provider cost was USD `0.7183`, below the approved USD `5` cap. The raw result,
 analysis, frozen packets, preregistration, and digests are committed together so

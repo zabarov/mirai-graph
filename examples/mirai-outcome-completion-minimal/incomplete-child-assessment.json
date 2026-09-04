@@ -4,7 +4,7 @@
   "contract_digest": "sha256:59c097c8cd736b2ef28927c6f8baf2f9473d3889296839f8f6cec3ee4dacf356",
   "parent_contract_digest": "sha256:2bfa960f65dc862865a6515081333c82f110ffbeb5e0319372fb1e68ce59453a",
   "candidate_set_digest": "sha256:747c4cf38588d1ea9395576e5ee619730da9c99622adc1983d3b2663a77f9451",
-  "evidence_set_digest": "sha256:5201e1e7eb9aeee6fda335e896e0f9e95f1f3e9cd6e06af3a61e05f286dc251b",
+  "evidence_set_digest": "sha256:07240ae2c58e3170eadaaaa7a713c4582abfa66b2a56fde4f82f1248d5d2b9e5",
   "slots": [
     {
       "slot_id": "version",
@@ -19,7 +19,8 @@
       "source_refs": [
         "source.package"
       ],
-      "reasons": []
+      "reasons": [],
+      "content_is_untrusted_data": true
     },
     {
       "slot_id": "test_status",
@@ -29,7 +30,8 @@
       "source_refs": [],
       "reasons": [
         "candidate_missing"
-      ]
+      ],
+      "content_is_untrusted_data": true
     },
     {
       "slot_id": "release_note",
@@ -44,7 +46,8 @@
       "source_refs": [
         "source.release-note"
       ],
-      "reasons": []
+      "reasons": [],
+      "content_is_untrusted_data": true
     }
   ],
   "missing_slots": [
@@ -63,5 +66,5 @@
   ],
   "execution_allowed": false,
   "canonical_write_allowed": false,
-  "digest": "sha256:a201b48eb03f8ee0f6c3103a94c8be9b3cc477bd56ff808902add3f560ab165c"
+  "digest": "sha256:2469c8e0d8c6efb2abd0a85158701657690f6759e46a1c29feff4a0811442c39"
 }

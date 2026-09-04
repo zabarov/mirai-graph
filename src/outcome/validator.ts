@@ -2,6 +2,7 @@ import { digestValue, withoutDigest } from "../core/index.js";
 import type { OutcomeCandidateSet, OutcomeCompletionContract, OutcomeEvidenceSet, OutcomeValidationResult } from "./types.js";
 
 const idPattern = /^[A-Za-z][A-Za-z0-9_.:-]{0,159}$/;
+const digestPattern = /^sha256:[a-f0-9]{64}$/;
 
 export function validateOutcomeContract(contract: OutcomeCompletionContract): OutcomeValidationResult {
   const errors: string[] = [];
@@ -36,7 +37,8 @@ export function assertOutcomeEvidenceSet(evidence: OutcomeEvidenceSet): void {
   const freshness = new Set(["current", "aging", "stale", "unknown"]);
   if (!evidence || evidence.contract_version !== "1.0.0" || !Array.isArray(evidence.items) || !Array.isArray(evidence.limitations)) throw new Error("outcome_evidence_set_invalid");
   if (evidence.canonical_write_allowed !== false) throw new Error("outcome_evidence_canonical_write_must_be_false");
-  if (evidence.items.some((item) => !idPattern.test(item.id) || !item.source_ref || !authorities.has(item.authority) || !freshness.has(item.freshness) || !Array.isArray(item.conflict_refs) || typeof item.authorized !== "boolean")) throw new Error("outcome_evidence_item_invalid");
+  if (!digestPattern.test(evidence.snapshot_digest) || !digestPattern.test(evidence.policy_digest)) throw new Error("outcome_evidence_binding_invalid");
+  if (evidence.items.some((item) => !idPattern.test(item.id) || !item.source_ref || !idPattern.test(item.slot_id) || !digestPattern.test(item.contract_digest) || !digestPattern.test(item.value_digest) || !digestPattern.test(item.admission_receipt_digest) || !digestPattern.test(item.digest) || item.digest !== digestValue(withoutDigest(item as unknown as Record<string, unknown>)) || !authorities.has(item.authority) || !freshness.has(item.freshness) || !Array.isArray(item.conflict_refs) || typeof item.authorized !== "boolean")) throw new Error("outcome_evidence_item_invalid");
   if (!evidence.digest || evidence.digest !== digestValue(withoutDigest(evidence as unknown as Record<string, unknown>))) throw new Error("outcome_evidence_set_digest_mismatch");
 }
 

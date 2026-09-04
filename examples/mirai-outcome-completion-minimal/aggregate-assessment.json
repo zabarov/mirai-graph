@@ -3,7 +3,7 @@
   "id": "assessment.aggregate.outcome.release-readiness",
   "contract_digest": "sha256:2bfa960f65dc862865a6515081333c82f110ffbeb5e0319372fb1e68ce59453a",
   "candidate_set_digest": "sha256:32fd018c22c3ef29b32686c42407a72366f174dffa297fea7fbe3b0505f5c467",
-  "evidence_set_digest": "sha256:964d5c33615421a7f18db1b8e3e0cacc4f8f361bb1f3e0c9bcefd19cff5024b1",
+  "evidence_set_digest": "sha256:0cc396416d58f6af80883732ee3f66ebc5b0c942a13e9904c84e26254f9ae51d",
   "slots": [
     {
       "slot_id": "version",
@@ -16,6 +16,7 @@
       "source_refs": [
         "source.package"
       ],
+      "content_is_untrusted_data": true,
       "state": "confirmed",
       "value": "2.5.0-alpha.1",
       "reasons": []
@@ -31,6 +32,7 @@
       "source_refs": [
         "source.ci"
       ],
+      "content_is_untrusted_data": true,
       "state": "confirmed",
       "value": "passed",
       "reasons": []
@@ -46,6 +48,7 @@
       "source_refs": [
         "source.release-note"
       ],
+      "content_is_untrusted_data": true,
       "state": "confirmed",
       "value": "releases/2.5.0-alpha.1.md",
       "reasons": []
@@ -65,5 +68,5 @@
   ],
   "execution_allowed": false,
   "canonical_write_allowed": false,
-  "digest": "sha256:fc0f214ae991f5ff2aa50a11a8f267de3b3504c72825747e4959a33be47022d0"
+  "digest": "sha256:4d2bb218e124585815c07cf5d031bea1dcb9517b92671426ab1dcdde574b027a"
 }

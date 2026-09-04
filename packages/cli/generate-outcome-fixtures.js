@@ -25,16 +25,17 @@ const contract = seal({
   conflict_policy: { critical_conflict: "block", noncritical_conflict: "report" }, template_authority: "owner_approved",
   execution_allowed: false, canonical_write_allowed: false
 });
-const evidence = seal({ contract_version: "1.0.0", snapshot_digest: digestValue("snapshot"), policy_digest: digestValue("policy"), items: [
-  { id: "evidence.version", source_ref: "source.package", authority: "owner_asserted", freshness: "current", conflict_refs: [], authorized: true, digest: digestValue("version") },
-  { id: "evidence.tests", source_ref: "source.ci", authority: "supporting", freshness: "current", conflict_refs: [], authorized: true, digest: digestValue("tests") },
-  { id: "evidence.release-note", source_ref: "source.release-note", authority: "supporting", freshness: "current", conflict_refs: [], authorized: true, digest: digestValue("release-note") }
-], partial: false, limitations: ["Synthetic fixture does not establish production readiness."], canonical_write_allowed: false });
 const candidates = seal({ contract_version: "1.0.0", id: "candidates.release-readiness", contract_digest: contract.digest, provider: { id: "fixture.provider" }, input_digest: digestValue("input"), output_digest: digestValue("output"), candidates: [
   { id: "candidate.version", slot_id: "version", value: "2.5.0-alpha.1", evidence_refs: ["evidence.version"], source_refs: ["source.package"], provider_ref: "fixture.provider" },
   { id: "candidate.tests", slot_id: "test_status", value: "passed", evidence_refs: ["evidence.tests"], source_refs: ["source.ci"], provider_ref: "fixture.provider" },
   { id: "candidate.note", slot_id: "release_note", value: "releases/2.5.0-alpha.1.md", evidence_refs: ["evidence.release-note"], source_refs: ["source.release-note"], provider_ref: "fixture.provider" }
 ], context: { purpose: "release_review", domains: ["software"], availability: "available", handoff_required: false }, accepted: false, execution_allowed: false, content_is_untrusted_data: true, canonical_write_allowed: false });
+const evidenceItem = (id, sourceRef, slotId, value, authority) => seal({ id, source_ref: sourceRef, contract_digest: contract.digest, slot_id: slotId, value_digest: digestValue(value), admission_receipt_digest: digestValue(["host-admission", id, contract.digest, slotId, digestValue(value)]), authority, freshness: "current", conflict_refs: [], authorized: true });
+const evidence = seal({ contract_version: "1.0.0", snapshot_digest: digestValue("snapshot"), policy_digest: digestValue("policy"), items: [
+  evidenceItem("evidence.version", "source.package", "version", "2.5.0-alpha.1", "owner_asserted"),
+  evidenceItem("evidence.tests", "source.ci", "test_status", "passed", "supporting"),
+  evidenceItem("evidence.release-note", "source.release-note", "release_note", "releases/2.5.0-alpha.1.md", "supporting")
+], partial: false, limitations: ["Synthetic fixture does not establish production readiness."], canonical_write_allowed: false });
 const assessment = assessOutcome(contract, candidates, evidence);
 const delivery = planOutcomeDelivery(assessment);
 
@@ -46,12 +47,17 @@ write("delivery-plan.json", delivery);
 
 const childContract = seal({ ...Object.fromEntries(Object.entries(contract).filter(([key]) => key !== "digest")), id: "outcome.release-readiness-child", parent_contract_digest: contract.digest });
 const childCandidates = seal({ ...Object.fromEntries(Object.entries(candidates).filter(([key]) => key !== "digest")), id: "candidates.release-readiness-child", contract_digest: childContract.digest });
-const childAssessment = assessOutcome(childContract, childCandidates, evidence);
+const childEvidence = seal({ ...Object.fromEntries(Object.entries(evidence).filter(([key]) => key !== "digest")), items: evidence.items.map((item) => seal({ ...Object.fromEntries(Object.entries(item).filter(([key]) => key !== "digest")), contract_digest: childContract.digest })) });
+const childAssessment = assessOutcome(childContract, childCandidates, childEvidence);
 const incompleteCandidates = seal({ ...Object.fromEntries(Object.entries(childCandidates).filter(([key]) => key !== "digest")), id: "candidates.release-readiness-child-incomplete", candidates: childCandidates.candidates.filter((item) => item.slot_id !== "test_status") });
-const incompleteChildAssessment = assessOutcome(childContract, incompleteCandidates, evidence);
-const aggregateAssessment = aggregateOutcomes(contract, [childAssessment, incompleteChildAssessment]);
+const incompleteChildAssessment = assessOutcome(childContract, incompleteCandidates, childEvidence);
+const aggregateAssessment = aggregateOutcomes(contract, [
+  { contract: childContract, candidates: childCandidates, evidence: childEvidence, assessment: childAssessment },
+  { contract: childContract, candidates: incompleteCandidates, evidence: childEvidence, assessment: incompleteChildAssessment }
+]);
 write("child-outcome-contract.json", childContract);
 write("child-candidate-set.json", childCandidates);
+write("child-evidence-set.json", childEvidence);
 write("child-assessment.json", childAssessment);
 write("incomplete-child-assessment.json", incompleteChildAssessment);
 write("aggregate-assessment.json", aggregateAssessment);

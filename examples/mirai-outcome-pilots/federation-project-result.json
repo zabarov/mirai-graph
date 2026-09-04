@@ -7,7 +7,7 @@
       "id": "parent_child_aggregation",
       "expected_status": "satisfied",
       "actual_status": "satisfied",
-      "assessment_digest": "sha256:a59eb8ae6bd99b58e687a357e5ad67892307c02df4a42c6c78c2ad4b8b3326dc",
+      "assessment_digest": "sha256:49308f17f758ce3d9df994220e211dec30e2ad46c363abd0a716005c579456b1",
       "evidence_coverage": 1,
       "question_count": 0,
       "citation_count": 2
@@ -16,7 +16,7 @@
       "id": "incomplete_child_blocks_parent",
       "expected_status": "insufficient_evidence",
       "actual_status": "insufficient_evidence",
-      "assessment_digest": "sha256:a1f7416f346775ebe4463fefd31a127f4266956b634256b12b35f4ef3c9de4ac",
+      "assessment_digest": "sha256:8993ca9740b3fc333727f6540c690dc1c1232c9619a842caa572fe8612761540",
       "evidence_coverage": 1,
       "question_count": 0,
       "citation_count": 2
@@ -43,5 +43,5 @@
   ],
   "production_effects": false,
   "canonical_write_allowed": false,
-  "digest": "sha256:c2bcd4cea07a9ce79f0611e467832efe2e04f4c68a2488a17a7a35c93d4575bf"
+  "digest": "sha256:c0e18203ace9f58d92d32ea954bdee39bdf73d7497f99627b9080ba3fd840425"
 }

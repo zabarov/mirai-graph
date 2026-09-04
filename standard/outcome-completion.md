@@ -21,8 +21,10 @@ intent
 
 - A candidate is never an accepted fact.
 - A retrieval answer is not business acceptance or execution authorization.
-- Every confirmed evidence-required slot must bind to authorized evidence of
-  sufficient authority and freshness.
+- Every confirmed evidence-required slot must bind host-admitted evidence to
+  the exact contract digest, slot id and candidate value digest. An opaque
+  admission receipt identifies the host policy decision; model output cannot
+  reuse that admission for a different value.
 - Critical conflicts block completion and remain visible.
 - Missing user input produces a bounded clarifying question.
 - A partial result is valid only when the contract allows it and the confirmed
@@ -52,10 +54,12 @@ Mirai Program calls the pure operations `outcome.instantiate`,
 `retry`, `timeout`, `emit` and `return` nodes provide control flow. No new
 language construct or runtime is required.
 
-Nested task graphs aggregate child assessments only when their digests and
-parent contract binding validate. An incomplete child cannot be silently
-treated as accepted. A child contract binds through `parent_contract_digest`;
-same-contract aggregation remains supported for compatibility. Child failure,
+Nested task graphs aggregate full child bundles containing the child contract,
+candidates, admitted evidence and assessment. The parent recomputes every
+child assessment before aggregation; a self-consistent assessment JSON is not
+trusted by itself. An incomplete child cannot be silently treated as accepted.
+A child contract binds through `parent_contract_digest`; same-contract
+aggregation remains supported for compatibility. Child failure,
 temporary unavailability, handoff, conflict, missing input or insufficient
 evidence propagates to the aggregate instead of being hidden by another
 successful child.
@@ -65,3 +69,5 @@ successful child.
 Outcome Completion is general infrastructure, not a profile. Domain adapters
 own channel formatting and business rules. Owner systems retain detailed facts
 under Hybrid SOT. Feedback and corrections are proposals until governed review.
+Candidate-derived values remain marked as untrusted data through assessment and
+delivery so downstream rendering cannot confuse retrieved text with commands.
