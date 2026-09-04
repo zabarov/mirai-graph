@@ -12,8 +12,12 @@
   "claim_faithfulness": 1,
   "conflict_detection_rate": 0,
   "conflict_case_count": 0,
+  "conflict_precision": 1,
+  "conflict_negative_case_count": 1,
   "stale_detection_rate": 0,
   "stale_case_count": 0,
+  "stale_precision": 1,
+  "stale_negative_case_count": 1,
   "unauthorized_hit_count": 0,
   "stale_hit_rate": 0,
   "p50_latency_ms": 5,
@@ -24,5 +28,5 @@
   "limitations": [
     "Synthetic evaluation does not establish external task effectiveness or production readiness."
   ],
-  "digest": "sha256:c95376c326eed8bb7f930ef92f98076781798161ba142571a77f51dcaabe6757"
+  "digest": "sha256:29fdf003f5e3374378a3851524fcec21a239c90baa4d387b16d3021c7f5e783a"
 }

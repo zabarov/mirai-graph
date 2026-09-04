@@ -42,7 +42,24 @@ function referenceOnly(confidentiality: RetrievalDocument["confidentiality"]): b
   return confidentiality === "confidential" || confidentiality === "restricted";
 }
 
+function assertNormalizedUnit(unit: unknown): asserts unit is NormalizedUnit {
+  fail(Boolean(unit) && typeof unit === "object" && !Array.isArray(unit), "retrieval_normalized_unit_invalid");
+  const value = unit as Record<string, unknown>;
+  const allowed = new Set(["contract_version", "id", "source_ref", "source_fingerprint", "kind", "media_type", "ordinal", "content", "content_digest", "source_span", "authority", "scope", "confidentiality", "instructions_authorized"]);
+  fail(Object.keys(value).every((key) => allowed.has(key)), "retrieval_normalized_unit_unknown_field");
+  fail(value.contract_version === "1.0.0" && value.instructions_authorized === false, "retrieval_normalized_unit_contract_invalid");
+  fail(typeof value.id === "string" && value.id.length > 0 && typeof value.source_ref === "string" && value.source_ref.length > 0, "retrieval_normalized_unit_identity_invalid");
+  fail(typeof value.source_fingerprint === "string" && /^sha256:[a-f0-9]{64}$/u.test(value.source_fingerprint), "retrieval_normalized_unit_source_digest_invalid");
+  fail(typeof value.content_digest === "string" && /^sha256:[a-f0-9]{64}$/u.test(value.content_digest), "retrieval_normalized_unit_content_digest_invalid");
+  fail(["text", "record", "table", "document_fragment"].includes(String(value.kind)), "retrieval_normalized_unit_kind_invalid");
+  fail(typeof value.media_type === "string" && value.media_type.length > 0 && Number.isSafeInteger(value.ordinal) && Number(value.ordinal) >= 0, "retrieval_normalized_unit_shape_invalid");
+  fail(["informational", "supporting", "owner_asserted", "canonical_external"].includes(String(value.authority)), "retrieval_normalized_unit_authority_invalid");
+  fail(typeof value.scope === "string" && value.scope.length > 0, "retrieval_normalized_unit_scope_invalid");
+  fail(["public", "internal", "confidential", "restricted"].includes(String(value.confidentiality)), "retrieval_normalized_unit_confidentiality_required");
+}
+
 function unitDocument(unit: NormalizedUnit, config: RetrievalProjectConfig): RetrievalDocument | null {
+  assertNormalizedUnit(unit);
   fail(!SENSITIVE.test(unit.id) && !SENSITIVE.test(unit.source_ref), "retrieval_sensitive_reference_rejected");
   if (!authorized(config, unit.source_ref, unit.scope, unit.id)) return null;
   const raw = contentText(unit.content);
@@ -130,7 +147,8 @@ function genericDocuments(value: unknown, kind: string, sourceRef: string, sourc
   return entries.flatMap((entry, index): RetrievalDocument[] => {
     if (!entry || typeof entry !== "object" || Array.isArray(entry)) return [];
     const record = entry as Record<string, unknown>;
-    const id = typeof record.id === "string" ? record.id : `${kind}.${index}`;
+    const sourceId = typeof record.id === "string" ? record.id : `${kind}.${index}`;
+    const id = SENSITIVE.test(sourceId) ? `redacted.${digestValue(sourceId).slice(7, 23)}` : sourceId;
     const scope = typeof record.scope === "string" ? record.scope : config.access.scopes[0] as string;
     const documentId = `${kind}:${id}`;
     if (!authorized(config, sourceRef, scope, documentId)) return [];
@@ -139,7 +157,9 @@ function genericDocuments(value: unknown, kind: string, sourceRef: string, sourc
     const sensitive = SENSITIVE.test(raw);
     const referenceOnly = sensitive || declared === "confidential" || declared === "restricted";
     const confidentiality = sensitive ? "restricted" as const : declared;
-    const title = referenceOnly ? id : typeof record.title === "string" ? record.title : typeof record.name === "string" ? record.name : id;
+    const publicTitle = typeof record.title === "string" ? record.title : typeof record.name === "string" ? record.name : id;
+    const safeTitle = SENSITIVE.test(publicTitle) ? id : publicTitle;
+    const title = referenceOnly ? id : safeTitle;
     const freshness = ["current", "aging", "stale", "unknown"].includes(String(record.freshness)) ? record.freshness as RetrievalDocument["freshness"] : "current";
     const conflictRefs = Array.isArray(record.conflict_refs) ? record.conflict_refs.filter((item): item is string => typeof item === "string") : [];
     return [documentDigest({
@@ -403,6 +423,34 @@ function entityKey(documentId: string): string {
   return documentId.replace(/^(?:graph\.object:|graph\.relation:|policy:|program:|evidence:|unit\.)/u, "");
 }
 
+function normalizedQuery(value: string): string {
+  const trimmed = value.trim();
+  const unquoted = ((trimmed.startsWith("`") && trimmed.endsWith("`")) || (trimmed.startsWith('"') && trimmed.endsWith('"')))
+    ? trimmed.slice(1, -1).trim()
+    : trimmed;
+  return unquoted.toLocaleLowerCase("und");
+}
+
+function queryTerms(value: string): string[] {
+  return [...new Set(normalizedQuery(value).split(/[^\p{L}\p{N}_.:-]+/u).filter((item) => item.length > 2))];
+}
+
+function queryAwareBoost(document: RetrievalDocument, request: RetrievalRequest, plan: ReturnType<typeof planRetrieval>): number {
+  const query = normalizedQuery(request.query);
+  const identityValues = [document.id, entityKey(document.id), document.title].map((item) => item.toLocaleLowerCase("und"));
+  if (identityValues.includes(query)) return 4;
+  const terms = queryTerms(request.query);
+  const searchable = `${document.id} ${document.title} ${document.search_text}`.toLocaleLowerCase("und");
+  const overlap = terms.length ? terms.filter((term) => searchable.includes(term)).length / terms.length : 0;
+  const kind = document.kind.toLocaleLowerCase("und");
+  const intentBoost = plan.intent === "relationship_trace" && kind.includes("relation") ? 0.4
+    : plan.intent === "policy_lookup" && (kind.includes("policy") || /gate|capability|decision.right/u.test(kind)) ? 0.4
+      : plan.intent === "technology_lookup" && (document.program_refs.length > 0 || /technology|program|process|workflow/u.test(kind)) ? 0.4
+        : plan.intent === "evidence_lookup" && /evidence|result|review|test|conformance/u.test(kind) ? 0.4
+          : 0;
+  return overlap * 1.5 + intentBoost;
+}
+
 export async function searchLocalRetrievalIndex(projectRoot: string, request: RetrievalRequest, options: { embedding_provider?: EmbeddingProvider } = {}): Promise<{ plan: ReturnType<typeof planRetrieval>; evidence: EvidenceBundle; answer: ReturnType<typeof createRetrievalAnswer> }> {
   const root = path.resolve(projectRoot);
   const config = readRetrievalConfig(root);
@@ -427,7 +475,7 @@ export async function searchLocalRetrievalIndex(projectRoot: string, request: Re
   load(database, readJson(path.join(directory, "orama.json")) as RawData);
   const rankings: Array<{ channel: RetrievalChannel; ids: string[] }> = [];
   const reasons = new Map<string, string[]>();
-  const normalized = request.query.toLocaleLowerCase("und");
+  const normalized = normalizedQuery(request.query);
   if (plan.channels.includes("exact")) {
     const ids = permitted.filter((document) => [document.id, document.title, document.source_ref].some((value) => value.toLocaleLowerCase("und").includes(normalized))).map((document) => document.id);
     rankings.push({ channel: "exact", ids });
@@ -499,15 +547,17 @@ export async function searchLocalRetrievalIndex(projectRoot: string, request: Re
     return {
       document_id: document.id, kind: document.kind, title: document.title, snippet: document.snippet, source_ref: document.source_ref, scope: document.scope,
       authority: document.authority, freshness: document.freshness, graph_object_refs: document.graph_object_refs, evidence_refs: document.evidence_refs,
-      program_refs: document.program_refs, policy_refs: document.policy_refs, channels: score.channels, rank_score: score.score + (plan.intent === "relationship_trace" && graphPath && graphPath.length > 1 ? 1 : 0),
+      program_refs: document.program_refs, policy_refs: document.policy_refs, channels: score.channels,
+      rank_score: score.score + (plan.intent === "relationship_trace" && graphPath && graphPath.length > 1 ? 1 : 0) + queryAwareBoost(document, request, plan),
       ...(document.conflict_refs?.length ? { conflict_refs: document.conflict_refs } : {}),
       match_reasons: [...new Set([...(reasons.get(document.id) || []), ...(graphPath ? ["bounded_graph_path"] : [])])], ...(graphPath ? { graph_path: graphPath } : {})
-      , instructions_authorized: false as const
+      , instructions_authorized: false as const, canonical_write_allowed: false as const
     };
   })).slice(0, plan.budgets.max_results);
+  const conflictRequested = /(?:conflict|конфликт)/iu.test(request.query);
   const conflicts = [...new Set([
     ...hits.filter((hit) => hit.freshness === "stale").map((hit) => `stale:${hit.document_id}`),
-    ...hits.flatMap((hit) => (hit.conflict_refs || []).map((ref) => `conflict:${hit.document_id}:${ref}`))
+    ...(conflictRequested ? hits.flatMap((hit) => (hit.conflict_refs || []).map((ref) => `conflict:${hit.document_id}:${ref}`)) : [])
   ])];
   const limitations = [...plan.diagnostics, ...(request.graph ? [] : ["graph_snapshot_not_supplied"]), ...(descriptor.semantic_status === "ready" ? [] : ["semantic_retrieval_unavailable"])];
   const evidenceBody = {

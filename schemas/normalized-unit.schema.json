@@ -8,7 +8,7 @@
   "properties": {
     "contract_version": { "const": "1.0.0" }, "id": { "type": "string" }, "source_ref": { "type": "string" },
     "source_fingerprint": { "$ref": "#/$defs/digest" }, "kind": { "enum": ["text", "record", "table", "document_fragment"] },
-    "media_type": { "type": "string" }, "ordinal": { "type": "integer", "minimum": 1 }, "content": {}, "content_digest": { "$ref": "#/$defs/digest" },
+    "media_type": { "type": "string" }, "ordinal": { "type": "integer", "minimum": 0 }, "content": {}, "content_digest": { "$ref": "#/$defs/digest" },
     "source_span": { "type": "object" }, "authority": { "enum": ["informational", "supporting", "owner_asserted", "canonical_external"] },
     "scope": { "type": "string" }, "confidentiality": { "enum": ["public", "internal", "confidential", "restricted"] }, "instructions_authorized": { "const": false }
   },

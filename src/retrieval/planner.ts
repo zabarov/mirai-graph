@@ -1,10 +1,11 @@
 import { digestValue } from "../core/index.js";
+import { assertSnapshot } from "../stdlib/graph.js";
 import type { EvidenceBundle, RetrievalAnswer, RetrievalChannel, RetrievalHit, RetrievalIndexDescriptor, RetrievalIntent, RetrievalProjectConfig, RetrievalRequest, RetrievalPlan } from "./types.js";
 
 const INTENT_TERMS: Array<[RetrievalIntent, RegExp]> = [
   ["change_or_freshness", /(актуал|последн|измен|устар|текущ|конфликт|current|latest|changed|stale|superseded|conflict)/iu],
-  ["relationship_trace", /(связ|завис|влияет|путь|владел|маршрут|иерарх|делегир|relation|depend|impact|path|owner|routing|hierarchy|delegat)/iu],
-  ["technology_lookup", /(технолог|процесс|инструк|процедур|сценари|последовательност|program|workflow|procedure|scenario|how\s+to)/iu],
+  ["relationship_trace", /(связ|завис|влияет|путь|владел|маршрут|иерарх|делегир|relation|depend|impact|path|owner|owns|owned|routing|hierarchy|delegat)/iu],
+  ["technology_lookup", /(технолог|процесс|инструк|процедур|сценари|последовательност|program|process|workflow|procedure|scenario|how\s+(?:to|may|does|can))/iu],
   ["policy_lookup", /(правил|политик|разреш|запрещ|согласован|полномоч|кворум|безопасност|шлюз|policy|permission|allowed|forbidden|approval|authority|quorum|safety|gate|capability)/iu],
   ["evidence_lookup", /(доказ|подтверж|провер|тест|аудит|замечан|урок|результат|evidence|proof|receipt|result|test|review|audit|finding|lesson)/iu],
   ["global_synthesis", /(обзор|сравн|общая\s+картина|overall|overview|compare|across)/iu]
@@ -13,8 +14,10 @@ const INTENT_TERMS: Array<[RetrievalIntent, RegExp]> = [
 const EXACT_SEMANTIC_TERMS = /(каноническ|точн(?:ое|ый|ая|ые)?\s+(?:имя|название|значение|техническ)|specific(?:ation)?|exact\s+(?:name|value|document))/iu;
 
 export function inferRetrievalIntent(query: string): { intent: RetrievalIntent; confidence: number; alternatives: RetrievalIntent[] } {
-  if (/"[^"\n]+"|`[^`\n]+`|\b(?:[A-Za-z][A-Za-z0-9]*(?:[_.:-][A-Za-z0-9]+)+|[A-Za-z]+[0-9][A-Za-z0-9]*)\b/u.test(query) || EXACT_SEMANTIC_TERMS.test(query)) return { intent: "exact_lookup", confidence: 0.9, alternatives: ["semantic_discovery"] };
+  const trimmed = query.trim();
+  const exactIdentifier = /^(?:"[^"\n]+"|`[^`\n]+`|[A-Za-z][A-Za-z0-9]*(?:[_.:][A-Za-z0-9-]+)+|[A-Za-z]+[0-9][A-Za-z0-9-]*)$/u.test(trimmed);
   const matches = INTENT_TERMS.filter(([, pattern]) => pattern.test(query)).map(([intent]) => intent);
+  if (exactIdentifier || EXACT_SEMANTIC_TERMS.test(query)) return { intent: "exact_lookup", confidence: 0.9, alternatives: ["semantic_discovery"] };
   if (matches.includes("change_or_freshness")) return { intent: "change_or_freshness", confidence: 0.88, alternatives: matches.filter((item) => item !== "change_or_freshness") };
   if (matches.length === 1) return { intent: matches[0] as RetrievalIntent, confidence: 0.84, alternatives: ["semantic_discovery"] };
   if (matches.length > 1) return { intent: matches[0] as RetrievalIntent, confidence: 0.62, alternatives: matches.slice(1) };
@@ -24,6 +27,12 @@ export function inferRetrievalIntent(query: string): { intent: RetrievalIntent; 
 export function planRetrieval(request: RetrievalRequest, descriptor: RetrievalIndexDescriptor, config: RetrievalProjectConfig): RetrievalPlan {
   if (request.contract_version !== "1.0.0" || request.canonical_write_allowed !== false || !request.id) throw new Error("retrieval_request_contract_invalid");
   if (!request.query.trim() || request.query.length > 4096) throw new Error("retrieval_query_invalid");
+  if (!request.access || typeof request.access !== "object" || !request.access.principal_id || !request.access.purpose || !request.access.policy_digest) throw new Error("retrieval_access_invalid");
+  for (const values of [request.access.scopes, request.access.source_refs, request.access.document_ids]) {
+    if (values !== undefined && (!Array.isArray(values) || values.length === 0 || values.some((item) => typeof item !== "string" || item.length === 0) || new Set(values).size !== values.length)) throw new Error("retrieval_access_invalid");
+  }
+  if (request.max_results !== undefined && (!Number.isSafeInteger(request.max_results) || request.max_results < 1)) throw new Error("retrieval_max_results_invalid");
+  if (request.graph !== undefined) assertSnapshot(request.graph);
   if (/(?:BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY|\b(?:ghp_|sk-proj-|xoxb-)[A-Za-z0-9_-]{8,}|\/Users\/|[A-Za-z]:\\Users\\)/u.test(request.query)) throw new Error("retrieval_sensitive_query_rejected");
   if (digestValue(request.access) !== descriptor.access_digest) throw new Error("retrieval_access_projection_mismatch");
   const inferred = request.intent ? { intent: request.intent, confidence: 1, alternatives: [] as RetrievalIntent[] } : inferRetrievalIntent(request.query);

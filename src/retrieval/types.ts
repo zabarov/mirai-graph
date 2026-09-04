@@ -124,6 +124,7 @@ export interface RetrievalHit {
   match_reasons: string[];
   graph_path?: string[];
   instructions_authorized: false;
+  canonical_write_allowed: false;
 }
 
 export interface EvidenceBundle {
@@ -241,8 +242,12 @@ export interface RetrievalEvaluation {
   claim_faithfulness: number;
   conflict_detection_rate: number;
   conflict_case_count: number;
+  conflict_precision: number;
+  conflict_negative_case_count: number;
   stale_detection_rate: number;
   stale_case_count: number;
+  stale_precision: number;
+  stale_negative_case_count: number;
   unauthorized_hit_count: number;
   stale_hit_rate: number;
   p50_latency_ms: number;

@@ -84,12 +84,12 @@ export function validateFederatedEnvelope(envelope: FederatedQueryEnvelope, now 
   if (envelope.contract_version !== "1.0.0") errors.push("federated_contract_version_unsupported");
   if (!envelope.id || !envelope.origin_graph_id || !envelope.query.trim()) errors.push("federated_identity_or_query_required");
   if (envelope.canonical_write_allowed !== false) errors.push("federated_canonical_write_must_be_false");
-  if (envelope.max_hops < 1 || envelope.max_hops > 16) errors.push("federated_hop_budget_invalid");
-  if (envelope.max_fan_out < 1 || envelope.max_fan_out > 64) errors.push("federated_fan_out_budget_invalid");
+  if (!Number.isSafeInteger(envelope.max_hops) || envelope.max_hops < 1 || envelope.max_hops > 16) errors.push("federated_hop_budget_invalid");
+  if (!Number.isSafeInteger(envelope.max_fan_out) || envelope.max_fan_out < 1 || envelope.max_fan_out > 64) errors.push("federated_fan_out_budget_invalid");
   if (envelope.visited_graph_ids.length > envelope.max_hops) errors.push("federated_hop_budget_exhausted");
   if (new Set(envelope.visited_graph_ids).size !== envelope.visited_graph_ids.length) errors.push("federated_route_cycle_detected");
   if (!Number.isFinite(Date.parse(envelope.deadline)) || Date.parse(envelope.deadline) <= now.getTime()) errors.push("federated_deadline_expired");
-  if (envelope.token_budget < 1 || envelope.cost_budget <= 0) errors.push("federated_cost_budget_invalid");
+  if (!Number.isSafeInteger(envelope.token_budget) || envelope.token_budget < 1 || !Number.isFinite(envelope.cost_budget) || envelope.cost_budget <= 0) errors.push("federated_cost_budget_invalid");
   return [...new Set(errors)].sort();
 }
 
@@ -146,7 +146,8 @@ export async function dispatchFederatedQuery(
       const allowedSources = new Set(forwarded.requester.source_refs);
       if (result.evidence_bundle.source_refs.some((sourceRef) => !allowedSources.has(sourceRef))) throw new Error("federated_result_source_scope_violation");
       for (const hit of result.evidence_bundle.hits) {
-        if (!allowedScopes.has(hit.scope) || !allowedSources.has(hit.source_ref) || hit.instructions_authorized !== false) throw new Error("federated_result_hit_scope_violation");
+        if (!allowedScopes.has(hit.scope) || !allowedSources.has(hit.source_ref) || hit.instructions_authorized !== false || hit.canonical_write_allowed !== false) throw new Error("federated_result_hit_scope_violation");
+        if (forwarded.requester.document_ids && !forwarded.requester.document_ids.includes(hit.document_id)) throw new Error("federated_result_document_scope_violation");
         if (hit.evidence_refs.some((ref) => !allowedSources.has(ref) && ref !== hit.source_ref)) throw new Error("federated_result_evidence_scope_violation");
       }
       if (result.query_digest !== digestValue(forwarded) || result.evidence_bundle.query_digest !== result.query_digest || result.evidence_bundle.policy_digest !== result.policy_digest) throw new Error("federated_result_query_or_evidence_mismatch");
@@ -155,7 +156,9 @@ export async function dispatchFederatedQuery(
       const { digest: evidenceDigest, ...evidenceBody } = result.evidence_bundle;
       if (digestValue(evidenceBody) !== evidenceDigest) throw new Error("federated_evidence_digest_mismatch");
       if (digestValue(body) !== digest) throw new Error("federated_result_digest_mismatch");
-      if (!cached) options.cache?.set(entry, forwarded, result);
+      if (result.status === "blocked") throw new Error(`federated_remote_blocked:${result.blockers.join("|") || "unspecified"}`);
+      if (result.status === "partial") blockers.push(`federated_remote_partial:${entry.graph_id}:${result.blockers.join("|") || "unspecified"}`);
+      if (!cached && result.status === "complete") options.cache?.set(entry, forwarded, result);
       return result;
     } catch (error) {
       blockers.push(`federated_query_failed:${entry.graph_id}:${error instanceof Error ? error.message : String(error)}`);

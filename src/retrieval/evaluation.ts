@@ -10,7 +10,6 @@ export interface RetrievalEvaluationCase {
   answer: RetrievalAnswer;
   latency_ms: number;
   expected_graph_path?: string[];
-  claim_faithfulness?: number;
   conflict_expected?: boolean;
   stale_expected?: boolean;
   unauthorized_document_ids?: string[];
@@ -39,6 +38,12 @@ export function evaluateRetrieval(corpusId: string, system: RetrievalEvaluation[
   const faithfulnessScores: number[] = [];
   const conflictScores: number[] = [];
   const staleScores: number[] = [];
+  let conflictReported = 0;
+  let conflictTruePositive = 0;
+  let conflictNegativeCases = 0;
+  let staleReported = 0;
+  let staleTruePositive = 0;
+  let staleNegativeCases = 0;
   let unauthorized = 0;
   let stale = 0;
   let hitCount = 0;
@@ -55,9 +60,15 @@ export function evaluateRetrieval(corpusId: string, system: RetrievalEvaluation[
     reciprocalRanks.push(first < 0 ? 0 : 1 / (first + 1));
     if (item.expected_graph_path) pathScores.push(item.hits.some((hit) => JSON.stringify(hit.graph_path) === JSON.stringify(item.expected_graph_path)) ? 1 : 0);
     evidenceScores.push(item.answer.claims.length ? item.answer.claims.filter((claim) => claim.evidence_refs.length > 0 && claim.source_refs.length > 0).length / item.answer.claims.length : item.answer.status === "insufficient_evidence" || item.answer.status === "clarification_required" ? 1 : 0);
-    faithfulnessScores.push(item.claim_faithfulness ?? 0);
-    if (item.conflict_expected) conflictScores.push(item.answer.conflicts.some((value) => value.startsWith("conflict:")) ? 1 : 0);
-    if (item.stale_expected) staleScores.push(item.answer.conflicts.some((value) => value.startsWith("stale:")) ? 1 : 0);
+    faithfulnessScores.push(item.answer.claims.length ? item.answer.claims.filter((claim) => item.hits.some((hit) => claim.source_refs.includes(hit.source_ref) && claim.evidence_refs.some((ref) => hit.evidence_refs.includes(ref)) && claim.text.includes(hit.title))).length / item.answer.claims.length : ["insufficient_evidence", "clarification_required"].includes(item.answer.status) ? 1 : 0);
+    const reportsConflict = item.answer.conflicts.some((value) => value.startsWith("conflict:"));
+    const reportsStale = item.answer.conflicts.some((value) => value.startsWith("stale:"));
+    if (item.conflict_expected) conflictScores.push(reportsConflict ? 1 : 0);
+    else conflictNegativeCases += 1;
+    if (reportsConflict) { conflictReported += 1; if (item.conflict_expected) conflictTruePositive += 1; }
+    if (item.stale_expected) staleScores.push(reportsStale ? 1 : 0);
+    else staleNegativeCases += 1;
+    if (reportsStale) { staleReported += 1; if (item.stale_expected) staleTruePositive += 1; }
     const unauthorizedIds = new Set(item.unauthorized_document_ids || []);
     unauthorized += item.hits.filter((hit) => unauthorizedIds.has(hit.document_id)).length;
     stale += item.hits.filter((hit) => hit.freshness === "stale").length;
@@ -77,8 +88,12 @@ export function evaluateRetrieval(corpusId: string, system: RetrievalEvaluation[
     claim_faithfulness: mean(faithfulnessScores),
     conflict_detection_rate: mean(conflictScores),
     conflict_case_count: conflictScores.length,
+    conflict_precision: conflictReported ? conflictTruePositive / conflictReported : 1,
+    conflict_negative_case_count: conflictNegativeCases,
     stale_detection_rate: mean(staleScores),
     stale_case_count: staleScores.length,
+    stale_precision: staleReported ? staleTruePositive / staleReported : 1,
+    stale_negative_case_count: staleNegativeCases,
     unauthorized_hit_count: unauthorized,
     stale_hit_rate: hitCount ? stale / hitCount : 0,
     p50_latency_ms: percentile(cases.map((item) => item.latency_ms), 0.5),

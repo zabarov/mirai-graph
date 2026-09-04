@@ -6,6 +6,7 @@ const path = require("node:path");
 
 const DEFAULT_MODEL = "Xenova/multilingual-e5-small";
 const DEFAULT_DIMENSIONS = 384;
+const DEFAULT_REVISION = "761b70121b0496ee46b2a24bd4a65b7c94b3d6a0";
 
 function digestDirectory(root) {
   const hash = crypto.createHash("sha256");
@@ -35,9 +36,9 @@ function createLocalEmbeddingProvider(options = {}) {
   const dimensions = options.dimensions || DEFAULT_DIMENSIONS;
   const cacheDir = path.resolve(options.cache_dir || path.join(process.env.MIRAI_HOME || path.join(process.env.HOME || ".", ".mirai"), "models"));
   const allowDownload = options.allow_download === true;
-  const revision = options.revision;
+  const revision = options.revision || DEFAULT_REVISION;
   const expectedFilesDigest = options.expected_files_digest;
-  if (allowDownload && !revision) throw new Error("embedding_revision_required_for_download");
+  if (!revision) throw new Error("embedding_revision_required");
   let extractor;
   return {
     id: "huggingface-transformers-local",
@@ -90,4 +91,4 @@ async function prepareLocalEmbeddingModel(options = {}) {
   return receipt;
 }
 
-module.exports = { createLocalEmbeddingProvider, prepareLocalEmbeddingModel, digestDirectory, DEFAULT_MODEL, DEFAULT_DIMENSIONS };
+module.exports = { createLocalEmbeddingProvider, prepareLocalEmbeddingModel, digestDirectory, DEFAULT_MODEL, DEFAULT_DIMENSIONS, DEFAULT_REVISION };

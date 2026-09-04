@@ -170,6 +170,7 @@ test("relationship retrieval expands a bounded graph path", async () => {
 
 test("local embeddings never download implicitly", async () => {
   const provider = createLocalEmbeddingProvider({ cache_dir: path.join(os.tmpdir(), "mirai-model-missing"), allow_download: false });
+  assert.match(provider.revision, /^[a-f0-9]{40}$/);
   assert.equal(provider.model, "Xenova/multilingual-e5-small");
   await assert.rejects(() => provider.embed(["query: test"]), /embedding_expected_files_digest_required/);
   await assert.rejects(() => prepareLocalEmbeddingModel({ cache_dir: path.join(os.tmpdir(), "mirai-model-missing") }), /embedding_download_requires_explicit_allow_download/);
@@ -222,10 +223,10 @@ test("retrieval schemas compile", () => {
 });
 
 test("retrieval evaluation reports ranking and evidence metrics without production claims", () => {
-  const hit = { document_id: "doc.expected", kind: "text", title: "Expected", snippet: "Evidence", source_ref: "source.demo", scope: "demo", authority: "owner_asserted", freshness: "current", graph_object_refs: [], evidence_refs: ["source.demo"], program_refs: [], policy_refs: [], channels: ["lexical"], rank_score: 1, match_reasons: ["bm25_lexical_match"] };
+  const hit = { document_id: "doc.expected", kind: "text", title: "Evidence", snippet: "Evidence", source_ref: "source.demo", scope: "demo", authority: "owner_asserted", freshness: "current", graph_object_refs: [], evidence_refs: ["source.demo"], program_refs: [], policy_refs: [], channels: ["lexical"], rank_score: 1, match_reasons: ["bm25_lexical_match"], instructions_authorized: false, canonical_write_allowed: false };
   const answerBody = { contract_version: "1.0.0", request_id: "q", intent: "exact_lookup", status: "answered", answer: "Evidence", claims: [{ text: "Evidence", evidence_refs: ["source.demo"], source_refs: ["source.demo"] }], relevant_relationships: [], program_candidates: [], policy_refs: [], conflicts: [], limitations: [], next_safe_action: "review_evidence_before_action", execution_allowed: false, content_is_untrusted_data: true, canonical_write_allowed: false, evidence_bundle_digest: `sha256:${"d".repeat(64)}` };
   const answer = { ...answerBody, digest: digestValue(answerBody) };
-  const result = evaluateRetrieval("corpus.demo", "mirai_planner", [{ expected_document_ids: ["doc.expected"], expected_intent: "exact_lookup", predicted_intent: "exact_lookup", hits: [hit], answer, latency_ms: 5, claim_faithfulness: 1 }]);
+  const result = evaluateRetrieval("corpus.demo", "mirai_planner", [{ expected_document_ids: ["doc.expected"], expected_intent: "exact_lookup", predicted_intent: "exact_lookup", hits: [hit], answer, latency_ms: 5 }]);
   assert.equal(result.recall_at_k, 1);
   assert.equal(result.evidence_coverage, 1);
   assert.equal(result.unauthorized_hit_count, 0);
@@ -367,7 +368,7 @@ test("federated retrieval rejects out-of-scope hits and reported budget overruns
     const body = { contract_version: "1.0.0", query_id: envelope.id, responder_graph_id: entry.graph_id, query_digest: digestValue(forwarded), index_digest: indexDigest, graph_digest: null, policy_digest: policyDigest, evidence_bundle: evidence, status: "complete", blockers: [], usage, instructions_authorized: false, canonical_write_allowed: false };
     return { ...body, digest: digestValue(body) };
   };
-  const forbiddenHit = { document_id: "forbidden", kind: "policy", title: "Forbidden", snippet: "", source_ref: "source.forbidden", scope: "admin", authority: "owner_asserted", freshness: "current", graph_object_refs: [], evidence_refs: [], program_refs: [], policy_refs: [], channels: ["lexical"], rank_score: 1, match_reasons: [], instructions_authorized: false };
+  const forbiddenHit = { document_id: "forbidden", kind: "policy", title: "Forbidden", snippet: "", source_ref: "source.forbidden", scope: "admin", authority: "owner_asserted", freshness: "current", graph_object_refs: [], evidence_refs: [], program_refs: [], policy_refs: [], channels: ["lexical"], rank_score: 1, match_reasons: [], instructions_authorized: false, canonical_write_allowed: false };
   const scoped = await dispatchFederatedQuery([entry], envelope, { "endpoint.release": async (forwarded) => make(forwarded, forbiddenHit, { tokens_used: 1, cost_used: 0, duration_ms: 1 }) });
   assert.equal(scoped.results.length, 0);
   assert.ok(scoped.blockers.some((value) => value.includes("federated_result_source_scope_violation") || value.includes("federated_result_hit_scope_violation")));
