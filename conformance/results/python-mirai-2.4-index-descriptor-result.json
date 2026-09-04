@@ -3,7 +3,7 @@
   "implementation": "python_independent",
   "kind": "index-descriptor",
   "status": "passed",
-  "artifact_digest": "sha256:9726c1594ac5760b44ba5bc06e8671726e8a6ebdcd47e88a79e63b91b5dac5b1",
+  "artifact_digest": "sha256:694bfc5c016fdaf47245d67311cfd6140e28c0fca8f55959e0fc1fdcb22a49d8",
   "errors": [],
   "canonical_write_performed": false,
   "effects_executed": false

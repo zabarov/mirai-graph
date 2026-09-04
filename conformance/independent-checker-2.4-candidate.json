@@ -2,7 +2,7 @@
   "contract_version": "1.0.0",
   "repository": "zabarov/mirai-conformance",
   "branch": "codex/mirai-2.4-conformance",
-  "revision": "0b967e527e9c73d9376753e34181c48de2b9c3a8",
+  "revision": "3aeac0841679c4833e5baefb9f230918fc46fc7c",
   "version": "0.5.0a1",
   "implementation": "python_independent",
   "imports_typescript_runtime": false,
@@ -15,11 +15,11 @@
     "federated_query_results",
     "retrieval_evaluations"
   ],
-  "local_test_status": "passed_25",
+  "local_test_status": "passed_26",
   "publication_status": "local_branch_only",
   "public_ci_status": "not_run",
   "release_gate_eligible": false,
   "canonical_write_performed": false,
   "effects_executed": false,
-  "mirai_reference_revision": "bbf16c21f02a0c6e786aa010c38b411dbbb69a28"
+  "mirai_reference_revision": "6d749f85106a67321dd8a029f11c712c64010cea"
 }
