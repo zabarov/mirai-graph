@@ -432,7 +432,20 @@ function normalizedQuery(value: string): string {
 }
 
 function queryTerms(value: string): string[] {
-  return [...new Set(normalizedQuery(value).split(/[^\p{L}\p{N}_.:-]+/u).filter((item) => item.length > 2))];
+  const normalized = normalizedQuery(value);
+  const terms = normalized.split(/[^\p{L}\p{N}_.:-]+/u).filter((item) => item.length > 2);
+  const aliases: Array<[RegExp, string[]]> = [
+    [/федерац/iu, ["federation"]], [/организац/iu, ["organization"]], [/(?:ии|ai)[-_ ]?сотрудник|сотрудник/iu, ["ai_employee", "employee"]],
+    [/актуал|текущ/iu, ["current", "latest"]], [/политик/iu, ["policy"]], [/выпуск/iu, ["release"]],
+    [/зависим/iu, ["dependency"]], [/разреш/iu, ["permission", "allowed"]], [/владел/iu, ["owner"]],
+    [/безопасност/iu, ["safety", "security"]], [/пакет/iu, ["package"]], [/конфликт/iu, ["conflict"]]
+  ];
+  for (const [pattern, values] of aliases) if (pattern.test(normalized)) terms.push(...values);
+  return [...new Set(terms)];
+}
+
+function expandedQuery(value: string): string {
+  return [...new Set([normalizedQuery(value), ...queryTerms(value)])].join(" ");
 }
 
 function queryAwareBoost(document: RetrievalDocument, request: RetrievalRequest, plan: ReturnType<typeof planRetrieval>): number {
@@ -501,7 +514,7 @@ export async function searchLocalRetrievalIndex(projectRoot: string, request: Re
     ids.forEach((id) => reasons.set(id, [...(reasons.get(id) || []), "exact_identifier_or_title_match"]));
   }
   if (plan.channels.includes("lexical")) {
-    const result = await search(database, { term: request.query, properties: ["title", "search_text", "source_ref"], limit: Math.max(plan.budgets.max_results * 4, 20) });
+    const result = await search(database, { term: expandedQuery(request.query), properties: ["title", "search_text", "source_ref"], limit: Math.max(plan.budgets.max_results * 4, 20) });
     assertDeadline();
     const ids = result.hits.map((hit) => String((hit.document as OramaDocument).id));
     rankings.push({ channel: "lexical", ids });
@@ -515,7 +528,7 @@ export async function searchLocalRetrievalIndex(projectRoot: string, request: Re
     fail(remaining > 0, "retrieval_timeout_exceeded");
     let timer: ReturnType<typeof setTimeout> | undefined;
     const [vector] = await Promise.race([
-      provider.embed([`query: ${request.query}`]),
+      provider.embed([`query: ${expandedQuery(request.query)}`]),
       new Promise<never>((_resolve, reject) => { timer = setTimeout(() => reject(new Error("retrieval_timeout_exceeded")), remaining); })
     ]).finally(() => { if (timer) clearTimeout(timer); });
     assertDeadline();
@@ -527,7 +540,7 @@ export async function searchLocalRetrievalIndex(projectRoot: string, request: Re
     ids.forEach((id) => reasons.set(id, [...(reasons.get(id) || []), "semantic_vector_match"]));
   }
   if (plan.channels.includes("process")) {
-    const terms = normalized.split(/[^\p{L}\p{N}_.:-]+/u).filter((item) => item.length > 2);
+    const terms = queryTerms(request.query);
     const ids = permitted.filter((document) => {
       const processLike = document.program_refs.length || document.policy_refs.length || /technology|program|policy|gate|process/u.test(document.kind);
       const searchable = `${document.id} ${document.title} ${document.search_text}`.toLocaleLowerCase("und");
@@ -536,7 +549,7 @@ export async function searchLocalRetrievalIndex(projectRoot: string, request: Re
     rankings.push({ channel: "process", ids });
     ids.forEach((id) => reasons.set(id, [...(reasons.get(id) || []), "governed_process_or_policy_candidate"]));
   }
-  const graphSeeds = [...new Set(graphQuerySeeds(request.graph, request.query))];
+  const graphSeeds = [...new Set(graphQuerySeeds(request.graph, expandedQuery(request.query)))];
   const paths = plan.channels.includes("graph") ? graphExpansion(request.graph, graphSeeds, permitted, plan.budgets.max_graph_depth, plan.budgets.max_fan_out) : new Map<string, string[]>();
   const graphIds = permitted.filter((document) => document.graph_object_refs.some((ref) => paths.has(ref))).map((document) => document.id);
   if (graphIds.length) rankings.push({ channel: "graph", ids: graphIds });
@@ -593,8 +606,9 @@ export async function searchLocalRetrievalIndex(projectRoot: string, request: Re
       , instructions_authorized: false as const, canonical_write_allowed: false as const
     };
   })).slice(0, plan.budgets.max_results);
+  const staleHit = hits.find((hit) => hit.freshness === "stale");
   const conflicts = [...new Set([
-    ...(plan.intent === "change_or_freshness" ? hits.filter((hit) => hit.freshness === "stale").map((hit) => `stale:${hit.document_id}`) : []),
+    ...((plan.intent === "change_or_freshness" || hits[0]?.freshness === "stale") && staleHit ? [`stale:${staleHit.document_id}`] : []),
     ...(conflictRequested ? hits.flatMap((hit) => (hit.conflict_refs || []).map((ref) => `conflict:${hit.document_id}:${ref}`)) : [])
   ])];
   const limitations = [...plan.diagnostics, ...(request.graph ? [] : ["graph_snapshot_not_supplied"]), ...(descriptor.semantic_status === "ready" ? [] : ["semantic_retrieval_unavailable"])];
