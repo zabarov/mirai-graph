@@ -499,7 +499,7 @@ export async function searchLocalRetrievalIndex(projectRoot: string, request: Re
     return {
       document_id: document.id, kind: document.kind, title: document.title, snippet: document.snippet, source_ref: document.source_ref, scope: document.scope,
       authority: document.authority, freshness: document.freshness, graph_object_refs: document.graph_object_refs, evidence_refs: document.evidence_refs,
-      program_refs: document.program_refs, policy_refs: document.policy_refs, channels: score.channels, rank_score: score.score,
+      program_refs: document.program_refs, policy_refs: document.policy_refs, channels: score.channels, rank_score: score.score + (plan.intent === "relationship_trace" && graphPath && graphPath.length > 1 ? 1 : 0),
       ...(document.conflict_refs?.length ? { conflict_refs: document.conflict_refs } : {}),
       match_reasons: [...new Set([...(reasons.get(document.id) || []), ...(graphPath ? ["bounded_graph_path"] : [])])], ...(graphPath ? { graph_path: graphPath } : {})
       , instructions_authorized: false as const
