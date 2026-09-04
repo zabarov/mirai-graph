@@ -7,17 +7,17 @@
     "ai_employee",
     "organization"
   ],
-  "query_count": 120,
+  "query_count": 121,
   "queries": [
     {
       "domain": "federation",
       "expected_document_ids": [
         "unit.federation.owner-routing",
-        "graph.object:federation.owner-routing"
+        "graph.object:federation.root"
       ],
       "relevance": {
         "unit.federation.owner-routing": 3,
-        "graph.object:federation.owner-routing": 2
+        "graph.object:federation.root": 1
       },
       "expected_intent": "relationship_trace",
       "freshness_required": "current",
@@ -25,6 +25,10 @@
       "stale_expected": false,
       "unauthorized_document_ids": [
         "unit.restricted-control"
+      ],
+      "expected_graph_path": [
+        "federation.owner-routing",
+        "federation.root"
       ],
       "id": "query.federation.owner-routing.same",
       "language": "en",
@@ -34,12 +38,10 @@
     {
       "domain": "federation",
       "expected_document_ids": [
-        "unit.federation.owner-routing",
-        "graph.object:federation.owner-routing"
+        "unit.federation.owner-routing"
       ],
       "relevance": {
-        "unit.federation.owner-routing": 3,
-        "graph.object:federation.owner-routing": 2
+        "unit.federation.owner-routing": 3
       },
       "expected_intent": "relationship_trace",
       "freshness_required": "current",
@@ -56,12 +58,10 @@
     {
       "domain": "federation",
       "expected_document_ids": [
-        "unit.federation.owner-routing",
-        "graph.object:federation.owner-routing"
+        "unit.federation.owner-routing"
       ],
       "relevance": {
-        "unit.federation.owner-routing": 3,
-        "graph.object:federation.owner-routing": 2
+        "unit.federation.owner-routing": 3
       },
       "expected_intent": "exact_lookup",
       "freshness_required": "current",
@@ -78,12 +78,10 @@
     {
       "domain": "federation",
       "expected_document_ids": [
-        "unit.federation.skill-sync",
-        "graph.object:federation.skill-sync"
+        "unit.federation.skill-sync"
       ],
       "relevance": {
-        "unit.federation.skill-sync": 3,
-        "graph.object:federation.skill-sync": 2
+        "unit.federation.skill-sync": 3
       },
       "expected_intent": "technology_lookup",
       "freshness_required": "current",
@@ -100,12 +98,10 @@
     {
       "domain": "federation",
       "expected_document_ids": [
-        "unit.federation.skill-sync",
-        "graph.object:federation.skill-sync"
+        "unit.federation.skill-sync"
       ],
       "relevance": {
-        "unit.federation.skill-sync": 3,
-        "graph.object:federation.skill-sync": 2
+        "unit.federation.skill-sync": 3
       },
       "expected_intent": "technology_lookup",
       "freshness_required": "current",
@@ -122,12 +118,10 @@
     {
       "domain": "federation",
       "expected_document_ids": [
-        "unit.federation.skill-sync",
-        "graph.object:federation.skill-sync"
+        "unit.federation.skill-sync"
       ],
       "relevance": {
-        "unit.federation.skill-sync": 3,
-        "graph.object:federation.skill-sync": 2
+        "unit.federation.skill-sync": 3
       },
       "expected_intent": "exact_lookup",
       "freshness_required": "current",
@@ -144,12 +138,10 @@
     {
       "domain": "federation",
       "expected_document_ids": [
-        "unit.federation.action-gate",
-        "graph.object:federation.action-gate"
+        "unit.federation.action-gate"
       ],
       "relevance": {
-        "unit.federation.action-gate": 3,
-        "graph.object:federation.action-gate": 2
+        "unit.federation.action-gate": 3
       },
       "expected_intent": "policy_lookup",
       "freshness_required": "current",
@@ -166,12 +158,10 @@
     {
       "domain": "federation",
       "expected_document_ids": [
-        "unit.federation.action-gate",
-        "graph.object:federation.action-gate"
+        "unit.federation.action-gate"
       ],
       "relevance": {
-        "unit.federation.action-gate": 3,
-        "graph.object:federation.action-gate": 2
+        "unit.federation.action-gate": 3
       },
       "expected_intent": "policy_lookup",
       "freshness_required": "current",
@@ -188,12 +178,10 @@
     {
       "domain": "federation",
       "expected_document_ids": [
-        "unit.federation.action-gate",
-        "graph.object:federation.action-gate"
+        "unit.federation.action-gate"
       ],
       "relevance": {
-        "unit.federation.action-gate": 3,
-        "graph.object:federation.action-gate": 2
+        "unit.federation.action-gate": 3
       },
       "expected_intent": "exact_lookup",
       "freshness_required": "current",
@@ -210,12 +198,10 @@
     {
       "domain": "federation",
       "expected_document_ids": [
-        "unit.federation.evidence",
-        "graph.object:federation.evidence"
+        "unit.federation.evidence"
       ],
       "relevance": {
-        "unit.federation.evidence": 3,
-        "graph.object:federation.evidence": 2
+        "unit.federation.evidence": 3
       },
       "expected_intent": "evidence_lookup",
       "freshness_required": "current",
@@ -232,12 +218,10 @@
     {
       "domain": "federation",
       "expected_document_ids": [
-        "unit.federation.evidence",
-        "graph.object:federation.evidence"
+        "unit.federation.evidence"
       ],
       "relevance": {
-        "unit.federation.evidence": 3,
-        "graph.object:federation.evidence": 2
+        "unit.federation.evidence": 3
       },
       "expected_intent": "evidence_lookup",
       "freshness_required": "current",
@@ -254,12 +238,10 @@
     {
       "domain": "federation",
       "expected_document_ids": [
-        "unit.federation.evidence",
-        "graph.object:federation.evidence"
+        "unit.federation.evidence"
       ],
       "relevance": {
-        "unit.federation.evidence": 3,
-        "graph.object:federation.evidence": 2
+        "unit.federation.evidence": 3
       },
       "expected_intent": "exact_lookup",
       "freshness_required": "current",
@@ -276,12 +258,10 @@
     {
       "domain": "federation",
       "expected_document_ids": [
-        "unit.federation.kaizen",
-        "graph.object:federation.kaizen"
+        "unit.federation.kaizen"
       ],
       "relevance": {
-        "unit.federation.kaizen": 3,
-        "graph.object:federation.kaizen": 2
+        "unit.federation.kaizen": 3
       },
       "expected_intent": "technology_lookup",
       "freshness_required": "current",
@@ -298,12 +278,10 @@
     {
       "domain": "federation",
       "expected_document_ids": [
-        "unit.federation.kaizen",
-        "graph.object:federation.kaizen"
+        "unit.federation.kaizen"
       ],
       "relevance": {
-        "unit.federation.kaizen": 3,
-        "graph.object:federation.kaizen": 2
+        "unit.federation.kaizen": 3
       },
       "expected_intent": "technology_lookup",
       "freshness_required": "current",
@@ -320,12 +298,10 @@
     {
       "domain": "federation",
       "expected_document_ids": [
-        "unit.federation.kaizen",
-        "graph.object:federation.kaizen"
+        "unit.federation.kaizen"
       ],
       "relevance": {
-        "unit.federation.kaizen": 3,
-        "graph.object:federation.kaizen": 2
+        "unit.federation.kaizen": 3
       },
       "expected_intent": "exact_lookup",
       "freshness_required": "current",
@@ -342,12 +318,10 @@
     {
       "domain": "federation",
       "expected_document_ids": [
-        "unit.federation.fallback",
-        "graph.object:federation.fallback"
+        "unit.federation.fallback"
       ],
       "relevance": {
-        "unit.federation.fallback": 3,
-        "graph.object:federation.fallback": 2
+        "unit.federation.fallback": 3
       },
       "expected_intent": "change_or_freshness",
       "freshness_required": "current",
@@ -364,12 +338,10 @@
     {
       "domain": "federation",
       "expected_document_ids": [
-        "unit.federation.fallback",
-        "graph.object:federation.fallback"
+        "unit.federation.fallback"
       ],
       "relevance": {
-        "unit.federation.fallback": 3,
-        "graph.object:federation.fallback": 2
+        "unit.federation.fallback": 3
       },
       "expected_intent": "change_or_freshness",
       "freshness_required": "current",
@@ -386,12 +358,10 @@
     {
       "domain": "federation",
       "expected_document_ids": [
-        "unit.federation.fallback",
-        "graph.object:federation.fallback"
+        "unit.federation.fallback"
       ],
       "relevance": {
-        "unit.federation.fallback": 3,
-        "graph.object:federation.fallback": 2
+        "unit.federation.fallback": 3
       },
       "expected_intent": "exact_lookup",
       "freshness_required": "current",
@@ -408,12 +378,10 @@
     {
       "domain": "federation",
       "expected_document_ids": [
-        "unit.federation.delegation",
-        "graph.object:federation.delegation"
+        "unit.federation.delegation"
       ],
       "relevance": {
-        "unit.federation.delegation": 3,
-        "graph.object:federation.delegation": 2
+        "unit.federation.delegation": 3
       },
       "expected_intent": "policy_lookup",
       "freshness_required": "current",
@@ -430,12 +398,10 @@
     {
       "domain": "federation",
       "expected_document_ids": [
-        "unit.federation.delegation",
-        "graph.object:federation.delegation"
+        "unit.federation.delegation"
       ],
       "relevance": {
-        "unit.federation.delegation": 3,
-        "graph.object:federation.delegation": 2
+        "unit.federation.delegation": 3
       },
       "expected_intent": "policy_lookup",
       "freshness_required": "current",
@@ -452,12 +418,10 @@
     {
       "domain": "federation",
       "expected_document_ids": [
-        "unit.federation.delegation",
-        "graph.object:federation.delegation"
+        "unit.federation.delegation"
       ],
       "relevance": {
-        "unit.federation.delegation": 3,
-        "graph.object:federation.delegation": 2
+        "unit.federation.delegation": 3
       },
       "expected_intent": "exact_lookup",
       "freshness_required": "current",
@@ -474,12 +438,10 @@
     {
       "domain": "federation",
       "expected_document_ids": [
-        "unit.federation.recovery",
-        "graph.object:federation.recovery"
+        "unit.federation.recovery"
       ],
       "relevance": {
-        "unit.federation.recovery": 3,
-        "graph.object:federation.recovery": 2
+        "unit.federation.recovery": 3
       },
       "expected_intent": "technology_lookup",
       "freshness_required": "current",
@@ -496,12 +458,10 @@
     {
       "domain": "federation",
       "expected_document_ids": [
-        "unit.federation.recovery",
-        "graph.object:federation.recovery"
+        "unit.federation.recovery"
       ],
       "relevance": {
-        "unit.federation.recovery": 3,
-        "graph.object:federation.recovery": 2
+        "unit.federation.recovery": 3
       },
       "expected_intent": "technology_lookup",
       "freshness_required": "current",
@@ -518,12 +478,10 @@
     {
       "domain": "federation",
       "expected_document_ids": [
-        "unit.federation.recovery",
-        "graph.object:federation.recovery"
+        "unit.federation.recovery"
       ],
       "relevance": {
-        "unit.federation.recovery": 3,
-        "graph.object:federation.recovery": 2
+        "unit.federation.recovery": 3
       },
       "expected_intent": "exact_lookup",
       "freshness_required": "current",
@@ -540,12 +498,10 @@
     {
       "domain": "federation",
       "expected_document_ids": [
-        "policy:federation.current-policy",
-        "graph.object:federation.current-policy"
+        "policy:federation.current-policy"
       ],
       "relevance": {
-        "policy:federation.current-policy": 3,
-        "graph.object:federation.current-policy": 2
+        "policy:federation.current-policy": 3
       },
       "expected_intent": "change_or_freshness",
       "freshness_required": "allow_stale",
@@ -562,12 +518,10 @@
     {
       "domain": "federation",
       "expected_document_ids": [
-        "policy:federation.current-policy",
-        "graph.object:federation.current-policy"
+        "policy:federation.current-policy"
       ],
       "relevance": {
-        "policy:federation.current-policy": 3,
-        "graph.object:federation.current-policy": 2
+        "policy:federation.current-policy": 3
       },
       "expected_intent": "change_or_freshness",
       "freshness_required": "allow_stale",
@@ -584,12 +538,10 @@
     {
       "domain": "federation",
       "expected_document_ids": [
-        "policy:federation.current-policy",
-        "graph.object:federation.current-policy"
+        "policy:federation.current-policy"
       ],
       "relevance": {
-        "policy:federation.current-policy": 3,
-        "graph.object:federation.current-policy": 2
+        "policy:federation.current-policy": 3
       },
       "expected_intent": "exact_lookup",
       "freshness_required": "allow_stale",
@@ -606,12 +558,10 @@
     {
       "domain": "federation",
       "expected_document_ids": [
-        "policy:federation.conflict",
-        "graph.object:federation.conflict"
+        "policy:federation.conflict"
       ],
       "relevance": {
-        "policy:federation.conflict": 3,
-        "graph.object:federation.conflict": 2
+        "policy:federation.conflict": 3
       },
       "expected_intent": "change_or_freshness",
       "freshness_required": "current",
@@ -628,12 +578,10 @@
     {
       "domain": "federation",
       "expected_document_ids": [
-        "policy:federation.conflict",
-        "graph.object:federation.conflict"
+        "policy:federation.conflict"
       ],
       "relevance": {
-        "policy:federation.conflict": 3,
-        "graph.object:federation.conflict": 2
+        "policy:federation.conflict": 3
       },
       "expected_intent": "change_or_freshness",
       "freshness_required": "current",
@@ -650,12 +598,10 @@
     {
       "domain": "federation",
       "expected_document_ids": [
-        "policy:federation.conflict",
-        "graph.object:federation.conflict"
+        "policy:federation.conflict"
       ],
       "relevance": {
-        "policy:federation.conflict": 3,
-        "graph.object:federation.conflict": 2
+        "policy:federation.conflict": 3
       },
       "expected_intent": "exact_lookup",
       "freshness_required": "current",
@@ -673,11 +619,11 @@
       "domain": "larena",
       "expected_document_ids": [
         "unit.larena.dependency",
-        "graph.object:larena.dependency"
+        "graph.object:larena.root"
       ],
       "relevance": {
         "unit.larena.dependency": 3,
-        "graph.object:larena.dependency": 2
+        "graph.object:larena.root": 1
       },
       "expected_intent": "relationship_trace",
       "freshness_required": "current",
@@ -685,6 +631,10 @@
       "stale_expected": false,
       "unauthorized_document_ids": [
         "unit.restricted-control"
+      ],
+      "expected_graph_path": [
+        "larena.dependency",
+        "larena.root"
       ],
       "id": "query.larena.dependency.same",
       "language": "en",
@@ -694,12 +644,10 @@
     {
       "domain": "larena",
       "expected_document_ids": [
-        "unit.larena.dependency",
-        "graph.object:larena.dependency"
+        "unit.larena.dependency"
       ],
       "relevance": {
-        "unit.larena.dependency": 3,
-        "graph.object:larena.dependency": 2
+        "unit.larena.dependency": 3
       },
       "expected_intent": "relationship_trace",
       "freshness_required": "current",
@@ -716,12 +664,10 @@
     {
       "domain": "larena",
       "expected_document_ids": [
-        "unit.larena.dependency",
-        "graph.object:larena.dependency"
+        "unit.larena.dependency"
       ],
       "relevance": {
-        "unit.larena.dependency": 3,
-        "graph.object:larena.dependency": 2
+        "unit.larena.dependency": 3
       },
       "expected_intent": "exact_lookup",
       "freshness_required": "current",
@@ -738,12 +684,10 @@
     {
       "domain": "larena",
       "expected_document_ids": [
-        "unit.larena.specification",
-        "graph.object:larena.specification"
+        "unit.larena.specification"
       ],
       "relevance": {
-        "unit.larena.specification": 3,
-        "graph.object:larena.specification": 2
+        "unit.larena.specification": 3
       },
       "expected_intent": "exact_lookup",
       "freshness_required": "current",
@@ -760,12 +704,10 @@
     {
       "domain": "larena",
       "expected_document_ids": [
-        "unit.larena.specification",
-        "graph.object:larena.specification"
+        "unit.larena.specification"
       ],
       "relevance": {
-        "unit.larena.specification": 3,
-        "graph.object:larena.specification": 2
+        "unit.larena.specification": 3
       },
       "expected_intent": "exact_lookup",
       "freshness_required": "current",
@@ -782,12 +724,10 @@
     {
       "domain": "larena",
       "expected_document_ids": [
-        "unit.larena.specification",
-        "graph.object:larena.specification"
+        "unit.larena.specification"
       ],
       "relevance": {
-        "unit.larena.specification": 3,
-        "graph.object:larena.specification": 2
+        "unit.larena.specification": 3
       },
       "expected_intent": "exact_lookup",
       "freshness_required": "current",
@@ -804,12 +744,10 @@
     {
       "domain": "larena",
       "expected_document_ids": [
-        "unit.larena.migration",
-        "graph.object:larena.migration"
+        "unit.larena.migration"
       ],
       "relevance": {
-        "unit.larena.migration": 3,
-        "graph.object:larena.migration": 2
+        "unit.larena.migration": 3
       },
       "expected_intent": "technology_lookup",
       "freshness_required": "current",
@@ -826,12 +764,10 @@
     {
       "domain": "larena",
       "expected_document_ids": [
-        "unit.larena.migration",
-        "graph.object:larena.migration"
+        "unit.larena.migration"
       ],
       "relevance": {
-        "unit.larena.migration": 3,
-        "graph.object:larena.migration": 2
+        "unit.larena.migration": 3
       },
       "expected_intent": "technology_lookup",
       "freshness_required": "current",
@@ -848,12 +784,10 @@
     {
       "domain": "larena",
       "expected_document_ids": [
-        "unit.larena.migration",
-        "graph.object:larena.migration"
+        "unit.larena.migration"
       ],
       "relevance": {
-        "unit.larena.migration": 3,
-        "graph.object:larena.migration": 2
+        "unit.larena.migration": 3
       },
       "expected_intent": "exact_lookup",
       "freshness_required": "current",
@@ -870,12 +804,10 @@
     {
       "domain": "larena",
       "expected_document_ids": [
-        "unit.larena.tests",
-        "graph.object:larena.tests"
+        "unit.larena.tests"
       ],
       "relevance": {
-        "unit.larena.tests": 3,
-        "graph.object:larena.tests": 2
+        "unit.larena.tests": 3
       },
       "expected_intent": "evidence_lookup",
       "freshness_required": "current",
@@ -892,12 +824,10 @@
     {
       "domain": "larena",
       "expected_document_ids": [
-        "unit.larena.tests",
-        "graph.object:larena.tests"
+        "unit.larena.tests"
       ],
       "relevance": {
-        "unit.larena.tests": 3,
-        "graph.object:larena.tests": 2
+        "unit.larena.tests": 3
       },
       "expected_intent": "evidence_lookup",
       "freshness_required": "current",
@@ -914,12 +844,10 @@
     {
       "domain": "larena",
       "expected_document_ids": [
-        "unit.larena.tests",
-        "graph.object:larena.tests"
+        "unit.larena.tests"
       ],
       "relevance": {
-        "unit.larena.tests": 3,
-        "graph.object:larena.tests": 2
+        "unit.larena.tests": 3
       },
       "expected_intent": "exact_lookup",
       "freshness_required": "current",
@@ -936,12 +864,10 @@
     {
       "domain": "larena",
       "expected_document_ids": [
-        "unit.larena.compatibility",
-        "graph.object:larena.compatibility"
+        "unit.larena.compatibility"
       ],
       "relevance": {
-        "unit.larena.compatibility": 3,
-        "graph.object:larena.compatibility": 2
+        "unit.larena.compatibility": 3
       },
       "expected_intent": "policy_lookup",
       "freshness_required": "current",
@@ -958,12 +884,10 @@
     {
       "domain": "larena",
       "expected_document_ids": [
-        "unit.larena.compatibility",
-        "graph.object:larena.compatibility"
+        "unit.larena.compatibility"
       ],
       "relevance": {
-        "unit.larena.compatibility": 3,
-        "graph.object:larena.compatibility": 2
+        "unit.larena.compatibility": 3
       },
       "expected_intent": "policy_lookup",
       "freshness_required": "current",
@@ -980,12 +904,10 @@
     {
       "domain": "larena",
       "expected_document_ids": [
-        "unit.larena.compatibility",
-        "graph.object:larena.compatibility"
+        "unit.larena.compatibility"
       ],
       "relevance": {
-        "unit.larena.compatibility": 3,
-        "graph.object:larena.compatibility": 2
+        "unit.larena.compatibility": 3
       },
       "expected_intent": "exact_lookup",
       "freshness_required": "current",
@@ -1002,12 +924,10 @@
     {
       "domain": "larena",
       "expected_document_ids": [
-        "unit.larena.rollback",
-        "graph.object:larena.rollback"
+        "unit.larena.rollback"
       ],
       "relevance": {
-        "unit.larena.rollback": 3,
-        "graph.object:larena.rollback": 2
+        "unit.larena.rollback": 3
       },
       "expected_intent": "technology_lookup",
       "freshness_required": "current",
@@ -1024,12 +944,10 @@
     {
       "domain": "larena",
       "expected_document_ids": [
-        "unit.larena.rollback",
-        "graph.object:larena.rollback"
+        "unit.larena.rollback"
       ],
       "relevance": {
-        "unit.larena.rollback": 3,
-        "graph.object:larena.rollback": 2
+        "unit.larena.rollback": 3
       },
       "expected_intent": "technology_lookup",
       "freshness_required": "current",
@@ -1046,12 +964,10 @@
     {
       "domain": "larena",
       "expected_document_ids": [
-        "unit.larena.rollback",
-        "graph.object:larena.rollback"
+        "unit.larena.rollback"
       ],
       "relevance": {
-        "unit.larena.rollback": 3,
-        "graph.object:larena.rollback": 2
+        "unit.larena.rollback": 3
       },
       "expected_intent": "exact_lookup",
       "freshness_required": "current",
@@ -1068,12 +984,10 @@
     {
       "domain": "larena",
       "expected_document_ids": [
-        "unit.larena.review",
-        "graph.object:larena.review"
+        "unit.larena.review"
       ],
       "relevance": {
-        "unit.larena.review": 3,
-        "graph.object:larena.review": 2
+        "unit.larena.review": 3
       },
       "expected_intent": "evidence_lookup",
       "freshness_required": "current",
@@ -1090,12 +1004,10 @@
     {
       "domain": "larena",
       "expected_document_ids": [
-        "unit.larena.review",
-        "graph.object:larena.review"
+        "unit.larena.review"
       ],
       "relevance": {
-        "unit.larena.review": 3,
-        "graph.object:larena.review": 2
+        "unit.larena.review": 3
       },
       "expected_intent": "evidence_lookup",
       "freshness_required": "current",
@@ -1112,12 +1024,10 @@
     {
       "domain": "larena",
       "expected_document_ids": [
-        "unit.larena.review",
-        "graph.object:larena.review"
+        "unit.larena.review"
       ],
       "relevance": {
-        "unit.larena.review": 3,
-        "graph.object:larena.review": 2
+        "unit.larena.review": 3
       },
       "expected_intent": "exact_lookup",
       "freshness_required": "current",
@@ -1134,12 +1044,10 @@
     {
       "domain": "larena",
       "expected_document_ids": [
-        "unit.larena.technology",
-        "graph.object:larena.technology"
+        "unit.larena.technology"
       ],
       "relevance": {
-        "unit.larena.technology": 3,
-        "graph.object:larena.technology": 2
+        "unit.larena.technology": 3
       },
       "expected_intent": "technology_lookup",
       "freshness_required": "current",
@@ -1156,12 +1064,10 @@
     {
       "domain": "larena",
       "expected_document_ids": [
-        "unit.larena.technology",
-        "graph.object:larena.technology"
+        "unit.larena.technology"
       ],
       "relevance": {
-        "unit.larena.technology": 3,
-        "graph.object:larena.technology": 2
+        "unit.larena.technology": 3
       },
       "expected_intent": "technology_lookup",
       "freshness_required": "current",
@@ -1178,12 +1084,10 @@
     {
       "domain": "larena",
       "expected_document_ids": [
-        "unit.larena.technology",
-        "graph.object:larena.technology"
+        "unit.larena.technology"
       ],
       "relevance": {
-        "unit.larena.technology": 3,
-        "graph.object:larena.technology": 2
+        "unit.larena.technology": 3
       },
       "expected_intent": "exact_lookup",
       "freshness_required": "current",
@@ -1200,12 +1104,10 @@
     {
       "domain": "larena",
       "expected_document_ids": [
-        "policy:larena.current-policy",
-        "graph.object:larena.current-policy"
+        "policy:larena.current-policy"
       ],
       "relevance": {
-        "policy:larena.current-policy": 3,
-        "graph.object:larena.current-policy": 2
+        "policy:larena.current-policy": 3
       },
       "expected_intent": "change_or_freshness",
       "freshness_required": "allow_stale",
@@ -1222,12 +1124,10 @@
     {
       "domain": "larena",
       "expected_document_ids": [
-        "policy:larena.current-policy",
-        "graph.object:larena.current-policy"
+        "policy:larena.current-policy"
       ],
       "relevance": {
-        "policy:larena.current-policy": 3,
-        "graph.object:larena.current-policy": 2
+        "policy:larena.current-policy": 3
       },
       "expected_intent": "change_or_freshness",
       "freshness_required": "allow_stale",
@@ -1244,12 +1144,10 @@
     {
       "domain": "larena",
       "expected_document_ids": [
-        "policy:larena.current-policy",
-        "graph.object:larena.current-policy"
+        "policy:larena.current-policy"
       ],
       "relevance": {
-        "policy:larena.current-policy": 3,
-        "graph.object:larena.current-policy": 2
+        "policy:larena.current-policy": 3
       },
       "expected_intent": "exact_lookup",
       "freshness_required": "allow_stale",
@@ -1266,12 +1164,10 @@
     {
       "domain": "larena",
       "expected_document_ids": [
-        "policy:larena.conflict",
-        "graph.object:larena.conflict"
+        "policy:larena.conflict"
       ],
       "relevance": {
-        "policy:larena.conflict": 3,
-        "graph.object:larena.conflict": 2
+        "policy:larena.conflict": 3
       },
       "expected_intent": "change_or_freshness",
       "freshness_required": "current",
@@ -1288,12 +1184,10 @@
     {
       "domain": "larena",
       "expected_document_ids": [
-        "policy:larena.conflict",
-        "graph.object:larena.conflict"
+        "policy:larena.conflict"
       ],
       "relevance": {
-        "policy:larena.conflict": 3,
-        "graph.object:larena.conflict": 2
+        "policy:larena.conflict": 3
       },
       "expected_intent": "change_or_freshness",
       "freshness_required": "current",
@@ -1310,12 +1204,10 @@
     {
       "domain": "larena",
       "expected_document_ids": [
-        "policy:larena.conflict",
-        "graph.object:larena.conflict"
+        "policy:larena.conflict"
       ],
       "relevance": {
-        "policy:larena.conflict": 3,
-        "graph.object:larena.conflict": 2
+        "policy:larena.conflict": 3
       },
       "expected_intent": "exact_lookup",
       "freshness_required": "current",
@@ -1332,12 +1224,10 @@
     {
       "domain": "ai_employee",
       "expected_document_ids": [
-        "unit.ai_employee.intent",
-        "graph.object:ai_employee.intent"
+        "unit.ai_employee.intent"
       ],
       "relevance": {
-        "unit.ai_employee.intent": 3,
-        "graph.object:ai_employee.intent": 2
+        "unit.ai_employee.intent": 3
       },
       "expected_intent": "semantic_discovery",
       "freshness_required": "current",
@@ -1354,12 +1244,10 @@
     {
       "domain": "ai_employee",
       "expected_document_ids": [
-        "unit.ai_employee.intent",
-        "graph.object:ai_employee.intent"
+        "unit.ai_employee.intent"
       ],
       "relevance": {
-        "unit.ai_employee.intent": 3,
-        "graph.object:ai_employee.intent": 2
+        "unit.ai_employee.intent": 3
       },
       "expected_intent": "semantic_discovery",
       "freshness_required": "current",
@@ -1376,12 +1264,10 @@
     {
       "domain": "ai_employee",
       "expected_document_ids": [
-        "unit.ai_employee.intent",
-        "graph.object:ai_employee.intent"
+        "unit.ai_employee.intent"
       ],
       "relevance": {
-        "unit.ai_employee.intent": 3,
-        "graph.object:ai_employee.intent": 2
+        "unit.ai_employee.intent": 3
       },
       "expected_intent": "exact_lookup",
       "freshness_required": "current",
@@ -1398,12 +1284,10 @@
     {
       "domain": "ai_employee",
       "expected_document_ids": [
-        "unit.ai_employee.approval",
-        "graph.object:ai_employee.approval"
+        "unit.ai_employee.approval"
       ],
       "relevance": {
-        "unit.ai_employee.approval": 3,
-        "graph.object:ai_employee.approval": 2
+        "unit.ai_employee.approval": 3
       },
       "expected_intent": "policy_lookup",
       "freshness_required": "current",
@@ -1420,12 +1304,10 @@
     {
       "domain": "ai_employee",
       "expected_document_ids": [
-        "unit.ai_employee.approval",
-        "graph.object:ai_employee.approval"
+        "unit.ai_employee.approval"
       ],
       "relevance": {
-        "unit.ai_employee.approval": 3,
-        "graph.object:ai_employee.approval": 2
+        "unit.ai_employee.approval": 3
       },
       "expected_intent": "policy_lookup",
       "freshness_required": "current",
@@ -1442,12 +1324,10 @@
     {
       "domain": "ai_employee",
       "expected_document_ids": [
-        "unit.ai_employee.approval",
-        "graph.object:ai_employee.approval"
+        "unit.ai_employee.approval"
       ],
       "relevance": {
-        "unit.ai_employee.approval": 3,
-        "graph.object:ai_employee.approval": 2
+        "unit.ai_employee.approval": 3
       },
       "expected_intent": "exact_lookup",
       "freshness_required": "current",
@@ -1464,12 +1344,10 @@
     {
       "domain": "ai_employee",
       "expected_document_ids": [
-        "unit.ai_employee.character",
-        "graph.object:ai_employee.character"
+        "unit.ai_employee.character"
       ],
       "relevance": {
-        "unit.ai_employee.character": 3,
-        "graph.object:ai_employee.character": 2
+        "unit.ai_employee.character": 3
       },
       "expected_intent": "policy_lookup",
       "freshness_required": "current",
@@ -1486,12 +1364,10 @@
     {
       "domain": "ai_employee",
       "expected_document_ids": [
-        "unit.ai_employee.character",
-        "graph.object:ai_employee.character"
+        "unit.ai_employee.character"
       ],
       "relevance": {
-        "unit.ai_employee.character": 3,
-        "graph.object:ai_employee.character": 2
+        "unit.ai_employee.character": 3
       },
       "expected_intent": "policy_lookup",
       "freshness_required": "current",
@@ -1508,12 +1384,10 @@
     {
       "domain": "ai_employee",
       "expected_document_ids": [
-        "unit.ai_employee.character",
-        "graph.object:ai_employee.character"
+        "unit.ai_employee.character"
       ],
       "relevance": {
-        "unit.ai_employee.character": 3,
-        "graph.object:ai_employee.character": 2
+        "unit.ai_employee.character": 3
       },
       "expected_intent": "exact_lookup",
       "freshness_required": "current",
@@ -1530,12 +1404,10 @@
     {
       "domain": "ai_employee",
       "expected_document_ids": [
-        "unit.ai_employee.memory",
-        "graph.object:ai_employee.memory"
+        "unit.ai_employee.memory"
       ],
       "relevance": {
-        "unit.ai_employee.memory": 3,
-        "graph.object:ai_employee.memory": 2
+        "unit.ai_employee.memory": 3
       },
       "expected_intent": "semantic_discovery",
       "freshness_required": "current",
@@ -1552,12 +1424,10 @@
     {
       "domain": "ai_employee",
       "expected_document_ids": [
-        "unit.ai_employee.memory",
-        "graph.object:ai_employee.memory"
+        "unit.ai_employee.memory"
       ],
       "relevance": {
-        "unit.ai_employee.memory": 3,
-        "graph.object:ai_employee.memory": 2
+        "unit.ai_employee.memory": 3
       },
       "expected_intent": "semantic_discovery",
       "freshness_required": "current",
@@ -1574,12 +1444,10 @@
     {
       "domain": "ai_employee",
       "expected_document_ids": [
-        "unit.ai_employee.memory",
-        "graph.object:ai_employee.memory"
+        "unit.ai_employee.memory"
       ],
       "relevance": {
-        "unit.ai_employee.memory": 3,
-        "graph.object:ai_employee.memory": 2
+        "unit.ai_employee.memory": 3
       },
       "expected_intent": "exact_lookup",
       "freshness_required": "current",
@@ -1596,12 +1464,10 @@
     {
       "domain": "ai_employee",
       "expected_document_ids": [
-        "unit.ai_employee.tool",
-        "graph.object:ai_employee.tool"
+        "unit.ai_employee.tool"
       ],
       "relevance": {
-        "unit.ai_employee.tool": 3,
-        "graph.object:ai_employee.tool": 2
+        "unit.ai_employee.tool": 3
       },
       "expected_intent": "policy_lookup",
       "freshness_required": "current",
@@ -1618,12 +1484,10 @@
     {
       "domain": "ai_employee",
       "expected_document_ids": [
-        "unit.ai_employee.tool",
-        "graph.object:ai_employee.tool"
+        "unit.ai_employee.tool"
       ],
       "relevance": {
-        "unit.ai_employee.tool": 3,
-        "graph.object:ai_employee.tool": 2
+        "unit.ai_employee.tool": 3
       },
       "expected_intent": "policy_lookup",
       "freshness_required": "current",
@@ -1640,12 +1504,10 @@
     {
       "domain": "ai_employee",
       "expected_document_ids": [
-        "unit.ai_employee.tool",
-        "graph.object:ai_employee.tool"
+        "unit.ai_employee.tool"
       ],
       "relevance": {
-        "unit.ai_employee.tool": 3,
-        "graph.object:ai_employee.tool": 2
+        "unit.ai_employee.tool": 3
       },
       "expected_intent": "exact_lookup",
       "freshness_required": "current",
@@ -1662,12 +1524,10 @@
     {
       "domain": "ai_employee",
       "expected_document_ids": [
-        "unit.ai_employee.feedback",
-        "graph.object:ai_employee.feedback"
+        "unit.ai_employee.feedback"
       ],
       "relevance": {
-        "unit.ai_employee.feedback": 3,
-        "graph.object:ai_employee.feedback": 2
+        "unit.ai_employee.feedback": 3
       },
       "expected_intent": "evidence_lookup",
       "freshness_required": "current",
@@ -1684,12 +1544,10 @@
     {
       "domain": "ai_employee",
       "expected_document_ids": [
-        "unit.ai_employee.feedback",
-        "graph.object:ai_employee.feedback"
+        "unit.ai_employee.feedback"
       ],
       "relevance": {
-        "unit.ai_employee.feedback": 3,
-        "graph.object:ai_employee.feedback": 2
+        "unit.ai_employee.feedback": 3
       },
       "expected_intent": "evidence_lookup",
       "freshness_required": "current",
@@ -1706,12 +1564,10 @@
     {
       "domain": "ai_employee",
       "expected_document_ids": [
-        "unit.ai_employee.feedback",
-        "graph.object:ai_employee.feedback"
+        "unit.ai_employee.feedback"
       ],
       "relevance": {
-        "unit.ai_employee.feedback": 3,
-        "graph.object:ai_employee.feedback": 2
+        "unit.ai_employee.feedback": 3
       },
       "expected_intent": "exact_lookup",
       "freshness_required": "current",
@@ -1728,12 +1584,10 @@
     {
       "domain": "ai_employee",
       "expected_document_ids": [
-        "unit.ai_employee.lesson",
-        "graph.object:ai_employee.lesson"
+        "unit.ai_employee.lesson"
       ],
       "relevance": {
-        "unit.ai_employee.lesson": 3,
-        "graph.object:ai_employee.lesson": 2
+        "unit.ai_employee.lesson": 3
       },
       "expected_intent": "evidence_lookup",
       "freshness_required": "current",
@@ -1750,12 +1604,10 @@
     {
       "domain": "ai_employee",
       "expected_document_ids": [
-        "unit.ai_employee.lesson",
-        "graph.object:ai_employee.lesson"
+        "unit.ai_employee.lesson"
       ],
       "relevance": {
-        "unit.ai_employee.lesson": 3,
-        "graph.object:ai_employee.lesson": 2
+        "unit.ai_employee.lesson": 3
       },
       "expected_intent": "evidence_lookup",
       "freshness_required": "current",
@@ -1772,12 +1624,10 @@
     {
       "domain": "ai_employee",
       "expected_document_ids": [
-        "unit.ai_employee.lesson",
-        "graph.object:ai_employee.lesson"
+        "unit.ai_employee.lesson"
       ],
       "relevance": {
-        "unit.ai_employee.lesson": 3,
-        "graph.object:ai_employee.lesson": 2
+        "unit.ai_employee.lesson": 3
       },
       "expected_intent": "exact_lookup",
       "freshness_required": "current",
@@ -1794,12 +1644,10 @@
     {
       "domain": "ai_employee",
       "expected_document_ids": [
-        "unit.ai_employee.dry-run",
-        "graph.object:ai_employee.dry-run"
+        "unit.ai_employee.dry-run"
       ],
       "relevance": {
-        "unit.ai_employee.dry-run": 3,
-        "graph.object:ai_employee.dry-run": 2
+        "unit.ai_employee.dry-run": 3
       },
       "expected_intent": "technology_lookup",
       "freshness_required": "current",
@@ -1816,12 +1664,10 @@
     {
       "domain": "ai_employee",
       "expected_document_ids": [
-        "unit.ai_employee.dry-run",
-        "graph.object:ai_employee.dry-run"
+        "unit.ai_employee.dry-run"
       ],
       "relevance": {
-        "unit.ai_employee.dry-run": 3,
-        "graph.object:ai_employee.dry-run": 2
+        "unit.ai_employee.dry-run": 3
       },
       "expected_intent": "technology_lookup",
       "freshness_required": "current",
@@ -1838,12 +1684,10 @@
     {
       "domain": "ai_employee",
       "expected_document_ids": [
-        "unit.ai_employee.dry-run",
-        "graph.object:ai_employee.dry-run"
+        "unit.ai_employee.dry-run"
       ],
       "relevance": {
-        "unit.ai_employee.dry-run": 3,
-        "graph.object:ai_employee.dry-run": 2
+        "unit.ai_employee.dry-run": 3
       },
       "expected_intent": "exact_lookup",
       "freshness_required": "current",
@@ -1860,12 +1704,10 @@
     {
       "domain": "ai_employee",
       "expected_document_ids": [
-        "policy:ai_employee.current-policy",
-        "graph.object:ai_employee.current-policy"
+        "policy:ai_employee.current-policy"
       ],
       "relevance": {
-        "policy:ai_employee.current-policy": 3,
-        "graph.object:ai_employee.current-policy": 2
+        "policy:ai_employee.current-policy": 3
       },
       "expected_intent": "change_or_freshness",
       "freshness_required": "allow_stale",
@@ -1882,12 +1724,10 @@
     {
       "domain": "ai_employee",
       "expected_document_ids": [
-        "policy:ai_employee.current-policy",
-        "graph.object:ai_employee.current-policy"
+        "policy:ai_employee.current-policy"
       ],
       "relevance": {
-        "policy:ai_employee.current-policy": 3,
-        "graph.object:ai_employee.current-policy": 2
+        "policy:ai_employee.current-policy": 3
       },
       "expected_intent": "change_or_freshness",
       "freshness_required": "allow_stale",
@@ -1904,12 +1744,10 @@
     {
       "domain": "ai_employee",
       "expected_document_ids": [
-        "policy:ai_employee.current-policy",
-        "graph.object:ai_employee.current-policy"
+        "policy:ai_employee.current-policy"
       ],
       "relevance": {
-        "policy:ai_employee.current-policy": 3,
-        "graph.object:ai_employee.current-policy": 2
+        "policy:ai_employee.current-policy": 3
       },
       "expected_intent": "exact_lookup",
       "freshness_required": "allow_stale",
@@ -1926,12 +1764,10 @@
     {
       "domain": "ai_employee",
       "expected_document_ids": [
-        "policy:ai_employee.conflict",
-        "graph.object:ai_employee.conflict"
+        "policy:ai_employee.conflict"
       ],
       "relevance": {
-        "policy:ai_employee.conflict": 3,
-        "graph.object:ai_employee.conflict": 2
+        "policy:ai_employee.conflict": 3
       },
       "expected_intent": "change_or_freshness",
       "freshness_required": "current",
@@ -1948,12 +1784,10 @@
     {
       "domain": "ai_employee",
       "expected_document_ids": [
-        "policy:ai_employee.conflict",
-        "graph.object:ai_employee.conflict"
+        "policy:ai_employee.conflict"
       ],
       "relevance": {
-        "policy:ai_employee.conflict": 3,
-        "graph.object:ai_employee.conflict": 2
+        "policy:ai_employee.conflict": 3
       },
       "expected_intent": "change_or_freshness",
       "freshness_required": "current",
@@ -1970,12 +1804,10 @@
     {
       "domain": "ai_employee",
       "expected_document_ids": [
-        "policy:ai_employee.conflict",
-        "graph.object:ai_employee.conflict"
+        "policy:ai_employee.conflict"
       ],
       "relevance": {
-        "policy:ai_employee.conflict": 3,
-        "graph.object:ai_employee.conflict": 2
+        "policy:ai_employee.conflict": 3
       },
       "expected_intent": "exact_lookup",
       "freshness_required": "current",
@@ -1993,11 +1825,11 @@
       "domain": "organization",
       "expected_document_ids": [
         "unit.organization.goal",
-        "graph.object:organization.goal"
+        "graph.object:organization.root"
       ],
       "relevance": {
         "unit.organization.goal": 3,
-        "graph.object:organization.goal": 2
+        "graph.object:organization.root": 1
       },
       "expected_intent": "relationship_trace",
       "freshness_required": "current",
@@ -2005,6 +1837,10 @@
       "stale_expected": false,
       "unauthorized_document_ids": [
         "unit.restricted-control"
+      ],
+      "expected_graph_path": [
+        "organization.goal",
+        "organization.root"
       ],
       "id": "query.organization.goal.same",
       "language": "en",
@@ -2014,12 +1850,10 @@
     {
       "domain": "organization",
       "expected_document_ids": [
-        "unit.organization.goal",
-        "graph.object:organization.goal"
+        "unit.organization.goal"
       ],
       "relevance": {
-        "unit.organization.goal": 3,
-        "graph.object:organization.goal": 2
+        "unit.organization.goal": 3
       },
       "expected_intent": "relationship_trace",
       "freshness_required": "current",
@@ -2036,12 +1870,10 @@
     {
       "domain": "organization",
       "expected_document_ids": [
-        "unit.organization.goal",
-        "graph.object:organization.goal"
+        "unit.organization.goal"
       ],
       "relevance": {
-        "unit.organization.goal": 3,
-        "graph.object:organization.goal": 2
+        "unit.organization.goal": 3
       },
       "expected_intent": "exact_lookup",
       "freshness_required": "current",
@@ -2058,12 +1890,10 @@
     {
       "domain": "organization",
       "expected_document_ids": [
-        "unit.organization.risk",
-        "graph.object:organization.risk"
+        "unit.organization.risk"
       ],
       "relevance": {
-        "unit.organization.risk": 3,
-        "graph.object:organization.risk": 2
+        "unit.organization.risk": 3
       },
       "expected_intent": "policy_lookup",
       "freshness_required": "current",
@@ -2080,12 +1910,10 @@
     {
       "domain": "organization",
       "expected_document_ids": [
-        "unit.organization.risk",
-        "graph.object:organization.risk"
+        "unit.organization.risk"
       ],
       "relevance": {
-        "unit.organization.risk": 3,
-        "graph.object:organization.risk": 2
+        "unit.organization.risk": 3
       },
       "expected_intent": "policy_lookup",
       "freshness_required": "current",
@@ -2102,12 +1930,10 @@
     {
       "domain": "organization",
       "expected_document_ids": [
-        "unit.organization.risk",
-        "graph.object:organization.risk"
+        "unit.organization.risk"
       ],
       "relevance": {
-        "unit.organization.risk": 3,
-        "graph.object:organization.risk": 2
+        "unit.organization.risk": 3
       },
       "expected_intent": "exact_lookup",
       "freshness_required": "current",
@@ -2124,12 +1950,10 @@
     {
       "domain": "organization",
       "expected_document_ids": [
-        "unit.organization.decision",
-        "graph.object:organization.decision"
+        "unit.organization.decision"
       ],
       "relevance": {
-        "unit.organization.decision": 3,
-        "graph.object:organization.decision": 2
+        "unit.organization.decision": 3
       },
       "expected_intent": "evidence_lookup",
       "freshness_required": "current",
@@ -2146,12 +1970,10 @@
     {
       "domain": "organization",
       "expected_document_ids": [
-        "unit.organization.decision",
-        "graph.object:organization.decision"
+        "unit.organization.decision"
       ],
       "relevance": {
-        "unit.organization.decision": 3,
-        "graph.object:organization.decision": 2
+        "unit.organization.decision": 3
       },
       "expected_intent": "evidence_lookup",
       "freshness_required": "current",
@@ -2168,12 +1990,10 @@
     {
       "domain": "organization",
       "expected_document_ids": [
-        "unit.organization.decision",
-        "graph.object:organization.decision"
+        "unit.organization.decision"
       ],
       "relevance": {
-        "unit.organization.decision": 3,
-        "graph.object:organization.decision": 2
+        "unit.organization.decision": 3
       },
       "expected_intent": "exact_lookup",
       "freshness_required": "current",
@@ -2190,12 +2010,10 @@
     {
       "domain": "organization",
       "expected_document_ids": [
-        "unit.organization.quorum",
-        "graph.object:organization.quorum"
+        "unit.organization.quorum"
       ],
       "relevance": {
-        "unit.organization.quorum": 3,
-        "graph.object:organization.quorum": 2
+        "unit.organization.quorum": 3
       },
       "expected_intent": "policy_lookup",
       "freshness_required": "current",
@@ -2212,12 +2030,10 @@
     {
       "domain": "organization",
       "expected_document_ids": [
-        "unit.organization.quorum",
-        "graph.object:organization.quorum"
+        "unit.organization.quorum"
       ],
       "relevance": {
-        "unit.organization.quorum": 3,
-        "graph.object:organization.quorum": 2
+        "unit.organization.quorum": 3
       },
       "expected_intent": "policy_lookup",
       "freshness_required": "current",
@@ -2234,12 +2050,10 @@
     {
       "domain": "organization",
       "expected_document_ids": [
-        "unit.organization.quorum",
-        "graph.object:organization.quorum"
+        "unit.organization.quorum"
       ],
       "relevance": {
-        "unit.organization.quorum": 3,
-        "graph.object:organization.quorum": 2
+        "unit.organization.quorum": 3
       },
       "expected_intent": "exact_lookup",
       "freshness_required": "current",
@@ -2257,11 +2071,11 @@
       "domain": "organization",
       "expected_document_ids": [
         "unit.organization.delegation",
-        "graph.object:organization.delegation"
+        "graph.object:organization.root"
       ],
       "relevance": {
         "unit.organization.delegation": 3,
-        "graph.object:organization.delegation": 2
+        "graph.object:organization.root": 1
       },
       "expected_intent": "relationship_trace",
       "freshness_required": "current",
@@ -2269,6 +2083,10 @@
       "stale_expected": false,
       "unauthorized_document_ids": [
         "unit.restricted-control"
+      ],
+      "expected_graph_path": [
+        "organization.delegation",
+        "organization.root"
       ],
       "id": "query.organization.delegation.same",
       "language": "en",
@@ -2278,12 +2096,10 @@
     {
       "domain": "organization",
       "expected_document_ids": [
-        "unit.organization.delegation",
-        "graph.object:organization.delegation"
+        "unit.organization.delegation"
       ],
       "relevance": {
-        "unit.organization.delegation": 3,
-        "graph.object:organization.delegation": 2
+        "unit.organization.delegation": 3
       },
       "expected_intent": "relationship_trace",
       "freshness_required": "current",
@@ -2300,12 +2116,10 @@
     {
       "domain": "organization",
       "expected_document_ids": [
-        "unit.organization.delegation",
-        "graph.object:organization.delegation"
+        "unit.organization.delegation"
       ],
       "relevance": {
-        "unit.organization.delegation": 3,
-        "graph.object:organization.delegation": 2
+        "unit.organization.delegation": 3
       },
       "expected_intent": "exact_lookup",
       "freshness_required": "current",
@@ -2322,12 +2136,10 @@
     {
       "domain": "organization",
       "expected_document_ids": [
-        "unit.organization.evidence",
-        "graph.object:organization.evidence"
+        "unit.organization.evidence"
       ],
       "relevance": {
-        "unit.organization.evidence": 3,
-        "graph.object:organization.evidence": 2
+        "unit.organization.evidence": 3
       },
       "expected_intent": "evidence_lookup",
       "freshness_required": "current",
@@ -2344,12 +2156,10 @@
     {
       "domain": "organization",
       "expected_document_ids": [
-        "unit.organization.evidence",
-        "graph.object:organization.evidence"
+        "unit.organization.evidence"
       ],
       "relevance": {
-        "unit.organization.evidence": 3,
-        "graph.object:organization.evidence": 2
+        "unit.organization.evidence": 3
       },
       "expected_intent": "evidence_lookup",
       "freshness_required": "current",
@@ -2366,12 +2176,10 @@
     {
       "domain": "organization",
       "expected_document_ids": [
-        "unit.organization.evidence",
-        "graph.object:organization.evidence"
+        "unit.organization.evidence"
       ],
       "relevance": {
-        "unit.organization.evidence": 3,
-        "graph.object:organization.evidence": 2
+        "unit.organization.evidence": 3
       },
       "expected_intent": "exact_lookup",
       "freshness_required": "current",
@@ -2389,11 +2197,11 @@
       "domain": "organization",
       "expected_document_ids": [
         "unit.organization.policy",
-        "graph.object:organization.policy"
+        "graph.object:organization.root"
       ],
       "relevance": {
         "unit.organization.policy": 3,
-        "graph.object:organization.policy": 2
+        "graph.object:organization.root": 1
       },
       "expected_intent": "relationship_trace",
       "freshness_required": "current",
@@ -2401,6 +2209,10 @@
       "stale_expected": false,
       "unauthorized_document_ids": [
         "unit.restricted-control"
+      ],
+      "expected_graph_path": [
+        "organization.policy",
+        "organization.root"
       ],
       "id": "query.organization.policy.same",
       "language": "en",
@@ -2410,12 +2222,10 @@
     {
       "domain": "organization",
       "expected_document_ids": [
-        "unit.organization.policy",
-        "graph.object:organization.policy"
+        "unit.organization.policy"
       ],
       "relevance": {
-        "unit.organization.policy": 3,
-        "graph.object:organization.policy": 2
+        "unit.organization.policy": 3
       },
       "expected_intent": "relationship_trace",
       "freshness_required": "current",
@@ -2432,12 +2242,10 @@
     {
       "domain": "organization",
       "expected_document_ids": [
-        "unit.organization.policy",
-        "graph.object:organization.policy"
+        "unit.organization.policy"
       ],
       "relevance": {
-        "unit.organization.policy": 3,
-        "graph.object:organization.policy": 2
+        "unit.organization.policy": 3
       },
       "expected_intent": "exact_lookup",
       "freshness_required": "current",
@@ -2454,12 +2262,10 @@
     {
       "domain": "organization",
       "expected_document_ids": [
-        "unit.organization.audit",
-        "graph.object:organization.audit"
+        "unit.organization.audit"
       ],
       "relevance": {
-        "unit.organization.audit": 3,
-        "graph.object:organization.audit": 2
+        "unit.organization.audit": 3
       },
       "expected_intent": "technology_lookup",
       "freshness_required": "current",
@@ -2476,12 +2282,10 @@
     {
       "domain": "organization",
       "expected_document_ids": [
-        "unit.organization.audit",
-        "graph.object:organization.audit"
+        "unit.organization.audit"
       ],
       "relevance": {
-        "unit.organization.audit": 3,
-        "graph.object:organization.audit": 2
+        "unit.organization.audit": 3
       },
       "expected_intent": "technology_lookup",
       "freshness_required": "current",
@@ -2498,12 +2302,10 @@
     {
       "domain": "organization",
       "expected_document_ids": [
-        "unit.organization.audit",
-        "graph.object:organization.audit"
+        "unit.organization.audit"
       ],
       "relevance": {
-        "unit.organization.audit": 3,
-        "graph.object:organization.audit": 2
+        "unit.organization.audit": 3
       },
       "expected_intent": "exact_lookup",
       "freshness_required": "current",
@@ -2520,12 +2322,10 @@
     {
       "domain": "organization",
       "expected_document_ids": [
-        "policy:organization.current-policy",
-        "graph.object:organization.current-policy"
+        "policy:organization.current-policy"
       ],
       "relevance": {
-        "policy:organization.current-policy": 3,
-        "graph.object:organization.current-policy": 2
+        "policy:organization.current-policy": 3
       },
       "expected_intent": "change_or_freshness",
       "freshness_required": "allow_stale",
@@ -2542,12 +2342,10 @@
     {
       "domain": "organization",
       "expected_document_ids": [
-        "policy:organization.current-policy",
-        "graph.object:organization.current-policy"
+        "policy:organization.current-policy"
       ],
       "relevance": {
-        "policy:organization.current-policy": 3,
-        "graph.object:organization.current-policy": 2
+        "policy:organization.current-policy": 3
       },
       "expected_intent": "change_or_freshness",
       "freshness_required": "allow_stale",
@@ -2564,12 +2362,10 @@
     {
       "domain": "organization",
       "expected_document_ids": [
-        "policy:organization.current-policy",
-        "graph.object:organization.current-policy"
+        "policy:organization.current-policy"
       ],
       "relevance": {
-        "policy:organization.current-policy": 3,
-        "graph.object:organization.current-policy": 2
+        "policy:organization.current-policy": 3
       },
       "expected_intent": "exact_lookup",
       "freshness_required": "allow_stale",
@@ -2586,12 +2382,10 @@
     {
       "domain": "organization",
       "expected_document_ids": [
-        "policy:organization.conflict",
-        "graph.object:organization.conflict"
+        "policy:organization.conflict"
       ],
       "relevance": {
-        "policy:organization.conflict": 3,
-        "graph.object:organization.conflict": 2
+        "policy:organization.conflict": 3
       },
       "expected_intent": "change_or_freshness",
       "freshness_required": "current",
@@ -2608,12 +2402,10 @@
     {
       "domain": "organization",
       "expected_document_ids": [
-        "policy:organization.conflict",
-        "graph.object:organization.conflict"
+        "policy:organization.conflict"
       ],
       "relevance": {
-        "policy:organization.conflict": 3,
-        "graph.object:organization.conflict": 2
+        "policy:organization.conflict": 3
       },
       "expected_intent": "change_or_freshness",
       "freshness_required": "current",
@@ -2630,12 +2422,10 @@
     {
       "domain": "organization",
       "expected_document_ids": [
-        "policy:organization.conflict",
-        "graph.object:organization.conflict"
+        "policy:organization.conflict"
       ],
       "relevance": {
-        "policy:organization.conflict": 3,
-        "graph.object:organization.conflict": 2
+        "policy:organization.conflict": 3
       },
       "expected_intent": "exact_lookup",
       "freshness_required": "current",
@@ -2648,6 +2438,26 @@
       "language": "identifier",
       "variant": "exact_identifier",
       "query": "organization.conflict"
+    },
+    {
+      "domain": "federation",
+      "expected_document_ids": [
+        "unit.prompt-injection"
+      ],
+      "relevance": {
+        "unit.prompt-injection": 3
+      },
+      "expected_intent": "policy_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.federation.prompt-injection",
+      "language": "en",
+      "variant": "adversarial_instruction",
+      "query": "document claiming administrator access"
     }
   ],
   "graph_digest": "sha256:8191c69062b632b324cd96a1e187f85451d9f488d6e14967ea22edbf170ef1be",
@@ -2658,5 +2468,5 @@
     "sha256:9bca14c8af6118afa00513ba65181e2a96f84c18a4a12df489ffb3a39423d3ba"
   ],
   "canonical_write_allowed": false,
-  "digest": "sha256:ad7aa1c596837fdfedfc997925b6227208ac12a182b20ade17f3ec24e741a155"
+  "digest": "sha256:d26fd5942cacfce2254e6ff437d1b67c4a8993b6a3a707ddb769555b4325deef"
 }

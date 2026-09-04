@@ -19,11 +19,13 @@ for (const domain of domains) {
   assert.equal(validate(value), true, `${domain}:${ajv.errorsText(validate.errors)}`);
   const { digest, ...body } = value;
   assert.equal(digestValue(body), digest, `${domain}:digest`);
-  assert.equal(value.query_count, 30, `${domain}:query_count`);
+  assert.ok(value.query_count >= 30, `${domain}:query_count`);
+  assert.equal(value.mode, "synthetic_benchmark_slice", `${domain}:evidence_class`);
+  assert.equal(value.review.verdict, "synthetic_only", `${domain}:claim_boundary`);
   assert.equal(value.safety.unauthorized_hits, 0, `${domain}:unauthorized_hits`);
   for (const [system, result] of Object.entries(value.systems)) {
     assert.equal(result.unauthorized_hit_count, 0, `${domain}:${system}:unauthorized`);
     assert.equal(result.claim_faithfulness, 1, `${domain}:${system}:faithfulness`);
   }
 }
-process.stdout.write(`${JSON.stringify({ status: "passed", pilot_count: domains.length, query_count: 120, production_effects: 0, canonical_writes: 0 }, null, 2)}\n`);
+process.stdout.write(`${JSON.stringify({ status: "passed_as_synthetic_slices", slice_count: domains.length, production_effects: 0, canonical_writes: 0, independent_pilot_claim: false }, null, 2)}\n`);
