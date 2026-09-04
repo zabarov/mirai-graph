@@ -101,8 +101,8 @@
   },
   "scripts": {
     "posttest": "npm run test:mirai-2.3",
-    "test:mirai-2.3": "npm run test:graph-operations && node --test test/tasks/*.test.cjs && node packages/cli/generate-graph-operation-fixtures.js --check && node packages/cli/generate-task-runtime-fixture.js --check",
-    "test:graph-operations": "node --test test/stdlib/*.test.cjs test/knowledge/clusters.test.cjs",
+    "test:mirai-2.3": "npm run test:graph-operations && node --test test/tasks/activation-composition.test.cjs test/tasks/composition.test.cjs test/tasks/computed-pilot.test.cjs test/tasks/controller.test.cjs test/tasks/registry-cli.test.cjs test/tasks/runtime-bridge.test.cjs && node packages/cli/generate-graph-operation-fixtures.js --check && node packages/cli/generate-task-runtime-fixture.js --check",
+    "test:graph-operations": "node --test test/stdlib/catalog.test.cjs test/stdlib/graph.test.cjs test/knowledge/clusters.test.cjs",
     "generate:graph-operation-fixtures": "node packages/cli/generate-graph-operation-fixtures.js",
     "pilot:graph-organization": "node packages/cli/run-graph-organization-pilot.js",
     "pilot:graph-computed": "node packages/cli/run-graph-computed-pilot.js",
