@@ -51,6 +51,8 @@ Release notes must separate:
   Mirai 2.0 development; not currently published to npm.
 - [v1.4.0](1.4.0.md) - executable technology and deterministic Course Pack
   projection.
+- [v1.5.0](1.5.0.md) - compatible 1.x authenticated archive providers and
+  declared-source inventory without Git (`legacy-1`, not npm `latest`).
 - [v1.2.0](1.2.0.md) - portable task-boundary project continuity in Project
   Technology.
 - [v1.1.0](1.1.0.md) - universal sequential context traversal and usage

@@ -219,7 +219,21 @@ All notable changes to Mirai Graph will be documented in this file.
 - No graph, Project Technology, validator, CLI or runtime semantics changed.
 - The public `graph.json` manifest contract remains `2.0.0`.
 - Mirai 2.0 execution work remains a separate development track.
+## [1.5.0] - 2026-09-03
 
+Compatible 1.x maintenance line, published under `legacy-1`; the npm `latest`
+channel and the separate 2.x development line are unchanged.
+
+- Project Technology can connect and refresh a bounded provider export without
+  Git using explicit authenticated-release trust supplied by the consumer.
+  Exact export bytes, graph identity, revision and forward ancestry are checked;
+  target/architecture/permission gates are unchanged. No automatic trust discovery.
+- Read-only source export verification proves the archive anchor against the
+  accepted target and Git revision before a distributor seals it in release
+  metadata. CLI trust can be supplied on stdin; no temporary trust file is needed.
+- No-Git inventory covers explicitly declared graph and raw-source paths, detects
+  stale content and blocks unsafe or missing sources before sync writes. Existing
+  Git inventories remain revision-bound; this does not invent source history.
 ## [1.4.0] - 2026-08-29
 
 ### Added
