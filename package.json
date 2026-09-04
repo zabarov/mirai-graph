@@ -147,6 +147,8 @@
     "validate:mirai-2.3-readiness": "node packages/cli/validate-mirai-2-3-readiness.js",
     "validate:mirai-2.2-security-review": "node packages/cli/validate-mirai-security-review.js docs/security/mirai-2.2-independent-ai-security-review-2026-09-03.json --profile autonomic_fabric_2_2",
     "test:mirai-2.2-security-review-negative": "node packages/cli/validate-mirai-security-review.js --self-test --profile autonomic_fabric_2_2",
+    "validate:mirai-2.4-security-review": "node packages/cli/validate-mirai-security-review.js docs/security/mirai-2.4-independent-ai-security-review-2026-09-04.json --profile retrieval_fabric_2_4",
+    "test:mirai-2.4-security-review-negative": "node packages/cli/validate-mirai-security-review.js --self-test --profile retrieval_fabric_2_4",
     "validate:mirai-2.2-adapter-packages": "node packages/cli/validate-mirai-2.2-adapter-packages.js",
     "validate:mirai-2.2-adapter-clean-room": "node packages/cli/validate-mirai-2.2-adapter-clean-room.js",
     "validate:markdown-links": "node packages/cli/validate-markdown-links.js",

@@ -1,0 +1,74 @@
+{
+  "contract_version": "1.0.0",
+  "review_id": "security-review.mirai-2.4-retrieval-fabric-2026-09-04",
+  "status": "complete",
+  "evidence_class": "independent_ai_assisted_review",
+  "reviewed_repository": "https://github.com/zabarov/mirai-graph",
+  "reviewed_revision": "3a4a64c1da8cfb12dc28091d05f8a912a9947e9e",
+  "reviewer": {
+    "alias": "isolated-ai-retrieval-security-reviewer",
+    "independent": true,
+    "implemented_reviewed_changes": false,
+    "conflict_declaration": "The reviewer used a detached exact-revision checkout read-only and did not implement the reviewed changes."
+  },
+  "scope": [
+    "authorization_before_index",
+    "access_projection_binding",
+    "confidential_reference_only",
+    "secret_and_private_path_redaction",
+    "embedding_artifact_binding",
+    "index_integrity_and_atomic_replacement",
+    "query_budget_and_timeout",
+    "federated_scope_attenuation",
+    "federated_result_validation",
+    "prompt_injection_non_authority",
+    "evidence_claim_binding",
+    "canonical_write_prohibition"
+  ],
+  "methods": [
+    "Built the CommonJS runtime from the exact published revision and ran all 19 targeted Retrieval Fabric tests.",
+    "Ran 13 independent adversarial probes covering authorization, confidential projections, secret-bearing content, semantic artifact binding, index tampering, deadlines, federated attenuation, forged evidence and canonical-write boundaries.",
+    "Reused a frozen public-safe need set and checked Federation and Larena retrieval outcomes, exact policy and technology selections, denial controls, unauthorized hits and false claims.",
+    "Verified the implementation lock against the current declared retrieval surface and separated independent conformance from the security verdict."
+  ],
+  "findings": [
+    {
+      "id": "SEC-401",
+      "severity": "medium",
+      "status": "fixed",
+      "summary": "A single bounded prefix snippet could omit a later query-relevant source claim.",
+      "reproduction": "The frozen Larena LAR-01 need now returns both separated source claims through a deterministic bounded multi-fragment snippet; the new regression test and all 16 frozen needs pass.",
+      "evidence_refs": [
+        "src/retrieval/local.ts",
+        "test/retrieval/retrieval.test.cjs"
+      ]
+    },
+    {
+      "id": "SEC-402",
+      "severity": "informational",
+      "status": "not_reproducible",
+      "summary": "No unauthorized retrieval, instruction execution, false authorization or canonical mutation was reproduced.",
+      "reproduction": "All 13 probes, both denial controls and the frozen Federation and Larena runs completed with zero unauthorized hits and zero false claims.",
+      "evidence_refs": [
+        "test/retrieval/retrieval.test.cjs",
+        "standard/retrieval-fabric.md"
+      ]
+    }
+  ],
+  "unresolved_risks": [
+    "The review is AI-assisted rather than an external human security audit.",
+    "The frozen domain pilot uses local public-safe sources; live remote federation transport and deployment-specific ACL systems require separate review.",
+    "Semantic model quality, external provider behavior and organization-specific authorization policy remain deployment-specific concerns.",
+    "The verdict authorizes production-read preparation only and does not authorize production writes, effects or managed autonomy."
+  ],
+  "verdict": "pass_for_production_read",
+  "adapter_scope": [
+    "local_retrieval_index",
+    "local_lexical_search",
+    "local_semantic_search",
+    "bounded_federated_retrieval_contract"
+  ],
+  "reviewed_at": "2026-09-04T06:43:44Z",
+  "attestation": "An isolated AI-assisted reviewer found zero unresolved Critical or High findings on the frozen Retrieval Fabric surface. Targeted tests passed 19 of 19, adversarial probes passed 13 of 13, and the frozen Federation and Larena read-only pilots passed their outcome and denial checks.",
+  "claim_boundary": "This is an owner-authorized AI-assisted review, not an external human audit. It supports bounded production-read software preparation only and does not authorize stable publication, production writes, live effects, unrestricted federation or managed autonomy."
+}

@@ -13,16 +13,25 @@ const sourceTarget = selfTest ? "docs/security/mirai-independent-security-review
 const value = JSON.parse(fs.readFileSync(path.resolve(root, sourceTarget), "utf8"));
 const profileIndex = process.argv.indexOf("--profile");
 const profile = profileIndex >= 0 ? process.argv[profileIndex + 1] : "core_2_1";
-if (!["core_2_1", "autonomic_fabric_2_2"].includes(profile)) throw new Error("unknown_security_review_profile");
-const ownerDecisionRef = profile === "autonomic_fabric_2_2"
-  ? "docs/security/mirai-2.2-independent-review-method-decision-2026-09-03.json"
-  : "docs/security/mirai-independent-review-method-decision-2026-09-02.json";
+if (!["core_2_1", "autonomic_fabric_2_2", "retrieval_fabric_2_4"].includes(profile)) throw new Error("unknown_security_review_profile");
+const ownerDecisionRef = profile === "retrieval_fabric_2_4"
+  ? "docs/security/mirai-2.4-independent-review-method-decision-2026-09-04.json"
+  : profile === "autonomic_fabric_2_2"
+    ? "docs/security/mirai-2.2-independent-review-method-decision-2026-09-03.json"
+    : "docs/security/mirai-independent-review-method-decision-2026-09-02.json";
 const ownerDecision = JSON.parse(fs.readFileSync(path.join(root, ownerDecisionRef), "utf8"));
 const schema = JSON.parse(fs.readFileSync(path.join(root, "schemas/mirai-security-review-result.schema.json"), "utf8"));
 const ajv = new Ajv2020({ allErrors: true, strict: false });
 addFormats(ajv);
 const validate = ajv.compile(schema);
-const requiredScope = profile === "autonomic_fabric_2_2" ? [
+const requiredScope = profile === "retrieval_fabric_2_4" ? [
+  "authorization_before_index", "access_projection_binding",
+  "confidential_reference_only", "secret_and_private_path_redaction",
+  "embedding_artifact_binding", "index_integrity_and_atomic_replacement",
+  "query_budget_and_timeout", "federated_scope_attenuation",
+  "federated_result_validation", "prompt_injection_non_authority",
+  "evidence_claim_binding", "canonical_write_prohibition"
+] : profile === "autonomic_fabric_2_2" ? [
   "source_provider_boundaries", "converter_resource_budgets",
   "path_and_symlink_boundary", "cancellation_and_connection_retirement",
   "source_secret_redaction", "knowledge_identity_and_conflicts",
@@ -87,7 +96,8 @@ if (selfTest) {
   invalid.findings = [{ id: "SEC-001", severity: "high", status: "accepted_risk", summary: "Blocking risk", reproduction: "Synthetic self-test", evidence_refs: [] }];
   const result = assess(invalid);
   const incompleteScope = structuredClone(baseline);
-  const missingScope = profile === "autonomic_fabric_2_2" ? "promotion_crash_recovery" : "stale_mutation_lock_recovery";
+  const missingScope = profile === "retrieval_fabric_2_4" ? "federated_result_validation"
+    : profile === "autonomic_fabric_2_2" ? "promotion_crash_recovery" : "stale_mutation_lock_recovery";
   incompleteScope.scope = incompleteScope.scope.filter((item) => item !== missingScope);
   const incompleteScopeResult = assess(incompleteScope);
   const aiWithoutDecision = structuredClone(baseline);
