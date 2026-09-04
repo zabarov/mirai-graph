@@ -9,6 +9,7 @@ const policy = { id: "policy.topics", keys: ["topics"], max_groups: 20, max_grou
 const graph = projectAccessibleSnapshot(snapshot(), { object_ids: new Set(oracle.accessible), source_ids: new Set(["source.shared"]) });
 const catalog = standardOperationCatalog();
 const example = "examples/mirai-graph-operations-minimal";
+const readPortableText = target => fs.readFileSync(target, "utf8").replace(/\r\n/g, "\n");
 const files = {
   "schemas/task-plan.schema.json": TASK_PLAN_SCHEMA,
   "schemas/task-policy.schema.json": TASK_POLICY_SCHEMA,
@@ -25,7 +26,7 @@ for (const [relative, value] of Object.entries(files)) {
   const target = path.join(root, relative);
   const bytes = `${JSON.stringify(value, null, 2)}\n`;
   if (process.argv.includes("--check")) {
-    if (!fs.existsSync(target) || fs.readFileSync(target, "utf8") !== bytes) throw new Error(`fixture_stale:${relative}`);
+    if (!fs.existsSync(target) || readPortableText(target) !== bytes) throw new Error(`fixture_stale:${relative}`);
   } else {
     fs.mkdirSync(path.dirname(target), { recursive: true });
     fs.writeFileSync(target, bytes);

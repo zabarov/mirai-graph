@@ -8,6 +8,7 @@ const { buildCapabilityRequest, policyDigest } = require("../../dist/cjs/runtime
 const { standardOperationCatalogDigest } = require("../../dist/cjs/stdlib");
 const { createTaskPolicy, prepareTaskPlan, programTaskReceiver, recordedTaskReceiver, taskContextView, taskRuntimeRegistryDigest, taskOperationResource, TASK_OPERATIONS } = require("../../dist/cjs/tasks");
 const root = path.resolve(__dirname, "../..");
+const readPortableText = target => fs.readFileSync(target, "utf8").replace(/\r\n/g, "\n");
 const literal = value => ({ op: "literal", value });
 async function buildFixture() {
   const graph = JSON.parse(fs.readFileSync(path.join(root, "examples/mirai-graph-operations-minimal/graph.json"), "utf8"));
@@ -69,7 +70,7 @@ module.exports = { buildFixture };
 if (require.main === module) buildFixture().then(files => {
   for (const [name, data] of Object.entries(files)) {
     const target = path.join(root, "examples/mirai-task-runtime-minimal", name); const text = `${JSON.stringify(data, null, 2)}\n`;
-    if (process.argv.includes("--check")) { if (!fs.existsSync(target) || fs.readFileSync(target, "utf8") !== text) throw new Error(`task_fixture_stale:${name}`); }
+    if (process.argv.includes("--check")) { if (!fs.existsSync(target) || readPortableText(target) !== text) throw new Error(`task_fixture_stale:${name}`); }
     else { fs.mkdirSync(path.dirname(target), { recursive: true }); fs.writeFileSync(target, text); }
   }
   console.log(`Task Runtime fixtures verified/generated: ${Object.keys(files).length}`);
