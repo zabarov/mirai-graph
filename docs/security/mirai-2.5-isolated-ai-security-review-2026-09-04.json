@@ -24,7 +24,9 @@
     "typescript_outcome_tests": "passed_20",
     "python_independent_tests": "passed_32",
     "codeql_status": "passed",
-    "cross_platform_status": "pending_final_rc_head"
+    "cross_platform_status": "passed_linux_macos_windows",
+    "ci_url": "https://github.com/zabarov/mirai-graph/actions/runs/33904383596",
+    "codeql_url": "https://github.com/zabarov/mirai-graph/actions/runs/33904383607"
   },
   "residual_limitations": [
     "The isolated reviewer did not produce a final message because its task was interrupted after findings were recorded.",

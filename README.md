@@ -18,7 +18,7 @@ authorization-bound local indexes and returns evidence-bound answers across
 exact, lexical, optional semantic, graph and process channels. Retrieval never
 grants approval, executes a Program or changes canonical graph state.
 
-Mirai `2.5.0-rc.1` is the current release-candidate engineering freeze on top
+The current Outcome Completion release candidate is the engineering freeze on top
 of that stable baseline. Its [Outcome Completion](standard/outcome-completion.md)
 extension checks whether the user's useful result is supported by required,
 host-admitted evidence. It does not replace Retrieval, Program or Runtime,

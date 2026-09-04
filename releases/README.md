@@ -6,7 +6,7 @@ Current stable release: [v2.4.0](2.4.0.md), with rebuildable
 authorization-bound indexes, evidence-bound answers and an explicit
 [readiness record](2.4.0-readiness.json).
 
-Current development candidate: [v2.5.0-rc.1 preparation](2.5.0-rc.1.md), adding
+Current development candidate: [v2.5.0-rc.1](2.5.0-rc.1.md), adding
 evidence-bound Outcome Completion without changing Program or Runtime.
 
 ## Purpose
@@ -25,7 +25,7 @@ Release notes must separate:
 
 - [v2.5.0-alpha.1](2.5.0-alpha.1.md) - historical local Outcome Completion alpha;
 - [v2.5.0-rc.1](2.5.0-rc.1.md) - Outcome Completion release-candidate engineering freeze;
-  independent and controlled release gates remain open.
+  controlled pilot, independent conformance, security and cross-platform gates passed.
 - [v2.4.0](2.4.0.md) - stable production-read Retrieval Fabric release.
 - [Mirai 2.4 readiness](2.4.0-readiness.json) - machine-readable engineering,
   conformance, security, evaluation, pilot and publication state.
