@@ -76,7 +76,7 @@ async function runComputedPilot() {
         const ids = [...receivers.map(r => r.id), "worker.report"];
         const policy = createTaskPolicy({ id: "policy.computed", owner: "owner", reviewers: ["reviewer.oracle"],
           participants: ["owner", ...ids].map(id => ({ id, object_ids: oracle.scope_a, source_ids: ["source.shared"], delegate_to: ids })),
-          max_depth: 2, max_tasks: 4, max_parallel: 3, max_duration_ms: 10000, max_output_bytes: 10000, max_model_calls: 1 });
+          max_depth: 2, max_tasks: 4, max_parallel: 3, max_duration_ms: 60000, max_output_bytes: 10000, max_model_calls: 1 });
         const requests = topics.map(topic => ({ id: `task.${topic}`, parent_id: null, receiver_id: `worker.${topic}`, receiver_digest: receivers.find(r => r.id === `worker.${topic}`).digest,
           object_ids: assigned[topic], input: inputs[topic], dependencies: [], required_evidence: ["evidence.computed"], deadline: "2099-01-01T00:00:00.000Z", outcome: "Compute the risk score and route using the fixed threshold" }));
         const reportRequest = { id: "task.summary", parent_id: null, receiver_id: "worker.report", receiver_digest: digestValue("unbound"), object_ids: [...new Set(Object.values(members).flat())].sort(),
