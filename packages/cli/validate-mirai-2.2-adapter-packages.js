@@ -15,18 +15,23 @@ const packages = [
 ];
 const stable = !rootPackage.version.includes("-");
 const [major, minor] = rootPackage.version.split(".").map(Number);
-const expectedPeerRange = stable
-  ? ">=2.2.0 <3"
-  : minor > 2
-    ? `>=2.2.0-alpha.1 <${major}.${minor}.0 || >=${rootPackage.version} <${major + 1}`
-    : ">=2.2.0-alpha.1 <3";
+const expectedPeerRange = stable ? ">=2.2.0 <3" : null;
 
 for (const [directory, name, factories, dependencies] of packages) {
   const packageRoot = path.join(root, "packages", directory);
   const manifest = JSON.parse(fs.readFileSync(path.join(packageRoot, "package.json"), "utf8"));
   assert.equal(manifest.name, name);
-  assert.equal(manifest.version, rootPackage.version);
-  assert.equal(manifest.peerDependencies?.["@zabarov/mirai"], expectedPeerRange);
+  const [adapterMajor, adapterMinor] = manifest.version.split(".").map(Number);
+  if (stable) {
+    assert.equal(manifest.version, rootPackage.version);
+    assert.equal(manifest.peerDependencies?.["@zabarov/mirai"], expectedPeerRange);
+  } else {
+    // An additive core prerelease does not force republishing unchanged stable
+    // adapters. Stable publication restores exact version synchronization.
+    assert.equal(adapterMajor, major);
+    assert.ok(adapterMinor >= 2 && adapterMinor <= minor);
+    assert.equal(typeof manifest.peerDependencies?.["@zabarov/mirai"], "string");
+  }
   assert.deepEqual(manifest.dependencies || {}, dependencies);
   assert.deepEqual(manifest.files, ["index.js"]);
   assert.equal(manifest.engines?.node, ">=20 <25");

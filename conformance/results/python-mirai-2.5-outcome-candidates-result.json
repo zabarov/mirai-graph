@@ -1,0 +1,10 @@
+{
+  "contract_version": "1.0.0",
+  "implementation": "python_independent",
+  "kind": "candidate-set",
+  "status": "passed",
+  "artifact_digest": "sha256:f1a149a57cf776212174d8b67f995afc4465c4b689959029571260107b50716a",
+  "errors": [],
+  "canonical_write_performed": false,
+  "effects_executed": false
+}

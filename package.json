@@ -110,7 +110,7 @@
     "./project-technology": "./packages/project-technology/index.js"
   },
   "scripts": {
-    "posttest": "npm run test:mirai-2.3 && npm run test:mirai-2.4 && npm run validate:mirai-2.4-evaluation && npm run validate:mirai-2.4-retrieval-pilots && npm run validate:independent-retrieval-conformance && npm run test:mirai-2.5 && npm run validate:mirai-2.5-cli && npm run validate:mirai-2.5-pilots",
+    "posttest": "npm run test:mirai-2.3 && npm run test:mirai-2.4 && npm run validate:mirai-2.4-evaluation && npm run validate:mirai-2.4-retrieval-pilots && npm run validate:independent-retrieval-conformance && npm run test:mirai-2.5 && npm run test:mirai-2.5-negative && npm run validate:mirai-2.5-cli && npm run validate:mirai-2.5-pilots && npm run validate:independent-outcome-conformance",
     "test:mirai-2.5": "node --test test/outcome/outcome.test.cjs test/outcome/outcome-cli.test.cjs test/outcome/outcome-program.test.cjs",
     "test:mirai-2.5-negative": "node packages/cli/test-mirai-2.5-negative.js",
     "validate:mirai-2.5-cli": "node packages/cli/validate-mirai-2.5-cli.js",

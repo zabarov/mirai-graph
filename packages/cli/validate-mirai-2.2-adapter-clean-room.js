@@ -12,8 +12,10 @@ const root = path.resolve(__dirname, "../..");
 const temporaryRoot = fs.mkdtempSync(path.join(os.tmpdir(), "mirai-adapter-clean-room-"));
 const artifacts = path.join(temporaryRoot, "artifacts");
 const consumer = path.join(temporaryRoot, "consumer");
+const legacyConsumer = path.join(temporaryRoot, "legacy-consumer");
 fs.mkdirSync(artifacts);
 fs.mkdirSync(consumer);
+fs.mkdirSync(legacyConsumer);
 const npmCli = process.env.npm_execpath;
 if (!npmCli) throw new Error("npm_execpath_required");
 
@@ -38,8 +40,8 @@ function pack(target) {
 }
 
 try {
-  const tarballs = [
-    pack("."),
+  const primaryTarball = pack(".");
+  const compatibilityTarballs = [
     pack("packages/source-http"),
     pack("packages/source-postgres"),
     pack("packages/source-mysql"),
@@ -47,8 +49,16 @@ try {
     pack("compat/mirai-graph")
   ];
   fs.writeFileSync(path.join(consumer, "package.json"), `${JSON.stringify({ private: true }, null, 2)}\n`);
-  npm(["install", "--ignore-scripts", "--no-audit", "--no-fund", ...tarballs], consumer);
-  const consume = createRequire(path.join(consumer, "package.json"));
+  const prerelease = JSON.parse(fs.readFileSync(path.join(root, "package.json"), "utf8")).version.includes("-");
+  npm(["install", "--ignore-scripts", "--no-audit", "--no-fund", primaryTarball, ...(prerelease ? [] : compatibilityTarballs)], consumer);
+  const currentConsume = createRequire(path.join(consumer, "package.json"));
+  assert.equal(typeof currentConsume("@zabarov/mirai/outcome").assessOutcome, "function");
+  let consume = currentConsume;
+  if (prerelease) {
+    fs.writeFileSync(path.join(legacyConsumer, "package.json"), `${JSON.stringify({ private: true }, null, 2)}\n`);
+    npm(["install", "--ignore-scripts", "--no-audit", "--no-fund", ...compatibilityTarballs], legacyConsumer);
+    consume = createRequire(path.join(legacyConsumer, "package.json"));
+  }
   const factories = {
     "@zabarov/mirai-source-http": ["createHttpSourceProvider"],
     "@zabarov/mirai-source-postgres": ["createPostgresReadClient", "createPostgresSourceProvider"],
@@ -62,7 +72,7 @@ try {
   const compatibility = consume("mirai-graph");
   const primary = consume("@zabarov/mirai/project-technology");
   assert.equal(compatibility, primary);
-  process.stdout.write(`${JSON.stringify({ status: "passed", package_count: tarballs.length, clean_room_install: true }, null, 2)}\n`);
+  process.stdout.write(`${JSON.stringify({ status: "passed", package_count: compatibilityTarballs.length + 1, clean_room_install: true, prerelease_split: prerelease }, null, 2)}\n`);
 } finally {
   fs.rmSync(temporaryRoot, { recursive: true, force: true });
 }

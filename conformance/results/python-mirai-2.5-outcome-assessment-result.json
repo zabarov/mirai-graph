@@ -1,0 +1,10 @@
+{
+  "contract_version": "1.0.0",
+  "implementation": "python_independent",
+  "kind": "assessment",
+  "status": "passed",
+  "artifact_digest": "sha256:55f5ab9a156ed98ac9e1152ce09bd1aa71cb217bd3b7006f0b50319b9c739910",
+  "errors": [],
+  "canonical_write_performed": false,
+  "effects_executed": false
+}

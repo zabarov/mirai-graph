@@ -1,0 +1,10 @@
+{
+  "contract_version": "1.0.0",
+  "implementation": "python_independent",
+  "kind": "delivery-plan",
+  "status": "passed",
+  "artifact_digest": "sha256:0b7d7e8a12252c5d907868a9172c08a93fd8755e78c2c2eb382870495e661ede",
+  "errors": [],
+  "canonical_write_performed": false,
+  "effects_executed": false
+}

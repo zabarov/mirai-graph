@@ -35,6 +35,7 @@ Mirai 2.5 outcome development:
 
 - [Outcome Completion](../standard/outcome-completion.md)
 - [Outcome Completion Architecture Decision](architecture/mirai-2.5-outcome-completion-adr.md)
+- [Outcome Completion Internal Security Pre-Review](security/mirai-2.5-outcome-security-review.md)
 - [Minimal Outcome Example](../examples/mirai-outcome-completion-minimal/outcome-contract.json)
 - [2.5 Alpha Release Note](../releases/2.5.0-alpha.1.md)
 
