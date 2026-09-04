@@ -451,6 +451,25 @@ function queryAwareBoost(document: RetrievalDocument, request: RetrievalRequest,
   return overlap * 1.5 + intentBoost;
 }
 
+function mostRelevantDocument(documents: RetrievalDocument[], fused: Map<string, { score: number; channels: RetrievalChannel[] }>, request: RetrievalRequest, plan: ReturnType<typeof planRetrieval>): RetrievalDocument | undefined {
+  return [...documents].sort((left, right) => {
+    const leftScore = (fused.get(left.id)?.score || 0) + queryAwareBoost(left, request, plan);
+    const rightScore = (fused.get(right.id)?.score || 0) + queryAwareBoost(right, request, plan);
+    return (rightScore - leftScore) || left.id.localeCompare(right.id);
+  })[0];
+}
+
+function contextualSnippet(document: RetrievalDocument, query: string, maxChars: number): string {
+  if (!document.snippet || referenceOnly(document.confidentiality) || document.search_text.length <= maxChars) return document.snippet;
+  const searchable = document.search_text.toLocaleLowerCase("und");
+  const terms = queryTerms(query).sort((left, right) => right.length - left.length);
+  const positions = terms.map((term) => searchable.indexOf(term)).filter((position) => position >= 0);
+  if (!positions.length) return document.snippet;
+  const center = Math.min(...positions);
+  const start = Math.max(0, Math.min(document.search_text.length - maxChars, center - Math.floor(maxChars / 3)));
+  return document.search_text.slice(start, start + maxChars).trim();
+}
+
 export async function searchLocalRetrievalIndex(projectRoot: string, request: RetrievalRequest, options: { embedding_provider?: EmbeddingProvider } = {}): Promise<{ plan: ReturnType<typeof planRetrieval>; evidence: EvidenceBundle; answer: ReturnType<typeof createRetrievalAnswer> }> {
   const root = path.resolve(projectRoot);
   const config = readRetrievalConfig(root);
@@ -543,17 +562,29 @@ export async function searchLocalRetrievalIndex(projectRoot: string, request: Re
   }
   const conflictRequested = /(?:conflict|конфликт)/iu.test(request.query);
   if (conflictRequested) {
-    for (const document of permitted.filter((item) => item.conflict_refs?.length)) {
-      const existing = fused.get(document.id);
-      fused.set(document.id, { score: Math.max(existing?.score || 0, 2), channels: [...new Set([...(existing?.channels || []), "process" as const])] });
-      reasons.set(document.id, [...new Set([...(reasons.get(document.id) || []), "explicit_conflict_candidate"])]);
+    const candidates = permitted.filter((item) => item.conflict_refs?.length);
+    const selected = mostRelevantDocument(candidates, fused, request, plan);
+    for (const document of candidates) {
+      if (document.id !== selected?.id) fused.delete(document.id);
+      else {
+        const existing = fused.get(document.id);
+        fused.set(document.id, { score: Math.max(existing?.score || 0, 2), channels: [...new Set([...(existing?.channels || []), "process" as const])] });
+        reasons.set(document.id, [...new Set([...(reasons.get(document.id) || []), "explicit_conflict_candidate"])]);
+      }
+    }
+  }
+  if (plan.intent === "change_or_freshness" && !conflictRequested) {
+    const staleCandidates = permitted.filter((item) => item.freshness === "stale");
+    const selected = mostRelevantDocument(staleCandidates, fused, request, plan);
+    for (const document of staleCandidates) {
+      if (document.id !== selected?.id) fused.delete(document.id);
     }
   }
   const hits = sortHits(permitted.filter((document) => fused.has(document.id)).map((document): RetrievalHit => {
     const score = fused.get(document.id) as { score: number; channels: RetrievalChannel[] };
     const graphPath = document.graph_object_refs.map((ref) => paths.get(ref)).find(Boolean);
     return {
-      document_id: document.id, kind: document.kind, title: document.title, snippet: document.snippet, source_ref: document.source_ref, scope: document.scope,
+      document_id: document.id, kind: document.kind, title: document.title, snippet: contextualSnippet(document, request.query, config.placement.max_snippet_chars), source_ref: document.source_ref, scope: document.scope,
       authority: document.authority, freshness: document.freshness, graph_object_refs: document.graph_object_refs, evidence_refs: document.evidence_refs,
       program_refs: document.program_refs, policy_refs: document.policy_refs, channels: score.channels,
       rank_score: score.score + (plan.intent === "relationship_trace" && graphPath && graphPath.length > 1 ? 1 : 0) + queryAwareBoost(document, request, plan),
@@ -563,7 +594,7 @@ export async function searchLocalRetrievalIndex(projectRoot: string, request: Re
     };
   })).slice(0, plan.budgets.max_results);
   const conflicts = [...new Set([
-    ...hits.filter((hit) => hit.freshness === "stale").map((hit) => `stale:${hit.document_id}`),
+    ...(plan.intent === "change_or_freshness" ? hits.filter((hit) => hit.freshness === "stale").map((hit) => `stale:${hit.document_id}`) : []),
     ...(conflictRequested ? hits.flatMap((hit) => (hit.conflict_refs || []).map((ref) => `conflict:${hit.document_id}:${ref}`)) : [])
   ])];
   const limitations = [...plan.diagnostics, ...(request.graph ? [] : ["graph_snapshot_not_supplied"]), ...(descriptor.semantic_status === "ready" ? [] : ["semantic_retrieval_unavailable"])];

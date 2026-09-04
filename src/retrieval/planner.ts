@@ -95,6 +95,8 @@ export function createRetrievalAnswer(request: RetrievalRequest, plan: Retrieval
     evidence_refs: unique(hit.evidence_refs.length ? hit.evidence_refs : [hit.source_ref]),
     source_refs: [hit.source_ref]
   }));
+  const selectedProgramHit = evidence.hits.find((hit) => hit.program_refs.length > 0);
+  const selectedPolicyHit = evidence.hits.find((hit) => hit.policy_refs.length > 0);
   const body = {
     contract_version: "1.0.0" as const,
     request_id: request.id,
@@ -105,8 +107,8 @@ export function createRetrievalAnswer(request: RetrievalRequest, plan: Retrieval
         : claims.map((claim) => claim.text).join("\n"),
     claims,
     relevant_relationships: evidence.hits.filter((hit) => hit.graph_path).map((hit) => ({ path: hit.graph_path as string[], evidence_refs: unique(hit.evidence_refs.length ? hit.evidence_refs : [hit.source_ref]) })),
-    program_candidates: unique(evidence.hits.flatMap((hit) => hit.program_refs)),
-    policy_refs: unique(evidence.hits.flatMap((hit) => hit.policy_refs)),
+    program_candidates: unique(selectedProgramHit?.program_refs || []),
+    policy_refs: unique(selectedPolicyHit?.policy_refs || []),
     conflicts: evidence.conflicts,
     limitations: evidence.limitations,
     next_safe_action: status === "clarification_required" ? "clarify_intent" : status === "insufficient_evidence" ? "expand_authorized_sources_or_review_freshness" : "review_evidence_before_action",

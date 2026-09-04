@@ -61,14 +61,18 @@ export function evaluateRetrieval(corpusId: string, system: RetrievalEvaluation[
     if (item.expected_graph_path) pathScores.push(item.hits.some((hit) => JSON.stringify(hit.graph_path) === JSON.stringify(item.expected_graph_path)) ? 1 : 0);
     evidenceScores.push(item.answer.claims.length ? item.answer.claims.filter((claim) => claim.evidence_refs.length > 0 && claim.source_refs.length > 0).length / item.answer.claims.length : item.answer.status === "insufficient_evidence" || item.answer.status === "clarification_required" ? 1 : 0);
     faithfulnessScores.push(item.answer.claims.length ? item.answer.claims.filter((claim) => item.hits.some((hit) => claim.source_refs.includes(hit.source_ref) && claim.evidence_refs.some((ref) => hit.evidence_refs.includes(ref)) && claim.text.includes(hit.title))).length / item.answer.claims.length : ["insufficient_evidence", "clarification_required"].includes(item.answer.status) ? 1 : 0);
-    const reportsConflict = item.answer.conflicts.some((value) => value.startsWith("conflict:"));
-    const reportsStale = item.answer.conflicts.some((value) => value.startsWith("stale:"));
-    if (item.conflict_expected) conflictScores.push(reportsConflict ? 1 : 0);
+    const reportedConflicts = item.hits.filter((hit) => item.answer.conflicts.some((value) => value.startsWith(`conflict:${hit.document_id}:`))).map((hit) => hit.document_id);
+    const reportedStale = item.answer.conflicts.filter((value) => value.startsWith("stale:")).map((value) => value.slice("stale:".length));
+    const reportsExpectedConflict = reportedConflicts.some((id) => expected.has(id));
+    const reportsExpectedStale = reportedStale.some((id) => expected.has(id));
+    if (item.conflict_expected) conflictScores.push(reportsExpectedConflict ? 1 : 0);
     else conflictNegativeCases += 1;
-    if (reportsConflict) { conflictReported += 1; if (item.conflict_expected) conflictTruePositive += 1; }
-    if (item.stale_expected) staleScores.push(reportsStale ? 1 : 0);
+    conflictReported += reportedConflicts.length;
+    conflictTruePositive += reportedConflicts.filter((id) => item.conflict_expected && expected.has(id)).length;
+    if (item.stale_expected) staleScores.push(reportsExpectedStale ? 1 : 0);
     else staleNegativeCases += 1;
-    if (reportsStale) { staleReported += 1; if (item.stale_expected) staleTruePositive += 1; }
+    staleReported += reportedStale.length;
+    staleTruePositive += reportedStale.filter((id) => item.stale_expected && expected.has(id)).length;
     const unauthorizedIds = new Set(item.unauthorized_document_ids || []);
     unauthorized += item.hits.filter((hit) => unauthorizedIds.has(hit.document_id)).length;
     stale += item.hits.filter((hit) => hit.freshness === "stale").length;
