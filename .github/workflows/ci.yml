@@ -181,7 +181,12 @@ jobs:
       - name: Validate honest Mirai 2.2 readiness
         run: npm run validate:mirai-2.2-readiness
 
-      - name: Validate honest Mirai 2.4 alpha readiness
+      - name: Validate Mirai 2.4 candidate readiness structure
+        if: github.ref != 'refs/heads/main'
+        run: node packages/cli/validate-mirai-2-4-readiness.js
+
+      - name: Validate Mirai 2.4 stable readiness
+        if: github.ref == 'refs/heads/main'
         run: npm run validate:mirai-2.4-readiness
 
       - name: Validate independent autonomic conformance candidate
@@ -206,9 +211,15 @@ jobs:
       - name: Start isolated source services
         shell: bash
         run: |
-          docker run -d --name mirai-22-postgres -e POSTGRES_HOST_AUTH_METHOD=trust -e POSTGRES_DB=mirai_test -p 55432:5432 postgres:16-alpine
-          docker run -d --name mirai-22-mysql -e MYSQL_ROOT_PASSWORD=mirai-ci-root-password -e MYSQL_DATABASE=mirai_test -p 53306:3306 mysql:8.4
-          docker run -d --name mirai-22-minio -e MINIO_ROOT_USER=mirai_ci -e MINIO_ROOT_PASSWORD=mirai-ci-minio-password -p 59000:9000 minio/minio server /data
+          docker run -d --name mirai-22-postgres -e POSTGRES_HOST_AUTH_METHOD=trust -e POSTGRES_DB=mirai_test -p 127.0.0.1::5432 postgres:16-alpine
+          docker run -d --name mirai-22-mysql -e MYSQL_ROOT_PASSWORD=mirai-ci-root-password -e MYSQL_DATABASE=mirai_test -p 127.0.0.1::3306 mysql:8.4
+          docker run -d --name mirai-22-minio -e MINIO_ROOT_USER=mirai_ci -e MINIO_ROOT_PASSWORD=mirai-ci-minio-password -p 127.0.0.1::9000 minio/minio server /data
+          postgres_port="$(docker port mirai-22-postgres 5432/tcp | awk -F: '{print $NF}')"
+          mysql_port="$(docker port mirai-22-mysql 3306/tcp | awk -F: '{print $NF}')"
+          minio_port="$(docker port mirai-22-minio 9000/tcp | awk -F: '{print $NF}')"
+          echo "MIRAI_TEST_POSTGRES_URL=postgres://mirai_reader@127.0.0.1:${postgres_port}/mirai_test" >> "$GITHUB_ENV"
+          echo "MIRAI_TEST_MYSQL_URL=mysql://mirai_reader:mirai-ci-reader-password@127.0.0.1:${mysql_port}/mirai_test" >> "$GITHUB_ENV"
+          echo "MIRAI_TEST_S3_ENDPOINT=http://127.0.0.1:${minio_port}" >> "$GITHUB_ENV"
           for attempt in {1..60}; do docker exec mirai-22-postgres pg_isready -U postgres -d mirai_test && break; sleep 2; done
           for attempt in {1..60}; do docker exec -e MYSQL_PWD=mirai-ci-root-password mirai-22-mysql mysql --host=127.0.0.1 --protocol=TCP -uroot mirai_test --skip-column-names --execute="SELECT 1" && break; sleep 2; done
           docker exec -e MYSQL_PWD=mirai-ci-root-password mirai-22-mysql mysql --host=127.0.0.1 --protocol=TCP -uroot mirai_test --skip-column-names --execute="SELECT 1"
@@ -223,9 +234,6 @@ jobs:
         run: npm run test:mirai-2.2-connectors-integration
         env:
           MIRAI_TEST_HTTP_URL: https://example.com/
-          MIRAI_TEST_POSTGRES_URL: postgres://mirai_reader@127.0.0.1:55432/mirai_test
-          MIRAI_TEST_MYSQL_URL: mysql://mirai_reader:mirai-ci-reader-password@127.0.0.1:53306/mirai_test
-          MIRAI_TEST_S3_ENDPOINT: http://127.0.0.1:59000
           MIRAI_TEST_S3_ACCESS_KEY: mirai_ci
           MIRAI_TEST_S3_SECRET_KEY: mirai-ci-minio-password
 
