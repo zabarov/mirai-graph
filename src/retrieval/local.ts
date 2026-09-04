@@ -544,7 +544,8 @@ export async function searchLocalRetrievalIndex(projectRoot: string, request: Re
   const conflictRequested = /(?:conflict|конфликт)/iu.test(request.query);
   if (conflictRequested) {
     for (const document of permitted.filter((item) => item.conflict_refs?.length)) {
-      if (!fused.has(document.id)) fused.set(document.id, { score: 2, channels: ["process"] });
+      const existing = fused.get(document.id);
+      fused.set(document.id, { score: Math.max(existing?.score || 0, 2), channels: [...new Set([...(existing?.channels || []), "process" as const])] });
       reasons.set(document.id, [...new Set([...(reasons.get(document.id) || []), "explicit_conflict_candidate"])]);
     }
   }
