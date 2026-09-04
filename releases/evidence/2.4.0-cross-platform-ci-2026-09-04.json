@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0.0",
+  "evidence_id": "evidence.mirai.2.4.0.cross_platform_ci.2026_09_04",
+  "release": "2.4.0",
+  "implementation_revision": "1231d691059ca02d128ec8bbfcf9b1854772f15b",
+  "mirai_ci": {
+    "run_id": 33849292873,
+    "url": "https://github.com/zabarov/mirai-graph/actions/runs/33849292873",
+    "conclusion": "success",
+    "operating_systems": ["linux", "macos", "windows"],
+    "includes": [
+      "program_runtime_compatibility",
+      "retrieval_fabric",
+      "clean_room_package_install",
+      "source_connector_integration",
+      "release_candidate_check"
+    ]
+  },
+  "codeql": {
+    "run_id": 33849293029,
+    "url": "https://github.com/zabarov/mirai-graph/actions/runs/33849293029",
+    "conclusion": "success"
+  },
+  "independent_conformance": {
+    "repository": "zabarov/mirai-conformance",
+    "revision": "298472cf25917f5f69183d8bcfb3bb4712e8c796",
+    "run_id": 33845400686,
+    "url": "https://github.com/zabarov/mirai-conformance/actions/runs/33845400686",
+    "conclusion": "success",
+    "operating_systems": ["linux", "macos", "windows"]
+  },
+  "claim_boundary": "These runs validate the revision-bound release candidate and independent conformance corpus. They do not authorize deployment-specific production writes or establish universal retrieval effectiveness."
+}

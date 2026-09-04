@@ -2,10 +2,9 @@
 
 Status: stable 1.0 release process
 
-Current release candidate: [v2.4.0](2.4.0.md), with rebuildable
+Current stable release: [v2.4.0](2.4.0.md), with rebuildable
 authorization-bound indexes, evidence-bound answers and an explicit
-[readiness record](2.4.0-readiness.json). It must not be tagged or published
-while that record is blocked.
+[readiness record](2.4.0-readiness.json).
 
 ## Purpose
 
@@ -21,8 +20,7 @@ Release notes must separate:
 
 ## Release Notes
 
-- [v2.4.0](2.4.0.md) - stable-version Retrieval Fabric candidate; exact-commit
-  CI and publication gates remain mandatory.
+- [v2.4.0](2.4.0.md) - stable production-read Retrieval Fabric release.
 - [Mirai 2.4 readiness](2.4.0-readiness.json) - machine-readable engineering,
   conformance, security, evaluation, pilot and publication state.
 - [v2.4.0-alpha.1](2.4.0-alpha.1.md) - historical Retrieval Fabric alpha.

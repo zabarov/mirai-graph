@@ -12,7 +12,7 @@ Use it when a software project has useful knowledge spread across README files,
 docs, issues, chats, code comments and AI prompts, and you need a small
 machine-readable map that developers and AI assistants can validate and reuse.
 
-Mirai `2.4.0` is the current stable-version release candidate. It adds
+Mirai `2.4.0` is the current stable production-read software release. It adds
 Retrieval Fabric over the 2.3 graph-operation baseline and builds disposable,
 authorization-bound local indexes and returns evidence-bound answers across
 exact, lexical, optional semantic, graph and process channels. Retrieval never
@@ -31,11 +31,10 @@ and [minimal example](examples/mirai-retrieval-minimal/README.md). Graph
 organization remains documented in the
 [2.3 development guide](docs/adoption/graph-organization-development.md).
 
-The recorded published baseline remains Mirai `2.1.0` until the exact 2.4
-candidate passes public CI and publication gates. The Mirai 2.2 Autonomic
-Fabric and Mirai 2.3 graph-operation contracts remain additive foundations of
-2.4. Neither the published baseline nor this candidate authorizes production
-writes or managed autonomy on a deployment target.
+Mirai 2.2 Autonomic Fabric and Mirai 2.3 graph-operation contracts remain
+additive foundations of 2.4. The stable package is production-read software;
+it does not by itself authorize production writes or managed autonomy on a
+deployment target.
 
 The machine-readable [2.1 release readiness report](releases/2.1.0-readiness.json)
 separates engineering release gates from scientific claims and production-write

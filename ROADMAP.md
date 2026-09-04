@@ -1,6 +1,6 @@
 # Mirai Graph Roadmap
 
-Status: Mirai 2.1.0 published stable; Mirai 2.4.0 is in exact-commit release validation with evidence-bound retrieval over the Mirai 2.2/2.3 foundations
+Status: Mirai 2.4.0 stable production-read release with evidence-bound retrieval over the Mirai 2.2/2.3 foundations
 
 ## Phase 0: Public Foundation
 
@@ -355,8 +355,9 @@ The embedded implementation uses Orama. Multilingual local embeddings are an
 optional explicitly prepared package. Federated queries remain owner-local,
 authorization-bound, budgeted and digest-bound. Independent conformance,
 security review, multilingual quality evaluation and four controlled domain
-pilots are recorded. Stable publication remains blocked until the exact release
-commit passes the full Linux/macOS/Windows and CodeQL gates.
+pilots are recorded. The revision-bound Linux/macOS/Windows CI, independent
+conformance and CodeQL gates pass; deployment-specific production writes remain
+separately governed.
 
 ## Long-Term Evidence And Adoption Work
 

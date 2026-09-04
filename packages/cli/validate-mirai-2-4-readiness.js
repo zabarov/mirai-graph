@@ -42,6 +42,7 @@ for (const ref of [
   "benchmarks/mirai-2.4-retrieval/results/evaluation-report.json",
   "releases/evidence/2.4.0-retrieval-evaluation-2026-09-04.json",
   "releases/evidence/2.4.0-controlled-pilots-2026-09-04.json",
+  "releases/evidence/2.4.0-cross-platform-ci-2026-09-04.json",
   "releases/2.4.0.md"
 ]) if (!fs.existsSync(path.join(root, ref))) errors.push(`release_evidence_missing:${ref}`);
 if (process.argv.includes("--require-ready") && report.overall_status !== "ready") errors.push("release_not_ready");
