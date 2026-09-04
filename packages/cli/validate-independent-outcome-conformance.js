@@ -11,6 +11,7 @@ const mappings = [
   ["contract", "examples/mirai-outcome-completion-minimal/outcome-contract.json", "conformance/results/python-mirai-2.5-outcome-contract-result.json"],
   ["candidate-set", "examples/mirai-outcome-completion-minimal/candidate-set.json", "conformance/results/python-mirai-2.5-outcome-candidates-result.json"],
   ["assessment", "examples/mirai-outcome-completion-minimal/assessment.json", "conformance/results/python-mirai-2.5-outcome-assessment-result.json"],
+  ["aggregate-assessment", "examples/mirai-outcome-completion-minimal/aggregate-assessment.json", "conformance/results/python-mirai-2.5-outcome-aggregate-assessment-result.json"],
   ["delivery-plan", "examples/mirai-outcome-completion-minimal/delivery-plan.json", "conformance/results/python-mirai-2.5-outcome-delivery-result.json"],
   ["pilot-result", "examples/mirai-outcome-pilots/knowledge-assistant-result.json", "conformance/results/python-mirai-2.5-knowledge-assistant-pilot-result.json"],
   ["pilot-result", "examples/mirai-outcome-pilots/federation-project-result.json", "conformance/results/python-mirai-2.5-federation-project-pilot-result.json"],

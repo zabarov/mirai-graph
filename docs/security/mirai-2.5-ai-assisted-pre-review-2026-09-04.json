@@ -3,7 +3,7 @@
   "review_id": "security-pre-review.mirai-2.5-outcome-completion-2026-09-04",
   "status": "complete",
   "evidence_class": "internal_ai_assisted_pre_review",
-  "reviewed_revision": "e28ce76c02709ce741fe36d132c138ad6579c509",
+  "reviewed_revision": "8bc65458c478955f7fd8472fed0eedb01bf9df6c",
   "scope": [
     "critical_slot_evidence",
     "forged_evidence_reference",
@@ -18,7 +18,7 @@
     {
       "command": "npm run test:mirai-2.5",
       "status": "passed",
-      "summary": "Thirteen tests cover deterministic assessment, status precedence, evidence admission, aggregation and existing Program composition."
+      "summary": "Fourteen tests cover deterministic assessment, status precedence, evidence admission, explicit parent binding, incomplete-child propagation and existing Program composition."
     },
     {
       "command": "npm run test:mirai-2.5-negative",
@@ -28,7 +28,7 @@
     {
       "command": "npm run validate:independent-outcome-conformance",
       "status": "passed_local_only",
-      "summary": "Seven artifacts agree with independent Python checker revision 68956f7a4d047c3c5b8164a99152782d6116f969; public CI remains pending."
+      "summary": "Eight artifacts agree with independent Python checker revision f6505973c403257583a33e087d9a168448bc0817; public CI remains pending."
     }
   ],
   "findings": [
@@ -55,6 +55,12 @@
       "severity": "medium",
       "status": "fixed",
       "summary": "Configured noncritical conflicts block completion."
+    },
+    {
+      "id": "OC-005",
+      "severity": "high",
+      "status": "fixed",
+      "summary": "Child assessments require an explicit parent digest and incomplete child status cannot be hidden by a successful sibling."
     }
   ],
   "unresolved_blockers": [

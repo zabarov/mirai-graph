@@ -1,9 +1,9 @@
 {
   "contract_version": "1.0.0",
   "implementation": "python_independent",
-  "kind": "pilot-result",
+  "kind": "aggregate-assessment",
   "status": "passed",
-  "artifact_digest": "sha256:96364664c82ae843a5da456df34dc1b99c6a8966d4f1d1c60173a82af4b2b9f6",
+  "artifact_digest": "sha256:c91e063751001bec60ab5e03312f12f0ebeaf76784306e2d721cfbdeafa9a993",
   "errors": [],
   "canonical_write_performed": false,
   "effects_executed": false
