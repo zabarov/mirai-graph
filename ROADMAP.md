@@ -1,6 +1,6 @@
 # Mirai Graph Roadmap
 
-Status: Mirai 2.1.0 stable; Mirai 2.2.0-rc.1 remains gated; Mirai 2.4.0-alpha.1 adds experimental evidence-bound retrieval over the Mirai 2.3 graph-organization baseline
+Status: Mirai 2.1.0 published stable; Mirai 2.4.0 is in exact-commit release validation with evidence-bound retrieval over the Mirai 2.2/2.3 foundations
 
 ## Phase 0: Public Foundation
 
@@ -346,16 +346,17 @@ promoted automatically.
 
 ## Mirai 2.4 Retrieval Fabric Track
 
-`2.4.0-alpha.1` adds a rebuildable Index Plane and evidence-bound retrieval
+`2.4.0` adds a rebuildable Index Plane and evidence-bound retrieval
 across exact, lexical, optional semantic, graph and process channels. Portable
 configuration lives in `mirai/retrieval.yaml`; derived state remains under
 `.mirai/indexes/`, outside canonical graph state.
 
 The embedded implementation uses Orama. Multilingual local embeddings are an
 optional explicitly prepared package. Federated queries remain owner-local,
-authorization-bound, budgeted and digest-bound. Stable 2.4 requires independent
-conformance, security review, multilingual quality evaluation, controlled
-domain pilots and Linux/macOS/Windows clean-room checks.
+authorization-bound, budgeted and digest-bound. Independent conformance,
+security review, multilingual quality evaluation and four controlled domain
+pilots are recorded. Stable publication remains blocked until the exact release
+commit passes the full Linux/macOS/Windows and CodeQL gates.
 
 ## Long-Term Evidence And Adoption Work
 

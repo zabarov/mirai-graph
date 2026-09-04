@@ -1,0 +1,25 @@
+{
+  "contract_version": "1.0.0",
+  "evidence_id": "evidence.mirai.2.4.0.controlled-pilots.2026-09-04",
+  "release": "2.4.0",
+  "corpus_digest": "sha256:d26fd5942cacfce2254e6ff437d1b67c4a8993b6a3a707ddb769555b4325deef",
+  "reviewer_class": "isolated_ai_assisted_reviewer",
+  "review_verdict": "passed_with_limitations",
+  "pilots": [
+    { "id": "pilot.mirai-2.4-retrieval.federation", "query_count": 31, "verdict": "passed" },
+    { "id": "pilot.mirai-2.4-retrieval.larena", "query_count": 30, "verdict": "passed" },
+    { "id": "pilot.mirai-2.4-retrieval.ai_employee", "query_count": 30, "verdict": "passed" },
+    { "id": "pilot.mirai-2.4-retrieval.organization", "query_count": 30, "verdict": "passed" }
+  ],
+  "safety": {
+    "unauthorized_hit_count": 0,
+    "unsupported_claim_count": 0,
+    "production_effects_executed": false,
+    "canonical_write_allowed": false
+  },
+  "limitations": [
+    "All four pilots are deterministic public-safe benchmark slices, not deployments against private production systems.",
+    "The reviewer was isolated from implementation but was AI-assisted, not an external human domain owner.",
+    "Production-write, broad organizational effectiveness and scientific generalization remain outside this evidence."
+  ]
+}

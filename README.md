@@ -12,8 +12,8 @@ Use it when a software project has useful knowledge spread across README files,
 docs, issues, chats, code comments and AI prompts, and you need a small
 machine-readable map that developers and AI assistants can validate and reuse.
 
-Mirai `2.4.0-alpha.1` is an experimental prerelease that adds Retrieval Fabric
-over the 2.3 graph-operation baseline. It builds disposable,
+Mirai `2.4.0` is the current stable-version release candidate. It adds
+Retrieval Fabric over the 2.3 graph-operation baseline and builds disposable,
 authorization-bound local indexes and returns evidence-bound answers across
 exact, lexical, optional semantic, graph and process channels. Retrieval never
 grants approval, executes a Program or changes canonical graph state.
@@ -31,11 +31,11 @@ and [minimal example](examples/mirai-retrieval-minimal/README.md). Graph
 organization remains documented in the
 [2.3 development guide](docs/adoption/graph-organization-development.md).
 
-The recorded stable baseline is Mirai `2.1.0`, prepared for production-read
-use. The Mirai 2.2 release-candidate contracts remain an explicit compatibility
-and Autonomic Fabric candidate beneath this alpha. Neither baseline nor this
-prerelease authorizes production writes or managed autonomy on a deployment
-target.
+The recorded published baseline remains Mirai `2.1.0` until the exact 2.4
+candidate passes public CI and publication gates. The Mirai 2.2 Autonomic
+Fabric and Mirai 2.3 graph-operation contracts remain additive foundations of
+2.4. Neither the published baseline nor this candidate authorizes production
+writes or managed autonomy on a deployment target.
 
 The machine-readable [2.1 release readiness report](releases/2.1.0-readiness.json)
 separates engineering release gates from scientific claims and production-write

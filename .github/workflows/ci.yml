@@ -136,7 +136,12 @@ jobs:
       - name: Install package dependencies
         run: npm ci
 
-      - name: Run release check
+      - name: Run candidate release check
+        if: github.ref != 'refs/heads/main'
+        run: npm run release:candidate-check
+
+      - name: Run stable release check
+        if: github.ref == 'refs/heads/main'
         run: npm run release:check
 
   readiness-contracts:

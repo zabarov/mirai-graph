@@ -1,0 +1,41 @@
+{
+  "contract_version": "1.0.0",
+  "evidence_id": "evidence.mirai.2.4.0.retrieval-evaluation.2026-09-04",
+  "release": "2.4.0",
+  "corpus_id": "corpus.mirai-2.4-retrieval-v1",
+  "corpus_digest": "sha256:d26fd5942cacfce2254e6ff437d1b67c4a8993b6a3a707ddb769555b4325deef",
+  "implementation_revision": "f87fdaef5e9cf3ef904507b3fa4802be05d2dc87",
+  "implementation_surface_digest": "sha256:97557c7c37b9841e19cdc5fe0c8623f4e5d66960a3c0ad214190c3fc6c7ba456",
+  "evaluation_report_digest": "sha256:7cf913338f521c90208622bfed9877fe936ce150e73b0240d302f5e25ce95c43",
+  "query_count": 121,
+  "languages": ["en", "ru"],
+  "systems": ["lexical", "semantic", "graph", "hybrid", "mirai_planner"],
+  "mirai_planner": {
+    "recall_at_10": 0.8966942148760331,
+    "ndcg_at_10": 0.8602186091969769,
+    "mrr": 0.8470254492981766,
+    "intent_accuracy": 0.8347107438016529,
+    "multi_hop_path_correctness": 1,
+    "evidence_coverage": 1,
+    "claim_faithfulness": 1,
+    "conflict_recall": 1,
+    "conflict_precision": 1,
+    "stale_recall": 1,
+    "stale_precision": 1,
+    "unauthorized_hit_count": 0
+  },
+  "independent_reconstruction": {
+    "reviewer_class": "isolated_ai_assisted_reviewer",
+    "queries_reconstructed": 605,
+    "queries_expected": 605,
+    "claims_reconstructed": 5174,
+    "claims_expected": 5174,
+    "verdict": "passed"
+  },
+  "limitations": [
+    "The corpus is controlled and public-safe rather than a representative production population.",
+    "Relevance judgments were authored with the frozen corpus and are not an external blinded human evaluation.",
+    "The result supports release engineering and bounded retrieval claims, not universal search superiority."
+  ],
+  "canonical_write_allowed": false
+}

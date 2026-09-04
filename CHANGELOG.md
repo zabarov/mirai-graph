@@ -4,6 +4,24 @@ All notable changes to Mirai Graph will be documented in this file.
 
 ## [Unreleased]
 
+## [2.4.0] - 2026-09-04
+
+### Added
+
+- Stabilized Retrieval Fabric contracts, local index lifecycle, evidence-bound
+  answers and bounded federated retrieval introduced in the alpha.
+- Added a bilingual controlled benchmark, four public-safe domain slices,
+  independent Python conformance receipts and a scoped security review.
+- Preserved Mirai 2.1 Program/Runtime and Project Capsule behavior, Mirai 2.2
+  source adapters, Mirai 2.3 graph operations and the `mirai-graph` wrapper.
+
+### Release Boundary
+
+- Stable means production-read integration eligibility, not permission for
+  production-write, automatic canonical updates or unrestricted federation.
+- Synthetic and AI-assisted evidence is not presented as external scientific
+  validation or proof of universal retrieval quality.
+
 ## [2.4.0-alpha.1] - 2026-09-04
 
 ### Added

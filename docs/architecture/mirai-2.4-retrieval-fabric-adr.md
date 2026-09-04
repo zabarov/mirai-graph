@@ -1,6 +1,6 @@
 # ADR: Mirai 2.4 Retrieval Fabric
 
-Status: accepted for 2.4 alpha implementation
+Status: accepted for Mirai 2.4
 
 ## Decision
 
