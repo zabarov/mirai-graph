@@ -5,7 +5,7 @@
   "type": "object", "additionalProperties": false,
   "required": ["contract_version", "id", "contract_digest", "candidate_set_digest", "evidence_set_digest", "slots", "missing_slots", "stale_slots", "conflicting_slots", "unsupported_slots", "unauthorized_slots", "evidence_coverage", "status", "clarifying_question", "next_safe_action", "limitations", "execution_allowed", "canonical_write_allowed", "digest"],
   "properties": {
-    "contract_version": { "const": "1.0.0" }, "id": { "type": "string" }, "contract_digest": { "$ref": "#/$defs/digest" }, "candidate_set_digest": { "$ref": "#/$defs/digest" }, "evidence_set_digest": { "$ref": "#/$defs/digest" },
+    "contract_version": { "const": "1.0.0" }, "id": { "type": "string" }, "contract_digest": { "$ref": "#/$defs/digest" }, "parent_contract_digest": { "$ref": "#/$defs/digest" }, "candidate_set_digest": { "$ref": "#/$defs/digest" }, "evidence_set_digest": { "$ref": "#/$defs/digest" },
     "slots": { "type": "array", "maxItems": 256, "items": { "$ref": "#/$defs/slot" } },
     "missing_slots": { "$ref": "#/$defs/strings" }, "stale_slots": { "$ref": "#/$defs/strings" }, "conflicting_slots": { "$ref": "#/$defs/strings" }, "unsupported_slots": { "$ref": "#/$defs/strings" }, "unauthorized_slots": { "$ref": "#/$defs/strings" },
     "evidence_coverage": { "type": "number", "minimum": 0, "maximum": 1 },

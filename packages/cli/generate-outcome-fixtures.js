@@ -4,7 +4,7 @@
 const fs = require("node:fs");
 const path = require("node:path");
 const { digestValue } = require("../../dist/cjs/core");
-const { assessOutcome, planOutcomeDelivery } = require("../../dist/cjs/outcome");
+const { assessOutcome, aggregateOutcomes, planOutcomeDelivery } = require("../../dist/cjs/outcome");
 
 const root = path.resolve(__dirname, "../../examples/mirai-outcome-completion-minimal");
 const invalidRoot = path.resolve(__dirname, "../../examples/mirai-outcome-completion-invalid");
@@ -43,6 +43,18 @@ write("candidate-set.json", candidates);
 write("evidence-set.json", evidence);
 write("assessment.json", assessment);
 write("delivery-plan.json", delivery);
+
+const childContract = seal({ ...Object.fromEntries(Object.entries(contract).filter(([key]) => key !== "digest")), id: "outcome.release-readiness-child", parent_contract_digest: contract.digest });
+const childCandidates = seal({ ...Object.fromEntries(Object.entries(candidates).filter(([key]) => key !== "digest")), id: "candidates.release-readiness-child", contract_digest: childContract.digest });
+const childAssessment = assessOutcome(childContract, childCandidates, evidence);
+const incompleteCandidates = seal({ ...Object.fromEntries(Object.entries(childCandidates).filter(([key]) => key !== "digest")), id: "candidates.release-readiness-child-incomplete", candidates: childCandidates.candidates.filter((item) => item.slot_id !== "test_status") });
+const incompleteChildAssessment = assessOutcome(childContract, incompleteCandidates, evidence);
+const aggregateAssessment = aggregateOutcomes(contract, [childAssessment, incompleteChildAssessment]);
+write("child-outcome-contract.json", childContract);
+write("child-candidate-set.json", childCandidates);
+write("child-assessment.json", childAssessment);
+write("incomplete-child-assessment.json", incompleteChildAssessment);
+write("aggregate-assessment.json", aggregateAssessment);
 
 const invalid = (name, value) => fs.writeFileSync(path.join(invalidRoot, name), `${JSON.stringify(value, null, 2)}\n`);
 const falseSatisfied = structuredClone(assessment);

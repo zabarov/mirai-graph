@@ -7,7 +7,7 @@
       "id": "approval_boundary",
       "expected_status": "needs_input",
       "actual_status": "needs_input",
-      "assessment_digest": "sha256:992bb5ae0abad1ccc64ed2580f9cd08bc8fc04cd12125ca37af4d6ef09a77963",
+      "assessment_digest": "sha256:d3a82203520c28fd901abfcd0fbe5e21bf556cdc63026fb9b1c6a6dc9a19d713",
       "evidence_coverage": 0.6666666666666666,
       "question_count": 1,
       "citation_count": 2
@@ -34,5 +34,5 @@
   ],
   "production_effects": false,
   "canonical_write_allowed": false,
-  "digest": "sha256:c66c3097f4f8bc895eb6c4306ff170b9b33dfbd7d978e026b8e62a7b5cd62ed3"
+  "digest": "sha256:9d80bc5e92edf4b49486fa0d6228b0b7a52fd1ee1c9234e5acb9f689194daa8e"
 }

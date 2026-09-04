@@ -101,6 +101,32 @@ test("nested aggregation preserves evidence and rejects tampered children", () =
   assert.throws(() => aggregateOutcomes(contract, [tampered]), /child_assessment_invalid/);
 });
 
+test("nested aggregation accepts explicit parent binding and preserves incomplete child status", () => {
+  const parent = load("outcome-contract.json");
+  const childContract = structuredClone(parent);
+  childContract.id = "outcome.release-readiness-child";
+  childContract.parent_contract_digest = parent.digest;
+  const boundChildContract = seal(childContract);
+  const childCandidates = load("candidate-set.json");
+  childCandidates.id = "candidates.child";
+  childCandidates.contract_digest = boundChildContract.digest;
+  const boundChild = assessOutcome(boundChildContract, seal(childCandidates), load("evidence-set.json"));
+  assert.equal(boundChild.parent_contract_digest, parent.digest);
+  assert.equal(aggregateOutcomes(parent, [boundChild]).status, "satisfied");
+
+  const unboundContract = seal({ ...childContract, id: "outcome.unbound-child", parent_contract_digest: `sha256:${"a".repeat(64)}` });
+  const unboundCandidates = seal({ ...childCandidates, id: "candidates.unbound", contract_digest: unboundContract.digest });
+  const unboundChild = assessOutcome(unboundContract, unboundCandidates, load("evidence-set.json"));
+  assert.throws(() => aggregateOutcomes(parent, [unboundChild]), /child_assessment_invalid/);
+
+  const incompleteCandidates = structuredClone(childCandidates);
+  incompleteCandidates.id = "candidates.incomplete-child";
+  incompleteCandidates.candidates = incompleteCandidates.candidates.filter((item) => item.slot_id !== "test_status");
+  const incompleteChild = assessOutcome(boundChildContract, seal(incompleteCandidates), load("evidence-set.json"));
+  assert.equal(incompleteChild.status, "insufficient_evidence");
+  assert.equal(aggregateOutcomes(parent, [boundChild, incompleteChild]).status, "insufficient_evidence");
+});
+
 test("template proposal remains read-only and owner-review-bound", () => {
   const proposal = proposeOutcomeTemplate({ goal: "Answer policy question", purpose: "policy_lookup", domains: ["governance"], required_context_slots: ["policy", "effective_date"] });
   assert.equal(proposal.status, "proposal"); assert.equal(proposal.owner_approval_required, true);

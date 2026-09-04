@@ -78,6 +78,17 @@ function selectStatus(contract: OutcomeCompletionContract, context: OutcomeCandi
   return contract.completion_policy.allow_partial && slots.some((slot) => slot.state === "confirmed") ? "partially_satisfied" : "insufficient_evidence";
 }
 
+function aggregateChildStatus(contract: OutcomeCompletionContract, assessments: OutcomeAssessment[], slotStatus: OutcomeStatus): OutcomeStatus {
+  const statuses = new Set(assessments.map((item) => item.status));
+  for (const status of ["out_of_scope", "failed", "temporarily_unavailable", "handoff_required", "blocked_by_conflict", "needs_input", "insufficient_evidence"] as const) {
+    if (statuses.has(status)) return status;
+  }
+  if (statuses.has("partially_satisfied") && slotStatus === "satisfied") {
+    return contract.completion_policy.allow_partial ? "partially_satisfied" : "insufficient_evidence";
+  }
+  return slotStatus;
+}
+
 export function assessOutcome(contract: OutcomeCompletionContract, candidates: OutcomeCandidateSet, evidence: OutcomeEvidenceSet): OutcomeAssessment {
   assertOutcomeContract(contract);
   assertOutcomeCandidateSet(candidates);
@@ -94,6 +105,7 @@ export function assessOutcome(contract: OutcomeCompletionContract, candidates: O
     contract_version: "1.0.0" as const,
     id: `assessment.${contract.id}.${candidates.id}`,
     contract_digest: contract.digest,
+    ...(contract.parent_contract_digest ? { parent_contract_digest: contract.parent_contract_digest } : {}),
     candidate_set_digest: candidates.digest,
     evidence_set_digest: evidence.digest,
     slots,
@@ -111,7 +123,7 @@ export function assessOutcome(contract: OutcomeCompletionContract, candidates: O
 export function aggregateOutcomes(contract: OutcomeCompletionContract, assessments: OutcomeAssessment[]): OutcomeAssessment {
   if (!assessments.length) throw new Error("outcome_assessments_required");
   assertOutcomeContract(contract);
-  if (assessments.some((item) => item.contract_digest !== contract.digest || !Array.isArray(item.slots) || !Array.isArray(item.limitations) || !sameDigest(item))) throw new Error("outcome_child_assessment_invalid");
+  if (assessments.some((item) => (item.contract_digest !== contract.digest && item.parent_contract_digest !== contract.digest) || !Array.isArray(item.slots) || !Array.isArray(item.limitations) || !sameDigest(item))) throw new Error("outcome_child_assessment_invalid");
   const definitions = [...contract.required_slots, ...contract.optional_slots];
   const severity: OutcomeSlotAssessment["state"][] = ["conflicting", "unauthorized", "stale", "unsupported", "invalid", "missing"];
   const slots = definitions.map((definition): OutcomeSlotAssessment => {
@@ -140,7 +152,7 @@ export function aggregateOutcomes(contract: OutcomeCompletionContract, assessmen
     availability,
     handoff_required: assessments.some((item) => item.status === "handoff_required")
   };
-  const status = selectStatus(contract, context, slots);
+  const status = aggregateChildStatus(contract, assessments, selectStatus(contract, context, slots));
   const byState = (state: OutcomeSlotAssessment["state"]) => slots.filter((slot) => slot.state === state).map((slot) => slot.slot_id);
   const required = slots.filter((slot) => contract.required_slots.some((item) => item.id === slot.slot_id));
   const questionSlot = slots.find((slot) => slot.state === "missing" && definitions.find((item) => item.id === slot.slot_id)?.acquisition === "user_input");
@@ -148,6 +160,7 @@ export function aggregateOutcomes(contract: OutcomeCompletionContract, assessmen
     contract_version: "1.0.0" as const,
     id: `assessment.aggregate.${contract.id}`,
     contract_digest: contract.digest,
+    ...(contract.parent_contract_digest ? { parent_contract_digest: contract.parent_contract_digest } : {}),
     candidate_set_digest: digestValue(assessments.map((item) => item.candidate_set_digest)),
     evidence_set_digest: digestValue(assessments.map((item) => item.evidence_set_digest)),
     slots,

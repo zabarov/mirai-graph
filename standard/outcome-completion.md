@@ -54,7 +54,11 @@ language construct or runtime is required.
 
 Nested task graphs aggregate child assessments only when their digests and
 parent contract binding validate. An incomplete child cannot be silently
-treated as accepted.
+treated as accepted. A child contract binds through `parent_contract_digest`;
+same-contract aggregation remains supported for compatibility. Child failure,
+temporary unavailability, handoff, conflict, missing input or insufficient
+evidence propagates to the aggregate instead of being hidden by another
+successful child.
 
 ## Boundaries
 

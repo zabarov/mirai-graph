@@ -61,7 +61,7 @@
       "id": "C07_needs_parameter",
       "expected_status": "needs_input",
       "actual_status": "needs_input",
-      "assessment_digest": "sha256:9b0016575faa97ef4e5048c4bf62e610ed7fed486a56deb8a94ae0165f9b5c04",
+      "assessment_digest": "sha256:61a54472f01d7fe4497276b2bf3fd108532d1952684f3b338db9a6ad5252efc8",
       "evidence_coverage": 0.5,
       "question_count": 1,
       "citation_count": 1
@@ -97,5 +97,5 @@
   ],
   "production_effects": false,
   "canonical_write_allowed": false,
-  "digest": "sha256:7bdd6c5a5205734052857d8939a1f20991413ca3c0e682074b1e473ab502756a"
+  "digest": "sha256:8c64c71201536b257334e182cae18962abdd216a304cd594ec94e556481ee26b"
 }

@@ -119,6 +119,7 @@ export interface OutcomeAssessment {
   contract_version: typeof OUTCOME_CONTRACT_VERSION;
   id: string;
   contract_digest: string;
+  parent_contract_digest?: string;
   candidate_set_digest: string;
   evidence_set_digest: string;
   slots: OutcomeSlotAssessment[];
