@@ -2,17 +2,20 @@ import { digestValue } from "../core/index.js";
 import type { EvidenceBundle, RetrievalAnswer, RetrievalChannel, RetrievalHit, RetrievalIndexDescriptor, RetrievalIntent, RetrievalProjectConfig, RetrievalRequest, RetrievalPlan } from "./types.js";
 
 const INTENT_TERMS: Array<[RetrievalIntent, RegExp]> = [
-  ["relationship_trace", /\b(связ|завис|влияет|путь|relation|depend|impact|path)\w*/iu],
-  ["technology_lookup", /\b(технолог|процесс|инструк|процедур|program|workflow|procedure|how to)\w*/iu],
-  ["policy_lookup", /\b(правил|политик|разреш|запрещ|policy|permission|allowed|forbidden)\w*/iu],
-  ["evidence_lookup", /\b(доказ|подтверж|evidence|proof|receipt|result)\w*/iu],
-  ["change_or_freshness", /\b(актуал|последн|измен|устар|current|latest|changed|stale|superseded)\w*/iu],
-  ["global_synthesis", /\b(все|обзор|сравн|картина|overall|overview|compare|across)\w*/iu]
+  ["change_or_freshness", /(актуал|последн|измен|устар|текущ|конфликт|current|latest|changed|stale|superseded|conflict)/iu],
+  ["relationship_trace", /(связ|завис|влияет|путь|владел|маршрут|иерарх|делегир|relation|depend|impact|path|owner|routing|hierarchy|delegat)/iu],
+  ["technology_lookup", /(технолог|процесс|инструк|процедур|сценари|последовательност|program|workflow|procedure|scenario|how\s+to)/iu],
+  ["policy_lookup", /(правил|политик|разреш|запрещ|согласован|полномоч|кворум|безопасност|шлюз|policy|permission|allowed|forbidden|approval|authority|quorum|safety|gate|capability)/iu],
+  ["evidence_lookup", /(доказ|подтверж|провер|тест|аудит|замечан|урок|результат|evidence|proof|receipt|result|test|review|audit|finding|lesson)/iu],
+  ["global_synthesis", /(обзор|сравн|общая\s+картина|overall|overview|compare|across)/iu]
 ];
 
+const EXACT_SEMANTIC_TERMS = /(каноническ|точн(?:ое|ый|ая|ые)?\s+(?:имя|название|значение|техническ)|specific(?:ation)?|exact\s+(?:name|value|document))/iu;
+
 export function inferRetrievalIntent(query: string): { intent: RetrievalIntent; confidence: number; alternatives: RetrievalIntent[] } {
+  if (/"[^"\n]+"|`[^`\n]+`|\b(?:[A-Za-z][A-Za-z0-9]*(?:[_.:-][A-Za-z0-9]+)+|[A-Za-z]+[0-9][A-Za-z0-9]*)\b/u.test(query) || EXACT_SEMANTIC_TERMS.test(query)) return { intent: "exact_lookup", confidence: 0.9, alternatives: ["semantic_discovery"] };
   const matches = INTENT_TERMS.filter(([, pattern]) => pattern.test(query)).map(([intent]) => intent);
-  if (/"[^"\n]+"|`[^`\n]+`|\b(?:[A-Za-z][A-Za-z0-9]*(?:[_.:-][A-Za-z0-9]+)+|[A-Za-z]+[0-9][A-Za-z0-9]*)\b/u.test(query) && !matches.length) return { intent: "exact_lookup", confidence: 0.82, alternatives: ["semantic_discovery"] };
+  if (matches.includes("change_or_freshness")) return { intent: "change_or_freshness", confidence: 0.88, alternatives: matches.filter((item) => item !== "change_or_freshness") };
   if (matches.length === 1) return { intent: matches[0] as RetrievalIntent, confidence: 0.84, alternatives: ["semantic_discovery"] };
   if (matches.length > 1) return { intent: matches[0] as RetrievalIntent, confidence: 0.62, alternatives: matches.slice(1) };
   return { intent: "semantic_discovery", confidence: 0.7, alternatives: ["exact_lookup"] };
@@ -26,7 +29,9 @@ export function planRetrieval(request: RetrievalRequest, descriptor: RetrievalIn
   const inferred = request.intent ? { intent: request.intent, confidence: 1, alternatives: [] as RetrievalIntent[] } : inferRetrievalIntent(request.query);
   const defaults: RetrievalChannel[] = inferred.intent === "exact_lookup" ? ["exact", "lexical"]
     : inferred.intent === "relationship_trace" ? ["lexical", "semantic", "graph"]
-      : ["exact", "lexical", "semantic", "graph", "process"];
+      : ["technology_lookup", "policy_lookup", "evidence_lookup"].includes(inferred.intent) ? ["exact", "lexical", "semantic", "graph", "process"]
+        : inferred.intent === "global_synthesis" ? ["exact", "lexical", "semantic", "graph", "process"]
+          : ["exact", "lexical", "semantic", "graph"];
   const requested = request.channels || defaults;
   const known = new Set<RetrievalChannel>(["exact", "lexical", "semantic", "graph", "process"]);
   if (!requested.length || requested.some((item) => !known.has(item))) throw new Error("retrieval_channel_invalid");

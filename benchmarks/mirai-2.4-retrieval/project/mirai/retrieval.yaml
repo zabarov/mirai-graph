@@ -1,0 +1,32 @@
+contract_version: 1.0.0
+index_id: retrieval.mirai-2.4-evaluation
+project_id: project.mirai-2.4-evaluation
+inputs:
+  - kind: normalized_units
+    path: inputs/normalized-units.json
+  - kind: graph_snapshot
+    path: inputs/graph.json
+  - kind: policies
+    path: inputs/policies.json
+access:
+  principal_id: principal.evaluation-reader
+  purpose: evaluate_retrieval
+  scopes: [scope.federation, scope.larena, scope.ai_employee, scope.organization]
+  source_refs: [source.federation, source.larena, source.ai_employee, source.organization, inputs/policies.json]
+  policy_digest: sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+placement:
+  mode: minimal_projection
+  confidential_mode: reference_only
+  max_snippet_chars: 320
+semantic:
+  provider: local
+  model: Xenova/multilingual-e5-small
+  dimensions: 384
+budgets:
+  max_documents: 500
+  max_index_bytes: 33554432
+  max_query_results: 10
+  max_graph_depth: 3
+  max_fan_out: 8
+  max_hops: 4
+  timeout_ms: 10000

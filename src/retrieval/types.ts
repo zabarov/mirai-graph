@@ -50,6 +50,7 @@ export interface RetrievalDocument {
   evidence_refs: string[];
   program_refs: string[];
   policy_refs: string[];
+  conflict_refs?: string[];
   embedding?: number[];
   digest: string;
 }
@@ -70,6 +71,8 @@ export interface RetrievalIndexDescriptor {
   document_count: number;
   semantic_status: "ready" | "disabled" | "provider_unavailable";
   semantic_model: string | null;
+  semantic_revision: string | null;
+  semantic_files_digest: string | null;
   dimensions: number | null;
   built_at: string;
   canonical_write_allowed: false;
@@ -115,6 +118,7 @@ export interface RetrievalHit {
   evidence_refs: string[];
   program_refs: string[];
   policy_refs: string[];
+  conflict_refs?: string[];
   channels: RetrievalChannel[];
   rank_score: number;
   match_reasons: string[];
@@ -162,6 +166,8 @@ export interface EmbeddingProvider {
   readonly id: string;
   readonly model: string;
   readonly dimensions: number;
+  readonly revision?: string;
+  readonly files_digest?: string;
   embed(texts: string[]): Promise<number[][]>;
 }
 
@@ -176,6 +182,7 @@ export interface FederatedRetrievalDirectoryEntry {
   domains: string[];
   intents: RetrievalIntent[];
   scopes: string[];
+  source_refs: string[];
   authority: SourceAuthority;
   freshness: RetrievalFreshness;
   endpoint_alias: string;
@@ -229,10 +236,16 @@ export interface RetrievalEvaluation {
   intent_accuracy: number;
   path_correctness: number;
   evidence_coverage: number;
+  claim_faithfulness: number;
+  conflict_detection_rate: number;
+  stale_detection_rate: number;
   unauthorized_hit_count: number;
   stale_hit_rate: number;
   p50_latency_ms: number;
   p95_latency_ms: number;
+  model_calls: number;
+  input_tokens: number;
+  cost_usd: number;
   limitations: string[];
   digest: string;
 }

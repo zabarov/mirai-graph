@@ -1,0 +1,1480 @@
+{
+  "contract_version": "1.0.0",
+  "id": "graph.mirai-retrieval-evaluation",
+  "canonical_write_allowed": false,
+  "sources": [
+    {
+      "id": "source.ai_employee",
+      "owner_ref": "owner.ai_employee",
+      "digest": "sha256:010f115c407981c055fef080d13f4fafd19049e10052650d6c92f47f8fa6154a",
+      "confidentiality": "public"
+    },
+    {
+      "id": "source.federation",
+      "owner_ref": "owner.federation",
+      "digest": "sha256:9bca14c8af6118afa00513ba65181e2a96f84c18a4a12df489ffb3a39423d3ba",
+      "confidentiality": "public"
+    },
+    {
+      "id": "source.larena",
+      "owner_ref": "owner.larena",
+      "digest": "sha256:49803db50af42d806bfe9742e1390f6bdf29ea01ba4fab959e4538fb2d3ca8dd",
+      "confidentiality": "public"
+    },
+    {
+      "id": "source.organization",
+      "owner_ref": "owner.organization",
+      "digest": "sha256:30d674ad2a961d5a65755f806ee451cf653f9949254863e5e1d1728bfdd79373",
+      "confidentiality": "public"
+    }
+  ],
+  "objects": [
+    {
+      "id": "ai_employee.approval",
+      "kind": "policy",
+      "scope": "scope.ai_employee",
+      "metadata": {
+        "title": "согласование перед внешним действием"
+      },
+      "source_refs": [
+        "source.ai_employee"
+      ]
+    },
+    {
+      "id": "ai_employee.character",
+      "kind": "policy",
+      "scope": "scope.ai_employee",
+      "metadata": {
+        "title": "behavioral character boundary"
+      },
+      "source_refs": [
+        "source.ai_employee"
+      ]
+    },
+    {
+      "id": "ai_employee.conflict",
+      "kind": "knowledge",
+      "scope": "scope.ai_employee",
+      "metadata": {
+        "title": "конфликтующие разрешения на действие"
+      },
+      "source_refs": [
+        "source.ai_employee"
+      ]
+    },
+    {
+      "id": "ai_employee.current-policy",
+      "kind": "knowledge",
+      "scope": "scope.ai_employee",
+      "metadata": {
+        "title": "current employee action policy"
+      },
+      "source_refs": [
+        "source.ai_employee"
+      ]
+    },
+    {
+      "id": "ai_employee.dry-run",
+      "kind": "technology",
+      "scope": "scope.ai_employee",
+      "metadata": {
+        "title": "симуляция без отправки"
+      },
+      "source_refs": [
+        "source.ai_employee"
+      ]
+    },
+    {
+      "id": "ai_employee.feedback",
+      "kind": "knowledge",
+      "scope": "scope.ai_employee",
+      "metadata": {
+        "title": "замечание обратной связи по качеству"
+      },
+      "source_refs": [
+        "source.ai_employee"
+      ]
+    },
+    {
+      "id": "ai_employee.intent",
+      "kind": "knowledge",
+      "scope": "scope.ai_employee",
+      "metadata": {
+        "title": "employee request intent"
+      },
+      "source_refs": [
+        "source.ai_employee"
+      ]
+    },
+    {
+      "id": "ai_employee.lesson",
+      "kind": "knowledge",
+      "scope": "scope.ai_employee",
+      "metadata": {
+        "title": "approved reusable lesson"
+      },
+      "source_refs": [
+        "source.ai_employee"
+      ]
+    },
+    {
+      "id": "ai_employee.memory",
+      "kind": "knowledge",
+      "scope": "scope.ai_employee",
+      "metadata": {
+        "title": "память сотрудника в контексте задачи"
+      },
+      "source_refs": [
+        "source.ai_employee"
+      ]
+    },
+    {
+      "id": "ai_employee.root",
+      "kind": "domain",
+      "scope": "scope.ai_employee",
+      "metadata": {
+        "title": "ai_employee responsibility domain"
+      },
+      "source_refs": [
+        "source.ai_employee"
+      ]
+    },
+    {
+      "id": "ai_employee.tool",
+      "kind": "policy",
+      "scope": "scope.ai_employee",
+      "metadata": {
+        "title": "tool capability grant"
+      },
+      "source_refs": [
+        "source.ai_employee"
+      ]
+    },
+    {
+      "id": "federation.action-gate",
+      "kind": "policy",
+      "scope": "scope.federation",
+      "metadata": {
+        "title": "live action safety gate"
+      },
+      "source_refs": [
+        "source.federation"
+      ]
+    },
+    {
+      "id": "federation.conflict",
+      "kind": "knowledge",
+      "scope": "scope.federation",
+      "metadata": {
+        "title": "конфликтующие назначения владельца"
+      },
+      "source_refs": [
+        "source.federation"
+      ]
+    },
+    {
+      "id": "federation.current-policy",
+      "kind": "knowledge",
+      "scope": "scope.federation",
+      "metadata": {
+        "title": "current federation release policy"
+      },
+      "source_refs": [
+        "source.federation"
+      ]
+    },
+    {
+      "id": "federation.delegation",
+      "kind": "policy",
+      "scope": "scope.federation",
+      "metadata": {
+        "title": "bounded delegation policy"
+      },
+      "source_refs": [
+        "source.federation"
+      ]
+    },
+    {
+      "id": "federation.evidence",
+      "kind": "knowledge",
+      "scope": "scope.federation",
+      "metadata": {
+        "title": "подтверждение доказательств завершения"
+      },
+      "source_refs": [
+        "source.federation"
+      ]
+    },
+    {
+      "id": "federation.fallback",
+      "kind": "knowledge",
+      "scope": "scope.federation",
+      "metadata": {
+        "title": "резервный маршрут при устаревании"
+      },
+      "source_refs": [
+        "source.federation"
+      ]
+    },
+    {
+      "id": "federation.kaizen",
+      "kind": "technology",
+      "scope": "scope.federation",
+      "metadata": {
+        "title": "continuous process improvement"
+      },
+      "source_refs": [
+        "source.federation"
+      ]
+    },
+    {
+      "id": "federation.owner-routing",
+      "kind": "knowledge",
+      "scope": "scope.federation",
+      "metadata": {
+        "title": "task owner routing"
+      },
+      "source_refs": [
+        "source.federation"
+      ]
+    },
+    {
+      "id": "federation.recovery",
+      "kind": "technology",
+      "scope": "scope.federation",
+      "metadata": {
+        "title": "восстановление сбойного процесса"
+      },
+      "source_refs": [
+        "source.federation"
+      ]
+    },
+    {
+      "id": "federation.root",
+      "kind": "domain",
+      "scope": "scope.federation",
+      "metadata": {
+        "title": "federation responsibility domain"
+      },
+      "source_refs": [
+        "source.federation"
+      ]
+    },
+    {
+      "id": "federation.skill-sync",
+      "kind": "technology",
+      "scope": "scope.federation",
+      "metadata": {
+        "title": "шлюз синхронизации навыка"
+      },
+      "source_refs": [
+        "source.federation"
+      ]
+    },
+    {
+      "id": "larena.compatibility",
+      "kind": "policy",
+      "scope": "scope.larena",
+      "metadata": {
+        "title": "public API compatibility"
+      },
+      "source_refs": [
+        "source.larena"
+      ]
+    },
+    {
+      "id": "larena.conflict",
+      "kind": "knowledge",
+      "scope": "scope.larena",
+      "metadata": {
+        "title": "конфликтующие описания зависимостей"
+      },
+      "source_refs": [
+        "source.larena"
+      ]
+    },
+    {
+      "id": "larena.current-policy",
+      "kind": "knowledge",
+      "scope": "scope.larena",
+      "metadata": {
+        "title": "current package release policy"
+      },
+      "source_refs": [
+        "source.larena"
+      ]
+    },
+    {
+      "id": "larena.dependency",
+      "kind": "knowledge",
+      "scope": "scope.larena",
+      "metadata": {
+        "title": "package feature dependency"
+      },
+      "source_refs": [
+        "source.larena"
+      ]
+    },
+    {
+      "id": "larena.migration",
+      "kind": "technology",
+      "scope": "scope.larena",
+      "metadata": {
+        "title": "database migration procedure"
+      },
+      "source_refs": [
+        "source.larena"
+      ]
+    },
+    {
+      "id": "larena.review",
+      "kind": "knowledge",
+      "scope": "scope.larena",
+      "metadata": {
+        "title": "developer correction review"
+      },
+      "source_refs": [
+        "source.larena"
+      ]
+    },
+    {
+      "id": "larena.rollback",
+      "kind": "technology",
+      "scope": "scope.larena",
+      "metadata": {
+        "title": "инструкция отката выпуска"
+      },
+      "source_refs": [
+        "source.larena"
+      ]
+    },
+    {
+      "id": "larena.root",
+      "kind": "domain",
+      "scope": "scope.larena",
+      "metadata": {
+        "title": "larena responsibility domain"
+      },
+      "source_refs": [
+        "source.larena"
+      ]
+    },
+    {
+      "id": "larena.specification",
+      "kind": "knowledge",
+      "scope": "scope.larena",
+      "metadata": {
+        "title": "каноническое техническое задание пакета"
+      },
+      "source_refs": [
+        "source.larena"
+      ]
+    },
+    {
+      "id": "larena.technology",
+      "kind": "technology",
+      "scope": "scope.larena",
+      "metadata": {
+        "title": "технология генерации кода"
+      },
+      "source_refs": [
+        "source.larena"
+      ]
+    },
+    {
+      "id": "larena.tests",
+      "kind": "knowledge",
+      "scope": "scope.larena",
+      "metadata": {
+        "title": "приёмочные тесты пакета"
+      },
+      "source_refs": [
+        "source.larena"
+      ]
+    },
+    {
+      "id": "organization.audit",
+      "kind": "technology",
+      "scope": "scope.organization",
+      "metadata": {
+        "title": "обратный аудит конечного результата"
+      },
+      "source_refs": [
+        "source.organization"
+      ]
+    },
+    {
+      "id": "organization.conflict",
+      "kind": "knowledge",
+      "scope": "scope.organization",
+      "metadata": {
+        "title": "конфликтующие назначения полномочий"
+      },
+      "source_refs": [
+        "source.organization"
+      ]
+    },
+    {
+      "id": "organization.current-policy",
+      "kind": "knowledge",
+      "scope": "scope.organization",
+      "metadata": {
+        "title": "current organization safety policy"
+      },
+      "source_refs": [
+        "source.organization"
+      ]
+    },
+    {
+      "id": "organization.decision",
+      "kind": "knowledge",
+      "scope": "scope.organization",
+      "metadata": {
+        "title": "governed decision record"
+      },
+      "source_refs": [
+        "source.organization"
+      ]
+    },
+    {
+      "id": "organization.delegation",
+      "kind": "knowledge",
+      "scope": "scope.organization",
+      "metadata": {
+        "title": "delegated authority scope"
+      },
+      "source_refs": [
+        "source.organization"
+      ]
+    },
+    {
+      "id": "organization.evidence",
+      "kind": "knowledge",
+      "scope": "scope.organization",
+      "metadata": {
+        "title": "панель доказательств результата"
+      },
+      "source_refs": [
+        "source.organization"
+      ]
+    },
+    {
+      "id": "organization.goal",
+      "kind": "knowledge",
+      "scope": "scope.organization",
+      "metadata": {
+        "title": "strategic goal owner"
+      },
+      "source_refs": [
+        "source.organization"
+      ]
+    },
+    {
+      "id": "organization.policy",
+      "kind": "knowledge",
+      "scope": "scope.organization",
+      "metadata": {
+        "title": "organization policy hierarchy"
+      },
+      "source_refs": [
+        "source.organization"
+      ]
+    },
+    {
+      "id": "organization.quorum",
+      "kind": "policy",
+      "scope": "scope.organization",
+      "metadata": {
+        "title": "требование кворума согласования"
+      },
+      "source_refs": [
+        "source.organization"
+      ]
+    },
+    {
+      "id": "organization.risk",
+      "kind": "policy",
+      "scope": "scope.organization",
+      "metadata": {
+        "title": "контроль операционного риска"
+      },
+      "source_refs": [
+        "source.organization"
+      ]
+    },
+    {
+      "id": "organization.root",
+      "kind": "domain",
+      "scope": "scope.organization",
+      "metadata": {
+        "title": "organization responsibility domain"
+      },
+      "source_refs": [
+        "source.organization"
+      ]
+    }
+  ],
+  "relations": [
+    {
+      "contract_version": "1.0.0",
+      "id": "relation.ai_employee.approval.domain",
+      "type": "belongs_to",
+      "participants": [
+        {
+          "ref": "ai_employee.root",
+          "role": "domain"
+        },
+        {
+          "ref": "ai_employee.approval",
+          "role": "member"
+        }
+      ],
+      "priority": 100,
+      "authority": "owner_asserted",
+      "confidence": 1,
+      "provenance": [
+        {
+          "source_ref": "source.ai_employee"
+        }
+      ],
+      "scope": "scope.ai_employee"
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "relation.ai_employee.character.domain",
+      "type": "belongs_to",
+      "participants": [
+        {
+          "ref": "ai_employee.root",
+          "role": "domain"
+        },
+        {
+          "ref": "ai_employee.character",
+          "role": "member"
+        }
+      ],
+      "priority": 100,
+      "authority": "owner_asserted",
+      "confidence": 1,
+      "provenance": [
+        {
+          "source_ref": "source.ai_employee"
+        }
+      ],
+      "scope": "scope.ai_employee"
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "relation.ai_employee.conflict.domain",
+      "type": "belongs_to",
+      "participants": [
+        {
+          "ref": "ai_employee.root",
+          "role": "domain"
+        },
+        {
+          "ref": "ai_employee.conflict",
+          "role": "member"
+        }
+      ],
+      "priority": 100,
+      "authority": "owner_asserted",
+      "confidence": 1,
+      "provenance": [
+        {
+          "source_ref": "source.ai_employee"
+        }
+      ],
+      "scope": "scope.ai_employee"
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "relation.ai_employee.current-policy.domain",
+      "type": "belongs_to",
+      "participants": [
+        {
+          "ref": "ai_employee.root",
+          "role": "domain"
+        },
+        {
+          "ref": "ai_employee.current-policy",
+          "role": "member"
+        }
+      ],
+      "priority": 100,
+      "authority": "owner_asserted",
+      "confidence": 1,
+      "provenance": [
+        {
+          "source_ref": "source.ai_employee"
+        }
+      ],
+      "scope": "scope.ai_employee"
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "relation.ai_employee.dry-run.domain",
+      "type": "belongs_to",
+      "participants": [
+        {
+          "ref": "ai_employee.root",
+          "role": "domain"
+        },
+        {
+          "ref": "ai_employee.dry-run",
+          "role": "member"
+        }
+      ],
+      "priority": 100,
+      "authority": "owner_asserted",
+      "confidence": 1,
+      "provenance": [
+        {
+          "source_ref": "source.ai_employee"
+        }
+      ],
+      "scope": "scope.ai_employee"
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "relation.ai_employee.feedback.domain",
+      "type": "belongs_to",
+      "participants": [
+        {
+          "ref": "ai_employee.root",
+          "role": "domain"
+        },
+        {
+          "ref": "ai_employee.feedback",
+          "role": "member"
+        }
+      ],
+      "priority": 100,
+      "authority": "owner_asserted",
+      "confidence": 1,
+      "provenance": [
+        {
+          "source_ref": "source.ai_employee"
+        }
+      ],
+      "scope": "scope.ai_employee"
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "relation.ai_employee.intent.domain",
+      "type": "belongs_to",
+      "participants": [
+        {
+          "ref": "ai_employee.root",
+          "role": "domain"
+        },
+        {
+          "ref": "ai_employee.intent",
+          "role": "member"
+        }
+      ],
+      "priority": 100,
+      "authority": "owner_asserted",
+      "confidence": 1,
+      "provenance": [
+        {
+          "source_ref": "source.ai_employee"
+        }
+      ],
+      "scope": "scope.ai_employee"
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "relation.ai_employee.lesson.domain",
+      "type": "belongs_to",
+      "participants": [
+        {
+          "ref": "ai_employee.root",
+          "role": "domain"
+        },
+        {
+          "ref": "ai_employee.lesson",
+          "role": "member"
+        }
+      ],
+      "priority": 100,
+      "authority": "owner_asserted",
+      "confidence": 1,
+      "provenance": [
+        {
+          "source_ref": "source.ai_employee"
+        }
+      ],
+      "scope": "scope.ai_employee"
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "relation.ai_employee.memory.domain",
+      "type": "belongs_to",
+      "participants": [
+        {
+          "ref": "ai_employee.root",
+          "role": "domain"
+        },
+        {
+          "ref": "ai_employee.memory",
+          "role": "member"
+        }
+      ],
+      "priority": 100,
+      "authority": "owner_asserted",
+      "confidence": 1,
+      "provenance": [
+        {
+          "source_ref": "source.ai_employee"
+        }
+      ],
+      "scope": "scope.ai_employee"
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "relation.ai_employee.tool.domain",
+      "type": "belongs_to",
+      "participants": [
+        {
+          "ref": "ai_employee.root",
+          "role": "domain"
+        },
+        {
+          "ref": "ai_employee.tool",
+          "role": "member"
+        }
+      ],
+      "priority": 100,
+      "authority": "owner_asserted",
+      "confidence": 1,
+      "provenance": [
+        {
+          "source_ref": "source.ai_employee"
+        }
+      ],
+      "scope": "scope.ai_employee"
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "relation.federation.action-gate.domain",
+      "type": "belongs_to",
+      "participants": [
+        {
+          "ref": "federation.root",
+          "role": "domain"
+        },
+        {
+          "ref": "federation.action-gate",
+          "role": "member"
+        }
+      ],
+      "priority": 100,
+      "authority": "owner_asserted",
+      "confidence": 1,
+      "provenance": [
+        {
+          "source_ref": "source.federation"
+        }
+      ],
+      "scope": "scope.federation"
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "relation.federation.conflict.domain",
+      "type": "belongs_to",
+      "participants": [
+        {
+          "ref": "federation.root",
+          "role": "domain"
+        },
+        {
+          "ref": "federation.conflict",
+          "role": "member"
+        }
+      ],
+      "priority": 100,
+      "authority": "owner_asserted",
+      "confidence": 1,
+      "provenance": [
+        {
+          "source_ref": "source.federation"
+        }
+      ],
+      "scope": "scope.federation"
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "relation.federation.current-policy.domain",
+      "type": "belongs_to",
+      "participants": [
+        {
+          "ref": "federation.root",
+          "role": "domain"
+        },
+        {
+          "ref": "federation.current-policy",
+          "role": "member"
+        }
+      ],
+      "priority": 100,
+      "authority": "owner_asserted",
+      "confidence": 1,
+      "provenance": [
+        {
+          "source_ref": "source.federation"
+        }
+      ],
+      "scope": "scope.federation"
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "relation.federation.delegation.domain",
+      "type": "belongs_to",
+      "participants": [
+        {
+          "ref": "federation.root",
+          "role": "domain"
+        },
+        {
+          "ref": "federation.delegation",
+          "role": "member"
+        }
+      ],
+      "priority": 100,
+      "authority": "owner_asserted",
+      "confidence": 1,
+      "provenance": [
+        {
+          "source_ref": "source.federation"
+        }
+      ],
+      "scope": "scope.federation"
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "relation.federation.evidence.domain",
+      "type": "belongs_to",
+      "participants": [
+        {
+          "ref": "federation.root",
+          "role": "domain"
+        },
+        {
+          "ref": "federation.evidence",
+          "role": "member"
+        }
+      ],
+      "priority": 100,
+      "authority": "owner_asserted",
+      "confidence": 1,
+      "provenance": [
+        {
+          "source_ref": "source.federation"
+        }
+      ],
+      "scope": "scope.federation"
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "relation.federation.fallback.domain",
+      "type": "belongs_to",
+      "participants": [
+        {
+          "ref": "federation.root",
+          "role": "domain"
+        },
+        {
+          "ref": "federation.fallback",
+          "role": "member"
+        }
+      ],
+      "priority": 100,
+      "authority": "owner_asserted",
+      "confidence": 1,
+      "provenance": [
+        {
+          "source_ref": "source.federation"
+        }
+      ],
+      "scope": "scope.federation"
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "relation.federation.kaizen.domain",
+      "type": "belongs_to",
+      "participants": [
+        {
+          "ref": "federation.root",
+          "role": "domain"
+        },
+        {
+          "ref": "federation.kaizen",
+          "role": "member"
+        }
+      ],
+      "priority": 100,
+      "authority": "owner_asserted",
+      "confidence": 1,
+      "provenance": [
+        {
+          "source_ref": "source.federation"
+        }
+      ],
+      "scope": "scope.federation"
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "relation.federation.owner-routing.domain",
+      "type": "belongs_to",
+      "participants": [
+        {
+          "ref": "federation.root",
+          "role": "domain"
+        },
+        {
+          "ref": "federation.owner-routing",
+          "role": "member"
+        }
+      ],
+      "priority": 100,
+      "authority": "owner_asserted",
+      "confidence": 1,
+      "provenance": [
+        {
+          "source_ref": "source.federation"
+        }
+      ],
+      "scope": "scope.federation"
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "relation.federation.recovery.domain",
+      "type": "belongs_to",
+      "participants": [
+        {
+          "ref": "federation.root",
+          "role": "domain"
+        },
+        {
+          "ref": "federation.recovery",
+          "role": "member"
+        }
+      ],
+      "priority": 100,
+      "authority": "owner_asserted",
+      "confidence": 1,
+      "provenance": [
+        {
+          "source_ref": "source.federation"
+        }
+      ],
+      "scope": "scope.federation"
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "relation.federation.skill-sync.domain",
+      "type": "belongs_to",
+      "participants": [
+        {
+          "ref": "federation.root",
+          "role": "domain"
+        },
+        {
+          "ref": "federation.skill-sync",
+          "role": "member"
+        }
+      ],
+      "priority": 100,
+      "authority": "owner_asserted",
+      "confidence": 1,
+      "provenance": [
+        {
+          "source_ref": "source.federation"
+        }
+      ],
+      "scope": "scope.federation"
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "relation.larena.compatibility.domain",
+      "type": "belongs_to",
+      "participants": [
+        {
+          "ref": "larena.root",
+          "role": "domain"
+        },
+        {
+          "ref": "larena.compatibility",
+          "role": "member"
+        }
+      ],
+      "priority": 100,
+      "authority": "owner_asserted",
+      "confidence": 1,
+      "provenance": [
+        {
+          "source_ref": "source.larena"
+        }
+      ],
+      "scope": "scope.larena"
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "relation.larena.conflict.domain",
+      "type": "belongs_to",
+      "participants": [
+        {
+          "ref": "larena.root",
+          "role": "domain"
+        },
+        {
+          "ref": "larena.conflict",
+          "role": "member"
+        }
+      ],
+      "priority": 100,
+      "authority": "owner_asserted",
+      "confidence": 1,
+      "provenance": [
+        {
+          "source_ref": "source.larena"
+        }
+      ],
+      "scope": "scope.larena"
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "relation.larena.current-policy.domain",
+      "type": "belongs_to",
+      "participants": [
+        {
+          "ref": "larena.root",
+          "role": "domain"
+        },
+        {
+          "ref": "larena.current-policy",
+          "role": "member"
+        }
+      ],
+      "priority": 100,
+      "authority": "owner_asserted",
+      "confidence": 1,
+      "provenance": [
+        {
+          "source_ref": "source.larena"
+        }
+      ],
+      "scope": "scope.larena"
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "relation.larena.dependency.domain",
+      "type": "belongs_to",
+      "participants": [
+        {
+          "ref": "larena.root",
+          "role": "domain"
+        },
+        {
+          "ref": "larena.dependency",
+          "role": "member"
+        }
+      ],
+      "priority": 100,
+      "authority": "owner_asserted",
+      "confidence": 1,
+      "provenance": [
+        {
+          "source_ref": "source.larena"
+        }
+      ],
+      "scope": "scope.larena"
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "relation.larena.migration.domain",
+      "type": "belongs_to",
+      "participants": [
+        {
+          "ref": "larena.root",
+          "role": "domain"
+        },
+        {
+          "ref": "larena.migration",
+          "role": "member"
+        }
+      ],
+      "priority": 100,
+      "authority": "owner_asserted",
+      "confidence": 1,
+      "provenance": [
+        {
+          "source_ref": "source.larena"
+        }
+      ],
+      "scope": "scope.larena"
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "relation.larena.review.domain",
+      "type": "belongs_to",
+      "participants": [
+        {
+          "ref": "larena.root",
+          "role": "domain"
+        },
+        {
+          "ref": "larena.review",
+          "role": "member"
+        }
+      ],
+      "priority": 100,
+      "authority": "owner_asserted",
+      "confidence": 1,
+      "provenance": [
+        {
+          "source_ref": "source.larena"
+        }
+      ],
+      "scope": "scope.larena"
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "relation.larena.rollback.domain",
+      "type": "belongs_to",
+      "participants": [
+        {
+          "ref": "larena.root",
+          "role": "domain"
+        },
+        {
+          "ref": "larena.rollback",
+          "role": "member"
+        }
+      ],
+      "priority": 100,
+      "authority": "owner_asserted",
+      "confidence": 1,
+      "provenance": [
+        {
+          "source_ref": "source.larena"
+        }
+      ],
+      "scope": "scope.larena"
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "relation.larena.specification.domain",
+      "type": "belongs_to",
+      "participants": [
+        {
+          "ref": "larena.root",
+          "role": "domain"
+        },
+        {
+          "ref": "larena.specification",
+          "role": "member"
+        }
+      ],
+      "priority": 100,
+      "authority": "owner_asserted",
+      "confidence": 1,
+      "provenance": [
+        {
+          "source_ref": "source.larena"
+        }
+      ],
+      "scope": "scope.larena"
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "relation.larena.technology.domain",
+      "type": "belongs_to",
+      "participants": [
+        {
+          "ref": "larena.root",
+          "role": "domain"
+        },
+        {
+          "ref": "larena.technology",
+          "role": "member"
+        }
+      ],
+      "priority": 100,
+      "authority": "owner_asserted",
+      "confidence": 1,
+      "provenance": [
+        {
+          "source_ref": "source.larena"
+        }
+      ],
+      "scope": "scope.larena"
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "relation.larena.tests.domain",
+      "type": "belongs_to",
+      "participants": [
+        {
+          "ref": "larena.root",
+          "role": "domain"
+        },
+        {
+          "ref": "larena.tests",
+          "role": "member"
+        }
+      ],
+      "priority": 100,
+      "authority": "owner_asserted",
+      "confidence": 1,
+      "provenance": [
+        {
+          "source_ref": "source.larena"
+        }
+      ],
+      "scope": "scope.larena"
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "relation.organization.audit.domain",
+      "type": "belongs_to",
+      "participants": [
+        {
+          "ref": "organization.root",
+          "role": "domain"
+        },
+        {
+          "ref": "organization.audit",
+          "role": "member"
+        }
+      ],
+      "priority": 100,
+      "authority": "owner_asserted",
+      "confidence": 1,
+      "provenance": [
+        {
+          "source_ref": "source.organization"
+        }
+      ],
+      "scope": "scope.organization"
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "relation.organization.conflict.domain",
+      "type": "belongs_to",
+      "participants": [
+        {
+          "ref": "organization.root",
+          "role": "domain"
+        },
+        {
+          "ref": "organization.conflict",
+          "role": "member"
+        }
+      ],
+      "priority": 100,
+      "authority": "owner_asserted",
+      "confidence": 1,
+      "provenance": [
+        {
+          "source_ref": "source.organization"
+        }
+      ],
+      "scope": "scope.organization"
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "relation.organization.current-policy.domain",
+      "type": "belongs_to",
+      "participants": [
+        {
+          "ref": "organization.root",
+          "role": "domain"
+        },
+        {
+          "ref": "organization.current-policy",
+          "role": "member"
+        }
+      ],
+      "priority": 100,
+      "authority": "owner_asserted",
+      "confidence": 1,
+      "provenance": [
+        {
+          "source_ref": "source.organization"
+        }
+      ],
+      "scope": "scope.organization"
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "relation.organization.decision.domain",
+      "type": "belongs_to",
+      "participants": [
+        {
+          "ref": "organization.root",
+          "role": "domain"
+        },
+        {
+          "ref": "organization.decision",
+          "role": "member"
+        }
+      ],
+      "priority": 100,
+      "authority": "owner_asserted",
+      "confidence": 1,
+      "provenance": [
+        {
+          "source_ref": "source.organization"
+        }
+      ],
+      "scope": "scope.organization"
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "relation.organization.delegation.domain",
+      "type": "belongs_to",
+      "participants": [
+        {
+          "ref": "organization.root",
+          "role": "domain"
+        },
+        {
+          "ref": "organization.delegation",
+          "role": "member"
+        }
+      ],
+      "priority": 100,
+      "authority": "owner_asserted",
+      "confidence": 1,
+      "provenance": [
+        {
+          "source_ref": "source.organization"
+        }
+      ],
+      "scope": "scope.organization"
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "relation.organization.evidence.domain",
+      "type": "belongs_to",
+      "participants": [
+        {
+          "ref": "organization.root",
+          "role": "domain"
+        },
+        {
+          "ref": "organization.evidence",
+          "role": "member"
+        }
+      ],
+      "priority": 100,
+      "authority": "owner_asserted",
+      "confidence": 1,
+      "provenance": [
+        {
+          "source_ref": "source.organization"
+        }
+      ],
+      "scope": "scope.organization"
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "relation.organization.goal.domain",
+      "type": "belongs_to",
+      "participants": [
+        {
+          "ref": "organization.root",
+          "role": "domain"
+        },
+        {
+          "ref": "organization.goal",
+          "role": "member"
+        }
+      ],
+      "priority": 100,
+      "authority": "owner_asserted",
+      "confidence": 1,
+      "provenance": [
+        {
+          "source_ref": "source.organization"
+        }
+      ],
+      "scope": "scope.organization"
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "relation.organization.policy.domain",
+      "type": "belongs_to",
+      "participants": [
+        {
+          "ref": "organization.root",
+          "role": "domain"
+        },
+        {
+          "ref": "organization.policy",
+          "role": "member"
+        }
+      ],
+      "priority": 100,
+      "authority": "owner_asserted",
+      "confidence": 1,
+      "provenance": [
+        {
+          "source_ref": "source.organization"
+        }
+      ],
+      "scope": "scope.organization"
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "relation.organization.quorum.domain",
+      "type": "belongs_to",
+      "participants": [
+        {
+          "ref": "organization.root",
+          "role": "domain"
+        },
+        {
+          "ref": "organization.quorum",
+          "role": "member"
+        }
+      ],
+      "priority": 100,
+      "authority": "owner_asserted",
+      "confidence": 1,
+      "provenance": [
+        {
+          "source_ref": "source.organization"
+        }
+      ],
+      "scope": "scope.organization"
+    },
+    {
+      "contract_version": "1.0.0",
+      "id": "relation.organization.risk.domain",
+      "type": "belongs_to",
+      "participants": [
+        {
+          "ref": "organization.root",
+          "role": "domain"
+        },
+        {
+          "ref": "organization.risk",
+          "role": "member"
+        }
+      ],
+      "priority": 100,
+      "authority": "owner_asserted",
+      "confidence": 1,
+      "provenance": [
+        {
+          "source_ref": "source.organization"
+        }
+      ],
+      "scope": "scope.organization"
+    }
+  ],
+  "digest": "sha256:8191c69062b632b324cd96a1e187f85451d9f488d6e14967ea22edbf170ef1be"
+}

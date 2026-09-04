@@ -4,11 +4,11 @@
   "title": "Mirai Retrieval Index Descriptor",
   "type": "object",
   "additionalProperties": false,
-  "required": ["contract_version", "index_id", "project_id", "provider", "provider_version", "access_digest", "configuration_digest", "source_snapshot_digests", "graph_snapshot_digest", "source_projection_digest", "documents_digest", "storage_digest", "document_count", "semantic_status", "semantic_model", "dimensions", "built_at", "canonical_write_allowed", "digest"],
+  "required": ["contract_version", "index_id", "project_id", "provider", "provider_version", "access_digest", "configuration_digest", "source_snapshot_digests", "graph_snapshot_digest", "source_projection_digest", "documents_digest", "storage_digest", "document_count", "semantic_status", "semantic_model", "semantic_revision", "semantic_files_digest", "dimensions", "built_at", "canonical_write_allowed", "digest"],
   "properties": {
     "contract_version": { "const": "1.0.0" }, "index_id": { "type": "string" }, "project_id": { "type": "string" }, "provider": { "const": "orama" }, "provider_version": { "type": "string" },
     "access_digest": { "$ref": "#/$defs/digest" }, "configuration_digest": { "$ref": "#/$defs/digest" }, "source_snapshot_digests": { "type": "array", "uniqueItems": true, "items": { "$ref": "#/$defs/digest" } }, "graph_snapshot_digest": { "anyOf": [{ "$ref": "#/$defs/digest" }, { "type": "null" }] }, "source_projection_digest": { "$ref": "#/$defs/digest" }, "documents_digest": { "$ref": "#/$defs/digest" }, "storage_digest": { "$ref": "#/$defs/digest" },
-    "document_count": { "type": "integer", "minimum": 0 }, "semantic_status": { "enum": ["ready", "disabled", "provider_unavailable"] }, "semantic_model": { "type": ["string", "null"] }, "dimensions": { "type": ["integer", "null"], "minimum": 1 }, "built_at": { "type": "string", "format": "date-time" }, "canonical_write_allowed": { "const": false }, "digest": { "$ref": "#/$defs/digest" }
+    "document_count": { "type": "integer", "minimum": 0 }, "semantic_status": { "enum": ["ready", "disabled", "provider_unavailable"] }, "semantic_model": { "type": ["string", "null"] }, "semantic_revision": { "type": ["string", "null"] }, "semantic_files_digest": { "anyOf": [{ "$ref": "#/$defs/digest" }, { "type": "null" }] }, "dimensions": { "type": ["integer", "null"], "minimum": 1 }, "built_at": { "type": "string", "format": "date-time" }, "canonical_write_allowed": { "const": false }, "digest": { "$ref": "#/$defs/digest" }
   },
   "$defs": { "digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" } }
 }

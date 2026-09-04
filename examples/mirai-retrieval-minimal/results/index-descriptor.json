@@ -12,12 +12,14 @@
   "graph_snapshot_digest": null,
   "source_projection_digest": "sha256:0a9dd8f85691903d4c62a34840ccca51e55d97c316e83641c6ee8c465e802de2",
   "documents_digest": "sha256:0a9dd8f85691903d4c62a34840ccca51e55d97c316e83641c6ee8c465e802de2",
-  "storage_digest": "sha256:d418b401e83207e9b46176860f164e0bdbb6365206035e63492b0977abf0c25c",
+  "storage_digest": "sha256:0c43aaed187f237b3c6b3ad0b1520f29e19fc575d3b2de80d46ecb839cc042d4",
   "document_count": 2,
   "semantic_status": "provider_unavailable",
   "semantic_model": "Xenova/multilingual-e5-small",
+  "semantic_revision": null,
+  "semantic_files_digest": null,
   "dimensions": 384,
   "built_at": "2026-09-04T00:00:00.000Z",
   "canonical_write_allowed": false,
-  "digest": "sha256:d9bc61a59412c8a68f22a938164a69afd95a2da1c2a6fa1485a9782d18bf5d23"
+  "digest": "sha256:e947bc285c2602f2c2d3c634bea26363d38068653e8c6cb9ae1ca9cac52f3d80"
 }

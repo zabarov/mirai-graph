@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zabarov.github.io/mirai/schemas/retrieval-pilot-result.schema.json",
+  "title": "Mirai Retrieval Controlled Pilot Result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract_version", "pilot_id", "domain", "mode", "corpus_digest", "query_count", "systems", "safety", "review", "limitations", "canonical_write_allowed", "digest"],
+  "properties": {
+    "contract_version": { "const": "1.0.0" },
+    "pilot_id": { "type": "string", "minLength": 1 },
+    "domain": { "enum": ["federation", "larena", "ai_employee", "organization"] },
+    "mode": { "const": "read_only_public_safe" },
+    "corpus_digest": { "$ref": "#/$defs/digest" },
+    "query_count": { "type": "integer", "minimum": 1 },
+    "systems": { "type": "object", "minProperties": 5 },
+    "safety": { "type": "object", "required": ["unauthorized_hits", "unsupported_claims"], "properties": { "unauthorized_hits": { "const": 0 }, "unsupported_claims": { "const": "none_detected" } } },
+    "review": { "type": "object", "additionalProperties": false, "required": ["reviewer_class", "verdict", "evidence_ref", "claim_boundary"], "properties": { "reviewer_class": { "enum": ["independent_ai_reviewer", "human_domain_owner"] }, "verdict": { "enum": ["accepted_for_engineering_release", "blocked"] }, "evidence_ref": { "type": "string" }, "claim_boundary": { "type": "string", "minLength": 1 } } },
+    "limitations": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+    "canonical_write_allowed": { "const": false },
+    "digest": { "$ref": "#/$defs/digest" }
+  },
+  "$defs": { "digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" } }
+}

@@ -16,6 +16,7 @@ function digestDirectory(root) {
       if (item.isSymbolicLink()) throw new Error("embedding_cache_symlink_rejected");
       if (item.isDirectory()) walk(filename);
       else if (item.isFile()) {
+        if (name === "mirai-model-receipt.json") continue;
         hash.update(path.relative(root, filename));
         hash.update(fs.readFileSync(filename));
       }
@@ -30,17 +31,28 @@ function createLocalEmbeddingProvider(options = {}) {
   const dimensions = options.dimensions || DEFAULT_DIMENSIONS;
   const cacheDir = path.resolve(options.cache_dir || path.join(process.env.MIRAI_HOME || path.join(process.env.HOME || ".", ".mirai"), "models"));
   const allowDownload = options.allow_download === true;
+  const revision = options.revision;
+  const expectedFilesDigest = options.expected_files_digest;
+  if (allowDownload && !revision) throw new Error("embedding_revision_required_for_download");
   let extractor;
   return {
     id: "huggingface-transformers-local",
     model,
     dimensions,
+    revision,
+    files_digest: expectedFilesDigest,
     async embed(texts) {
       if (!Array.isArray(texts) || texts.some((value) => typeof value !== "string")) throw new Error("embedding_text_array_required");
+      if (!allowDownload) {
+        if (!expectedFilesDigest) throw new Error("embedding_expected_files_digest_required");
+        if (!fs.existsSync(cacheDir) || digestDirectory(cacheDir) !== expectedFilesDigest) throw new Error("embedding_cache_digest_mismatch");
+      }
       const transformers = await import("@huggingface/transformers");
       transformers.env.cacheDir = cacheDir;
       transformers.env.allowRemoteModels = allowDownload;
-      extractor ||= await transformers.pipeline("feature-extraction", model, { cache_dir: cacheDir, local_files_only: !allowDownload });
+      const localModelPath = revision ? path.join(cacheDir, ...model.split("/"), revision) : undefined;
+      const modelTarget = !allowDownload && localModelPath && fs.existsSync(localModelPath) ? localModelPath : model;
+      extractor ||= await transformers.pipeline("feature-extraction", modelTarget, { cache_dir: cacheDir, local_files_only: !allowDownload, ...(allowDownload && revision ? { revision } : {}) });
       const output = await extractor(texts, { pooling: "mean", normalize: true });
       const vectors = output.tolist();
       if (!Array.isArray(vectors) || vectors.length !== texts.length || vectors.some((vector) => !Array.isArray(vector) || vector.length !== dimensions)) throw new Error("embedding_model_dimension_mismatch");
@@ -51,6 +63,7 @@ function createLocalEmbeddingProvider(options = {}) {
 
 async function prepareLocalEmbeddingModel(options = {}) {
   if (options.allow_download !== true) throw new Error("embedding_download_requires_explicit_allow_download");
+  if (!options.revision) throw new Error("embedding_revision_required_for_download");
   const cacheDir = path.resolve(options.cache_dir);
   fs.mkdirSync(cacheDir, { recursive: true, mode: 0o700 });
   const provider = createLocalEmbeddingProvider({ ...options, cache_dir: cacheDir, allow_download: true });
@@ -59,6 +72,7 @@ async function prepareLocalEmbeddingModel(options = {}) {
     contract_version: "1.0.0",
     provider: provider.id,
     model: provider.model,
+    revision: options.revision,
     dimensions: provider.dimensions,
     cache_path: cacheDir,
     files_digest: digestDirectory(cacheDir),

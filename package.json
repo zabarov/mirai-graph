@@ -105,8 +105,13 @@
     "./project-technology": "./packages/project-technology/index.js"
   },
   "scripts": {
-    "posttest": "npm run test:mirai-2.3 && npm run test:mirai-2.4 && npm run validate:independent-retrieval-conformance",
+    "posttest": "npm run test:mirai-2.3 && npm run test:mirai-2.4 && npm run validate:mirai-2.4-evaluation && npm run validate:mirai-2.4-retrieval-pilots && npm run validate:independent-retrieval-conformance",
     "test:mirai-2.4": "node --test test/retrieval/retrieval.test.cjs",
+    "generate:mirai-2.4-evaluation": "npm run build && node benchmarks/mirai-2.4-retrieval/generate-corpus.js",
+    "evaluate:mirai-2.4": "node benchmarks/mirai-2.4-retrieval/run-evaluation.js",
+    "validate:mirai-2.4-evaluation": "node packages/cli/validate-mirai-2.4-evaluation.js",
+    "generate:mirai-2.4-retrieval-pilots": "node packages/cli/generate-mirai-2.4-retrieval-pilots.js",
+    "validate:mirai-2.4-retrieval-pilots": "node packages/cli/validate-mirai-2.4-retrieval-pilots.js",
     "validate:mirai-2.4": "npm run build && npm run test:mirai-2.4",
     "generate:mirai-2.4-fixtures": "npm run build && node packages/cli/generate-retrieval-fixtures.js",
     "validate:mirai-2.4-readiness": "node packages/cli/validate-mirai-2-4-readiness.js",
@@ -296,6 +301,7 @@
     "publications",
     "releases",
     "templates",
+    "!benchmarks/**/.mirai/**",
     "!templates/**/.mirai/**",
     "!examples/**/.mirai/**",
     ".github"

@@ -7,7 +7,7 @@ import type { GraphSnapshot } from "../stdlib/types.js";
 import type { NormalizedUnit } from "../sources/types.js";
 import { readRetrievalConfig, retrievalConfigurationDigest, retrievalIndexDirectory } from "./config.js";
 import { createRetrievalAnswer, planRetrieval, reciprocalRankFusion, sortHits } from "./planner.js";
-import type { EmbeddingProvider, EvidenceBundle, RetrievalChannel, RetrievalDocument, RetrievalHit, RetrievalIndexDescriptor, RetrievalProjectConfig, RetrievalRequest } from "./types.js";
+import type { EmbeddingProvider, EvidenceBundle, RetrievalChannel, RetrievalDocument, RetrievalHit, RetrievalIndexDescriptor, RetrievalInputConfig, RetrievalProjectConfig, RetrievalRequest } from "./types.js";
 
 const PROVIDER_VERSION = "@orama/orama@3.1.18";
 const SENSITIVE = /(?:BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY|\b(?:ghp_|sk-proj-|xoxb-)[A-Za-z0-9_-]{8,}|\b(?:password|passwd|secret|token)\s*[:=]\s*[^\s,;]{6,}|\/Users\/|[A-Za-z]:\\Users\\)/iu;
@@ -72,13 +72,14 @@ function graphDocuments(graph: GraphSnapshot, config: RetrievalProjectConfig): R
     if (!sourceRef || !authorized(config, sourceRef, object.scope, object.id)) return [];
     const source = sources.get(sourceRef);
     const raw = JSON.stringify(object.metadata);
-    const text = SENSITIVE.test(raw) || source?.confidentiality === "restricted" ? `${object.id} ${object.kind} ${sourceRef}` : boundedText(raw, 8192);
+    const referenceOnly = SENSITIVE.test(raw) || source?.confidentiality === "restricted";
+    const text = referenceOnly ? `${object.id} ${object.kind}` : boundedText(raw, 8192);
     return [documentDigest({
       id: `graph.object:${object.id}`,
       kind: object.kind,
       title: object.id,
       search_text: `${object.id} ${object.kind} ${text}`,
-      snippet: SENSITIVE.test(raw) || source?.confidentiality === "restricted" ? "" : boundedText(raw, config.placement.max_snippet_chars),
+      snippet: referenceOnly ? "" : boundedText(raw, config.placement.max_snippet_chars),
       source_ref: sourceRef,
       source_digest: source?.digest || graph.digest,
       scope: object.scope,
@@ -95,21 +96,23 @@ function graphDocuments(graph: GraphSnapshot, config: RetrievalProjectConfig): R
     const sourceRef = relation.provenance[0]?.source_ref;
     const scope = relation.scope || "global";
     if (!sourceRef || !authorized(config, sourceRef, scope, relation.id)) return [];
+    const source = sources.get(sourceRef);
     const participants = relation.participants.map((participant) => `${participant.role}:${participant.ref}`);
+    const referenceOnly = source?.confidentiality === "restricted";
     return [documentDigest({
       id: `graph.relation:${relation.id}`,
       kind: `relation:${relation.type}`,
       title: relation.id,
-      search_text: `${relation.type} ${participants.join(" ")}`,
-      snippet: `${relation.type}: ${participants.join(", ")}`.slice(0, config.placement.max_snippet_chars),
+      search_text: referenceOnly ? `${relation.id} relation` : `${relation.type} ${participants.join(" ")}`,
+      snippet: referenceOnly ? "" : `${relation.type}: ${participants.join(", ")}`.slice(0, config.placement.max_snippet_chars),
       source_ref: sourceRef,
       source_digest: sources.get(sourceRef)?.digest || graph.digest,
       scope,
       authority: relation.authority,
       freshness: "current",
       confidentiality: sources.get(sourceRef)?.confidentiality || "internal",
-      graph_object_refs: relation.participants.map((participant) => participant.ref),
-      evidence_refs: relation.provenance.flatMap((item) => [item.source_ref, ...(item.evidence_ref ? [item.evidence_ref] : [])]),
+      graph_object_refs: referenceOnly ? [] : relation.participants.map((participant) => participant.ref),
+      evidence_refs: referenceOnly ? [sourceRef] : relation.provenance.flatMap((item) => [item.source_ref, ...(item.evidence_ref ? [item.evidence_ref] : [])]),
       program_refs: [],
       policy_refs: []
     })];
@@ -118,6 +121,7 @@ function graphDocuments(graph: GraphSnapshot, config: RetrievalProjectConfig): R
 }
 
 function genericDocuments(value: unknown, kind: string, sourceRef: string, sourceDigest: string, config: RetrievalProjectConfig): RetrievalDocument[] {
+  fail(!SENSITIVE.test(sourceRef), "retrieval_sensitive_reference_rejected");
   const entries = Array.isArray(value) ? value : [value];
   return entries.flatMap((entry, index): RetrievalDocument[] => {
     if (!entry || typeof entry !== "object" || Array.isArray(entry)) return [];
@@ -128,7 +132,9 @@ function genericDocuments(value: unknown, kind: string, sourceRef: string, sourc
     if (!authorized(config, sourceRef, scope, documentId)) return [];
     const raw = JSON.stringify(record);
     const referenceOnly = SENSITIVE.test(raw);
-    const title = typeof record.title === "string" ? record.title : typeof record.name === "string" ? record.name : id;
+    const title = referenceOnly ? id : typeof record.title === "string" ? record.title : typeof record.name === "string" ? record.name : id;
+    const freshness = ["current", "aging", "stale", "unknown"].includes(String(record.freshness)) ? record.freshness as RetrievalDocument["freshness"] : "current";
+    const conflictRefs = Array.isArray(record.conflict_refs) ? record.conflict_refs.filter((item): item is string => typeof item === "string") : [];
     return [documentDigest({
       id: documentId,
       kind,
@@ -139,12 +145,13 @@ function genericDocuments(value: unknown, kind: string, sourceRef: string, sourc
       source_digest: sourceDigest,
       scope,
       authority: "owner_asserted",
-      freshness: "current",
+      freshness,
       confidentiality: "internal",
       graph_object_refs: [],
       evidence_refs: [sourceRef],
       program_refs: kind === "program" ? [id] : [],
-      policy_refs: kind === "policy" ? [id] : []
+      policy_refs: kind === "policy" ? [id] : [],
+      ...(conflictRefs.length ? { conflict_refs: conflictRefs } : {})
     })];
   });
 }
@@ -169,6 +176,19 @@ function inputFiles(projectRoot: string, relative: string): string[] {
   return result;
 }
 
+function portableInputRef(projectRoot: string, configuredPath: string, filename: string): string {
+  const target = resolveConfinedPath(projectRoot, configuredPath, { allow_missing: false, label: "retrieval_input" });
+  if (fs.lstatSync(target).isFile()) return configuredPath.replaceAll("\\", "/");
+  return path.posix.join(configuredPath.replaceAll("\\", "/"), path.relative(target, filename).replaceAll(path.sep, "/"));
+}
+
+function inputDocumentKind(kind: RetrievalInputConfig["kind"]): string {
+  if (kind === "programs") return "program";
+  if (kind === "policies") return "policy";
+  if (kind === "evidence") return "evidence";
+  return kind;
+}
+
 export function collectRetrievalDocuments(projectRoot: string, config: RetrievalProjectConfig): { documents: RetrievalDocument[]; graph: GraphSnapshot | undefined; snapshotDigests: string[] } {
   const documents: RetrievalDocument[] = [];
   let graph: GraphSnapshot | undefined;
@@ -177,7 +197,8 @@ export function collectRetrievalDocuments(projectRoot: string, config: Retrieval
     for (const filename of inputFiles(projectRoot, input.path)) {
       const raw = readJson(filename);
       const fileDigest = digestValue(raw);
-      snapshots.push(input.snapshot_digest || fileDigest);
+      if (input.snapshot_digest && input.snapshot_digest !== fileDigest) throw new Error("retrieval_input_snapshot_digest_mismatch");
+      snapshots.push(fileDigest);
       if (input.kind === "normalized_units") {
         const units = Array.isArray(raw) ? raw : (raw as { units?: unknown }).units;
         fail(Array.isArray(units), "retrieval_units_array_required");
@@ -186,7 +207,7 @@ export function collectRetrievalDocuments(projectRoot: string, config: Retrieval
         graph = raw as GraphSnapshot;
         documents.push(...graphDocuments(graph, config));
       } else {
-        documents.push(...genericDocuments(raw, input.kind.slice(0, -1), path.relative(projectRoot, filename).replaceAll(path.sep, "/"), fileDigest, config));
+        documents.push(...genericDocuments(raw, inputDocumentKind(input.kind), portableInputRef(projectRoot, input.path, filename), fileDigest, config));
       }
     }
   }
@@ -205,7 +226,7 @@ function oramaSchema(dimensions?: number): AnySchema {
   return {
     id: "string", kind: "string", title: "string", search_text: "string", snippet: "string", source_ref: "string", source_digest: "string",
     scope: "string", authority: "string", freshness: "string", confidentiality: "string", graph_object_refs: "string[]", evidence_refs: "string[]",
-    program_refs: "string[]", policy_refs: "string[]", digest: "string", ...(dimensions ? { embedding: `vector[${dimensions}]` } : {})
+    program_refs: "string[]", policy_refs: "string[]", conflict_refs: "string[]", digest: "string", ...(dimensions ? { embedding: `vector[${dimensions}]` } : {})
   };
 }
 
@@ -249,7 +270,7 @@ export async function buildLocalRetrievalIndex(projectRoot: string, options: { e
   const provider = options.embedding_provider;
   if (provider && (provider.model !== config.semantic.model || provider.dimensions !== config.semantic.dimensions)) throw new Error("retrieval_embedding_provider_mismatch");
   if (provider) {
-    const vectors = await provider.embed(collected.documents.map((document) => document.search_text));
+    const vectors = await provider.embed(collected.documents.map((document) => `passage: ${document.search_text}`));
     fail(vectors.length === collected.documents.length && vectors.every((vector) => vector.length === provider.dimensions && vector.every(Number.isFinite)), "retrieval_embedding_shape_invalid");
     collected.documents.forEach((document, index) => {
       const { digest: _digest, ...body } = document;
@@ -280,6 +301,8 @@ export async function buildLocalRetrievalIndex(projectRoot: string, options: { e
     document_count: collected.documents.length,
     semantic_status: provider ? "ready" as const : config.semantic.provider === "disabled" ? "disabled" as const : "provider_unavailable" as const,
     semantic_model: provider?.model || config.semantic.model || null,
+    semantic_revision: provider?.revision || null,
+    semantic_files_digest: provider?.files_digest || null,
     dimensions: dimensions || config.semantic.dimensions || null,
     built_at: options.built_at || new Date().toISOString(),
     canonical_write_allowed: false as const
@@ -356,17 +379,33 @@ function graphExpansion(graph: GraphSnapshot | undefined, seedRefs: string[], do
   return paths;
 }
 
+function graphQuerySeeds(graph: GraphSnapshot | undefined, query: string): string[] {
+  if (!graph) return [];
+  const terms = query.toLocaleLowerCase("und").split(/[^\p{L}\p{N}_.:-]+/u).filter((item) => item.length > 2);
+  return graph.objects.filter((object) => {
+    const searchable = `${object.id} ${object.kind} ${JSON.stringify(object.metadata)}`.toLocaleLowerCase("und");
+    return terms.some((term) => searchable.includes(term));
+  }).map((object) => object.id);
+}
+
 export async function searchLocalRetrievalIndex(projectRoot: string, request: RetrievalRequest, options: { embedding_provider?: EmbeddingProvider } = {}): Promise<{ plan: ReturnType<typeof planRetrieval>; evidence: EvidenceBundle; answer: ReturnType<typeof createRetrievalAnswer> }> {
   const root = path.resolve(projectRoot);
   const config = readRetrievalConfig(root);
+  const descriptorFile = path.join(retrievalIndexDirectory(root, config.index_id), "descriptor.json");
+  if (!fs.existsSync(descriptorFile)) throw new Error("retrieval_index_not_ready:missing:retrieval_index_missing");
+  const projectedDescriptor = readJson(descriptorFile) as RetrievalIndexDescriptor;
+  if (digestValue(request.access) !== projectedDescriptor.access_digest) throw new Error("retrieval_access_projection_mismatch");
   const state = inspectLocalRetrievalIndex(root);
   if (state.status !== "ready" || !state.descriptor) throw new Error(`retrieval_index_not_ready:${state.status}:${state.diagnostics.join(",")}`);
   const descriptor = state.descriptor;
+  if (request.graph && request.graph.digest !== descriptor.graph_snapshot_digest) throw new Error("retrieval_graph_snapshot_mismatch");
+  if (!request.graph && descriptor.graph_snapshot_digest) throw new Error("retrieval_graph_snapshot_required");
   const plan = planRetrieval(request, descriptor, config);
   const directory = retrievalIndexDirectory(root, config.index_id);
   const documents = readJson(path.join(directory, "documents.json")) as RetrievalDocument[];
-  const permitted = documents.filter((document) => request.access.source_refs.includes(document.source_ref) && request.access.scopes.includes(document.scope) && (!request.access.document_ids || request.access.document_ids.includes(document.id)) && freshnessAllowed(document, request.freshness_required));
-  if (permitted.length !== documents.length) throw new Error("retrieval_runtime_access_differs_from_index_projection");
+  const accessPermitted = documents.filter((document) => request.access.source_refs.includes(document.source_ref) && request.access.scopes.includes(document.scope) && (!request.access.document_ids || request.access.document_ids.includes(document.id)));
+  if (accessPermitted.length !== documents.length) throw new Error("retrieval_runtime_access_differs_from_index_projection");
+  const permitted = accessPermitted.filter((document) => freshnessAllowed(document, request.freshness_required));
   const database = createDatabase(descriptor.semantic_status === "ready" ? descriptor.dimensions || undefined : undefined);
   load(database, readJson(path.join(directory, "orama.json")) as RawData);
   const rankings: Array<{ channel: RetrievalChannel; ids: string[] }> = [];
@@ -386,7 +425,8 @@ export async function searchLocalRetrievalIndex(projectRoot: string, request: Re
   if (plan.channels.includes("semantic")) {
     const provider = options.embedding_provider;
     if (!provider || provider.model !== descriptor.semantic_model || provider.dimensions !== descriptor.dimensions) throw new Error("retrieval_semantic_provider_required");
-    const [vector] = await provider.embed([request.query]);
+    if ((provider.revision || null) !== descriptor.semantic_revision || (provider.files_digest || null) !== descriptor.semantic_files_digest) throw new Error("retrieval_semantic_artifact_binding_mismatch");
+    const [vector] = await provider.embed([`query: ${request.query}`]);
     fail(vector && vector.length === provider.dimensions && vector.every(Number.isFinite), "retrieval_query_embedding_invalid");
     const result = await search(database, { mode: "vector", vector: { value: vector, property: "embedding" }, limit: Math.max(plan.budgets.max_results * 4, 20) });
     const ids = result.hits.map((hit) => String((hit.document as OramaDocument).id));
@@ -394,13 +434,19 @@ export async function searchLocalRetrievalIndex(projectRoot: string, request: Re
     ids.forEach((id) => reasons.set(id, [...(reasons.get(id) || []), "semantic_vector_match"]));
   }
   if (plan.channels.includes("process")) {
-    const ids = permitted.filter((document) => document.program_refs.length || document.policy_refs.length || /technology|program|policy|gate|process/u.test(document.kind)).map((document) => document.id);
+    const terms = normalized.split(/[^\p{L}\p{N}_.:-]+/u).filter((item) => item.length > 2);
+    const ids = permitted.filter((document) => {
+      const processLike = document.program_refs.length || document.policy_refs.length || /technology|program|policy|gate|process/u.test(document.kind);
+      const searchable = `${document.id} ${document.title} ${document.search_text}`.toLocaleLowerCase("und");
+      return Boolean(processLike) && terms.some((term) => searchable.includes(term));
+    }).map((document) => document.id);
     rankings.push({ channel: "process", ids });
     ids.forEach((id) => reasons.set(id, [...(reasons.get(id) || []), "governed_process_or_policy_candidate"]));
   }
   const initial = reciprocalRankFusion(rankings);
   const initialDocuments = permitted.filter((document) => initial.has(document.id));
-  const paths = plan.channels.includes("graph") ? graphExpansion(request.graph, initialDocuments.flatMap((document) => document.graph_object_refs), permitted, plan.budgets.max_graph_depth) : new Map<string, string[]>();
+  const graphSeeds = [...new Set([...initialDocuments.flatMap((document) => document.graph_object_refs), ...graphQuerySeeds(request.graph, request.query)])];
+  const paths = plan.channels.includes("graph") ? graphExpansion(request.graph, graphSeeds, permitted, plan.budgets.max_graph_depth) : new Map<string, string[]>();
   const graphIds = permitted.filter((document) => document.graph_object_refs.some((ref) => paths.has(ref))).map((document) => document.id);
   if (graphIds.length) rankings.push({ channel: "graph", ids: graphIds });
   const fused = reciprocalRankFusion(rankings);
@@ -411,11 +457,15 @@ export async function searchLocalRetrievalIndex(projectRoot: string, request: Re
       document_id: document.id, kind: document.kind, title: document.title, snippet: document.snippet, source_ref: document.source_ref, scope: document.scope,
       authority: document.authority, freshness: document.freshness, graph_object_refs: document.graph_object_refs, evidence_refs: document.evidence_refs,
       program_refs: document.program_refs, policy_refs: document.policy_refs, channels: score.channels, rank_score: score.score,
+      ...(document.conflict_refs?.length ? { conflict_refs: document.conflict_refs } : {}),
       match_reasons: [...new Set([...(reasons.get(document.id) || []), ...(graphPath ? ["bounded_graph_path"] : [])])], ...(graphPath ? { graph_path: graphPath } : {})
       , instructions_authorized: false as const
     };
   })).slice(0, plan.budgets.max_results);
-  const conflicts = [...new Set(hits.filter((hit) => hit.freshness === "stale").map((hit) => `stale:${hit.document_id}`))];
+  const conflicts = [...new Set([
+    ...hits.filter((hit) => hit.freshness === "stale").map((hit) => `stale:${hit.document_id}`),
+    ...hits.flatMap((hit) => (hit.conflict_refs || []).map((ref) => `conflict:${hit.document_id}:${ref}`))
+  ])];
   const limitations = [...plan.diagnostics, ...(request.graph ? [] : ["graph_snapshot_not_supplied"]), ...(descriptor.semantic_status === "ready" ? [] : ["semantic_retrieval_unavailable"])];
   const evidenceBody = {
     contract_version: "1.0.0" as const, query_digest: plan.request_digest, index_digest: descriptor.digest, graph_digest: request.graph?.digest || null,

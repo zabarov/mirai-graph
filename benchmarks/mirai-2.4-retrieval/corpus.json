@@ -1,0 +1,2662 @@
+{
+  "contract_version": "1.0.0",
+  "id": "corpus.mirai-2.4-retrieval-v1",
+  "domains": [
+    "federation",
+    "larena",
+    "ai_employee",
+    "organization"
+  ],
+  "query_count": 120,
+  "queries": [
+    {
+      "domain": "federation",
+      "expected_document_ids": [
+        "unit.federation.owner-routing",
+        "graph.object:federation.owner-routing"
+      ],
+      "relevance": {
+        "unit.federation.owner-routing": 3,
+        "graph.object:federation.owner-routing": 2
+      },
+      "expected_intent": "relationship_trace",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.federation.owner-routing.same",
+      "language": "en",
+      "variant": "same_language",
+      "query": "task owner routing"
+    },
+    {
+      "domain": "federation",
+      "expected_document_ids": [
+        "unit.federation.owner-routing",
+        "graph.object:federation.owner-routing"
+      ],
+      "relevance": {
+        "unit.federation.owner-routing": 3,
+        "graph.object:federation.owner-routing": 2
+      },
+      "expected_intent": "relationship_trace",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.federation.owner-routing.cross",
+      "language": "ru",
+      "variant": "cross_language",
+      "query": "маршрутизация к владельцу задачи"
+    },
+    {
+      "domain": "federation",
+      "expected_document_ids": [
+        "unit.federation.owner-routing",
+        "graph.object:federation.owner-routing"
+      ],
+      "relevance": {
+        "unit.federation.owner-routing": 3,
+        "graph.object:federation.owner-routing": 2
+      },
+      "expected_intent": "exact_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.federation.owner-routing.exact",
+      "language": "identifier",
+      "variant": "exact_identifier",
+      "query": "federation.owner-routing"
+    },
+    {
+      "domain": "federation",
+      "expected_document_ids": [
+        "unit.federation.skill-sync",
+        "graph.object:federation.skill-sync"
+      ],
+      "relevance": {
+        "unit.federation.skill-sync": 3,
+        "graph.object:federation.skill-sync": 2
+      },
+      "expected_intent": "technology_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.federation.skill-sync.same",
+      "language": "ru",
+      "variant": "same_language",
+      "query": "шлюз синхронизации навыка"
+    },
+    {
+      "domain": "federation",
+      "expected_document_ids": [
+        "unit.federation.skill-sync",
+        "graph.object:federation.skill-sync"
+      ],
+      "relevance": {
+        "unit.federation.skill-sync": 3,
+        "graph.object:federation.skill-sync": 2
+      },
+      "expected_intent": "technology_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.federation.skill-sync.cross",
+      "language": "en",
+      "variant": "cross_language",
+      "query": "skill synchronization gate"
+    },
+    {
+      "domain": "federation",
+      "expected_document_ids": [
+        "unit.federation.skill-sync",
+        "graph.object:federation.skill-sync"
+      ],
+      "relevance": {
+        "unit.federation.skill-sync": 3,
+        "graph.object:federation.skill-sync": 2
+      },
+      "expected_intent": "exact_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.federation.skill-sync.exact",
+      "language": "identifier",
+      "variant": "exact_identifier",
+      "query": "federation.skill-sync"
+    },
+    {
+      "domain": "federation",
+      "expected_document_ids": [
+        "unit.federation.action-gate",
+        "graph.object:federation.action-gate"
+      ],
+      "relevance": {
+        "unit.federation.action-gate": 3,
+        "graph.object:federation.action-gate": 2
+      },
+      "expected_intent": "policy_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.federation.action-gate.same",
+      "language": "en",
+      "variant": "same_language",
+      "query": "live action safety gate"
+    },
+    {
+      "domain": "federation",
+      "expected_document_ids": [
+        "unit.federation.action-gate",
+        "graph.object:federation.action-gate"
+      ],
+      "relevance": {
+        "unit.federation.action-gate": 3,
+        "graph.object:federation.action-gate": 2
+      },
+      "expected_intent": "policy_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.federation.action-gate.cross",
+      "language": "ru",
+      "variant": "cross_language",
+      "query": "шлюз безопасности живого действия"
+    },
+    {
+      "domain": "federation",
+      "expected_document_ids": [
+        "unit.federation.action-gate",
+        "graph.object:federation.action-gate"
+      ],
+      "relevance": {
+        "unit.federation.action-gate": 3,
+        "graph.object:federation.action-gate": 2
+      },
+      "expected_intent": "exact_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.federation.action-gate.exact",
+      "language": "identifier",
+      "variant": "exact_identifier",
+      "query": "federation.action-gate"
+    },
+    {
+      "domain": "federation",
+      "expected_document_ids": [
+        "unit.federation.evidence",
+        "graph.object:federation.evidence"
+      ],
+      "relevance": {
+        "unit.federation.evidence": 3,
+        "graph.object:federation.evidence": 2
+      },
+      "expected_intent": "evidence_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.federation.evidence.same",
+      "language": "ru",
+      "variant": "same_language",
+      "query": "подтверждение доказательств завершения"
+    },
+    {
+      "domain": "federation",
+      "expected_document_ids": [
+        "unit.federation.evidence",
+        "graph.object:federation.evidence"
+      ],
+      "relevance": {
+        "unit.federation.evidence": 3,
+        "graph.object:federation.evidence": 2
+      },
+      "expected_intent": "evidence_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.federation.evidence.cross",
+      "language": "en",
+      "variant": "cross_language",
+      "query": "completion evidence receipt"
+    },
+    {
+      "domain": "federation",
+      "expected_document_ids": [
+        "unit.federation.evidence",
+        "graph.object:federation.evidence"
+      ],
+      "relevance": {
+        "unit.federation.evidence": 3,
+        "graph.object:federation.evidence": 2
+      },
+      "expected_intent": "exact_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.federation.evidence.exact",
+      "language": "identifier",
+      "variant": "exact_identifier",
+      "query": "federation.evidence"
+    },
+    {
+      "domain": "federation",
+      "expected_document_ids": [
+        "unit.federation.kaizen",
+        "graph.object:federation.kaizen"
+      ],
+      "relevance": {
+        "unit.federation.kaizen": 3,
+        "graph.object:federation.kaizen": 2
+      },
+      "expected_intent": "technology_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.federation.kaizen.same",
+      "language": "en",
+      "variant": "same_language",
+      "query": "continuous process improvement"
+    },
+    {
+      "domain": "federation",
+      "expected_document_ids": [
+        "unit.federation.kaizen",
+        "graph.object:federation.kaizen"
+      ],
+      "relevance": {
+        "unit.federation.kaizen": 3,
+        "graph.object:federation.kaizen": 2
+      },
+      "expected_intent": "technology_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.federation.kaizen.cross",
+      "language": "ru",
+      "variant": "cross_language",
+      "query": "постоянное улучшение процесса"
+    },
+    {
+      "domain": "federation",
+      "expected_document_ids": [
+        "unit.federation.kaizen",
+        "graph.object:federation.kaizen"
+      ],
+      "relevance": {
+        "unit.federation.kaizen": 3,
+        "graph.object:federation.kaizen": 2
+      },
+      "expected_intent": "exact_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.federation.kaizen.exact",
+      "language": "identifier",
+      "variant": "exact_identifier",
+      "query": "federation.kaizen"
+    },
+    {
+      "domain": "federation",
+      "expected_document_ids": [
+        "unit.federation.fallback",
+        "graph.object:federation.fallback"
+      ],
+      "relevance": {
+        "unit.federation.fallback": 3,
+        "graph.object:federation.fallback": 2
+      },
+      "expected_intent": "change_or_freshness",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.federation.fallback.same",
+      "language": "ru",
+      "variant": "same_language",
+      "query": "резервный маршрут при устаревании"
+    },
+    {
+      "domain": "federation",
+      "expected_document_ids": [
+        "unit.federation.fallback",
+        "graph.object:federation.fallback"
+      ],
+      "relevance": {
+        "unit.federation.fallback": 3,
+        "graph.object:federation.fallback": 2
+      },
+      "expected_intent": "change_or_freshness",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.federation.fallback.cross",
+      "language": "en",
+      "variant": "cross_language",
+      "query": "stale route fallback"
+    },
+    {
+      "domain": "federation",
+      "expected_document_ids": [
+        "unit.federation.fallback",
+        "graph.object:federation.fallback"
+      ],
+      "relevance": {
+        "unit.federation.fallback": 3,
+        "graph.object:federation.fallback": 2
+      },
+      "expected_intent": "exact_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.federation.fallback.exact",
+      "language": "identifier",
+      "variant": "exact_identifier",
+      "query": "federation.fallback"
+    },
+    {
+      "domain": "federation",
+      "expected_document_ids": [
+        "unit.federation.delegation",
+        "graph.object:federation.delegation"
+      ],
+      "relevance": {
+        "unit.federation.delegation": 3,
+        "graph.object:federation.delegation": 2
+      },
+      "expected_intent": "policy_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.federation.delegation.same",
+      "language": "en",
+      "variant": "same_language",
+      "query": "bounded delegation policy"
+    },
+    {
+      "domain": "federation",
+      "expected_document_ids": [
+        "unit.federation.delegation",
+        "graph.object:federation.delegation"
+      ],
+      "relevance": {
+        "unit.federation.delegation": 3,
+        "graph.object:federation.delegation": 2
+      },
+      "expected_intent": "policy_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.federation.delegation.cross",
+      "language": "ru",
+      "variant": "cross_language",
+      "query": "политика ограниченного делегирования"
+    },
+    {
+      "domain": "federation",
+      "expected_document_ids": [
+        "unit.federation.delegation",
+        "graph.object:federation.delegation"
+      ],
+      "relevance": {
+        "unit.federation.delegation": 3,
+        "graph.object:federation.delegation": 2
+      },
+      "expected_intent": "exact_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.federation.delegation.exact",
+      "language": "identifier",
+      "variant": "exact_identifier",
+      "query": "federation.delegation"
+    },
+    {
+      "domain": "federation",
+      "expected_document_ids": [
+        "unit.federation.recovery",
+        "graph.object:federation.recovery"
+      ],
+      "relevance": {
+        "unit.federation.recovery": 3,
+        "graph.object:federation.recovery": 2
+      },
+      "expected_intent": "technology_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.federation.recovery.same",
+      "language": "ru",
+      "variant": "same_language",
+      "query": "восстановление сбойного процесса"
+    },
+    {
+      "domain": "federation",
+      "expected_document_ids": [
+        "unit.federation.recovery",
+        "graph.object:federation.recovery"
+      ],
+      "relevance": {
+        "unit.federation.recovery": 3,
+        "graph.object:federation.recovery": 2
+      },
+      "expected_intent": "technology_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.federation.recovery.cross",
+      "language": "en",
+      "variant": "cross_language",
+      "query": "failed workflow recovery"
+    },
+    {
+      "domain": "federation",
+      "expected_document_ids": [
+        "unit.federation.recovery",
+        "graph.object:federation.recovery"
+      ],
+      "relevance": {
+        "unit.federation.recovery": 3,
+        "graph.object:federation.recovery": 2
+      },
+      "expected_intent": "exact_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.federation.recovery.exact",
+      "language": "identifier",
+      "variant": "exact_identifier",
+      "query": "federation.recovery"
+    },
+    {
+      "domain": "federation",
+      "expected_document_ids": [
+        "policy:federation.current-policy",
+        "graph.object:federation.current-policy"
+      ],
+      "relevance": {
+        "policy:federation.current-policy": 3,
+        "graph.object:federation.current-policy": 2
+      },
+      "expected_intent": "change_or_freshness",
+      "freshness_required": "allow_stale",
+      "conflict_expected": false,
+      "stale_expected": true,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.federation.current-policy.same",
+      "language": "en",
+      "variant": "same_language",
+      "query": "current federation release policy"
+    },
+    {
+      "domain": "federation",
+      "expected_document_ids": [
+        "policy:federation.current-policy",
+        "graph.object:federation.current-policy"
+      ],
+      "relevance": {
+        "policy:federation.current-policy": 3,
+        "graph.object:federation.current-policy": 2
+      },
+      "expected_intent": "change_or_freshness",
+      "freshness_required": "allow_stale",
+      "conflict_expected": false,
+      "stale_expected": true,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.federation.current-policy.cross",
+      "language": "ru",
+      "variant": "cross_language",
+      "query": "актуальная политика выпуска федерации"
+    },
+    {
+      "domain": "federation",
+      "expected_document_ids": [
+        "policy:federation.current-policy",
+        "graph.object:federation.current-policy"
+      ],
+      "relevance": {
+        "policy:federation.current-policy": 3,
+        "graph.object:federation.current-policy": 2
+      },
+      "expected_intent": "exact_lookup",
+      "freshness_required": "allow_stale",
+      "conflict_expected": false,
+      "stale_expected": true,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.federation.current-policy.exact",
+      "language": "identifier",
+      "variant": "exact_identifier",
+      "query": "federation.current-policy"
+    },
+    {
+      "domain": "federation",
+      "expected_document_ids": [
+        "policy:federation.conflict",
+        "graph.object:federation.conflict"
+      ],
+      "relevance": {
+        "policy:federation.conflict": 3,
+        "graph.object:federation.conflict": 2
+      },
+      "expected_intent": "change_or_freshness",
+      "freshness_required": "current",
+      "conflict_expected": true,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.federation.conflict.same",
+      "language": "ru",
+      "variant": "same_language",
+      "query": "конфликтующие назначения владельца"
+    },
+    {
+      "domain": "federation",
+      "expected_document_ids": [
+        "policy:federation.conflict",
+        "graph.object:federation.conflict"
+      ],
+      "relevance": {
+        "policy:federation.conflict": 3,
+        "graph.object:federation.conflict": 2
+      },
+      "expected_intent": "change_or_freshness",
+      "freshness_required": "current",
+      "conflict_expected": true,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.federation.conflict.cross",
+      "language": "en",
+      "variant": "cross_language",
+      "query": "conflicting owner declarations"
+    },
+    {
+      "domain": "federation",
+      "expected_document_ids": [
+        "policy:federation.conflict",
+        "graph.object:federation.conflict"
+      ],
+      "relevance": {
+        "policy:federation.conflict": 3,
+        "graph.object:federation.conflict": 2
+      },
+      "expected_intent": "exact_lookup",
+      "freshness_required": "current",
+      "conflict_expected": true,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.federation.conflict.exact",
+      "language": "identifier",
+      "variant": "exact_identifier",
+      "query": "federation.conflict"
+    },
+    {
+      "domain": "larena",
+      "expected_document_ids": [
+        "unit.larena.dependency",
+        "graph.object:larena.dependency"
+      ],
+      "relevance": {
+        "unit.larena.dependency": 3,
+        "graph.object:larena.dependency": 2
+      },
+      "expected_intent": "relationship_trace",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.larena.dependency.same",
+      "language": "en",
+      "variant": "same_language",
+      "query": "package feature dependency"
+    },
+    {
+      "domain": "larena",
+      "expected_document_ids": [
+        "unit.larena.dependency",
+        "graph.object:larena.dependency"
+      ],
+      "relevance": {
+        "unit.larena.dependency": 3,
+        "graph.object:larena.dependency": 2
+      },
+      "expected_intent": "relationship_trace",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.larena.dependency.cross",
+      "language": "ru",
+      "variant": "cross_language",
+      "query": "зависимость функции пакета"
+    },
+    {
+      "domain": "larena",
+      "expected_document_ids": [
+        "unit.larena.dependency",
+        "graph.object:larena.dependency"
+      ],
+      "relevance": {
+        "unit.larena.dependency": 3,
+        "graph.object:larena.dependency": 2
+      },
+      "expected_intent": "exact_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.larena.dependency.exact",
+      "language": "identifier",
+      "variant": "exact_identifier",
+      "query": "larena.dependency"
+    },
+    {
+      "domain": "larena",
+      "expected_document_ids": [
+        "unit.larena.specification",
+        "graph.object:larena.specification"
+      ],
+      "relevance": {
+        "unit.larena.specification": 3,
+        "graph.object:larena.specification": 2
+      },
+      "expected_intent": "exact_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.larena.specification.same",
+      "language": "ru",
+      "variant": "same_language",
+      "query": "каноническое техническое задание пакета"
+    },
+    {
+      "domain": "larena",
+      "expected_document_ids": [
+        "unit.larena.specification",
+        "graph.object:larena.specification"
+      ],
+      "relevance": {
+        "unit.larena.specification": 3,
+        "graph.object:larena.specification": 2
+      },
+      "expected_intent": "exact_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.larena.specification.cross",
+      "language": "en",
+      "variant": "cross_language",
+      "query": "canonical package specification"
+    },
+    {
+      "domain": "larena",
+      "expected_document_ids": [
+        "unit.larena.specification",
+        "graph.object:larena.specification"
+      ],
+      "relevance": {
+        "unit.larena.specification": 3,
+        "graph.object:larena.specification": 2
+      },
+      "expected_intent": "exact_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.larena.specification.exact",
+      "language": "identifier",
+      "variant": "exact_identifier",
+      "query": "larena.specification"
+    },
+    {
+      "domain": "larena",
+      "expected_document_ids": [
+        "unit.larena.migration",
+        "graph.object:larena.migration"
+      ],
+      "relevance": {
+        "unit.larena.migration": 3,
+        "graph.object:larena.migration": 2
+      },
+      "expected_intent": "technology_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.larena.migration.same",
+      "language": "en",
+      "variant": "same_language",
+      "query": "database migration procedure"
+    },
+    {
+      "domain": "larena",
+      "expected_document_ids": [
+        "unit.larena.migration",
+        "graph.object:larena.migration"
+      ],
+      "relevance": {
+        "unit.larena.migration": 3,
+        "graph.object:larena.migration": 2
+      },
+      "expected_intent": "technology_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.larena.migration.cross",
+      "language": "ru",
+      "variant": "cross_language",
+      "query": "процедура миграции базы данных"
+    },
+    {
+      "domain": "larena",
+      "expected_document_ids": [
+        "unit.larena.migration",
+        "graph.object:larena.migration"
+      ],
+      "relevance": {
+        "unit.larena.migration": 3,
+        "graph.object:larena.migration": 2
+      },
+      "expected_intent": "exact_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.larena.migration.exact",
+      "language": "identifier",
+      "variant": "exact_identifier",
+      "query": "larena.migration"
+    },
+    {
+      "domain": "larena",
+      "expected_document_ids": [
+        "unit.larena.tests",
+        "graph.object:larena.tests"
+      ],
+      "relevance": {
+        "unit.larena.tests": 3,
+        "graph.object:larena.tests": 2
+      },
+      "expected_intent": "evidence_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.larena.tests.same",
+      "language": "ru",
+      "variant": "same_language",
+      "query": "приёмочные тесты пакета"
+    },
+    {
+      "domain": "larena",
+      "expected_document_ids": [
+        "unit.larena.tests",
+        "graph.object:larena.tests"
+      ],
+      "relevance": {
+        "unit.larena.tests": 3,
+        "graph.object:larena.tests": 2
+      },
+      "expected_intent": "evidence_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.larena.tests.cross",
+      "language": "en",
+      "variant": "cross_language",
+      "query": "package acceptance tests"
+    },
+    {
+      "domain": "larena",
+      "expected_document_ids": [
+        "unit.larena.tests",
+        "graph.object:larena.tests"
+      ],
+      "relevance": {
+        "unit.larena.tests": 3,
+        "graph.object:larena.tests": 2
+      },
+      "expected_intent": "exact_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.larena.tests.exact",
+      "language": "identifier",
+      "variant": "exact_identifier",
+      "query": "larena.tests"
+    },
+    {
+      "domain": "larena",
+      "expected_document_ids": [
+        "unit.larena.compatibility",
+        "graph.object:larena.compatibility"
+      ],
+      "relevance": {
+        "unit.larena.compatibility": 3,
+        "graph.object:larena.compatibility": 2
+      },
+      "expected_intent": "policy_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.larena.compatibility.same",
+      "language": "en",
+      "variant": "same_language",
+      "query": "public API compatibility"
+    },
+    {
+      "domain": "larena",
+      "expected_document_ids": [
+        "unit.larena.compatibility",
+        "graph.object:larena.compatibility"
+      ],
+      "relevance": {
+        "unit.larena.compatibility": 3,
+        "graph.object:larena.compatibility": 2
+      },
+      "expected_intent": "policy_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.larena.compatibility.cross",
+      "language": "ru",
+      "variant": "cross_language",
+      "query": "совместимость публичного интерфейса"
+    },
+    {
+      "domain": "larena",
+      "expected_document_ids": [
+        "unit.larena.compatibility",
+        "graph.object:larena.compatibility"
+      ],
+      "relevance": {
+        "unit.larena.compatibility": 3,
+        "graph.object:larena.compatibility": 2
+      },
+      "expected_intent": "exact_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.larena.compatibility.exact",
+      "language": "identifier",
+      "variant": "exact_identifier",
+      "query": "larena.compatibility"
+    },
+    {
+      "domain": "larena",
+      "expected_document_ids": [
+        "unit.larena.rollback",
+        "graph.object:larena.rollback"
+      ],
+      "relevance": {
+        "unit.larena.rollback": 3,
+        "graph.object:larena.rollback": 2
+      },
+      "expected_intent": "technology_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.larena.rollback.same",
+      "language": "ru",
+      "variant": "same_language",
+      "query": "инструкция отката выпуска"
+    },
+    {
+      "domain": "larena",
+      "expected_document_ids": [
+        "unit.larena.rollback",
+        "graph.object:larena.rollback"
+      ],
+      "relevance": {
+        "unit.larena.rollback": 3,
+        "graph.object:larena.rollback": 2
+      },
+      "expected_intent": "technology_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.larena.rollback.cross",
+      "language": "en",
+      "variant": "cross_language",
+      "query": "release rollback instructions"
+    },
+    {
+      "domain": "larena",
+      "expected_document_ids": [
+        "unit.larena.rollback",
+        "graph.object:larena.rollback"
+      ],
+      "relevance": {
+        "unit.larena.rollback": 3,
+        "graph.object:larena.rollback": 2
+      },
+      "expected_intent": "exact_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.larena.rollback.exact",
+      "language": "identifier",
+      "variant": "exact_identifier",
+      "query": "larena.rollback"
+    },
+    {
+      "domain": "larena",
+      "expected_document_ids": [
+        "unit.larena.review",
+        "graph.object:larena.review"
+      ],
+      "relevance": {
+        "unit.larena.review": 3,
+        "graph.object:larena.review": 2
+      },
+      "expected_intent": "evidence_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.larena.review.same",
+      "language": "en",
+      "variant": "same_language",
+      "query": "developer correction review"
+    },
+    {
+      "domain": "larena",
+      "expected_document_ids": [
+        "unit.larena.review",
+        "graph.object:larena.review"
+      ],
+      "relevance": {
+        "unit.larena.review": 3,
+        "graph.object:larena.review": 2
+      },
+      "expected_intent": "evidence_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.larena.review.cross",
+      "language": "ru",
+      "variant": "cross_language",
+      "query": "проверка корректирующих указаний разработчика"
+    },
+    {
+      "domain": "larena",
+      "expected_document_ids": [
+        "unit.larena.review",
+        "graph.object:larena.review"
+      ],
+      "relevance": {
+        "unit.larena.review": 3,
+        "graph.object:larena.review": 2
+      },
+      "expected_intent": "exact_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.larena.review.exact",
+      "language": "identifier",
+      "variant": "exact_identifier",
+      "query": "larena.review"
+    },
+    {
+      "domain": "larena",
+      "expected_document_ids": [
+        "unit.larena.technology",
+        "graph.object:larena.technology"
+      ],
+      "relevance": {
+        "unit.larena.technology": 3,
+        "graph.object:larena.technology": 2
+      },
+      "expected_intent": "technology_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.larena.technology.same",
+      "language": "ru",
+      "variant": "same_language",
+      "query": "технология генерации кода"
+    },
+    {
+      "domain": "larena",
+      "expected_document_ids": [
+        "unit.larena.technology",
+        "graph.object:larena.technology"
+      ],
+      "relevance": {
+        "unit.larena.technology": 3,
+        "graph.object:larena.technology": 2
+      },
+      "expected_intent": "technology_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.larena.technology.cross",
+      "language": "en",
+      "variant": "cross_language",
+      "query": "code generation technology"
+    },
+    {
+      "domain": "larena",
+      "expected_document_ids": [
+        "unit.larena.technology",
+        "graph.object:larena.technology"
+      ],
+      "relevance": {
+        "unit.larena.technology": 3,
+        "graph.object:larena.technology": 2
+      },
+      "expected_intent": "exact_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.larena.technology.exact",
+      "language": "identifier",
+      "variant": "exact_identifier",
+      "query": "larena.technology"
+    },
+    {
+      "domain": "larena",
+      "expected_document_ids": [
+        "policy:larena.current-policy",
+        "graph.object:larena.current-policy"
+      ],
+      "relevance": {
+        "policy:larena.current-policy": 3,
+        "graph.object:larena.current-policy": 2
+      },
+      "expected_intent": "change_or_freshness",
+      "freshness_required": "allow_stale",
+      "conflict_expected": false,
+      "stale_expected": true,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.larena.current-policy.same",
+      "language": "en",
+      "variant": "same_language",
+      "query": "current package release policy"
+    },
+    {
+      "domain": "larena",
+      "expected_document_ids": [
+        "policy:larena.current-policy",
+        "graph.object:larena.current-policy"
+      ],
+      "relevance": {
+        "policy:larena.current-policy": 3,
+        "graph.object:larena.current-policy": 2
+      },
+      "expected_intent": "change_or_freshness",
+      "freshness_required": "allow_stale",
+      "conflict_expected": false,
+      "stale_expected": true,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.larena.current-policy.cross",
+      "language": "ru",
+      "variant": "cross_language",
+      "query": "актуальная политика выпуска пакета"
+    },
+    {
+      "domain": "larena",
+      "expected_document_ids": [
+        "policy:larena.current-policy",
+        "graph.object:larena.current-policy"
+      ],
+      "relevance": {
+        "policy:larena.current-policy": 3,
+        "graph.object:larena.current-policy": 2
+      },
+      "expected_intent": "exact_lookup",
+      "freshness_required": "allow_stale",
+      "conflict_expected": false,
+      "stale_expected": true,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.larena.current-policy.exact",
+      "language": "identifier",
+      "variant": "exact_identifier",
+      "query": "larena.current-policy"
+    },
+    {
+      "domain": "larena",
+      "expected_document_ids": [
+        "policy:larena.conflict",
+        "graph.object:larena.conflict"
+      ],
+      "relevance": {
+        "policy:larena.conflict": 3,
+        "graph.object:larena.conflict": 2
+      },
+      "expected_intent": "change_or_freshness",
+      "freshness_required": "current",
+      "conflict_expected": true,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.larena.conflict.same",
+      "language": "ru",
+      "variant": "same_language",
+      "query": "конфликтующие описания зависимостей"
+    },
+    {
+      "domain": "larena",
+      "expected_document_ids": [
+        "policy:larena.conflict",
+        "graph.object:larena.conflict"
+      ],
+      "relevance": {
+        "policy:larena.conflict": 3,
+        "graph.object:larena.conflict": 2
+      },
+      "expected_intent": "change_or_freshness",
+      "freshness_required": "current",
+      "conflict_expected": true,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.larena.conflict.cross",
+      "language": "en",
+      "variant": "cross_language",
+      "query": "conflicting dependency declarations"
+    },
+    {
+      "domain": "larena",
+      "expected_document_ids": [
+        "policy:larena.conflict",
+        "graph.object:larena.conflict"
+      ],
+      "relevance": {
+        "policy:larena.conflict": 3,
+        "graph.object:larena.conflict": 2
+      },
+      "expected_intent": "exact_lookup",
+      "freshness_required": "current",
+      "conflict_expected": true,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.larena.conflict.exact",
+      "language": "identifier",
+      "variant": "exact_identifier",
+      "query": "larena.conflict"
+    },
+    {
+      "domain": "ai_employee",
+      "expected_document_ids": [
+        "unit.ai_employee.intent",
+        "graph.object:ai_employee.intent"
+      ],
+      "relevance": {
+        "unit.ai_employee.intent": 3,
+        "graph.object:ai_employee.intent": 2
+      },
+      "expected_intent": "semantic_discovery",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.ai_employee.intent.same",
+      "language": "en",
+      "variant": "same_language",
+      "query": "employee request intent"
+    },
+    {
+      "domain": "ai_employee",
+      "expected_document_ids": [
+        "unit.ai_employee.intent",
+        "graph.object:ai_employee.intent"
+      ],
+      "relevance": {
+        "unit.ai_employee.intent": 3,
+        "graph.object:ai_employee.intent": 2
+      },
+      "expected_intent": "semantic_discovery",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.ai_employee.intent.cross",
+      "language": "ru",
+      "variant": "cross_language",
+      "query": "намерение запроса сотрудника"
+    },
+    {
+      "domain": "ai_employee",
+      "expected_document_ids": [
+        "unit.ai_employee.intent",
+        "graph.object:ai_employee.intent"
+      ],
+      "relevance": {
+        "unit.ai_employee.intent": 3,
+        "graph.object:ai_employee.intent": 2
+      },
+      "expected_intent": "exact_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.ai_employee.intent.exact",
+      "language": "identifier",
+      "variant": "exact_identifier",
+      "query": "ai_employee.intent"
+    },
+    {
+      "domain": "ai_employee",
+      "expected_document_ids": [
+        "unit.ai_employee.approval",
+        "graph.object:ai_employee.approval"
+      ],
+      "relevance": {
+        "unit.ai_employee.approval": 3,
+        "graph.object:ai_employee.approval": 2
+      },
+      "expected_intent": "policy_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.ai_employee.approval.same",
+      "language": "ru",
+      "variant": "same_language",
+      "query": "согласование перед внешним действием"
+    },
+    {
+      "domain": "ai_employee",
+      "expected_document_ids": [
+        "unit.ai_employee.approval",
+        "graph.object:ai_employee.approval"
+      ],
+      "relevance": {
+        "unit.ai_employee.approval": 3,
+        "graph.object:ai_employee.approval": 2
+      },
+      "expected_intent": "policy_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.ai_employee.approval.cross",
+      "language": "en",
+      "variant": "cross_language",
+      "query": "approval before external action"
+    },
+    {
+      "domain": "ai_employee",
+      "expected_document_ids": [
+        "unit.ai_employee.approval",
+        "graph.object:ai_employee.approval"
+      ],
+      "relevance": {
+        "unit.ai_employee.approval": 3,
+        "graph.object:ai_employee.approval": 2
+      },
+      "expected_intent": "exact_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.ai_employee.approval.exact",
+      "language": "identifier",
+      "variant": "exact_identifier",
+      "query": "ai_employee.approval"
+    },
+    {
+      "domain": "ai_employee",
+      "expected_document_ids": [
+        "unit.ai_employee.character",
+        "graph.object:ai_employee.character"
+      ],
+      "relevance": {
+        "unit.ai_employee.character": 3,
+        "graph.object:ai_employee.character": 2
+      },
+      "expected_intent": "policy_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.ai_employee.character.same",
+      "language": "en",
+      "variant": "same_language",
+      "query": "behavioral character boundary"
+    },
+    {
+      "domain": "ai_employee",
+      "expected_document_ids": [
+        "unit.ai_employee.character",
+        "graph.object:ai_employee.character"
+      ],
+      "relevance": {
+        "unit.ai_employee.character": 3,
+        "graph.object:ai_employee.character": 2
+      },
+      "expected_intent": "policy_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.ai_employee.character.cross",
+      "language": "ru",
+      "variant": "cross_language",
+      "query": "поведенческая граница характера"
+    },
+    {
+      "domain": "ai_employee",
+      "expected_document_ids": [
+        "unit.ai_employee.character",
+        "graph.object:ai_employee.character"
+      ],
+      "relevance": {
+        "unit.ai_employee.character": 3,
+        "graph.object:ai_employee.character": 2
+      },
+      "expected_intent": "exact_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.ai_employee.character.exact",
+      "language": "identifier",
+      "variant": "exact_identifier",
+      "query": "ai_employee.character"
+    },
+    {
+      "domain": "ai_employee",
+      "expected_document_ids": [
+        "unit.ai_employee.memory",
+        "graph.object:ai_employee.memory"
+      ],
+      "relevance": {
+        "unit.ai_employee.memory": 3,
+        "graph.object:ai_employee.memory": 2
+      },
+      "expected_intent": "semantic_discovery",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.ai_employee.memory.same",
+      "language": "ru",
+      "variant": "same_language",
+      "query": "память сотрудника в контексте задачи"
+    },
+    {
+      "domain": "ai_employee",
+      "expected_document_ids": [
+        "unit.ai_employee.memory",
+        "graph.object:ai_employee.memory"
+      ],
+      "relevance": {
+        "unit.ai_employee.memory": 3,
+        "graph.object:ai_employee.memory": 2
+      },
+      "expected_intent": "semantic_discovery",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.ai_employee.memory.cross",
+      "language": "en",
+      "variant": "cross_language",
+      "query": "task scoped employee memory"
+    },
+    {
+      "domain": "ai_employee",
+      "expected_document_ids": [
+        "unit.ai_employee.memory",
+        "graph.object:ai_employee.memory"
+      ],
+      "relevance": {
+        "unit.ai_employee.memory": 3,
+        "graph.object:ai_employee.memory": 2
+      },
+      "expected_intent": "exact_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.ai_employee.memory.exact",
+      "language": "identifier",
+      "variant": "exact_identifier",
+      "query": "ai_employee.memory"
+    },
+    {
+      "domain": "ai_employee",
+      "expected_document_ids": [
+        "unit.ai_employee.tool",
+        "graph.object:ai_employee.tool"
+      ],
+      "relevance": {
+        "unit.ai_employee.tool": 3,
+        "graph.object:ai_employee.tool": 2
+      },
+      "expected_intent": "policy_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.ai_employee.tool.same",
+      "language": "en",
+      "variant": "same_language",
+      "query": "tool capability grant"
+    },
+    {
+      "domain": "ai_employee",
+      "expected_document_ids": [
+        "unit.ai_employee.tool",
+        "graph.object:ai_employee.tool"
+      ],
+      "relevance": {
+        "unit.ai_employee.tool": 3,
+        "graph.object:ai_employee.tool": 2
+      },
+      "expected_intent": "policy_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.ai_employee.tool.cross",
+      "language": "ru",
+      "variant": "cross_language",
+      "query": "разрешение на использование инструмента"
+    },
+    {
+      "domain": "ai_employee",
+      "expected_document_ids": [
+        "unit.ai_employee.tool",
+        "graph.object:ai_employee.tool"
+      ],
+      "relevance": {
+        "unit.ai_employee.tool": 3,
+        "graph.object:ai_employee.tool": 2
+      },
+      "expected_intent": "exact_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.ai_employee.tool.exact",
+      "language": "identifier",
+      "variant": "exact_identifier",
+      "query": "ai_employee.tool"
+    },
+    {
+      "domain": "ai_employee",
+      "expected_document_ids": [
+        "unit.ai_employee.feedback",
+        "graph.object:ai_employee.feedback"
+      ],
+      "relevance": {
+        "unit.ai_employee.feedback": 3,
+        "graph.object:ai_employee.feedback": 2
+      },
+      "expected_intent": "evidence_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.ai_employee.feedback.same",
+      "language": "ru",
+      "variant": "same_language",
+      "query": "замечание обратной связи по качеству"
+    },
+    {
+      "domain": "ai_employee",
+      "expected_document_ids": [
+        "unit.ai_employee.feedback",
+        "graph.object:ai_employee.feedback"
+      ],
+      "relevance": {
+        "unit.ai_employee.feedback": 3,
+        "graph.object:ai_employee.feedback": 2
+      },
+      "expected_intent": "evidence_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.ai_employee.feedback.cross",
+      "language": "en",
+      "variant": "cross_language",
+      "query": "quality feedback finding"
+    },
+    {
+      "domain": "ai_employee",
+      "expected_document_ids": [
+        "unit.ai_employee.feedback",
+        "graph.object:ai_employee.feedback"
+      ],
+      "relevance": {
+        "unit.ai_employee.feedback": 3,
+        "graph.object:ai_employee.feedback": 2
+      },
+      "expected_intent": "exact_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.ai_employee.feedback.exact",
+      "language": "identifier",
+      "variant": "exact_identifier",
+      "query": "ai_employee.feedback"
+    },
+    {
+      "domain": "ai_employee",
+      "expected_document_ids": [
+        "unit.ai_employee.lesson",
+        "graph.object:ai_employee.lesson"
+      ],
+      "relevance": {
+        "unit.ai_employee.lesson": 3,
+        "graph.object:ai_employee.lesson": 2
+      },
+      "expected_intent": "evidence_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.ai_employee.lesson.same",
+      "language": "en",
+      "variant": "same_language",
+      "query": "approved reusable lesson"
+    },
+    {
+      "domain": "ai_employee",
+      "expected_document_ids": [
+        "unit.ai_employee.lesson",
+        "graph.object:ai_employee.lesson"
+      ],
+      "relevance": {
+        "unit.ai_employee.lesson": 3,
+        "graph.object:ai_employee.lesson": 2
+      },
+      "expected_intent": "evidence_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.ai_employee.lesson.cross",
+      "language": "ru",
+      "variant": "cross_language",
+      "query": "утверждённый повторно используемый урок"
+    },
+    {
+      "domain": "ai_employee",
+      "expected_document_ids": [
+        "unit.ai_employee.lesson",
+        "graph.object:ai_employee.lesson"
+      ],
+      "relevance": {
+        "unit.ai_employee.lesson": 3,
+        "graph.object:ai_employee.lesson": 2
+      },
+      "expected_intent": "exact_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.ai_employee.lesson.exact",
+      "language": "identifier",
+      "variant": "exact_identifier",
+      "query": "ai_employee.lesson"
+    },
+    {
+      "domain": "ai_employee",
+      "expected_document_ids": [
+        "unit.ai_employee.dry-run",
+        "graph.object:ai_employee.dry-run"
+      ],
+      "relevance": {
+        "unit.ai_employee.dry-run": 3,
+        "graph.object:ai_employee.dry-run": 2
+      },
+      "expected_intent": "technology_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.ai_employee.dry-run.same",
+      "language": "ru",
+      "variant": "same_language",
+      "query": "симуляция без отправки"
+    },
+    {
+      "domain": "ai_employee",
+      "expected_document_ids": [
+        "unit.ai_employee.dry-run",
+        "graph.object:ai_employee.dry-run"
+      ],
+      "relevance": {
+        "unit.ai_employee.dry-run": 3,
+        "graph.object:ai_employee.dry-run": 2
+      },
+      "expected_intent": "technology_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.ai_employee.dry-run.cross",
+      "language": "en",
+      "variant": "cross_language",
+      "query": "no send simulation"
+    },
+    {
+      "domain": "ai_employee",
+      "expected_document_ids": [
+        "unit.ai_employee.dry-run",
+        "graph.object:ai_employee.dry-run"
+      ],
+      "relevance": {
+        "unit.ai_employee.dry-run": 3,
+        "graph.object:ai_employee.dry-run": 2
+      },
+      "expected_intent": "exact_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.ai_employee.dry-run.exact",
+      "language": "identifier",
+      "variant": "exact_identifier",
+      "query": "ai_employee.dry-run"
+    },
+    {
+      "domain": "ai_employee",
+      "expected_document_ids": [
+        "policy:ai_employee.current-policy",
+        "graph.object:ai_employee.current-policy"
+      ],
+      "relevance": {
+        "policy:ai_employee.current-policy": 3,
+        "graph.object:ai_employee.current-policy": 2
+      },
+      "expected_intent": "change_or_freshness",
+      "freshness_required": "allow_stale",
+      "conflict_expected": false,
+      "stale_expected": true,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.ai_employee.current-policy.same",
+      "language": "en",
+      "variant": "same_language",
+      "query": "current employee action policy"
+    },
+    {
+      "domain": "ai_employee",
+      "expected_document_ids": [
+        "policy:ai_employee.current-policy",
+        "graph.object:ai_employee.current-policy"
+      ],
+      "relevance": {
+        "policy:ai_employee.current-policy": 3,
+        "graph.object:ai_employee.current-policy": 2
+      },
+      "expected_intent": "change_or_freshness",
+      "freshness_required": "allow_stale",
+      "conflict_expected": false,
+      "stale_expected": true,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.ai_employee.current-policy.cross",
+      "language": "ru",
+      "variant": "cross_language",
+      "query": "актуальная политика действий сотрудника"
+    },
+    {
+      "domain": "ai_employee",
+      "expected_document_ids": [
+        "policy:ai_employee.current-policy",
+        "graph.object:ai_employee.current-policy"
+      ],
+      "relevance": {
+        "policy:ai_employee.current-policy": 3,
+        "graph.object:ai_employee.current-policy": 2
+      },
+      "expected_intent": "exact_lookup",
+      "freshness_required": "allow_stale",
+      "conflict_expected": false,
+      "stale_expected": true,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.ai_employee.current-policy.exact",
+      "language": "identifier",
+      "variant": "exact_identifier",
+      "query": "ai_employee.current-policy"
+    },
+    {
+      "domain": "ai_employee",
+      "expected_document_ids": [
+        "policy:ai_employee.conflict",
+        "graph.object:ai_employee.conflict"
+      ],
+      "relevance": {
+        "policy:ai_employee.conflict": 3,
+        "graph.object:ai_employee.conflict": 2
+      },
+      "expected_intent": "change_or_freshness",
+      "freshness_required": "current",
+      "conflict_expected": true,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.ai_employee.conflict.same",
+      "language": "ru",
+      "variant": "same_language",
+      "query": "конфликтующие разрешения на действие"
+    },
+    {
+      "domain": "ai_employee",
+      "expected_document_ids": [
+        "policy:ai_employee.conflict",
+        "graph.object:ai_employee.conflict"
+      ],
+      "relevance": {
+        "policy:ai_employee.conflict": 3,
+        "graph.object:ai_employee.conflict": 2
+      },
+      "expected_intent": "change_or_freshness",
+      "freshness_required": "current",
+      "conflict_expected": true,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.ai_employee.conflict.cross",
+      "language": "en",
+      "variant": "cross_language",
+      "query": "conflicting action permissions"
+    },
+    {
+      "domain": "ai_employee",
+      "expected_document_ids": [
+        "policy:ai_employee.conflict",
+        "graph.object:ai_employee.conflict"
+      ],
+      "relevance": {
+        "policy:ai_employee.conflict": 3,
+        "graph.object:ai_employee.conflict": 2
+      },
+      "expected_intent": "exact_lookup",
+      "freshness_required": "current",
+      "conflict_expected": true,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.ai_employee.conflict.exact",
+      "language": "identifier",
+      "variant": "exact_identifier",
+      "query": "ai_employee.conflict"
+    },
+    {
+      "domain": "organization",
+      "expected_document_ids": [
+        "unit.organization.goal",
+        "graph.object:organization.goal"
+      ],
+      "relevance": {
+        "unit.organization.goal": 3,
+        "graph.object:organization.goal": 2
+      },
+      "expected_intent": "relationship_trace",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.organization.goal.same",
+      "language": "en",
+      "variant": "same_language",
+      "query": "strategic goal owner"
+    },
+    {
+      "domain": "organization",
+      "expected_document_ids": [
+        "unit.organization.goal",
+        "graph.object:organization.goal"
+      ],
+      "relevance": {
+        "unit.organization.goal": 3,
+        "graph.object:organization.goal": 2
+      },
+      "expected_intent": "relationship_trace",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.organization.goal.cross",
+      "language": "ru",
+      "variant": "cross_language",
+      "query": "владелец стратегической цели"
+    },
+    {
+      "domain": "organization",
+      "expected_document_ids": [
+        "unit.organization.goal",
+        "graph.object:organization.goal"
+      ],
+      "relevance": {
+        "unit.organization.goal": 3,
+        "graph.object:organization.goal": 2
+      },
+      "expected_intent": "exact_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.organization.goal.exact",
+      "language": "identifier",
+      "variant": "exact_identifier",
+      "query": "organization.goal"
+    },
+    {
+      "domain": "organization",
+      "expected_document_ids": [
+        "unit.organization.risk",
+        "graph.object:organization.risk"
+      ],
+      "relevance": {
+        "unit.organization.risk": 3,
+        "graph.object:organization.risk": 2
+      },
+      "expected_intent": "policy_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.organization.risk.same",
+      "language": "ru",
+      "variant": "same_language",
+      "query": "контроль операционного риска"
+    },
+    {
+      "domain": "organization",
+      "expected_document_ids": [
+        "unit.organization.risk",
+        "graph.object:organization.risk"
+      ],
+      "relevance": {
+        "unit.organization.risk": 3,
+        "graph.object:organization.risk": 2
+      },
+      "expected_intent": "policy_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.organization.risk.cross",
+      "language": "en",
+      "variant": "cross_language",
+      "query": "operational risk control"
+    },
+    {
+      "domain": "organization",
+      "expected_document_ids": [
+        "unit.organization.risk",
+        "graph.object:organization.risk"
+      ],
+      "relevance": {
+        "unit.organization.risk": 3,
+        "graph.object:organization.risk": 2
+      },
+      "expected_intent": "exact_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.organization.risk.exact",
+      "language": "identifier",
+      "variant": "exact_identifier",
+      "query": "organization.risk"
+    },
+    {
+      "domain": "organization",
+      "expected_document_ids": [
+        "unit.organization.decision",
+        "graph.object:organization.decision"
+      ],
+      "relevance": {
+        "unit.organization.decision": 3,
+        "graph.object:organization.decision": 2
+      },
+      "expected_intent": "evidence_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.organization.decision.same",
+      "language": "en",
+      "variant": "same_language",
+      "query": "governed decision record"
+    },
+    {
+      "domain": "organization",
+      "expected_document_ids": [
+        "unit.organization.decision",
+        "graph.object:organization.decision"
+      ],
+      "relevance": {
+        "unit.organization.decision": 3,
+        "graph.object:organization.decision": 2
+      },
+      "expected_intent": "evidence_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.organization.decision.cross",
+      "language": "ru",
+      "variant": "cross_language",
+      "query": "управляемая запись решения"
+    },
+    {
+      "domain": "organization",
+      "expected_document_ids": [
+        "unit.organization.decision",
+        "graph.object:organization.decision"
+      ],
+      "relevance": {
+        "unit.organization.decision": 3,
+        "graph.object:organization.decision": 2
+      },
+      "expected_intent": "exact_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.organization.decision.exact",
+      "language": "identifier",
+      "variant": "exact_identifier",
+      "query": "organization.decision"
+    },
+    {
+      "domain": "organization",
+      "expected_document_ids": [
+        "unit.organization.quorum",
+        "graph.object:organization.quorum"
+      ],
+      "relevance": {
+        "unit.organization.quorum": 3,
+        "graph.object:organization.quorum": 2
+      },
+      "expected_intent": "policy_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.organization.quorum.same",
+      "language": "ru",
+      "variant": "same_language",
+      "query": "требование кворума согласования"
+    },
+    {
+      "domain": "organization",
+      "expected_document_ids": [
+        "unit.organization.quorum",
+        "graph.object:organization.quorum"
+      ],
+      "relevance": {
+        "unit.organization.quorum": 3,
+        "graph.object:organization.quorum": 2
+      },
+      "expected_intent": "policy_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.organization.quorum.cross",
+      "language": "en",
+      "variant": "cross_language",
+      "query": "approval quorum requirement"
+    },
+    {
+      "domain": "organization",
+      "expected_document_ids": [
+        "unit.organization.quorum",
+        "graph.object:organization.quorum"
+      ],
+      "relevance": {
+        "unit.organization.quorum": 3,
+        "graph.object:organization.quorum": 2
+      },
+      "expected_intent": "exact_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.organization.quorum.exact",
+      "language": "identifier",
+      "variant": "exact_identifier",
+      "query": "organization.quorum"
+    },
+    {
+      "domain": "organization",
+      "expected_document_ids": [
+        "unit.organization.delegation",
+        "graph.object:organization.delegation"
+      ],
+      "relevance": {
+        "unit.organization.delegation": 3,
+        "graph.object:organization.delegation": 2
+      },
+      "expected_intent": "relationship_trace",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.organization.delegation.same",
+      "language": "en",
+      "variant": "same_language",
+      "query": "delegated authority scope"
+    },
+    {
+      "domain": "organization",
+      "expected_document_ids": [
+        "unit.organization.delegation",
+        "graph.object:organization.delegation"
+      ],
+      "relevance": {
+        "unit.organization.delegation": 3,
+        "graph.object:organization.delegation": 2
+      },
+      "expected_intent": "relationship_trace",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.organization.delegation.cross",
+      "language": "ru",
+      "variant": "cross_language",
+      "query": "область делегированных полномочий"
+    },
+    {
+      "domain": "organization",
+      "expected_document_ids": [
+        "unit.organization.delegation",
+        "graph.object:organization.delegation"
+      ],
+      "relevance": {
+        "unit.organization.delegation": 3,
+        "graph.object:organization.delegation": 2
+      },
+      "expected_intent": "exact_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.organization.delegation.exact",
+      "language": "identifier",
+      "variant": "exact_identifier",
+      "query": "organization.delegation"
+    },
+    {
+      "domain": "organization",
+      "expected_document_ids": [
+        "unit.organization.evidence",
+        "graph.object:organization.evidence"
+      ],
+      "relevance": {
+        "unit.organization.evidence": 3,
+        "graph.object:organization.evidence": 2
+      },
+      "expected_intent": "evidence_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.organization.evidence.same",
+      "language": "ru",
+      "variant": "same_language",
+      "query": "панель доказательств результата"
+    },
+    {
+      "domain": "organization",
+      "expected_document_ids": [
+        "unit.organization.evidence",
+        "graph.object:organization.evidence"
+      ],
+      "relevance": {
+        "unit.organization.evidence": 3,
+        "graph.object:organization.evidence": 2
+      },
+      "expected_intent": "evidence_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.organization.evidence.cross",
+      "language": "en",
+      "variant": "cross_language",
+      "query": "outcome evidence dashboard"
+    },
+    {
+      "domain": "organization",
+      "expected_document_ids": [
+        "unit.organization.evidence",
+        "graph.object:organization.evidence"
+      ],
+      "relevance": {
+        "unit.organization.evidence": 3,
+        "graph.object:organization.evidence": 2
+      },
+      "expected_intent": "exact_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.organization.evidence.exact",
+      "language": "identifier",
+      "variant": "exact_identifier",
+      "query": "organization.evidence"
+    },
+    {
+      "domain": "organization",
+      "expected_document_ids": [
+        "unit.organization.policy",
+        "graph.object:organization.policy"
+      ],
+      "relevance": {
+        "unit.organization.policy": 3,
+        "graph.object:organization.policy": 2
+      },
+      "expected_intent": "relationship_trace",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.organization.policy.same",
+      "language": "en",
+      "variant": "same_language",
+      "query": "organization policy hierarchy"
+    },
+    {
+      "domain": "organization",
+      "expected_document_ids": [
+        "unit.organization.policy",
+        "graph.object:organization.policy"
+      ],
+      "relevance": {
+        "unit.organization.policy": 3,
+        "graph.object:organization.policy": 2
+      },
+      "expected_intent": "relationship_trace",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.organization.policy.cross",
+      "language": "ru",
+      "variant": "cross_language",
+      "query": "иерархия политик организации"
+    },
+    {
+      "domain": "organization",
+      "expected_document_ids": [
+        "unit.organization.policy",
+        "graph.object:organization.policy"
+      ],
+      "relevance": {
+        "unit.organization.policy": 3,
+        "graph.object:organization.policy": 2
+      },
+      "expected_intent": "exact_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.organization.policy.exact",
+      "language": "identifier",
+      "variant": "exact_identifier",
+      "query": "organization.policy"
+    },
+    {
+      "domain": "organization",
+      "expected_document_ids": [
+        "unit.organization.audit",
+        "graph.object:organization.audit"
+      ],
+      "relevance": {
+        "unit.organization.audit": 3,
+        "graph.object:organization.audit": 2
+      },
+      "expected_intent": "technology_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.organization.audit.same",
+      "language": "ru",
+      "variant": "same_language",
+      "query": "обратный аудит конечного результата"
+    },
+    {
+      "domain": "organization",
+      "expected_document_ids": [
+        "unit.organization.audit",
+        "graph.object:organization.audit"
+      ],
+      "relevance": {
+        "unit.organization.audit": 3,
+        "graph.object:organization.audit": 2
+      },
+      "expected_intent": "technology_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.organization.audit.cross",
+      "language": "en",
+      "variant": "cross_language",
+      "query": "reverse outcome audit"
+    },
+    {
+      "domain": "organization",
+      "expected_document_ids": [
+        "unit.organization.audit",
+        "graph.object:organization.audit"
+      ],
+      "relevance": {
+        "unit.organization.audit": 3,
+        "graph.object:organization.audit": 2
+      },
+      "expected_intent": "exact_lookup",
+      "freshness_required": "current",
+      "conflict_expected": false,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.organization.audit.exact",
+      "language": "identifier",
+      "variant": "exact_identifier",
+      "query": "organization.audit"
+    },
+    {
+      "domain": "organization",
+      "expected_document_ids": [
+        "policy:organization.current-policy",
+        "graph.object:organization.current-policy"
+      ],
+      "relevance": {
+        "policy:organization.current-policy": 3,
+        "graph.object:organization.current-policy": 2
+      },
+      "expected_intent": "change_or_freshness",
+      "freshness_required": "allow_stale",
+      "conflict_expected": false,
+      "stale_expected": true,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.organization.current-policy.same",
+      "language": "en",
+      "variant": "same_language",
+      "query": "current organization safety policy"
+    },
+    {
+      "domain": "organization",
+      "expected_document_ids": [
+        "policy:organization.current-policy",
+        "graph.object:organization.current-policy"
+      ],
+      "relevance": {
+        "policy:organization.current-policy": 3,
+        "graph.object:organization.current-policy": 2
+      },
+      "expected_intent": "change_or_freshness",
+      "freshness_required": "allow_stale",
+      "conflict_expected": false,
+      "stale_expected": true,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.organization.current-policy.cross",
+      "language": "ru",
+      "variant": "cross_language",
+      "query": "актуальная политика безопасности организации"
+    },
+    {
+      "domain": "organization",
+      "expected_document_ids": [
+        "policy:organization.current-policy",
+        "graph.object:organization.current-policy"
+      ],
+      "relevance": {
+        "policy:organization.current-policy": 3,
+        "graph.object:organization.current-policy": 2
+      },
+      "expected_intent": "exact_lookup",
+      "freshness_required": "allow_stale",
+      "conflict_expected": false,
+      "stale_expected": true,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.organization.current-policy.exact",
+      "language": "identifier",
+      "variant": "exact_identifier",
+      "query": "organization.current-policy"
+    },
+    {
+      "domain": "organization",
+      "expected_document_ids": [
+        "policy:organization.conflict",
+        "graph.object:organization.conflict"
+      ],
+      "relevance": {
+        "policy:organization.conflict": 3,
+        "graph.object:organization.conflict": 2
+      },
+      "expected_intent": "change_or_freshness",
+      "freshness_required": "current",
+      "conflict_expected": true,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.organization.conflict.same",
+      "language": "ru",
+      "variant": "same_language",
+      "query": "конфликтующие назначения полномочий"
+    },
+    {
+      "domain": "organization",
+      "expected_document_ids": [
+        "policy:organization.conflict",
+        "graph.object:organization.conflict"
+      ],
+      "relevance": {
+        "policy:organization.conflict": 3,
+        "graph.object:organization.conflict": 2
+      },
+      "expected_intent": "change_or_freshness",
+      "freshness_required": "current",
+      "conflict_expected": true,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.organization.conflict.cross",
+      "language": "en",
+      "variant": "cross_language",
+      "query": "conflicting authority assignments"
+    },
+    {
+      "domain": "organization",
+      "expected_document_ids": [
+        "policy:organization.conflict",
+        "graph.object:organization.conflict"
+      ],
+      "relevance": {
+        "policy:organization.conflict": 3,
+        "graph.object:organization.conflict": 2
+      },
+      "expected_intent": "exact_lookup",
+      "freshness_required": "current",
+      "conflict_expected": true,
+      "stale_expected": false,
+      "unauthorized_document_ids": [
+        "unit.restricted-control"
+      ],
+      "id": "query.organization.conflict.exact",
+      "language": "identifier",
+      "variant": "exact_identifier",
+      "query": "organization.conflict"
+    }
+  ],
+  "graph_digest": "sha256:8191c69062b632b324cd96a1e187f85451d9f488d6e14967ea22edbf170ef1be",
+  "source_digests": [
+    "sha256:010f115c407981c055fef080d13f4fafd19049e10052650d6c92f47f8fa6154a",
+    "sha256:30d674ad2a961d5a65755f806ee451cf653f9949254863e5e1d1728bfdd79373",
+    "sha256:49803db50af42d806bfe9742e1390f6bdf29ea01ba4fab959e4538fb2d3ca8dd",
+    "sha256:9bca14c8af6118afa00513ba65181e2a96f84c18a4a12df489ffb3a39423d3ba"
+  ],
+  "canonical_write_allowed": false,
+  "digest": "sha256:ad7aa1c596837fdfedfc997925b6227208ac12a182b20ade17f3ec24e741a155"
+}

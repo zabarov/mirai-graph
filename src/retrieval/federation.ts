@@ -6,7 +6,7 @@ import type {
   RetrievalFreshness
 } from "./types.js";
 
-export type FederatedRetrievalHandler = (envelope: FederatedQueryEnvelope, entry: FederatedRetrievalDirectoryEntry) => Promise<FederatedQueryResult>;
+export type FederatedRetrievalHandler = (envelope: FederatedQueryEnvelope, entry: FederatedRetrievalDirectoryEntry, context?: { signal: AbortSignal }) => Promise<FederatedQueryResult>;
 
 interface CachedFederatedResult {
   graph_id: string;
@@ -60,10 +60,11 @@ async function callBeforeDeadline(handler: FederatedRetrievalHandler, envelope: 
   const remaining = Date.parse(envelope.deadline) - Date.now();
   if (remaining <= 0) throw new Error("federated_deadline_expired");
   let timer: ReturnType<typeof setTimeout> | undefined;
+  const controller = new AbortController();
   try {
     return await Promise.race([
-      handler(envelope, entry),
-      new Promise<never>((_resolve, reject) => { timer = setTimeout(() => reject(new Error("federated_remote_timeout")), Math.min(remaining, 2_147_483_647)); })
+      handler(envelope, entry, { signal: controller.signal }),
+      new Promise<never>((_resolve, reject) => { timer = setTimeout(() => { controller.abort(); reject(new Error("federated_remote_timeout")); }, Math.min(remaining, 2_147_483_647)); })
     ]);
   } finally {
     if (timer) clearTimeout(timer);
@@ -88,7 +89,7 @@ export function validateFederatedEnvelope(envelope: FederatedQueryEnvelope, now 
   if (envelope.visited_graph_ids.length > envelope.max_hops) errors.push("federated_hop_budget_exhausted");
   if (new Set(envelope.visited_graph_ids).size !== envelope.visited_graph_ids.length) errors.push("federated_route_cycle_detected");
   if (!Number.isFinite(Date.parse(envelope.deadline)) || Date.parse(envelope.deadline) <= now.getTime()) errors.push("federated_deadline_expired");
-  if (envelope.token_budget < 0 || envelope.cost_budget < 0) errors.push("federated_cost_budget_invalid");
+  if (envelope.token_budget < 1 || envelope.cost_budget <= 0) errors.push("federated_cost_budget_invalid");
   return [...new Set(errors)].sort();
 }
 
@@ -115,6 +116,7 @@ export async function dispatchFederatedQuery(
   options: { cache?: FederatedRetrievalCache } = {}
 ): Promise<{ results: FederatedQueryResult[]; blockers: string[]; partial: boolean; digest: string }> {
   const targets = selectFederatedTargets(directory, envelope);
+  if (targets.length && (envelope.token_budget < targets.length || envelope.cost_budget <= 0)) throw new Error("federated_cost_budget_exhausted");
   const blockers: string[] = [];
   const settled = await Promise.all(targets.map(async (entry): Promise<FederatedQueryResult | null> => {
     const handler = handlers[entry.endpoint_alias];
@@ -123,7 +125,16 @@ export async function dispatchFederatedQuery(
       return null;
     }
     try {
-      const forwarded = { ...envelope, visited_graph_ids: [...envelope.visited_graph_ids, envelope.origin_graph_id] };
+      const scopes = envelope.requester.scopes.filter((scope) => entry.scopes.includes(scope));
+      const sourceRefs = envelope.requester.source_refs.filter((sourceRef) => entry.source_refs.includes(sourceRef));
+      if (!scopes.length || !sourceRefs.length) throw new Error("federated_access_intersection_empty");
+      const forwarded = {
+        ...envelope,
+        requester: { ...envelope.requester, scopes, source_refs: sourceRefs },
+        visited_graph_ids: [...envelope.visited_graph_ids, envelope.origin_graph_id],
+        token_budget: Math.floor(envelope.token_budget / targets.length),
+        cost_budget: envelope.cost_budget / targets.length
+      };
       const cached = options.cache?.get(entry, forwarded);
       const result = cached || await callBeforeDeadline(handler, forwarded, entry);
       const { digest, ...body } = result;
@@ -131,6 +142,9 @@ export async function dispatchFederatedQuery(
       if (result.instructions_authorized !== false || result.canonical_write_allowed !== false || result.evidence_bundle.instructions_authorized !== false) throw new Error("federated_result_authority_boundary_broken");
       if (result.query_digest !== digestValue(forwarded) || result.evidence_bundle.query_digest !== result.query_digest || result.evidence_bundle.policy_digest !== result.policy_digest) throw new Error("federated_result_query_or_evidence_mismatch");
       if (result.evidence_bundle.index_digest !== result.index_digest || result.evidence_bundle.graph_digest !== result.graph_digest) throw new Error("federated_result_snapshot_mismatch");
+      if (result.index_digest !== entry.index_digest || result.graph_digest !== (entry.graph_digest ?? null)) throw new Error("federated_result_directory_snapshot_mismatch");
+      const { digest: evidenceDigest, ...evidenceBody } = result.evidence_bundle;
+      if (digestValue(evidenceBody) !== evidenceDigest) throw new Error("federated_evidence_digest_mismatch");
       if (digestValue(body) !== digest) throw new Error("federated_result_digest_mismatch");
       if (!cached) options.cache?.set(entry, forwarded, result);
       return result;

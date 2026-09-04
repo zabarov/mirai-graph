@@ -1,0 +1,62 @@
+[
+  {
+    "id": "federation.current-policy",
+    "title": "current federation release policy. This owner-approved material governs the federation domain.",
+    "scope": "scope.federation",
+    "freshness": "stale"
+  },
+  {
+    "id": "federation.conflict",
+    "title": "конфликтующие назначения владельца. Этот утверждённый владельцем материал действует в области federation.",
+    "scope": "scope.federation",
+    "freshness": "current",
+    "conflict_refs": [
+      "federation.conflict.alternative"
+    ]
+  },
+  {
+    "id": "larena.current-policy",
+    "title": "current package release policy. This owner-approved material governs the larena domain.",
+    "scope": "scope.larena",
+    "freshness": "stale"
+  },
+  {
+    "id": "larena.conflict",
+    "title": "конфликтующие описания зависимостей. Этот утверждённый владельцем материал действует в области larena.",
+    "scope": "scope.larena",
+    "freshness": "current",
+    "conflict_refs": [
+      "larena.conflict.alternative"
+    ]
+  },
+  {
+    "id": "ai_employee.current-policy",
+    "title": "current employee action policy. This owner-approved material governs the ai_employee domain.",
+    "scope": "scope.ai_employee",
+    "freshness": "stale"
+  },
+  {
+    "id": "ai_employee.conflict",
+    "title": "конфликтующие разрешения на действие. Этот утверждённый владельцем материал действует в области ai_employee.",
+    "scope": "scope.ai_employee",
+    "freshness": "current",
+    "conflict_refs": [
+      "ai_employee.conflict.alternative"
+    ]
+  },
+  {
+    "id": "organization.current-policy",
+    "title": "current organization safety policy. This owner-approved material governs the organization domain.",
+    "scope": "scope.organization",
+    "freshness": "stale"
+  },
+  {
+    "id": "organization.conflict",
+    "title": "конфликтующие назначения полномочий. Этот утверждённый владельцем материал действует в области organization.",
+    "scope": "scope.organization",
+    "freshness": "current",
+    "conflict_refs": [
+      "organization.conflict.alternative"
+    ]
+  }
+]

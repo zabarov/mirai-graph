@@ -28,6 +28,6 @@
   "execution_allowed": false,
   "content_is_untrusted_data": true,
   "canonical_write_allowed": false,
-  "evidence_bundle_digest": "sha256:063eff59bdf419612ba9a6f75590429dcdf0e45aa76a9b6880c1a089c172882d",
-  "digest": "sha256:3f03b9751768b29c947e1b4532887607e6df67712bbcc8ee7215866d9c5d809d"
+  "evidence_bundle_digest": "sha256:b9430d848d5f0f690a0ff38d683ed2c1318618820c85863ca2c7304e4f464abe",
+  "digest": "sha256:f534cf606b556e4f99b5bfc5fbad5f4a717cb838af6a3d51bc793158f77264a3"
 }

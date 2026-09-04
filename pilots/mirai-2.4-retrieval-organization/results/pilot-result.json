@@ -1,0 +1,154 @@
+{
+  "contract_version": "1.0.0",
+  "pilot_id": "pilot.mirai-2.4-retrieval.organization",
+  "domain": "organization",
+  "mode": "read_only_public_safe",
+  "corpus_digest": "sha256:ad7aa1c596837fdfedfc997925b6227208ac12a182b20ade17f3ec24e741a155",
+  "query_count": 30,
+  "systems": {
+    "lexical": {
+      "contract_version": "1.0.0",
+      "corpus_id": "corpus.mirai-2.4-retrieval-v1.organization",
+      "system": "lexical",
+      "recall_at_k": 0.45,
+      "ndcg_at_k": 0.33883328704086196,
+      "mrr": 0.6,
+      "intent_accuracy": 1,
+      "path_correctness": 1,
+      "evidence_coverage": 1,
+      "claim_faithfulness": 1,
+      "conflict_detection_rate": 0.9333333333333333,
+      "stale_detection_rate": 0.9,
+      "unauthorized_hit_count": 0,
+      "stale_hit_rate": 0,
+      "p50_latency_ms": 54.88433299999997,
+      "p95_latency_ms": 59.01937500000167,
+      "model_calls": 0,
+      "input_tokens": 0,
+      "cost_usd": 0,
+      "limitations": [
+        "Synthetic evaluation does not establish external task effectiveness or production readiness."
+      ],
+      "digest": "sha256:a5a521a284d6d9f02f6947b4d81a3e0c76a4238bb60e7cc58d0ff2ffd447005d"
+    },
+    "semantic": {
+      "contract_version": "1.0.0",
+      "corpus_id": "corpus.mirai-2.4-retrieval-v1.organization",
+      "system": "semantic",
+      "recall_at_k": 0.8166666666666667,
+      "ndcg_at_k": 0.5917836953822257,
+      "mrr": 0.6958333333333333,
+      "intent_accuracy": 1,
+      "path_correctness": 1,
+      "evidence_coverage": 1,
+      "claim_faithfulness": 1,
+      "conflict_detection_rate": 1,
+      "stale_detection_rate": 1,
+      "unauthorized_hit_count": 0,
+      "stale_hit_rate": 0.030303030303030304,
+      "p50_latency_ms": 296.10429199999635,
+      "p95_latency_ms": 322.192750000002,
+      "model_calls": 30,
+      "input_tokens": 0,
+      "cost_usd": 0,
+      "limitations": [
+        "Synthetic evaluation does not establish external task effectiveness or production readiness."
+      ],
+      "digest": "sha256:b24e80b71bb3c58e0c9f7d5ec4152a5a5bf10e0098d7c252b01ca9b0c5e723af"
+    },
+    "graph": {
+      "contract_version": "1.0.0",
+      "corpus_id": "corpus.mirai-2.4-retrieval-v1.organization",
+      "system": "graph",
+      "recall_at_k": 0.31666666666666665,
+      "ndcg_at_k": 0.10410716639155265,
+      "mrr": 0.2130026455026455,
+      "intent_accuracy": 1,
+      "path_correctness": 1,
+      "evidence_coverage": 1,
+      "claim_faithfulness": 1,
+      "conflict_detection_rate": 0.9,
+      "stale_detection_rate": 0.9,
+      "unauthorized_hit_count": 0,
+      "stale_hit_rate": 0,
+      "p50_latency_ms": 57.39679099999921,
+      "p95_latency_ms": 59.65779199999815,
+      "model_calls": 0,
+      "input_tokens": 0,
+      "cost_usd": 0,
+      "limitations": [
+        "Synthetic evaluation does not establish external task effectiveness or production readiness."
+      ],
+      "digest": "sha256:14ef5216e232d326201a725cd34e003e73783025ea5731188c413402c405fac5"
+    },
+    "hybrid": {
+      "contract_version": "1.0.0",
+      "corpus_id": "corpus.mirai-2.4-retrieval-v1.organization",
+      "system": "hybrid",
+      "recall_at_k": 0.8166666666666667,
+      "ndcg_at_k": 0.6039998672780953,
+      "mrr": 0.8069444444444444,
+      "intent_accuracy": 1,
+      "path_correctness": 1,
+      "evidence_coverage": 1,
+      "claim_faithfulness": 1,
+      "conflict_detection_rate": 1,
+      "stale_detection_rate": 0.9666666666666667,
+      "unauthorized_hit_count": 0,
+      "stale_hit_rate": 0.010101010101010102,
+      "p50_latency_ms": 285.921583000003,
+      "p95_latency_ms": 290.9418750000041,
+      "model_calls": 30,
+      "input_tokens": 0,
+      "cost_usd": 0,
+      "limitations": [
+        "Synthetic evaluation does not establish external task effectiveness or production readiness."
+      ],
+      "digest": "sha256:52460e2ebe3fe485c308004c41285129cba82d43d92ca6e6b512902c1ba67720"
+    },
+    "mirai_planner": {
+      "contract_version": "1.0.0",
+      "corpus_id": "corpus.mirai-2.4-retrieval-v1.organization",
+      "system": "mirai_planner",
+      "recall_at_k": 0.8166666666666667,
+      "ndcg_at_k": 0.6006937963009495,
+      "mrr": 0.8288888888888888,
+      "intent_accuracy": 0.8,
+      "path_correctness": 1,
+      "evidence_coverage": 1,
+      "claim_faithfulness": 1,
+      "conflict_detection_rate": 0.9666666666666667,
+      "stale_detection_rate": 0.9666666666666667,
+      "unauthorized_hit_count": 0,
+      "stale_hit_rate": 0.006666666666666667,
+      "p50_latency_ms": 275.1109589999978,
+      "p95_latency_ms": 297.98649999999907,
+      "model_calls": 30,
+      "input_tokens": 0,
+      "cost_usd": 0,
+      "limitations": [
+        "Synthetic evaluation does not establish external task effectiveness or production readiness."
+      ],
+      "digest": "sha256:c530f473231f3fba247b55e8f7085b5ff170d698e4b74f987bc12c1741459e7c"
+    }
+  },
+  "safety": {
+    "unauthorized_hits": 0,
+    "unsupported_claims": "none_detected",
+    "semantic_fallback": "not_applicable",
+    "canonical_write_allowed": false
+  },
+  "review": {
+    "reviewer_class": "independent_ai_reviewer",
+    "verdict": "accepted_for_engineering_release",
+    "evidence_ref": "docs/security/mirai-2.4-independent-ai-review.md",
+    "claim_boundary": "Accepted as bounded engineering evidence; not independent human validation or proof of universal retrieval superiority."
+  },
+  "limitations": [
+    "The pilot uses a frozen public-safe controlled corpus rather than private production data.",
+    "Relevance judgments were authored with the corpus and were not blinded from its designer.",
+    "Independent review was AI-assisted; a human domain-owner replication remains post-release work."
+  ],
+  "canonical_write_allowed": false,
+  "digest": "sha256:609e987fd2eb3ef037fd5113db1352ef4ee1af6b74d456b1cdd1da5617457918"
+}
