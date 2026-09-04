@@ -28,15 +28,15 @@
       "stale_negative_case_count": 28,
       "unauthorized_hit_count": 0,
       "stale_hit_rate": 0.019230769230769232,
-      "p50_latency_ms": 53.40495800000008,
-      "p95_latency_ms": 57.52212499999996,
+      "p50_latency_ms": 52.749416999999994,
+      "p95_latency_ms": 55.10908399999971,
       "model_calls": 0,
       "input_tokens": 0,
       "cost_usd": 0,
       "limitations": [
         "Synthetic evaluation does not establish external task effectiveness or production readiness."
       ],
-      "digest": "sha256:2570c7511c9f670e55efa6756dccca6f1453f64648ce6e83b07843488d5448c1"
+      "digest": "sha256:615e1df91ed443cf7f76e8e45e6be8a60c7d45319df0286e7adfc3e1dc02168f"
     },
     "semantic": {
       "contract_version": "1.0.0",
@@ -60,15 +60,15 @@
       "stale_negative_case_count": 28,
       "unauthorized_hit_count": 0,
       "stale_hit_rate": 0.020134228187919462,
-      "p50_latency_ms": 254.29695900000115,
-      "p95_latency_ms": 274.4537500000006,
+      "p50_latency_ms": 254.08008300000074,
+      "p95_latency_ms": 256.6587500000005,
       "model_calls": 31,
       "input_tokens": 603,
       "cost_usd": 0,
       "limitations": [
         "Synthetic evaluation does not establish external task effectiveness or production readiness."
       ],
-      "digest": "sha256:8fa2f73983806f4e07620d55909879db3d0757900d55a77f2f9cc1e377f94782"
+      "digest": "sha256:989680fb328ac78ab6ce7aa53e7be3091e75f18a7efe596fbd90e6865e438928"
     },
     "graph": {
       "contract_version": "1.0.0",
@@ -92,15 +92,15 @@
       "stale_negative_case_count": 28,
       "unauthorized_hit_count": 0,
       "stale_hit_rate": 0.01,
-      "p50_latency_ms": 53.108416999995825,
-      "p95_latency_ms": 59.83829100000003,
+      "p50_latency_ms": 52.51187500000378,
+      "p95_latency_ms": 56.258665999994264,
       "model_calls": 0,
       "input_tokens": 0,
       "cost_usd": 0,
       "limitations": [
         "Synthetic evaluation does not establish external task effectiveness or production readiness."
       ],
-      "digest": "sha256:3e745ef8c2a18ef2ea2343a394edba713eb1f773cf75558b4135577257ef05e3"
+      "digest": "sha256:f893406bfc76e88c0b48adbae73b3b1cc4dc9633919c64e8b3fed10e05884726"
     },
     "hybrid": {
       "contract_version": "1.0.0",
@@ -124,15 +124,15 @@
       "stale_negative_case_count": 28,
       "unauthorized_hit_count": 0,
       "stale_hit_rate": 0.02,
-      "p50_latency_ms": 257.59708300000057,
-      "p95_latency_ms": 276.37408400000277,
+      "p50_latency_ms": 254.9199579999986,
+      "p95_latency_ms": 319.39983400000347,
       "model_calls": 31,
       "input_tokens": 603,
       "cost_usd": 0,
       "limitations": [
         "Synthetic evaluation does not establish external task effectiveness or production readiness."
       ],
-      "digest": "sha256:9e4d93383ac46f6c96d18dad017c36d7d0e9b53fc63d39c708311769a7738158"
+      "digest": "sha256:de82d3feb3950ce683cbfb2a05aee02355b6111825f5300b8bee78ffe975b22a"
     },
     "mirai_planner": {
       "contract_version": "1.0.0",
@@ -156,15 +156,15 @@
       "stale_negative_case_count": 28,
       "unauthorized_hit_count": 0,
       "stale_hit_rate": 0.012903225806451613,
-      "p50_latency_ms": 254.68329200000153,
-      "p95_latency_ms": 275.3139999999985,
+      "p50_latency_ms": 254.46379100000195,
+      "p95_latency_ms": 261.61750000000757,
       "model_calls": 21,
       "input_tokens": 531,
       "cost_usd": 0,
       "limitations": [
         "Synthetic evaluation does not establish external task effectiveness or production readiness."
       ],
-      "digest": "sha256:a94e7f6ac4603c83cee9acc5d7e7562b50718056cd61eab6354245bc93e7ed6d"
+      "digest": "sha256:7f465b325095cda715b79db56d94b3c686362364dbaa41d91824a8143042e77e"
     }
   },
   "safety": {
@@ -185,5 +185,5 @@
     "No independent pilot claim is made by this generated artifact."
   ],
   "canonical_write_allowed": false,
-  "digest": "sha256:ba4c5b206deb5fbf902a4181d5a79a7a268d89356589c400afc62627e042dc6d"
+  "digest": "sha256:a17b685b54ab75af3295b49b970b390b6064f969126c319286b916577453addc"
 }

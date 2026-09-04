@@ -28,15 +28,15 @@
       "stale_negative_case_count": 27,
       "unauthorized_hit_count": 0,
       "stale_hit_rate": 0.026881720430107527,
-      "p50_latency_ms": 52.31870799999979,
-      "p95_latency_ms": 53.88091700000041,
+      "p50_latency_ms": 51.92808299999979,
+      "p95_latency_ms": 55.134125000000495,
       "model_calls": 0,
       "input_tokens": 0,
       "cost_usd": 0,
       "limitations": [
         "Synthetic evaluation does not establish external task effectiveness or production readiness."
       ],
-      "digest": "sha256:093db47c4700dc7549a4f8935a3d53b055a4f1eb918290abd2276ff22f6ba1cb"
+      "digest": "sha256:4c1023e1a8acb5e43891661462abf4dac43655407ed123d03b52f84a166ef8dc"
     },
     "semantic": {
       "contract_version": "1.0.0",
@@ -60,15 +60,15 @@
       "stale_negative_case_count": 27,
       "unauthorized_hit_count": 0,
       "stale_hit_rate": 0.013468013468013467,
-      "p50_latency_ms": 254.1522909999985,
-      "p95_latency_ms": 259.3942500000012,
+      "p50_latency_ms": 253.2039999999979,
+      "p95_latency_ms": 263.3166249999995,
       "model_calls": 30,
       "input_tokens": 602,
       "cost_usd": 0,
       "limitations": [
         "Synthetic evaluation does not establish external task effectiveness or production readiness."
       ],
-      "digest": "sha256:452febc65db49bfb573fad1d1e09638647c2c9827508613c7d93bb7959133015"
+      "digest": "sha256:8aac69ff1a93961ec73a5094af224da488b7eb6e69e1b7849e0a7a65b1028265"
     },
     "graph": {
       "contract_version": "1.0.0",
@@ -92,15 +92,15 @@
       "stale_negative_case_count": 27,
       "unauthorized_hit_count": 0,
       "stale_hit_rate": 0.011538461538461539,
-      "p50_latency_ms": 54.14375000000291,
-      "p95_latency_ms": 244.99395899999945,
+      "p50_latency_ms": 52.18404200000077,
+      "p95_latency_ms": 53.33345900000131,
       "model_calls": 0,
       "input_tokens": 0,
       "cost_usd": 0,
       "limitations": [
         "Synthetic evaluation does not establish external task effectiveness or production readiness."
       ],
-      "digest": "sha256:b34fb5276a5a3d038e8e61383308c7b0e7d7a4c6cb83d176fa38072fd72067d1"
+      "digest": "sha256:d5d651e944a6ceb78cb0abc46285d901215e71a8faf05bb4ecc2e0d98a96ee82"
     },
     "hybrid": {
       "contract_version": "1.0.0",
@@ -124,15 +124,15 @@
       "stale_negative_case_count": 27,
       "unauthorized_hit_count": 0,
       "stale_hit_rate": 0.010067114093959731,
-      "p50_latency_ms": 254.80037499999162,
-      "p95_latency_ms": 257.890833999998,
+      "p50_latency_ms": 253.4594999999972,
+      "p95_latency_ms": 262.2486249999929,
       "model_calls": 30,
       "input_tokens": 602,
       "cost_usd": 0,
       "limitations": [
         "Synthetic evaluation does not establish external task effectiveness or production readiness."
       ],
-      "digest": "sha256:3e382e43b0062e3e5296fab1dc125300374520a44c1f4d6d541b8f395a30564e"
+      "digest": "sha256:0bd6c409becb72a13e8f798a3ee912bdb32d9557ef221a5ac804e7673182ff80"
     },
     "mirai_planner": {
       "contract_version": "1.0.0",
@@ -156,15 +156,15 @@
       "stale_negative_case_count": 27,
       "unauthorized_hit_count": 0,
       "stale_hit_rate": 0.016666666666666666,
-      "p50_latency_ms": 254.37495800000033,
-      "p95_latency_ms": 260.86270899999363,
+      "p50_latency_ms": 254.750165999998,
+      "p95_latency_ms": 260.44041700000525,
       "model_calls": 20,
       "input_tokens": 531,
       "cost_usd": 0,
       "limitations": [
         "Synthetic evaluation does not establish external task effectiveness or production readiness."
       ],
-      "digest": "sha256:d99b4f495826e14c0ee16624b67b32054557cb039c4c05ce442aad9dc4b1dbbb"
+      "digest": "sha256:4956ee6c7b6751d7249b96d67f230a2aa17c3848ed18527e677c36c5158a7089"
     }
   },
   "safety": {
@@ -185,5 +185,5 @@
     "No independent pilot claim is made by this generated artifact."
   ],
   "canonical_write_allowed": false,
-  "digest": "sha256:a0db5aa4aaf37af1e9f9bfe9851daa69fb8b76f28ddb8a63933b90a3d55d7132"
+  "digest": "sha256:67edc1dfd47789b2e53b9d81769253fca6f4890bb5758d142bfc22c635cff23f"
 }

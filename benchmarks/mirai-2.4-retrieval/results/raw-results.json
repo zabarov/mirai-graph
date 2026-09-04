@@ -227,7 +227,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 59.833834000000024,
+      "latency_ms": 59.879667000000154,
       "conflict_expected": false,
       "stale_expected": false,
       "expected_graph_path": [
@@ -469,7 +469,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 57.52212499999996,
+      "latency_ms": 54.73020899999983,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -710,7 +710,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.11729199999991,
+      "latency_ms": 54.11491699999988,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -746,7 +746,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 55.12341699999979,
+      "latency_ms": 52.749416999999994,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -884,7 +884,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.40037500000017,
+      "latency_ms": 52.62733399999979,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -1125,7 +1125,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 54.423249999999825,
+      "latency_ms": 52.12337499999967,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -1263,7 +1263,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.57654199999979,
+      "latency_ms": 51.98045899999988,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -1361,7 +1361,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.90504199999987,
+      "latency_ms": 52.765249999999924,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -1602,7 +1602,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.62045799999987,
+      "latency_ms": 53.491250000000036,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -1638,7 +1638,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.49299999999994,
+      "latency_ms": 51.97350000000006,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -1796,7 +1796,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.160415999999714,
+      "latency_ms": 55.10908399999971,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -2037,7 +2037,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.40495800000008,
+      "latency_ms": 52.0561660000003,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -2115,7 +2115,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.59495900000002,
+      "latency_ms": 52.94208400000025,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -2151,7 +2151,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.55429200000026,
+      "latency_ms": 52.40237500000012,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -2392,7 +2392,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.34966600000007,
+      "latency_ms": 53.73579199999995,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -2428,7 +2428,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.297250000000076,
+      "latency_ms": 52.59233300000005,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -2526,7 +2526,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.52108300000009,
+      "latency_ms": 52.78883399999995,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -2767,7 +2767,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.38645899999983,
+      "latency_ms": 53.007208999999875,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -2914,7 +2914,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.092665999999554,
+      "latency_ms": 53.33058400000027,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -3061,7 +3061,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.768375000000106,
+      "latency_ms": 52.171542000000045,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -3302,7 +3302,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 57.023749999999836,
+      "latency_ms": 53.78279100000009,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -3338,7 +3338,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.18229199999996,
+      "latency_ms": 52.18083400000023,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -3436,7 +3436,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 55.98833300000024,
+      "latency_ms": 52.97179099999994,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -3677,7 +3677,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 54.714833,
+      "latency_ms": 51.54587500000025,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -3920,7 +3920,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 54.50325000000021,
+      "latency_ms": 52.7629579999998,
       "conflict_expected": false,
       "stale_expected": true,
       "unauthorized_document_ids": [
@@ -4163,7 +4163,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.3298749999999,
+      "latency_ms": 52.500125000000025,
       "conflict_expected": false,
       "stale_expected": true,
       "unauthorized_document_ids": [
@@ -4406,7 +4406,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.06770899999992,
+      "latency_ms": 53.26291699999956,
       "conflict_expected": false,
       "stale_expected": true,
       "unauthorized_document_ids": [
@@ -4649,7 +4649,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.51741700000002,
+      "latency_ms": 52.7373749999997,
       "conflict_expected": true,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -4892,7 +4892,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.50937500000009,
+      "latency_ms": 51.93295799999987,
       "conflict_expected": true,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -5135,7 +5135,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.45249999999987,
+      "latency_ms": 51.60466700000006,
       "conflict_expected": true,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -5255,7 +5255,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 51.94200000000001,
+      "latency_ms": 51.69725000000017,
       "conflict_expected": false,
       "stale_expected": false,
       "expected_graph_path": [
@@ -5377,7 +5377,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.574125000000095,
+      "latency_ms": 51.04749999999967,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -5618,7 +5618,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.72229200000038,
+      "latency_ms": 60.60900000000038,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -5716,7 +5716,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 74.4282089999997,
+      "latency_ms": 62.716833000000406,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -5874,7 +5874,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.858250000000226,
+      "latency_ms": 51.73479099999986,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -6115,7 +6115,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 50.67808299999979,
+      "latency_ms": 51.14695799999936,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -6213,7 +6213,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.61687499999971,
+      "latency_ms": 51.697666999999456,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -6249,7 +6249,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.272500000000036,
+      "latency_ms": 50.90595800000028,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -6490,7 +6490,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.52674999999999,
+      "latency_ms": 51.834499999999935,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -6588,7 +6588,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.05500000000029,
+      "latency_ms": 51.1475419999997,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -6746,7 +6746,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.1049579999999,
+      "latency_ms": 51.864042000000154,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -6987,7 +6987,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.17504199999985,
+      "latency_ms": 54.21037499999966,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -7085,7 +7085,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.35395799999969,
+      "latency_ms": 52.94179199999962,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -7121,7 +7121,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 51.26695899999959,
+      "latency_ms": 51.921666999999616,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -7362,7 +7362,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.08058400000027,
+      "latency_ms": 52.68120900000031,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -7440,7 +7440,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 51.54008299999987,
+      "latency_ms": 50.676124999999956,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -7578,7 +7578,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 51.03962500000034,
+      "latency_ms": 52.426791999999296,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -7819,7 +7819,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 51.936375000000226,
+      "latency_ms": 51.90287499999977,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -7917,7 +7917,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 51.984833999999864,
+      "latency_ms": 53.72462499999983,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -7953,7 +7953,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.422082999999475,
+      "latency_ms": 51.83612499999981,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -8194,7 +8194,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 51.381749999999556,
+      "latency_ms": 51.82074999999986,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -8230,7 +8230,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.198334000000614,
+      "latency_ms": 53.237207999999555,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -8468,7 +8468,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 51.48729200000071,
+      "latency_ms": 51.51441599999998,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -8709,7 +8709,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.608791999999994,
+      "latency_ms": 53.2430830000003,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -8961,7 +8961,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 51.740084000000024,
+      "latency_ms": 51.952416000000085,
       "conflict_expected": false,
       "stale_expected": true,
       "unauthorized_document_ids": [
@@ -9213,7 +9213,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.92270800000006,
+      "latency_ms": 53.69133299999976,
       "conflict_expected": false,
       "stale_expected": true,
       "unauthorized_document_ids": [
@@ -9456,7 +9456,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.708458000000064,
+      "latency_ms": 52.02191700000003,
       "conflict_expected": false,
       "stale_expected": true,
       "unauthorized_document_ids": [
@@ -9699,7 +9699,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.40229200000067,
+      "latency_ms": 53.10304199999973,
       "conflict_expected": true,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -9822,7 +9822,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.10966699999972,
+      "latency_ms": 53.42724999999973,
       "conflict_expected": true,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -10065,7 +10065,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.677082999999584,
+      "latency_ms": 59.7406660000006,
       "conflict_expected": true,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -10183,7 +10183,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.774999999999636,
+      "latency_ms": 53.476957999999286,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -10424,7 +10424,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.475625000000036,
+      "latency_ms": 52.11066700000083,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -10665,7 +10665,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 51.792625000000044,
+      "latency_ms": 51.4146669999991,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -10701,7 +10701,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 51.988374999999905,
+      "latency_ms": 51.75370799999928,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -10879,7 +10879,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 50.19658399999935,
+      "latency_ms": 51.00087500000063,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -11120,7 +11120,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 51.571083000000726,
+      "latency_ms": 52.110749999999825,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -11218,7 +11218,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 51.23383299999932,
+      "latency_ms": 51.141625000000204,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -11254,7 +11254,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 51.97254200000043,
+      "latency_ms": 51.17512499999975,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -11495,7 +11495,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 51.32574999999997,
+      "latency_ms": 51.55937499999982,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -11736,7 +11736,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.563334000000395,
+      "latency_ms": 52.419832999999926,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -11934,7 +11934,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 51.458292000000256,
+      "latency_ms": 51.4696670000003,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -12175,7 +12175,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 51.68583299999955,
+      "latency_ms": 52.26637500000015,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -12293,7 +12293,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 50.37370900000042,
+      "latency_ms": 52.78675000000021,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -12329,7 +12329,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 59.04166600000008,
+      "latency_ms": 52.653957999999875,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -12570,7 +12570,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.872833000000355,
+      "latency_ms": 53.92079199999989,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -12606,7 +12606,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 51.27270900000076,
+      "latency_ms": 51.65820799999983,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -12704,7 +12704,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.47137499999917,
+      "latency_ms": 54.28037500000028,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -12945,7 +12945,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.31870799999979,
+      "latency_ms": 55.134125000000495,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -13043,7 +13043,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.519334000000526,
+      "latency_ms": 51.357209000000694,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -13079,7 +13079,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 51.63983300000018,
+      "latency_ms": 51.540249999999105,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -13320,7 +13320,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.97620899999947,
+      "latency_ms": 57.88679200000024,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -13356,7 +13356,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 51.725250000000415,
+      "latency_ms": 51.165125000000444,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -13392,7 +13392,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.987082999999984,
+      "latency_ms": 51.34962499999983,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -13633,7 +13633,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 51.48420900000019,
+      "latency_ms": 52.738625000000866,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -13885,7 +13885,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.616250000000036,
+      "latency_ms": 51.92808299999979,
       "conflict_expected": false,
       "stale_expected": true,
       "unauthorized_document_ids": [
@@ -14128,7 +14128,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.949208,
+      "latency_ms": 52.38645799999995,
       "conflict_expected": false,
       "stale_expected": true,
       "unauthorized_document_ids": [
@@ -14371,7 +14371,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.68029200000001,
+      "latency_ms": 51.61754199999996,
       "conflict_expected": false,
       "stale_expected": true,
       "unauthorized_document_ids": [
@@ -14594,7 +14594,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.88091700000041,
+      "latency_ms": 52.023417000000336,
       "conflict_expected": true,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -14737,7 +14737,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.68195800000012,
+      "latency_ms": 51.497166999999536,
       "conflict_expected": true,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -14980,7 +14980,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.04704200000015,
+      "latency_ms": 52.25408400000015,
       "conflict_expected": true,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -15220,7 +15220,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 66.26820800000041,
+      "latency_ms": 51.05620799999997,
       "conflict_expected": false,
       "stale_expected": false,
       "expected_graph_path": [
@@ -15462,7 +15462,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 55.21179099999972,
+      "latency_ms": 52.15845900000022,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -15703,7 +15703,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.87366700000075,
+      "latency_ms": 51.62633399999959,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -15739,7 +15739,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 50.79237499999999,
+      "latency_ms": 52.9340000000002,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -15837,7 +15837,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 51.942541999999776,
+      "latency_ms": 51.90891699999975,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -16078,7 +16078,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 51.78758300000027,
+      "latency_ms": 51.96308300000055,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -16176,7 +16176,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 51.105750000000626,
+      "latency_ms": 51.27641700000004,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -16212,7 +16212,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 51.49170799999956,
+      "latency_ms": 53.80558299999939,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -16453,7 +16453,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 51.961999999999534,
+      "latency_ms": 51.90808300000026,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -16489,7 +16489,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.103124999999636,
+      "latency_ms": 51.891999999999825,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -16647,7 +16647,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 51.632834,
+      "latency_ms": 50.67500000000018,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -16888,7 +16888,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.99983400000019,
+      "latency_ms": 53.79141600000003,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -17005,7 +17005,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 51.86529200000041,
+      "latency_ms": 50.646749999999884,
       "conflict_expected": false,
       "stale_expected": false,
       "expected_graph_path": [
@@ -17045,7 +17045,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.355624999999236,
+      "latency_ms": 51.904583999999886,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -17286,7 +17286,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.41533400000026,
+      "latency_ms": 51.87299999999959,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -17322,7 +17322,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.06529099999989,
+      "latency_ms": 52.14887499999986,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -17480,7 +17480,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.05320799999936,
+      "latency_ms": 51.64549999999963,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -17721,7 +17721,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.35554199999933,
+      "latency_ms": 52.241165999999794,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -17873,7 +17873,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 51.97020800000064,
+      "latency_ms": 52.121374999999716,
       "conflict_expected": false,
       "stale_expected": false,
       "expected_graph_path": [
@@ -18024,7 +18024,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.02979099999993,
+      "latency_ms": 56.260583000001134,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -18265,7 +18265,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.02520799999911,
+      "latency_ms": 53.88316599999962,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -18301,7 +18301,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.069916000000376,
+      "latency_ms": 52.06537500000013,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -18399,7 +18399,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 51.878333000000566,
+      "latency_ms": 51.13708299999962,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -18640,7 +18640,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.30945799999972,
+      "latency_ms": 53.18012500000077,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -18883,7 +18883,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.36883299999863,
+      "latency_ms": 52.14087500000096,
       "conflict_expected": false,
       "stale_expected": true,
       "unauthorized_document_ids": [
@@ -19126,7 +19126,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.48675000000003,
+      "latency_ms": 53.11766700000044,
       "conflict_expected": false,
       "stale_expected": true,
       "unauthorized_document_ids": [
@@ -19369,7 +19369,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.5588340000013,
+      "latency_ms": 51.518042000001515,
       "conflict_expected": false,
       "stale_expected": true,
       "unauthorized_document_ids": [
@@ -19592,7 +19592,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 51.20433299999968,
+      "latency_ms": 52.74695799999972,
       "conflict_expected": true,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -19695,7 +19695,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.252042000000074,
+      "latency_ms": 51.771333999999115,
       "conflict_expected": true,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -19938,7 +19938,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.42883299999994,
+      "latency_ms": 52.27441700000054,
       "conflict_expected": true,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -19996,7 +19996,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 51.35204200000044,
+      "latency_ms": 51.7293750000008,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -20236,7 +20236,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 345.54399999999987,
+      "latency_ms": 338.56683300000077,
       "conflict_expected": false,
       "stale_expected": false,
       "expected_graph_path": [
@@ -20478,7 +20478,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 263.692833000001,
+      "latency_ms": 255.25816600000144,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -20719,7 +20719,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 254.52845800000068,
+      "latency_ms": 253.18879099999867,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -20969,7 +20969,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 258.13166699999965,
+      "latency_ms": 254.9371659999997,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -21213,7 +21213,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 254.24275000000125,
+      "latency_ms": 252.9379169999993,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -21454,7 +21454,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 254.71529100000043,
+      "latency_ms": 254.27750000000015,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -21552,7 +21552,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 255.61949999999888,
+      "latency_ms": 252.88866700000108,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -21802,7 +21802,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 259.09399999999914,
+      "latency_ms": 254.32987499999945,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -22043,7 +22043,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 253.8837080000012,
+      "latency_ms": 254.08008300000074,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -22290,7 +22290,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 256.4536250000001,
+      "latency_ms": 252.5660000000007,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -22528,7 +22528,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 254.29695900000115,
+      "latency_ms": 254.44079200000124,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -22766,7 +22766,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 254.08637500000077,
+      "latency_ms": 253.4950829999998,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -22904,7 +22904,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 257.1869170000009,
+      "latency_ms": 256.58095800000046,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -23142,7 +23142,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 255.94650000000001,
+      "latency_ms": 254.11529100000007,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -23383,7 +23383,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 252.29162499999984,
+      "latency_ms": 254.33324999999968,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -23630,7 +23630,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 255.10666700000002,
+      "latency_ms": 255.4682499999999,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -23871,7 +23871,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 251.46329200000037,
+      "latency_ms": 255.25591600000007,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -24112,7 +24112,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 254.0896670000002,
+      "latency_ms": 256.6587500000005,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -24259,7 +24259,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 255.77233299999898,
+      "latency_ms": 253.6683750000011,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -24418,7 +24418,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 253.34404200000063,
+      "latency_ms": 255.77629100000013,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -24659,7 +24659,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 249.83508299999994,
+      "latency_ms": 253.92129199999908,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -24897,7 +24897,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 253.83733400000165,
+      "latency_ms": 252.85241700000006,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -25135,7 +25135,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 263.7912500000002,
+      "latency_ms": 251.72283400000015,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -25373,7 +25373,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 253.4643329999999,
+      "latency_ms": 251.43958300000122,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -25622,7 +25622,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 255.0884160000005,
+      "latency_ms": 253.03029199999946,
       "conflict_expected": false,
       "stale_expected": true,
       "unauthorized_document_ids": [
@@ -25874,7 +25874,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 253.2150840000013,
+      "latency_ms": 251.07274999999936,
       "conflict_expected": false,
       "stale_expected": true,
       "unauthorized_document_ids": [
@@ -26114,7 +26114,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 253.8769169999996,
+      "latency_ms": 254.64195800000016,
       "conflict_expected": false,
       "stale_expected": true,
       "unauthorized_document_ids": [
@@ -26357,7 +26357,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 252.910167,
+      "latency_ms": 252.43816700000025,
       "conflict_expected": true,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -26600,7 +26600,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 253.0943329999991,
+      "latency_ms": 255.05375000000095,
       "conflict_expected": true,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -26843,7 +26843,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 251.0250419999993,
+      "latency_ms": 252.66512499999953,
       "conflict_expected": true,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -27083,7 +27083,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 253.09612500000003,
+      "latency_ms": 253.5487920000014,
       "conflict_expected": false,
       "stale_expected": false,
       "expected_graph_path": [
@@ -27325,7 +27325,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 248.52033299999675,
+      "latency_ms": 253.55449999999837,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -27566,7 +27566,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 252.9444169999988,
+      "latency_ms": 251.9091249999983,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -27813,7 +27813,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 253.6752919999999,
+      "latency_ms": 253.2234580000004,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -28051,7 +28051,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 252.5005409999976,
+      "latency_ms": 252.08637499999895,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -28292,7 +28292,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 251.2991669999974,
+      "latency_ms": 249.34087499999805,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -28530,7 +28530,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 251.3338330000006,
+      "latency_ms": 255.63366699999824,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -28771,7 +28771,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 253.50954099999944,
+      "latency_ms": 252.92912499999875,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -29009,7 +29009,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 252.08354099999997,
+      "latency_ms": 249.90674999999828,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -29247,7 +29247,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 252.93925000000309,
+      "latency_ms": 258.6031249999978,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -29465,7 +29465,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 256.04675000000134,
+      "latency_ms": 252.60258299999987,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -29703,7 +29703,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 249.60591600000043,
+      "latency_ms": 250.07879200000025,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -29947,7 +29947,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 320.020999999997,
+      "latency_ms": 253.10483300000124,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -30197,7 +30197,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 257.52558299999873,
+      "latency_ms": 253.80850000000282,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -30438,7 +30438,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 252.05945799999972,
+      "latency_ms": 254.59066600000006,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -30676,7 +30676,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 252.3182080000006,
+      "latency_ms": 255.68216699999903,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -30914,7 +30914,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 253.2023339999978,
+      "latency_ms": 256.13183299999946,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -31152,7 +31152,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 250.78562500000044,
+      "latency_ms": 255.19454199999745,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -31390,7 +31390,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 250.3440840000003,
+      "latency_ms": 256.28929199999766,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -31640,7 +31640,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 254.12620799999786,
+      "latency_ms": 254.60099999999875,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -31878,7 +31878,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 252.71129199999996,
+      "latency_ms": 248.70854099999997,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -32116,7 +32116,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 282.7252919999992,
+      "latency_ms": 253.4157079999968,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -32354,7 +32354,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 268.6983330000003,
+      "latency_ms": 252.7979579999992,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -32592,7 +32592,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 253.9675410000018,
+      "latency_ms": 251.22350000000006,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -32841,7 +32841,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 253.35504100000253,
+      "latency_ms": 249.73054200000115,
       "conflict_expected": false,
       "stale_expected": true,
       "unauthorized_document_ids": [
@@ -33093,7 +33093,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 256.37425000000076,
+      "latency_ms": 252.08341700000165,
       "conflict_expected": false,
       "stale_expected": true,
       "unauthorized_document_ids": [
@@ -33336,7 +33336,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 268.0189590000009,
+      "latency_ms": 251.3997500000005,
       "conflict_expected": false,
       "stale_expected": true,
       "unauthorized_document_ids": [
@@ -33579,7 +33579,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 268.2402080000029,
+      "latency_ms": 255.2677079999994,
       "conflict_expected": true,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -33822,7 +33822,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 256.05891599999813,
+      "latency_ms": 250.75470799999675,
       "conflict_expected": true,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -34065,7 +34065,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 259.8911250000019,
+      "latency_ms": 250.3935829999973,
       "conflict_expected": true,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -34306,7 +34306,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 255.52916600000026,
+      "latency_ms": 255.190042000002,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -34547,7 +34547,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 259.3942500000012,
+      "latency_ms": 252.35208400000192,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -34788,7 +34788,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 254.20404100000087,
+      "latency_ms": 250.7624160000014,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -35038,7 +35038,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 258.7245839999996,
+      "latency_ms": 248.48849999999948,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -35276,7 +35276,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 253.09108299999934,
+      "latency_ms": 255.94308399999863,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -35517,7 +35517,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 257.5105000000003,
+      "latency_ms": 260.03362500000003,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -35755,7 +35755,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 253.42370799999844,
+      "latency_ms": 251.40837499999907,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -36005,7 +36005,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 255.05104199999914,
+      "latency_ms": 250.42695900000035,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -36243,7 +36243,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 251.19924999999785,
+      "latency_ms": 251.2854580000021,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -36484,7 +36484,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 256.8304169999974,
+      "latency_ms": 253.44216700000106,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -36725,7 +36725,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 254.5144169999985,
+      "latency_ms": 264.2974589999976,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -36966,7 +36966,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 251.5144590000018,
+      "latency_ms": 252.16533300000083,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -37213,7 +37213,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 260.502583999998,
+      "latency_ms": 250.60299999999916,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -37463,7 +37463,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 255.40841600000203,
+      "latency_ms": 263.3166249999995,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -37704,7 +37704,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 253.2739999999976,
+      "latency_ms": 254.13333399999829,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -37860,7 +37860,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 253.48441699999967,
+      "latency_ms": 256.2565420000028,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -38038,7 +38038,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 251.84516599999915,
+      "latency_ms": 254.3760000000002,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -38276,7 +38276,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 252.7134159999987,
+      "latency_ms": 249.95349999999962,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -38517,7 +38517,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 251.2445829999997,
+      "latency_ms": 252.00945800000045,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -38767,7 +38767,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 250.72462499999892,
+      "latency_ms": 260.2653339999997,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -39008,7 +39008,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 252.26324999999997,
+      "latency_ms": 253.78770799999984,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -39255,7 +39255,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 251.72454199999993,
+      "latency_ms": 251.28091700000004,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -39493,7 +39493,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 253.39037499999904,
+      "latency_ms": 249.4519169999985,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -39734,7 +39734,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 253.25962500000242,
+      "latency_ms": 251.78108299999803,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -39983,7 +39983,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 254.1522909999985,
+      "latency_ms": 252.64933299999757,
       "conflict_expected": false,
       "stale_expected": true,
       "unauthorized_document_ids": [
@@ -40226,7 +40226,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 255.85075000000143,
+      "latency_ms": 253.2039999999979,
       "conflict_expected": false,
       "stale_expected": true,
       "unauthorized_document_ids": [
@@ -40469,7 +40469,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 255.7831249999981,
+      "latency_ms": 255.6684580000001,
       "conflict_expected": false,
       "stale_expected": true,
       "unauthorized_document_ids": [
@@ -40712,7 +40712,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 255.96879099999933,
+      "latency_ms": 256.4433330000029,
       "conflict_expected": true,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -40955,7 +40955,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 256.64833299999736,
+      "latency_ms": 254.7897499999999,
       "conflict_expected": true,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -41198,7 +41198,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 257.940208,
+      "latency_ms": 256.9073750000025,
       "conflict_expected": true,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -41438,7 +41438,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 252.31924999999683,
+      "latency_ms": 253.87954199999876,
       "conflict_expected": false,
       "stale_expected": false,
       "expected_graph_path": [
@@ -41680,7 +41680,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 254.20600000000195,
+      "latency_ms": 263.20095800000126,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -41921,7 +41921,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 251.66279199999917,
+      "latency_ms": 254.3259160000016,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -42171,7 +42171,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 256.7128339999981,
+      "latency_ms": 257.17529099999956,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -42415,7 +42415,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 252.3194169999988,
+      "latency_ms": 252.9082500000004,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -42656,7 +42656,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 252.1886250000025,
+      "latency_ms": 252.17429200000333,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -42897,7 +42897,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 254.56858400000056,
+      "latency_ms": 250.2874159999992,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -43147,7 +43147,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 258.2002919999941,
+      "latency_ms": 253.7067079999979,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -43388,7 +43388,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 249.81858400000056,
+      "latency_ms": 256.49670799999876,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -43638,7 +43638,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 251.59429100000125,
+      "latency_ms": 255.73504200000025,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -43879,7 +43879,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 256.1921250000014,
+      "latency_ms": 253.05083300000115,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -44123,7 +44123,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 257.46954099999857,
+      "latency_ms": 255.90333300000202,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -44281,7 +44281,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 254.1741669999974,
+      "latency_ms": 254.59525000000576,
       "conflict_expected": false,
       "stale_expected": false,
       "expected_graph_path": [
@@ -44435,7 +44435,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 259.1284579999992,
+      "latency_ms": 257.1544169999979,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -44676,7 +44676,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 251.93333300000086,
+      "latency_ms": 256.6374169999981,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -44920,7 +44920,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 255.2279589999962,
+      "latency_ms": 259.656415999998,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -45158,7 +45158,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 261.57500000000437,
+      "latency_ms": 255.91554100000212,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -45396,7 +45396,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 267.2534579999992,
+      "latency_ms": 273.02325000000565,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -45548,7 +45548,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 260.47883300000103,
+      "latency_ms": 257.73800000000483,
       "conflict_expected": false,
       "stale_expected": false,
       "expected_graph_path": [
@@ -45699,7 +45699,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 257.70125000000553,
+      "latency_ms": 258.2528750000056,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -45940,7 +45940,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 271.1973330000037,
+      "latency_ms": 255.24812499999825,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -46181,7 +46181,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 256.60416700000496,
+      "latency_ms": 257.0917910000062,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -46422,7 +46422,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 256.77900000000227,
+      "latency_ms": 256.50691700000607,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -46663,7 +46663,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 264.6709169999958,
+      "latency_ms": 254.9362919999985,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -46912,7 +46912,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 258.86708299999736,
+      "latency_ms": 255.7528750000056,
       "conflict_expected": false,
       "stale_expected": true,
       "unauthorized_document_ids": [
@@ -47164,7 +47164,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 265.44433299999946,
+      "latency_ms": 264.04925000000367,
       "conflict_expected": false,
       "stale_expected": true,
       "unauthorized_document_ids": [
@@ -47407,7 +47407,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 257.03462500000023,
+      "latency_ms": 253.44329099999595,
       "conflict_expected": false,
       "stale_expected": true,
       "unauthorized_document_ids": [
@@ -47650,7 +47650,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 259.53816700000607,
+      "latency_ms": 254.44341699999495,
       "conflict_expected": true,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -47893,7 +47893,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 274.3592079999944,
+      "latency_ms": 258.7087080000056,
       "conflict_expected": true,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -48136,7 +48136,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 277.7896250000049,
+      "latency_ms": 254.6539580000026,
       "conflict_expected": true,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -48374,7 +48374,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 274.4537500000006,
+      "latency_ms": 251.99183300000004,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -48649,7 +48649,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 56.069500000005064,
+      "latency_ms": 53.709540999996534,
       "conflict_expected": false,
       "stale_expected": false,
       "expected_graph_path": [
@@ -48931,7 +48931,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 55.233666000000085,
+      "latency_ms": 52.66454199999862,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -49179,7 +49179,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.767957999996725,
+      "latency_ms": 51.44050000000425,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -49433,7 +49433,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 54.17775000000256,
+      "latency_ms": 52.96520800000144,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -49696,7 +49696,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.99029100000189,
+      "latency_ms": 52.50170800000342,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -49944,7 +49944,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 56.58408399999462,
+      "latency_ms": 51.93908300000476,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -50197,7 +50197,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.32316600000195,
+      "latency_ms": 51.28354099999706,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -50451,7 +50451,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.108416999995825,
+      "latency_ms": 53.08920900000521,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -50699,7 +50699,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.38920900000085,
+      "latency_ms": 51.682042000000365,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -50948,7 +50948,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.21966700000485,
+      "latency_ms": 51.543540999999095,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -51203,7 +51203,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.66279200000281,
+      "latency_ms": 51.70704200000182,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -51451,7 +51451,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.54675000000134,
+      "latency_ms": 52.228792000001704,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -51700,7 +51700,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.69199999999546,
+      "latency_ms": 52.22937499999534,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -51949,7 +51949,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.11079199999949,
+      "latency_ms": 53.57954199999949,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -52197,7 +52197,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.36662500000239,
+      "latency_ms": 52.51187500000378,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -52446,7 +52446,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 59.83829100000003,
+      "latency_ms": 51.35916699999507,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -52694,7 +52694,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.98370799999975,
+      "latency_ms": 50.9151669999992,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -52942,7 +52942,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 54.61987499999668,
+      "latency_ms": 51.92154199999641,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -53126,7 +53126,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.46887499999866,
+      "latency_ms": 52.38420899999619,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -53313,7 +53313,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 54.028416000001016,
+      "latency_ms": 57.236541999998735,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -53561,7 +53561,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 60.60291699999652,
+      "latency_ms": 52.611833999995724,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -53810,7 +53810,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.005874999995285,
+      "latency_ms": 52.64904100000422,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -54063,7 +54063,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.56079200000386,
+      "latency_ms": 51.95162500000151,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -54311,7 +54311,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.007582999998704,
+      "latency_ms": 52.87787499999831,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -54571,7 +54571,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.85862499999348,
+      "latency_ms": 53.37774999999965,
       "conflict_expected": false,
       "stale_expected": true,
       "unauthorized_document_ids": [
@@ -54831,7 +54831,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.80779099999927,
+      "latency_ms": 55.35354200000438,
       "conflict_expected": false,
       "stale_expected": true,
       "unauthorized_document_ids": [
@@ -55081,7 +55081,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.635041000001365,
+      "latency_ms": 56.258665999994264,
       "conflict_expected": false,
       "stale_expected": true,
       "unauthorized_document_ids": [
@@ -55340,7 +55340,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.53404199999932,
+      "latency_ms": 54.48533399999724,
       "conflict_expected": true,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -55593,7 +55593,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.92608299999847,
+      "latency_ms": 52.74841699999524,
       "conflict_expected": true,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -55843,7 +55843,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.263208999997005,
+      "latency_ms": 52.55275000000256,
       "conflict_expected": true,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -56119,7 +56119,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.01812499999505,
+      "latency_ms": 66.10670799999934,
       "conflict_expected": false,
       "stale_expected": false,
       "expected_graph_path": [
@@ -56401,7 +56401,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.42241700000159,
+      "latency_ms": 58.33258399999613,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -56649,7 +56649,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 55.6516249999986,
+      "latency_ms": 51.914458999999624,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -56903,7 +56903,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.19541699999536,
+      "latency_ms": 52.37604200000351,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -57157,7 +57157,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.56524999999965,
+      "latency_ms": 52.145792000002984,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -57405,7 +57405,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.40899999999965,
+      "latency_ms": 52.422833000004175,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -57663,7 +57663,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.44895899999392,
+      "latency_ms": 52.39887499999895,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -57699,7 +57699,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 54.10508399999526,
+      "latency_ms": 51.6228340000016,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -57947,7 +57947,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.537374999999884,
+      "latency_ms": 51.93895799999882,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -58206,7 +58206,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 54.15595899999607,
+      "latency_ms": 52.83320900000399,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -58460,7 +58460,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.655290999995486,
+      "latency_ms": 52.999415999998746,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -58708,7 +58708,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 54.55479199999536,
+      "latency_ms": 53.29266699999425,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -58956,7 +58956,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.19241599999805,
+      "latency_ms": 52.66279200000281,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -58992,7 +58992,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.04937500000233,
+      "latency_ms": 52.40424999999959,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -59240,7 +59240,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.516624999996566,
+      "latency_ms": 53.75266600000032,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -59499,7 +59499,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 54.91529199999786,
+      "latency_ms": 54.14233300000342,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -59753,7 +59753,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.5535830000008,
+      "latency_ms": 54.00100000000384,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -60001,7 +60001,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.29870900000242,
+      "latency_ms": 53.74091700000281,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -60249,7 +60249,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.34420799999498,
+      "latency_ms": 52.642875000005006,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -60285,7 +60285,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 54.453125,
+      "latency_ms": 51.65462500000285,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -60533,7 +60533,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.30712499999936,
+      "latency_ms": 52.615042000004905,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -60787,7 +60787,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 56.31550000000425,
+      "latency_ms": 51.82120799999393,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -61053,7 +61053,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 54.619041999998444,
+      "latency_ms": 51.69199999999546,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -61301,7 +61301,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 54.26362499999959,
+      "latency_ms": 51.777625000002445,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -61561,7 +61561,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 51.7585409999956,
+      "latency_ms": 52.38987500000076,
       "conflict_expected": false,
       "stale_expected": true,
       "unauthorized_document_ids": [
@@ -61826,7 +61826,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.185583999998926,
+      "latency_ms": 51.80362499999319,
       "conflict_expected": false,
       "stale_expected": true,
       "unauthorized_document_ids": [
@@ -62076,7 +62076,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.46758299999783,
+      "latency_ms": 52.40429199999926,
       "conflict_expected": false,
       "stale_expected": true,
       "unauthorized_document_ids": [
@@ -62335,7 +62335,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.24662499999977,
+      "latency_ms": 51.42754100000457,
       "conflict_expected": true,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -62585,7 +62585,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.84004200000345,
+      "latency_ms": 52.82620799999859,
       "conflict_expected": true,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -62835,7 +62835,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.945417000002635,
+      "latency_ms": 54.04691699999967,
       "conflict_expected": true,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -63083,7 +63083,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 70.80920799999876,
+      "latency_ms": 52.94275000000198,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -63332,7 +63332,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 68.13587499999994,
+      "latency_ms": 53.43908399999782,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -63580,7 +63580,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 258.36370799999713,
+      "latency_ms": 53.21887499999866,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -63829,7 +63829,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 244.99395899999945,
+      "latency_ms": 53.226958999999624,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -64097,7 +64097,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 217.4574169999978,
+      "latency_ms": 52.855209000001196,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -64345,7 +64345,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 135.06579200000124,
+      "latency_ms": 52.79241700000421,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -64593,7 +64593,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 69.97675000000163,
+      "latency_ms": 52.50366600000416,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -64629,7 +64629,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 94.89624999999796,
+      "latency_ms": 52.04445900000428,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -64877,7 +64877,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 108.44024999999965,
+      "latency_ms": 51.25237500000367,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -65126,7 +65126,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 94.4930830000012,
+      "latency_ms": 52.386042000005546,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -65374,7 +65374,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 55.863499999999476,
+      "latency_ms": 52.36370800000441,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -65622,7 +65622,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 57.638582999999926,
+      "latency_ms": 51.55066700000316,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -65880,7 +65880,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 56.05608300000313,
+      "latency_ms": 51.16958400000294,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -65916,7 +65916,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 54.58220900000015,
+      "latency_ms": 53.33345900000131,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -66164,7 +66164,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 54.15854200000467,
+      "latency_ms": 52.18404200000077,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -66346,7 +66346,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.86750000000029,
+      "latency_ms": 52.87916699999914,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -66594,7 +66594,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.64895799999795,
+      "latency_ms": 53.142250000004424,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -66842,7 +66842,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.88829100000294,
+      "latency_ms": 52.54154099999869,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -67090,7 +67090,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.636749999997846,
+      "latency_ms": 51.57458299999416,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -67126,7 +67126,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 54.12241700000595,
+      "latency_ms": 52.66150000000198,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -67374,7 +67374,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 54.14375000000291,
+      "latency_ms": 51.870999999999185,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -67623,7 +67623,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.513792000005196,
+      "latency_ms": 51.9619160000002,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -67659,7 +67659,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 51.52833300000202,
+      "latency_ms": 50.802999999999884,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -67907,7 +67907,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.13212499999645,
+      "latency_ms": 52.283957999999984,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -68167,7 +68167,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.73412500000268,
+      "latency_ms": 51.73487500000192,
       "conflict_expected": false,
       "stale_expected": true,
       "unauthorized_document_ids": [
@@ -68435,7 +68435,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.17145900000469,
+      "latency_ms": 51.71608399999968,
       "conflict_expected": false,
       "stale_expected": true,
       "unauthorized_document_ids": [
@@ -68685,7 +68685,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.25170800000342,
+      "latency_ms": 51.46345800000563,
       "conflict_expected": false,
       "stale_expected": true,
       "unauthorized_document_ids": [
@@ -68940,7 +68940,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.978541999997105,
+      "latency_ms": 51.84829099999479,
       "conflict_expected": true,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -69193,7 +69193,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.08983299999818,
+      "latency_ms": 51.99070799999754,
       "conflict_expected": true,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -69443,7 +69443,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.10408300000563,
+      "latency_ms": 52.010458999997354,
       "conflict_expected": true,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -69718,7 +69718,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.28558299999713,
+      "latency_ms": 51.340791000002355,
       "conflict_expected": false,
       "stale_expected": false,
       "expected_graph_path": [
@@ -70000,7 +70000,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 56.24670799999876,
+      "latency_ms": 51.276333000001614,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -70248,7 +70248,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.61995800000295,
+      "latency_ms": 51.481832999998005,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -70497,7 +70497,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.801832999997714,
+      "latency_ms": 68.10795800000051,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -70745,7 +70745,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.03450000000157,
+      "latency_ms": 54.01783299999806,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -70993,7 +70993,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 54.891875000001164,
+      "latency_ms": 53.434957999998005,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -71241,7 +71241,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 75.98625000000175,
+      "latency_ms": 51.602374999994936,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -71490,7 +71490,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 60.95916700000089,
+      "latency_ms": 52.190332999998645,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -71738,7 +71738,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.30841599999985,
+      "latency_ms": 53.00191699999414,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -71987,7 +71987,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.14616599999863,
+      "latency_ms": 52.64183299999422,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -72247,7 +72247,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.66391700000531,
+      "latency_ms": 57.23637500000041,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -72495,7 +72495,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.08208300000115,
+      "latency_ms": 53.47770799999853,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -72679,7 +72679,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 54.08033299999806,
+      "latency_ms": 51.497542000004614,
       "conflict_expected": false,
       "stale_expected": false,
       "expected_graph_path": [
@@ -72870,7 +72870,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.149624999998196,
+      "latency_ms": 51.58187500000349,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -73118,7 +73118,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.55500000000029,
+      "latency_ms": 50.64641699999629,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -73367,7 +73367,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.451249999998254,
+      "latency_ms": 52.25274999999965,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -73622,7 +73622,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 71.75754099999904,
+      "latency_ms": 52.787249999993946,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -73870,7 +73870,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.56087500000285,
+      "latency_ms": 52.51466600000276,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -74057,7 +74057,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 55.77604200000496,
+      "latency_ms": 51.79937500000233,
       "conflict_expected": false,
       "stale_expected": false,
       "expected_graph_path": [
@@ -74248,7 +74248,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 55.483000000000175,
+      "latency_ms": 51.257207999995444,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -74496,7 +74496,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.84333400000469,
+      "latency_ms": 52.70345799999632,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -74745,7 +74745,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 55.20562500000233,
+      "latency_ms": 52.97829199999978,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -74993,7 +74993,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 54.08625000000029,
+      "latency_ms": 52.21045800000138,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -75241,7 +75241,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.922915999995894,
+      "latency_ms": 53.09833300000173,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -75505,7 +75505,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.02716700000019,
+      "latency_ms": 51.21037500000239,
       "conflict_expected": false,
       "stale_expected": true,
       "unauthorized_document_ids": [
@@ -75769,7 +75769,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.782708000006096,
+      "latency_ms": 52.25800000000163,
       "conflict_expected": false,
       "stale_expected": true,
       "unauthorized_document_ids": [
@@ -76019,7 +76019,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.26491700000042,
+      "latency_ms": 51.14604200000031,
       "conflict_expected": false,
       "stale_expected": true,
       "unauthorized_document_ids": [
@@ -76269,7 +76269,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 59.446583000004466,
+      "latency_ms": 51.728625000003376,
       "conflict_expected": true,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -76520,7 +76520,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.66450000000623,
+      "latency_ms": 51.22070900000108,
       "conflict_expected": true,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -76770,7 +76770,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.09358300000167,
+      "latency_ms": 51.833999999995285,
       "conflict_expected": true,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -76806,7 +76806,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.21391700000095,
+      "latency_ms": 50.873625000000175,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -77046,7 +77046,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 332.79716599999665,
+      "latency_ms": 319.39983400000347,
       "conflict_expected": false,
       "stale_expected": false,
       "expected_graph_path": [
@@ -77288,7 +77288,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 276.37408400000277,
+      "latency_ms": 265.18962499999907,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -77529,7 +77529,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 258.19216700000106,
+      "latency_ms": 256.364625000002,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -77779,7 +77779,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 262.4317499999961,
+      "latency_ms": 253.95779100000073,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -78023,7 +78023,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 260.47787500000413,
+      "latency_ms": 252.9108750000014,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -78264,7 +78264,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 257.10399999999936,
+      "latency_ms": 259.622292,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -78402,7 +78402,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 256.01320800000394,
+      "latency_ms": 252.2578330000033,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -78652,7 +78652,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 258.4748749999999,
+      "latency_ms": 253.63804100000561,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -78893,7 +78893,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 262.9159160000054,
+      "latency_ms": 256.4551670000001,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -79140,7 +79140,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 272.72620800000004,
+      "latency_ms": 255.06645800000115,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -79378,7 +79378,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 258.34850000000006,
+      "latency_ms": 253.0991670000003,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -79616,7 +79616,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 257.3826659999977,
+      "latency_ms": 256.6130830000038,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -79754,7 +79754,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 256.78791599999386,
+      "latency_ms": 251.15516699999716,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -79992,7 +79992,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 256.1255830000009,
+      "latency_ms": 254.94899999999325,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -80233,7 +80233,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 261.77241700000013,
+      "latency_ms": 251.41595799999777,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -80480,7 +80480,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 263.0413750000007,
+      "latency_ms": 254.46024999999645,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -80721,7 +80721,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 256.6308749999953,
+      "latency_ms": 251.61945800000103,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -80962,7 +80962,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 257.5769999999975,
+      "latency_ms": 250.0355830000044,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -81109,7 +81109,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 257.59708300000057,
+      "latency_ms": 251.75341599999956,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -81268,7 +81268,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 256.9438330000048,
+      "latency_ms": 254.768250000001,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -81509,7 +81509,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 256.9860420000041,
+      "latency_ms": 254.27516699999978,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -81747,7 +81747,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 259.84745799999655,
+      "latency_ms": 254.9199579999986,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -81985,7 +81985,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 257.6757499999949,
+      "latency_ms": 255.06654200000048,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -82226,7 +82226,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 257.35079199999745,
+      "latency_ms": 254.890459000002,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -82475,7 +82475,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 258.7010829999999,
+      "latency_ms": 256.42366700000275,
       "conflict_expected": false,
       "stale_expected": true,
       "unauthorized_document_ids": [
@@ -82727,7 +82727,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 257.70541599999706,
+      "latency_ms": 262.7895419999986,
       "conflict_expected": false,
       "stale_expected": true,
       "unauthorized_document_ids": [
@@ -82970,7 +82970,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 257.32395800000086,
+      "latency_ms": 352.9113750000033,
       "conflict_expected": false,
       "stale_expected": true,
       "unauthorized_document_ids": [
@@ -83213,7 +83213,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 256.89195800000016,
+      "latency_ms": 264.38220799999544,
       "conflict_expected": true,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -83456,7 +83456,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 256.7115419999973,
+      "latency_ms": 259.37766700000066,
       "conflict_expected": true,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -83699,7 +83699,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 256.8395839999939,
+      "latency_ms": 251.64608299999963,
       "conflict_expected": true,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -83939,7 +83939,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 255.06887500000448,
+      "latency_ms": 253.1554580000011,
       "conflict_expected": false,
       "stale_expected": false,
       "expected_graph_path": [
@@ -84181,7 +84181,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 257.09604100000433,
+      "latency_ms": 261.43304100000387,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -84422,7 +84422,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 256.3519589999996,
+      "latency_ms": 256.1804170000032,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -84669,7 +84669,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 257.3771660000057,
+      "latency_ms": 253.37720900000568,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -84907,7 +84907,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 258.2537910000028,
+      "latency_ms": 253.86654100000305,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -85148,7 +85148,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 255.75012500000594,
+      "latency_ms": 255.29395800000202,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -85386,7 +85386,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 253.91599999999744,
+      "latency_ms": 259.8590419999964,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -85627,7 +85627,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 258.82645899999625,
+      "latency_ms": 257.1032500000001,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -85868,7 +85868,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 264.9227089999986,
+      "latency_ms": 254.8202919999967,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -86106,7 +86106,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 256.22099999999773,
+      "latency_ms": 254.34354199999507,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -86324,7 +86324,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 256.15729100000317,
+      "latency_ms": 254.01800000000367,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -86565,7 +86565,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 253.02154200000223,
+      "latency_ms": 250.98862499999814,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -86809,7 +86809,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 257.7875000000058,
+      "latency_ms": 254.12125000000378,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -87059,7 +87059,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 256.6807500000068,
+      "latency_ms": 256.02324999999837,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -87300,7 +87300,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 258.2390419999938,
+      "latency_ms": 255.62550000000192,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -87538,7 +87538,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 257.2285830000037,
+      "latency_ms": 258.94670799999585,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -87776,7 +87776,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 256.5774999999994,
+      "latency_ms": 278.2528750000056,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -88014,7 +88014,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 258.00045800000225,
+      "latency_ms": 258.8992919999946,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -88252,7 +88252,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 260.4737499999974,
+      "latency_ms": 250.37012500000128,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -88502,7 +88502,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 256.78916700000264,
+      "latency_ms": 258.90370899999834,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -88743,7 +88743,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 255.04308400000446,
+      "latency_ms": 251.91537499999686,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -88981,7 +88981,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 255.90908300000592,
+      "latency_ms": 254.78479199999856,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -89219,7 +89219,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 254.9394170000014,
+      "latency_ms": 251.5098749999961,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -89457,7 +89457,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 253.82779100000334,
+      "latency_ms": 254.25562499999796,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -89709,7 +89709,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 253.6591249999983,
+      "latency_ms": 255.9733750000014,
       "conflict_expected": false,
       "stale_expected": true,
       "unauthorized_document_ids": [
@@ -89961,7 +89961,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 255.38979100000142,
+      "latency_ms": 254.05312499999854,
       "conflict_expected": false,
       "stale_expected": true,
       "unauthorized_document_ids": [
@@ -90204,7 +90204,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 253.2802079999965,
+      "latency_ms": 252.56329100000585,
       "conflict_expected": false,
       "stale_expected": true,
       "unauthorized_document_ids": [
@@ -90447,7 +90447,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 255.78804200000013,
+      "latency_ms": 257.1373750000057,
       "conflict_expected": true,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -90690,7 +90690,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 255.13095800000156,
+      "latency_ms": 265.74900000000343,
       "conflict_expected": true,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -90933,7 +90933,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 254.50687499999913,
+      "latency_ms": 258.2558329999956,
       "conflict_expected": true,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -91174,7 +91174,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 254.12520799999766,
+      "latency_ms": 252.93266700000095,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -91415,7 +91415,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 256.8788329999952,
+      "latency_ms": 249.859457999999,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -91656,7 +91656,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 255.9453330000033,
+      "latency_ms": 249.18804100000125,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -91906,7 +91906,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 256.6425409999938,
+      "latency_ms": 253.07129200000054,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -92144,7 +92144,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 257.890833999998,
+      "latency_ms": 250.27958399999625,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -92385,7 +92385,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 253.66933400000562,
+      "latency_ms": 250.99079200000415,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -92623,7 +92623,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 254.41737500000454,
+      "latency_ms": 253.65183300000353,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -92873,7 +92873,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 255.20954199999687,
+      "latency_ms": 251.15991600000416,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -93114,7 +93114,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 252.32816699999967,
+      "latency_ms": 250.6132080000025,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -93355,7 +93355,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 255.1192499999961,
+      "latency_ms": 251.61308300000383,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -93596,7 +93596,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 254.44812499999534,
+      "latency_ms": 250.56020900000294,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -93837,7 +93837,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 252.92925000000105,
+      "latency_ms": 252.65858299999672,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -94084,7 +94084,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 253.24845800000185,
+      "latency_ms": 254.44812500000262,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -94334,7 +94334,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 256.34858299999905,
+      "latency_ms": 253.79220799999894,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -94575,7 +94575,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 257.7510840000032,
+      "latency_ms": 250.98983299999963,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -94731,7 +94731,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 254.92674999999872,
+      "latency_ms": 256.3561249999984,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -94929,7 +94929,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 288.3925420000014,
+      "latency_ms": 253.12641599999915,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -95167,7 +95167,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 257.0559169999906,
+      "latency_ms": 254.52979099999357,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -95408,7 +95408,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 254.663584000009,
+      "latency_ms": 256.1875,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -95658,7 +95658,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 254.67966700000397,
+      "latency_ms": 255.94150000000081,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -95899,7 +95899,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 253.04366700000537,
+      "latency_ms": 255.5836249999993,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -96146,7 +96146,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 254.80037499999162,
+      "latency_ms": 256.7595830000064,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -96384,7 +96384,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 255.55883399999584,
+      "latency_ms": 254.96745900000678,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -96625,7 +96625,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 254.60741700000654,
+      "latency_ms": 253.94454199999745,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -96877,7 +96877,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 253.93395900000178,
+      "latency_ms": 257.63770900000236,
       "conflict_expected": false,
       "stale_expected": true,
       "unauthorized_document_ids": [
@@ -97120,7 +97120,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 256.4599159999925,
+      "latency_ms": 258.8640829999931,
       "conflict_expected": false,
       "stale_expected": true,
       "unauthorized_document_ids": [
@@ -97363,7 +97363,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 254.5587499999965,
+      "latency_ms": 263.2550829999964,
       "conflict_expected": false,
       "stale_expected": true,
       "unauthorized_document_ids": [
@@ -97606,7 +97606,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 257.80337500000314,
+      "latency_ms": 253.41941600000428,
       "conflict_expected": true,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -97849,7 +97849,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 255.6325829999987,
+      "latency_ms": 253.4594999999972,
       "conflict_expected": true,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -98092,7 +98092,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 254.58066600000893,
+      "latency_ms": 262.2486249999929,
       "conflict_expected": true,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -98332,7 +98332,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 253.13129099999787,
+      "latency_ms": 253.01829199999338,
       "conflict_expected": false,
       "stale_expected": false,
       "expected_graph_path": [
@@ -98574,7 +98574,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 254.44237499999872,
+      "latency_ms": 254.29075000000012,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -98815,7 +98815,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 253.72987500000454,
+      "latency_ms": 251.46337500000664,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -99065,7 +99065,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 255.10837499999616,
+      "latency_ms": 253.91004099999554,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -99309,7 +99309,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 254.3067080000037,
+      "latency_ms": 254.79966699999932,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -99550,7 +99550,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 253.95166700000118,
+      "latency_ms": 252.39670800000022,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -99791,7 +99791,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 254.9151669999992,
+      "latency_ms": 253.04695800000627,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -100041,7 +100041,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 256.02116699999897,
+      "latency_ms": 257.10512500000186,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -100282,7 +100282,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 256.4496250000084,
+      "latency_ms": 253.2871659999946,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -100532,7 +100532,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 258.27779100000043,
+      "latency_ms": 253.07116599999426,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -100773,7 +100773,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 254.07745799999975,
+      "latency_ms": 254.51395800001046,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -101014,7 +101014,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 258.36945800000103,
+      "latency_ms": 253.70508299999346,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -101175,7 +101175,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 255.06916600000113,
+      "latency_ms": 256.38004100001126,
       "conflict_expected": false,
       "stale_expected": false,
       "expected_graph_path": [
@@ -101329,7 +101329,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 256.06229099999473,
+      "latency_ms": 257.60258299999987,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -101570,7 +101570,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 253.59312499999942,
+      "latency_ms": 254.8900830000057,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -101814,7 +101814,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 258.16462499999034,
+      "latency_ms": 255.69966600000043,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -102052,7 +102052,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 257.0248750000028,
+      "latency_ms": 259.6391250000015,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -102293,7 +102293,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 256.231208000012,
+      "latency_ms": 256.90704099999857,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -102445,7 +102445,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 256.4039580000099,
+      "latency_ms": 256.20212499999616,
       "conflict_expected": false,
       "stale_expected": false,
       "expected_graph_path": [
@@ -102596,7 +102596,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 256.44870799999626,
+      "latency_ms": 253.23433400000795,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -102837,7 +102837,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 255.32200000000012,
+      "latency_ms": 254.16162499999336,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -103078,7 +103078,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 259.0357920000097,
+      "latency_ms": 256.4891659999994,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -103319,7 +103319,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 260.718458000003,
+      "latency_ms": 257.27562499999476,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -103557,7 +103557,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 281.0307080000057,
+      "latency_ms": 251.5970410000009,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -103806,7 +103806,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 257.2259159999958,
+      "latency_ms": 255.4869999999937,
       "conflict_expected": false,
       "stale_expected": true,
       "unauthorized_document_ids": [
@@ -104058,7 +104058,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 275.1412500000006,
+      "latency_ms": 259.9346249999944,
       "conflict_expected": false,
       "stale_expected": true,
       "unauthorized_document_ids": [
@@ -104301,7 +104301,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 255.44083300000057,
+      "latency_ms": 256.8857080000016,
       "conflict_expected": false,
       "stale_expected": true,
       "unauthorized_document_ids": [
@@ -104544,7 +104544,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 253.94479199999478,
+      "latency_ms": 258.4699169999949,
       "conflict_expected": true,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -104787,7 +104787,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 251.823332999993,
+      "latency_ms": 255.02004099999613,
       "conflict_expected": true,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -105030,7 +105030,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 253.11287499999162,
+      "latency_ms": 262.7175419999985,
       "conflict_expected": true,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -105268,7 +105268,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 252.43099999999686,
+      "latency_ms": 255.61129100000835,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -105543,7 +105543,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 254.68329200000153,
+      "latency_ms": 256.398583999995,
       "conflict_expected": false,
       "stale_expected": false,
       "expected_graph_path": [
@@ -105825,7 +105825,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 256.1135840000061,
+      "latency_ms": 253.77737500000512,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -106066,7 +106066,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.70370900000853,
+      "latency_ms": 53.68712500001129,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -106329,7 +106329,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 253.53233299999556,
+      "latency_ms": 261.61750000000757,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -106590,7 +106590,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 253.78533299999253,
+      "latency_ms": 255.62395800001104,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -106831,7 +106831,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.06887500001176,
+      "latency_ms": 53.43154200000572,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -107084,7 +107084,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 275.3139999999985,
+      "latency_ms": 256.77999999999884,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -107344,7 +107344,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 257.3967080000002,
+      "latency_ms": 256.0857909999904,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -107585,7 +107585,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.88154199998826,
+      "latency_ms": 53.086166000008234,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -107832,7 +107832,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 256.9940829999978,
+      "latency_ms": 259.90987499999756,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -108087,7 +108087,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 256.16654199999175,
+      "latency_ms": 257.546583000003,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -108328,7 +108328,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.75250000000233,
+      "latency_ms": 53.578542000002926,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -108577,7 +108577,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 252.58124999998836,
+      "latency_ms": 263.1433340000076,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -108823,7 +108823,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 256.30995899999107,
+      "latency_ms": 252.16099999999278,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -109064,7 +109064,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.67012500000419,
+      "latency_ms": 53.53929099999368,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -109311,7 +109311,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 254.55775000000722,
+      "latency_ms": 254.6361670000042,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -109559,7 +109559,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 258.0314170000056,
+      "latency_ms": 254.41300000000047,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -109800,7 +109800,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.36933400000271,
+      "latency_ms": 53.09745899999689,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -109984,7 +109984,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 257.29216599999927,
+      "latency_ms": 256.155958000003,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -110171,7 +110171,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 254.91116600000532,
+      "latency_ms": 258.0055420000135,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -110412,7 +110412,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.67387499999313,
+      "latency_ms": 53.13158299999486,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -110658,7 +110658,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 259.507334000009,
+      "latency_ms": 253.89770800000406,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -110911,7 +110911,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 277.1133750000008,
+      "latency_ms": 254.59900000000198,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -111152,7 +111152,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 54.00570900000457,
+      "latency_ms": 53.34995899999922,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -111418,7 +111418,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 260.65174999999,
+      "latency_ms": 254.46379100000195,
       "conflict_expected": false,
       "stale_expected": true,
       "unauthorized_document_ids": [
@@ -111684,7 +111684,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 264.7019169999985,
+      "latency_ms": 255.7516670000041,
       "conflict_expected": false,
       "stale_expected": true,
       "unauthorized_document_ids": [
@@ -111927,7 +111927,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 59.562292000002344,
+      "latency_ms": 53.75424999999814,
       "conflict_expected": false,
       "stale_expected": true,
       "unauthorized_document_ids": [
@@ -112177,7 +112177,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 257.2123750000028,
+      "latency_ms": 255.81737499999872,
       "conflict_expected": true,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -112424,7 +112424,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 256.8064169999998,
+      "latency_ms": 252.88570899999468,
       "conflict_expected": true,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -112667,7 +112667,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.91633300000103,
+      "latency_ms": 53.13566600000195,
       "conflict_expected": true,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -112943,7 +112943,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 255.36354199999187,
+      "latency_ms": 256.0655420000112,
       "conflict_expected": false,
       "stale_expected": false,
       "expected_graph_path": [
@@ -113225,7 +113225,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 260.24620799999684,
+      "latency_ms": 257.8972090000025,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -113466,7 +113466,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 54.246707999991486,
+      "latency_ms": 53.15662499998871,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -113584,7 +113584,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 51.34229200000118,
+      "latency_ms": 52.019790999998804,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -113742,7 +113742,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 51.80937499999709,
+      "latency_ms": 52.3648749999993,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -113983,7 +113983,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 51.58416699999361,
+      "latency_ms": 54.215457999991486,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -114241,7 +114241,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 255.73704100000032,
+      "latency_ms": 254.21483300000546,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -114482,7 +114482,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 255.29958399999305,
+      "latency_ms": 252.6592079999973,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -114723,7 +114723,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.88558299999568,
+      "latency_ms": 53.028625000006286,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -114979,7 +114979,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 256.9204170000012,
+      "latency_ms": 253.0592079999915,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -115233,7 +115233,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 257.0611670000071,
+      "latency_ms": 256.5977920000005,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -115474,7 +115474,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.16833299999416,
+      "latency_ms": 52.55183299999044,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -115725,7 +115725,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 256.98020800000813,
+      "latency_ms": 253.40929199999664,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -115975,7 +115975,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 254.65208299999358,
+      "latency_ms": 253.02895799999533,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -116216,7 +116216,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.73491699999431,
+      "latency_ms": 53.73583299999882,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -116472,7 +116472,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 257.27870800001256,
+      "latency_ms": 256.64358399999037,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -116726,7 +116726,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 255.83924999999,
+      "latency_ms": 259.01462499999616,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -116967,7 +116967,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.1528330000001,
+      "latency_ms": 53.27229100000113,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -117215,7 +117215,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 258.29466699999466,
+      "latency_ms": 255.10033299999486,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -117465,7 +117465,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 256.1523750000051,
+      "latency_ms": 252.4881250000035,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -117706,7 +117706,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.42108399998688,
+      "latency_ms": 53.91799999999057,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -117957,7 +117957,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 253.87633299999288,
+      "latency_ms": 254.51191699999617,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -118223,7 +118223,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 253.47070799999346,
+      "latency_ms": 256.1626669999969,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -118464,7 +118464,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.9713330000086,
+      "latency_ms": 53.495458999997936,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -118723,7 +118723,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 254.68704200000502,
+      "latency_ms": 259.2317919999914,
       "conflict_expected": false,
       "stale_expected": true,
       "unauthorized_document_ids": [
@@ -118982,7 +118982,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 255.03845799999544,
+      "latency_ms": 259.3182499999966,
       "conflict_expected": false,
       "stale_expected": true,
       "unauthorized_document_ids": [
@@ -119225,7 +119225,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.96516700000211,
+      "latency_ms": 54.1608750000014,
       "conflict_expected": false,
       "stale_expected": true,
       "unauthorized_document_ids": [
@@ -119484,7 +119484,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 254.982124999995,
+      "latency_ms": 257.864459000004,
       "conflict_expected": true,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -119734,7 +119734,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 255.51995899999747,
+      "latency_ms": 257.60987499999464,
       "conflict_expected": true,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -119977,7 +119977,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.973916000002646,
+      "latency_ms": 52.56304199999431,
       "conflict_expected": true,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -120230,7 +120230,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 251.88608299999032,
+      "latency_ms": 256.00420799999847,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -120474,7 +120474,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 258.10212499999034,
+      "latency_ms": 259.87787499999104,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -120715,7 +120715,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.92158300000301,
+      "latency_ms": 54.78195800000685,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -120973,7 +120973,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 254.89749999999185,
+      "latency_ms": 257.43949999999313,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -121241,7 +121241,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 255.2118749999936,
+      "latency_ms": 260.3572920000006,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -121482,7 +121482,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.500665999992634,
+      "latency_ms": 56.03337499999907,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -121730,7 +121730,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 260.97387499999604,
+      "latency_ms": 260.44041700000525,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -121980,7 +121980,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 260.1901669999934,
+      "latency_ms": 251.23741600000358,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -122221,7 +122221,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.57908399999724,
+      "latency_ms": 54.12116700000479,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -122465,7 +122465,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 256.2047909999965,
+      "latency_ms": 256.44129200000316,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -122713,7 +122713,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 254.7266670000099,
+      "latency_ms": 256.190499999997,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -122954,7 +122954,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 54.02087500000198,
+      "latency_ms": 53.1713749999908,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -123218,7 +123218,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 253.50187500000175,
+      "latency_ms": 253.55587500000547,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -123468,7 +123468,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 255.55795799999032,
+      "latency_ms": 254.750165999998,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -123709,7 +123709,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 54.18983400000434,
+      "latency_ms": 52.047374999994645,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -123891,7 +123891,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 252.59983300000022,
+      "latency_ms": 255.5023339999898,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -124139,7 +124139,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 257.9757079999981,
+      "latency_ms": 256.61262500000885,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -124380,7 +124380,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.135499999989406,
+      "latency_ms": 53.08199999999488,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -124625,7 +124625,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 254.78612499999872,
+      "latency_ms": 250.38529199999175,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -124875,7 +124875,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 254.37495800000033,
+      "latency_ms": 252.78800000000047,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -125116,7 +125116,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.47379200000432,
+      "latency_ms": 54.81737499999872,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -125360,7 +125360,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 256.26445799999055,
+      "latency_ms": 262.9623330000031,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -125598,7 +125598,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 255.18070799999987,
+      "latency_ms": 255.65054099999543,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -125839,7 +125839,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.327625000005355,
+      "latency_ms": 52.99179199998616,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -126108,7 +126108,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 254.02249999999185,
+      "latency_ms": 254.99616600001173,
       "conflict_expected": false,
       "stale_expected": true,
       "unauthorized_document_ids": [
@@ -126376,7 +126376,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 254.68799999999464,
+      "latency_ms": 258.17225000000326,
       "conflict_expected": false,
       "stale_expected": true,
       "unauthorized_document_ids": [
@@ -126619,7 +126619,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 55.65062500000931,
+      "latency_ms": 53.08804200000304,
       "conflict_expected": false,
       "stale_expected": true,
       "unauthorized_document_ids": [
@@ -126874,7 +126874,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 260.86270899999363,
+      "latency_ms": 258.0531659999979,
       "conflict_expected": true,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -127127,7 +127127,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 256.55083300000115,
+      "latency_ms": 256.96329099999275,
       "conflict_expected": true,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -127370,7 +127370,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.989832999999635,
+      "latency_ms": 53.623915999996825,
       "conflict_expected": true,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -127645,7 +127645,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 255.1894170000014,
+      "latency_ms": 251.54699999999139,
       "conflict_expected": false,
       "stale_expected": false,
       "expected_graph_path": [
@@ -127927,7 +127927,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 262.23816700000316,
+      "latency_ms": 251.0553329999966,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -128168,7 +128168,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 54.4197920000006,
+      "latency_ms": 52.80291699999361,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -128415,7 +128415,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 258.1857500000042,
+      "latency_ms": 251.7687079999887,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -128663,7 +128663,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 257.7930409999972,
+      "latency_ms": 256.64300000001094,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -128904,7 +128904,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.16458299999067,
+      "latency_ms": 53.16741700000421,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -129152,7 +129152,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 259.2194589999999,
+      "latency_ms": 254.71600000000035,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -129399,7 +129399,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 258.6889579999988,
+      "latency_ms": 258.51479200000176,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -129640,7 +129640,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 54.06883300001209,
+      "latency_ms": 53.73641700000735,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -129893,7 +129893,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 257.70229200000176,
+      "latency_ms": 260.91420800000196,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -130156,7 +130156,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 261.2825840000005,
+      "latency_ms": 256.3417909999989,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -130397,7 +130397,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.87520800001221,
+      "latency_ms": 53.6067919999914,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -130581,7 +130581,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 255.37675000001036,
+      "latency_ms": 254.97500000000582,
       "conflict_expected": false,
       "stale_expected": false,
       "expected_graph_path": [
@@ -130772,7 +130772,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 256.6627909999952,
+      "latency_ms": 258.1721249999973,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -131013,7 +131013,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.634834000011324,
+      "latency_ms": 53.46224999999686,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -131265,7 +131265,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 255.10095900000306,
+      "latency_ms": 256.2387080000044,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -131520,7 +131520,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 256.66074999999546,
+      "latency_ms": 258.2937910000037,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -131761,7 +131761,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.24341700000514,
+      "latency_ms": 53.66083399999479,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -131948,7 +131948,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 254.21374999999534,
+      "latency_ms": 256.4788750000007,
       "conflict_expected": false,
       "stale_expected": false,
       "expected_graph_path": [
@@ -132139,7 +132139,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 255.24433300000965,
+      "latency_ms": 260.89262499999313,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -132380,7 +132380,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.52295800000138,
+      "latency_ms": 55.02666699999827,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -132632,7 +132632,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 255.3418340000062,
+      "latency_ms": 261.7920419999864,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -132880,7 +132880,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 258.50554199999897,
+      "latency_ms": 259.0945000000065,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -133121,7 +133121,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.23120900000504,
+      "latency_ms": 52.99574999998731,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -133391,7 +133391,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 259.60558299999684,
+      "latency_ms": 263.4399579999881,
       "conflict_expected": false,
       "stale_expected": true,
       "unauthorized_document_ids": [
@@ -133661,7 +133661,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 259.5509580000071,
+      "latency_ms": 260.43220799999835,
       "conflict_expected": false,
       "stale_expected": true,
       "unauthorized_document_ids": [
@@ -133904,7 +133904,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 52.9577500000014,
+      "latency_ms": 53.731082999991486,
       "conflict_expected": false,
       "stale_expected": true,
       "unauthorized_document_ids": [
@@ -134154,7 +134154,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 254.34779200000048,
+      "latency_ms": 262.4314160000067,
       "conflict_expected": true,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -134400,7 +134400,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 256.40245799999684,
+      "latency_ms": 260.3667499999865,
       "conflict_expected": true,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -134643,7 +134643,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 53.03237499999523,
+      "latency_ms": 53.29741600000125,
       "conflict_expected": true,
       "stale_expected": false,
       "unauthorized_document_ids": [
@@ -134881,7 +134881,7 @@
         "content_is_untrusted_data": true,
         "canonical_write_allowed": false
       },
-      "latency_ms": 252.29829200000677,
+      "latency_ms": 255.7597919999971,
       "conflict_expected": false,
       "stale_expected": false,
       "unauthorized_document_ids": [

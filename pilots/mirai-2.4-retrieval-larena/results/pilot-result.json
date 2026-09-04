@@ -28,15 +28,15 @@
       "stale_negative_case_count": 27,
       "unauthorized_hit_count": 0,
       "stale_hit_rate": 0.026881720430107527,
-      "p50_latency_ms": 52.422082999999475,
-      "p95_latency_ms": 53.608791999999994,
+      "p50_latency_ms": 51.921666999999616,
+      "p95_latency_ms": 60.60900000000038,
       "model_calls": 0,
       "input_tokens": 0,
       "cost_usd": 0,
       "limitations": [
         "Synthetic evaluation does not establish external task effectiveness or production readiness."
       ],
-      "digest": "sha256:78f99ef5b3a88f5af5bd4e76f360ad076ea0ec389d5627717fa0c9f5f125d2fa"
+      "digest": "sha256:adb1146b9e69e02ead9720b90147382a6da49cc43d14a080a3eca5b1f9b1744c"
     },
     "semantic": {
       "contract_version": "1.0.0",
@@ -60,15 +60,15 @@
       "stale_negative_case_count": 27,
       "unauthorized_hit_count": 0,
       "stale_hit_rate": 0.016722408026755852,
-      "p50_latency_ms": 253.2023339999978,
-      "p95_latency_ms": 282.7252919999992,
+      "p50_latency_ms": 252.92912499999875,
+      "p95_latency_ms": 256.28929199999766,
       "model_calls": 30,
       "input_tokens": 575,
       "cost_usd": 0,
       "limitations": [
         "Synthetic evaluation does not establish external task effectiveness or production readiness."
       ],
-      "digest": "sha256:6938816b18c453ce5666ac78b6008f3e00dd3b0f896719f065d6cd4c71793829"
+      "digest": "sha256:5b6fb3bf48148a4f4cc99b167587e2d5f743cd3ca8675b511989046c5b005557"
     },
     "graph": {
       "contract_version": "1.0.0",
@@ -92,15 +92,15 @@
       "stale_negative_case_count": 27,
       "unauthorized_hit_count": 0,
       "stale_hit_rate": 0.011111111111111112,
-      "p50_latency_ms": 53.34420799999498,
-      "p95_latency_ms": 55.6516249999986,
+      "p50_latency_ms": 52.40429199999926,
+      "p95_latency_ms": 58.33258399999613,
       "model_calls": 0,
       "input_tokens": 0,
       "cost_usd": 0,
       "limitations": [
         "Synthetic evaluation does not establish external task effectiveness or production readiness."
       ],
-      "digest": "sha256:bedb0c572947f2b063aed60a06e8f13cdc8f530ab37481ed3122047cf0598b19"
+      "digest": "sha256:8cddbe5559439ef5bbb35bd20d06806fafd765ad780bf71b903c39f00deed673"
     },
     "hybrid": {
       "contract_version": "1.0.0",
@@ -124,15 +124,15 @@
       "stale_negative_case_count": 27,
       "unauthorized_hit_count": 0,
       "stale_hit_rate": 0.013377926421404682,
-      "p50_latency_ms": 256.15729100000317,
-      "p95_latency_ms": 260.4737499999974,
+      "p50_latency_ms": 254.8202919999967,
+      "p95_latency_ms": 265.74900000000343,
       "model_calls": 30,
       "input_tokens": 575,
       "cost_usd": 0,
       "limitations": [
         "Synthetic evaluation does not establish external task effectiveness or production readiness."
       ],
-      "digest": "sha256:f8aad7fc4df1d26c3c5e6e90c11b64d7ba84ee4ed3eb18e3c2e1ce7d7f81e36b"
+      "digest": "sha256:a0d1eca76a0a8fc47a2a14f1c7000fbce1e745f21a553e5df145c89af7f00715"
     },
     "mirai_planner": {
       "contract_version": "1.0.0",
@@ -156,15 +156,15 @@
       "stale_negative_case_count": 27,
       "unauthorized_hit_count": 0,
       "stale_hit_rate": 0.017241379310344827,
-      "p50_latency_ms": 254.65208299999358,
-      "p95_latency_ms": 258.29466699999466,
+      "p50_latency_ms": 253.02895799999533,
+      "p95_latency_ms": 259.2317919999914,
       "model_calls": 18,
       "input_tokens": 454,
       "cost_usd": 0,
       "limitations": [
         "Synthetic evaluation does not establish external task effectiveness or production readiness."
       ],
-      "digest": "sha256:fb257693d5ad90b5b29e392f40d2f674d082a4fe031ef83f7fcef23d574f305a"
+      "digest": "sha256:274d184b085fd3f611ffff2c57ca3fd7849d80c7f147eef70dc31c0f84616dbb"
     }
   },
   "safety": {
@@ -185,5 +185,5 @@
     "No independent pilot claim is made by this generated artifact."
   ],
   "canonical_write_allowed": false,
-  "digest": "sha256:e36da6623465fc7c169a8c9baf019914028d1c29312264ba9608e25439e29915"
+  "digest": "sha256:a4b6eaa4fab43824f266ab5c7d76103df8f1f191fae6677d1191959a6d60d92e"
 }
