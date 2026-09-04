@@ -469,11 +469,23 @@ export async function searchLocalRetrievalIndex(projectRoot: string, request: Re
   }
   const initial = reciprocalRankFusion(rankings);
   const initialDocuments = permitted.filter((document) => initial.has(document.id));
-  const graphSeeds = [...new Set([...initialDocuments.flatMap((document) => document.graph_object_refs), ...graphQuerySeeds(request.graph, request.query)])];
+  const graphSeeds = [...new Set([...initialDocuments.filter((document) => !document.kind.startsWith("relation:")).flatMap((document) => document.graph_object_refs), ...graphQuerySeeds(request.graph, request.query)])];
   const paths = plan.channels.includes("graph") ? graphExpansion(request.graph, graphSeeds, permitted, plan.budgets.max_graph_depth, plan.budgets.max_fan_out) : new Map<string, string[]>();
   const graphIds = permitted.filter((document) => document.graph_object_refs.some((ref) => paths.has(ref))).map((document) => document.id);
   if (graphIds.length) rankings.push({ channel: "graph", ids: graphIds });
   const fused = reciprocalRankFusion(rankings);
+  const entityScores = new Map<string, number>();
+  for (const document of permitted) {
+    const score = fused.get(document.id)?.score;
+    if (score !== undefined) entityScores.set(entityKey(document.id), Math.max(entityScores.get(entityKey(document.id)) || 0, score));
+  }
+  for (const document of permitted) {
+    const companionScore = entityScores.get(entityKey(document.id));
+    if (companionScore === undefined || document.id.startsWith("graph.")) continue;
+    const existing = fused.get(document.id);
+    fused.set(document.id, { score: Math.max(existing?.score || 0, companionScore + 1 / 40), channels: [...new Set([...(existing?.channels || []), "graph" as const])] });
+    reasons.set(document.id, [...new Set([...(reasons.get(document.id) || []), "graph_entity_companion"])]);
+  }
   if (plan.intent === "change_or_freshness") {
     const selectedKeys = new Set(permitted.filter((document) => fused.has(document.id)).map((document) => entityKey(document.id)));
     for (const document of permitted) if (selectedKeys.has(entityKey(document.id)) && (document.freshness === "stale" || document.conflict_refs?.length) && !fused.has(document.id)) {
