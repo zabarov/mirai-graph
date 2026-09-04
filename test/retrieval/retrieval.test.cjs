@@ -23,6 +23,10 @@ const { createLocalEmbeddingProvider, prepareLocalEmbeddingModel, digestDirector
 
 const fixture = path.resolve(__dirname, "../../examples/mirai-retrieval-minimal");
 
+function prependRetrievalInput(source, input) {
+  return source.replace(/(^inputs:\r?\n)/m, `$1${input.replaceAll("\n", os.EOL)}${os.EOL}`);
+}
+
 test("intent inference is Unicode-safe for Russian and English requests", () => {
   const cases = [
     ["актуальная политика выпуска", "change_or_freshness"],
@@ -152,7 +156,7 @@ test("relationship retrieval expands a bounded graph path", async () => {
     fs.writeFileSync(path.join(root, "inputs/graph.json"), `${JSON.stringify(graph)}\n`);
     const configFile = path.join(root, "mirai/retrieval.yaml");
     const configSource = fs.readFileSync(configFile, "utf8");
-    fs.writeFileSync(configFile, configSource.replace("inputs:\n", "inputs:\n  - kind: graph_snapshot\n    path: inputs/graph.json\n"));
+    fs.writeFileSync(configFile, prependRetrievalInput(configSource, "  - kind: graph_snapshot\n    path: inputs/graph.json"));
     const config = readRetrievalConfig(root);
     await buildLocalRetrievalIndex(root);
     const graphRequest = { ...request(config, "feature.release"), intent: "relationship_trace", channels: ["exact", "graph"], graph };
@@ -244,7 +248,7 @@ test("declared snapshots, query graphs and confidential projections fail closed"
 
     const values = [{ id: "secret-record", title: "password=super-secret-value", scope: "retrieval-demo", token: "must-not-leak" }];
     fs.writeFileSync(path.join(root, "inputs/policies.json"), JSON.stringify(values));
-    fs.writeFileSync(configFile, source.replace("inputs:\n", "inputs:\n  - kind: policies\n    path: inputs/policies.json\n").replace("source_refs: [source.demo]", "source_refs: [source.demo, inputs/policies.json]"));
+    fs.writeFileSync(configFile, prependRetrievalInput(source, "  - kind: policies\n    path: inputs/policies.json").replace("source_refs: [source.demo]", "source_refs: [source.demo, inputs/policies.json]"));
     const configWithPolicy = readRetrievalConfig(root);
     await buildLocalRetrievalIndex(root);
     const projected = fs.readFileSync(path.join(root, ".mirai/indexes/retrieval.demo/documents.json"), "utf8");
