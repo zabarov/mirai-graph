@@ -9,6 +9,7 @@ on:
       - codex/mirai-2.2
       - codex/mirai-2.3
       - codex/mirai-2.4-retrieval
+      - codex/mirai-2.5-outcome-completion
   pull_request:
   schedule:
     - cron: "17 4 * * 1"

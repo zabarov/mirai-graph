@@ -46,10 +46,12 @@ try {
     path.join(temp, "consumer.cjs"),
     "const program = require('@zabarov/mirai/program');\n" +
     "const runtime = require('@zabarov/mirai/runtime');\n" +
-      "const retrieval = require('@zabarov/mirai/retrieval');\n" +
+    "const retrieval = require('@zabarov/mirai/retrieval');\n" +
+    "const outcome = require('@zabarov/mirai/outcome');\n" +
       "if (typeof program.compileProgramFile !== 'function') throw new Error('missing CJS compiler');\n" +
       "if (typeof runtime.startGovernedRun !== 'function') throw new Error('missing CJS runtime');\n" +
-      "if (typeof retrieval.searchLocalRetrievalIndex !== 'function') throw new Error('missing CJS retrieval');\n"
+      "if (typeof retrieval.searchLocalRetrievalIndex !== 'function') throw new Error('missing CJS retrieval');\n" +
+      "if (typeof outcome.assessOutcome !== 'function') throw new Error('missing CJS outcome');\n"
   );
   runNode([path.join(temp, "consumer.cjs")], { cwd: temp, label: "CommonJS consumer" });
 
@@ -58,9 +60,11 @@ try {
     "import { compileProgramFile } from '@zabarov/mirai/program';\n" +
     "import { startGovernedRun } from '@zabarov/mirai/runtime';\n" +
     "import { searchLocalRetrievalIndex } from '@zabarov/mirai/retrieval';\n" +
+    "import { assessOutcome } from '@zabarov/mirai/outcome';\n" +
       "if (typeof compileProgramFile !== 'function') throw new Error('missing ESM compiler');\n" +
       "if (typeof startGovernedRun !== 'function') throw new Error('missing ESM runtime');\n" +
-      "if (typeof searchLocalRetrievalIndex !== 'function') throw new Error('missing ESM retrieval');\n"
+      "if (typeof searchLocalRetrievalIndex !== 'function') throw new Error('missing ESM retrieval');\n" +
+      "if (typeof assessOutcome !== 'function') throw new Error('missing ESM outcome');\n"
   );
   runNode([path.join(temp, "consumer.mjs")], { cwd: temp, label: "ESM consumer" });
 
