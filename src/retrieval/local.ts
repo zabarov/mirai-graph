@@ -467,9 +467,7 @@ export async function searchLocalRetrievalIndex(projectRoot: string, request: Re
     rankings.push({ channel: "process", ids });
     ids.forEach((id) => reasons.set(id, [...(reasons.get(id) || []), "governed_process_or_policy_candidate"]));
   }
-  const initial = reciprocalRankFusion(rankings);
-  const initialDocuments = permitted.filter((document) => initial.has(document.id));
-  const graphSeeds = [...new Set([...initialDocuments.filter((document) => !document.kind.startsWith("relation:")).flatMap((document) => document.graph_object_refs), ...graphQuerySeeds(request.graph, request.query)])];
+  const graphSeeds = [...new Set(graphQuerySeeds(request.graph, request.query))];
   const paths = plan.channels.includes("graph") ? graphExpansion(request.graph, graphSeeds, permitted, plan.budgets.max_graph_depth, plan.budgets.max_fan_out) : new Map<string, string[]>();
   const graphIds = permitted.filter((document) => document.graph_object_refs.some((ref) => paths.has(ref))).map((document) => document.id);
   if (graphIds.length) rankings.push({ channel: "graph", ids: graphIds });
