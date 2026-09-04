@@ -85,6 +85,26 @@ test("answers are evidence-bound and do not pretend lexical search is semantic",
   }
 });
 
+test("query-focused snippets preserve separated evidence instead of truncating the later claim", async () => {
+  const root = projectCopy();
+  try {
+    const unitsFile = path.join(root, "inputs/normalized-units.json");
+    const value = JSON.parse(fs.readFileSync(unitsFile, "utf8"));
+    value.units[0].content = `not raw project material ${"background ".repeat(110)} private skill implementation details`;
+    value.units[0].content_digest = digestValue(value.units[0].content);
+    fs.writeFileSync(unitsFile, JSON.stringify(value));
+    const config = readRetrievalConfig(root);
+    await buildLocalRetrievalIndex(root);
+    const result = await searchLocalRetrievalIndex(root, request(config, "May this publish raw project material or private implementation details?"));
+    const snippet = result.evidence.hits.find((hit) => hit.document_id === value.units[0].id)?.snippet || "";
+    assert.match(snippet, /not raw project material/);
+    assert.match(snippet, /private skill implementation details/);
+    assert.ok(snippet.length <= config.placement.max_snippet_chars);
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
 test("an explicit embedding provider enables vector retrieval and stays rebuildable", async () => {
   const root = projectCopy();
   const provider = {

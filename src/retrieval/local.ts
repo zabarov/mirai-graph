@@ -476,11 +476,29 @@ function contextualSnippet(document: RetrievalDocument, query: string, maxChars:
   if (!document.snippet || referenceOnly(document.confidentiality) || document.search_text.length <= maxChars) return document.snippet;
   const searchable = document.search_text.toLocaleLowerCase("und");
   const terms = queryTerms(query).sort((left, right) => right.length - left.length);
-  const positions = terms.map((term) => searchable.indexOf(term)).filter((position) => position >= 0);
+  const positions = terms.flatMap((term) => {
+    const found: number[] = [];
+    let offset = searchable.indexOf(term);
+    while (offset >= 0) {
+      found.push(offset);
+      offset = searchable.indexOf(term, offset + term.length);
+    }
+    return found;
+  }).sort((left, right) => left - right);
   if (!positions.length) return document.snippet;
-  const center = Math.min(...positions);
-  const start = Math.max(0, Math.min(document.search_text.length - maxChars, center - Math.floor(maxChars / 3)));
-  return document.search_text.slice(start, start + maxChars).trim();
+  const first = positions[0] as number;
+  const last = positions[positions.length - 1] as number;
+  if (last - first < maxChars) {
+    const start = Math.max(0, Math.min(document.search_text.length - maxChars, first - Math.floor(maxChars / 4)));
+    return document.search_text.slice(start, start + maxChars).trim();
+  }
+  const separator = " ... ";
+  const available = maxChars - separator.length;
+  const leftLength = Math.floor(available / 2);
+  const rightLength = available - leftLength;
+  const leftStart = Math.max(0, Math.min(document.search_text.length - leftLength, first - Math.floor(leftLength / 4)));
+  const rightStart = Math.max(leftStart + leftLength, Math.min(document.search_text.length - rightLength, last - Math.floor(rightLength * 3 / 4)));
+  return `${document.search_text.slice(leftStart, leftStart + leftLength).trim()}${separator}${document.search_text.slice(rightStart, rightStart + rightLength).trim()}`;
 }
 
 export async function searchLocalRetrievalIndex(projectRoot: string, request: RetrievalRequest, options: { embedding_provider?: EmbeddingProvider } = {}): Promise<{ plan: ReturnType<typeof planRetrieval>; evidence: EvidenceBundle; answer: ReturnType<typeof createRetrievalAnswer> }> {
