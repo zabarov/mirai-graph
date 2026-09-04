@@ -541,6 +541,13 @@ export async function searchLocalRetrievalIndex(projectRoot: string, request: Re
       reasons.set(document.id, ["entity_state_companion"]);
     }
   }
+  const conflictRequested = /(?:conflict|конфликт)/iu.test(request.query);
+  if (conflictRequested) {
+    for (const document of permitted.filter((item) => item.conflict_refs?.length)) {
+      if (!fused.has(document.id)) fused.set(document.id, { score: 1 / 120, channels: ["process"] });
+      reasons.set(document.id, [...new Set([...(reasons.get(document.id) || []), "explicit_conflict_candidate"])]);
+    }
+  }
   const hits = sortHits(permitted.filter((document) => fused.has(document.id)).map((document): RetrievalHit => {
     const score = fused.get(document.id) as { score: number; channels: RetrievalChannel[] };
     const graphPath = document.graph_object_refs.map((ref) => paths.get(ref)).find(Boolean);
@@ -554,7 +561,6 @@ export async function searchLocalRetrievalIndex(projectRoot: string, request: Re
       , instructions_authorized: false as const, canonical_write_allowed: false as const
     };
   })).slice(0, plan.budgets.max_results);
-  const conflictRequested = /(?:conflict|конфликт)/iu.test(request.query);
   const conflicts = [...new Set([
     ...hits.filter((hit) => hit.freshness === "stale").map((hit) => `stale:${hit.document_id}`),
     ...(conflictRequested ? hits.flatMap((hit) => (hit.conflict_refs || []).map((ref) => `conflict:${hit.document_id}:${ref}`)) : [])
