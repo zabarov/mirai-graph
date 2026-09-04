@@ -146,6 +146,17 @@ test("evidence is bound to the admitted contract, slot and candidate value", () 
   const assessment = assessOutcome(contract, seal(candidates), evidence);
   assert.equal(assessment.status, "insufficient_evidence");
   assert.deepEqual(assessment.unsupported_slots, ["version"]);
+
+  const crossSlot = load("evidence-set.json");
+  const versionEvidence = crossSlot.items.find((item) => item.id === "evidence.version");
+  versionEvidence.slot_id = "test_status";
+  crossSlot.items = crossSlot.items.map(seal);
+  assert.deepEqual(assessOutcome(contract, load("candidate-set.json"), seal(crossSlot)).unsupported_slots, ["version"]);
+
+  const malformed = load("evidence-set.json");
+  malformed.items[0].admission_receipt_digest = "not-a-digest";
+  malformed.items = malformed.items.map(seal);
+  assert.throws(() => assessOutcome(contract, load("candidate-set.json"), seal(malformed)), /outcome_evidence_item_invalid/);
 });
 
 test("untrusted content label survives assessment and delivery", () => {

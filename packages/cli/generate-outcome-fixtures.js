@@ -61,6 +61,8 @@ write("child-evidence-set.json", childEvidence);
 write("child-assessment.json", childAssessment);
 write("incomplete-child-assessment.json", incompleteChildAssessment);
 write("aggregate-assessment.json", aggregateAssessment);
+write("child-bundle.json", { contract: childContract, candidates: childCandidates, evidence: childEvidence, assessment: childAssessment });
+write("incomplete-child-bundle.json", { contract: childContract, candidates: incompleteCandidates, evidence: childEvidence, assessment: incompleteChildAssessment });
 
 const invalid = (name, value) => fs.writeFileSync(path.join(invalidRoot, name), `${JSON.stringify(value, null, 2)}\n`);
 const falseSatisfied = structuredClone(assessment);

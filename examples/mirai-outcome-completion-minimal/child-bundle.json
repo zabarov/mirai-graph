@@ -1,0 +1,252 @@
+{
+  "contract": {
+    "contract_version": "1.0.0",
+    "id": "outcome.release-readiness-child",
+    "goal": "Determine whether the package is ready for review",
+    "scope": {
+      "purpose": "release_review",
+      "domains": [
+        "software"
+      ],
+      "effect": "read_only"
+    },
+    "outcome_kind": "readiness_decision",
+    "required_slots": [
+      {
+        "id": "version",
+        "label": "Package version",
+        "value_type": "string",
+        "critical": true,
+        "acquisition": "evidence",
+        "evidence_required": true,
+        "minimum_authority": "owner_asserted",
+        "freshness_required": "current"
+      },
+      {
+        "id": "test_status",
+        "label": "Test status",
+        "value_type": "string",
+        "critical": true,
+        "acquisition": "operation",
+        "evidence_required": true,
+        "minimum_authority": "supporting",
+        "freshness_required": "current"
+      }
+    ],
+    "optional_slots": [
+      {
+        "id": "release_note",
+        "label": "Release note",
+        "value_type": "reference",
+        "critical": false,
+        "acquisition": "evidence",
+        "evidence_required": true,
+        "minimum_authority": "supporting",
+        "freshness_required": "allow_aging"
+      }
+    ],
+    "completion_policy": {
+      "allow_partial": true,
+      "all_critical_required": true
+    },
+    "interaction_policy": {
+      "max_questions": 1,
+      "ask_one_at_a_time": true
+    },
+    "conflict_policy": {
+      "critical_conflict": "block",
+      "noncritical_conflict": "report"
+    },
+    "template_authority": "owner_approved",
+    "execution_allowed": false,
+    "canonical_write_allowed": false,
+    "parent_contract_digest": "sha256:2bfa960f65dc862865a6515081333c82f110ffbeb5e0319372fb1e68ce59453a",
+    "digest": "sha256:59c097c8cd736b2ef28927c6f8baf2f9473d3889296839f8f6cec3ee4dacf356"
+  },
+  "candidates": {
+    "contract_version": "1.0.0",
+    "id": "candidates.release-readiness-child",
+    "contract_digest": "sha256:59c097c8cd736b2ef28927c6f8baf2f9473d3889296839f8f6cec3ee4dacf356",
+    "provider": {
+      "id": "fixture.provider"
+    },
+    "input_digest": "sha256:48aed2374cea5f3bbbee1c8742439be758dcc1e999e0e3f0e03c1ee80e3565a0",
+    "output_digest": "sha256:4bbb1f9446ff0829909d2fa9e71d95f6c7df7e30ac16ddf96e9a6b429d6b3ebf",
+    "candidates": [
+      {
+        "id": "candidate.version",
+        "slot_id": "version",
+        "value": "2.5.0-alpha.1",
+        "evidence_refs": [
+          "evidence.version"
+        ],
+        "source_refs": [
+          "source.package"
+        ],
+        "provider_ref": "fixture.provider"
+      },
+      {
+        "id": "candidate.tests",
+        "slot_id": "test_status",
+        "value": "passed",
+        "evidence_refs": [
+          "evidence.tests"
+        ],
+        "source_refs": [
+          "source.ci"
+        ],
+        "provider_ref": "fixture.provider"
+      },
+      {
+        "id": "candidate.note",
+        "slot_id": "release_note",
+        "value": "releases/2.5.0-alpha.1.md",
+        "evidence_refs": [
+          "evidence.release-note"
+        ],
+        "source_refs": [
+          "source.release-note"
+        ],
+        "provider_ref": "fixture.provider"
+      }
+    ],
+    "context": {
+      "purpose": "release_review",
+      "domains": [
+        "software"
+      ],
+      "availability": "available",
+      "handoff_required": false
+    },
+    "accepted": false,
+    "execution_allowed": false,
+    "content_is_untrusted_data": true,
+    "canonical_write_allowed": false,
+    "digest": "sha256:f1e8bbc23d05869cb2927b7cd9d82de350280c10ef15f085163cc0986713e470"
+  },
+  "evidence": {
+    "contract_version": "1.0.0",
+    "snapshot_digest": "sha256:20ccb3d1c6ef3be0acf3dc63016cbd4b0ffeb7c4ca329fdf7ae02a591c5de486",
+    "policy_digest": "sha256:17ad92e63c962393c0329c658937d16eccaea13036412a3d1d0a5b6b8f29d738",
+    "items": [
+      {
+        "id": "evidence.version",
+        "source_ref": "source.package",
+        "contract_digest": "sha256:59c097c8cd736b2ef28927c6f8baf2f9473d3889296839f8f6cec3ee4dacf356",
+        "slot_id": "version",
+        "value_digest": "sha256:3d228737fbe18762cb3ecfcc16b0118d8d2966eeed7fab298cb3dd8e7880b42e",
+        "admission_receipt_digest": "sha256:85084388d617eb2a823e68e510d05e4235551fa1cc5a8cb1fbdd34111431cfe6",
+        "authority": "owner_asserted",
+        "freshness": "current",
+        "conflict_refs": [],
+        "authorized": true,
+        "digest": "sha256:6c81e8e57fddbc4365b810d0738fdb41915ad1f024dfd6144ef6beaf38089737"
+      },
+      {
+        "id": "evidence.tests",
+        "source_ref": "source.ci",
+        "contract_digest": "sha256:59c097c8cd736b2ef28927c6f8baf2f9473d3889296839f8f6cec3ee4dacf356",
+        "slot_id": "test_status",
+        "value_digest": "sha256:559532ad927252eed5d9b6687d55203a96b956d822055f4570f196a93a42bece",
+        "admission_receipt_digest": "sha256:cded0565be682398bc3c871f5666923aab04f63ace09673751c0cf243fba2917",
+        "authority": "supporting",
+        "freshness": "current",
+        "conflict_refs": [],
+        "authorized": true,
+        "digest": "sha256:968e661b35af5c64ca38959798af4822cbd7a2181cf25f4d6f39cf804894ce67"
+      },
+      {
+        "id": "evidence.release-note",
+        "source_ref": "source.release-note",
+        "contract_digest": "sha256:59c097c8cd736b2ef28927c6f8baf2f9473d3889296839f8f6cec3ee4dacf356",
+        "slot_id": "release_note",
+        "value_digest": "sha256:57073f3b4845c1d2decb3d0a34ab982bbf16ddbc8d8efb90d18b12d09c04653c",
+        "admission_receipt_digest": "sha256:8d337e782f79c861a07aedbe056a423183b7a37adf0b712fa8763ec61db90065",
+        "authority": "supporting",
+        "freshness": "current",
+        "conflict_refs": [],
+        "authorized": true,
+        "digest": "sha256:e4a5f68d2e435bbd2073d59afd50f2160fa95ec4c1a5450cc064dd4b5db21adf"
+      }
+    ],
+    "partial": false,
+    "limitations": [
+      "Synthetic fixture does not establish production readiness."
+    ],
+    "canonical_write_allowed": false,
+    "digest": "sha256:07240ae2c58e3170eadaaaa7a713c4582abfa66b2a56fde4f82f1248d5d2b9e5"
+  },
+  "assessment": {
+    "contract_version": "1.0.0",
+    "id": "assessment.outcome.release-readiness-child.candidates.release-readiness-child",
+    "contract_digest": "sha256:59c097c8cd736b2ef28927c6f8baf2f9473d3889296839f8f6cec3ee4dacf356",
+    "parent_contract_digest": "sha256:2bfa960f65dc862865a6515081333c82f110ffbeb5e0319372fb1e68ce59453a",
+    "candidate_set_digest": "sha256:f1e8bbc23d05869cb2927b7cd9d82de350280c10ef15f085163cc0986713e470",
+    "evidence_set_digest": "sha256:07240ae2c58e3170eadaaaa7a713c4582abfa66b2a56fde4f82f1248d5d2b9e5",
+    "slots": [
+      {
+        "slot_id": "version",
+        "state": "confirmed",
+        "value": "2.5.0-alpha.1",
+        "candidate_refs": [
+          "candidate.version"
+        ],
+        "admitted_evidence_refs": [
+          "evidence.version"
+        ],
+        "source_refs": [
+          "source.package"
+        ],
+        "reasons": [],
+        "content_is_untrusted_data": true
+      },
+      {
+        "slot_id": "test_status",
+        "state": "confirmed",
+        "value": "passed",
+        "candidate_refs": [
+          "candidate.tests"
+        ],
+        "admitted_evidence_refs": [
+          "evidence.tests"
+        ],
+        "source_refs": [
+          "source.ci"
+        ],
+        "reasons": [],
+        "content_is_untrusted_data": true
+      },
+      {
+        "slot_id": "release_note",
+        "state": "confirmed",
+        "value": "releases/2.5.0-alpha.1.md",
+        "candidate_refs": [
+          "candidate.note"
+        ],
+        "admitted_evidence_refs": [
+          "evidence.release-note"
+        ],
+        "source_refs": [
+          "source.release-note"
+        ],
+        "reasons": [],
+        "content_is_untrusted_data": true
+      }
+    ],
+    "missing_slots": [],
+    "stale_slots": [],
+    "conflicting_slots": [],
+    "unsupported_slots": [],
+    "unauthorized_slots": [],
+    "evidence_coverage": 1,
+    "status": "satisfied",
+    "clarifying_question": null,
+    "next_safe_action": "prepare_delivery",
+    "limitations": [
+      "Synthetic fixture does not establish production readiness."
+    ],
+    "execution_allowed": false,
+    "canonical_write_allowed": false,
+    "digest": "sha256:70acdd7a12c9b5e9fba504435e9717c6d0afb0782dc792d723afd17cc9611e1f"
+  }
+}
