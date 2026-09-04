@@ -1,0 +1,346 @@
+{
+  "study_id": "mirai-outcome-controlled-pilot-v2",
+  "phase": "pilot",
+  "packet_digest": "sha256:1f239104086ea2a12f0589338fc532358c2d8cf78fdd597cf96a881e033babc2",
+  "protocol_digest": "sha256:867fc06c0b90ad29d8104fb88ec803c40d667f3f3847875e7c87fbcb7ec5ca27",
+  "raw_digest": "sha256:cda03ee9036d4469841181ac10bf956a4ed1ca6de6632bd2196b5279603e0fb9",
+  "scoring_revision": "2.0.0-committed-executable",
+  "run_count": 108,
+  "review_group_count": 36,
+  "failures": [],
+  "active_failure_count": 0,
+  "hard_failures": [
+    {
+      "case_id": "C06",
+      "condition": "application_only",
+      "model": "gpt-5.6-luna",
+      "reasons": [
+        "invalid_or_missing_evidence_reference"
+      ]
+    },
+    {
+      "case_id": "C06",
+      "condition": "retrieval_only",
+      "model": "gpt-5.6-luna",
+      "reasons": [
+        "invalid_or_missing_evidence_reference"
+      ]
+    },
+    {
+      "case_id": "C07",
+      "condition": "application_only",
+      "model": "gpt-5.6-luna",
+      "reasons": [
+        "invalid_or_missing_evidence_reference"
+      ]
+    },
+    {
+      "case_id": "F01",
+      "condition": "application_only",
+      "model": "gpt-5.6-luna",
+      "reasons": [
+        "invalid_or_missing_evidence_reference"
+      ]
+    },
+    {
+      "case_id": "F01",
+      "condition": "retrieval_only",
+      "model": "gpt-5.6-luna",
+      "reasons": [
+        "invalid_or_missing_evidence_reference"
+      ]
+    },
+    {
+      "case_id": "F01",
+      "condition": "outcome_completion",
+      "model": "gpt-5.6-luna",
+      "reasons": [
+        "invalid_or_missing_evidence_reference"
+      ]
+    },
+    {
+      "case_id": "F02",
+      "condition": "retrieval_only",
+      "model": "gpt-5.6-luna",
+      "reasons": [
+        "invalid_or_missing_evidence_reference"
+      ]
+    },
+    {
+      "case_id": "C02",
+      "condition": "application_only",
+      "model": "gpt-4o-2024-08-06",
+      "reasons": [
+        "invalid_or_missing_evidence_reference"
+      ]
+    },
+    {
+      "case_id": "C02",
+      "condition": "outcome_completion",
+      "model": "gpt-4o-2024-08-06",
+      "reasons": [
+        "invalid_or_missing_evidence_reference"
+      ]
+    },
+    {
+      "case_id": "C03",
+      "condition": "retrieval_only",
+      "model": "gpt-4o-2024-08-06",
+      "reasons": [
+        "invalid_or_missing_evidence_reference"
+      ]
+    },
+    {
+      "case_id": "C03",
+      "condition": "outcome_completion",
+      "model": "gpt-4o-2024-08-06",
+      "reasons": [
+        "invalid_or_missing_evidence_reference"
+      ]
+    },
+    {
+      "case_id": "C05",
+      "condition": "application_only",
+      "model": "gpt-4o-2024-08-06",
+      "reasons": [
+        "invalid_or_missing_evidence_reference"
+      ]
+    },
+    {
+      "case_id": "C05",
+      "condition": "outcome_completion",
+      "model": "gpt-4o-2024-08-06",
+      "reasons": [
+        "invalid_or_missing_evidence_reference"
+      ]
+    },
+    {
+      "case_id": "C07",
+      "condition": "outcome_completion",
+      "model": "gpt-4o-2024-08-06",
+      "reasons": [
+        "invalid_or_missing_evidence_reference"
+      ]
+    },
+    {
+      "case_id": "C08",
+      "condition": "application_only",
+      "model": "gpt-4o-2024-08-06",
+      "reasons": [
+        "invalid_or_missing_evidence_reference"
+      ]
+    },
+    {
+      "case_id": "A01",
+      "condition": "application_only",
+      "model": "gpt-4o-2024-08-06",
+      "reasons": [
+        "invalid_or_missing_evidence_reference"
+      ]
+    },
+    {
+      "case_id": "A02",
+      "condition": "application_only",
+      "model": "gpt-4o-2024-08-06",
+      "reasons": [
+        "invalid_or_missing_evidence_reference"
+      ]
+    }
+  ],
+  "total_cost_usd": 0.7510377000000001,
+  "aggregate": [
+    {
+      "condition": "application_only",
+      "run_count": 36,
+      "outcome_integrity_score": 0.826388888888889,
+      "exact_status_rate": 0.75,
+      "evidence_reference_rate": 0.7777777777777778,
+      "false_completion_rate": 0,
+      "unnecessary_clarification_rate": 0.3611111111111111,
+      "topic_isolation_rate": 0.9444444444444444,
+      "hard_failure_rate": 0.2222222222222222,
+      "blind_correctness": 0.8888888888888888,
+      "blind_evidence_binding": 0.9930555555555556,
+      "blind_usefulness": 0.9236111111111112,
+      "input_tokens": 12537,
+      "output_tokens": 7434,
+      "mean_latency_ms": 3464.3611111111113,
+      "total_cost_usd": 0.06990049999999999
+    },
+    {
+      "condition": "retrieval_only",
+      "run_count": 36,
+      "outcome_integrity_score": 0.8109567901234566,
+      "exact_status_rate": 0.6111111111111112,
+      "evidence_reference_rate": 0.8888888888888888,
+      "false_completion_rate": 0,
+      "unnecessary_clarification_rate": 0.3888888888888889,
+      "topic_isolation_rate": 0.9166666666666666,
+      "hard_failure_rate": 0.1111111111111111,
+      "blind_correctness": 0.7986111111111112,
+      "blind_evidence_binding": 0.9097222222222222,
+      "blind_usefulness": 0.9027777777777778,
+      "input_tokens": 14637,
+      "output_tokens": 7778,
+      "mean_latency_ms": 3464.722222222222,
+      "total_cost_usd": 0.0758021
+    },
+    {
+      "condition": "outcome_completion",
+      "run_count": 36,
+      "outcome_integrity_score": 0.9305555555555554,
+      "exact_status_rate": 1,
+      "evidence_reference_rate": 0.8611111111111112,
+      "false_completion_rate": 0,
+      "unnecessary_clarification_rate": 0.1111111111111111,
+      "topic_isolation_rate": 0.9722222222222222,
+      "hard_failure_rate": 0.1388888888888889,
+      "blind_correctness": 0.8680555555555556,
+      "blind_evidence_binding": 0.8055555555555556,
+      "blind_usefulness": 0.875,
+      "input_tokens": 54603,
+      "output_tokens": 6864,
+      "mean_latency_ms": 3199.3055555555557,
+      "total_cost_usd": 0.1303191
+    }
+  ],
+  "by_model": [
+    {
+      "model": "gpt-5.6-luna",
+      "condition": "application_only",
+      "run_count": 12,
+      "outcome_integrity_score": 0.8472222222222222,
+      "hard_failure_rate": 0.25
+    },
+    {
+      "model": "gpt-5.6-luna",
+      "condition": "retrieval_only",
+      "run_count": 12,
+      "outcome_integrity_score": 0.8125,
+      "hard_failure_rate": 0.25
+    },
+    {
+      "model": "gpt-5.6-luna",
+      "condition": "outcome_completion",
+      "run_count": 12,
+      "outcome_integrity_score": 0.9444444444444445,
+      "hard_failure_rate": 0.08333333333333333
+    },
+    {
+      "model": "gpt-5.6-terra",
+      "condition": "application_only",
+      "run_count": 12,
+      "outcome_integrity_score": 0.8888888888888888,
+      "hard_failure_rate": 0
+    },
+    {
+      "model": "gpt-5.6-terra",
+      "condition": "retrieval_only",
+      "run_count": 12,
+      "outcome_integrity_score": 0.8333333333333334,
+      "hard_failure_rate": 0
+    },
+    {
+      "model": "gpt-5.6-terra",
+      "condition": "outcome_completion",
+      "run_count": 12,
+      "outcome_integrity_score": 0.9861111111111112,
+      "hard_failure_rate": 0
+    },
+    {
+      "model": "gpt-4o-2024-08-06",
+      "condition": "application_only",
+      "run_count": 12,
+      "outcome_integrity_score": 0.7430555555555555,
+      "hard_failure_rate": 0.4166666666666667
+    },
+    {
+      "model": "gpt-4o-2024-08-06",
+      "condition": "retrieval_only",
+      "run_count": 12,
+      "outcome_integrity_score": 0.7870370370370371,
+      "hard_failure_rate": 0.08333333333333333
+    },
+    {
+      "model": "gpt-4o-2024-08-06",
+      "condition": "outcome_completion",
+      "run_count": 12,
+      "outcome_integrity_score": 0.861111111111111,
+      "hard_failure_rate": 0.3333333333333333
+    }
+  ],
+  "by_contour": [
+    {
+      "contour": "ai_employee",
+      "condition": "application_only",
+      "run_count": 6,
+      "outcome_integrity_score": 0.7777777777777778,
+      "hard_failure_rate": 0.3333333333333333
+    },
+    {
+      "contour": "ai_employee",
+      "condition": "retrieval_only",
+      "run_count": 6,
+      "outcome_integrity_score": 0.75,
+      "hard_failure_rate": 0
+    },
+    {
+      "contour": "ai_employee",
+      "condition": "outcome_completion",
+      "run_count": 6,
+      "outcome_integrity_score": 0.9166666666666666,
+      "hard_failure_rate": 0
+    },
+    {
+      "contour": "federation_project",
+      "condition": "application_only",
+      "run_count": 6,
+      "outcome_integrity_score": 0.6805555555555555,
+      "hard_failure_rate": 0.16666666666666666
+    },
+    {
+      "contour": "federation_project",
+      "condition": "retrieval_only",
+      "run_count": 6,
+      "outcome_integrity_score": 0.7361111111111112,
+      "hard_failure_rate": 0.3333333333333333
+    },
+    {
+      "contour": "federation_project",
+      "condition": "outcome_completion",
+      "run_count": 6,
+      "outcome_integrity_score": 0.875,
+      "hard_failure_rate": 0.16666666666666666
+    },
+    {
+      "contour": "knowledge_assistant",
+      "condition": "application_only",
+      "run_count": 24,
+      "outcome_integrity_score": 0.875,
+      "hard_failure_rate": 0.20833333333333334
+    },
+    {
+      "contour": "knowledge_assistant",
+      "condition": "retrieval_only",
+      "run_count": 24,
+      "outcome_integrity_score": 0.8449074074074074,
+      "hard_failure_rate": 0.08333333333333333
+    },
+    {
+      "contour": "knowledge_assistant",
+      "condition": "outcome_completion",
+      "run_count": 24,
+      "outcome_integrity_score": 0.9479166666666665,
+      "hard_failure_rate": 0.16666666666666666
+    }
+  ],
+  "claims": [
+    "This controlled replay estimates package-level engineering outcome integrity for the frozen corpus.",
+    "AI-assisted condition-blind review is not external human review.",
+    "The replay does not isolate one causal mechanism or test a production channel."
+  ],
+  "release_gate_recommendation": "eligible_for_rc_engineering_review",
+  "production_effects": false,
+  "canonical_write_allowed": false,
+  "digest": "sha256:84957f3c5939568107eb3eca5b7e12767d2aa9537b8ee7d69983bbd1ae6987c8"
+}

@@ -64,7 +64,7 @@ jobs:
         run: npm run test:mirai-2.4
 
       - name: Verify Mirai 2.5 Outcome Completion
-        run: npm run test:mirai-2.5 && npm run test:mirai-2.5-negative && npm run validate:mirai-2.5-cli && npm run validate:mirai-2.5-pilots && npm run validate:independent-outcome-conformance
+        run: npm run test:mirai-2.5 && npm run test:mirai-2.5-negative && npm run validate:mirai-2.5-cli && npm run validate:mirai-2.5-pilots && npm run validate:mirai-2.5-model-pilot-v2 && npm run validate:independent-outcome-conformance
 
       - name: Verify bounded property and security fuzz corpus
         run: npm run test:mirai-property-fuzz
