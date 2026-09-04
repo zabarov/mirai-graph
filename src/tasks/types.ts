@@ -35,6 +35,8 @@ export interface TaskRequest {
   required_evidence: string[];
   deadline: string;
   outcome: string;
+  outcome_contract_ref?: string;
+  outcome_contract_digest?: string;
 }
 
 export interface TaskPlan {

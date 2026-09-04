@@ -1,0 +1,69 @@
+{
+  "contract_version": "1.0.0",
+  "id": "assessment.outcome.release-readiness.candidates.release-readiness",
+  "contract_digest": "sha256:2bfa960f65dc862865a6515081333c82f110ffbeb5e0319372fb1e68ce59453a",
+  "candidate_set_digest": "sha256:da893794710e0bc7a8c48c28120633a913caac67a53da571c3221fe0a093c4f8",
+  "evidence_set_digest": "sha256:5201e1e7eb9aeee6fda335e896e0f9e95f1f3e9cd6e06af3a61e05f286dc251b",
+  "slots": [
+    {
+      "slot_id": "version",
+      "state": "confirmed",
+      "value": "2.5.0-alpha.1",
+      "candidate_refs": [
+        "candidate.version"
+      ],
+      "admitted_evidence_refs": [
+        "evidence.forged"
+      ],
+      "source_refs": [
+        "source.package"
+      ],
+      "reasons": []
+    },
+    {
+      "slot_id": "test_status",
+      "state": "confirmed",
+      "value": "passed",
+      "candidate_refs": [
+        "candidate.tests"
+      ],
+      "admitted_evidence_refs": [
+        "evidence.tests"
+      ],
+      "source_refs": [
+        "source.ci"
+      ],
+      "reasons": []
+    },
+    {
+      "slot_id": "release_note",
+      "state": "confirmed",
+      "value": "releases/2.5.0-alpha.1.md",
+      "candidate_refs": [
+        "candidate.note"
+      ],
+      "admitted_evidence_refs": [
+        "evidence.release-note"
+      ],
+      "source_refs": [
+        "source.release-note"
+      ],
+      "reasons": []
+    }
+  ],
+  "missing_slots": [],
+  "stale_slots": [],
+  "conflicting_slots": [],
+  "unsupported_slots": [],
+  "unauthorized_slots": [],
+  "evidence_coverage": 1,
+  "status": "satisfied",
+  "clarifying_question": null,
+  "next_safe_action": "prepare_delivery",
+  "limitations": [
+    "Synthetic fixture does not establish production readiness."
+  ],
+  "execution_allowed": false,
+  "canonical_write_allowed": false,
+  "digest": "sha256:806cab0502a2ac9762de123be45c9510f56182e3c1537e28d7f61abf72213048"
+}

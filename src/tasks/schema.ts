@@ -2,13 +2,16 @@ import { digestSchema, referenceSchema } from "../stdlib/schema.js";
 
 const object = (properties: Record<string, unknown>, required = Object.keys(properties)) => ({ type: "object", additionalProperties: false, properties, required });
 const ids = { type: "array", uniqueItems: true, maxItems: 10000, items: referenceSchema };
-const request = object({ id: referenceSchema, parent_id: { anyOf: [referenceSchema, { type: "null" }] },
+const requestProperties = { id: referenceSchema, parent_id: { anyOf: [referenceSchema, { type: "null" }] },
   receiver_id: referenceSchema, receiver_digest: digestSchema, object_ids: ids,
   input: { type: "object", maxProperties: 64 },
   dependencies: { type: "array", maxItems: 256, items: object({ task_id: referenceSchema, requires: { enum: ["verified", "accepted"] } }) },
   required_evidence: { ...ids, minItems: 1, maxItems: 64 }, deadline: { type: "string", format: "date-time" },
-  outcome: { type: "string", minLength: 1, maxLength: 256 }
-});
+  outcome: { type: "string", minLength: 1, maxLength: 256 },
+  outcome_contract_ref: { type: "string", pattern: "^[A-Za-z][A-Za-z0-9_.:/-]{0,511}$" },
+  outcome_contract_digest: digestSchema
+};
+const request = object(requestProperties, Object.keys(requestProperties).filter((key) => !key.startsWith("outcome_contract_")));
 
 export const TASK_PLAN_SCHEMA = {
   $schema: "https://json-schema.org/draft/2020-12/schema",

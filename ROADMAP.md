@@ -1,6 +1,17 @@
 # Mirai Graph Roadmap
 
-Status: Mirai 2.4.0 stable production-read release with evidence-bound retrieval over the Mirai 2.2/2.3 foundations
+Status: Mirai 2.4.0 stable; Mirai 2.5 Outcome Completion alpha development
+
+## Mirai 2.5: Outcome Completion
+
+Goal: distinguish a useful, evidence-supported user result from search output,
+tool activity, tests or generated prose.
+
+The additive extension introduces outcome contracts, untrusted candidate sets,
+deterministic assessments and semantic delivery plans. It composes through
+existing Mirai Program nodes and Runtime boundaries. Stable promotion requires
+independent conformance, security review, controlled pilots and cross-platform
+clean-room checks.
 
 ## Phase 0: Public Foundation
 

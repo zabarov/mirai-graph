@@ -4,6 +4,13 @@ All notable changes to Mirai Graph will be documented in this file.
 
 ## [Unreleased]
 
+### Added
+
+- Added Outcome Completion contracts, pure assessment operations and CLI.
+- Added evidence-bound slot assessment, nested aggregation and semantic
+  delivery planning without new runtime or language constructs.
+- Added controlled fixtures, negative cases and independent checker work.
+
 ## [2.4.0] - 2026-09-04
 
 ### Added

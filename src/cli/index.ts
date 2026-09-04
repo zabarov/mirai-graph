@@ -106,10 +106,21 @@ import {
   searchLocalRetrievalIndex,
   type RetrievalRequest
 } from "../retrieval/index.js";
+import {
+  assessOutcome,
+  planOutcomeDelivery,
+  proposeOutcomeTemplate,
+  validateOutcomeContract,
+  type OutcomeAssessment,
+  type OutcomeCandidateSet,
+  type OutcomeCompletionContract,
+  type OutcomeEvidenceSet
+} from "../outcome/index.js";
 
 function usage(): void {
   process.stderr.write([
     "Mirai 2.1 CLI (stable)",
+    "Mirai 2.5 Outcome Completion commands are in alpha development on the Mirai 2.4 stable baseline.",
     "Mirai 2.2 Autonomic Fabric commands are in development, bounded, proposal-first and never grant their own authority.",
     "Mirai 2.3 graph-operation development commands are read-only and proposal-only.",
     "",
@@ -173,6 +184,10 @@ function usage(): void {
     "  mirai index status|verify <project>",
     "  mirai search <project> <query> [--intent <intent>] [--markdown]",
     "  mirai search explain <project> <query> [--intent <intent>] [--markdown]",
+    "  mirai outcome validate <contract.json>",
+    "  mirai outcome assess --contract <contract.json> --candidates <candidates.json> --evidence <evidence.json>",
+    "  mirai outcome explain <assessment.json> --markdown",
+    "  mirai outcome template propose --intent <intent.json> --out <proposal.json>",
     "",
     "Alpha.3 effects are capability-gated. Workspace/process actions require --apply and a signed local approval.",
     ""
@@ -309,6 +324,39 @@ export async function runCli(args: string[]): Promise<number> {
   try {
     if (args[0] === "task") return runTaskCli(args);
     if (["stdlib", "graph", "cluster"].includes(args[0] || "") || (args[0] === "component" && ["describe", "resolve"].includes(args[1] || ""))) return runGraphOperationsCli(args);
+    if (args[0] === "outcome") {
+      const command = requireArgument(args[1], "outcome command");
+      if (command === "validate") {
+        const contract = loadJson(requireArgument(args[2], "contract path")) as unknown as OutcomeCompletionContract;
+        const result = validateOutcomeContract(contract);
+        writeJson(result);
+        return result.valid ? 0 : 1;
+      }
+      if (command === "assess") {
+        const contract = loadJson(requireArgument(readOption(args, "--contract"), "--contract")) as unknown as OutcomeCompletionContract;
+        const candidates = loadJson(requireArgument(readOption(args, "--candidates"), "--candidates")) as unknown as OutcomeCandidateSet;
+        const evidence = loadJson(requireArgument(readOption(args, "--evidence"), "--evidence")) as unknown as OutcomeEvidenceSet;
+        const assessment = assessOutcome(contract, candidates, evidence);
+        writeJson(assessment);
+        return ["satisfied", "partially_satisfied", "needs_input", "handoff_required"].includes(assessment.status) ? 0 : 2;
+      }
+      if (command === "explain") {
+        const assessment = loadJson(requireArgument(args[2], "assessment path")) as unknown as OutcomeAssessment;
+        const plan = planOutcomeDelivery(assessment, readOption(args, "--handoff") || null);
+        if (!args.includes("--markdown")) writeJson(plan);
+        else process.stdout.write(["# Outcome Completion", "", `- Status: \`${plan.status}\``, `- Assessment: \`${plan.assessment_digest}\``, `- Confirmed facts: ${plan.confirmed_facts.length}`, `- Gaps: ${plan.gaps.length}`, `- Next safe action: ${plan.useful_next_step}`, ...(plan.question ? [`- Question: ${plan.question}`] : []), "", "No execution, approval, capability or canonical write is authorized by this plan.", ""].join("\n"));
+        return 0;
+      }
+      if (command === "template" && args[2] === "propose") {
+        const intent = loadJson(requireArgument(readOption(args, "--intent"), "--intent"));
+        const proposal = proposeOutcomeTemplate(intent);
+        const output = readOption(args, "--out");
+        if (output) writeJson({ status: "proposed", output: writeJsonFile(output, proposal, args.includes("--force")), proposal_digest: proposal.digest, canonical_write_allowed: false });
+        else writeJson(proposal);
+        return 0;
+      }
+      throw new Error(`Unknown outcome command ${args.slice(1).join(" ")}`);
+    }
     if (args[0] === "index") {
       const command = requireArgument(args[1], "index command");
       const target = path.resolve(requireArgument(args[2], "project path"));

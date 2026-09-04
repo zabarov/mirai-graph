@@ -1,6 +1,6 @@
 {
   "name": "@zabarov/mirai",
-  "version": "2.4.0",
+  "version": "2.5.0-alpha.1",
   "private": false,
   "description": "A governed executable environment for AI, project and organizational processes.",
   "license": "MIT",
@@ -102,10 +102,20 @@
       "import": "./dist/esm/retrieval/index.js",
       "require": "./dist/cjs/retrieval/index.js"
     },
+    "./outcome": {
+      "types": "./dist/cjs/outcome/index.d.ts",
+      "import": "./dist/esm/outcome/index.js",
+      "require": "./dist/cjs/outcome/index.js"
+    },
     "./project-technology": "./packages/project-technology/index.js"
   },
   "scripts": {
-    "posttest": "npm run test:mirai-2.3 && npm run test:mirai-2.4 && npm run validate:mirai-2.4-evaluation && npm run validate:mirai-2.4-retrieval-pilots && npm run validate:independent-retrieval-conformance",
+    "posttest": "npm run test:mirai-2.3 && npm run test:mirai-2.4 && npm run validate:mirai-2.4-evaluation && npm run validate:mirai-2.4-retrieval-pilots && npm run validate:independent-retrieval-conformance && npm run test:mirai-2.5 && npm run validate:mirai-2.5-cli && npm run validate:mirai-2.5-pilots",
+    "test:mirai-2.5": "node --test test/outcome/outcome.test.cjs test/outcome/outcome-cli.test.cjs test/outcome/outcome-program.test.cjs",
+    "test:mirai-2.5-negative": "node packages/cli/test-mirai-2.5-negative.js",
+    "validate:mirai-2.5-cli": "node packages/cli/validate-mirai-2.5-cli.js",
+    "validate:mirai-2.5-pilots": "node packages/cli/validate-mirai-2.5-pilots.js",
+    "validate:independent-outcome-conformance": "node packages/cli/validate-independent-outcome-conformance.js",
     "test:mirai-2.4": "node --test test/retrieval/retrieval.test.cjs",
     "generate:mirai-2.4-evaluation": "npm run build && node benchmarks/mirai-2.4-retrieval/generate-corpus.js",
     "evaluate:mirai-2.4": "node benchmarks/mirai-2.4-retrieval/run-evaluation.js",

@@ -1,0 +1,40 @@
+{
+  "contract_version": "1.0.0",
+  "snapshot_digest": "sha256:20ccb3d1c6ef3be0acf3dc63016cbd4b0ffeb7c4ca329fdf7ae02a591c5de486",
+  "policy_digest": "sha256:17ad92e63c962393c0329c658937d16eccaea13036412a3d1d0a5b6b8f29d738",
+  "items": [
+    {
+      "id": "evidence.version",
+      "source_ref": "source.package",
+      "authority": "owner_asserted",
+      "freshness": "current",
+      "conflict_refs": [],
+      "authorized": true,
+      "digest": "sha256:43ccc4d00da648961a13d8f529f828b1b97e9ce5508188741a25fbc40b461404"
+    },
+    {
+      "id": "evidence.tests",
+      "source_ref": "source.ci",
+      "authority": "supporting",
+      "freshness": "current",
+      "conflict_refs": [],
+      "authorized": true,
+      "digest": "sha256:68f05093bc600659c0aecd265fad80c71a658cc857e91cdfeeee782eb670c200"
+    },
+    {
+      "id": "evidence.release-note",
+      "source_ref": "source.release-note",
+      "authority": "supporting",
+      "freshness": "current",
+      "conflict_refs": [],
+      "authorized": true,
+      "digest": "sha256:00b0da8a50054bb83db2249591b7c6c32a020b32fa9c3143d53e9a069fca991b"
+    }
+  ],
+  "partial": false,
+  "limitations": [
+    "Synthetic fixture does not establish production readiness."
+  ],
+  "canonical_write_allowed": false,
+  "digest": "sha256:5201e1e7eb9aeee6fda335e896e0f9e95f1f3e9cd6e06af3a61e05f286dc251b"
+}

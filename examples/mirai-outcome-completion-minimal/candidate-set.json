@@ -1,0 +1,61 @@
+{
+  "contract_version": "1.0.0",
+  "id": "candidates.release-readiness",
+  "contract_digest": "sha256:2bfa960f65dc862865a6515081333c82f110ffbeb5e0319372fb1e68ce59453a",
+  "provider": {
+    "id": "fixture.provider"
+  },
+  "input_digest": "sha256:48aed2374cea5f3bbbee1c8742439be758dcc1e999e0e3f0e03c1ee80e3565a0",
+  "output_digest": "sha256:4bbb1f9446ff0829909d2fa9e71d95f6c7df7e30ac16ddf96e9a6b429d6b3ebf",
+  "candidates": [
+    {
+      "id": "candidate.version",
+      "slot_id": "version",
+      "value": "2.5.0-alpha.1",
+      "evidence_refs": [
+        "evidence.version"
+      ],
+      "source_refs": [
+        "source.package"
+      ],
+      "provider_ref": "fixture.provider"
+    },
+    {
+      "id": "candidate.tests",
+      "slot_id": "test_status",
+      "value": "passed",
+      "evidence_refs": [
+        "evidence.tests"
+      ],
+      "source_refs": [
+        "source.ci"
+      ],
+      "provider_ref": "fixture.provider"
+    },
+    {
+      "id": "candidate.note",
+      "slot_id": "release_note",
+      "value": "releases/2.5.0-alpha.1.md",
+      "evidence_refs": [
+        "evidence.release-note"
+      ],
+      "source_refs": [
+        "source.release-note"
+      ],
+      "provider_ref": "fixture.provider"
+    }
+  ],
+  "context": {
+    "purpose": "release_review",
+    "domains": [
+      "software"
+    ],
+    "availability": "available",
+    "handoff_required": false
+  },
+  "accepted": false,
+  "execution_allowed": false,
+  "content_is_untrusted_data": true,
+  "canonical_write_allowed": false,
+  "digest": "sha256:da893794710e0bc7a8c48c28120633a913caac67a53da571c3221fe0a093c4f8"
+}

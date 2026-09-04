@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zabarov.github.io/mirai/schemas/outcome-candidate-set.schema.json",
+  "title": "Mirai Outcome Candidate Set",
+  "type": "object", "additionalProperties": false,
+  "required": ["contract_version", "id", "contract_digest", "provider", "input_digest", "output_digest", "candidates", "context", "accepted", "execution_allowed", "content_is_untrusted_data", "canonical_write_allowed", "digest"],
+  "properties": {
+    "contract_version": { "const": "1.0.0" }, "id": { "$ref": "#/$defs/id" }, "contract_digest": { "$ref": "#/$defs/digest" },
+    "provider": { "type": "object", "additionalProperties": false, "required": ["id"], "properties": { "id": { "$ref": "#/$defs/id" }, "model": { "type": "string" } } },
+    "input_digest": { "$ref": "#/$defs/digest" }, "output_digest": { "$ref": "#/$defs/digest" },
+    "candidates": { "type": "array", "maxItems": 512, "items": { "type": "object", "additionalProperties": false, "required": ["id", "slot_id", "value", "evidence_refs", "source_refs", "provider_ref"], "properties": { "id": { "$ref": "#/$defs/id" }, "slot_id": { "$ref": "#/$defs/id" }, "value": {}, "evidence_refs": { "$ref": "#/$defs/ids0" }, "source_refs": { "$ref": "#/$defs/ids0" }, "provider_ref": { "$ref": "#/$defs/id" } } } },
+    "context": { "type": "object", "additionalProperties": false, "required": ["purpose", "domains", "availability", "handoff_required"], "properties": { "purpose": { "$ref": "#/$defs/id" }, "domains": { "$ref": "#/$defs/ids" }, "availability": { "enum": ["available", "temporarily_unavailable", "failed"] }, "handoff_required": { "type": "boolean" } } },
+    "accepted": { "const": false }, "execution_allowed": { "const": false }, "content_is_untrusted_data": { "const": true }, "canonical_write_allowed": { "const": false }, "digest": { "$ref": "#/$defs/digest" }
+  },
+  "$defs": { "id": { "type": "string", "minLength": 1 }, "ids": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "$ref": "#/$defs/id" } }, "ids0": { "type": "array", "uniqueItems": true, "items": { "$ref": "#/$defs/id" } }, "digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" } }
+}

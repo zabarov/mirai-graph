@@ -1,6 +1,6 @@
 # Mirai Documentation Map
 
-Status: Mirai 2.1 stable documentation map with Mirai 2.2 alpha development
+Status: Mirai 2.4 stable documentation map with Mirai 2.5 alpha development
 
 This page helps readers choose the right Mirai Graph documents without reading
 the whole repository.
@@ -30,6 +30,13 @@ the whole repository.
 - [Mirai Graph Transition](adoption/mirai-graph-transition.md)
 
 ## Standard
+
+Mirai 2.5 outcome development:
+
+- [Outcome Completion](../standard/outcome-completion.md)
+- [Outcome Completion Architecture Decision](architecture/mirai-2.5-outcome-completion-adr.md)
+- [Minimal Outcome Example](../examples/mirai-outcome-completion-minimal/outcome-contract.json)
+- [2.5 Alpha Release Note](../releases/2.5.0-alpha.1.md)
 
 Mirai 2.0 execution:
 

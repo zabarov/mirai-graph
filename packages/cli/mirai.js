@@ -12,7 +12,7 @@ const newCommands = new Set([
   "stdlib", "graph", "cluster", "task",
   "assimilate", "identity", "technology", "component", "activation",
   "autonomy", "evolution", "autonomic",
-  "project", "init", "detect", "bootstrap", "index", "search"
+  "project", "init", "detect", "bootstrap", "index", "search", "outcome"
 ]);
 
 if (args[0] === "--version" || args[0] === "-v") {

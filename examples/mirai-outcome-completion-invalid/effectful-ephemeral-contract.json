@@ -1,0 +1,63 @@
+{
+  "contract_version": "1.0.0",
+  "id": "outcome.release-readiness",
+  "goal": "Determine whether the package is ready for review",
+  "scope": {
+    "purpose": "release_review",
+    "domains": [
+      "software"
+    ],
+    "effect": "effectful"
+  },
+  "outcome_kind": "readiness_decision",
+  "required_slots": [
+    {
+      "id": "version",
+      "label": "Package version",
+      "value_type": "string",
+      "critical": true,
+      "acquisition": "evidence",
+      "evidence_required": true,
+      "minimum_authority": "owner_asserted",
+      "freshness_required": "current"
+    },
+    {
+      "id": "test_status",
+      "label": "Test status",
+      "value_type": "string",
+      "critical": true,
+      "acquisition": "operation",
+      "evidence_required": true,
+      "minimum_authority": "supporting",
+      "freshness_required": "current"
+    }
+  ],
+  "optional_slots": [
+    {
+      "id": "release_note",
+      "label": "Release note",
+      "value_type": "reference",
+      "critical": false,
+      "acquisition": "evidence",
+      "evidence_required": true,
+      "minimum_authority": "supporting",
+      "freshness_required": "allow_aging"
+    }
+  ],
+  "completion_policy": {
+    "allow_partial": true,
+    "all_critical_required": true
+  },
+  "interaction_policy": {
+    "max_questions": 1,
+    "ask_one_at_a_time": true
+  },
+  "conflict_policy": {
+    "critical_conflict": "block",
+    "noncritical_conflict": "report"
+  },
+  "template_authority": "ephemeral_read_only",
+  "execution_allowed": false,
+  "canonical_write_allowed": false,
+  "digest": "sha256:0fff4a0740e33f863257c4fabfdeb8d1b89b679980e3527799b36ae19f979bdd"
+}

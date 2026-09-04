@@ -1,0 +1,38 @@
+{
+  "contract_version": "1.0.0",
+  "pilot_id": "pilot.federation-project",
+  "mode": "synthetic",
+  "cases": [
+    {
+      "id": "parent_child_aggregation",
+      "expected_status": "satisfied",
+      "actual_status": "satisfied",
+      "assessment_digest": "sha256:1626929ab2220b38c08b357fd8e9d2dfa6821585a64f71d1087bfed2e463d76b",
+      "evidence_coverage": 1,
+      "question_count": 0,
+      "citation_count": 2
+    }
+  ],
+  "metrics": {
+    "status_accuracy": 1,
+    "mean_evidence_coverage": 1,
+    "unsupported_completion_rate": 0,
+    "replay_stability": 1,
+    "cold_start_latency_ms": 0,
+    "semantic_ready_latency_ms": 0,
+    "delivery_latency_ms": 0
+  },
+  "hard_gate_violations": {
+    "accepted_without_evidence": 0,
+    "unauthorized_effects": 0,
+    "automatic_canonical_updates": 0,
+    "silent_conflict_resolutions": 0
+  },
+  "limitations": [
+    "Deterministic synthetic/shadow evidence does not establish external product effectiveness.",
+    "Latency fields isolate framework overhead and do not represent a live provider."
+  ],
+  "production_effects": false,
+  "canonical_write_allowed": false,
+  "digest": "sha256:9fb6316256b4befe80e58ea367d7b5c6a039434c9c34aa9f89b297b75c4ed2fb"
+}

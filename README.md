@@ -18,6 +18,11 @@ authorization-bound local indexes and returns evidence-bound answers across
 exact, lexical, optional semantic, graph and process channels. Retrieval never
 grants approval, executes a Program or changes canonical graph state.
 
+Mirai `2.5.0-alpha.1` is under local development on top of that stable
+baseline. Its [Outcome Completion](standard/outcome-completion.md) extension
+checks whether the user's useful result is supported by required evidence. It
+does not replace Retrieval, Program or Runtime and is not yet a stable release.
+
 ```bash
 npm install
 npm run build

@@ -1,0 +1,62 @@
+{
+  "contract_version": "1.0.0",
+  "id": "delivery.assessment.outcome.release-readiness.candidates.release-readiness",
+  "assessment_digest": "sha256:8f922cda1745e1653d9608d0d56c7bf5607adeb3287d2f4ce981e9ee2cf928a6",
+  "status": "satisfied",
+  "confirmed_facts": [
+    {
+      "slot_id": "version",
+      "value": "2.5.0-alpha.1",
+      "evidence_refs": [
+        "evidence.version"
+      ],
+      "source_refs": [
+        "source.package"
+      ]
+    },
+    {
+      "slot_id": "test_status",
+      "value": "passed",
+      "evidence_refs": [
+        "evidence.tests"
+      ],
+      "source_refs": [
+        "source.ci"
+      ]
+    },
+    {
+      "slot_id": "release_note",
+      "value": "releases/2.5.0-alpha.1.md",
+      "evidence_refs": [
+        "evidence.release-note"
+      ],
+      "source_refs": [
+        "source.release-note"
+      ]
+    }
+  ],
+  "gaps": [],
+  "question": null,
+  "useful_next_step": "prepare_delivery",
+  "citations": [
+    {
+      "evidence_ref": "evidence.release-note",
+      "source_ref": "source.release-note"
+    },
+    {
+      "evidence_ref": "evidence.tests",
+      "source_ref": "source.ci"
+    },
+    {
+      "evidence_ref": "evidence.version",
+      "source_ref": "source.package"
+    }
+  ],
+  "handoff_route": null,
+  "limitations": [
+    "Synthetic fixture does not establish production readiness."
+  ],
+  "execution_allowed": false,
+  "canonical_write_allowed": false,
+  "digest": "sha256:d597480369cc9dff71637a3d25a380a0778dc778c409a180119a12e037d7b51b"
+}

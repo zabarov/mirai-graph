@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zabarov.github.io/mirai/schemas/outcome-assessment.schema.json",
+  "title": "Mirai Outcome Assessment",
+  "type": "object", "additionalProperties": false,
+  "required": ["contract_version", "id", "contract_digest", "candidate_set_digest", "evidence_set_digest", "slots", "missing_slots", "stale_slots", "conflicting_slots", "unsupported_slots", "unauthorized_slots", "evidence_coverage", "status", "clarifying_question", "next_safe_action", "limitations", "execution_allowed", "canonical_write_allowed", "digest"],
+  "properties": {
+    "contract_version": { "const": "1.0.0" }, "id": { "type": "string" }, "contract_digest": { "$ref": "#/$defs/digest" }, "candidate_set_digest": { "$ref": "#/$defs/digest" }, "evidence_set_digest": { "$ref": "#/$defs/digest" },
+    "slots": { "type": "array", "maxItems": 256, "items": { "$ref": "#/$defs/slot" } },
+    "missing_slots": { "$ref": "#/$defs/strings" }, "stale_slots": { "$ref": "#/$defs/strings" }, "conflicting_slots": { "$ref": "#/$defs/strings" }, "unsupported_slots": { "$ref": "#/$defs/strings" }, "unauthorized_slots": { "$ref": "#/$defs/strings" },
+    "evidence_coverage": { "type": "number", "minimum": 0, "maximum": 1 },
+    "status": { "$ref": "#/$defs/status" }, "clarifying_question": { "type": ["string", "null"] }, "next_safe_action": { "type": "string", "minLength": 1 }, "limitations": { "$ref": "#/$defs/strings" },
+    "execution_allowed": { "const": false }, "canonical_write_allowed": { "const": false }, "digest": { "$ref": "#/$defs/digest" }
+  },
+  "$defs": {
+    "digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" }, "strings": { "type": "array", "uniqueItems": true, "items": { "type": "string" } },
+    "status": { "enum": ["satisfied", "partially_satisfied", "needs_input", "blocked_by_conflict", "out_of_scope", "insufficient_evidence", "handoff_required", "temporarily_unavailable", "failed"] },
+    "slot": { "type": "object", "additionalProperties": false, "required": ["slot_id", "state", "candidate_refs", "admitted_evidence_refs", "source_refs", "reasons"], "properties": { "slot_id": { "type": "string" }, "state": { "enum": ["confirmed", "missing", "stale", "conflicting", "unsupported", "unauthorized", "invalid"] }, "value": {}, "candidate_refs": { "$ref": "#/$defs/strings" }, "admitted_evidence_refs": { "$ref": "#/$defs/strings" }, "source_refs": { "$ref": "#/$defs/strings" }, "reasons": { "$ref": "#/$defs/strings" } } }
+  }
+}

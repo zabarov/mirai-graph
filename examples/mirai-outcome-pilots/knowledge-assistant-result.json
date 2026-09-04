@@ -1,0 +1,101 @@
+{
+  "contract_version": "1.0.0",
+  "pilot_id": "pilot.knowledge-assistant",
+  "mode": "shadow_no_send",
+  "cases": [
+    {
+      "id": "C01_cold_start",
+      "expected_status": "satisfied",
+      "actual_status": "satisfied",
+      "assessment_digest": "sha256:96c20e8e8f025d24326bda832285978983785ce41122122d20471b258f9a30cd",
+      "evidence_coverage": 1,
+      "question_count": 0,
+      "citation_count": 2
+    },
+    {
+      "id": "C02_useful_route",
+      "expected_status": "satisfied",
+      "actual_status": "satisfied",
+      "assessment_digest": "sha256:96c20e8e8f025d24326bda832285978983785ce41122122d20471b258f9a30cd",
+      "evidence_coverage": 1,
+      "question_count": 0,
+      "citation_count": 2
+    },
+    {
+      "id": "C03_contextual_follow_up",
+      "expected_status": "satisfied",
+      "actual_status": "satisfied",
+      "assessment_digest": "sha256:96c20e8e8f025d24326bda832285978983785ce41122122d20471b258f9a30cd",
+      "evidence_coverage": 1,
+      "question_count": 0,
+      "citation_count": 2
+    },
+    {
+      "id": "C04_out_of_scope",
+      "expected_status": "out_of_scope",
+      "actual_status": "out_of_scope",
+      "assessment_digest": "sha256:44de6cc309977780dbebb0bdcfe03115073da4700c3cee0a1af0059b4f0e1d42",
+      "evidence_coverage": 1,
+      "question_count": 0,
+      "citation_count": 2
+    },
+    {
+      "id": "C05_topic_isolation",
+      "expected_status": "satisfied",
+      "actual_status": "satisfied",
+      "assessment_digest": "sha256:6f98eb1f39cc2ef4d2710a070aff6e65dbeacbb9a00194779d087451111717ab",
+      "evidence_coverage": 1,
+      "question_count": 0,
+      "citation_count": 2
+    },
+    {
+      "id": "C06_citations",
+      "expected_status": "satisfied",
+      "actual_status": "satisfied",
+      "assessment_digest": "sha256:96c20e8e8f025d24326bda832285978983785ce41122122d20471b258f9a30cd",
+      "evidence_coverage": 1,
+      "question_count": 0,
+      "citation_count": 2
+    },
+    {
+      "id": "C07_needs_parameter",
+      "expected_status": "needs_input",
+      "actual_status": "needs_input",
+      "assessment_digest": "sha256:9b0016575faa97ef4e5048c4bf62e610ed7fed486a56deb8a94ae0165f9b5c04",
+      "evidence_coverage": 0.5,
+      "question_count": 1,
+      "citation_count": 1
+    },
+    {
+      "id": "C08_conflicting",
+      "expected_status": "blocked_by_conflict",
+      "actual_status": "blocked_by_conflict",
+      "assessment_digest": "sha256:6a8c43433e781156cbe4f1540fff8c680d5705b39fed523fef6482107fd9a2b3",
+      "evidence_coverage": 0.5,
+      "question_count": 0,
+      "citation_count": 1
+    }
+  ],
+  "metrics": {
+    "status_accuracy": 1,
+    "mean_evidence_coverage": 0.875,
+    "unsupported_completion_rate": 0,
+    "replay_stability": 1,
+    "cold_start_latency_ms": 0,
+    "semantic_ready_latency_ms": 0,
+    "delivery_latency_ms": 0
+  },
+  "hard_gate_violations": {
+    "accepted_without_evidence": 0,
+    "unauthorized_effects": 0,
+    "automatic_canonical_updates": 0,
+    "silent_conflict_resolutions": 0
+  },
+  "limitations": [
+    "Deterministic synthetic/shadow evidence does not establish external product effectiveness.",
+    "Latency fields isolate framework overhead and do not represent a live provider."
+  ],
+  "production_effects": false,
+  "canonical_write_allowed": false,
+  "digest": "sha256:7bdd6c5a5205734052857d8939a1f20991413ca3c0e682074b1e473ab502756a"
+}
