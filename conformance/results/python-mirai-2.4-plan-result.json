@@ -1,0 +1,10 @@
+{
+  "contract_version": "1.0.0",
+  "implementation": "python_independent",
+  "kind": "plan",
+  "status": "passed",
+  "artifact_digest": "sha256:cfb832d59d501e1cb3043355509bf301cc121ee27b5bdf80783d0474dff482d7",
+  "errors": [],
+  "canonical_write_performed": false,
+  "effects_executed": false
+}

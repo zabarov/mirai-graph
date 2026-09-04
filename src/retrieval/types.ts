@@ -180,6 +180,9 @@ export interface FederatedRetrievalDirectoryEntry {
   freshness: RetrievalFreshness;
   endpoint_alias: string;
   policy_digest: string;
+  index_digest?: string;
+  graph_digest?: string | null;
+  cache_ttl_ms?: number;
 }
 
 export interface FederatedQueryEnvelope {

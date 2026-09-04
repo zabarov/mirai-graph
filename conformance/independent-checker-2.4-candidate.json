@@ -1,0 +1,25 @@
+{
+  "contract_version": "1.0.0",
+  "repository": "zabarov/mirai-conformance",
+  "branch": "codex/mirai-2.4-conformance",
+  "revision": "fc7bb6784d6ca73473ba437eb1a78fce578073ac",
+  "version": "0.5.0a1",
+  "implementation": "python_independent",
+  "imports_typescript_runtime": false,
+  "supported_surfaces": [
+    "retrieval_index_descriptors",
+    "retrieval_plans",
+    "retrieval_evidence_bundles",
+    "retrieval_answers",
+    "federated_query_envelopes",
+    "federated_query_results",
+    "retrieval_evaluations"
+  ],
+  "local_test_status": "passed_25",
+  "publication_status": "local_branch_only",
+  "public_ci_status": "not_run",
+  "release_gate_eligible": false,
+  "canonical_write_performed": false,
+  "effects_executed": false,
+  "mirai_reference_revision": "05991d23ff6d5481fc9061762bd64c82bbf9d70c"
+}

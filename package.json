@@ -105,7 +105,7 @@
     "./project-technology": "./packages/project-technology/index.js"
   },
   "scripts": {
-    "posttest": "npm run test:mirai-2.3 && npm run test:mirai-2.4",
+    "posttest": "npm run test:mirai-2.3 && npm run test:mirai-2.4 && npm run validate:independent-retrieval-conformance",
     "test:mirai-2.4": "node --test test/retrieval/retrieval.test.cjs",
     "validate:mirai-2.4": "npm run build && npm run test:mirai-2.4",
     "generate:mirai-2.4-fixtures": "npm run build && node packages/cli/generate-retrieval-fixtures.js",
@@ -137,6 +137,7 @@
     "validate:mirai-2.2-controlled-pilots": "node packages/cli/validate-mirai-2.2-controlled-pilots.js",
     "test:mirai-2.2-controlled-pilots-negative": "node packages/cli/test-mirai-2.2-controlled-pilots-negative.js",
     "validate:independent-autonomic-conformance": "node packages/cli/validate-independent-autonomic-conformance.js",
+    "validate:independent-retrieval-conformance": "node packages/cli/validate-independent-retrieval-conformance.js",
     "validate:mirai-2.2-readiness": "node packages/cli/validate-mirai-2-2-readiness.js",
     "validate:mirai-2.3-readiness": "node packages/cli/validate-mirai-2-3-readiness.js",
     "validate:mirai-2.2-security-review": "node packages/cli/validate-mirai-security-review.js docs/security/mirai-2.2-independent-ai-security-review-2026-09-03.json --profile autonomic_fabric_2_2",

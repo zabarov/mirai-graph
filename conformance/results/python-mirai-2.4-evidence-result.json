@@ -1,0 +1,10 @@
+{
+  "contract_version": "1.0.0",
+  "implementation": "python_independent",
+  "kind": "evidence-bundle",
+  "status": "passed",
+  "artifact_digest": "sha256:69876b6653c838741dd37aedd7d47bef66250aa7e2809c4f478b18641749e03b",
+  "errors": [],
+  "canonical_write_performed": false,
+  "effects_executed": false
+}

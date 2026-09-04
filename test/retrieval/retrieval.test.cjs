@@ -11,6 +11,7 @@ const {
   buildLocalRetrievalIndex,
   dispatchFederatedQuery,
   evaluateRetrieval,
+  FederatedRetrievalCache,
   inspectLocalRetrievalIndex,
   readRetrievalConfig,
   searchLocalRetrievalIndex,
@@ -163,19 +164,31 @@ test("federated retrieval is bounded and validates digest bindings", async () =>
     deadline: "2099-01-01T00:00:00Z", token_budget: 1000, cost_budget: 1, freshness_required: "current", canonical_write_allowed: false
   };
   assert.deepEqual(validateFederatedEnvelope(envelope), []);
-  const directory = [{ graph_id: "graph.release", domains: ["release"], intents: ["policy_lookup"], scopes: ["demo"], authority: "owner_asserted", freshness: "current", endpoint_alias: "endpoint.release", policy_digest: policyDigest }];
+  const indexDigest = `sha256:${"c".repeat(64)}`;
+  const directory = [{ graph_id: "graph.release", domains: ["release"], intents: ["policy_lookup"], scopes: ["demo"], authority: "owner_asserted", freshness: "current", endpoint_alias: "endpoint.release", policy_digest: policyDigest, index_digest: indexDigest, graph_digest: null, cache_ttl_ms: 1000 }];
+  const cache = new FederatedRetrievalCache();
+  let calls = 0;
   const output = await dispatchFederatedQuery(directory, envelope, {
     "endpoint.release": async (requestEnvelope, entry) => {
-      const evidenceBody = { contract_version: "1.0.0", query_digest: digestValue(requestEnvelope), index_digest: `sha256:${"c".repeat(64)}`, graph_digest: null, policy_digest: entry.policy_digest, hits: [], source_refs: [], conflicts: [], limitations: [], partial: false, instructions_authorized: false, canonical_write_allowed: false };
+      calls += 1;
+      const evidenceBody = { contract_version: "1.0.0", query_digest: digestValue(requestEnvelope), index_digest: indexDigest, graph_digest: null, policy_digest: entry.policy_digest, hits: [], source_refs: [], conflicts: [], limitations: [], partial: false, instructions_authorized: false, canonical_write_allowed: false };
       const evidence = { ...evidenceBody, digest: digestValue(evidenceBody) };
       const body = { contract_version: "1.0.0", query_id: requestEnvelope.id, responder_graph_id: entry.graph_id, query_digest: digestValue(requestEnvelope), index_digest: evidence.index_digest, graph_digest: null, policy_digest: entry.policy_digest, evidence_bundle: evidence, status: "complete", blockers: [], instructions_authorized: false, canonical_write_allowed: false };
       return { ...body, digest: digestValue(body) };
     }
-  });
+  }, { cache });
   assert.equal(output.results.length, 1);
   assert.equal(output.partial, false);
+  const cached = await dispatchFederatedQuery(directory, envelope, { "endpoint.release": async () => { throw new Error("cache_miss"); } }, { cache });
+  assert.equal(cached.results.length, 1);
+  assert.equal(calls, 1);
+  assert.equal(cache.invalidateGraph("graph.release"), 1);
   assert.ok(validateFederatedEnvelope({ ...envelope, visited_graph_ids: ["graph.a", "graph.a"] }).includes("federated_route_cycle_detected"));
   assert.ok(validateFederatedEnvelope({ ...envelope, deadline: "2000-01-01T00:00:00Z" }).includes("federated_deadline_expired"));
+  const timeoutEnvelope = { ...envelope, id: "fq.timeout", deadline: new Date(Date.now() + 25).toISOString() };
+  const timedOut = await dispatchFederatedQuery(directory, timeoutEnvelope, { "endpoint.release": () => new Promise(() => undefined) });
+  assert.equal(timedOut.partial, true);
+  assert.ok(timedOut.blockers.some((item) => item.includes("federated_remote_timeout")));
 });
 
 test("retrieval schemas compile", () => {

@@ -59,3 +59,9 @@ Federated envelopes carry visited graph ids, hop and fan-out limits, deadline,
 cost and token budgets. Cycles and repeated graph visits fail closed. A remote
 network request is a governed runtime effect with a receipt; local search over
 an immutable index snapshot is pure.
+
+Remote dispatch uses deadline-bounded calls. A timeout is returned as an
+explicit partial result, never as a complete answer. Optional in-memory caching
+is keyed by the full query envelope plus responder graph, index, graph and
+policy digests; TTL expiry or graph invalidation removes the entry. A cache hit
+cannot widen scope or survive a snapshot change.
