@@ -1,0 +1,274 @@
+{
+  "study_id": "mirai-outcome-controlled-pilot-v1",
+  "phase": "pilot",
+  "packet_digest": "sha256:7bbd36e823aa48f36cd97cbe51297df88feeabdbe672e5e58a4b9ea5e635a2e9",
+  "raw_digest": "sha256:e20342f8237537a8c012862dff4b329133d6518d1271bb1c3a6c8c6c79ca8a59",
+  "scoring_revision": "1.0.2-protocol-conformance-fix",
+  "run_count": 108,
+  "review_group_count": 36,
+  "failures": [],
+  "active_failure_count": 0,
+  "hard_failures": [
+    {
+      "case_id": "F01",
+      "condition": "application_only",
+      "model": "gpt-5.6-luna",
+      "reasons": [
+        "invalid_or_missing_evidence_reference"
+      ]
+    },
+    {
+      "case_id": "F01",
+      "condition": "outcome_completion",
+      "model": "gpt-5.6-luna",
+      "reasons": [
+        "invalid_or_missing_evidence_reference"
+      ]
+    },
+    {
+      "case_id": "F02",
+      "condition": "retrieval_only",
+      "model": "gpt-5.6-terra",
+      "reasons": [
+        "invalid_or_missing_evidence_reference"
+      ]
+    },
+    {
+      "case_id": "C02",
+      "condition": "application_only",
+      "model": "gpt-4o-2024-08-06",
+      "reasons": [
+        "invalid_or_missing_evidence_reference"
+      ]
+    },
+    {
+      "case_id": "C02",
+      "condition": "retrieval_only",
+      "model": "gpt-4o-2024-08-06",
+      "reasons": [
+        "invalid_or_missing_evidence_reference"
+      ]
+    },
+    {
+      "case_id": "C05",
+      "condition": "outcome_completion",
+      "model": "gpt-4o-2024-08-06",
+      "reasons": [
+        "invalid_or_missing_evidence_reference"
+      ]
+    },
+    {
+      "case_id": "C06",
+      "condition": "outcome_completion",
+      "model": "gpt-4o-2024-08-06",
+      "reasons": [
+        "invalid_or_missing_evidence_reference"
+      ]
+    },
+    {
+      "case_id": "C07",
+      "condition": "outcome_completion",
+      "model": "gpt-4o-2024-08-06",
+      "reasons": [
+        "invalid_or_missing_evidence_reference"
+      ]
+    },
+    {
+      "case_id": "F02",
+      "condition": "application_only",
+      "model": "gpt-4o-2024-08-06",
+      "reasons": [
+        "invalid_or_missing_evidence_reference"
+      ]
+    },
+    {
+      "case_id": "A02",
+      "condition": "application_only",
+      "model": "gpt-4o-2024-08-06",
+      "reasons": [
+        "invalid_or_missing_evidence_reference"
+      ]
+    }
+  ],
+  "total_cost_usd": 0.7183048999999999,
+  "aggregate": [
+    {
+      "condition": "application_only",
+      "run_count": 36,
+      "outcome_integrity_score": 0.8294753086419753,
+      "exact_status_rate": 0.7222222222222222,
+      "evidence_reference_rate": 0.8888888888888888,
+      "hard_failure_rate": 0.1111111111111111,
+      "blind_correctness": 0.8680555555555556,
+      "blind_evidence_binding": 0.9861111111111112,
+      "blind_usefulness": 0.9097222222222222,
+      "mean_latency_ms": 4168.194444444444,
+      "total_cost_usd": 0.0696397
+    },
+    {
+      "condition": "retrieval_only",
+      "run_count": 36,
+      "outcome_integrity_score": 0.8287037037037036,
+      "exact_status_rate": 0.6388888888888888,
+      "evidence_reference_rate": 0.9444444444444444,
+      "hard_failure_rate": 0.05555555555555555,
+      "blind_correctness": 0.8055555555555556,
+      "blind_evidence_binding": 0.875,
+      "blind_usefulness": 0.8819444444444444,
+      "mean_latency_ms": 3622.6666666666665,
+      "total_cost_usd": 0.07657969999999999
+    },
+    {
+      "condition": "outcome_completion",
+      "run_count": 36,
+      "outcome_integrity_score": 0.908179012345679,
+      "exact_status_rate": 0.9722222222222222,
+      "evidence_reference_rate": 0.8888888888888888,
+      "hard_failure_rate": 0.1111111111111111,
+      "blind_correctness": 0.8680555555555556,
+      "blind_evidence_binding": 0.7847222222222222,
+      "blind_usefulness": 0.8680555555555556,
+      "mean_latency_ms": 3644.4444444444443,
+      "total_cost_usd": 0.12932149999999998
+    }
+  ],
+  "by_model": [
+    {
+      "model": "gpt-5.6-luna",
+      "condition": "application_only",
+      "run_count": 12,
+      "outcome_integrity_score": 0.8611111111111112,
+      "hard_failure_rate": 0.08333333333333333
+    },
+    {
+      "model": "gpt-5.6-luna",
+      "condition": "retrieval_only",
+      "run_count": 12,
+      "outcome_integrity_score": 0.8611111111111112,
+      "hard_failure_rate": 0
+    },
+    {
+      "model": "gpt-5.6-luna",
+      "condition": "outcome_completion",
+      "run_count": 12,
+      "outcome_integrity_score": 0.9236111111111113,
+      "hard_failure_rate": 0.08333333333333333
+    },
+    {
+      "model": "gpt-5.6-terra",
+      "condition": "application_only",
+      "run_count": 12,
+      "outcome_integrity_score": 0.8541666666666665,
+      "hard_failure_rate": 0
+    },
+    {
+      "model": "gpt-5.6-terra",
+      "condition": "retrieval_only",
+      "run_count": 12,
+      "outcome_integrity_score": 0.8402777777777777,
+      "hard_failure_rate": 0.08333333333333333
+    },
+    {
+      "model": "gpt-5.6-terra",
+      "condition": "outcome_completion",
+      "run_count": 12,
+      "outcome_integrity_score": 0.9791666666666669,
+      "hard_failure_rate": 0
+    },
+    {
+      "model": "gpt-4o-2024-08-06",
+      "condition": "application_only",
+      "run_count": 12,
+      "outcome_integrity_score": 0.773148148148148,
+      "hard_failure_rate": 0.25
+    },
+    {
+      "model": "gpt-4o-2024-08-06",
+      "condition": "retrieval_only",
+      "run_count": 12,
+      "outcome_integrity_score": 0.784722222222222,
+      "hard_failure_rate": 0.08333333333333333
+    },
+    {
+      "model": "gpt-4o-2024-08-06",
+      "condition": "outcome_completion",
+      "run_count": 12,
+      "outcome_integrity_score": 0.8217592592592592,
+      "hard_failure_rate": 0.25
+    }
+  ],
+  "by_contour": [
+    {
+      "contour": "knowledge_assistant",
+      "condition": "application_only",
+      "run_count": 24,
+      "outcome_integrity_score": 0.886574074074074,
+      "hard_failure_rate": 0.041666666666666664
+    },
+    {
+      "contour": "knowledge_assistant",
+      "condition": "retrieval_only",
+      "run_count": 24,
+      "outcome_integrity_score": 0.8749999999999999,
+      "hard_failure_rate": 0.041666666666666664
+    },
+    {
+      "contour": "knowledge_assistant",
+      "condition": "outcome_completion",
+      "run_count": 24,
+      "outcome_integrity_score": 0.935185185185185,
+      "hard_failure_rate": 0.125
+    },
+    {
+      "contour": "federation_project",
+      "condition": "application_only",
+      "run_count": 6,
+      "outcome_integrity_score": 0.6944444444444443,
+      "hard_failure_rate": 0.3333333333333333
+    },
+    {
+      "contour": "federation_project",
+      "condition": "retrieval_only",
+      "run_count": 6,
+      "outcome_integrity_score": 0.75,
+      "hard_failure_rate": 0.16666666666666666
+    },
+    {
+      "contour": "federation_project",
+      "condition": "outcome_completion",
+      "run_count": 6,
+      "outcome_integrity_score": 0.8194444444444445,
+      "hard_failure_rate": 0.16666666666666666
+    },
+    {
+      "contour": "ai_employee",
+      "condition": "application_only",
+      "run_count": 6,
+      "outcome_integrity_score": 0.7361111111111112,
+      "hard_failure_rate": 0.16666666666666666
+    },
+    {
+      "contour": "ai_employee",
+      "condition": "retrieval_only",
+      "run_count": 6,
+      "outcome_integrity_score": 0.7222222222222223,
+      "hard_failure_rate": 0
+    },
+    {
+      "contour": "ai_employee",
+      "condition": "outcome_completion",
+      "run_count": 6,
+      "outcome_integrity_score": 0.8888888888888888,
+      "hard_failure_rate": 0
+    }
+  ],
+  "claims": [
+    "This controlled replay estimates engineering outcome integrity for the frozen corpus.",
+    "AI-assisted blinded review is not external human review.",
+    "The replay does not test the full production application or channel pipeline."
+  ],
+  "release_gate_recommendation": "eligible_for_rc_engineering_review",
+  "production_effects": false,
+  "canonical_write_allowed": false,
+  "digest": "sha256:eb84c25b3162b6bedbc514b639c4f31bcd51b44fde3484bcdcb144de67a2cdca"
+}
