@@ -1,7 +1,7 @@
 {
   "contract_version": "1.0.0",
-  "implementation_revision": "3075163350c777c5b357178bd07fe41d3c39b35a",
-  "implementation_surface_digest": "sha256:eeae39f9e93c3a451ce3537208922f1561d0b387576de904b6326b3f63d52c2a",
+  "implementation_revision": "9c83e5bf0f444a51413fabf17382c40ab0145030",
+  "implementation_surface_digest": "sha256:5cfad061e64b7d4d6f796e7c8521ebf3051044c04216ff2763f18cf869f6b762",
   "implementation_surface_files": [
     "benchmarks/mirai-2.4-retrieval/corpus.json",
     "benchmarks/mirai-2.4-retrieval/generate-corpus.js",
@@ -33,5 +33,5 @@
     "test/retrieval/retrieval.test.cjs"
   ],
   "corpus_digest": "sha256:d26fd5942cacfce2254e6ff437d1b67c4a8993b6a3a707ddb769555b4325deef",
-  "digest": "sha256:71bf490c4c35a020f5be6a4c98ded9f8e2e33d6db3301f6454f593984a46f156"
+  "digest": "sha256:5faeeaae836e36ffa8183b1495687366b9963e174b615f15b4b5b62bb30d1f38"
 }

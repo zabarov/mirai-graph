@@ -10,41 +10,41 @@
       "contract_version": "1.0.0",
       "corpus_id": "corpus.mirai-2.4-retrieval-v1.federation",
       "system": "lexical",
-      "recall_at_k": 0.6935483870967742,
-      "ndcg_at_k": 0.6712938281750751,
-      "mrr": 0.6612903225806451,
+      "recall_at_k": 0.7903225806451613,
+      "ndcg_at_k": 0.7400334976451222,
+      "mrr": 0.7204301075268817,
       "intent_accuracy": 0.8387096774193549,
       "path_correctness": 0,
       "path_case_count": 1,
       "evidence_coverage": 1,
       "claim_faithfulness": 1,
-      "conflict_detection_rate": 1,
+      "conflict_detection_rate": 0.6666666666666666,
       "conflict_case_count": 3,
-      "conflict_precision": 1,
+      "conflict_precision": 0.6666666666666666,
       "conflict_negative_case_count": 28,
-      "stale_detection_rate": 0.6666666666666666,
+      "stale_detection_rate": 1,
       "stale_case_count": 3,
       "stale_precision": 1,
       "stale_negative_case_count": 28,
       "unauthorized_hit_count": 0,
-      "stale_hit_rate": 0.03550295857988166,
-      "p50_latency_ms": 81.26537499999995,
-      "p95_latency_ms": 265.9129170000001,
+      "stale_hit_rate": 0.019230769230769232,
+      "p50_latency_ms": 53.40495800000008,
+      "p95_latency_ms": 57.52212499999996,
       "model_calls": 0,
       "input_tokens": 0,
       "cost_usd": 0,
       "limitations": [
         "Synthetic evaluation does not establish external task effectiveness or production readiness."
       ],
-      "digest": "sha256:6fc10987ecfe61f204049dbdbe48158da588f9d13484dea7f86528940d52d024"
+      "digest": "sha256:2570c7511c9f670e55efa6756dccca6f1453f64648ce6e83b07843488d5448c1"
     },
     "semantic": {
       "contract_version": "1.0.0",
       "corpus_id": "corpus.mirai-2.4-retrieval-v1.federation",
       "system": "semantic",
-      "recall_at_k": 0.9193548387096774,
-      "ndcg_at_k": 0.8442820961527794,
-      "mrr": 0.818100358422939,
+      "recall_at_k": 0.9838709677419355,
+      "ndcg_at_k": 0.8915305192997374,
+      "mrr": 0.8620071684587813,
       "intent_accuracy": 0.8387096774193549,
       "path_correctness": 0,
       "path_case_count": 1,
@@ -59,24 +59,24 @@
       "stale_precision": 1,
       "stale_negative_case_count": 28,
       "unauthorized_hit_count": 0,
-      "stale_hit_rate": 0.030612244897959183,
-      "p50_latency_ms": 324.5487919999996,
-      "p95_latency_ms": 499.1577500000003,
+      "stale_hit_rate": 0.020134228187919462,
+      "p50_latency_ms": 254.29695900000115,
+      "p95_latency_ms": 274.4537500000006,
       "model_calls": 31,
-      "input_tokens": 351,
+      "input_tokens": 603,
       "cost_usd": 0,
       "limitations": [
         "Synthetic evaluation does not establish external task effectiveness or production readiness."
       ],
-      "digest": "sha256:aae0f9b95fc46e21fffdd9157b4f779c532edc729ad7655927a5746d0596bbb2"
+      "digest": "sha256:8fa2f73983806f4e07620d55909879db3d0757900d55a77f2f9cc1e377f94782"
     },
     "graph": {
       "contract_version": "1.0.0",
       "corpus_id": "corpus.mirai-2.4-retrieval-v1.federation",
       "system": "graph",
-      "recall_at_k": 0.8548387096774194,
-      "ndcg_at_k": 0.7850456807299315,
-      "mrr": 0.7616487455197133,
+      "recall_at_k": 0.8870967741935484,
+      "ndcg_at_k": 0.8316114748394126,
+      "mrr": 0.8127240143369175,
       "intent_accuracy": 0.8387096774193549,
       "path_correctness": 1,
       "path_case_count": 1,
@@ -91,24 +91,24 @@
       "stale_precision": 1,
       "stale_negative_case_count": 28,
       "unauthorized_hit_count": 0,
-      "stale_hit_rate": 0.010344827586206896,
-      "p50_latency_ms": 72.91587499999878,
-      "p95_latency_ms": 93.31949999999779,
+      "stale_hit_rate": 0.01,
+      "p50_latency_ms": 53.108416999995825,
+      "p95_latency_ms": 59.83829100000003,
       "model_calls": 0,
       "input_tokens": 0,
       "cost_usd": 0,
       "limitations": [
         "Synthetic evaluation does not establish external task effectiveness or production readiness."
       ],
-      "digest": "sha256:6ddf76bfe6b363cec850a08c4f4c73391aa6e44ca7eaf78d3ec9dc68deec6aff"
+      "digest": "sha256:3e745ef8c2a18ef2ea2343a394edba713eb1f773cf75558b4135577257ef05e3"
     },
     "hybrid": {
       "contract_version": "1.0.0",
       "corpus_id": "corpus.mirai-2.4-retrieval-v1.federation",
       "system": "hybrid",
-      "recall_at_k": 0.9193548387096774,
-      "ndcg_at_k": 0.8442820961527794,
-      "mrr": 0.818100358422939,
+      "recall_at_k": 0.9838709677419355,
+      "ndcg_at_k": 0.8972082694552124,
+      "mrr": 0.8689068100358422,
       "intent_accuracy": 0.8387096774193549,
       "path_correctness": 0,
       "path_case_count": 1,
@@ -123,24 +123,24 @@
       "stale_precision": 1,
       "stale_negative_case_count": 28,
       "unauthorized_hit_count": 0,
-      "stale_hit_rate": 0.030405405405405407,
-      "p50_latency_ms": 339.86220799999865,
-      "p95_latency_ms": 393.6503750000047,
+      "stale_hit_rate": 0.02,
+      "p50_latency_ms": 257.59708300000057,
+      "p95_latency_ms": 276.37408400000277,
       "model_calls": 31,
-      "input_tokens": 351,
+      "input_tokens": 603,
       "cost_usd": 0,
       "limitations": [
         "Synthetic evaluation does not establish external task effectiveness or production readiness."
       ],
-      "digest": "sha256:615e2892d1a31ae2054e50900868a518dc95b90b3527964bbe90e5f9cbcc7ed2"
+      "digest": "sha256:9e4d93383ac46f6c96d18dad017c36d7d0e9b53fc63d39c708311769a7738158"
     },
     "mirai_planner": {
       "contract_version": "1.0.0",
       "corpus_id": "corpus.mirai-2.4-retrieval-v1.federation",
       "system": "mirai_planner",
       "recall_at_k": 0.9193548387096774,
-      "ndcg_at_k": 0.8363420498670012,
-      "mrr": 0.8086917562724014,
+      "ndcg_at_k": 0.8596873921810444,
+      "mrr": 0.8405017921146954,
       "intent_accuracy": 0.8387096774193549,
       "path_correctness": 1,
       "path_case_count": 1,
@@ -155,16 +155,16 @@
       "stale_precision": 1,
       "stale_negative_case_count": 28,
       "unauthorized_hit_count": 0,
-      "stale_hit_rate": 0.025806451612903226,
-      "p50_latency_ms": 265.9515839999949,
-      "p95_latency_ms": 307.174915999989,
+      "stale_hit_rate": 0.012903225806451613,
+      "p50_latency_ms": 254.68329200000153,
+      "p95_latency_ms": 275.3139999999985,
       "model_calls": 21,
-      "input_tokens": 279,
+      "input_tokens": 531,
       "cost_usd": 0,
       "limitations": [
         "Synthetic evaluation does not establish external task effectiveness or production readiness."
       ],
-      "digest": "sha256:4a988a0a698794c3e4cc2b74442a22a2ba5fded1fc207ebfc95157144155ef9f"
+      "digest": "sha256:a94e7f6ac4603c83cee9acc5d7e7562b50718056cd61eab6354245bc93e7ed6d"
     }
   },
   "safety": {
@@ -185,5 +185,5 @@
     "No independent pilot claim is made by this generated artifact."
   ],
   "canonical_write_allowed": false,
-  "digest": "sha256:1566a6f40e4129f6335ffc6e23e45912b8ec9bb642ac0ce9a1b80caecb242af8"
+  "digest": "sha256:ba4c5b206deb5fbf902a4181d5a79a7a268d89356589c400afc62627e042dc6d"
 }
