@@ -316,7 +316,7 @@
     "fast-xml-parser": "^5.7.0",
     "fflate": "^0.8.3",
     "htmlparser2": "^10.0.0",
-    "pdfjs-dist": "^5.4.149",
+    "pdfjs-dist": "^6.3.289",
     "yaml": "^2.8.1"
   },
   "devDependencies": {
