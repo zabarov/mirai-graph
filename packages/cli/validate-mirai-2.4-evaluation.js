@@ -36,7 +36,8 @@ assert.deepEqual(report.manifest.systems, ["lexical", "semantic", "graph", "hybr
 assert.match(report.manifest.model_revision, /^[a-f0-9]{40,64}$/, "model_revision");
 assert.match(report.manifest.model_files_digest, /^sha256:[a-f0-9]{64}$/, "model_files_digest");
 assert.match(report.manifest.implementation_revision, /^[a-f0-9]{40}$/, "implementation_revision");
-execFileSync("git", ["merge-base", "--is-ancestor", report.manifest.implementation_revision, "HEAD"], { cwd: root });
+const latestSurfaceRevision = execFileSync("git", ["log", "-1", "--format=%H", "--", ...surface.files], { cwd: root, encoding: "utf8" }).trim();
+assert.equal(report.manifest.implementation_revision, latestSurfaceRevision, "implementation_revision_must_match_latest_surface_change");
 assert.equal(report.release_gate_status, "passed_with_limitations", "release_gate_status");
 assert.equal(report.safety.unauthorized_hits, 0, "unauthorized_hits");
 assert.equal(report.safety.unsupported_claims, "none_detected", "unsupported_claims");
