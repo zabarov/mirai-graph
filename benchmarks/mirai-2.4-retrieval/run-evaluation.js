@@ -36,6 +36,20 @@ function claimFaithfulness(answer, hits) {
   return answer.claims.filter((claim) => hits.some((hit) => claim.source_refs.includes(hit.source_ref) && claim.evidence_refs.some((ref) => hit.evidence_refs.includes(ref)) && claim.text.includes(hit.title))).length / answer.claims.length;
 }
 
+function compactEvaluationCase(value) {
+  return {
+    ...value,
+    hits: value.hits.map((hit) => ({ document_id: hit.document_id, freshness: hit.freshness, ...(hit.graph_path ? { graph_path: hit.graph_path } : {}) })),
+    answer: {
+      status: value.answer.status,
+      claims: value.answer.claims.map((claim) => ({ evidence_refs: claim.evidence_refs, source_refs: claim.source_refs })),
+      conflicts: value.answer.conflicts,
+      execution_allowed: value.answer.execution_allowed,
+      content_is_untrusted_data: value.answer.content_is_untrusted_data
+    }
+  };
+}
+
 async function main() {
   const implementationRevision = execFileSync("git", ["rev-parse", "HEAD"], { cwd: path.resolve(root, "../.."), encoding: "utf8" }).trim();
   try { execFileSync("git", ["diff", "--quiet", "--", "src", "packages", "schemas", "test", "benchmarks/mirai-2.4-retrieval/run-evaluation.js", "benchmarks/mirai-2.4-retrieval/generate-corpus.js"], { cwd: path.resolve(root, "../..") }); }
@@ -56,7 +70,7 @@ async function main() {
       const latency = performance.now() - start;
       const evaluationCase = { expected_document_ids: item.expected_document_ids, relevance: item.relevance, expected_intent: item.expected_intent, predicted_intent: result.plan.intent, hits: result.evidence.hits, answer: result.answer, latency_ms: latency, claim_faithfulness: claimFaithfulness(result.answer, result.evidence.hits), conflict_expected: item.conflict_expected, stale_expected: item.stale_expected, ...(item.expected_graph_path ? { expected_graph_path: item.expected_graph_path } : {}), unauthorized_document_ids: item.unauthorized_document_ids, model_calls: usage.calls - beforeCalls, input_tokens: usage.input_tokens - beforeTokens, cost_usd: 0 };
       cases.push(evaluationCase);
-      raw.push({ query_id: item.id, domain: item.domain, language: item.language, variant: item.variant, system, evaluation_case: evaluationCase, result_digest: result.answer.digest });
+      raw.push({ query_id: item.id, domain: item.domain, language: item.language, variant: item.variant, system, evaluation_case: compactEvaluationCase(evaluationCase), result_digest: result.answer.digest });
     }
     bySystem[system] = { aggregate: evaluateRetrieval(corpus.id, system, cases, 10), domains: {} };
     for (const domain of corpus.domains) {
