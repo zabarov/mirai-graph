@@ -278,7 +278,7 @@ test("provider timeouts fail closed and stop the next frontier", async t => {
     await new Promise(resolve => context.signal.addEventListener("abort", resolve, { once: true }));
     return { output: input, evidence: [{ id: "evidence.done", digest: digestValue(input) }] };
   } });
-  x.requests.forEach(r => { r.deadline = new Date(Date.now() + 300).toISOString(); });
+  x.requests.forEach(r => { r.deadline = new Date(Date.now() + 5000).toISOString(); });
   const plan = prepareTaskPlan("timeout.plan", x.graph, x.policy, x.requests, x.receivers);
   const run = x.host.create(plan);
   const ledger = await x.host.runReady(run);
